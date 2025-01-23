@@ -1,0 +1,323 @@
+Apart from the usual challenges for NL
+P, processing of historical texts faces a number of additional ones, such as absence of a standard variant, absence of a standardized orthography and smaller resources, both in terms of existing tools and available texts (
+Piotrowski 2012). In this paper, we describe and compare two tools for processing Old/
+Middle Russian1 texts. Both tools provide lemmatization, part of speech (PO
+S) and morphological annotation. One analyzer (labeled “RN
+C”), described in Section 1, was developed for annotating parts of the historical subcorpus of the Russian National Corpus, and is rule-based. The other one (labeled “TORO
+T”), described in Section 2, is statistical, and is used for pre-annotating the eponymous corpus. Since the analyzers were developed independently, and since they employ two different approaches, it is particularly interesting to compare their performance. Our expectation is that TORO
+T will perform better, since RN
+C does not perform disambiguation when several guesses are possible. Apart from testing this expectation empirically, we are also interested in checking whether it is possible to boost the TORO
+T performance by making the analyzers collaborate.
+1 For the purposes of this article we do not distinguish between Middle Russian “proper” and
+Church Slavic of the Russian recension, since both models deal well with both types of text, and since many texts are mixed. The text chosen for our performance test (see section 3.1) is a (late) Church Slavic text of the Russian recension.
+The Beginning of a Beautiful Friendship: Rule
+Based and Statistical Analysis of Middle Russian 1. The RN
+C analyzer
+The “RN
+C analyzer” is a morphological analyzer for Middle Russian designed at Higher School of Economics (
+Moscow) for annotating the Middle Russian corpus (a part of the Russian National Corpus, ruscorpora.ru). The analyzer is based on Uniparser (
+Arxangelsky 2012, Arkhangelskiy, Belyaev and Vydrin 2012), which can give grammatical annotation to a text in any language provided that there exists a description of the language’s grammar (a dictionary of inflections) and a grammatical dictionary of lexemes. The Uni-parser splits a word in all possible ways and looks for its parts in the description of the grammar and the grammatical dictionary. If one part of the word can be found in the dictionary of inflections, the other one in the dictionary of lexemes, and these parts are marked with the same inflectional class, then the word gets an analysis. There can be several possible analyses for one word. The parser does not create hypotheses for words which cannot be found in the dictionary and does not resolve ambiguity. The Uni-parser is intended for working on modern languages, so a module for dealing with spelling variability was developed by the third author of this paper. All letters which correspond to the same sound are reduced to one letter, geminate consonants are reduced to one letter, all jers between consonants are deleted and so on. Overall more than fifteen rules apply to a wordform before it is processed via Uni-parser.
+The description of Middle Russian grammar was created manually. Due to the lack of a grammatical dictionary of Middle Russian, a grammatical dictionary of Old Church Slavic2 (
+Poljakov 2014) was used. The dictionary was automatically adapted to Middle Russian: new inflectional classes were added, some regular differences between Old Church Slavic and Old Russian were taken into account. As far as Middle Russian contains both archaic and innovative forms, diachronic rules were applied to the dictionary. As a result, words which changed their inflectional class historically got two classes in the dictionary: the old one and the new one. Some word classes which are missing in the Old Church Slavic dictionary were added manually, e.g. pronouns and pronominal adjectives. The Uni-parser format requires information about all possible stems, so they were created automatically for each lexeme depending on its inflectional class. Different spelling variants were also added in the dictionary. For example, the lexeme “княгиня” ‘princess’ has two stems—“княгин” and “княин”. The second one is a possible spelling variant with loss of the intervocalic г.
+A lexical entry can contain several paradigms and several stems for each of them. For example the lexeme “премощи” ‘overcome’ has four stems in the dictionary (премо, премог, премож, премоз). There can be up to fifteen stems for one lexeme.
+2 http://feb-web.ru/febupd/slavonic/dicgram/
+Berdičevskis A., Eckhoff H., Gavrilova T.
+The TORO
+T analyzer
+The Tromsø Old Russian and OC
+S Treebank (TORO
+T, nestor.uit.no, see Eckhoff & Berdičevskis 2015) contains approximately 175,000 word tokens of annotated Old Russian and Middle Russian text (15th–17th century), fairly equally distributed between the two periods. The texts are all lemmatised and have fine-grained part-ofspeech and morphology tags, in addition to syntactic annotation, yielding a large database of form, lemma and tag correspondences. This database is used systematically for linguistic preprocessing of texts: lemmatisation, part-of-speech assignment and morphological tagging. With a training set of this size, it is possible to train very successful statistical morphological taggers for these language stages, either separately or taken as a single stage. For this purpose, the Tn
+T tagger (
+Trigrams ’n Tags, as described in Brants 2000), a statistical morphological tagger which takes trigrams and word-final letter sequences as its input is used (for the motivation behind this choice, see Skjærholt 2011).
+To improve the performance of the tagger, both the training data and the new text to be tagged in the process are normalized. The normalisation consists in considerable orthographical simplification. All diacritics are stripped off, all capital letters are replaced with lower-case letters, all ligatures are resolved (e.g., ѿ to от), all variant representation of single sounds are reduced to one (all o variants are reduced to o and all i variants are reduced to и, for instance).3 The juses are simplified to я and у (ю), and the jat to е.
+When preprocessing a text, the tagger output is used in combination with direct lookups in the database.4 For each word token in the text, it is checked whether that form is present in the database already, first as it is, then again with different kinds of orthographic simplifications. If one or more matches are found, the most frequent analysis (lemma + part of speech + morphology) is assigned. If the form is not found in the base, the Tn
+T part-of-speech and morphology tag are assigned, and an attempt is made to find a suitable lemma in the database. If the word form (normalized to the lemma orthography style) matches a lemma with the part-of-speech tag the Tn
+T tagger assigned, that lemma is assigned. If not, letters from the end of the word form are dropped one by one, the remainder checked again against the opening strings of lemmata of the correct part of speech. If no matches are found, a dummy lemma (“FIXM
+E”) is assigned, and the annotators will have to assign a lemma manually. This process is represented as a simplified flowchart on Figure 1.
+3 Supplementary materials can be found in the TROL
+Ling data repository at http://hdl.handle.net/10037.1/10303. They include the normalization routine, the harmonization and
+comparison scripts (
+Section 3), and more detailed comparison results (
+Section 4).
+4 We are indebted to Professor Dag Haug at the University of Oslo for writing procedures for
+Latin and Greek, which we have modified for Slavic.
+The Beginning of a Beautiful Friendship: Rule
+Based and Statistical Analysis of Middle Russian Is the form present in the database? Assign the most frequent analysis (PO
+S + lemma + morphology tags) Assign the Tn
+T analysis (PO
+S + morphology tags). Normalize orthography to the lemma style. Simplify orthography Is the form present in the database? Is there a lemma with the same PO
+S which matches the form? Assign this lemma n < 4? Assign the dummy lemma “FIXM
+E” Let n be the form length. Is there a lemma with the same PO
+S the first n characters of which match the form? YE
+S YE
+S YE
+S YE
+S YE
+S N
+O N
+O N
+O Remove one character from the end of the form N
+O N
+O figure 1. The TORO
+T automatic pre-annotation technique
+Berdičevskis A., Eckhoff H., Gavrilova T.
+Comparison
+3.1. Test set and preprocessing
+As a test set, we chose the preface to the “
+Life of Sergij of Radonezh” (1696 words in the unprocessed text), an early 15th century Russian Church Slavic text digitized after a late 16th century manuscript.5 The text is late enough for the RN
+C analyzer (which is unlikely to perform optimally with earlier texts), but is still within the period which is of interest for TORO
+T. We normalized orthography (see Section 2) and ran both the RN
+C and TORO
+T analyzers on the otherwise unprocessed text.6
+Since there were no discrete releases of the TORO
+T corpus at the time of the experiment (it is being expanded and corrected continuously), we preserved the training data as they were before the “
+Life of Sergij” was added to the corpus. That includes the whole set of Old and Middle Russian data that the Tn
+T tagger was trained on (166,183 word tokens), and the full lemmata list that the TORO
+T analyzer used for lemma guessing (10,603 lemmata).
+3.2. Gold standard and alignment
+After preprocessing the annotation was manually corrected by a human expert, the annotation of every sentence was subsequently reviewed by at least one another expert. The resulting annotation was used as the gold standard.
+The TORO
+T text import module assigns an id to every word in a text, and these ids are not normally changed by the annotators. These ids are used to align gold with the output of the TORO
+T analyzer. TORO
+T and RN
+C, in turn, are aligned using the source document: for every word in it, the corresponding TORO
+T guess and RN
+C guess (or a set of several guesses) are found. Note that TORO
+T always provides a guess (it may use the dummy lemma “FIXM
+E”, but the PO
+S and morphology will still be provided), while RN
+C does not, which means that sometimes the TORO
+T guess will correspond to a blank.
+Importantly, annotators can sometimes change tokenization, splitting an existing word token into two (14 cases, e.g. неписано > не ‘not’ and писано ‘written’). This creates extra tokens (which are present in gold, but not in RN
+C or TORO
+T), so the total token count goes up to 1,710. Alternatively, the annotators can merge two tokens into one (5 cases, e.g. во истинну > воистину ‘indeed’). This results in some tokens (истинну) existing only in RN
+C and TORO
+T, but not in gold. In both cases, there 5 The text was digitised by Catherine Sykes and Hanne Eckhoff after the illuminated late 16th
+century manuscript of the Trinity Lavra of St. Sergius, available in facsimile online at http://old.stsl.ru/manuscripts/book.php?col=3&manuscript=001. The TORO
+T version is available at https://nestor.uit.no/sources/215.
+6 Note that the TORO
+T analyzer takes non-normalized text as input and uses both normalized
+and non-normalized tokens in the lookup process. We did an RN
+C analyzer test run with nonnormalized input, the results were nearly the same.
+The Beginning of a Beautiful Friendship: Rule
+Based and Statistical Analysis of Middle Russian always is at least one token matched against a blank, something which will be counted as an error for both analyzers.
+3.3. Harmonization of the analyzers
+We were interested in comparing the accuracy of PO
+S tagging, full morphological tagging and lemmatization of the RN
+C and TORO
+T analyzers. Gold and TORO
+T, obviously, share the annotation format, but RN
+C uses a different one (different PO
+S and morphological tags, lemmatization principles and orthography). In order to make the analyzers comparable, gold/TORO
+T and RN
+C have to be harmonized first. Some information is lost in the harmonization process, especially for the morphological tags.
+3.3.1. Harmonization of the PO
+S tags
+The correspondences between RN
+C and TORO
+T PO
+S classes are complicated. For every RN
+C tag, Table 1 lists all TORO
+T tags that can potentially correspond to it and were considered a correct match.
+RN
+C PO
+S tag TORO
+T PO
+S tag(s)
+A AA-PR
+O A-, Pd, Pi, Pk, Pp, Pr, Ps, Pt, PxAD
+V DfADV-PR
+O Df, DuCON
+J C-, G-, DfCONJ/PAR
+T Df, GINT
+J I
+N Nb, NeN-PR
+O Pp, Pk, Pi, PxNU
+M MaPAR
+T DfPRE
+P R
+V V If a token with a tag from the “RN
+C” column had one of the corresponding tags from the “TORO
+T” column in gold, the annotation was considered correct. TORO
+T tags: A— adjective, Pd — demonstrative pronoun, Pi — interrogative pronoun, Pk — personal reflexive pronoun, Pp — personal pronoun, Pr — relative pronoun, Ps — possessive pronouns, Pt — possessive reflexive pronoun, Px — indefinite pronoun, Df — adverb, Du — interrogative adverb, C— (coordinating) conjunction, G— subjunction, Ma — cardinal numeral, I— interjection, Nb — common noun, Ne — proper noun, R— preposition, V— verb. RN
+C tags: A — adjective, A-PR
+O — adjective pronoun, AD
+V — adverb, ADV-PR
+O — pronominal/interrogative adverb, CON
+J — conjunction, CONJ/PAR
+T — a special tag for да ‘so as / let”, INT
+J — interjection, N — noun, NU
+M — cardinal numeral, PAR
+T — particle, PRE
+P — preposition, V — verb
+Berdičevskis A., Eckhoff H., Gavrilova T.
+Harmonization of the lemmatization
+We consider lemmatization of a token correct if and only if both the lemma itself and the PO
+S tag match the gold standard. There are numerous discrepancies in the spelling of the lemmata. TORO
+T consistently uses conservative orthography, largely following Sreznevskij (1895–1902) for the sake of better comparability of earlier and later texts. RN
+C focuses on the Middle Russian period and uses less archaic orthography. After manually analyzing the discrepancies, the following harmonization procedure was implemented. In gold lemmas (which are spelled according to the TORO
+T principles) all jers that are strong according to Havlik’s law and the CъR
+C-rule were vocalized. Jers in the clusters чьск and чьст were vocalized, too. All remaining jers were deleted; yat was replaced by е; кы/гы/хы were changed to ки/ги/хи; double consonants were shortened to one. In RN
+C lemmas all jers were deleted; зс was changed to сс; double consonants were shortened to one; о was removed from воand соin the beginning of the word longer than four letters (this о is almost always a reflex of a jer in a prefix which gets missed by the vocalization rule applied to the gold lemmata); ждe was changed to же. Ad hoc rules were created for three frequent lemmata: pronouns сеи and тои (changed into resp. сии and тыи) and verb писати (changed into пьсати).
+After this procedure, the number of cases when a RN
+C lemmatization guess is unjustly labeled as wrong (some cases of “unexpected” jer vocalization; inconsistencies to the tagging of participles; some other spelling discrepancies) is reduced to 10, which we deem acceptable.
+3.3.3. Harmonization of the morphology tags
+The two morphological tag sets are not entirely compatible either. The RN
+C analyzer tags for a number of features that the TORO
+T analyzer ignores, namely transitivity (intr, tr), aspect (pf, ipf), reflexivity (med) and animacy (inan, anim).7 In the comparison, these features are dropped. Both analyzers tag for long form/short form, but this is relevant for adjectives and participles only, and not adjectival pronouns. There are, however, considerable differences between the formats as to what is considered a pronoun and what an adjective. We therefore disregard this feature in the comparison. For the same reason, we ignore degree of comparison for adjectives and adverbs. Table 2 shows the harmonized tags per TORO
+T part of speech. 7 We have nonetheless used the animacy tags to control for genitive-accusatives: TORO
+T tags
+these as genitives, RN
+C as accusatives. RN
+C masculine singular animate accusatives are thus considered matches of gold masculine singular genitives.
+The Beginning of a Beautiful Friendship: Rule
+Based and Statistical Analysis of Middle Russian TORO
+T and RN
+C analyzers. The original RN
+C tags are in this format already, but are stripped of the features we chose to exclude (see main text). TORO
+T tags are converted into the simplified RN
+C format8TORO
+T PO
+S tag Subcategory Tagged for
+Example of a possible harmonized tag
+Vl-participle tense perf
+Vparticiple mood participle8
+Vindicative mood, tense, number, person indic, praes, sg, 3p
+Vno mood featureinflection noninfl
+Vother mood inf
+Nb, Ne none gender, number, case f, sg, acc
+A-, Pd, Pr, Ps, Ptnone number, gender, case sg, f, acc
+Px, Ma, Mo none number, case sg, acc
+Pk, Pp, Pi none case acc
+Df none inflection noninfl
+Other non-inflecting inflection noninfl4. Results and performance boost
+4.1. Results
+The accuracy of lemmatization and PO
+S tagging for TORO
+T and RN
+C are provided in resp. Tables 3 and 4. For RN
+C, we measure both “exact” (there is only one guess, and it is correct) and “fuzzy” (there are several guesses, and one of them correct) accuracy. Consider, for example, the form ради. The RN
+C analyzer at its current stage will always assign three analyses to this form: the preposition ради ‘for the purpose of’; the verb радити ‘take care’ (2/3 person aorist singular); the adjective радъ ‘glad’ (strong plural masculine nominative). Obviously, the RN
+C guess for ради will never be an exact match. If, however, at least one of the three analyses correct, it will be considered a fuzzy match. 8 In the vast majority of cases, the RN
+C analyzer is unable to provide a guess for participles,
+since the necessary rules have not been implemented yet. If it does hazard a guess, it is mostly erroneous. This tag is therefore simplified.
+Berdičevskis A., Eckhoff H., Gavrilova T.
+
+Lemma +PO
+S, %PO
+S only, %
+Number of tokens
+Accuracy 69.8 89.5 1,710
+Accuracy (when lemma is not “FIXM
+E”) 88.5 93.9 1,348
+Accuracy (when RN
+C does not have a guess) 42.5 78.9 327TORO
+T performs better on both accounts. Unsurprisingly, the numbers go up considerably for both analyzers if we take into account only those tokens for which they had a guess. RN
+C has a guess for 1383 tokens out of 1710 (81%). TORO
+T has a lemma guess for 1348 tokens (79%), a PO
+S guess is always provided. For RN
+C, fuzzy accuracy is much higher than exact one. When we are dealing only with tokens which have a guess, fuzzy accuracy is even higher than that of TORO
+T. Interestingly, if we limit ourselves to the tokens for which RN
+C failed to provide a guess, TORO
+T accuracy decreases noticeably. In other words, what is unsurmountable for RN
+C, is difficult for TORO
+T, too.
+the RN
+C analyzer. “
+Exact” means that the analyzer provided a correct guess and nothing else; “fuzzy” means that there were several guesses, only one of each was correctMetric
+Lemma +PO
+S, %PO
+S only, % Number of tokens
+Accuracy (exact) 47.3 54.2 1,710
+Accuracy (fuzzy) 74.3 77.0 1,710
+Accuracy (exact, when there is a guess) 58.5 67.0 1,383
+Accuracy (fuzzy, when there is a guess) 91.9 95.2 1,383
+A comparison of the morphological annotations is found in % Number of tokensTORO
+T 81.5 1,710RN
+C (exact) 16.6 1,710RN
+C (fuzzy) 70.2 1,710RN
+C (exact, when there is a guess) 20.5 1,383RN
+C (fuzzy, when there is a guess) 86.8 1,383
+It should also be noted that a good number of the TORO
+T guesses are off by only one or two tags, as seen in positional tags, this can be measured by Hamming distances (the distance shows how many features got an incorrect tag).
+The Beginning of a Beautiful Friendship: Rule
+Based and Statistical Analysis of Middle Russian The off-by-one errors are typically ambiguous forms such as домъ “house”, which could be either nominative singular or accusative singular. It could also be a genitive plural, which might lead to a off-by-two error. Such morphological guesses are still of great practical use to the TORO
+T annotators, who will only have to make one or two corrections in the morphological tag, rather than providing a full new analysis.
+TORO
+T guess tags (10-place positional tag)
+Hamming distance count %0 1б393 81.5
+1 128 7.5
+2 57 3.3
+3 14 0.8
+4 38 2.2
+5 14 0.8
+6 26 1.5
+7 10 0.6
+8 8 0.5
+9 3 0.2
+no tag 19 1.14.2. Boosting TORO
+T lemmatization accuracy
+A question of practical importance is whether the analyzers are able to cooperate, helping each other out. Differences between the annotation formats, however, represent an important problem here. While we managed to harmonize the analyzers’ outputs, some information got lost in the process. It does not seem realistic to do anything with morphological and PO
+S tags, at least not without a more sophisticated harmonization. In addition, considering TORO
+T’s better results, using it to boost RN
+C performance might be more complicated than simply using TORO
+T.
+A promising avenue is to use RN
+C lemma guesses when TORO
+T fails to find one and resorts to “FIXM
+E”. We experiment with the following boosting procedure. For every token which is lemmatized as “FIXM
+E” by TORO
+T and which has a RN
+C guess (either single or multiple), we go through all RN
+C lemma guesses. We harmonize the lemma and try to find a match in the (harmonized) TORO
+T lemma list (described in Section 3.1). If there is a match, the PO
+S tag of the lemma guess and the potential match are compared, and if they are the same, the (non-harmonized version of the) lemma is taken as a guess,9 otherwise the booster proceeds to the next RN
+C guess, if there is one. Obviously, this simple method can only work for lemmata which were 9 Note that this can potentially result in a PO
+S tag change due to the complex many-to-many
+corrrespondences used for the harmonization (see Table 1).
+Berdičevskis A., Eckhoff H., Gavrilova T.
+in the TORO
+T list, but were not identified by the guesser described in Section 2. It transpires that even this can give performance a significant boost, see Metric
+Lemma+ POSPO
+S only
+Number of tokens
+Success rate when fixing “FIXM
+E” 90.3 92.7 165
+Boosted TORO
+T accuracy 78.5 91.4 1,710
+The booster attempts to provide lemma guesses for 165 tokens and gets it right in 149 cases. This increases TORO
+T lemmatization accuracy to 78.5% from 69.8% (see table 3). In addition, there is a slight improvement in PO
+S tagging: 91.4% instead of 89.5%.
+5. Conclusion
+As was expected, the TORO
+T analyzer outperformed the RN
+C analyzer on all three accounts. There are several reasons for that.
+The most prominent one is RN
+C’s inability to disambiguate if there are several possible analyses. In addition, the selected text is non-standardized and displays considerable morphological variability and, even when consistent, idiosyncratic morphological endings, both in choice of form and orthography. The text also has numerous unresolved abbreviations. While our findings do not necessarily generalize to any historical text, these features are entirely typical of the texts of this era, and it seems reasonable to conclude that they strongly favour a statistical analyzer (trained on a large material) rather than a rule-based one. Furthermore, the RN
+C PO
+S and morphological guesses are dependent on the analyzer’s ability to come up with a lemma guess, whereas the TORO
+T analyzer guesses morphology with no reference to lemmatization. Finally, the RN
+C analyzer systematically misses a number of words altogether, such as all words with a titlo and most participles.
+If we relax the evaluation criteria, requesting only the presence of a correct guess (not its uniqueness) and limit the evaluation set to those tokens for which RN
+C produces a guess, then RN
+C performs slightly better than TORO
+T. In other words, the analyzers are almost equally good at producing a guess, but differ in their ability to distinguish between several candidates. This finding shows that RN
+C has large potential, but one would have to develop a disambiguating technique in order to make this potential practically applicable, and this is a very time-consuming task.10 At the current stage, the most practical thing to do if one wants to pre-annotate a Middle Russian text would be to use TORO
+T with the RN
+C lemmatization booster.
+10 Two anonymous reviewers asked how the RN
+C performance could be increased. Our answer
+is that the most important thing to do would be to implement disambiguation, but this task is far beyond the scope of this paper.
+The Beginning of a Beautiful Friendship: Rule
+Based and Statistical Analysis of Middle Russian As described in 4.2, RN
+C can help TORO
+T out when it fails to provide a lemma guess. It is possible to check RN
+C lemma suggestions against the TORO
+T lemma list, and, if a match is discovered, use it as a lemma guess. This simple procedure boosts TORO
+T lemmatization accuracy by 8.7%, and PO
+S tagging accuracy by 1.9%. For lemmatization, the difference is significant (χ2(1) = 33.39, p < 0.001), the effect size is small (
+Cohen’s h = 0.20). For PO
+S, the difference is not significant, the effect size is negligible (χ2(1) = 3.46, p = 0.062, h = 0.07). Thus, although a statistical model seems best for PO
+S and morphological tagging, a rule-based model may considerably aid lemmatization.
+Further work will no doubt result in better analyzers for Old and Middle Russian. However, the current approach is of great practical use. Especially for Middle Russian, there is a vast bulk of text available that could provide very interesting data for linguistic studies: the RN
+C Middle Russian subcorpus holds more than 7 million word tokens. Needless to say, the cost of manually analysis of all this text would be very high. On this background, an analyzer with around 80% success rate for both lemmatization and morphological annotation is a considerable gain, especially taking into consideration the unruly and unnormalized nature of these texts.

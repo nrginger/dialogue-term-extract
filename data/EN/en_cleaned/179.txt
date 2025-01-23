@@ -1,0 +1,344 @@
+Middle Russian Corpus (Mid
+Rus) is part of the Russian National Corpus (http://ruscorpora.ru) included in the collection of historical corpora . The Mid
+Rus contains over 4,700 texts of different genres written mostly between 1,300 and 1,700 (over 7 million words). Up to now, only a simple search for word forms and their parts has been available in the corpus interface. The paper represents the first attempt to develop the full morphology annotation standard for the Mid
+Rus.
+Tagging the parts of speech, inflectional grammatical categories, and lemmas in historical corpora is a challenging task, since from one period to another, the grammatical structure changes: some grammatical forms drop out of use whereas new categories and grammatical patterns appear, the structure of the intraand interparadigmatic homonymy varies. Furthermore, grammar and lexicon varies across schools and manuscripts, the texts often have noticeable dialect and stylistic features as well as varying and unstable spelling. While developing the full morphology annotation of the Mid
+Rus, we take into account the academic interests of the different categories of users including:http://ruscorpora.ruhttp://ruscorpora.ru
+A Reusable Tagset for the Morphologically Rich Language in Change: a Case of Middle Russian• researchers in the Middle Russian period of the language;• researchers of the older periods of Russian accustomed to the annotation schemas of the Old Russian RN
+C corpus (Old
+Rus) and the Old Novgorodian/
+East Slavic birchbark letters RN
+C corpus (Old
+Novg);• researchers of the modern language who are interested in the micro-diachrony studies and are used to the tagset of the RN
+C Main corpus (Modern
+Rus);• NL
+P researchers who would be likely to use the Middle Russian data in their computational experiments, including comparative ones based on various paleoslavic data collections.
+What makes things more challenging is that the annotation standards for the corpora of the earlier period and the modern period of Russian are well established but differ with regard to the lists of tags, the boundaries of lexical classes to which they apply, attested combinations of tags representing particular grammatical forms, and lemmatization rules. Therefore, we need to adopt existing schemas while evaluating contradicting data and clarifying the boundaries of the phenomena.
+The last, but not the least issue that deserves attention is data reusability and customization. In recent years, new cross-language standards have gained popularity in NL
+P as they allow one to accumulate data of different origin and reuse and deploy the language technologies developed in the community.
+To meet these new trends, the morphological annotation standard of the Mid
+Rus adopts two tagsets in parallel:• RNC-Mid
+Rus: RN
+C Middle Russian tagset close to those of the Main RN
+C corpus, Old Russian, and Old Novgorod corpora;• UD-Mid
+Rus: Universal Dependencies (U
+D) tagset close to those of the UD
+Church Slavic and UD
+Russian data collections.
+As for the tagset customization, we distinguish among the core annotation schema (RN
+C and U
+D), an extended schema (RN
+C-ext and U
+D-ext), and a simplified schema encompassing only a selection of tags shared by the UD-Mid
+Rus and other U
+D corpora (U
+D-s).
+The paper is structured as follows. Section 2 outlines the state of the art in the field of historical Russian corpora and available NL
+P technologies. Section 3 focuses on the part-of-speech tagging, Section 4 covers the core grammatical tags, and Section 5 is devoted to the analytical forms. The optional tags, extended and simplified annotation schemas are discussed in Sections 6, 7, and 8, respectively. Unless otherwise stated, the paper will refer to the core annotation schema, and the U
+D tags will be explicitly marked U
+D, if needed.
+2. Historical Russian corpora and tagging methods
+In this section, we overview the known historical corpora for Russian and methods for their tagging. Apart from the Mid
+Rus, there are three diachronic corpora in the RN
+C: Old
+Rus, Old
+Novg, and Church Slavic (Church
+Slav) corpus . The Old Russian corpus provided with manual lemmatization and morphological annotation. The tool Morphy annotations known from the texts which were tagged before. The original (
+Russian) tags are then translated into the (latin) tags used by the RN
+C search engine. The tagsets of the Old
+Novg Church
+Slav similar to those used in Old
+Rus but differ in details. The annotation of the Old
+Novg is done semi-manually whereas the Church
+Slav is tagged automatically. An additional annotation of ambiguous word boundaries, fragmented tokens and comments on possible interpretations is available in Old
+Novg and, to a lesser extent, in Old
+Rus. Moreover, the analyses in the Old
+Novg are most theoretically motivated, since they are based on the foudational work by .
+The annotation of the Northern Russian hagiographic corpus SCA
+T done manually and follows an in-house extension of the TE
+I schema . The annotation features labeling the declension types.
+The web page of the Regensburg Russian Diachronic Corpus mentions a “best bet” method based on the output of three taggers: Regensburg Old Church Slavonic tagger, Regensburg Old Russian guesser, and the modern Russian model of Tree
+Tagger. that the main source is the annotation projection from modern translations.
+The corpus Manuscript partially tagged using a sophisticated rule-based pipeline which is powered by the Old Russian grammatical dictionary, modern grammatical dictionary, and a dictionary of pseudo-units. The tool carries out lemmatization and provides normalized orthographic representations.
+The TORO
+T treebank an Old Russian addon to the PROIE
+L Old Church Slavonic (OC
+S) treebank, which uses the same annotation environment and tagset. The texts are tagged manually, lemmas and annotations being provided with the aid of statistical preprocessing . Currently, the data are released offline in MULTEXT
+East XM
+L format, and the PROIE
+L OS
+C data are also converted into the UD-CONL
+L format (the Old Russian TORO
+T data are planned to be released in U
+D in 2019).
+To sum up, the morphological tagsets for many corpora described above are hardly available (see also detailed reviews in , ). The most popular tagset is RN
+C (which exists in a few slightly different versions); MULTEXT
+East and U
+D schemas are most accessible for NL
+P purposes due to the open license of the TORO
+T data.
+Among the tagging methods, labeling by precedents, dictionaryand rulebased systems, and the projection of the modern Russian annotations are widely used. However, remarkably, other methods pave the way for the statistical learning: the output of the HM
+M-based probabilistic tagger Tn
+T and a hybrid system that makes use of the grammatical dictionary. computational experiments using conditional random fields method (CR
+F, tagger MarMo
+T) and deep neural network learning (char-embedding BLST
+M). It is worth noting that since the amount of machine readable data is very modest and the historical data do not have a homogeneous structure with respect to their tagsets, this could potentially foster the interest of NL
+P developers to the material. Thus, the harmonization of data annotation is obviously crucial for improving the quality of tagging.
+A Reusable Tagset for the Morphologically Rich Language in Change: a Case of Middle Russian3. Parts of speech
+The lists of part-of-speech (pos) tags and core grammatical features is available at: https://github.com/olesar/UD_MidRussian/blob/master/MidRussianU
+D.md. The document also reports the mapping between the RN
+C and U
+D tags. To evaluate the mismatches in the corpus annotation practice, we compared all attested combinations of pos-tags and features as well as their association with lemmas (lexical coverage) in Old
+Rus, Old
+Novg, TORO
+T, UD
+Church Slavic, and Modern
+Rus.
+In general, the RN
+C pos-list can be mapped to the U
+D UPO
+S list almost straightforwardly. The pos-tags for adjectives (a), ordinal numerals (anum), and the most part of predicative words (praedic, see below) are mapped to adj in U
+D; the pos-tags for adverbs and parenthetic words (adv, advpro, parenth) are mapped to adv in U
+D. The noun tags (s in RN
+C) are mapped to noun (common nouns) and propn (proper nouns), and the verb tags (v in RN
+C) are splitted between verb and aux (auxiliaries) in U
+D. The RN
+C tag conj is splitted between cconj (coordinate conjunction) and sconj (subordinate conjunction). The non-words (nonlex) are splitted into x (foreign words, unknown words) and sym (symbols). Besides that, the punctuation marks are explicitly tagged punct in U
+D.
+In the remainder of the section, we consider the mismatches in the annotation schemas with respect to the lexical coverage of pos categories in RN
+C and U
+D.
+3.1. Pronominal words
+И, е, я are tagged spro (U
+D: pron), the same way as in Old
+Rus. Similarly, иже, еже, яже are tagged spro in RN
+C and pron in U
+D. (
+In Old
+Rus, they are tagged eigher apro or spro, but we follow the principle to label a lemma uniformly as much as possible).
+The relative pronouns который, кыиждо, кыиже are tagged apro in RN
+C and pron in U
+D. The reason is that they have the morphological properties of an adjective and the syntactic properties of a noun (nominal head), and this solution has already been implemented in the modern Russian U
+D .
+The possessives его, ея, ихъ, etc. are tagged as the Genitive forms of онъ, оно, она, онѣ, они: spro, gen (U
+D: pron, Case=
+Gen). (
+In Old
+Rus, they are tagged as the Genitive forms of и; in Modern
+Rus, they are tagged as indeclinable adjectival pronominals его, ее, их).
+The list of apro (U
+D: det) includes:• interrogative, relative, negative adjectival pronouns, quantifiers: каковый, никакий, вьсь;• deictic (demonstrative) words: сей, овъ, таковый, etc.;• possessive adjectival pronouns: мой, свой, etc.
+The numeral одинъ is tagged anum in RN
+C and num in U
+D. In tagging it anum, we follow the practice of Modern
+Rus (один has an adjective-like paradigm and is used as an attribute: for example, in the Nominative, it does not govern the Genitive case of the noun phrase compared to other numerals, see ). However, in the U
+D treebanks the pos-tag num is applied consistently to the lexical equivalents of один. In Old
+Rus, одинъ is labeled num as well.
+https://github.com/olesar/UD_MidRussian/blob/master/MidRussianUD.md
+Lyashevskaya O. N. Predicative words
+Since there is no general mapping for the RN
+C praedic class to UPO
+S tags in U
+D, we use the conventions similar to those of the modern Russian U
+D standard:• -о, -е/-ѣ forms (cf. (ночью) тяпло, пригоже, явно) that have corresponding adjectival forms are tagged as the short neutral forms of adjectives (U
+D: adj, Gender=
+Neut, Number=
+Sing, Variant=
+Short);• the modal words—можно, льзx, надобно, уне—and the negative existentials нxтъ, нx are tagged verb in U
+D;• nouns such as пора used predicatively (cf. пора идти) are tagged as s in RN
+C and noun in U
+D;• interjections, onomatopoeic words used predicatively are tagged as intj.
+3.3. Auxiliaries
+aux in U
+D is used to tag:• the auxiliary use of быти, имѣти, хотѣти in the analytical verb forms; this also includes the conditional markers бы, бъ—originally, the forms of быти, too, which got grammaticalized as indeclinable particles by the end of the Middle Russian period;• the copula use of быти in nominal clauses;• the reflexive markers (clitics) си, ся.
+Only the existential and locative uses of the verb быти are tagged verb in U
+D.
+In the RN
+C schema, бы and бъ are subject of a double tagging strategy: they are labeled as verbs (lemma быти) and particles.
+3.4. Named entities
+The patronymics, last (family) names, nicknames and family nicknames and the like are tagged s (U
+D: propn): Васильевичю, Колюбакинымъ. This also applies to naming formulae with non-agreeing and agreeing possessive forms such as Ивану Ильину сыну Челищева, Семену Васильеву сыну Власьеву. The only exception are forms with full adjectival endings such as Борисовую in княгиню Борисовую and Ондрѣевскую in Ефросинию, княж Ондрѣевскую жену Ивановича which are considered adjectives (cf. the same practice in Old
+Rus: бабы (своеи) Романовои). Note that in TORO
+T, the patronymics are sometimes considered adjectives.
+A Reusable Tagset for the Morphologically Rich Language in Change: a Case of Middle Russian4. Core grammatical tags
+This section highlignts only key grammatical categories that distinguish the annotation schema of Mid
+Rus from those of Old
+Rus or Modern
+Rus.
+4.1. Animacy
+Animacy (anim; U
+D: Animacy=
+Anim) is tagged in the Accusative construction in which the form of Accusative is equal to the Genitive form, cf. брата нашег молодшег. In Old
+Rus, such forms aree tagged accgen. The opposite case, when the Accusative case form is equal to the Nominative form, is not marked in Mid
+Rus.
+4.2. L-form (indeclinable perfective participle)
+L-participles (cf. взялъ) are tagged perf (U
+D: VerbForm=Part
+Res, Tense=
+Past), to distinguish them from other participles (cf. взявъ: past partcp; U
+D: VerbForm=
+Part, Tense=
+Past). The tense tag in U
+D will allow one to map the Mid
+Rus l-forms to the Modern
+Rus past forms. L-forms are used both on their own and within the analytical forms, see below.
+4.3. Gerundive (indeclinable adverbial participle)
+Following , forms such as уповая, слышев are considered indeclinable gerundives: ger (U
+D: VerbForm=
+Conv).
+5. Analytical forms
+The analytical forms are annotated as two (or more) tokens cross-linked at the morphological (in Old
+Rus) and syntactic (in U
+D) level. All tokens are tagged analyt (U
+D: Analyt=
+Yes) and the grammatical features of the analytical form as a whole are labeled on the content word, cf. the annotation of the clause (1) а будет не дошла ‘
+And if it won’t reach (you)’ in RN
+C (
+Fig. 1) and U
+D (
+Fig. 2).
+(1) Lyashevskaya O. N. example (1), number, person, and future tense are labeled on the auxiliary будет: sg, 3p, fut (U
+D: Number=
+Sing, Person=3, Tense=
+Fut), and gender, number, l-form are labeled on the content verb дошла: f, sg, perf (U
+D: Gender=
+Fem, Number=
+Sing, Tense=
+Past, VerbForm=Part
+Res): these are the intrinsic grammatical values of the tokens. The content word is also labeled by the tense of the whole analytical form fut2 (U
+D: Tense=
+Fut2). Furthermore, будет is tagged aux (part of speech) and aux (dependency relation) in U
+D.
+The list of analytical forms includes:• analytical future (new form, attested starting from the 1600s): infinitive + the future form of быти (буду, будешь), cf. буду просить: in new future forms, the content verb is tagged fut (U
+D: Tense=
+Fut);• future 1: infinitive + the auxiliary nonpast forms of хотѣти and имѣти, cf. имет обидѣти: in: in the future 1 forms, the content verb is tagged fut1 (U
+D: Tense=
+Fut1);• future 2: l-form + the future form of быти (буду, будешь), cf. боудеш послал, бoyдоу задѣла: in the future 2 forms, the content verb is tagged fut2 (U
+D: Tense=
+Fut2). Note that in Old
+Rus, the analytical forms with почати, начати, учати, стати, яти are also labeled as the future 1 or future 2 forms, but we do not consider them as such in Mid
+Rus;• analytical perfect: l-form and the 1st and 2nd person auxiliary in the present tense (есмь, еси, etc.), cf. взял еси;• pluperfect (plusquamperfect): l-form + the perfect form of быти, cf. дал еси был, the content verb is tagged pqperf (U
+D: Tense=
+Pqp);• subjunctive (conditional): l-form + бы, бъ, other aorist forms of быти (or conjunctions that incorporate -бы: чтоб(ы), абы, etc.), cf. я бы сталъ, чтоб онъ пожаловалъ: in conditional forms, the content verb is tagged cond (U
+D: Mood=Cnd);
+A Reusable Tagset for the Morphologically Rich Language in Change: a Case of Middle Russian• subjunctive (conditional) 2: l-form + бы еси, бы есте (2nd person forms of быти), cf. держали бы есте (веру християнскую): in conditional 2, the content verb бы is tagged cond2 (U
+D: Mood=
+Cnd2).
+The optative construction (да + non-past), the periphrastic comparative constructions of adjectives and adverbs are not considered analytical forms, nevertheless, they can be labeled with specific optional tags.
+6. Optional tags
+6.1. Features not available in automatic annotation
+The following categories used of Old
+Rus and Old
+Novg can be identified only in a particular context, often with the assistance of encyclopedic knowledge. In Mid
+Rus, they are used optionally in manual annotation:• as _ S (U
+D: AdjType=
+Subst)—substantivized use;• as _ persn (U
+D: AdjType=
+Persn, NounType=
+Persn)—used as a personal name. In particular, old nicknames such as Мономахъ are not counted as the last names and tagged as _ persn;• as _ topn (U
+D: NounType=
+Topon)—used as a toponym;• as _ ethn (U
+D: NounType=
+Ethn)—used as an ethnonym;• as _ AD
+V (U
+D: NounType=
+Adv, AdjType=
+Adv)—used as an adverb, cf. (придоша Ветроу) вечеръ, (по) готовоу;• as _ PAR
+T (U
+D: VerbType=
+Part)—used as a particle, cf. хотя;• as _ PARENT
+H (U
+D: AdvType=
+Parenth; pos-tag parenth in RN
+C-ext, see below)—parenthetical use;• as _ PRAEDI
+C (U
+D: AdjType=
+Praedic; pos-tag praedic in RN
+C-ext)—predicative use;• as _ deb (U
+D: VerbType=
+Debit)—used as a debitive, cf. да не погубиши мьзды своеа.
+The following tags are used optionally and only in the RN
+C-style annotation:• husbn—distinguishes the name given by husband’s name from patronymics, cf. Old
+Novg (оу) тоудоровѣи;• in _ persn—used within a personal name, cf. анастасу корсунянину;• in _ ethn—used within an ethnonym, cf. Чернiи Клобуци;• in _ topn—used within a geographic name, cf. (в) Константинѣ градѣ;• in _ AD
+V—used in an adverbial phrase, cf. тако же;• in _ NU
+M—used within a complex numeral, cf. двѣма на десяте;• in _ CON
+J—used within a multitoken conjunction, cf. егда како;• in _ P
+R—used within a multitoken preposition, cf. в мѣсто.
+In U
+D, there are ways to encode most of such cases with the dependency relation tags (e. g. flat:name and fixed).
+Lyashevskaya O. N. Spelling and non-standard variants
+The feature abbr (U
+D: Abbr=
+Yes) is used to tag abbreviated words including those marked by titlo.
+• The feature ciph is used in RN
+C schema to label cardinal and ordinal numerals expressed by (Euro
+Arabic) digits and Cyrillic letters. In UD-Mid
+Rus, the corresponding tag NumForm=
+Digit is used to label cardinal and ordinal numerals expressed by (Euro
+Arabic) digits (за 5 верстъ, 5-ти дней, лета 7030-го июля в 9 день);• NumForm=
+Cyril—used to tag numerals expressed by Cyrillic letters (КЕ ал, по Д чысло);• NumForm=
+Word—used to tag numerals expressed by words (одинъ, первый, лѣта семь тысячь девятаго).
+• The feature distort (U
+D: Typo=
+Yes) is used to label distorted words and words guessed by the editors of the historical manuscrupts. Specific cases include (RN
+C-style only):• damaged—guessed words (if the text segment is damaged);• crossed _ out—crossed out, cf. Old
+Rus: (и ко полотьску)• redundant—redundant word (не не сподобилъ же еси). Note that in U
+D, the feature Echo can be used to label various kinds of repetitions.
+The feature anom (not tagged in U
+D) is used to tag grammatically anomalous forms. However, what is considered ‘grammatically anomalous’ in the historical data is controversial and theory-specific. Therefore, this tag should be used with caution.
+Finally, oov (cf. bastard in Modern
+Rus, not tagged in U
+D) is a specific kind of tags which is used to label words not seen in the training data or the grammatical dictionary of the tagger.
+7. Extended annotation schema
+We introduce the notion of cross-features (or x-features) that can be added into the schema to make the annotations in different corpora comparable. For example, in micro-diachronic studies, the data of the modern language are compared against the historical data. Even if a certain grammatical category is under development and it is not evident if it is present or absent in the data, x-features allow one to look for the potentially interesting patterns. In the current Middle Russian standard RN
+C-ext, the x-features include:• anim$ and inan$ (U
+D: Animacy=
+Anim, Animacy=
+Inan): classifying features that correspond to anim and inan in the Modern
+Rus annotation. This category is not to be mixed with anim (U
+D: Animacy=
+Anim) that is applicable only to the Accusative constructions (see above). There are cases in which the lexically animated nouns (anim$) are not tagged as anim;• the transitivity tags tran and intr (U
+D: Transit=
+Tran, Transit=
+Intr). The transitivity is tagged often inconsistently in modern corpora, and the situation is even worse in historical corpora. However, this is an interesting category under development that allows a user to study various morphosyntactic phenomena.
+A Reusable Tagset for the Morphologically Rich Language in Change: a Case of Middle Russian
+Another example is the use of cross-features to make the data conversion between different formats more straightforward. So, in the intermediate schema U
+D-ext, an extended list of parts of speech is used which includes anum, praedic, parenth. Further, a number of cross-features under the category Noun
+Type are introduced in U
+D-ext to reflect RN
+C tags such as persn, patrn, famn, zoon, ethn, topon (e.g. NounType=
+Ethn).
+8. Simplified annotation schema
+An alternative option to make data compatible is reducing the lists of tags. This is particularly useful in NL
+P evaluation tasks since the dominance of features carefully designed for human research but rarely attested in corpora can cause the drop in tagging performance. In order to make the tagsets of historical corpora available in U
+D (U
+D Church Slavic (UD-PROIE
+L), UD-TORO
+T and UD-Mid
+Rus) compatible, the following features can be excluded from annotation:• Aspect (verb aspect)• Reflex (reflexivity labeled on verbs and pronound)• Animacy (Acc=
+Gen)• Pron
+Type (pronominal type)• Variant (long/short forms)• Strength (a rough equivalen for Variant in UD-PROIEL/TOROT)
+Except for Variant/
+Strength and Animacy, these features are lexical (classifying) and do not add to the identification of which paradigm cell the form fills. Obviously, extended and optional features are out of the simplified list as well.
+In addition, the tense forms of aorist (Tense=
+Aor) and imperfect (Tense=
+Imp) should be relabeled as Tense=
+Past according to the universal U
+D guidelines (and thus mirroring the annotation in UD-PROIEL/TORO
+T).
+9. Conclusion
+We have presented the annotation standard for the Middle Russian corpus, detailing guidelines to the tagging of part-of-speech and morphological features in RN
+C and U
+D schemas and introducing a mapping between the RN
+C and U
+D tags. We distinguish between core, extended and simplified tagsets and show that different categories of users can benefit from them.
+The annotation schemas were evaluated and corrected while doing the manual annotation of the Mid
+Rus gold standard , on the one hand, and carrying out computational experiments in automatic tagging and training data amplification , on the other hand. The test sample was annotated manually in both standards, RN
+C and U
+D, in parallel. After data conversion from RN
+C to U
+D-s, the inter-annotator agreement was calculated over a total of 400 tokens. The ratio of equivalent annotations was considerably high (95%).
+A pilot version of the gold standard Mid
+Rus data is released with open license in Universal Dependencies, v2.4.
+Lyashevskaya O. N.
+We are grateful to Irina Juryeva, Roman Ilushin, Maria Skachedubova, Elizaveta Bunina, and Dmitri Sitchinava who contributed to the annotation of the Middle Russian gold standard data and revision of the annotation guidelines. We would also like to thank Anna Pichhadze, Alexandr Moldovan, Vladimir Plungian, Roman Krivko, Yves Scherrer, Achim Rabus, Hanne Eckhoff for fruitful discussion and advice.

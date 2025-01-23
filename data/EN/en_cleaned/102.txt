@@ -1,0 +1,236 @@
+Entity Linking is the task of identifying an entity mention in unstructured text and establishing a linkto an entry in a knowledge base (
+Sevgili et al., 2021). In dialogue assistants entity linking is a key
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2022”
+Moscow, June 15–18, 2022component for natural language understanding, because entities in the utterance can help to detect user’sintention to change the topic and facts from the knowledge base extracted for detected entities can beused for generation of meaningful response.
+For parallel dialogue interaction with multiple users entity linking system in a dialogue assistant shouldbe deployed in many replicas, so one of the requirements to E
+L system is low resource consumption.
+State-of-the-art entity linking systems are based on large pretrained Transformers (
+De Cao et al., 2020)or store entities inverted index in RA
+M (
+Wu et al., 2019). Lightweight solutions, which store entityembeddings in SQ
+Lite database (van Hulst et al., 2020) or use Wikidata (
+Vrandečić and Krötzsch, 2014)knowledge graph for entity disambiguation (
+Delpeuch, 2019), stored in Solr1 index, show low accuracyof entity linking.
+In this paper we present lightweight (which can be deployed on an average laptop or desktop machineand does not need much RA
+M and GP
+U) and fast entity linking system which can be used in dialogueassistants. The system consists of the following components: identifying entity mention in text, retrieveof candidate entities from the knowledge base, entity mention classifier by types and entity disambiguation using Wikidata knowledge graph and Wikipedia hyperlinks graph. RoBER
+Ta-tiny (
+Liu et al., 2019)model is used for token classification into three classes: beginning of the entity mention, inside the entitymention and tokens which do not belong to any entity. Detected mentions are classified into 42 tagsaccording to Wikidata entity types with another RoBER
+Ta-tiny model. Candidate entities for the mentions are retrieved from the inverted index in SQ
+Lite database with FT
+S5 extension which supports fulltext search by entity mentions. For training of RoBER
+Ta model we preprocessed Wikipedia pages withhyperlinks to obtain a dataset of paragraphs annotated with entity mentions and corresponding classes.
+After filtering we find connections of candidate entities for a mention with candidate entities for othermentions using the knowledge graph. The knowledge graph is stored in the same SQ
+Lite database asinverted index which is not loaded into RA
+M. The proposed system outperforms on WNED-WIK
+I (
+Petroni et al., 2020) Open
+Tapioca and RE
+L. The system does not need pretrained entity embeddings whichresults in easy adding of new Wikidata entities into the database without need to retrain the models. Thesystem supports entity linking over other knowledge bases provided that the tags of entity type classification model were mapped to knowledge base types.
+2 Related work
+TagM
+E (
+Ferragina and Scaiella, 2011) is one of the first entity linking systems, which finds Wikipediapage links for entity mentions in text and uses Wikipedia hyperlinks graph for entity disambiguation.
+Further improvement of entity linking systems was connected with neural network architectures. In thework of (
+Ganea and Hofmann, 2017) candidate entities are ranked by bilinear form of entity embedding𝑥𝑥𝑒𝑒 and embeddings of tokens 𝑥𝑥𝑤𝑤 of K-word local context 𝑐𝑐 = {𝑤𝑤1, ..., 𝑤𝑤𝐾𝐾} ( 1):𝜓𝜓(𝑒𝑒, 𝑐𝑐) =∑︁𝑤𝑤∈𝑐𝑐𝛽𝛽(𝑤𝑤)𝑒𝑒𝑇𝑇𝑤𝑤𝐵𝐵𝑥𝑥𝑤𝑤, (1)
+Global disambiguation, exploiting document-level coherence of entities is performed with CR
+F-basedmodel. In the system (
+Le and Titov, 2018) bilinear form is calculated between embeddings of pairs ofentities for global disambiguation. In (
+Le and Titov, 2019) the dataset for training of the model (
+Leand Titov, 2018) was extended with unlabeled texts with extracted mentions. Candidate entities for thementions were scored by collective agreement using Wikipedia hyperlinks graph and the entity with thehighest score was considered as an answer. In RE
+L (van Hulst et al., 2020) entity disambiguation isbased on calculation of bilinear form between entity and context embeddings and entity embeddingsfor different mentions, the same as in (
+Le and Titov, 2018). RE
+L system is lightweight because it usesSQ
+Lite database for storing entity embeddings. In the approach of (
+Martins et al., 2019) LST
+M is usedto extract entity mentions and obtain context embeddings.
+In (
+Kolitsas et al., 2018) all possible n-grams in the sentence were considered as mentions. Entitydisambiguation is performed by dot products of candidate entity embeddings and mention embeddings,1https://solr.apache.org/
+Evseev D. A.obtained with LST
+M with attention.
+Every entity in the knowledge base has the type, (in Wikidata it is defined with the relation P31,"instance of", for example, <
+Moscow, instance of, city>). In (
+Raiman and Raiman, 2018) entity typesare used for filtering of candidate entities. The document tokens are fed into BiLST
+M to obtain mentionembeddings, which are fed into dense layer for classification into classes corresponding to types.
+In Open
+Tapioca system (
+Delpeuch, 2019) candidate entities are ranked by the popularity which iscalculated by a log-linear combination of number of statements 𝑛𝑛𝑒𝑒 of entity entity 𝑒𝑒, site links 𝑠𝑠𝑒𝑒 and itsPage
+Rank 𝑟𝑟(𝑒𝑒). Global disambiguation is performed with similarity metrics 𝑠𝑠(𝑒𝑒𝑒 𝑒𝑒′) (the probability thattwo such one-step random walks starting from 𝑒𝑒 and 𝑒𝑒′ end up on the same item), which are combinedusing the Markov chain to obtain the score for each entity.
+BLIN
+K (
+Ledell Wu, 2020) retrieves candidate entities from Faiss index of description embeddings.
+Top N candidate entities descriptions are re-ranked with cross-encoder: the text with entity mention anddescription of every entity, separated with -token, are fed into BER
+T and dense layer on top of hidden state is used for classification into two classes: 1 entity description corresponds to themention , 0 otherwise.
+GENR
+E entity linking system (
+De Cao et al., 2020) is based on generative model (pretrainedBAR
+T (
+Lewis et al., 2019)). GENR
+E can function in two modes: entity disambiguation, when thetext is fed into the model and it generates the text annotated with Wikipedia page links in place of entity mentions, and entity linking, when the entity mention is marked with special token and the modelgenerates the page title.
+ExtEn
+D (
+Barba et al., 2022) system solves entity disambiguation task the same way as extractivequestion answering systems. ExtEn
+D is based on Longformer (
+Beltagy et al., 2020) which takes as inputtext with entity mention, marked with special tokens, and candidate Wikipedia page titles, separated withspecial tokens. The model is trained to find spans of the correct page title.
+3 System for entity extraction and linking
+The proposed entity linking system consists of the following components: identifying entity mentions intext, classification of entity mentions by types, retrieval of candidate entities from the database, disambiguation of candidate entities using Wikipedia hyperlinks graph.
+3.1 Entity recognition
+Entity recognition is implemented as classification of text tokens into three classes: "B-EN
+T" for beginning of the entity mention, "I-EN
+T" for inner part of the mention and "
+O" for other tokens. Text tokensare fed into pretrained Tranformer (RoBER
+Ta-tiny), Transformer hidden states are fed into dense layerfor token classification.
+We trained the model on the dataset of preprocessed Wikipedia pages. The process of page annotationincludes the following steps:1. we extracted all hyperlinks from the page with the corresponding mentions 𝑚𝑚ℎ
+1 𝑒 ...𝑒𝑚𝑚
+ℎ𝑁𝑁 ;2. for the page and every hyperlink ℎ𝑖𝑖 on the page we extracted all Wikipedia surface forms
+𝑚𝑚𝑠𝑠𝑖𝑖1𝑒 ...𝑒𝑚𝑚𝑠𝑠𝑖𝑖𝑖𝑖 using the anchor dictionary (the dictionary where a key is a page title and a valueis the list of mentions of the page in Wikipedia);3. we annotate the tokens of hyperlink mentions 𝑚𝑚ℎ
+1 𝑒 ...𝑒𝑚𝑚
+ℎ𝑁𝑁 with BI
+O-markup;4. we find substrings which correspond to surface forms 𝑚𝑚𝑠𝑠
+11𝑒 ...𝑒𝑚𝑚
+𝑠𝑠1𝑖𝑖 𝑒 ...𝑒𝑚𝑚𝑠𝑠
+𝑁𝑁1𝑒 ...𝑒𝑚𝑚𝑠𝑠𝑁𝑁𝑖𝑖 and annotate with BI
+O-markup.
+The dataset contains 130
+K samples in train set and 2
+K samples in valid set. RoBER
+Ta-tiny, trained onthe dataset, achieves F1=83.2 on valid set and F1=82.6 on test set.
+Extraction of more or less entities from the text can be controlled with a threshold in token classification model ( A.1).
+Lightweight and accurate system for entity extraction and linking3.2 Classification of entity mentions by types
+Every entity in Wikidata has the relation P31 ("instance of") or P279 ("subclass of"), for example, <"
+Forrest Gump", "instance of", "film">. Entity types are useful for entity disambiguation. For example, inthe sentence "
+Forrest Gump was directed by Robert Zemeckis." the type "film" of the mention "Forrest
+Gump" helps to choose the entity Q134773 ("
+Forrest Gump", film) instead of entities Q552213 ("Forrest
+Gump", novel) and Q3077690 ("
+Forrest Gump", fictional character).
+Wikidata contains about 35
+K types (objects in triplets <entity, P31, type>). We united Wikidata typesinto 43 types ( A.2), for example, Wikidata types "film", "television series", "animated feature film","feature film", "animated film", "television program" we merged into the type "FIL
+M". All Wikidataentities and corresponding Wikipedia page titles we annotated with these 43 tags.
+For classification of entity mentions by types we feed text tokens into Transformer encoder (RoBER
+Tatiny in our case). Mention embeddings are obtained by averaging of Transformer hidden states for mention tokens. Mention embeddings are fed into dense layer for classification into 42 classes correspondingto types (
+Figure 1).
+For training of the model we processed paragraphs from Wikipedia pages with hyperlinks. For everyhyperlink in the paragraph we found mention spans and the type for the hyperlink page title. We cut longparagraphs to the maximum length of 512 RoBER
+Ta subtokens and left only paragraphs with at leasttwo hyperlinks. The dataset contains 100
+K in train set and 2
+K in valid set. The trained model achives
+F1=79.6 on WNED-WIK
+I dataset.
+3.3 Entity disambiguation with Wikidata graph
+In some cases correct entities for the mention are hard to disambiguate based on types. For example, inthe sentence "
+Barcelona defeated Napoli with the score 4:2." the mention "
+Barcelona" corresponds to theentity Q7156 (F
+C Barcelona) and in the sentence "
+Barcelona defeated Valencia B
+C in the last match.""
+Barcelona" is Q54893 (F
+C Barcelona Basquet). We use connections between candidate entities for
+Evseev D. A.different mentions in the text in Wikidata knowledge graph and Wikipedia hyperlinks graph (
+Figure 2).
+Entities in Wikidata are mapped to corresponding Wikipedia pages, so we used both relations betweenentities in Wikidata and edges between pages in Wikipedia in hyperlinks graph. In the former sentenceF
+C Barcelona and "
+Napoli" (
+Q2641 (S.S.
+C. Napoli) are connected with the edge "
+P31" (isntance of)and the node Q476028 (association football club) and with the edge "
+P641" (sport) and the node Q2736(association football).
+Disambiguation of entities for mention 𝑚𝑚 in text (for example, entities {"
+Q7156", "
+Q54893"} for mention "
+Barcelona" in the sentence "
+Barcelona defeated Napoli with the score 4:2.") was inspired by (
+Usbeck et al., 2014). For each entity 𝑒𝑒𝑖𝑖𝑗𝑗 ∈ 𝐶𝐶𝑖𝑖 = {𝑒𝑒𝑖𝑖1, ..., 𝑒𝑒𝑖𝑖𝑁𝑁𝑖𝑖} for mention 𝑚𝑚𝑖𝑖 we find all entities in Wikidataconnected with 𝑒𝑒𝑖𝑖𝑗𝑗 with outgoing edges (the edges in directed graph that begins in 𝑒𝑒𝑖𝑖𝑗𝑗). In edge, outgoing from the entity Q7156, connects Q7156 and Q29. We build a graph 𝐺𝐺𝑘𝑘 = (𝑉𝑉𝑘𝑘, 𝐸𝐸𝑘𝑘),where 𝑉𝑉0 = {𝐶𝐶1, ..., 𝐶𝐶𝑁𝑁} (candidate entities), 𝐸𝐸0 = ∅, 𝐸𝐸1 are edges outgoing from the nodes 𝑉𝑉0, 𝑉𝑉1are found as follows ( 2):𝑉𝑉1 = 𝑉𝑉0⋃︁{𝑦𝑦 : ∃𝑥𝑥 ∈ 𝑉𝑉𝑖𝑖 ∧ (𝑥𝑥, 𝑦𝑦) ∈ 𝐸𝐸1} (2)
+All nodes 𝑥𝑥, 𝑦𝑦 ∈ 𝑉𝑉1 we initialize with authoritative values 𝑥𝑥𝑎𝑎 = 1|𝑉𝑉1| and hub values 𝑥𝑥ℎ = 1|𝑉𝑉1| anditerate k times ( 3):𝑥𝑥𝑎𝑎 ←∑︁(𝑦𝑦𝑦𝑦𝑦)∈𝐸𝐸1𝑦𝑦ℎ, 𝑦𝑦ℎ ←∑︁(𝑦𝑦𝑦𝑦𝑦)∈𝐸𝐸1𝑥𝑥𝑎𝑎 (3)
+After k iterations all candidate entities 𝑒𝑒𝑖𝑖𝑗𝑗 ∈ 𝐶𝐶𝑖𝑖 for mention 𝑚𝑚𝑖𝑖 have corresponding values 𝑥𝑥𝑖𝑖𝑎𝑎𝑗𝑗 , candidate entities are sorted by 𝑥𝑥𝑖𝑖𝑎𝑎𝑗𝑗 .
+4 Evaluation
+The proposed entity extraction and linking system was tested on WNED-WIK
+I dataset. The systemoutputs three confidences: the Levenshtein distance between the mention (entity substring in text) and
+Wikidata entity title, the confidence of entity type classification model (
+Section 3.2) and the score ofproximity with other mentions in Wikidata graph (
+Section 3.3). The final confidence was obtained aslinear combination of these confidences and if the confidence is lower than the threshold, the entitymention was considered as not found in Wikidata.
+WNED-WIK
+I dataset contains 6.8
+K samples with mentions from Wikipedia paragraphs and corresponding page titles. The proposed system outperforms RE
+L (van Hulst et al., 2020) and OpenTapioca(
+Delpeuch, 2019) on WNED-WIK
+I (
+Table 1). Open
+Tapioca disambiguates candidate entities by the number of connections between entities for different mentions is Wikidata graph. RE
+L is based on rankingof candidate entities by dot products of entity and context embeddings. Global disambiguation in RE
+Lis performed by calculation of dot products of candidate entity embeddings for different mentions, but
+Lightweight and accurate system for entity extraction and linkingthe system does not use explicit information about connections between entities in Wikidata knowedgegraph. Our system performs both local disambiguation (filtering of candidate entities by types obtainedfrom type classification model) and global disambiguation by proximity of candidate entities in Wikidata.
+GENR
+E, ExtEn
+D and BLIN
+K systems achieve high F1 because they are based on powerful methodsof page title generation (GENR
+E), extraction of page title span from the list of candidate titles (ExtEn
+D) and cross-attention between text and candidate entity description (BLIN
+K) with large pretrained
+Transformers. GENR
+E is an encoder-decoder model with two modes:• taking text with entity mention marked with special tokens as input and generating the page title;• taking text as input and generating the same text where entity mentions are replaced with page titles.
+Generation of page titles in autoregressive way, token-by-token, allows to learn relations between contextand entity name.
+The main component of ExtEn
+D system is a Longformer which recieves the text where the entitymention is marked with special tokens, and the list of candidate pages titles. The model is trained toextract the span of correct page title the same way as extractive question answering models. Longformerhidden states are fed into two dense layers, the first defines the probability of the token to be the spanstart, the second the span end. Cross-attention in Transformer architecture between page title, entitymention and text tokens leads to effective learning of relationship between page title and context.
+BLIN
+K system consists of two components: extraction of candidate entities from Faiss index andre-ranking of entities. At re-ranking step the text with entity mention replaced with special token andcandidate entity description are fed into BER
+T and dense layer on top of CL
+S-token hidden state is usedfor classification of the description into two classes: 1 if the description correponds to the context, 0 otherwise.
+Large pretrained Transformers in GENR
+E and ExtEn
+D result in high quality, but using Longformerin ExtEn
+D leeds to low inference speed. In GENR
+E prefix tree of 6
+M Wikipedia pages is loaded toRA
+M and requires 6.1 Gb. Also, GENR
+E and ExtEn
+D does not support zero-shot transfer to otherknowledge bases. BLIN
+K system is zero-shot: the entity is defined only by short text description, butthe entities index (5.3 M) is loaded into RA
+M which requires 37.5 Gb. Cross-encoding of text and entitydescriptions in BLIN
+K is slower compared with other methods (
+Table 1) because the input text shouldbe fed into BER
+T the number of times equal to the number of candidate entities. To obtain memoryrequirements of the models we launched each of the models on Nvidia DG
+X-1 server with Tesla P100GP
+Us and inferred on WNED-WIK
+I dataset.
+The proposed system shows lower F1 than GENR
+E, BLIN
+K and ExtEn
+D on WNED-WIK
+I, but is fastand much more lightweight and can be used on an average laptop or desktop computer. Our system isbased on RoBER
+Ta-tiny for entity extraction and type classification and stores entity inverted index and
+Wikidata graph in SQ
+Lite database (2.5 Gb on disk, 42.9 M rows) which is not loaded into RA
+M ( ??).
+Moreover, our system does not need pretraining of entity embeddings and therefore supports easy addingof new Wikidata entity (with one insert query to SQ
+Lite database) and transfer to other knowledge bases,provided that the types of entities in the knowledge base were mapped to tags of entity type classificationmodel.
+Model RA
+M, Gb GP
+U, Gb WNE
+D, micro F1 Inference time, per 1 sample
+Our system 1.9 1.4 68.2 0.15GENR
+E 9.7 2.8 87.4 0.15BLIN
+K 37.5 1.1 75.5 0.61ExtEn
+D 4.5 2.5 88.8 1.1RE
+L 2.0 0.95 41.4 0.17Open
+Tapioca 4.4 0 26.8 0.21
+To define the contribution of entity linking system components into the metrics, we tested entity linkingsystem on WNED-WIK
+I in two settings:
+Evseev D. A.• using only entity type classification component for entity disambiguation;• using both entity type classification and entity disambiguation with Wikidata graph.
+In the former setting we achieved micro F1 of 49.8 on WNED-WIK
+I, in the latter setting 68.2.
+The results indicate that connections in Wikidata and Wikipedia between entities in text for differentmentions are significant for entity disambiguation and improve the metrics relative to using only entitytype classification by about 18 points. For example, in the sample from WNED-WIK
+I "
+Towns within thedivision include Pipers River, Scottsdale, Evandale, Swansea, ..." for the mention "
+Swansea" the systemin setting with using for disambiguation only entity types chooses the wrong entity Q23051 ("
+Swansea").
+Wikidata graph helps to define to correct entity Q986654 ("
+Swansea, Tasmania"), because most of thelocations in the sample text are connected with the entity Q34366 ("
+Tasmania").
+5 Conclusion
+In this work, we have described the system for entity extraction and linking. The system performsdetection of entity mentions in the text, candidate entities retrieval, entity classification by types withRoBER
+Ta-based model and entity disambiguation using Wikidata knowledge graph. The system islightweight: entity extraction and type classification components are based on RoBER
+Ta-tiny model,entities inverted index and Wikidata are stored in SQ
+Lite database, which is not loaded into RA
+M. Oursystem outperforms other lightweight solutions on WNED-WIK
+I dataset due to combination of localdisambiguation based on filtering of candidate entities with type classification component and globaldisambiguation by proximity of candidate entities in Wikidata knowledge graph.

@@ -1,0 +1,315 @@
+People have been constantly arguing at all social levels and the Argumentation Theory was developedto study and control the process of coming to a conclusion from premises through logical reasoning.
+According to this theory, an argument must include a claim containing a stance towards some topic orobject, and at least one premise (“favor” or “against”) of this stance. Often a “premise” is called an“argument” when it is clear from the context which claim it is being referred to.
+With the development of intellectual systems and neural networks, arguments can now be both produced and studied automatically. Therefore, the Computational Argumentation task arose to address theproblem of computational analysis and synthesis of natural language argumentation. In this paper wefocus on its branch — Argument Mining (or Argumentation Mining) — which explores methods for extracting arguments and their relationships from texts, as well as constructing an argumentative structure.
+There is a large number of works devoted to this field which are thoroughly reviewed by (
+Stede and
+Jodi, 2018; Lawrence and Reed, 2020; Stede, 2020; Vecchi et al., 2021; Schaefer and Stede, 2021).
+Special attention has been paid to the stance detection as a sub-task of Argument Mining (
+Küçük and
+Can, 2020; AL
+Dayel and Magdy, 2021; Küçük and Can, 2021) where the authors describe the proposedapproaches so far, descriptions of the relevant datasets and tools, and some other related issues.
+The growing interest in the task is justified by the application of the Argument Mining algorithmsfor argument search, fact checking, automated decision making, argument summarization, writing support and intelligent person assistants. For instance, Args.me1, Argumen
+Text2 and CA
+M (comparativeargumentative machine)3(
+Schildwächter et al., 2019) are well known systems widely used for searchingarguments.
+The main research forum for the task is the Argument Mining workshop series. Since 2014, eightworkshops on the analysis of arguments have already been held4 addressing burning issues like multitask learning (
+Tran and Litman, 2021; Putra et al., 2021) and Argumentation Mining in different areas(science (
+Lauscher et al., 2018; Fergadis et al., 2021), news articles (
+Bauwelinck and Lefever, 2020) andcross-lingual research (
+Rocha et al., 2018)). Moreover, there are several shared tasks on the topic adjacentto the Argument Mining: Shared Task on Argumentation Mining in Newspaper Editorials (
+Kiesel et al.,2015), Sem
+Eval-2016 (
+Stance Detection) (
+Mohammad et al., 2016), Touché (
+Argument Retrieval) in
+2020 (
+Bondarenko et al., 2020) and 2021 (
+Bondarenko et al., 2021).
+In this paper, we present Ru
+Arg-2022 — the first shared task on Argument Mining for the Russianlanguage. It consists of two sub-tasks: stance detection and premise classification. The first task aims todetermine the point of view (stance) of the text’s author in relation to the given claim. The second taskis devoted to classification of texts according to premises (“for” or “against”) to a given claim.
+To highlight the differences between the two tasks, consider the following example: Япротивмасок,ноприходитсяихносить:мнепрощетак, чем с кем-точто-тообсуждатьикому-точтото доказывать (
+I am against masks, but I have to wear them: it’s easier for me than to discusssomething with someone and prove something to someone). In this sentence there is an explicit stanceagainst masks but it gives a premise for wearing masks.
+The contribution of the current paper is three-fold. First, we prepare a gold standard dataset for stancedetection and premise classification. Second, we develop and release a baseline for the argument miningtasks that uses a multi-task multi-label BER
+T architecture. Third, we compare and analyse the results ofthe participants of the shared task and propose steps for further improvement of both sub-tasks. All thematerials and data could be found on Git
+Hub5 and Coda
+Lab6 competition pages.
+Thus, our work is the first, to the best of our knowledge, dealing with argument mining task for the
+Russian language. While our setup is a simple text categorization task, we argue that it may be an1https://www.args.me/index.html
+2https://www.informatik.tu-darmstadt.de/ukp/research ukp/ukp research projects/ukp project argumentext/index.en.jsp
+3http://ltdemos.informatik.uni-hamburg.de/cam/
+4https://2021.argmining.org
+5https://github.com/dialogue-evaluation/Ru
+Arg
+6https://codalab.lisn.upsaclay.fr/competitions/786
+Kotelnikov E., Loukachevitch N., Nikishina I., Panchenko A.important building block of larger argument mining pipelines featuring retrieval of arguments from largetext collections (
+Bondarenko et al., 2020).
+2 Previous Work
+The Argument Mining task (
+Palau and Moens, 2009) involves the automatic identification of argumentative structures in free text. According to (
+Cabrio and Villata, 2020), “researchers have investigated argument mining on various registers including legal texts, scientific papers, product reviews, news editorials,
+Wikipedia articles, persuasive essays, political debates, tweets, and online discussions”. A detailed overview of all argument mining related papers is out of the scope of the current work. We refer the readerto the recent surveys on this topic: (
+Lawrence and Reed, 2020) and (
+Schaefer and Stede, 2021).
+The topic of COVI
+D-19 is nowadays popular not only in the biomedical field, but also in social scienceand, especially, NL
+P research (
+Verspoor et al., 2020). There already exist several datasets on COVI
+D-19for stance detection (
+Wührl and Klinger, 2021), argument mining and fact extraction/verification. Forinstance, in (
+Beck et al., 2021) the authors collect a dataset from German Twitter on people’s attitudetowards the government measures. First, they identify relevant tweets for governmental measures andif relevant, detect what stance is expressed. (
+Menin et al., 2022) create a linked data version of theCOR
+D-19 data set and enriched it via entity linking and argument mining.
+Another dataset collected lately (
+Reddy et al., 2021) comprises the following topics related to COVI
+D19: origin of the virus, transmission of the virus, cure for the virus and protection from the virus. Theauthors present a pipeline for detecting claim boundaries and detecting stance. Unlike most stance detection datasets (
+Hanselowski et al., 2019; Allaway and Mc
+Keown, 2020) it involves identifying theclaimer’s stance within a claim sentence and not the stance for target–context pairs. (
+Li et al., 2022) follows (
+Reddy et al., 2021) and identify the stance from the perspective of each claimer, namely whetherthe claimer affirms or refutes a claim. They finetune a Bart-large model (
+Lewis et al., 2020) to automatically identify the stance. One more dataset related to the COVI
+D-19 pandemic is collected by sevenscience teachers through three scenarios (
+Atabey, 2021). This dataset contains not only stances aboutvaccination, curfew and distance education, but also arguments and supporting reasons that might construct an argument mining dataset.
+Most of the above mentioned publications on COVI
+D-19 stance detection refer to the FEVE
+R-likedataset COVID
+Fact (
+Saakyan et al., 2021) of 4,086 claims concerning the COVI
+D-19 pandemic. Itcould be also applied for the argument mining needs. Another dataset for COVI
+D-19 fact checking ispresented in (
+Liu et al., 2020) which also could be reformatted for the argument mining tasks.
+As regards argumentation mining for the Russian language, there are not so many studies and datasets on the topic. (
+Fishcheva and Kotelnikov, 2019) translated into Russian and researched the Englishlanguage Argumentative Microtext Corpus (Arg
+Micro) (
+Peldszus and Stede, 2015; Skeppstedt et al.,2018). In (
+Fishcheva et al., 2021) this corpus was expanded with machine translation of the Persuasive
+Essays Corpus (Pers
+Essays) (
+Stab and Gurevych, 2014). XG
+Boost and BER
+T were applied to classify“for”/“against” premises.
+Salomatina et al. (
+Salomatina et al., 2021) propose an approach to the partial extraction of the argumentative structure of a text by using patterns of argumentation indicators. They also try to recognize therelations between extracted arguments. (
+Ilina et al., 2021) develop a web resource for analysis of argumentation in popular science discourse. The annotation model is based on the ontology of argumentationand D. Walton’s argumentation schemes (
+Walton et al., 2008). A scenario of argument annotation oftexts allows constructing an argumentative graph based on the typical reasoning schemes.
+To the best of our knowledge, there are no manually labelled publicly available datasets in Russian. Inthis work we present such dataset for the first time.
+3 Dataset
+The dataset is based on V
+Kontakte users’ comments discussing COVI
+D-2019 news texts (
+Chkhartishviliet al., 2021). We choose the COVI
+D-19 pandemic (and anti-epidemic measures in general) as the topicRu
+Arg-2022: Argument Mining Evaluationof the dataset because we assume that the analysis of arguments on social measures against COVI
+D19 is still relevant for the modern society and especially for the understanding of the current publicsentiment. From the gathered comment collection, sentences discussing masks, vaccines and quarantinewere extracted using keywords (
+Nugamanov et al., 2021).
+The annotation process included two stages: labelling by stance and labelling by premises. At bothstages sentences were labelled in relation to the following claims:1. “
+Vaccination is beneficial for society.”
+2. “
+The introduction and observance of quarantine is beneficial for society.”
+3. “
+Wearing masks is beneficial for society.”
+In the following subsections we describe the annotation process of the dataset for both sub-tasks:
+Stance Detection 3.1 and Premise Classification 3.2.
+Stance Premise Numerical labelfor for 2other (neutral/contradictory/unclear) no argument 1against against 0irrelevant irrelevant -13.1 Stance Annotation
+The current dataset has been already annotated in (
+Nugamanov et al., 2021). In the current work thedataset was additionally checked and synchronized with premise annotation from the second step.
+At the first stage of stance annotation each sentence was labelled by several experts (three on average).
+An annotator should indicate the stance it expresses towards each of the above-mentioned aspects (orindicate that the sentence is not relevant to the aspect). The annotators’ group included professionallinguists and psychologists. We consider four stance labels, namely:• for: positive stance, which means that the speaker expresses his support for the topic;• against: negative stance — the topic of discussion is not endorsed by the speaker;• other: neutral stance (this label is used for factual sentences without any visible attitudes from theauthor); contradictory stance (for such a label, evident positive and negative attitudes should be seenin a message); unclear stance (the presence of a stance is seen, but the context of sentence does notgive possibility to determine it);• irrelevant: text does not contain stance on the topic.
+The coding scheme for the stance annotation is presented in A sentence is considered to be relevant to an aspect, if at least two annotators considered it relevant.
+Sentences collected using keywords also can be irrelevant, for example a sentence mentioning Elon Musk(“
+Mask” in Russian spelling) is not relevant to the mask aspect.
+3.2 Premise Annotation
+At the second stage of annotation, the dataset was also annotated by premises for all three claims. Thefollowing four classes (labels) were used:.
+• for: the stance is supported with argument in favor of the topic;• against: the argument explains the author’s negative outlook on the topic;• no argument: no explanation is given for supporting/critisism of the topic;• irrelevant: text does not contain stance and, consequently, premise on the topic.
+The annotated sentences from the previous step were divided into three subsets: training, validation,and test (see Subsection 3.4). The labelling of each sentence by premises from the training and validationdatasets was carried out by three annotators; the test sentences were labelled by four annotators. The final
+Kotelnikov E., Loukachevitch N., Nikishina I., Panchenko A.labels for training and validation datasets were assigned with the agreement of at least two annotators,for test dataset – with the agreement of at least three annotators.
+A sentence was considered as a premise if the annotator could use it to convince an opponent aboutthe given claim, such as “
+Masks help prevent the spread of disease.” Detailed instructions for annotatorsare available in the competition repository7.
+The task of premise annotation should be separated from stance detection and sentiment analysistasks. For example, the following statement does not contain a premise in relation to masks, althoughthere is an author’s stance “for”: It is high time to involve the city of “brides” in the production ofprotective masks. It is also necessary to distinguish between sentiment polarity (positive and/or negative)and argumentation. In the following sentence there is a negative polarity towards quarantine, a positivepolarity towards Trump, but no rational premises “for” or “against” quarantine are given: And the factthat Trump did not introduce a suffocating quarantine is well done!
+The difference between the two tasks is illustrated in both stance and premise: the speaker expresses his negative attitude towards the vaccine by the reasonof its short-term effectiveness. The second sentence, on the contrary, definitely supports vaccinationwithout giving any specific arguments to support his/her opinion.
+Text Masks Quarantine Vaccines
+Stance Premise Stance Premise Stance PremiseИ какой смысл в вакцине если антителатолько 3 месяца?(
+And what’s the point of a vaccine if the antibodieswork only for 3 months?)— — — — against againstДолжна быть вакцина которую, будутпрививать с детства!!!(
+There must be a vaccine that will be vaccinatedfrom childhood!!!)— — — — for no argumentВот только там на момент, когда была 1000выявленных, уже неделю карантин действовал.
+(
+At the time when there were 1000identified, quarantine had been in effect for a week.)— — other against — —Развитие ситуации: если соблюдать карантинмесяц, то вирус будет остановлен.
+(
+The development of the situation: if the quarantineis observed for a month, the virus will be stopped.)— — for for — —Вопрос к властям :почему из гос резерване получили люди масок когда их не хваталоили и резерва уже нет(
+Question to the authorities : why didn’t peopleget masks from the state reserve whenthere were not enough of them or there isno reserve anymore)for no argument — — — —Любители масок не ужели вы думаете что этакосметическая тряпочка поможет от вируса?!(
+Mask lovers don’t you really think that this cosmeticrag will help against the virus?!)against no argument — — — —punctuation). Note that for each topic, annotation of stances and premises was performed. Refer to Table 1 for the classification schema used to label the data. “
+Irrelevant” class is denoted as “—”.
+3.3 Dataset Verification
+After completion of stance and premise annotation procedures, we verified the labels of the dataset. To this end, we looked through the contingency tables of stances and premises, and checked the following issues:7https://github.com/dialogue-evaluation/RuArg/tree/main/annotation.Ru
+Arg-2022: Argument Mining Evaluation
+1. the sentence with an irrelevant label for one of the sub-tasks cannot be relevant for another sub-task;
+2. the sentence with contradictory stance and premise (e.g., positive stance but premise “against”)
+should be examined more carefully.
+As a result, annotations for 289 sentences (3.0% from the whole dataset containing such issues) wererevised and improved. Generally, if a sentence contains both a stance and a premise, then their polaritycoincides (both “for” or both “against”). However, in 12 sentences the polarity is opposite. This isdue to the fact that the sentence simultaneously contains the author’s point of view and indicates theopponents’ premises, for example: “
+This is exactly why everyone should wear masks, but the mainchannels broadcast that masks are not needed and useless for healthy people.”3.4 Dataset Statistics
+Each sentence has 6 labels: for each of the two sub-tasks (stance detection and premise classification)there is a label for each of the three aspects (masks, vaccines and quarantine).
+The inter-annotator agreement was calculated by Krippendorff’s alpha and it turned out quite high –0.84. Dataset statistics are presented in There are various schemes in the literature to perform evaluation of this kind of data (
+Rosenberg, 2012).
+We resort to a scheme by simply excluding the largest “irrelevant” class as it is done in Sentiment
+Analysis. For instance, at the Sem
+Eval-2016 Task 14 (
+Nakov et al., 2016) the organizers exclude the“NEUTRA
+L” class from the evaluation as the largest one.
+The distribution of labels by class is shown in Figure 2
+Dataset Total
+Stance PremiseIrrelevant
+For Other Against For No argument Against
+Maskstrain 6,717 704 1,832 594 339 2,451 340 3,587val 1,431 148 388 126 62 542 58 769test 1,402 147 401 123 63 523 85 731all 9,550 999 2,621 843 464 3,516 483 5,087
+Quarantinetrain 6,717 587 1 341 172 217 1,756 127 4,617val 1,431 125 290 39 46 369 39 977test 1,402 116 274 40 50 358 22 972all 9,550 828 1,905 251 313 2,483 188 6,566
+Vaccinestrain 6,717 374 866 418 149 1,238 271 5,059val 1,431 78 183 92 24 282 47 1,078test 1,402 75 181 81 21 262 54 1,065all 9,550 527 1,230 591 194 1,782 372 7,2024 Evaluation
+The main performance metric in each of the two sub-tasks are F1𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠 and F1𝑝𝑝𝑝𝑝𝑠𝑠𝑝𝑝𝑝𝑝𝑠𝑠𝑠𝑠 scores, which arecalculated according to the following formula:𝐹𝐹1 =1
+𝑛𝑛∑︁𝑠𝑠∈𝐶𝐶𝐹𝐹1𝑝𝑝𝑠𝑠𝑟𝑟𝑐𝑐 , (1)
+Kotelnikov E., Loukachevitch N., Nikishina I., Panchenko A.where 𝐶𝐶 = {“𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚”, “𝑣𝑣𝑚𝑚𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑚𝑚”, “𝑞𝑞𝑞𝑞𝑚𝑚𝑞𝑞𝑚𝑚𝑣𝑣𝑞𝑞𝑣𝑣𝑣𝑣𝑣𝑣”}, 𝑣𝑣 is the size of 𝐶𝐶 and F1𝑟𝑟𝑟𝑟𝑟𝑟-score is macro
+F1-score averaged over first three relevance classes (the class “irrelevant” is excluded). Namely, thefollowing procedure is used:1. F1-scores are averaged over three out of four classes (the “irrelevant” class is excluded) – macro
+F1𝑟𝑟𝑟𝑟𝑟𝑟-score is obtained for a given claim;2. macro F1𝑟𝑟𝑟𝑟𝑟𝑟-scores for all three claims are averaged – we get macro F1-score relative to the task
+(stance detection or premise classification);3. For each of the three claims, F1-score is calculated for each class (label) separately.
+As a result, two main macro F1𝑟𝑟𝑟𝑟𝑟𝑟-scores are calculated – one for each sub-task. Participants’ systemsare ranked by these metrics (two separate lists). The F1𝑟𝑟𝑟𝑟𝑟𝑟-score for claims and F1-score for individual classes (labels) will be also discussion in Section 7.
+5 Baseline
+We implement a simple baseline that finetunes the pre-trained ruBER
+T model (
+Devlin et al., 2019; Kuratov and Arkhipov, 2019) on the provided dataset. We chose “Deep
+Pavlov/rubert-base-cased” model from Hugging Face 8. We experiment with training a single model that predicts all the required labels. However, it did not performed well, so we finetune three pre-trained BER
+T models separately for three topics: “masks”, “vaccines”, and “quarantine”. Each model comprises the following layers:1. the pre-trained BER
+T layer with the unfrozen weights;
+2. a dense layer for stance detection;
+3. a dense layer for argument classification.
+Then we applied categorical cross-entropy loss to train on both stance and argument labels simultaneously. The results are presented in Section 7.
+6 Participating Systems
+Ru
+Arg-2022 shared task attracted 16 participants, 13 of them participated in the final phase. We providedescriptions of the top 7 solutions which outperformed the baseline for at least one sub-task. We denote8https://huggingface.co/DeepPavlov/rubert-base-casedRu
+Arg-2022: Argument Mining Evaluation
+each team either with its team name (if any) or with their Coda
+Lab user names. In cases of multiplesubmissions from one team, we report only the best result. The scores of the teams are shown in camalibi (msu) First, this team used RuBER
+T-classifier9 to determine the relevance of the texts usingNL
+I-method: to form an input example, a second sentence with the aspect (“masks”, “quarantine”, or“vaccination”) was added to each original sentence from the dataset. The output 1 was for the “
+Relevant”result and 0 for “
+Irrelevant”.
+For the stance classification task the texts were pre-processed and then translated into English usingpretrained seq2seq-model10. Then, each text was processed according to the rule: 𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘 → @ *𝐴𝐴𝐴𝐴𝐴𝐴𝐴𝐴𝐴𝐴𝐴𝐴 *𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘@, where 𝐴𝐴𝐴𝐴𝐴𝐴𝐴𝐴𝐴𝐴𝐴𝐴 is the aspect for which a given text is relevant and 𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘𝑘is the word from a list of words corresponding to each aspect.
+Then for both Ru
+Arg sub-tasks the domain-specific BER
+T-classifier11 was trained using NL
+I-method:for each text and each aspect for which a given text is relevant, six input examples were constructed(three for each stance label and three for each premise label). Final input examples looked like:• “
+Vacation would only give rise to the spread of the virus, and it was not the weekend that had to bedeclared but the @ * quarantine * quarantine @.”, “
+Against quarantine”,• “
+Vacation would only give rise to the spread of the virus, and it was not the weekend that had to bedeclared but the @ * quarantine * quarantine @.”, “
+None-stance quarantine”,• “
+Vacation would only give rise to the spread of the virus, and it was not the weekend that had to bedeclared but the @ * quarantine * quarantine @.”, “
+In-favor quarantine”,• “
+Vacation would only give rise to the spread of the virus, and it was not the weekend that had to bedeclared but the @ * quarantine * quarantine @.”, “
+Negative to quarantine”,• “
+Vacation would only give rise to the spread of the virus, and it was not the weekend that had to bedeclared but the @ * quarantine * quarantine @.”, “
+Neutral to quarantine”,• “
+Vacation would only give rise to the spread of the virus, and it was not the weekend that had to bedeclared but the @ * quarantine * quarantine @.”, “
+Positive to quarantine”.
+The stance or premise label was chosen as the one where the corresponding input example had themaximum softmax output.
+sevastyanm (vyatsu) This participant utilized pre-trained ru
+Roberta-large language model12 whichwas trained on additional data obtained from “Pers
+Essays Russian” and “Arg
+Micro Russian” datasets(
+Fishcheva et al., 2021) with similar annotation schemes. Both datasets were united by argumentativediscourse units and used to train model to solve 4-class classification problem.
+First, ru
+Roberta-large was fine-tuned on the united “Pers
+Essays Russian” and “Arg
+Micro Russian”dataset with 8,780 units. Then, the model was fine-tuned separately on each of 6 tasks from the competition dataset (’masks stance’, ’masks argument’, ’quarantine stance’, ’quarantine argument’, ’vaccines stance’, ’vaccines argument’). For final class prediction the participant used token averagingand 2-layer linear neural network classifier. All models trained with 𝑙𝑙𝑘𝑘𝑙𝑙𝑘𝑘𝑙𝑙𝑙𝑙𝑙𝑙𝑙𝑙 𝑘𝑘𝑙𝑙𝑟𝑟𝑘𝑘 = 10−5 and𝑘𝑘𝑘𝑘𝑙𝑙𝑙𝑙𝑤𝑟𝑟 𝑘𝑘𝑘𝑘𝑑𝑑𝑙𝑙𝑘𝑘 = 0.01.
+For the model trained on the additional dataset the participant used the following hyperparameters:𝑙𝑙𝑙𝑙𝑖𝑖𝑖𝑖𝑟𝑟 𝑠𝑠𝑙𝑙𝑠𝑠𝑘𝑘 = 70, 𝑙𝑙𝑖𝑖𝑛𝑛 𝑘𝑘𝑖𝑖𝑘𝑘𝑑𝑑𝑤𝑠𝑠 = 3, 𝑏𝑏𝑙𝑙𝑟𝑟𝑑𝑑𝑤 𝑠𝑠𝑙𝑙𝑠𝑠𝑘𝑘 = 16. For model trained on the Ru
+Arg dataset hyperparameters were as follows: 𝑙𝑙𝑙𝑙𝑖𝑖𝑖𝑖𝑟𝑟 𝑠𝑠𝑙𝑙𝑠𝑠𝑘𝑘 = 100, 𝑏𝑏𝑙𝑙𝑟𝑟𝑑𝑑𝑤 𝑠𝑠𝑙𝑙𝑠𝑠𝑘𝑘 = 32, 𝑙𝑙𝑖𝑖𝑛𝑛 𝑘𝑘𝑖𝑖𝑘𝑘𝑑𝑑𝑤𝑠𝑠 = {2, 2, 4, 4, 4, 7}for ’masks stance’, ’masks argument’, ’quarantine stance’, ’quarantine argument’, ’vaccines stance’,’vaccines argument’ respectively.
+iamdenay (IIC
+T) This team used the pre-trained Crosslingual RoBER
+Ta-large model and fine-tunedon the augmented data. They mostly augmented the data containing stances and arguments about “quarantine”. For the augmentation the participants used m
+T5 model to paraphrase sentences in order toincrease the size of the text set. To increase accuracy of the proposed method they used six different9https://huggingface.co/Deep
+Pavlov/rubert-base-cased-conversational
+10https://huggingface.co/Helsinki-NL
+P/opus-mt-ru-en
+11https://huggingface.co/digitalepidemiologylab/covid-twitter-bert-v2
+12https://huggingface.co/sberbank-ai/ru
+Roberta-large
+Kotelnikov E., Loukachevitch N., Nikishina I., Panchenko A.models, one per task {’masks stance’, ’masks argument’, ’quarantine stance’, ’quarantine argument’,’vaccines stance’, ’vaccines argument’}.
+ursdth This team proposed a pipeline-based framework for the classification of texts with or withoutrecognizable rhetorical structure. The first stage involved fine-tuning sequential model on the classification dataset including texts of different lengths and complexity. In the second stage, they frozen the basemodel and then trained a discourse-aware neural module on top of it for the classification of texts withdiscourse structure.
+They used pre-trained Conversational RuBER
+T for the discourse unit classification. For texts withautomatically recognizable discourse structure, they proposed a relation-aware Tree-LST
+M over the discourse units’ class predictions. Stance and premise labels were predicted jointly.
+Both development and test datasets were treated as unseen, and the official development dataset wasnot used for the parameters adjustment. The predictions were obtained by averaging outputs from fivemodels trained on cross-validation during experiments over labeled data. This is similar to an ensemble,where each model is trained using 80% of the train data.
+sopilnyak (auteam) This team started with training a classifier to detect irrelevant sentences for eachsub-task. They applied binary Logistic Regression classifier trained on TF-ID
+F features, calculated fromBP
+E tokens.
+Then they excluded irrelevant sentences and further trained the models (for each sub-task separately)as a blend of:1. fine-tuned ru
+Roberta-large from Sber A
+I with a two-layer classification head on top. They unfrozen
+30 top layers and used very low learning rate (5 · 10−6) to prevent model from over-fitting on a
+small dataset. Also they utilized weighted cross-entropy loss so that the results on unbalanceddataset would be more accurate.
+2. Logistic Regression classifier on TF-ID
+F features calculated on BP
+E tokens.
+kazzand This participant applied Transformer-based deep text feature extraction and hierarchical classification. Firstly, they trained simple TF-ID
+F + Logistic Regression pipeline for eachtext type (masks, quarantine, vaccines). Secondly, they trained 6 separate models for each task{’masks stance’, ’masks argument’, ’quarantine stance’, ’quarantine argument’, ’vaccines stance’,’vaccines argument’} using Sentence-BER
+T for embeddings computation served as input to the Logistic
+Regression or KN
+N model.
+invincible The first step for the team was a preprocessing: they removed punctuation symbols, converted text to lowercase, and removed special symbols including the “” substring. They further usedthe DistilRuBER
+T model13 to vectorize the text into a vector of numbers and saved as a row of the newmatrix. This feature matrix was used as an input for the classification models.
+Overall, there were nine models, three for each topic {“masks”, “vaccines”, “quarantine”}. The initial data were separated into three subsets corresponding to each topic. Then the following algorithmwas applied: first, SV
+M model (with sigmoid kernel and balanced target) detected irrelevant sentences for each topic and classified them as “irrelevant” for both stance and argument types. Thenfor positive-classified sentences, two neural network models were applied. They consisted of Flatten layer, Dense layer with ReL
+U activation function, Dropout layer and final Dense layer with Sigmoid activation function. They used the following hyperparameters: 𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜 =“𝑎𝑎𝑎𝑎𝑎𝑎𝑜𝑜”, 𝑙𝑙𝑜𝑜𝑙𝑙𝑙𝑙 =“𝑙𝑙𝑜𝑜𝑎𝑎𝑜𝑜𝑙𝑙𝑜𝑜 𝑐𝑐𝑎𝑎𝑜𝑜𝑜𝑜𝑐𝑐𝑜𝑜𝑜𝑜𝑜𝑜𝑐𝑐𝑎𝑎𝑙𝑙 𝑐𝑐𝑜𝑜𝑜𝑜𝑙𝑙𝑙𝑙𝑜𝑜𝑐𝑐𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑜𝑐𝑐”, 𝑐𝑐𝑛𝑛𝑜𝑜 𝑜𝑜𝑜𝑜𝑜𝑜𝑐𝑐𝑒𝑙𝑙 = 5.
+Importantly, since the classes are highly unbalanced (labels “for” and “against” are highly underrepresented), a random oversampling was applied to all dataframes before fitting the models. Accurateclass-balancing allowed improving both scores significantly.
+7 Results and Discussion
+Table 4 presents respectively the results for “stance detection” and “premise classificaiton” tracks.
+13https://huggingface.co/DeepPavlov/distilrubert-tiny-cased-conversationalRu
+Arg-2022: Argument Mining Evaluation
+# Participant Base Transformer modelAdditionaldata
+Stance F1-score # Premise F1-score #1 camalibi covid-twitter-bert-v2 Yes 0.6968 1 0.7404 1
+2 sevastyanm RuRoBER
+Ta-large Yes 0.6815 2 0.7235 2
+3 iamdenay RuRoBER
+Ta-large Yes 0.6676 3 0.6555 4
+4 ursdth RuBER
+T Conversational No 0.6573 4 0.7064 3
+5 sopilnyak RuRoBER
+Ta-large No 0.5603 5 0.4438 10
+6 kazzand Sentence-BER
+T No 0.5552 6 0.5603 6
+7 morty n/a n/a 0.5353 7 0.5453 7
+8 invincible RuBER
+T Conversational Yes 0.5286 8 0.5428 8
+9 dr n/a n/a 0.4750 9 0.6036 5
+10 baseline ruBER
+T No 0.4180 10 0.4355 9
+The places of participants for each sub-task are indicated in the brackets.
+All the results are quite stable for both sub-tasks, only sopilnyak did not manage to overcomethe premise baseline, demonstrating high results (top-5) at the stance detection sub-task. The rangeof the models used to solve the task is not wide: the participants choose between (ru)BERT,(crosslingual)RoBER
+Ta(-large) and old good Logistic Regression model.
+In comparison to the baseline, all the participants trained classification models separately for eachsub-task. Evidently, multitask classification is more challenging than training classification models separately.
+Interestingly, several best results were obtained with the help of the additional datasets or/and dataaugmentation (camalibi – top-1, sevastyanm – top-2, iamdenay – top-3 for stance detection and top-4for premise classification, and also invincible – top-8). Top-1 camalibi used the special version of BER
+Tmodel in which domain-oriented dataset was actually integrated; top-2 sevastyanm utilized additionaldataset, top-3/top-4 iamdenay applied m
+T5 for paraphrase generation, top-8 invincible used randomoversampling. From these observations we can assume that any kind of additional data is beneficial forthese tasks, however, the more diverse the data is, the better.
+The most different and outstanding approach in comparison to other participants was presented by thewinner system of camalibi. This participant applied NL
+I method which performed best for both subtasks. Moreover, model trained on the English language was applied, therefore, camalibi did translatethe whole dataset for the task.
+We also compared the detailed results for the top 5 systems and the baseline. The scores are presentedin Appendix A. From than for Stance Detection. The task of Stance Detection is equally hard for all three topics, whereaswe can see that the scores for Masks Premise and Quarantine Premise are higher than Vaccines Premiseresults. It can be seen that the difference between the top 3 participants are not very much different fromeach other. As for the baseline results, we can see that the results for vaccine and quarantine are twotimes lower than the results of the (at least) top 4 participants. At the same time, Masks Stance and
+Premise results are higher than for vaccines and quarantine and not significantly different from the topresults. To sum up, we can conclude that the algorithms for the top 3 results demonstrate similar resultsacross different subsets.
+8 Conclusion
+We present the results of the first shared task on Argument Mining for Russian. For this shared task,we created a new dataset on the vital COVI
+D-19 topic. We introduce and rely on the following claims:
+Kotelnikov E., Loukachevitch N., Nikishina I., Panchenko A.“
+Vaccination is beneficial for society”, “
+The introduction and observance of quarantine is beneficial forsociety”, and “
+Wearing masks is beneficial for society”.
+Overall, 13 teams participated in the shared task, and more than half of them outperformed the baselinemodel. The winning system in both sub-tasks used the NL
+I (
+Natural Language Inference) variant of theBER
+T architecture, automatic translation into English to apply a specialized BER
+T model, pretrainedon Twitter posts discussing COVI
+D-19, and additional masking of target entities. This system showedfor stance detection F1-score of 0.6968, for premise extraction F1-score of 0.7404 which considerablyoutperforms the proposed BER
+T-based baseline (
+F1-scores of 0.4180 and 0.4355, respectively).
+According to the provided results, we see that the argument mining is a feasible task, especially on theCOVI
+D-19 dataset. All the data and codes are available online.14 We hope that these materials will helpto foster further research and developments in the area of argument mining for the Russian language.
+As future work, we see it promising to explore more complex argument mining setups such as sequencetagging (
+Chernodub et al., 2019) or information retrieval (
+Bondarenko et al., 2020).
+Acknowledgements
+The work of Natalia Loukachevitch in selection of users’ comments and stance annotation is supportedby Russian Foundation for Basic Research (project N 20-04-60296). The work of Evgeny Kotelnikov onpremise annotation is supported by Russian Science Foundation (project N 22-21-00885 15).
+14https://github.com/dialogue-evaluation/Ru
+Arg
+15https://rscf.ru/en/project/22-21-00885/Ru
+Arg-2022: Argument Mining Evaluation

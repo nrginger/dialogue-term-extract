@@ -1,0 +1,289 @@
+Morphologically annotated corpora are valuable sources of data for linguistic research and natural language processing (NL
+P) tasks like morphological tagging and parsing. Such a corpus provides each wordwith a set of values of morphological categories1 such as part-of-speech (PO
+S), case or gender.
+In the case of the Russian language, many corpora with morphological annotation exist. However,each corpus often has its own unique tagset (
+Hana and Feldman, 2010; Sharoff et al., 2008, to name a1
+Throughout the paper we will refer to each unique set of morphological features assigned to a word as a morphological
+tag.
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2022”
+Moscow, June 15–18, 2022few) and converting between them without mistakes and information loss is a challenging task. One clearexample is morphological analysis contest MorphoRu
+Eval-2017 (
+Sorokin et al., 2017). The organisersprovided four different annotated corpora and automatically converted morphological tags to the Universal Dependencies (U
+D) v2.0 format (
+Nivre et al., 2020). But most participants ended up using only onedataset because adding others did not improve the performance of their models, especially models basedon deep learning methods.
+From a linguistic perspective, merging different corpora allows linguists to widen their research scope.
+From a statistical perspective, including machine learning and deep learning, more data would allowbetter performance of morphological processing tasks because it helps with the data sparseness problem.
+Tagset conversion is challenging for multiple reasons:1. Lack of parallel data. Russian corpora have little common texts, which makes it hard to create
+conversion rules, since each word’s tag depends on context. Training a supervised conversion modelis also not possible under these circumstances.
+2. Inter-annotator agreement. Even if two corpora share the same tagset, they might follow different
+annotation guidelines because some language phenomena are debatable. These differences mightbe crucial in terms of performance for the neural taggers. This problem to a lesser extent occurswithin a single corpus when different annotators make different decisions because of the flaws inthe guideline (
+Plank et al., 2014). Another challenge occurs when inter-annotator agreement scoreis high but all annotators make the same error in some cases (
+Bočarov et al., 2013).
+3. Lack of annotated data. Some corpora are small and not representative enough to make plausible
+conversion results without the use of additional resources.
+There are many approaches to this problem. We can divide them into two groups: direct and indirect.
+Direct approaches are mainly rule-based: for a given word in a source corpus, there is a rule to convertits tag to the target corpus format based on the word’s context (including annotation). Although someautomated tools exist to provide multi-corpora tagset conversion2, it is hard to cover all possible patternsusing rules, and it requires manual correction, which is time-consuming. For example, in the process ofconverting syntactically tagged Russian text corpus SynTag
+Rus (
+Inšakova et al., 2019) to the U
+D format(
+Droganova and Zeman, 2016) some sentences were omitted due to differences in the guidelines. Somewhat similar is the task of providing a unified tagset from a number of corpora’s tagsets for comparisonpurposes (standardisation). Such tagsets usually lack some morphological features because of conversiondifficulties (
+Ljaševskaja et al., 2010; Lyashevskaya et al., 2017).
+Indirect approaches are usually based on statistical morphological taggers. Such taggers, trained onthe target corpus, intrinsically utilise source corpus annotation. These approaches are applicable to bothtasks: morphological tagging and tagset conversion. One such approach (and some variations) aimed attagset conversion trains a tagger to produce the so-called bundled tags (
+Li et al., 2015). Let 𝑇𝑇 𝑠𝑠 and 𝑇𝑇 𝑡𝑡be the set of all possible tags in source and target corpus, respectively. Then the set of all bundled tagsis a Cartesian product 𝑇𝑇 𝑠𝑠 × 𝑇𝑇 𝑡𝑡. During training, instead of predicting a correct label 𝑡𝑡𝑡𝑡𝑖𝑖 ∈ 𝑇𝑇 𝑡𝑡 the modelpredicts all labels in the set {𝑡𝑡𝑡𝑡𝑖𝑖} × 𝑇𝑇 𝑠𝑠 thus making the labels ambiguous. That allows to predict labelsfrom both tagsets at the same time. The authors tested the approach by training a PO
+S tagger on two
+Chinese corpora. This approach is practically inapplicable to Russian because there are hundreds andthousands of different morphological tags possible in a given corpus compared to a few dozens of PO
+Stags in Chinese, which keeps the Cartesian product small.
+As for the Russian language, there is one indirect approach in the literature to our knowledge, andit is based on transfer learning technique (
+Andrianov and Mayorov, 2017). Namely, the authors trainedmultiple neural taggers (one tagger per source corpus in the case of multiple source corpora) and usedtheir intermediate layers’ outputs as inputs to the main tagger trained on the target corpus.
+All those indirect approaches have one essential drawback: scalability. We often need to be able tomake the conversion in both directions, and the mentioned approaches are not easy to apply when thenumber of the target corpora is more than one.
+The primary objective of this paper is to show how unrelated Russian morphological corpora can2
+See, for example, https://pypi.org/project/russian-tagsets/
+Movsesyan A. A.benefit each other on the morphological tagging task in a scalable manner. We train a neural morphological tagger in a multitask learning setting, treating each corpus’ annotation separately but sharing theintermediate text representation. We do not use pretrained word embeddings or any other external databesides the corpora. We evaluate our model on a set of Russian corpora and also on the data provided inthe MorphoRu
+Eval-2017 contest for comparison. We show that utilising multiple corpora in a multitasksetting improves tagging performance on each tagset, but it depends on the size of the corpus. We alsoshow that treating multiple corpora sharing the same tagset separately instead of merging them leads toa better tagging performance.
+The paper is organised as follows. Section 2 describes the proposed neural tagger model. Section 3provides experimental results, which we discuss in section 4. Section 5 concludes the paper.
+2 Methods
+Our model receives a tokenised sentence in the form of word3 sequence {𝑤𝑤1, 𝑤𝑤2, . . . , 𝑤𝑤𝑛𝑛} as inputfeatures, and predicts a sequence of morphological tags {𝑡𝑡𝑗𝑗1, 𝑡𝑡𝑗𝑗2, . . . , 𝑡𝑡
+𝑗𝑗𝑛𝑛} for each tagset 𝑇𝑇 𝑗𝑗 . We providedetailed description of the model in the next sections.
+2.1 Model architecture
+The model has three basic blocks:1. word embeddings
+2. encoder layer
+3. output layer.
+We used GR
+U-based (
+Cho et al., 2014) character-level word embeddings, proven to be effective invarious NL
+P tasks, including morphological tagging (
+Heigold et al., 2017; Lukovnikov et al., 2017).
+Each word 𝑤𝑤𝑖𝑖 is represented as a sequence of its characters {𝑐𝑐1, 𝑐𝑐2, . . . , 𝑐𝑐𝑘𝑘}. Each character is representedas a one-hot encoded vector over a predefined vocabulary 𝑉𝑉 𝑐𝑐𝑐𝑐𝑐𝑐𝑐 and passed to a character embeddinglayer:𝑐𝑐𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖 = 𝑊𝑊 𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒 · 𝑜𝑜𝑜𝑜𝑜𝑜_ℎ𝑜𝑜𝑡𝑡(𝑐𝑐𝑖𝑖),where 𝑊𝑊 𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒 ∈ R𝑐𝑐𝑐𝑐𝑐𝑐𝑐_𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖𝑛𝑛𝑒𝑒_𝑠𝑠𝑖𝑖𝑠𝑠𝑒𝑒×|𝑉𝑉 𝑐𝑐𝑐𝑐𝑐𝑐𝑐|. All word’s character embeddings are then passed to aunidirectional GR
+U layer:𝑟𝑟𝑖𝑖 = 𝜎𝜎(𝑊𝑊𝑐𝑐𝑐𝑐𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖 + 𝑏𝑏𝑐𝑐 + 𝑈𝑈𝑐𝑐ℎ𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑖𝑖−1 + 𝑢𝑢𝑐𝑐),𝑧𝑧𝑖𝑖 = 𝜎𝜎(𝑊𝑊𝑠𝑠𝑐𝑐𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖 + 𝑏𝑏𝑠𝑠 + 𝑈𝑈𝑠𝑠ℎ𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑖𝑖−1 + 𝑢𝑢𝑠𝑠),𝑜𝑜𝑖𝑖 = tanh(𝑊𝑊𝑛𝑛𝑐𝑐𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖 + 𝑏𝑏𝑛𝑛 + 𝑟𝑟𝑖𝑖 ⊙ (𝑈𝑈𝑛𝑛ℎ𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑖𝑖−1 + 𝑢𝑢𝑛𝑛)),ℎ𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑖𝑖 = (1− 𝑧𝑧𝑖𝑖)⊙ 𝑜𝑜𝑖𝑖 + 𝑧𝑧𝑖𝑖 ⊙ ℎ𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑖𝑖−1 ,ℎ𝑐𝑐𝑐𝑐𝑐𝑐𝑐0 = 0,where 𝜎𝜎 is the sigmoid function, 𝑊𝑊𝑐𝑐, 𝑈𝑈𝑐𝑐,𝑊𝑊𝑠𝑠, 𝑈𝑈𝑠𝑠,𝑊𝑊𝑛𝑛, 𝑈𝑈𝑛𝑛 ∈ R𝑐𝑐𝑐𝑐𝑐𝑐𝑐_𝑐𝑖𝑖𝑒𝑒𝑒𝑒𝑒𝑒𝑛𝑛_𝑠𝑠𝑖𝑖𝑠𝑠𝑒𝑒×𝑐𝑐𝑐𝑐𝑐𝑐𝑐_𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖𝑛𝑛𝑒𝑒_𝑠𝑠𝑖𝑖𝑠𝑠𝑒𝑒 and𝑏𝑏𝑐𝑐, 𝑢𝑢𝑐𝑐, 𝑏𝑏𝑠𝑠, 𝑢𝑢𝑠𝑠, 𝑏𝑏𝑛𝑛, 𝑢𝑢𝑛𝑛 are the bias vectors, respectively. The final hidden state of the character sequence isthe word embedding of the word 𝑤𝑤𝑖𝑖:𝑤𝑤𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖 = ℎ𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑘𝑘
+As the encoder layer, we chose the Transformer model’s encoder. Not only this model showed promising results in various sequence tagging tasks (
+Devlin et al., 2019) because of its receptive field, butalso its architecture allows easier interpretation through visualisation compared to other encoder modelsincluding recurrent neural networks. We did not make any changes to the architecture besides hyperparameter tuning (we also did not use the decoder layer of the Transformer) so we refer the readers tothe original paper (
+Vaswani et al., 2017) for more details. The output of the encoder layer is3
+We treated punctuation marks as words.
+Russian neural morphological tagging: do not merge tagsets
+𝑤𝑤𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖 = 𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇(𝑤𝑤𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖 ),where 𝑤𝑤𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖 ∈ R𝑒𝑒𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚×1.
+We made |𝑇𝑇 | output layers where |𝑇𝑇 | is the number of tagsets (corpora). Each output layer projectseach encoder’s output to a probability distribution over a predefined set of tags:𝑤𝑤𝑜𝑜𝑜𝑜𝑜𝑜𝑖𝑖 = 𝑇𝑇𝑇𝑇𝑇𝑇𝑠𝑠𝑇𝑇𝑇𝑇𝑠𝑠(𝑊𝑊 𝑗𝑗𝑜𝑜𝑜𝑜𝑜𝑜𝑤𝑤𝑒𝑒𝑒𝑒𝑒𝑒𝑖𝑖 + 𝑏𝑏𝑜𝑜𝑜𝑜𝑜𝑜),where 𝑊𝑊 𝑗𝑗𝑜𝑜𝑜𝑜𝑜𝑜 ∈ R|𝑇𝑇 𝑗𝑗 |×𝑒𝑒𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚 , 𝑗𝑗 = 1, 2, . . . , |𝑇𝑇 | and 𝑏𝑏𝑜𝑜𝑜𝑜𝑜𝑜 is the bias vector. The predicted morphologicaltag in a given tagset for a given word is the tag with the highest probability. See representation of the model.
+Н е ф т я н ы е к а ч е л иНефтяные качелиGR
+U GR
+U GR
+U GR
+U GR
+U GR
+U GR
+U GR
+U GR
+U GR
+U GR
+U GR
+U GR
+U GRU
+Transformer encoder Output layer 1
+Output layer |
+T| Output layer 1
+Output layer |
+T| А МН ИМ A pl nom plen S pl nom
+S МН МУЖИМ НЕОД2.2 Model hyperparameters
+Table 1 shows the hyperparameters we used in our model. We fine-tuned these hyperparameters onceand did not change them between the experiments.
+Model part Hyperparameter Value
+Word embeddings |𝑉𝑉 𝑒𝑒𝑐𝑐𝑐𝑐𝑐| 95𝑇𝑇𝑐𝑇𝑇𝑇𝑇_𝑇𝑇𝑇𝑇𝑏𝑏𝑇𝑇𝑇𝑇𝑇𝑇𝑒𝑒𝑇𝑇𝑒𝑒_𝑇𝑇𝑒𝑒𝑠𝑠𝑇𝑇 32𝑇𝑇𝑐𝑇𝑇𝑇𝑇_𝑐𝑒𝑒𝑇𝑇𝑇𝑇𝑇𝑇𝑇𝑇_𝑇𝑇𝑒𝑒𝑠𝑠𝑇𝑇 128
+Encoder layer 𝑇𝑇𝑒𝑒𝑜𝑜𝑒𝑒𝑒𝑒𝑚𝑚 128𝑇𝑇𝑓𝑓𝑓𝑓 512𝑃𝑃𝑒𝑒𝑐𝑐𝑜𝑜𝑑𝑑 0.1
+Output layer |𝑇𝑇 𝑗𝑗 | Depends on the corpussection 2.1 and for them, we either use the notation proposed in the paper (
+Vaswani et al., 2017) or notmention them at all if we did not make any changes.
+Movsesyan A. A.
+We used the Adam optimiser with weight decay (
+Loshchilov and Hutter, 2019). Its hyperparameters as well as learning rate function are almost identical to (
+Vaswani et al., 2017) except we chose𝑤𝑤𝑤𝑤𝑤𝑤𝑤𝑤𝑤𝑤𝑤𝑤_𝑠𝑠𝑠𝑠𝑠𝑠𝑤𝑤𝑠𝑠 to be 10% of the total number of steps.
+One problem with our model is the training process. We used cross-entropy as the cost function, buteach task (each output layer) has its own cost function and simply adding them up may affect performancesince different corpora have different sizes. To overcome this issue, we adopted the approach proposedin (
+Cipolla et al., 2018). Namely, before adding up, it weighs each cost function by considering thehomoscedastic uncertainty of each task.
+3 Experiments
+We chose eight different corpora to evaluate our model. We divided them into two parts to conduct twodifferent sets of experiments. The first part consists of the manually (re)annotated corpora:1. Syntactically tagged Russian text corpus SynTag
+Rus (
+Inšakova et al., 2019). It is a subcorpus of the
+National Corpus of the Russian language. SynTag
+Rus is supplied with several types of annotation,including fully disambiguated and manually corrected morphological and syntactic annotation.
+2. Disambiguated subcorpus of the National Corpus of the Russian language (RN
+C) (
+Plungjan and
+Sičinava, 2004). This subcorpus was manually disambiguated, and it provides full morphologicalannotation.
+3. Russian Universal Dependencies Treebank annotated and converted by Google (GS
+D)4. GS
+D is a
+small treebank automatically annotated and converted into U
+D format. The current version wasmanually reannotated and provides full morphological and syntactic annotation.
+4. Russian Universal Dependencies Treebank based on data samples extracted from Taiga Corpus and
+MorphoRu
+Eval-2017 and Gram
+Eval-2020 shared tasks collections (
+Taiga)5. It includes manuallycorrected morphological and syntactic annotation.
+The second part consists of the corpora provided by the organisers of the MorphoRu
+Eval-2017 contest(
+Sorokin et al., 2017):1. U
+D SynTag
+Rus. It is the SynTag
+Rus corpus automatically converted into U
+D format.
+2. RN
+C Open. It is a smaller part of the RN
+C corpus mentioned above being automatically converted
+into U
+D format.
+3. GIC
+R. It is a morphologically disambiguated part of the General Internet Corpus of Russian (
+Piper
+ski et al., 2013). It was automatically annotated and then converted into U
+D format.
+4. Open
+Corpora. It is a morphologically disambiguated part of the Open
+Corpora project6. It was
+manually annotated and then automatically converted into U
+D format.
+We tackled some corpora differently from others. The first difference is how we split the corpora intotraining, development and test sets. GS
+D and Taiga corpora have predefined splits, so we left it as is. ForSynTag
+Rus and RN
+C, we used their intersection as test sets and split the remaining sentences randomlyso that 10% of the sentences form a development set. For the remaining four corpora, the organisersof the MorphoRu
+Eval-2017 contest provided a shared test set, so we split these corpora into train anddevelopment sets with the ratio 9:1, respectively.
+The second difference is how we collected grammemes. We used the tagset descriptions provided withSynTag
+Rus, RN
+C, GS
+D and Taiga and then omitted all non-inflectional features. For the remaining fourcorpora, we used only those grammemes which were counted at the testing phase of the MorphoRu
+Eval2017 contest.
+To collect the tagset of a corpus, we followed the following algorithm:1. Collect each word’s tag from a corpus.
+2. Exclude unused grammemes from each tag.
+3. Remove duplicate grammemes from each tag (in case of annotation errors).
+4https://universaldependencies.org/treebanks/ru_gsd/index.html
+5https://universaldependencies.org/treebanks/ru_taiga/index.html
+6http://opencorpora.org/
+Russian neural morphological tagging: do not merge tagsets
+4. For SynTag
+Rus and RN
+C: replace each tag in which any grammatical category has two or more
+different values with a special "erroneous" tag.
+5. Sort grammemes in each tag.
+6. Return unique preprocessed tags.
+See Table 2 for the detailed statistics of each corpus.
+Corpus name #
+Sentences #
+Words #
+Grammemes #
+Tags (|𝑇𝑇 𝑗𝑗 |)SynTag
+Rus 97138 1685273 45 470RN
+C 519726 7961784 62 1285GS
+D 5030 98000 52 652
+Taiga 17871 197001 54 683U
+D SynTag
+Rus 50116 931075 41 237RN
+C Open 98892 1344875 41 492GIC
+R 83148 1086148 41 292Open
+Corpora 38508 457583 41 366
+We conducted two series of experiments. The first series concerns 4 corpora: SynTag
+Rus, RN
+C, GS
+Dand Taiga. They have different sizes, tagsets and annotation guidelines. We trained 15 different neuraltaggers using different subsets of corpora (one tagger for each of the 4 corpora, one tagger for each ofthe 6 pairs, one tagger for each of the 4 triples and one tagger trained on all 4 corpora) and comparedtheir performance.
+The second series of experiments concerns the remaining 4 corpora: U
+D SynTag
+Rus, RN
+C Open,GIC
+R and Open
+Corpora. These corpora share the same tagset, they are similar in size, but they followdifferent annotation guideline. We trained and evaluated 15 different neural taggers in the same way asin the first series, but because the tagsets are the same, we were able to train another combined taggerusing a single merged corpus which consists of all 4 corpora. For that final experiment, we also mergedthe corpora’s tagsets.
+Each tagger has the same model architecture described in section 2.1. We trained each tagger for10 epochs and chose the final parameters based on the best development set performance. We did not
+use fixed mini-batch size because different sentences vary in size dramatically. Instead, each mini-batchcontained some sentences of the same length from the same corpus with the overall limit of 2048 wordsper mini-batch. Since each corpus has morphological annotation for only one output layer, we frozethe weights of other output layers during training, depending on to which corpus the sentences from thecurrent mini-batch belong.
+4 Results
+To compare the taggers, we used per-word and per-sentence accuracy. The word is tagged correctly ifthe tag predicted by tagger is the same as in the gold standard (it means that the tags’ grammemes alsomatch). The sentence is tagged correctly if each word’s tag match with the corresponding tag in the goldstandard.
+of experiments. We arranged the models in ascending order of their joint corpora size. Each line corresponds to the respective output layer, so different lines also correspond to different test sets.
+From the results, it is clear that low-resource corpora always benefit from multitask learning scenariowhen trained jointly with the larger corpora, despite their tagsets and annotation guidelines. The oppositedoes not hold. However, Taiga and GS
+D generally benefit from each other, as well as SynTag
+Rus andRN
+C. We speculate that this might be due to two reasons. The first reason is that these two pairs havecomparable corpus size. The second reason is that GS
+D and Taiga have almost identical tagsets.
+Another finding is that despite the single-task learning models show a clear trend “more data — better
+Movsesyan A. A.60646872768084889296100GSDTaigaGSD+TaigaSynTagRusGSD+SynTagRusTaiga+SynTagRusGSD+Taiga+SynTagRusRNCGSD+RNCTaiga+RNCGSD+Taiga+RNCSynTagRus+RNCGSD+SynTagRus+RNCTaiga+SynTagRus+RNCGSD+Taiga+SynTagRus+RNCGS
+D Taiga SynTag
+Rus RN
+Corder of their joint corpora size.
+performance”, the SynTag
+Rus corpus shows the best overall performance. We believe that this is becauseSynTag
+Rus has relatively small tagset, and it suffers less from the data sparseness problem.
+One limitation of our comparison is the fact that we fine-tuned the model architecture’s hyperparameters using the SynTagRus+RN
+C pair, which might be the reason why these two corpora benefit from eachother. At the same time, the best performance for each test set provide the largest or the second-largestmodel in terms of joint corpora size. This contrasts with the paper (
+Mishra, 2019): the authors utilised asimilar multitask learning approach to do PO
+S tagging of English tweets, but did not improve the resultsfor all corpora compared to a single-task learning approach.
+same manner as in Figure 2. This chart has two key differences from the previous one. The first differenceis that the performance of the model for a given tagset does not depend on the tagset’s corpus size at all:the largest corpus is RN
+C Open, and it performs poorly compared to the U
+D SynTag
+Rus and GIC
+Rcorpora. This appears to be the case of annotation guidelines differences. Since all these models sharethe same test set, the results show which corpus’ annotation guideline is closer to the test set’s one. Thisagrees with the fact that according to (
+Sorokin et al., 2017) the test set is the GIC
+R subcorpus.
+The second difference is the fact that here each corpus benefits from all others. This does not contradictthe previous findings because all these corpora have comparable size. One exception which is visible onthe U
+D SynTag
+Rus line has already been explained: using data from the GIC
+R corpus leads to betterperformance.
+The best performance of the second series of experiments achieved by the largest model with the GIC
+Rtagset prediction layer. We compared our best model with the models provided by the participants of theMorphoRu
+Eval-2017 contest in a closed setup, since we did not use any extra resources. We also addedour combined model mentioned in section 3 into comparison. The results are shown in Our best model performance is comparable to the performance of the contest participants’ models,
+Russian neural morphological tagging: do not merge tagsets47
+49
+51
+53
+55
+57
+59
+61
+63
+65
+67
+69
+71
+73
+75
+77
+79
+81
+83
+85
+87
+89
+91
+93
+95
+OpenCorporaU
+D SynTagRusGICRRN
+C OpenOpenCorpora+U
+D SynTagRusOpenCorpora+GICROpenCorpora+RN
+C OpenU
+D SynTagRus+GICRU
+D SynTagRus+RN
+C OpenGICR+RN
+C OpenOpenCorpora+U
+D SynTagRus+GICROpenCorpora+U
+D SynTagRus+RN
+C OpenOpenCorpora+GICR+RN
+C OpenU
+D SynTagRus+GICR+RN
+C OpenOpenCorpora+U
+D SynTagRus+GICR+RN
+C OpenOpen
+Corpora U
+D SynTag
+Rus GIC
+R RN
+C Openexperiments (excluding the combined model). Each line shows accuracy with respect to its output layer.
+The models are arranged in ascending order of their joint corpus size.
+Model name Per-word accuracy, % Per-sentence accuracy, %OpenCorpora+U
+D SynTagRus++GICR+RN
+C Open(GIC
+R tagset output)93.88 62.58
+Combined 91.25 52.65MS
+U-1 93.39 65.29IQUME
+N 93.08 62.71
+Sagteam 92.64 58.40
+Aspect 92.57 61.01MorphoRu
+Eval-2017 contest on the test set in a closed setup.
+Movsesyan A. A.although we did not use any dictionaries or hand-crafted features. We achieved the best per-word accuracy and third best per-sentence accuracy. The comparison with the combined model provides supportingevidence that even corpora with a shared tagset may perform poorly when merged together because ofthe differences in the annotation guidelines.
+5 Conclusion
+In this paper, we proposed a multitask learning based approach to Russian neural morphological tagging, which effectively utilises multiple corpora with different tagsets or annotation guidelines. To ourknowledge, we for the first time applied the multitask learning technique in terms of predicting tags fromdifferent tagsets to the task of morphological tagging of Russian texts.
+We showed that the effectiveness of morphological tagging depends on corpora size, tagset size andannotation consistency. Our findings help to better understand how tagset conversion affects performanceof NL
+P tasks.
+Our model is able to indirectly make tagset conversion in a scalable way taking into account differencesin the morphological annotation guidelines, but full morphologically annotated corpora conversion doesnot end there. Such corpora often have other differences, including tokenisation and lemmatisationscheme. This may constitute the object of future studies.
+Acknowledgements
+This research has been partially supported by the Ministry of Science and Higher Education of the Russian Federation within Agreement No. 075-15-2020-793.

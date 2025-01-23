@@ -1,0 +1,208 @@
+Bulgarian, RussianDO
+I: 10.28995/2075-7182-2020-19-684-695
+Stenger I., Avgustinova T. БОЛГАРСКИХ СЛОВ‑СТИМУЛОВ В ПИСЬМЕННОЙ И УСТНОЙ ФОРМАХ НОСИТЕЛЯМИ РУССКОГО ЯЗЫКАШтенгер И. (ira.stenger@mx.uni-saarland.de), Августинова Т. (avgustinova@coli.uni-saarland.de)Университет земли Саар, Саарбрюккен, ГерманияВ настоящей статье представлен материал исследования в области рецептивного мультилингвизма, в центре которого находится выявление сходств и различий в процессе успешного понимания словкогнатов незнакомого, но (близко)родственного языка в письменной и устной формах. Мы рассматриваем два славянских языка с точки зрения их взаимопонятности. В данной работе мы анализируем понятность изолированных болгарских слов-стимулов для носителей русского языка при выполнении экспериментов по свободному переводу слов-когнатов в письменной и устной формах. Результаты проведенных экспериментов свидетельствуют о достаточно высоком уровне понятности болгарских слов для носителей русского языка, а также указывают на трудности в процессе понимания в зависимости от формы восприятия. С целью объяснения полученных результатов мы анализируем, какие из лингвистических факторов играют более важную роль в понимании болгарских слов при чтении и на слух. Полученные результаты онлайн-экспериментов коррелируются со следующими переменными: а) идентичные и неидентичные соответствия на орфографическом и фонетическом уровнях, б) длина слова-стимула, в) частотность русских когнатов. Дополнительно производится оценка двух методов измерения: расстояние Левенштейна и мера неожиданности слова, в качестве потенциальных параметров, объясняющих понятность слов при чтении и на слух.
+Ключевые слова: онлайн-эксперименты, рецептивный мультилингвизм, лингвистические факторы, болгарский язык, русский язык1. Background
+Globalization and migration processes as well as the rapid development of new technologies in recent years pose new challenges in communication. In this regard, a special mode of language use known as receptive multilingualism intercomprehension becoming more and more topical. It shows the robustness of human language competence by taking on various types of information—e.g. contextual, situational, socio-cognitive—and employing multisource compensatory and guessing strategies. This unconventional communication form relies both on inherent intelligibility, i.e. when speakers of one language can Visual vs. auditory perception of Bulgarian stimuli by Russian native speakersunderstand unknown but related languages because of structural linguistic similarities, and on acquired intelligibility, i.e. when they have learnt the respective language . An acquired lingua receptiva can apply to less related or unrelated languages, too , and this is also known as mediated receptive multilingualism eases understanding between typologically distant languages through the medium of a language closely related to the target.
+In receptive multilingualism, the reading activity is expected to be essentially different from the listening one. While in listening the time available for input processing is limited, in reading one can jump back at will . In foreign language teaching and learning, for example, the listening ability is generally considered more difficult than reading comprehension. This can certainly be true of receptive multilingualism, too. Examining the mutual intelligibility of some West and South Slavic languages, slightly lower intelligibility scores in the spoken word translation task than in the written one, as well as generally lower values for the spoken cloze test in comparison to the written1 one.
+Our key assumption is that the recognition of individual cognates2 is a precondition for any further text understanding, be it via reading or listening. In (closely) related languages, the recognition of isolated words is certainly not to be equated with the reading or listening of actual texts. In addition to the identification of orthographic or phonetic similarities, further assumptions about the text—based on external characteristics, textual context, or morphological and syntactic analysis—can play a significant role in text exploration . An additional fact to consider here is that a given context is only useful for inferring purposes if it has been understood, which is not always the case in an intercomprehension scenario. While the possibility for intercomprehension is strongly linked to the amount of common vocabulary in the respective languages, the respective cognates are neither identical nor transparent enough . Therefore, it is justified to scrutinize cognate recognition in isolation, i.e. without context, and based on these findings to proceed with the exploration of entire texts.
+For our online experiments, we use the INCOMSLA
+V platform3, concentrating on the spoken and written translation of cognates. We want to see whether the degree of similarity between the source Bulgarian words and their cognate Russian targets could predict the expected mutual intelligibility, and how this might be different in visual and auditory perception. After presenting the experimental setup, we introduce linguistic factors that may influence and explain the cross-lingual intelligibility of visual and auditory linguistic input. We then present the experimental results in both modalities and analyze the influence of the linguistic factors on human performance, before we draw some general conclusions.
+1 Only participants who indicated that they could read Cyrillics were presented with written
+tasks in Bulgarian .
+2 I.e. historically (etymologically) related word pairs that still bear the same meaning in both
+languages.
+3 The website includes a large number of different online experiments in 11 Slavic languages
+(as well as in German and English) carried out as challenges in a linguistic game (http://intercomprehension.coli.uni-saarland.de).
+http://intercomprehension.coli.uni-saarland.dehttp://intercomprehension.coli.uni-saarland.de
+Stenger I., Avgustinova T. Cognate guessing and free translation
+After completing a background questionnaire, participants were asked to translate randomized 1204 written and spoken5 Bulgarian (B
+G) stimuli into their native Russian (R
+U) language in two series of 60 stimuli each. The items were taken from parallel lists consisting of internationalisms, Pan
+Slavic vocabulary, and cognates from Swadesh lists (for more details cf. , ). As we are interested in inherent intercomprehension, only people who speak R
+U natively and who do not know the stimulus language B
+G have been included in the analysis. In order to avoid any learning effects we consider here the results of the initial experiment in each modality.
+The number of participants in the written word translation task is 40, aged between 18 and 71 years (i.e. average age 33) with 32 women and 8 men6. They saw the stimuli on their screen one at a time, and had 10 seconds to translate each word. The number of participants in the spoken word translation task is 29, aged between 16 and 48 years (i.e. average age 32)7 with 23 women, 5 men, and 1 not specified. They listened to the stimuli one by one (each word was played twice), and had to provide
+a written translation within 10 seconds. The time limit was chosen based on the experience from other intercomprehension experiments, and the results were automatically categorized as ‘correct’ or ‘wrong’ via pattern matching with pre-defined correct answers and acceptable alternatives. The responses were then manually checked for typographical errors in the final analysis.
+3. Explaining variables in linguistic stimuli
+3.1. Orthographic and sound correspondences
+We distinguish between identical and mismatched correspondences and assume that identical correspondences positively affect intelligibility while that mismatched correspondences affect it negatively . We have calculated identical and mismatched correspondences by means of the Levenshtein algorithm for 120 BG–R
+U cognate pairs on the orthographic and phonetic level. For example, the BG–R
+U cognate pair автомобил —автомобиль has 9 identical orthographic correspondences and 1 mismatched orthographic correspondence and 4 identical and 5 mismatched sound correspondences.
+4 118 nouns and 2 numerals.
+5 B
+G stimuli were read aloud by a female native speaker and recorded in a professional sound
+studio.
+6 For more details of the written word intelligibility test see .
+7 In total 30 participants took part at the experiments, one male participant noticed the knowledge of the B
+G and was excluded from the analysis.
+Visual vs. auditory perception of Bulgarian stimuli by Russian native speakers3.2. Word length
+Word length has been shown to influence the intelligibility of individual words. For example, that longer words are more easily recognized than shorter words in an intercomprehension listening scenario. We calculated word lengths in terms of the number of characters and sound segments. The longest word in B
+G is автомобил and consists of 9 characters and 9 sound segments. The shortest B
+G word is еж consisting of 2 characters and 2 sound segments.
+3.3. Word frequency
+Word frequency may also influence the correct understanding of cognates, since speakers are exposed more often to frequent words . Word frequencies of R
+U cognates we use are based on frequency lists from the Russian national corpus . With regard to the stimuli, the most frequent R
+U cognate is один ‘one’ (2245.7 ipm8) and the least frequent one is кельнер ‘waiter’ (0.4 ipm). So, the initial hypothesis is that the more frequent the R
+U cognate, the easier it would be to understand the equivalent B
+G stimulus.
+4. Predictors of mutual intelligibility
+4.1. Levenshtein distance
+Linguistic similarity is commonly measured on cognates (cf. , , ) by computing the Levenshtein distance (L
+D), i.e. taking into account—for two corresponding items—the minimum number of symbols that need to be inserted, deleted or substituted in order to transform a word in one language into the corresponding word in another language. Employing a modified Levenshtein algorithm , which disallows matching between a vowel and a consonant; we have calculated the orthographic and the phonetic9 distances between 120 BG–R
+U cognate pairs. This objective measure, we calculated automatically using the incompy tool of . While in the basic form of the algorithm all string operations have the same cost, we use 0 for the cost of mapping a character/sound to itself, e.g. а:а or :, and 1 for the cost of aligning it to a character/sound of the same kind (vowel vs. consonant), e.g. а:о or :.10 To compensate 8 instances per million words
+9 For the transcription in IP
+A (
+International Phonetic Alphabet) we used the following online
+resources: https://de.glosbe.com/; https://en.wiktionary.org/wiki/Wiktionary:Main_
+Page; (18.11.2019). The missing IP
+A transcriptions for a few B
+G words were added according to Ternes, .
+10 For orthographic distance we assign only the pair e:ё a substitution cost of 0.5. For phonetic
+distance we assign only the pair : a substitution cost of 0.5. The semi-vowel correspond to a vowel and to a consonant.
+https://de.glosbe.com/https://en.wiktionary.org/wiki/Wiktionary:Main_Pagehttp://www.northeuralex.org/
+Stenger I., Avgustinova T. word length effects we normalize dividing the total sum of costs by the number of slots in the alignment. For example, the normalized L
+D of BG–R
+U cognate pair in the written condition език–язык ‘tongue/language’ is 2/4 = 0.5 or 50%, while in the spoken condition – ‘tongue/language’ it is 3/5 = 0.6 or 60%. The assumption is that the higher the normalized L
+D, the more difficult it is to understand another language in an intercomprehension scenario.
+4.2. Word adaptation surprisal
+We take an information-theoretic approach the concept of Word Adaptation surprisal (WA
+S) to approximate the difficulty humans encounter when mapping one orthographic or phonetic system. Essentially, it reveals how predictable a given correspondence is in the respective pair of languages. Technically, WA
+S is calculated in bits according to the character or sound transformation probabilities, summing up values for character adaptation surprisal (CA
+S) or sound adaptation surprisal (SA
+S), respectively. For example, CA
+S is defined as in (1).
+(1) CA
+S (
+L1 = c1|
+L2 = c2) = −log₂P(
+L1 = c1|
+L2 = c2) L1—native language, c1—character of the native language L2—stimulus language, c2—character of the stimulus language
+Since WA
+S between two words is computed by summing up the CA
+S and the SA
+S values of the contained characters and sounds in the aligned word pair, it strongly depends on the number of available word pairs (for more details see , ). Finally, we normalize the WA
+S based on the set of 120 BG–R
+U cognates. For example, the normalized WA
+S of the BG–R
+U cognate pair език–язык ‘tongue/language’ is 0.799 bits in the written condition, while in the spoken condition – ‘tongue/language’ it is 1.488 bits. The assumption is that the higher the normalized WA
+S value, the more difficult it is to comprehend the unknown language on the word level.
+5. Results of intercomprehension experiments
+The mean percentage of correctly translated items constitutes the intercomprehension score in a given modality (
+Table 1). The results show no great difference between the visual and the auditory perception of B
+G words by R
+U native speakers: the R
+U participants understand a slightly larger number of written B
+G words (71.33%) than spoken ones (68.42%).
+Bulgarian word translation task
+Native language written spoken
+Russian 71.33% 68.42%
+Visual vs. auditory perception of Bulgarian stimuli by Russian native speakers
+The next question is whether R
+U subjects are more successful in cognate guessing when they perceive the B
+G stimuli as a visual or as an auditory input. Fig. 1 presents quantitative data on the 62 successfully guessed spoken cognates (left side), the 56 successfully guessed written cognates (right side) and the two cognate pairs yielding identical scores (middle). The vertical axis expresses the difference as the percentage of correct translations.
+
+10%
+20%
+30%
+40%
+50%
+60%
+70%
+80%
+90%
+100%
+while listening (left) vs. reading (right)
+In Table 2 we split the differences between the intercomprehension scores into three categories: high (more than 60%), medium (between 60% and 30%), and low (less than 30%). For 6 B
+G words in the high-percentage group, reading gave much better results than listening, e.g., the B
+G stimulus еж correctly understood as ёж to 90% in the written translation task and only to 6% in the spoken translation task. For 10 B
+G words at the middle group, reading caused fewer difficulties than listening, e.g., the B
+G stimulus лен correctly translated in the written task as лён to 60% and in the spoken task only to 5%. These examples show that for R
+U subjects the BG–R
+U mismatched orthographic correspondence e:ё is more transparent than the respective mismatched sound correspondences. There were a total of 40 B
+G stimuli in the low-percentage group, where R
+U subjects performed better in the written than in the spoken task. Only 1 B
+G stimulus ръка much better understood by R
+U subjects in auditory perception as рука arm’ (100% intelligibly vs. 5%).
+Stenger I., Avgustinova T. difference visual perception auditory perception60–100 N = 6
+B
+G еж R
+U ёж
+N = 1B
+G ръка R
+U рука arm’30–60 N = 10
+B
+G лен R
+U лён
+N = 4B
+G кръв R
+U кровь N = 40
+B
+G дъб R
+U дуб
+N = 57B
+G език R
+U язык
+It is remarkable that the most frequent incorrect answer in the written word translation task was the R
+U word река ‘river’ which can be considered an orthographic neighbor to the B
+G stimulus and to the R
+U cognate word11. Furthermore, 4 spoken B
+G stimuli were in the middle group and 57 spoken B
+G words fell into the low-percentage group of differences with regard to intelligibility. To conclude, the slightly better performance in the written task as opposed to the spoken one (71.33% vs. 68.42%) is due to the higher number of correctly translated words in the first two groups.
+6. Correlation of intercomprehension
+scores with explaining variables
+We correlated the experimentally obtained intercomprehension scores with the explaining variables introduced in Section 3—the identical and mismatched correspondences (ic vs. mc), the word length (wl) and the word frequency (wf)—in order to determine their impact on word-level written and spoken intelligibility. An overview of the statistical results (
+Pearson’s r and p-value) is provided in scores and explaining variables
+Translation task
+Explaining variablesic mc wl wfvisual perception r = 0.3480p < 0.0001r = −0.3830p = 1.61e−05r = 0.3210p < 0.0005r = −0.0160p = 0.09auditory perception r = 0.2359p < 0.01r = 0.0550p = 0.55r = 0.3620p < 0.00005r = 0.1610p = 0.0811 Previous research shows that the neighborhood density may play a significant role in spoken and written word recognition without context , .
+For example, Bulgarian and Serbian written intelligibility to Russian native speakers shows that the higher the neighborhood density, the lower is the number of successful translations, although this is not the case for Ukrainian, Belarusian, and Macedonian stimuli when presented to Russian readers .
+Visual vs. auditory perception of Bulgarian stimuli by Russian native speakers
+In visual perception, intercomprehension scores correlate significantly with the identical and mismatched orthographic correspondences, as well as with the word length. The correlation between the written intelligibility and word frequency is not positive as assumed, but insignificant.
+In auditory perception, only two variables have an impact on word recognition: identical sound correspondences and the word length. The correlation between the intercomprehension scores and the mismatched sound correspondences is not negative as assumed, but yet insignificant. It might be the case that qualitative characteristics of the mismatched sound correspondences are more decisive in spoken word recognition than their number. We also found a positive but low and not significant correlation between the intercomprehension scores and the word frequency in the spoken modality. This was already shown by could be replicated in our experiment.
+7. Correlation of intercomprehension scores
+with predictors of mutual intelligibility7.1. Levenshtein distance
+To investigate how word intelligibility depends on orthographic and phonetic similarities, the intercomprehension scores were correlated with the respective normalized L
+Ds (
+Fig. 2).
+and spoken (right) intelligibility
+There is a negative and significant correlation of −0.566 (p = 1.47e−11) in the written modality (
+Fig. 2 left), which means that on the word level the written intelligibility can be predicted well from the normalized L
+D. This is in contrast to the spoken modality (
+Fig. 2 right), where we can see that the spoken intelligibility is not well predictable from the normalized L
+D (
+Pearson’s r = −0.1185, p = 0.197). This can Stenger I., Avgustinova T. explained by the fact that the normalized L
+D depends on the number of mismatched sound correspondences as well as on their weights and thus increases with more mismatched correspondences. The R
+U listeners seem to have a high tolerance towards the phonetic distance and are able to process sensitive sound differences quite well. To model the perception of spoken B
+G stimuli by R
+U listeners more successfully, we decided to integrate into the L
+D algorithm sensitive sound distances with a substitution cost of 0.5 between non-palatalized and palatalized consonants, as well as between the following similar correspondences: :, :, :, :, :, :, :. As a result, we found a significant negative correlation between the intercomprehension scores and the phonetic distance: (
+Pearson’s r = −0.2019, p < 0.05).
+7.2. Word adaptation surprisal
+The correlations between the normalized WA
+S and the intercomprehension scores of both translation tasks (
+Fig. 3) show that written and spoken intelligibility cannot be predicted reliably from the normalized WA
+S on the word level. Both correlations are very low and not significant (written: Pearson’s r = −0.1350, p = 0.14, spoken: Pearson’s r = −0.1492, p = 0.1).
+and spoken (right) intelligibility
+The low and insignificant correlations can be explained by the fact that identical orthographic and sound correspondences may still have a small adaptation surprisal value, which increases the whole WA
+S value. Hence, we decided to modify our normalized WA
+S calculation in such a way that all identical orthographic and sound correspondences were measured with 0 bits. The calculated CA
+S values for mismatched orthographic correspondences and the SA
+S values for mismatched sound correspondences remained unchanged in the modified calculation. After the modification of the WA
+S method, we found a negative and significant correlation between the modified normalized WA
+S and the intercomprehension scores in both conditions (written: Pearson’s r = −0.210, p < 0.05, spoken: Pearson’s r = −0.181, p < 0.05).
+Visual vs. auditory perception of Bulgarian stimuli by Russian native speakers8. Conclusions
+In a series of online experiments, we investigated how well R
+U natives could understand written and spoken B
+G words in an intercomprehension scenario. Overall, R
+U subjects are good at recognizing both written and spoken B
+G stimuli: 71.33% and 68.42% respectively. The obtained intercomprehension scores in the written task are
+only slightly higher than in the spoken one. We considered which linguistic factors can determine the mutual intelligibility and to what degree. First, we examined the individual variables that are known to affect intelligibility and found that identical correspondences and word length of the B
+G stimuli have a positive and significant impact on human performance in both perception modes. However, while the statistical analysis reveals that mismatched orthographic correspondences could be significant in negatively affecting written intelligibility, the number of mismatched sound correspondences cannot be an explanatory variable for the difficulties in spoken word recognition. The frequency of cognates is not a reliable predictor in listening as well as in reading and seems not to have any effect on word recognition. Second, we validated two predictors of written and spoken intelligibility: the normalized L
+D and normalized WA
+S. While the written intelligibility was well predictable from the orthographic distance, the explanatory potential of the phonetic distance was very small and not significant. The incorporation of sensitive sound distances into the L
+D algorithm showed a significant influence of the phonetic distance in spoken word comprehension, but still to a low degree. After the modification of the WA
+S method, we found that predictability of both orthographic and sound correspondences have slight effects on subject’s ability to understand an unknown but related language. The knowledge gained from this study will serve as a useful point for further research in understanding of the specific linguistic factors that contribute to (un)successful intercomprehension.
+9. Acknowledgements
+We wish to thank Marius Mosbach for his support in the implementation of our data in the incompy tool. This work has been funded by the Deutsche Forschungsgemeinschaft (DF
+G, German Research Foundation)—Project-I
+D 232722074—SF
+B 1102.

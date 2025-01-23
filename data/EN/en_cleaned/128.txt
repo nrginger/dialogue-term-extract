@@ -1,0 +1,239 @@
+Discourse structures are relational structures composed of discourse units (D
+Us), or instances of propositional content, and binary coherence relations over them, conveying semantic (causal, temporal) and presentational (thematic, argumentative) information expressed by a text. We represent such structures as graphs containing a set of nodes representing the D
+Us and a set of labelled arcs representing the coherence relations. In the case of dialogues occurring between multiple interlocutors, extraction of their internal discourse structures can provide useful semantic information to “downstream” models used, for example, in the production of intelligent meeting managers or the analysis of user interactions in online fora.
+Such representational schemes serve as annotation models of which discourse theorists have proposed several: (RS
+T1 , LD
+M2 , Graphbank , DLTA
+G , PDT
+B3 SDR
+T4 ). Much of computational discourse-analysis is based on RS
+T, which supposes that discourse structures are trees. However, this assumption becomes very difficult to maintain for dialogue even more unnatural for multi-party dialogue, which presents many examples of non-treelike structures the one shown in the Figure 1.
+respond to a question asked at 234 (linked via edges labelled as Question
+Answer Pair), and the interlocutor at segment 239 responds to each answer (linked with Acknowledgement)
+Such examples motivate the SDR
+T annotation model, in which discourse structures are not assumed to be trees but rather directed acyclical graphs (DA
+Gs) . SDR
+T was used to annotate the STA
+C corpus5, which is the corpus on which we trained 1 Rhetorical Structure Theory
+2 Linguistic Discourse Model
+3 The Penn Discourse Treebank
+4 Segmented Discourse Representation Theory
+5 link to STA
+C corpus: https://www.irit.fr/STA
+C/index.html
+Learning multi-party discourse structure using weak supervisiona supervised deep learning model and a weakly supervised model in the discourse structure learning task in order to then compare them.
+The data programming paradigm was introduced by Hazy Research in 2016 with a framework Snorkel using distant, disparate knowledge sources to apply noisy labels to large data sets, and then using those labels to train classic data-hungry machine learning (M
+L) algorithms. The data programming paradigm allows us to unify these noisy labels in order to generate a probability distribution for all labels for each data point. This set of probabilities replaces the ground-truth labels in a standard discriminative model outfitted with a noise-aware loss function and trained on a sufficiently large data set.
+In this study the structure learning problem is restrained to predicting attachment between D
+U pairs. After training a supervised deep learning algorithm to predict attachments on the full STA
+C corpus, we then constructed for comparison a weakly supervised learning system in which we used 10% of the corpus as a development set. SDR
+T experts who annotated the corpus wrote a set of Labeling Functions (L
+Fs) and tested them against this development set. We treated the remainder of the corpus as raw/unannotated data. After applying the L
+Fs to the unannotated data and obtaining the results from the generative and discriminative models, we found that we gained in accuracy over ten points with respect to the supervised method. When the generative model was used in stand alone fashion, we gained almost 30 points in F1 score over the supervised method, which uses a state of the art deep learning model. When we think of the time it takes experts to hand-annotate dialogues, this means that the generative model and weak supervision may be far preferable to straight deep learning methods, in at least some cases.
+2. Attachment Prediction: State of the Art
+A discourse structure in SDR
+T is defined as a graph ⟨
+V, E1, E2, ℓ, Last⟩, where: V is a set of nodes or discourse units (D
+Us) and E1 ⊆ V2 is a set of edges between D
+Us representing coherence relations. E2 ⊆ V2 represents a dependency relation between CD
+Us6 and their constituent D
+Us. ℓ: E1 → R is a labeling function that gives the semantic type (an element of R) of an edge in E1, and Last is a designated element of V giving the last D
+U relative to textual or temporal order.
+The process of learning an SDR
+T structure for a dialogue or text has three natural steps:1. Segment the text into D
+Us
+2. Predict the attachments between D
+Us, i.e. identify the elements in E1 and E2
+3. Predict the semantic type of the edge in E1
+In this paper, we focus on the second step, attachment prediction, the goal of which is to determine a substructure, ⟨
+V, E1, E2, Last⟩, of the complete discourse 6 SDR
+T also allows for Complex Discourse Units (CD
+Us), which are clusters of two or more
+D
+Us which can be connected as an ensemble to other D
+Us in the graph. The CD
+Us which are themselves graphs that can serve as arguments of coherence relations.
+Badene S., Thompson K., Lorré J
+P., Asher N. graph. This is a difficult problem for automatic processing: attachments are theoretically possible between any two D
+Us in a dialogue or text, and often graphs include long-distance relations. The attachment problem as we have stated it is endemic to SDR
+T and theories that posit dependency structures for discourse. In RS
+T the problem of attachment is less clear (see ).
+one of the first papers we know of on discourse parsing that targets the attachment problem. It targets a restricted version of an SDR
+T graph, a dependency tree in which CD
+Us are eliminated by a “flattening” strategy similar to the one we use below. This means that the target representations are of the form ⟨
+V*, E*1, Last⟩, where V* is V with the CD
+Us removed and E*1 results from running the flattening strategy on E1. It trains a simple Max
+Ent algorithm to produce structures probability distributions over pairs of elementary discourse units and exploits then global decoding constraints to produce the targeted structures. It reports F1 scores of 66.2% with the A* algorithm.
+In terms of discourse structure prediction for multi-party dialogues, Perret et al. (2016) a more elaborate approximation of the SDR
+T graphs: DA
+Gs in which CD
+Us are eliminated from V and the relations on CD
+Us are distributed over their constituents. As with , this requires another reworking of E1. Perret et al. then uses Integer Linear Programming (IL
+P) to encode both the objective function and global decoding constraints over local scores on multi-party dialogues and achieves an F-measure of 0.689 on unlabelled attachment.
+3. The STA
+C Annotated Corpus
+3.1. Overview
+STA
+C is a corpus which captures strategic conversation between the players of an online version of the game Settlers of Catan. The full corpus contains 45 games, each of which is divided into an average of 57 dialogues. A dialogue begins at the beginning of a player’s turn, and ends at the end of that player’s turn. During the interim, players can bargain with each other or make spontaneous conversation. These player utterances are “linguistic” turns, whereas “announcements” made by the game Server regarding the game state or a certain player status are “non-linguistic” turns. Both types of turns are segmented into discourse units (D
+Us), and these units are then connected by a semantic relations of one of the 17 types admitted by SDR
+T. As a result, each dialogue contains a weakly connected DA
+G which is its discourse structure.
+Learning multi-party discourse structure using weak supervision
+Sequence (dark blue), Result (green), linguistic turns spoken by players and non-linguistic turns emitted by “
+Server” or “U
+I”3.2. Data Preparation
+The full STA
+C corpus includes 2,593 dialogues (or discourse structures), 12,588 linguistic D
+Us, 31,811 non-linguistic D
+Us and 31,251 semantic relations.
+As discussed above, our task is to predict, for each dialogue, for each possible pair of D
+Us, whether the D
+Us are connected by a semantic relation, an operation which eventually yields a discourse structure for the dialogue. Before beginning our experiments, we implemented the following simplifying measures:1. Roughly 56% of the total dialogues contain only non-linguistic D
+Us. These
+represent player turns in which no players bargain or chat with one another. The annotations in these dialogues are fairly regular given the purely mechanical succession of D
+Us, and are much less difficult and less interesting from a discourse analysis perspective. For this reason we ignore these nonlinguistic-only dialogues for our prediction task.
+2. In the corpus, shorter relations are more frequent than long-distance relations such that 67% of relations occur between adjacent D
+Us, and 98% of relations have a distance of 10 or less. (
+A relation of distance 10 stretches over
+9 D
+Us between the source and the target D
+U.) In order to avoid a combinatory explosion of possible D
+U pairs, we restrict the relations we consider
+to a distance of 10 or less.
+3. Out of the 17 possible relation types allowed by SDR
+T, we consider only
+the 4 most frequent: Question-answer-pair, Sequence (temporal), Result (causal), Continuation (thematic continuity). We retain about 70% of the Badene S., Thompson K., Lorré J
+P., Asher N. total relations. The reason for this choice will become apparent in following detailed discussion of labeling functions.
+4. Because we are here only interested in predicting attachment between single
+D
+Us, following “flatten” the CD
+Us by connecting all relations incoming or outgoing from a CD
+U to the “head” of the CD
+U, or its first D
+U. This results in shifts in the source and/or target D
+Us for about 40% of the relations.
+5. In order to reduce run-time for each rule during development, we created
+“sandbox” sets for each relation type: smaller versions of the development set which ignored all candidate pairs except those which could possibly be attached by the relation type in question. We have a sandbox data set for the rules pertinent to a particular discourse relation and a larger sandbox data set for the rules for the four discourse relations that we examined.
+After the above preparation, the STA
+C corpus as we use it in our learning experiments includes 1,130 dialogues, 12,509 linguistic D
+Us, 18,576 non-linguistic D
+Us and 22,098 semantic relations. (
+Here again we are only considering the 4 relations Question-answer-pair, Sequence, Result and Continuation.)4. The Data Programming Pipeline: Experiments
+4.1. Candidates and Labeling Functions
+In constructing our weak supervision system, we took inspiration from the Snorkel implementation7 of the data programming paradigm. The first step in the Snorkel pipeline is candidate extraction, followed by L
+F creation. Candidates are the units of data from which labels will be predicted; L
+Fs are the simple expert-composed functions which will predict a label for each candidate. The prototypical Snorkel task is to predict whether there is a certain type of relation between two entities in a sentence within a text: candidates are pairs of entities extracted from sentences, and L
+Fs are written using contextual information at the sentence level.
+In the case of dialogue attachment prediction, we needed to find a way to give our L
+Fs access to contextual information from the entire dialogue which they could apply to each candidate, or pair of D
+Us within a dialogue. We did this by fixing the order in which each L
+F would “see” the candidates such that it would consider adjacent D
+Us before distant D
+Us, and thus the L
+F would know its current position in a dialogue. We also allowed L
+Fs to keep track of previously predicted relations to give them some information about dialogue history. Other information leveraged by the L
+Fs included the D
+U raw text, speaker identities, the D
+U dialogue acts, D
+U types (linguistic or nonlinguistic) and the distance between D
+Us.
+7 https://hazyresearch.github.io/snorkel/
+Learning multi-party discourse structure using weak supervisionof the first argument is understood to cause the eventuality given by the second. Here we show a sample of our rules written in python for the relation Result connecting two linguistic discourse units
+As we are at present concerned only with predicting attachments, each L
+F returns a 1, a 0 or a −1 (“attached”/“do not know”/“not-attached”) for each candidate. However, each of our L
+Fs is written and evaluated with a specific relation type Result, QA
+P, Continuation and Sequence in mind. In this way, L
+Fs also leverage a kind of type-related information. This makes sense from an empirical perspective as well as an epistemological one: an attachment decision concerning two D
+Us is tightly linked to the type of relation relating the D
+Us, and so when an annotator decides that two D
+Us are attached, he or she does so with some knowledge of what type of relation attaches them. with the Result relation in mind.
+4.2. The Generative Model
+Once we have applied the L
+Fs to all the candidates, we then move to the generative step. In Snorkel, the generative model unifies the results of the L
+Fs, which is a matrix of labels given by each L
+F (columns) for each candidate (rows). Though the simplest approach to unification would be to take the majority vote among the L
+Fs for each candidate, this is less effective in cases where all the L
+Fs abstain or give “0”. Further, this approach would not take into account the individual performances of the L
+Fs. And so the generative model as specified in (1) provides a general distribution of marginal probabilities relative to n accuracy dependencies 𝜙j(Λi; yi) between an L
+F 𝜆j and true labels yi that depend on parameters theta 𝜃i.
+
+Badene S., Thompson K., Lorré J
+P., Asher N. The parameters are estimated without access to the ground truth labels by minimizing the negative log marginal likelihood of the output of an observed matrix Λ as in (2).
+
+This objective is optimized by interleaving stochastic gradient descent steps with Gibbs sampling ones. The model thus uses the accuracy measures for the L
+Fs in (1) to assign marginal probabilities that two D
+Us are attached to each candidate. In this model, the true class labels yi are latent variables that generate the labeling function outputs, which are estimated via Gibbs sampling.
+This calculation presupposes that the L
+Fs are independent. However, the L
+Fs are often dependent: one might be a variation of another or they might depend on a common source of distant supervision. If we don’t take this into account, we risk assigning incorrect accuracies to the L
+Fs. Getting users to indicate dependencies by hand, however, is difficult and error-prone. The generative model in Snorkel comes with the option of automatically selecting which dependencies to model without access to ground truth. It uses a pseudo-likelihood estimator, which does not require any sampling or other approximations to compute the objective gradient exactly. It is much faster than maximum likelihood estimation, because the estimator relies on a hyper-parameter ∈ that trades off between predictive performance and computational cost. With large values of ∈ no correlations are included and as it reduces the value progressively more correlations are added, starting with the strongest.
+4.3. Discriminative Model
+While the generative model outputs the marginal probabilities for each of the labels for each candidate, the discriminative model generalizes this output and augments the coverage of the L
+Fs. While this may lead to a small reduction in precision, it is in exchange for a boost in recall.
+We used BER
+T’s classification model (source code on the link bellow8) with 10 training epochs and all default parameters otherwise. BER
+T, the Bidirectional Encoder Representations from Transformers, is a text encoder pre-trained using language models where the system has to guess a missing word or word piece that is removed at random from the text. Originally designed for automatic translation tasks, BER
+T uses bi-directional self-attention to produce the encodings and performs at the state of the art on many textual classification tasks. While in principle we could have used any discriminative model, as is suggested in the Snorkel literature, BER
+T gave us by far the best results on attachment prediction. For this reason we also used BER
+T as our model for supervised learning of attachment to compare its results with those of the weak supervision method.
+8 Link to BER
+T sequence classification model code: https://github.com/huggingface/pytorchpretrained-BER
+T/blob/master/examples/run_classifier.py
+Learning multi-party discourse structure using weak supervision5. Results and Analysis
+In order to write a set of L
+Fs/rules which adequately covered the data, we had to find a way to reasonably divide and conquer the myriad characteristics of the relations. We started by focusing on relation type: for each of the four most frequent relation types, we wrote a separate rule for each of the sets of endpoint types most prevalent for that relation. Result (RE
+S) is the only relation type which was found between all four endpoint permutations: L
+L (linguistic source-linguistic target), LN
+L (linguistic source, non-linguistic target), etc. We used the relation behavior observed in our development/sandbox sets to write and revise the rules. The development set consisted of 3 games (10% of our data). The table 1 shows the performance of each rule on its own “sandbox” development set.
+positives, false negatives and accuracy score for each L
+F when applied to the “sandbox” candidates from the STA
+C dataT
+P T
+N F
+P F
+N AccuracyQA
+P L
+L 294 1798 112 138 0.89QA
+P NLN
+L 84 187 0 0 1.00RE
+S NLN
+L 739 2,929 13 55 0.98RE
+S LN
+L 13 2158 93 97 0.91RE
+S L
+L 25 316 19 37 0.85RE
+S NL
+L 2 139 0 2 0.98
+Cont L
+L 16 9,818 110 106 0.97
+Cont NLN
+L 613 3,254 0 1 0.99SE
+Q NL
+L 90 658 2 14 0.97SE
+Q NLN
+L 236 1,220 10 76 0.94with the weakly supervised and supervised approaches on the sandbox data set
+Generative Model Discriminative Model on Test
+Dev Train Test with Marginals with Gold annotations
+Precision 0.67 0.70 0.68 0.45 0.61
+Recall 0.84 0.85 0.84 0.54 0.53
+F1 score 0.75 0.77 0.75 0.49 0.57
+Accuracy 0.92 0.93 0.92 0.84 0.88
+We first evaluated the L
+Fs for each discourse relation type individually on the development corpus, providing a measure of their coverage and accuracy on a subset of the data. Then we evaluated the generative model on the combination of the four L
+F types and the discriminative model on the test set of the corpus. The table 2 presents the results at the end of each step in our weak supervision system. To compare the two approaches, the discriminative model was first trained on the marginals provided Badene S., Thompson K., Lorré J
+P., Asher N. by our generative model, then on the “gold” annotations, which are manual annotations of the Stac corpus.
+We find the results of the generative model striking as they are almost 20 points higher in F1 score concerning positive attachment over the discriminative model trained on the gold annotations. This shows the power of the rule based approach even when compared to a state of the art deep learning system. Another interesting point is that the discriminative model can still perform acceptably with the marginals data compared to its performance using the gold annotations; its accuracy is only 4 points lower and its F1 score is 8 points lower but still comparable with results in the literature, showing that the generative model has information to offer that the discriminative model can exploit well—thus opening up the possibility for transfer learning. Rather than naively treat these noisy training labels as ground truth, our noise-aware discriminative model gives a slight improvement in recall with a decrease in precision compared to the supervised approach. With respect to the individual L
+Fs in isolation, we find that, apart from QA
+P, our rules for each relation type have an accuracy, precision and recall comparable to those for the supervised models. One reason for our lower precision for QA
+P may be attributable to a deficiency in the flattening procedure the effects QA
+P more frequently; in some cases the flattening algorithm re-attaches the QA
+P relation to a CD
+U head which was not in fact the component of the CD
+U which marked the question. What is interesting is the synergy between the rules such that when they all interact on the test data, they do very well on the generative model.
+6. Conclusions and Future Work
+Having chosen a single discriminative model for all our experiments, we were able to compare our weak supervision approach, in which we leveraged parts of the Snorkel system, with that of a standard supervised model on the difficult task of discursive attachment. Our approach allows us to model the discourse more precisely and to be generalized to other corpora. In contrast to a supervised algorithm, our results on the generative model are almost 30 points higher without covering all types of rules. In addition, we generate a lot of annotated data in a very short time.
+In future work, we plan to enrich our weak supervision system by first covering all 17 types of SDR
+T relations on all data. We also plan to give L
+Fs access to more sophisticated context which will take into account sequence-constraints in the attachments of the complete conversation and global structuring constraints. We will at that point be in a position to evaluate the structure of the global discourse by using our structured predictions as inputs to a maximum spanning tree (MS
+T) for example. And in a broader scope, our experiments with this paradigm may suggest possible lines of inquiry into how weakly supervised methods might effectively capture the global structural constraints on discourse structures without decoding or elaborate learning architectures.
+Learning multi-party discourse structure using weak supervision

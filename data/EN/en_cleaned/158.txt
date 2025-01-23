@@ -1,0 +1,243 @@
+Natural language generation (NL
+G) is one of the important areas of computational linguistics. It aims to produce plausible and readable text in a human language. In recent years, the use of large-scale pretrained language models (PL
+Ms), in particular transformer-based PL
+Ms , has shown promising results, allowing generating more diverse and fluent texts. Modern neural network models such as GP
+T-3 create texts that are difficult to distinguish from texts written by a human. NL
+G technologies are crucial in many applications such as dialogue and question-answering systems, story generation, advertising, marketing, product and service reviews. Controllable Text Generation is a problem actively explored in NL
+G. This is the task of generating texts that meet certain control constraints set by a human . Sentiment, keywords, events, etc. can be considered as such constraints. For example, when generating a story, it is important to control the storyline and the ending. There are two types of control over text generation models: soft and hard control. The aim of soft control is, e.g., to provide the desired sentiment or topic of the generated text. Hard control requires ensuring that the text contains explicit constraints, e.g., certain keywords. of hard controllable text generation, where the story is generated according to the keywords provided by the storyline and the order in which they appear . needed → money → computer → bought → happy Generated story John needed a computer for his birthday. He worked hard to earn money. John was able to buy his computer. He went to the store and bought a computer. John was happy with his new computer. Many existing controllable generation methods , , the creation of training corpora and the implementation of a training procedure that is labor intensive and time consuming. This paper overcomes this problem by developing a plug-and-play method applicable to any large-scale PL
+M. Currently, there are not enough studies on the controllable text generation in Russian, so the proposed method is tested on Russian language models and text corpora. The idea of the method is to generate a set of short sequences of words that provide a coherent transition from the prompt to the guide phrase, and then estimate the probability of following the guide phrase after each generated sequence and choose the most probable sequence. This method is plug-andplay, i.e. it can be used with any autoregressive model. The experiments carried out on generating stories from a set of events that make up the plot of a story prove the effectiveness of the proposed method for creating texts from a set of plot phrases. The contribution of the paper is as follows: • we offer Max
+Prob – a method of controllable text generation that generates stories in accordance with a user-specified sequence of guide phrases that make up the plot of the story; • we apply the method to the Russian language; • we form a text corpus containing stories with extracted storylines; • we experiment with story generation to confirm the effectiveness of the proposed method. Vychegzhanin S. V., Kotelnikova A. V., Sergeev A. V., Kotelnikov E. V.2 Previous work This section discusses the existing methods of controllable text generation that can be applied to the problem of story generation, which is of primary research interest. Automated story generation is the problem of mechanically selecting a sequence of events or actions that meet a set of criteria and can be told as a story . Each story has a story world, interacting characters, and objects. The complexity of the story generation task is to generate a coherent and fluent story that is much longer than the userspecified prompt. Controllable generation methods can be classified into three categories : fine-tuning, retraining or refactoring, post-processing. Fine-tuning PL
+Ms on a specialized data set is the main way to interact with models. Methods of this type fine-tune some or all of the model parameters to create texts that satisfy certain constraints. Early work on controllable story generation used convolutional and recurrent neural networks. Fan et al. a two-stage hierarchical approach. At the first stage, using the convolutional neural network, a premise, which determined the structure of the story, was generated. Then the premise was converted into a text passage using the seq2seq model. Yao et al. the RAK
+E algorithm build a storyline for each story from the corpus at the training stage using the most important words. After the storyline was generated, the seq2seq model converted it into text. Reinforcement learning can be used for controllable story generation. For example, Tambwekar et al. a reward-shaping technique that produces intermediate rewards at all different timesteps, which are then back-propagated into a language model in order to guide the generation of plot points towards a given goal. Later, pre-trained language models based on the Transformer architecture began to be used for controllable generation. The prompt-based approach became widespread. Li and Liang a method called “prefix tuning” that freezes the parameters of the PL
+M and performs error backpropagation to optimize a small continuous task-specific vector called “prefix”. A similar P-tuning method from prefix tuning in that it does not place a prompt with the “prefix” in the input, but constructs a suitable template composed of the continuous virtual token, which is obtained through gradient descent. Retraining or refactoring involves changing the architecture of the language model or retraining a model from scratch. This approach is limited by the insufficient amount of labeled data and the high consumption of computing resources. One of the first models in this direction was CTR
+L . The model was trained on a set of control codes. Zhang et al. POINTE
+R, an insertion-based method for hard-constrained text generation, which involves preserving of specific words. Cho et al. Story Control via Supervised Contrastive learning model to create a story conditioned on genre. The model learns conditional probability distribution by supervised contrastive objective, combined with log-likelihood objective. Methods based only on using a decoder are called post-processing. Such methods require less computational resources. A representative of this group of methods is PPL
+M , which first trains an attribute discriminant model and then uses it to guide language model to generate the text with corresponding topic or sentiment. This group also includes the Keyword2
+Text method , which can be applied to an existing autoregressive language model without additional training. The idea of the method is to shift the output distribution of the language generation model to the semantic space of a given guide word in the word2vec or Glo
+Ve vector space. A similar idea is used in , but the difference is that the score function of the autoregressive language model is modified with the score function of another language model from the family of autoencoding models rather than with the cosine similarity to the target keyword. Yang et al. the Re3 framework to automatically generate longer stories of over two thousand words. Re3 first creates a structured plan, setting and characters by prompting GP
+T-3 with a premise. Then Re3 injects contextual information from both the plan and current story state into new GP
+T-3 prompt to generate new story passages. In this paper, we propose a post-processing method that implements a decoding strategy based on heuristics. The difference from previous works , in the fact that at each generation step for small sequences of tokens, the probability of following the guide phrase is estimated. The method is based on the idea that choosing a sequence of tokens, after which the probability of following the guide phrase is maximum, will induce the model to generate text, shifting its content to the guide phrase. Max
+Prob: Controllable Story Generation from Storyline3 Controllable text generation
+In this paper, we consider conditional probabilistic models for which the probability of the output text 𝑋𝑋𝑋𝑋 = {𝑥𝑥𝑥𝑥1, … , 𝑥𝑥𝑥𝑥𝑛𝑛𝑛𝑛} can be factorized by tokens: 𝑃𝑃𝑃𝑃(𝑋𝑋𝑋𝑋) = �𝑃𝑃𝑃𝑃(𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖|𝑥𝑥𝑥𝑥<𝑖𝑖𝑖𝑖)𝑛𝑛𝑛𝑛𝑖𝑖𝑖𝑖=1, (1) where 𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖 denotes the i-th output token, and 𝑥𝑥𝑥𝑥<𝑖𝑖𝑖𝑖 denotes previous tokens 𝑥𝑥𝑥𝑥1, … , 𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖−1. In accordance with formula (1), the goal of conditional text generation can be formulated as follows: 𝑃𝑃𝑃𝑃(𝑋𝑋𝑋𝑋|𝐶𝐶𝐶𝐶) = �𝑃𝑃𝑃𝑃(𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖|𝑥𝑥𝑥𝑥<𝑖𝑖𝑖𝑖 ,𝐶𝐶𝐶𝐶)𝑛𝑛𝑛𝑛𝑖𝑖𝑖𝑖=1, (2) where 𝐶𝐶𝐶𝐶 denotes the control conditions and 𝑋𝑋𝑋𝑋 is the generated text, which complies with the control conditions. While generating, sequences of natural language units (symbols, words, or sentences) are decoded from the probability distribution 𝑃𝑃𝑃𝑃. The decoding strategy plays an important role. At each time step, it selects tokens from the probability distribution over a model vocabulary. Beam search nucleus sampling examples of known decoding strategies. Generative language models such as GP
+T learn to predict the next token in a given sequence of tokens. Text generation is a natural application for such models. However, when predicting the next token of a sequence, they are not able to take into account the context following it, which is supposed to be the content of the generated text. In this study, we propose the Max
+Prob method, which at each generation step determines the most probable sequence of tokens for logically linking the prompt and the guide phrase that should be used in the text. The idea of the method is based on using intrinsic knowledge of a pre-trained language model to evaluate the token sequences and select the appropriate sequence for a coherent transition to the guide phrase. The proposed method can be applied to any autoregressive language model. Let us consider the sequence 𝑋𝑋𝑋𝑋 = {𝑥𝑥𝑥𝑥1, … , 𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖−1, 𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖 , 𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖+1, … , 𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖+𝑘𝑘𝑘𝑘 , 𝑡𝑡𝑡𝑡, … , 𝑡𝑡𝑡𝑡𝑚𝑚𝑚𝑚}. For a given prompt = {𝑥𝑥𝑥𝑥1, … , 𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖−1} and a guide phrase 𝑇𝑇𝑇𝑇 = {𝑡𝑡𝑡𝑡1, … , 𝑡𝑡𝑡𝑡𝑚𝑚𝑚𝑚} theoretically it is possible to find the connecting sequence 𝑋𝑋𝑋𝑋𝑖𝑖𝑖𝑖:𝑖𝑖𝑖𝑖+𝑘𝑘𝑘𝑘 = {𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖 , 𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖+1, … , 𝑥𝑥𝑥𝑥𝑖𝑖𝑖𝑖+𝑘𝑘𝑘𝑘} using exhaustive search of tokens from the model vocabulary. However, such search has an exponential dependence on the length of the connecting sequence and is not applicable in practice. Therefore, in order to reduce the number of variants we propose a heuristic technique for generating and evaluating connecting sequences (
+Fig. 2).
+Promptxi+1,1xi,1 ... xi+k,1xi+1,rxi,r ... xi+k,r... xi-1 t1
+Guide phrase... tmxi+1,2xi,2 ... xi+k,2
+Connecting sequencesP1P2Pr=P(T|
+X≤ i+k,r)...... ... ...
+max(P1,…,Pr)=
+P2 First, as continuations of the prompt 𝑋𝑋𝑋𝑋1:𝑖𝑖𝑖𝑖−1, 𝑟𝑟𝑟𝑟 different sequences of tokens of length 𝑘𝑘𝑘𝑘 + 1 are generated using some decoding strategy. Next, for each of the 𝑟𝑟𝑟𝑟 sequences, the probability of following the guide phrase 𝑇𝑇𝑇𝑇 after it is determined by the formula: 𝑃𝑃𝑃𝑃(𝑋𝑋𝑋𝑋𝑖𝑖𝑖𝑖:𝑖𝑖𝑖𝑖+𝑘𝑘𝑘𝑘|𝑋𝑋𝑋𝑋1:𝑖𝑖𝑖𝑖−1,𝑇𝑇𝑇𝑇) = 𝑃𝑃𝑃𝑃(𝑇𝑇𝑇𝑇|𝑋𝑋𝑋𝑋≤𝑖𝑖𝑖𝑖+𝑘𝑘𝑘𝑘) = �𝑃𝑃𝑃𝑃�𝑡𝑡𝑡𝑡𝑗𝑗𝑗𝑗|𝑡𝑡𝑡𝑡<𝑗𝑗𝑗𝑗 ,𝑋𝑋𝑋𝑋≤𝑖𝑖𝑖𝑖+𝑘𝑘𝑘𝑘�𝑚𝑚𝑚𝑚𝑗𝑗𝑗𝑗=1. (3) Vychegzhanin S. V., Kotelnikova A. V., Sergeev A. V., Kotelnikov E. V.
+Further, at the current generation step, a sequence is selected for which the probability (3) is maximum, and the sequences of length 𝑘𝑘𝑘𝑘 + 1 are repeatedly generated. In order to fulfill the condition of the explicit presence of the guide phrase in the text, after the generation of a given number of tokens is completed, this phrase can be inserted in the position in the text where it had the maximum probability for the entire generation time. After the phrase is inserted, the generation can continue towards the next guide phrase. Formula (3) makes it possible to estimate the probability of following the guiding phrase for each connecting sequence of tokens, but does not evaluate their semantic similarity. There may be cases where semantic similarity is more important than the likelihood of following the guide phrase. To assess the similarity of the connecting sequence and the guide phrase, it is proposed to use the Jaccard coefficient: 𝐾𝐾𝐾𝐾𝐽𝐽𝐽𝐽 =𝐶𝐶𝐶𝐶𝐴𝐴𝐴𝐴 + 𝐵𝐵𝐵𝐵 − 𝐶𝐶𝐶𝐶, (4) where 𝐴𝐴𝐴𝐴 is the set of words in normal form from the prompt, 𝐵𝐵𝐵𝐵 is the set of words in normal form from the guide phrase, 𝐶𝐶𝐶𝐶 is the set of common words for the prompt and the guide phrase. Taking into account formulas (3) and (4) for connecting sequences, the average score, which establishes a balance between the two measures, can be determined by the formula: 𝑆𝑆𝑆𝑆𝑆𝑆𝑆𝑆𝑆𝑆𝑆𝑆𝑟𝑟𝑟𝑟𝑆𝑆𝑆𝑆𝑋𝑋𝑋𝑋𝑖𝑖𝑖𝑖:𝑖𝑖𝑖𝑖+𝑘𝑘𝑘𝑘 = 𝑤𝑤𝑤𝑤𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑃𝑃𝑃𝑃𝑛𝑛𝑛𝑛𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝 + 𝑤𝑤𝑤𝑤𝐽𝐽𝐽𝐽𝐾𝐾𝐾𝐾𝐽𝐽𝐽𝐽, (5) where 𝑤𝑤𝑤𝑤𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝 , 𝑤𝑤𝑤𝑤𝐽𝐽𝐽𝐽 are weight coefficients, 𝑃𝑃𝑃𝑃𝑛𝑛𝑛𝑛𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝 is the normalized probability of following the guide phrase. Thus, at each time step, the proposed method allows selecting the most logical sequence of tokens for linking the prompt and the guide phrase, based on the knowledge of the generative model itself. As an example of how the method works, let us consider a text at some i-th generation step and a guide phrase separated by a sequence of unknown tokens, for example, of length 3 (
+Fig. 3). In the figure, the prompt for the autoregressive model is highlighted in blue, and the guide phrase is highlighted in orange. The connecting sequence is marked with labels <x1><x2><x3>. в лесу, около речки, сидел мальчик с бабушкой. Вдруг в это время из-за <x1><x2><x3> волк напал на ребенка Once in the forest, near the river, a boy was sitting with his grandmother. Suddenly, at this time, <x1><x2><x3> the wolf attacked the child P K
+J <x1><x2><x3>, Russian <x1><x2><x3>, English 0.944 3.20
+E-11 0.200 кустов вышли волки wolves came out from behind the
+bushes 0.226 6.50
+E-12 0.200 поворота вышел волк, a wolf came out from around the
+corner, 0.105 1.90
+E-13 0.100 дерева на поляну from behind a tree to a clearing
+0.100 4.60
+E-18 0.100 дерева выскочило from behind a tree jumped out
+0.100 9.30
+E-19 0.100 деревьев вышел лев, a lion came out from behind the
+trees, 0.100 5.70
+E-22 0.100 деревьев вышли три from behind a tree appeared three
+0.100 3.00
+E-24 0.100
+деревьев показалась большая from behind a tree appeared a large 0.052 2.80
+E-13 0.100 деревьев выскочили from behind the trees jumped out
+0.048 1.70
+E-13 0.100 поворота леса вышел from around the corner of the forest
+came out 0.044 9.40
+E-15 0.100
+поворота речки выскочил out of the turn of the river, jumped out
+Prob: Controllable Story Generation from Storyline
+The prompt is an input of the autoregressive model. With some decoding strategy, such as top-k sampling, 𝑟𝑟𝑟𝑟 different sequences of 3 tokens <x1><x2><x3> are generated. For them, the probabilities of following the guide phrase P and the Jaccard coefficients K
+J are calculated. The calculated values are averaged by formula (5). The sequences of tokens are sorted in descending order of Score, and the sequence with the highest value of the average score is selected. The selected sequence is attached to the prompt, and the generation process continues until the specified number of tokens is generated. 4 Text corpus
+To conduct experiments, a text corpus1 was formed from fairy tales in Russian with extracted storylines. The corpus is made up of fairy tales placed on nukadeti.ru2 with a length of no more than 5000 characters. In total, the training corpus contains 562 fairy tales. In each fairy tale, plot phrases were singled out, i.e. phrases that determine the main events in the story, the storyline. To do this, first, in each fairy tale keywords and phrases were selected, using the methods yake3 , rakun4, frake5, textrank6, rutermextract7, keybert8 methods. Each method selected 15 keywords and phrases. The yake and rutermextract methods showed the best quality, so their results
+were used in the next stage to compose plot phrases. The yake and rutermextract methods were selected out of six methods manually. The main problems with other methods were the following. The top keywords and phrases of the rakun and the keybert were very often parts of each other, they intersected, i.e. were parts of one longer phrase. So, the number of sentences with these selected keywords was very low and the plot could not be built out of them. The frake’s results often contained just single words and it was very difficult to understand from which sentences they were selected (if they repeated several times). The problem of textrank was that it didn’t pay attention to sentence segmentation – many selected phrases were parts of two neighbor sentences. Further, plot phrases were extracted from fairy tales according to the following algorithm: 1. Events were found. Events are syntactically related triples <object, action, object> (for example,
+“старуха, испекла, колобок” – “old woman, baked, bun”). The objects were selected from a set of keywords, and the actions was determined from the parse tree as nodes, syntactically associated with the objects. The stanza library9 was used to make the syntax parsing of the sentences. 2. The most important events found were selected from the found events. Each selected event was
+assigned a weight obtained by summing the weights of the keywords extracted by the yake and rutermextract methods separately. 3. From the selected important events, a plot phrase was formed, determined by a 4-element set
+(𝑆𝑆𝑆𝑆1, 𝑣𝑣𝑣𝑣, 𝑆𝑆𝑆𝑆2,𝑚𝑚𝑚𝑚), where 𝑣𝑣𝑣𝑣 is a verb, 𝑆𝑆𝑆𝑆 are objects related to the verb, 𝑚𝑚𝑚𝑚 is a modifier, prepositional object, or indirect object. Prepositions are possible before 𝑆𝑆𝑆𝑆 and 𝑚𝑚𝑚𝑚. An example of an event: “grooves in the forest spilled into whole streams”, where “spilled” is 𝑣𝑣𝑣𝑣, “grooves” and “streams” are 𝑆𝑆𝑆𝑆, “forest” is 𝑚𝑚𝑚𝑚 (“канавки в лесу разлились в целые ручьи”, 𝑣𝑣𝑣𝑣 – “разлились”, о – “канавки”, “целые ручьи”, 𝑚𝑚𝑚𝑚 – “лесу”). For each of the two methods for extracting keywords, their own plot phrases were formed, the number of which, depending on the fairy tale, varied from 0 to 26. of plot phrases extracted using the yake and rutermextract methods. https://github.com/icecreamz/Max
+Prob.
+2 https://nukadeti.ru.
+3 https://github.com/LIAA
+D/yake.
+4 https://github.com/Sk
+Blaz/rakun.
+5 https://github.com/cominsys/FRAK
+E.
+6 https://github.com/JRC1995/TextRank-Keyword
+Extraction.
+7 https://github.com/igor-shevchenko/rutermextract.
+8 https://github.com/MaartenGr/KeyBER
+T.
+9 https://stanfordnlp.github.io/stanza.
+Vychegzhanin S. V., Kotelnikova A. V., Sergeev A. V., Kotelnikov E. V. The number of sentences in fairy tales varied from 4 to 139. The distribution of the number of sentences is shown in the number of resulting plot phrases should correlate with the length of the tale, the plot was assembled from the selected phrases according to the following algorithm: 1. The minimum number of phrases in the plot is 1, the maximum is the rounded-up value of the logrhyme to base 2 of the number of sentences 𝑛𝑛𝑛𝑛 in the text: ⌈𝑙𝑙𝑙𝑙𝑆𝑆𝑆𝑆𝑙𝑙𝑙𝑙2𝑛𝑛𝑛𝑛⌉.
+2. If the yake method returned the number of plot phrases in the above range, these phrases were taken
+in order as a plot. 3. If the yake method produced fewer plot phrases, and the rutermextract method yielded enough,
+then the rutermextract phrases were taken in order as a plot. 4. If both methods returned the number of phrases less than the minimum value, their results were
+combined without repetitions in the order of the sentences in the text. 103050700 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+Number of fairy tales
+Number of plot phrasesyake rutermextract261014180 20 40 60 80 100 120 140 160
+Number of fairy tales
+Number of sentencesMax
+Prob: Controllable Story Generation from Storyline5. If the yake method produced more plot phrases than the maximum allowable in accordance with
+point 1, then a part of the fragments with maximum weights was taken for the required amount. Table 1 shows the distribution of the number of phrases in the plot in the training corpus. The first column contains the number of phrases in the plot, the second – the number of fairy tales with such a number of phrases, the third – the share of the total number of fairy tales in the training corpus, i.e., from 562 fairy tales.
+A test corpus of 25 plots was also formed. The distribution by the number of plot phrases in the test corpus is proportional to the distribution in the training corpus and is given in the fourth column of Plot phrases # Fairy tales in the training corpus Share of the total number of fairy tales, % # Fairy tales in the test corpus 1 31 5.46 1
+2 48 8.45 2
+3 53 9.33 2
+4 56 9.86 3
+5 107 18.84 5
+6 185 32.57 8
+7 80 14.08 4
+8 2 0.35 0
+Table 2 shows statistics on the number of tokens received using the ruGP
+T-3 Large tokenizer in fairy tales of training corpus, depending on the number of plot phrases. Plot phrases Minimum number of tokens Maximum number of tokens Average number of tokens 1 28 900 230.9
+2 85 400 238.9
+3 115 1,015 344.3
+4 128 752 308.9
+5 212 950 476.4
+6 406 1,283 796.0
+7 757 1,503 1,150.1
+8 1,555 1,897 1,726.0
+5 Experimental Setup
+Keywords used in plot events were extracted from texts using the yake and rutemextract libraries. The initial word forms for calculating the Jaccard coefficient were determined using the pymorphy2 library . Text generation experiments were carried out using the ruGP
+T-3 Large10 language model (760 million parameters), which is the Russian-language version of the GP
+T-2 model . In the experiments, fairy tales were generated according to a given sequence of events that determines the plot of the fairy tale. The top-k sampling decoding strategy with parameter 𝑘𝑘𝑘𝑘 = 10 was used as a decoding strategy in Max
+Prob to obtain connecting sequences of tokens. The values of the weight coefficients in formula (5) were determined empirically based on the analysis of the generated connecting sequences. The coefficients took the values 𝑤𝑤𝑤𝑤𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝 = 0.9 and 𝑤𝑤𝑤𝑤𝐽𝐽𝐽𝐽 = 0.1. The probability of following the guide phrase turned out to be more significant, and due to the 𝑤𝑤𝑤𝑤𝐽𝐽𝐽𝐽 coefficient, the connecting sequence that was closest in content to the guide phrase was ranked first. https://huggingface.co/sberbank-ai/rugpt3large_based_on_gpt2.
+Vychegzhanin S. V., Kotelnikova A. V., Sergeev A. V., Kotelnikov E. V.
+The length of connecting sequences was 3 tokens. Experiments were also carried out for windows ranging in size from 1 to 15 tokens. According to the results of the experiments, a small window of connecting sequences had a better effect on shifting the content of the generated text towards the plot phrase than a large window. With a large window size, suitable short sequences of words, most likely followed by a guide phrase, could be missed, and as a result, the content of the generated text deviated significantly from the content of the guide phrase. The maximum length of the generated fairy tale (in tokens) depended on the number of plot phrases and was equal to the average number + 10% of the tokens (see Table 2). The proposed method was compared with three methods of controllable text generation: 1. Inserting key phrases in a prompt (Prompt
+Learn).
+When conducting experiments using the Prompt
+Learn method, the ruGP
+T-3 Large model was finetuned with 80% of the tales from the training corpus for three epochs. The prompt with size up to 1024 tokens was used as input data for the model:
+Plot: {plot phrase 1}, {plot phrase 2}, …, {plot phrase n}.\n Text: {the text of fairy tale}” each tale, the number of plot phrases ranged from 1 to 8. To generate fairy tales, sampling was used with parameters 𝑝𝑝𝑝𝑝 = 0.95 and 𝑘𝑘𝑘𝑘 = 50. The length of the generated fairy tale was chosen similarly to Max
+Prob. 2. Few-shot learning (FewShot
+Learn).
+The ruGP
+T-3 Large model was also used to apply the FewShot
+Learn method. The prompt was used as input for the model:
+Compose text with keywords:\n Plot: {plot phrase 1}, {plot phrase 2}, …, {plot phrase n}.\n Text: {the text of fairy tale} ### Plot: {plot phrase 1}, {plot phrase 2}, …, {plot phrase n}.\n Text: {the text of fairy tale}” number of fairy tales input to the model depended on the estimated maximum length of the generated text so that the total input sequence fit into 2048 tokens allowed for the model. The range of the number of input training examples is from 1 to 5, most often 3. When generating texts, the same parameters as for Prompt
+Learn were used. The length of the generated fairy tale was chosen similarly to Max
+Prob. 3. Constrained beam search (ConstrainedB
+S).
+ConstrainedB
+S was used as the baseline of controlled generation. Plot phrases were tokenized and used as a list of restrictions. The generation was carried out using the ruGP
+T-3 Large model. The prompt “Однажды” (“
+Once”) was used as an input of the model. The number of beams varied from 7 to 10 to generate different stories. A prohibition on the repetition of 3-grams was also established. The length of the generated fairy tale was chosen similarly to Max
+Prob. The quality of the generated texts was evaluated using automatic and human-centric evaluation methods. Four measures were used for automatic evaluation , , : ‒ perplexity (PP
+L) – is a metric to measure how well the language probability model predicts a sample. It is usually calculated as the exponential mean of the negative log-probability per token in the language model. We calculated perplexity using the ruGP
+T-3 Medium11 language model (350 million parameters); ‒ repetition (
+Rep) evaluates the proportion of repeated 4-grams in the text, where the tokens belong to the vocabulary of the ruGP
+T-3 Large model; ‒ Word Inclusion Coverage (
+Cov) shows the percentage of plot words included in the generated text. Plot and generated words are lemmatized; ‒ self-BLE
+U-5 evaluates the syntactic diversity of a given set of texts. It is defined as the average overlap between all generated texts. https://huggingface.co/sberbank-ai/rugpt3medium_based_on_gpt2. Max
+Prob: Controllable Story Generation from Storyline
+Three measures were used for human-centric evaluation: ‒ coherence – whether the story is consistent in terms of causal relationships in the context; ‒ relevance – the story corresponds to the plot, the events in the story unfold in accordance with the storyline; ‒ interestingness – how the user likes the story, whether it is interesting. 6 Results and discussion
+Table 3 shows the statistical characteristics of the generated texts, calculated using the GE
+M-metrics library12: ‒ Avg length – the average length of texts (in words); ‒ Vocab size – the number of different words; ‒ Distinct-n – the ratio of distinct n-grams over the total number of n-grams. Generation methods Avg length Vocab size Distinct-1 Distinct-2 Distinct-3 ConstrainedB
+S 447 3,149 0.11 0.49 0.85 FewShot
+Learn 158 1,998 0.19 0.57 0.77 Prompt
+Learn 430 3,608 0.13 0.50 0.77 Max
+Prob 497 3,015 0.10 0.41 0.70 Analyzing Table 3, you can see that the FewShot
+Learn method, on average, generated fairy tales 3 times shorter than the other three methods. It should be noted that when generating longer tales, the first tale was often interrupted and a new tale began. Table 4 shows the average values of perplexity, repetition, word inclusion coverage, and self-BLE
+U-5 measures calculated for fairy tales generated from 25 storylines of test corpus. For each storyline, two fairy tales were generated. A total of 50 tales were generated by each method. Additionally, the scores were also calculated for the base model ruGP
+T-3 Large. The ruGP
+T-3 Large model was preliminarily fine-tuned on the training corpus of fairy tales with the addition of the prefix “Текст: ” (“
+Text: ”) to the beginning of each fairy tale, which was then used as a prompt during generation. The experiments used the strategy of decoding top-k sampling with the parameter 𝑘𝑘𝑘𝑘 = 10. methods ↓ PP
+L ± Std ↓ Rep, % ↑ Cov, % ↓ Self-BLE
+U-5 ruGP
+T-3 5.3 ± 1.5 26.43 20.07 0.028 ConstrainedB
+S 6.8 ± 2.5 0.61 80.86 0.094 FewShot
+Learn 9.9 ± 6.1 16.40 43.49 0.014 Prompt
+Learn 6.8 ± 1.7 14.82 71.32 0.032 Max
+Prob 7.0 ± 1.4 18.33 99.54 0.063 The values of the Cov measure in Table 4 show that the Max
+Prob method ensures that more than 99% of the words from the storyline events appear in the text. The texts generated by this method met the requirement of matching the storyline to the best extent. The smallest number of words from the storyline appeared in the texts generated by the FewShot
+Learn method and is 43.49%. In such texts, the required characters and events were rare. This is largely due to the relatively short length of the generated tales. The values of the Rep measure for the FewShot
+Learn, Prompt
+Learn, and Max
+Prob methods are quite close to each other and vary from 14.82% to 18.33%. The ConstrainedB
+S method has a Rep value close to zero as a result of setting the prohibition on the repetition of 3-grams, otherwise the generation was often reduced to repetitions of words. Repeatability values do not suggest a significant superiority of https://github.com/GEM-benchmark/GE
+M-metrics.
+Vychegzhanin S. V., Kotelnikova A. V., Sergeev A. V., Kotelnikov E. V.one method over others. Notably, controllable generation methods reduced the repeatability value compared to the ruGP
+T-3 base model. The lowest PP
+L value among controllable generation methods was obtained for Prompt
+Learn and ConstrainedB
+S and is 6.8. The Max
+Prob method showed a 0.2 higher average PP
+L, but it has a lower standard deviation, i.e. provides a more stable level of perplexity. For the FewShot
+Learn method, perplexity and standard deviation were the highest. It is known, that a lower perplexity value corresponds to a better model. The increase in perplexity compared to the base ruGP
+T-3 model indicates that the control process is “unnatural” for the model. This causes the model to be more "surprised" by the tokens observed in the text. The self-BLE
+U-5 measure has the lowest value for FewShot
+Learn. The texts generated by this method turned out to be the most syntactically diverse. The variety of Prompt
+Learn is at the level of the basic ruGP
+T-3 model. The least varied texts are for the ConstrainedB
+S method. To calculate human-centric measures, the generated texts were evaluated by three annotators for coherence, relevance, and interestingness. The assessment was carried out on a 5-point Likert scale (1 – the worst, 5 – the best). For all the methods, only the generated sequence was evaluated, without prompt. Inter-annotator agreement was measured using the Spearman coefficient . The value of this coefficient for the “coherence” criterion was 0.54, “relevance” – 0.87, “interestingness” – 0.59. The values, which are greater than 0.5 indicate high annotator agreement . Table 5 shows the average scores of coherence, relevance and interestingness. methods ↑ Coherence ↑ Relevance ↑ Interestingness ConstrainedB
+S 1.65 2.91 1.56 FewShot
+Learn 2.23 1.63 2.25 Prompt
+Learn 2.62 2.23 2.82 Max
+Prob 2.20 4.89 2.74 The coherence scores for all methods turned out to be low, less than 3 points. The low coherence is due to the quality of the ruGP
+T-3 base model, which was used in the experiments. The Prompt
+Learn method turned out to be the best in terms of coherence, the Max
+Prob method more often violated the coherence, and ConstrainedB
+S generated practically incoherent texts. However, Max
+Prob almost always ensured that all events from the storyline appeared in the text, as evidenced by a high relevance score. Despite the lowest coherence, the texts with Max
+Prob were slightly less interesting than with the Prompt
+Learn method, but were more interesting than with FewShot
+Learn.
+Prob: Controllable Story Generation from Storyline
+Let us give a specific example of the Max
+Prob method (
+Fig. 7). For the guide phrase “the cat ate sour cream” (“кот съел сметану”) for some i-th step, the text “
+An old woman had a cat, whom she loved very much and called: Ko-ko-ko. The cat loved” (“У одной старушки был кот, которого она очень любила и которого звала: Ко-ко-ко. Кот очень любил”). At the i-th step, using the decoding strategy top-k sampling, the connecting sequences of three tokens were obtained, shown in sequence, the probabilities of following the guide phrase P by formula (3), the Jaccard coefficients K
+J by formula (4) and the average values of Score by formula (5) are calculated. According to the results of the i-th step, the sequence “milk with bread,” (“молоко с хлебом,”) was chosen, which has the highest average Score. одной старушки был кот, которого она очень любила и которого звала: Ко-ко-ко. Кот очень любил <x1><x2><x3> кот съел сметану An old woman had a cat, whom she loved very much and called: Ko-ko-ko. The cat loved <x1><x2><x3> the cat ate sour cream P K
+J <x1><x2><x3>, Russian <x1><x2><x3>, English 0.900 2.50
+E-10 0.111 молоко с хлебом, milk with bread,
+0.121 5.90
+E-12 0.143 старушку, old woman,
+0.113 3.60
+E-12 0.143 , чтобы его , to be
+0.105 1.30
+E-12 0.143 свою кошку и his cat and
+0.104 1.20
+E-12 0.143 ее, да her, yes
+0.102 6.60
+E-13 0.143 ее и не her and not
+0.101 1.60
+E-13 0.143 , когда его , when he
+0.100 6.40
+E-15 0.143 ее, Она her, She
+0.100 1.40
+E-15 0.143 эту старушку this old woman
+0.066 6.20
+E-12 0.125 молоко, и, milk, and,
+Table 6 shows the connecting sequences for steps 𝑖𝑖𝑖𝑖 + 1 through 𝑖𝑖𝑖𝑖 + 5. The sequences that received the highest Score value are highlighted in blue at each step. These sequences were chosen as the most probable ones and added to the prompt. Step 𝑖𝑖𝑖𝑖 + 1 Step 𝑖𝑖𝑖𝑖 + 2 Step 𝑖𝑖𝑖𝑖 + 3 Step 𝑖𝑖𝑖𝑖 + 4 Step 𝑖𝑖𝑖𝑖 + 5 1 а еще больше сметану . И вот однажды кот
+съел всю сметану 2 и, когда любил сметану, . А еще однажды, когда сметану и
+3 а хлеб со сметаной с молоком. однажды вечером кошка сметаны,
+4 а больше всего ел сметану, , но молоко однажды утром
+старушка столько сметаны, 5 поэтому, как с молоком, , и поэтому он как-то все сметанное
+6 но не любил, с молоком, , поэтому каждый
+он любил сметану все сметаны 7 и поэтому он любил, когда , которая была он, чтобы все молоко,
+8 но он не со сливочным и хлеб. , когда он всё молоко,
+9 и если молоко с капустой, . Поэтому бабушка , однажды кот всё, что
+10 но молока в с сыром, . Кот ел , как-то целый хлеб и
+S. V., Kotelnikova A. V., Sergeev A. V., Kotelnikov E. V.№ Step 𝑖𝑖𝑖𝑖 + 1 Step 𝑖𝑖𝑖𝑖 + 2 Step 𝑖𝑖𝑖𝑖 + 3 Step 𝑖𝑖𝑖𝑖 + 4 Step 𝑖𝑖𝑖𝑖 + 5 1 and even more – sour cream . And then one day the cat
+ate all the sour cream 2 and, when loved sour
+cream, . And then one day, when sour cream and 3 and bread – with sour
+cream with milk. Once in the evening the cat sour cream, 4 and most of all ate sour cream, , but milk
+Once in the evening the old woman so much sour cream, 5 that’s why, how – with milk, , and that’s why he once all of sour cream
+6 he didn’t liked, with milk, , that’s why
+every he liked sour cream all sour cream 7 and that’s why he liked, when , which was he, to all milk,
+8 but he didn’t with creamy and bread. , when he all milk,
+9 and if milk with cabbage, . That’s why the
+old woman , once the cat all, that 10 but milk in with cheese, . The cat ate , once whole bread and
+(bottom) versions As a result, after 𝑖𝑖𝑖𝑖 + 5 steps, the text was generated: “
+An old woman had a cat, whom she loved very much and called: Ko-ko-ko. The cat loved milk with bread, and even more – sour cream. And then one day the cat ate all the sour cream”. This example demonstrates that choosing a sequence after which the probability of a guide phrase is maximum induces the generative model to lead the text to the required phrase. At the same time, the connecting sequence may not contain the guide phrase in an explicit form, but be close to it in meaning due to synonyms. 7 Conclusion
+The proposed Max
+Prob method allows generating stories in accordance with a user-specified sequence of guide phrases that determines the plot of the story. Guide phrases describe some of the key events in the story and consist of several words. The method uses a generative language model to estimate the probability of following a guide phrase after various short sequences of tokens generated by the model. The method selects the sequence with the highest probability, prompting the model to shift the content of the text towards the guide phrase. Experiments carried out using the Russian-language corpus of fairy tales with extracted storylines showed that the proposed method provides a high proportion of story words (more than 99% in Cov) and phrases (4.89 points in Relevance) in the text. In terms of text quality (PP
+L measure and interestingness), the method is comparable to the Prompt
+Learn fine-tuning method, but it does not require creating a training corpus and the executing of a time-consuming training procedure. Ethical considerations The proposed method helps to control the content of automatically generated text according to the user's needs. Note that large language models, including the one used in the proposed ruGP
+T-3 method, generate texts similar to texts written by a person. However, it is not guaranteed that the generated texts are factually correct. They may contain false or fictitious information that may mislead the non-expert reader. When using plot phrases containing factually incorrect information, the generation will be based on false content and, therefore, will lead to the creation of inaccurate texts. Like any tool, it can be used for negative purposes. Content control can lead to the creation of fake text for the purpose of deception, disinformation or propaganda. We hope that our method will be used for positive purposes, like helping writers to create fairy tales in accordance with a given plot. Placing such methods in the public domain will help develop countermeasures to detect them. Max
+Prob: Controllable Story Generation from Storyline
+Acknowledgements This work was supported by Russian Science Foundation, project № 23-21-00330, https://rscf.ru/en/project/23-21-00330/.

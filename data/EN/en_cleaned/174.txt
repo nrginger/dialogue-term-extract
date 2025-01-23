@@ -1,0 +1,174 @@
+0.1. Previous works
+The tension of body parts in the process of gesturing has been studied in various ways. Most attention has been paid to the role of hand tension in the segmentation of nonverbal units, particularly to discriminating fluidly connected gestures gesture phases ; . the resting state of the index finger of humans and chimpanzees to account for the evolution of the pointing gesture. The general dichotomy ‘tenseness’—‘laxness’ of bodily behavior was outlined by .
+However, the studies which examined the correlation between the tension of body parts and semantic or pragmatic features of a pointing gesture are unknown to us, except for the ones carried out by E. A. Grishina on the basis of Russian deictic gestures. These studies were accumulated in the book . Basing on the idea of compositionality of gestures, five parameters characterizing the form of the deictic gestures (formal parameters), two of which are discrete (i.e. with qualitative values) and three are gradual (i.e. with quantitative values).
+Discrete parameters:(a) configuration of the pointing hand, which takes the values “index finger” and “open hand”;(b) orientation of the hand, which takes the values “vertical”, “supine” and “prone”.
+Gradual parameters:(c) hand tension in open hand pointing, which takes the values “tense hand” (all fingers extended) and “lax hand” (fingers lax and slightly bent);(d) arm tension, which takes the values “extended arm” and “half-bent arm”;(e) formedness of the fingers’ combination in index-finger pointing, which takes the values “tight combination”, “half-formed combination” and “loose combination” 1.
+According to Grishina, each of these parameters has its own linguistic meaning, and the book is dedicated to discovering the most significant correlations between the physical parameters of a gesture and its meaning.
+0.2. Object of the study
+Accepting altogether the idea of gestures’ compositionality and the list of parameters in question, we assume that one gradual parameter is still missing in this list. It is the tension of the index finger (I
+F), which can be thoroughly extended (“tense”), or slightly curved (“lax”, ½ I
+F) in executing the deictic gestures.
+1 The parameters (a) and (c) are in complementary distribution, as they are innate to pointing
+with different body parts.
+Tense and lax body parts in the Russian deictic gestures: the case of index finger pointing
+Deictic gestures with extended or ½ I
+F can be found both in everyday communication and in the movies (particularly in those which are presented in the Multimedia Russian Corpus—MURC
+O, http://www.ruscorpora.ru/search-murco.html). Also, the examples from fiction2 show that the both Russian and English-speaking writers realize that the deictic gestures with ½ I
+F exist, as they directly name these gestures in their texts, cf. Что можно посоветовать голодному двухлетнему человеку, когда он за словом в карман не лезет и тычет в материнское лицо толстым полусогнутым пальцем
+K. Surikova); (2) ...Маленький этот старичок с мышиными глазками тыкал в собеседника полусогнутым пальцем так же, как и в молодости
+V. Likhonosov); (3) I glanced at a map spread out on the desk in front of her and asked her what she was looking at. “
+I’m looking at these small islands in the middle of the sea.” <...> Her slightly bent index finger pointed out a few yellow dots in the blue sea (
+Xiaolu Guo). Сf. also the picture in the blog where Barak Obama points with his bent index finger at his notes:
+Pic. 1: An example of the bent index finger: the act of pointing
+The author of the blog comments upon it: “
+I am completely enamored with that slightly curved index finger” (https://thealchemistskitchen.blogspot.com/2010/03/art-of-revision-president-obamas-recent.html).
+2 Examples in Russian are taken from the Russian National Corpus, http://www.ruscorpora.ru/;
+their translation into English is ours.
+http://www.ruscorpora.ru/search-murco.htmlhttps://thealchemistskitchen.blogspot.com/2010/03/art-of-revision-president-obamas-recent.htmlhttps://thealchemistskitchen.blogspot.com/2010/03/art-of-revision-president-obamas-recent.htmlhttp://www.ruscorpora.ru/
+Pereverzeva S. I. as it may seem, the deictic gesture with ½ I
+F, as far as we know, was left out by the researchers of Russian everyday gestures. This gesture has not even been regarded as a variant of a standard deictic gesture with an extended finger. In , where the significant configurations of the pointing hand are studied quite elaborately, it cannot be found in the set of manual deictic gestures , nor is it mentioned in the works by G. E. Kreydlin—see, first of all, the conference papers , to the deictic gestures of academic lecturers.
+What has been said above is also largely true for the English studies of everyday gestures, cf. the set of English and Neapolitan deictic gestures in a special collection of papers on pointing . Neither of these sources discusses the ½ I
+F in the phase of the stroke. The only exceptions may be the works on sign languages, see, e.g., the M. A. theses on the Egyptian sign language, where ½ I
+F is mentioned as a special variant of the gesture meaning “to understand” , or a thesis proposal on sign language gesture recognition, which mentions that the difference between the lexemes D, G, X and 1 in the American Sign Language lies in the degree of extension of the index finger .
+0.3. Goals of the study
+In the present study we aim to(a) introduce a gestural parameter “tension of the index finger” as a significant characteristic of lax vs. tense deictic gestures;(b) reveal its relations with the other parameters of body parts which execute lax and tense deictic gestures according to , namely “arm tension” and “tension of the fingers’ combination”;(c) reveal its relations with those semantic and pragmatic gestural parameters, which are bound with “arm tension” and “tension of the fingers’ combination”;(d) discover other factors which are likely to cause the usage of the extended I
+F or ½ I
+F in everyday Russian gestures.
+0.4. Data and method
+Our study is based on the data retrieved from MURC
+O, which include(a) clips from the deep annotated (containing the annotation of gestures) subcorpus of MURC
+O, where the deictic index finger gestures are marked;(b) non-annotated clips from the movie subcorpus of MURC
+O, which contain the words zdes’ ‘here’, tam ‘there’, vot ‘here is...’, von ‘there is...’, eto ‘this is...’.
+(c) non-annotated clips from MURC
+O which serve as video illustrations to the chapter “
+Russian deictic gestures” of the book .
+Having examined more than 800 clips altogether, we have sorted out about 50 instances of ½ I
+F and about 100 instances of extended I
+F. The collection of the clips
+with I
+F gestures can be found at https://yadi.sk/d/iVCpsLcI8R18k
+A.
+Following the methodology adopted in , we apply the χ2 test to examine the dependencies between our data.
+https://yadi.sk/d/iVCpsLcI8R18kA
+Tense and lax body parts in the Russian deictic gestures: the case of index finger pointing1. Tense vs. lax body parts in the Russian deictic gestures
+Measuring the degree of dependency between the five parameters of deictic gestures (configuration, orientation, tension of the hand, arm tension and formedness of the fingers’ combination), the χ2 test and discovers the following relations (in this paper each one is supplied with the values of χ2 and p; the value of p is displayed in exponential notation):
+Strong relations:• configuration—orientation (χ2 = 514.02; p = 2.4−112)—for the open-hand deixis, the supine hand is preferred, whereas for the index-finger deixis, the prone and vertical orientation is preferred;• arm tension—hand tension (χ2 = 60.36; p = 7.89−15)—the extended arm is generally accompanied by a tense hand, and a half-bent arm—with a lax hand;• arm tension—orientation (χ2 = 39.5; p = 2.65−09)—the extended arm tends to appear together with a prone hand, and a half-bent arm—with a supine or vertical hand;• formedness of fingers’ combination—orientation (χ2 = 29.66; p = 5.75−06)—the loose combination is associated with a supine hand, and a tight combination—with a prone hand. The half-formed combination and the vertical hand show no preferences;
+Weak relations:• hand tension—orientation (χ2 = 9.88; p = .007)—the tense hand is generally vertical, other values show no preferences;• arm tension—formedness of fingers’ combination (χ2 = 7.47; p = .024)—the extended arm tends to prefer tight combination, other values show no preferences;
+No relation: configuration—arm tension (χ2 = 0.46; p = .5).
+E. A. Grishina also attempts to find correlations between the parameters given and the pragmatic features of the deictic gestures. She shows that the tension of hand and arm, as well as the formedness of fingers’ combination, tend to distinguish the primary and the secondary reference in the same way as the Russian collocations vot / von X (‘
+Here / There is X’, primary reference in activating contexts) vs. eto X (‘
+This is X’, secondary reference in anaphoric contexts) do.3 The tense hand, the extended arm and the tight combination of fingers are typical for the activating contexts; the lax body parts generally appear in the anaphoric contexts . The pragmatic feature of the closest and the farthest distance between the speaker and the pointed object (represented by the words tut ‘here’ and tam ‘there’) demonstrates a weak correlation with hand tension: the tense hand is likely for tam, the lax hand—for tut .
+3 In case of the primary reference, the speaker (= the gesturer) draws the listener’s attention
+to some object, and in case of the secondary reference, the speaker refers to the object which has already been introduced to the listener.
+Pereverzeva S. I. our study we measure the degree of dependency between the five parameters mentioned, on the one hand, and the parameter “tension of the index finger”, on the other hand. Our study yields the following results:1.1. Correlations between the tension the of index finger and
+other formal parameters of the deictic gesturesindex finger and the arm tensionArm
+Index finger Extended Half-bent
+Extended 34 60½ 94 39χ2 = 4.86; p = .003finger and the formedness of fingers’ combination
+Fingers’ combination
+Index finger Tight
+Loose (including half-formed)
+Extended 21 73½ 11 36χ2 = 0.02; p = .089index finger and the hand orientationOrientation
+Index finger Vertical Prone5
+Extended 48 47½ 21 27χ2 = 0.59; p = .044
+The parameter “hand tension” is not relevant for index-finger pointing, and the parameter “hand configuration” evidently takes the value “index finger”. Thus, we regard the correlations with only three parameters out of the five proposed by Grishina.
+4 In the tables we follow the font design adopted in : if the number is larger than
+the theoretically expected result, it is marked in bold and placed upon the grey background; if the number is smaller than the theoretically expected result, it is marked in italics and underlined.
+5 The supine orientation of the hand has not been found in our data.
+Tense and lax body parts in the Russian deictic gestures: the case of index finger pointing
+The data given shows that there is a weak relation between the tension of the I
+F and the arm tension: the ½ I
+F is not likely for the deictic gestures executed with the extended arm. Thus, we can conclude that generally there is a direct dependency between the degree of tension of all body parts, which take an active part in the execution a deictic gesture (arm, hand, index finger).
+Some suggestions which may account for the instances of ½ I
+F in deictic gestures with a tense arm, are given further in paragraph 2.
+According to our data, the tension of the I
+F is independent both of the hand orientation and of the formedness of fingers’ combination. However, we assume that the dependencies between these parameters may still exist, and the reason for why they are not revealed in our study is a rather small number of gestures with the I
+F that we have examined. Indeed, if we search for correlations between the parameters that Grishina proved to be interrelated, our data will show that there is a strong correlation between the arm tension and the hand orientation, which agrees with Grishina’s conclusion that the extended arm is typical for the prone hand. The difference is that, in our case, p = 3,14−05; thus, the exponent is less (−05 instead of −09), and the correlation is weaker. The other two pairs of parameters regarded by Grishina, in which relations are even weaker (the value of the exponent is −06 for the pair “formedness of fingers’ combination—orientation” and −02 for the pair “formedness of fingers’ combination—arm tension”), will appear to be independent in our data (p = 0,42 and 0,41 respectively).
+1.2. Correlations between the tension of index finger
+and pragmatic features of the deictic gesturesthe distance between the speaker and the pointed object
+Distance from the speaker
+Index fingerclosest (tut ‘here’)farthest (tam ‘there’)
+Extended 3 30½ 4 4χ2 = 7.61; p = .006activating / anaphoric contexts of usage of the deictic gesture
+Contexts of usage
+Index finger
+Activating (vot, von X ‘
+Here / There is X’)
+Anaphoric (eto 
+X ‘
+This is X’)
+Extended 16 10½ 2 9χ2 = 5.82; p = .002
+Pereverzeva S. I. 4 and 5 show that the two pragmatic parameters in question correlate with the ½ I
+F in the same way as they do with the lax arm and hand, according to Grishina’s study; thus, we may suggest that the deictic gestures, which are accompanied by the words tut ‘here’ and eto X ‘
+This is X’, are likely to be executed by a lax body part, and this can be any body part which is engaged in forming the gesture (the index finger, the hand, or the arm). In case of the tut-contexts, the ½ I
+F is an iconic sign—its shortness reflects a short distance between the speaker and the pointed object. However, unlike the tense hand and arm, the extended I
+F is not sensitive to the pragmatic parameters—it can be freely used in any of these contexts. The reason for this is probably that the gesture with the extended I
+F is a standard variant of pointing, whereas the gesture with the ½ I
+F is a marked one, as it is used less often.
+2. Factors which govern the usage of the
+½ I
+F in Russian deictic gestures
+In this paragraph, we will shortly describe the factors which have not been mentioned above, but which may influence the usage of the ½ I
+F in executing a deictic gesture. These are the physical comfort, the complex trajectory of movement, the soft imperative and the hesitation of the speaker.
+2.1. Physical comfort6
+The ½ I
+F can be preferable if:(а) the speaker’s palm is oriented towards the speaker, i.e. if he points backwards (
+Pic. 2) or to himself (
+Pic. 3);(b) the speaker’s I
+F touches the surface of the pointed object, and the surface is round (e.g., a bottle, Pic. 4) or horizontal (e.g., a book on the table, Pic. 5).
+The extended I
+F can be preferable if:(a) the speaker’s I
+F touches the surface of the pointed object, and the surface is vertical (
+Pic. 6);(b) the speaker does not touch the surface of the pointed object (
+Pic. 7).
+6 The factor of physical comfort was described in ;
+.
+Tense and lax body parts in the Russian deictic gestures: the case of index finger pointing
+Pic. 2: У нас там мент ключ от наручников потерял... ‘
+We have a cop out there who has lost the key to the handcuffs...’ («Операция С Новым Годом», oper_SNG_307)7
+Pic. 3: И кто почтит Лебедева? ‘
+And who will commemorate Lebedev?’ («Идиот»; video illustration 5.3_3 to chapter 5 of , https://yadi.sk/d/pJmwnIk4koq
+B3)7 In the subscription to the clips taken from MURC
+O the number of the picture is followed
+by the cue and its English translation, both given in italics (the part of the cue which goes together with the gesture is underlined). After the cue, there is (in brackets) the Russian name of the movie and the name of the clip in our collection, which is the same as in MURC
+O.
+https://yadi.sk/d/pJmwnIk4koqB3
+Pereverzeva S. I. 4: А это хорошая водка / хоть ведро выкушай. Фрау водка. ‘
+And this is a good vodka. One may drink up a bucket. Frau vodka’ («Операция С Новым Годом», oper_SNG_369)
+Pic. 5: А я уже родился в городе. Вот здесь. ‘
+And me, I was born in the town. Right here’ («Про уродов и людей», urody_041)
+Tense and lax body parts in the Russian deictic gestures: the case of index finger pointing
+Pic. 6: Вот здесь. Вот. ‘
+Here. Right here’ («Адъютант его превосходительства», adjutant_0517)
+Pic. 7: И вот здесь. ‘
+And right here’ («Гардемарины, вперёд!», gardemarin_317)
+Pereverzeva S. I. Complex trajectory of movement½ I
+F can mark a complex trajectory of movement—in particular, it can be used for pointing at something beyond a high barrier. Two clips (
+Pic. 8 and 9) are remarkable from that point of view:
+Pic 8: — Скажи, Левиус, где моя родина? — Вон там. ‘— Tell me, Levius, where is my home? — Over there’ («И на камнях растут деревья», i_na_kamniah_190)
+Tense and lax body parts in the Russian deictic gestures: the case of index finger pointing
+Pic. 9: Ты здесь купаешься? ‘
+Do you take a bath here?’ («Подкидыш», podkidysh_051)
+In Pic. 8, Levius points to the mountains, having in mind that the home of Kuksha, who asks him the question, is not in the mountains, but to the other side of them (
+Kuksha is Ilmen Slav), and the ½ I
+F here means that to reach Kuksha’s home one should get over the mountains and not just go up to the top.
+In Pic. 9, the little girl also executes the gesture with the ½ I
+F, maybe because the side of the bathtub is a high enough barrier for her (it is remarkable that the grown-up, who answers the girl’s question, points downwards at the bathtub with an extended I
+F, as the sides are not that high for him).
+In both cases, the ½ I
+F is an iconic representation of the trajectory of movement to the destination—it is not a straight line, as in the case of the extended I
+F, but a curve which is caused by the necessity to overcome a barrier.
+Pereverzeva S. I. Soft imperative
+The notion of soft imperative component (‘to ask for something’) as opposed to hard imperative component (‘suppression’) is discussed in detail in the book . In our data, we have come across the deictic gestures where the ½ I
+F was used to soften the request, cf. Pic. 10, where the speaker emphasizes his respect for the addressee:
+Pic. 10: ...Если к этому наброску именно Вы приложите ну хоть частицу Вашего тонкого ума и высокого таланта... ‘
+If it were you who would apply a small piece of your fine mind and your high talent to this draft...’ («Чокнутые», choknutie_140)
+The usage of the ½ I
+F to convey this communicative intention looks quite natural: the extended I
+F symbolizes a vector, which is associated with suppressing the addressee , whereas the ½ I
+F looks less like a vector.
+Tense and lax body parts in the Russian deictic gestures: the case of index finger pointing2.4. Hesitation of the speaker½ I
+F can mark the lack of the speaker’s self-confidence, his perplexity and humbleness. Just as in the previous case, the speaker nullifies the idea of suppressing the addressee by using the ½ I
+F (
+Pic. 11):
+Pic 11: <
+Semen Semenovich, rendered speechless with fear, is gesticulating instead of speaking> («Бриллиантовая рука», bril_ruka_154)3. Conclusion
+Our study shows that Russian deictic gestures with the slightly curved index finger are specific variants of standard deictic gestures executed with the fully extended index finger. The usage of the curved index finger is caused by a series of factors, both physical and pragmatic. The problem of comparing the strength of these factors, as well as checking the dependencies between the tension of the index finger and hand orientation, or between the former and the formedness of the fingers’ configuration, should be resolved in further studies basing on more numerous examples.

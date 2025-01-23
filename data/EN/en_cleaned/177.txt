@@ -1,0 +1,264 @@
+Recently multimodal studies in linguistics have addressed some new research topics. One promising area of studies can be exploring phenomena considering type and structure of communication (e.g. monologue vs. dialogue), speakers’ roles and their stances. Some studies based on multimodal corpora showed how these factors are connected to verbal, prosodic and kinetic behavior . This article continues the perspective and explores correlations between the use of motion verbs and accompanying gestures. According to classical works on lexical semantics, motion verbs those which describe relocation of the subject moving from start to endpoint. C.
+Fillmore divides them into Sourceoriented and Goal-oriented verbs which of the points (starting or ending) the verb is oriented at. Motion verbs can be also divided into allative vs. ablative , lative vs. elative , centripetal vs. cetrigugal ). E.
+V. Rakhilina a classification of Russian motion verbs; in A. Maisak and E. V. Rakhilina examined in detail the verb idti (‘to go’). Gesture accompaniment of Russian motion verbs was studied in , among others. Our work is based on the RUPE
+X corpus (www.multidiscourse.ru and ), namely reference subcorpus including recordings #04, #22, #23, a total duration of about 1 hour, each recording consisted of three individual videos and one video from a wide-angle camera. The corpus includes vocal annotation and annotations of three kinetic channels: oculomotor, manual (hand gestures) and cephalic (head gestures). Each recording has four stages and four participants with fixed roles: 1) Narrator (
+N) and Commentator (
+C) watch “
+The Pear Film” ; 2) N retells the story to Reteller (
+R), who has not seen the film (first monologue); 3) C can add to what was told by N and R can ask any questions about the film to N and C (dialogue stage); 4) Listener (
+L) comes and R retells him the story (second monologue). We studied the retellings in the RUPE
+X and discovered that motion verbs mark key points of the story. In this article we study the verbs and accompanying hand and head gestures considering the stage of the recording and the speaker’s role. We considered functional types of gestures the speaker’s viewpoint in gesture . Since Russian is a satellite-framed language verb describes manner of movement, and prefixes, prepositions and adverbs show direction and path ), we expected character viewpoint (C-VP
+T, the speaker’s gesturing as a character in the story) to be more often with unprefixed verbs, and observer viewpoint (O-VP
+T, the speaker’s gesturing as someone watching the scene and not participating in it) to be used with prefixed verbs, when path and trajectory are highlighted. We examined core motion verbs and compared them to three other groups, verbs describing: 1) hand movements (sobral ‘gathered’, brosil ‘threw’, dal ‘gave’ etc.), body movements (ogljanulsja ‘looked back’, osmotrel ‘inspected’, povernulsja ‘turned around’ etc.), or inanimate referents movements (razletelis’ ‘flew apart’, sletela ‘flew off’ etc.). Adding three new groups was aimed at studying if choice Evdokimova A.; Nikolaeva Y.; Budennaya E.of gesture type is influenced by verb meaning (see discussion in ). E. A. Grishina pointed to the fact that prefix type (manner or path) plays a role in gestures illustrating motion verbs; one of key features in gestures in the context of motion verbs is viewpoint or perspective. We tested this hypothesis for head gestures and analyzed types of head gestures accompanying the motion verbs. The article is organized as follows: part 2 describes annotation methods for each of three channels (vocal, manual and cephalic). Part 3 presents results for the vocal channel and relates them to head and hand gestures considering different types of verbs. Part 4 discusses general findings of the research. 2 Data and annotation methods
+2.1 Motion verbs
+Motion verbs were chosen from all the elementary discursive units (ED
+Us) as described in chapter . Table 1 shows numbers of motion verbs and their percentage to the total number of ED
+Us (the top line of the table lists participants according to their role and number of recording).
+N 04
+C 04
+R 22
+N 22
+C 22
+R 23
+N 23
+C 23
+R Number of verbs 82 38 126 63 83 60 72 41 99 Number of ED
+Us 385 246 512 339 275 263 402 231 326 Percentage of motion verbs to ED
+Us 21.3% 15.5% 24.6% 18.6% 30.2% 22.8% 17.9% 17.8% 30.4% Further, the verbs were divided into four semantic groups: 1) relocation (core motion verbs), 2) hand movements, 3) body movements and 4) inanimate referents movements. Additionally, they were marked for recording stage (monologue or dialogue), being prefixed of unprefixed, and the speaker’s role (
+Narrator, Reteller, or Commentator). 2.2 Matching head and hand gestures to motion verbs
+Gestures were divided into four functional types: depictive, pragmatic, pointing and beats . Since there were few beat gestures, they were combined with pragmatics. For head gestures, there was added regulator as the fifth type . Manual gestures were regarded as corresponding to the motion verb if they were synchronized with the word. For hand gestures the key criterion was overlapping of stroke or hold phase with the word; the gesture was marked as matching if the verb appeared on preparation or retraction of the gesture, and the gesture stroke overlapped with actants of the verb. Gesturer’s viewpoint was annotated only for depictive and pointing gestures, and only for those of them which illustrated the story itself not the speaker’s stance or the process of communication). In the cephalic channel, gestures were also considered if they (at least partially) coincided with the verb. Depictive gestures were additionally marked as pantomime (C-VP
+T) or showing movement direction (O-VP
+T) . There can be more than one cephalic gesture per word, so single gestures and combinations of 2–3 gestures per verb were considered separately. All gestures were annotated using ELA
+N software (https://archive.mpi.nl/tla/elan). Fig. a C-VP
+T (character viewpoint) depictive manual gesture and cephalic depictive pantomime, and fig. O-VP
+T depictive manual gesture, cephalic depictive direction-related. Motion verbs in multimodal communication Fig. 1: C-VP
+T gesture: Beret sebe i stavit vsju korzinu ‘
+He takes the whole basket and puts it’ 2: O-VP
+T gesture: Po etoj lestnitse lazit fermer ‘
+The farmer goes up and down the ladder’ 3 Results
+3.1 Vocal channel and motion verbs
+3.1.1 General results for semantic groups of verbs
+As shown by the analysis of the verb distribution, narrators use mostly movement verbs in the monologue and much less of them appear in the dialogue. The Retellers in recordings #4 and #23 actually have two retellings: a short one in the dialogue part of the recording (trying to memorize the story), and a more elaborated one in their retelling itself (see Fig. 3). Commentators take part only in dialogue. 3: Verb distribution across stages of the recording The difference reveals distinction between monologue and dialogue: the verbs are mentioned when the referents are discussed and not to describe the plot. The distribution of verbs into four semantic groups is shown in Type of verb / Speakers 4
+N 4
+C 4
+R 22
+N 22
+C 22
+R 23
+N 23
+C 23
+R Relocation verbs 46 21 77 36 49 36 39 16 56 Hand movements 30 12 44 22 33 21 27 24 32 Body movements 6 2 2 2 0 0 1 0 5 Inanimate object movements 3 3 5 1 4 3 5 2 6 Verb distribution across stages of the recording.5152535454
+N 4
+C 4
+R 22
+N 22
+C 22
+R 23
+N 23
+C 23RSpeakers
+Percentage of EDU's
+Monologue Dialogue Evdokimova A.; Nikolaeva Y.; Budennaya E.
+As shown in table 2, every speaker used relocation verbs significantly more often than other motion verbs, which can be explained by the original design of the study (the story describes a lot of the characters’ relocations). Hand movement verbs are the second most common: the characters manipulate baskets, pears, a racket etc. There are few verbs in the last two groups, so for further analysis we will focus on relocation and hand movement verbs. The distribution of prefixed and non-prefixed verbs across all recordings is presented in 4 shows that there was no difference between the participants and part of the recording considering prefixed vs non prefixed verbs. Prefixes were divided according to their type into vector (v-, do-, pod-, etc.) and route (raz-) ones. 3.1.2 Participants’ roles and their gestures
+In general, the Reteller tends to repeat verbs used by the Narrator and the Commentator, but there were also some differences. So, in all the analyzed recordings, the Retellers did not use expressive, judgemental or colloquial words talking about the film, while those who saw the film (
+Narrator and Commentator), sometimes described the story in a colloquial way (using words as ulepёtyvaet ‘sneaks away’, umatyvaet ‘winds up’ instead of neutral uezzhaet ‘goes away’), see the same episode from N’s and R’s monologues in (1, 2) and (3, 4), respectively: (1) 22
+N, extract N-v
+E055 On stavit tuda jetot /bagazhnik ‘
+He puts there this rack’ N-v
+E056 i prosto \ulepёtyvaet!, ‘
+And just sneaks away!’ 22
+R, extract R-v
+E129 znachit on˗n (ə 0.22) stavit sebe˗e — ‘
+So, he puts himself’ R-v
+E130 (ˀ 0.44) (pered –rulёm, ‘in front of the handlebar’ R-v
+E131 ja tak –ponjala,) ‘as I understood’ R-v
+E132 — etu –korzinu-u (ɥ 0.36) s= || polnuju /grush, ‘
+This basket full of pears’ R-v
+N034 (ɥ 0.32) R-v
+E133 (ə 0.28) /\ˀi˗i (ˀ 0.13) (0.14) \uezzhaet znachit ot etogo v-v= || /sadovnika, ‘and goes away from this gardener’ Prefixed and non-prefixed verbs. 26101418
+Narrators Retellers CommentatorsSpeakers
+Percentage of EDUs'
+Non-prefixed verbs
+Prefixed verbs
+Motion verbs in multimodal communication(3) 23
+N, extract N-v
+E071 on \stavit eti/↑ grushi, ‘he puts these pears’ N-v
+E073 i u= == ‘and…’ p
+N-035 (0.26) N-v
+E074 i \umatyvaet ochen’ bystro. ‘and winds up very fast’ 23
+R, extract R-v
+E205 — on etu korzinu tuda /→stavit,,, ‘
+He puts there this basket’ R-v
+E210 i koroche \uezzhaet. ‘and goes away, anyway’ can be explained by the fact that N and C saw the film and had their personal assessment of events, while R, who did not see the film, consistently remained neutral and cautious. Those of the verbs used by R and not repeating N and C, were mostly with vector prefixes pod-, s-, po-. These R’s verbs were either synonyms for N’s and/or C’s in the same context (for example, in recording 22, R says about a falling hat sletaet ‘flies off’, while N said padaet ‘falls down’), or interim actions which R explicitly reconstructed by himself, and N did not find it necessary to mention them having seen the film. Thus, in #4 R mentions several times that the boy podkhodit ‘goes up’ to the basket before taking the pears, while in a similar episode (5) N does not consider it necessary to specify where the boy is going but just says that he takes the whole basket, which is more relevant for the narrative). 4
+N N-v
+E082 snachala mal'chik hochet vzjat' /odnu ↑grushu, ‘first, the boy wants to take one pear’ N-v
+N023 (ɥ 0.49) N-v
+E083 /potom˗m ponimaet chto˗o (ˀ 0.45) nichto emu ne /grozit, ‘then understands that he is perfectly safe’ N-v
+E084 dovol'no bespalevno berjot celuju –↑korzinu, ‘quite unobtrusively takes the whole basket’ 4
+R R-v
+E372 podkhodit == ‘goes up’ p
+R-281 (0.13) R-v
+E374 on /podkhodit (ɥ 0.22) (0.13) (ə 0.31) k /korzine, ‘he goes up to the basket’ R-v
+E375 berёt ottuda odnu /grushu, ‘takes one pear from there’ p
+R-282 (0.06) R-v
+E376 potom /peredumyvaet, ‘then changes his mind’ R-v
+N048 (ɥ 0.38) R-v
+E377 kladёt eё /obratno, ‘puts it back’ R-v
+E378 berёt tseluju \korzinu. ‘takes the whole basket’ A.; Nikolaeva Y.; Budennaya E.3.2 Manual gestures 3.2.1 Types of manual gestures in monologues and dialogues
+Although there are some differences between the participants, in dialogues (hereinafter d) compared to monologues (hereinafter m), the number of gestures with motion verbs decreases (χ-square, p<0.001), see devices including gestures as they could, while in dialogue they were more involved in interaction with others. It can be also interpreted as less involvement in the description of events or the lack of opportunities for coherent and detailed gestural illustrations that are in the monologue. The differences between the participants are statistically insignificant. 5: Manual gesture types in monologue and dialogue Additionally, Narrator used more C-VP
+T gestures than Reteller (see Fig. 6), p<0.05. This fact has already been observed in is explained by Narrator’s personal experience of the film compared to Reteller’s who has only heard about the story. 6: Viewpoint in Narrator’s and Reteller’s manual gestures There was no significant difference in the viewpoint depending on the stage of the recording. gesture types in monologue and dialogue50100
+150
+200
+250
+300
+Depictive Pointing Pragmatic and beat No gesture
+Type of manual gesture
+Number of gesturesMonologueDialogue
+Viewpoint in Narrator’s and Reteller’s manual gestures2060100120
+140
+160
+N R
+Viewpoint in manual gestures
+Number of gesturesC-VPTO-VPT
+Motion verbs in multimodal communication3.2.2 Verb semantic type and manual gestures
+Fig. 7 shows that there is a tendency for depictive gestures to be used with hand movement descriptions (p<0.05) compared to core relocation verbs that are more often combined with pointing and pragmatic gestures. follows from Fig. 8, for depictive and pointing gestures with motion verbs, the observer’s point of view (O-VP
+T) will occur more often, and for descriptions of hand movements C-VP
+T is prevalent (p<0.05). However, there are examples when the motion verb is supported with pantomime using manual gestures; other factors can influence viewpoint too. Further analysis showed that it is more noticeable in monologue parts. 8: Viewpoint in manual gestures with relocation and hand movement verbs For prefixed and non prefixed verbs there was no significant difference in manual gestures. Manual gesture types for relocation verbs and hand movement verbs50100
+150
+200
+250
+Depictive Pointing Pragmatic and beat No gesture
+Type of manual gestures
+Number of gestures
+Relocation verbs
+Hand movements
+Viewpoint in manual gestures with relocation and hand movement verbs2060100120
+140
+160
+180
+200
+C-VP
+T O-VPT
+Viewpoint in manual gestures
+Number of gestures
+Relocation verbs
+Hand movements
+Evdokimova A.; Nikolaeva Y.; Budennaya E.3.2.3 Semantic type of the verb and manual gestures 9: Manual gesture types with relocation and hand movement verbs considering speaker’s role As Fig. 9 shows, both the speaker's role and verb type influence hand gestures. Narrator and Reteller who have monological parts use more pointing and pragmatic gestures depicting relocations than Commentator does (χ-square, p<0.05). This can be interpreted as follows: monological parts involve diverse gesticulation, and for motion verbs it is less important if the speaker has personally witnessed the story. However, hand movements descriptions are supposed to be easily illustrated by depictive gestures, and this can be done even for short discourse segments (as those which Commentator has), while for visual tracking of referents’ position monologue parts are more convenient. Additional analysis showed that there is a clear tendency to change either the word or the gesture when the event description is repeated. 3.3 Head gestures
+3.3.1 General distribution of gesture types
+
+N/ m 4
+N/
+d 22
+N/
+m 22
+N/
+d 23
+N/
+m 23
+N/
+d 4
+R/
+m 4
+R/
+d 22
+R/
+m 22
+R/
+d 23
+R/
+m 23
+R/
+d 4
+C/
+d 22
+C/
+d 23
+C/
+d Single gestures, % 78 94 78 93 83 82 91 89 91 77 73 55 90 87 75 Gesture combinations, % 22 6 22 7 17 18 9 11 9 23 27 45 10 13 25 Percentage of ED
+Us with motion verbs to all ED
+Us 33 10 35 6 35 8 31 19 25 16 44 9 16 30 18
+Manual gesture types with relocation and hand movement verbs1030507090100
+Depictive Pointing Pragmatic andbeat
+No gesture Depictive Pointing Pragmatic andbeat
+No gesture
+Relocation verbs Hand movement verbs
+Type of manual gestures
+Number of gesturesNCR
+Motion verbs in multimodal communication Fig. 10: Single gesture types The difference between the participants in the number of gestures in monologue and dialogue (
+Fig. 10) depends on the number of ED
+Us at these stages of the recording (see Table 3). In dialogue, both Narrators and Retellers have their depictive gesture percentage reduced in favor of other gesture types. Considering separately the distribution of types of depictive gestures (
+Fig. 11), we single out: 1) depictive showing the direction of movement, 2) depictive showing manner of movement, 3) combinations of these two types, where the first gesture is more prominent 4) depictive, where the type cannot be determined. 11: Types of depictive head gestures Head gesture types in monologue and dialogue 0%
+10%
+20%
+30%
+40%
+50%
+60%
+70%
+80%
+90%
+100%
+Narrators / m Narrators / d Retellers / m Retellers / d Commentators / d
+Gesture type Number of gesturespragmatic centerpointingregulatorpragmatic awaypragmaticdepictive Type of depictive gesture0%
+10%
+20%
+30%
+40%
+50%
+60%
+70%
+80%
+90%
+100%
+Narrators / m Narrators / d Retellers / m Retellers / d Commentators / d
+Speaker's role / stage
+Number of gesturesdepictive direction/ mannerdepictivedepictive manner + directiondepictive mannerdepictive direction +mannerdepictive direction
+Evdokimova A.; Nikolaeva Y.; Budennaya E.
+Depictive gestures showing the direction predominate in monologues and dialogues (see Fig. 11). They indicate the O-VP
+T, according to Grishina . In monologues, narrators have more variability in the types of depictive gestures than in dialogues. 12: Head gesture combinations and gesture types participants in the monologue used predominantly a cluster combining a depictive gesture with a pragmatic one (
+Fig. 12). In the dialogue, this type of combination becomes the main one. Such a cluster means that with the help of his pragmatic gesture, the speaker draws the listener's attention to the depictive one. The second most frequent is a cluster of depictive and regulator gestures, where the speaker uses a regulator one to test the listener's reaction. That’s the way the Narrator checks if the Commentator agrees with his version of events, and the Reteller verifies if his telling is understandable for the Listener. The use of gesture combination types by Narrators differs from that of participants in other roles (
+Fig. 12): 1) the depictive gestures are halved in favor of pragmatic ones, and 2) pointing and regulator gestures appear. 3.3.2 Distribution of gesture types with different semantic groups of verbs
+According to the same parameters as in the previous section, we describe two semantic groups separately: 1) verbs of relocation, and 2) verbs with hand movement semantics. In each category, we analyze verbs with and without prefixes. 2610141822number of gesturesdepictivepragmaticregulatordepictivepragmaticregulatordepictivepragmaticregulatordepictivepragmaticregulatordepictivepragmaticregulator
+Narrators / m Narrators / d Retellers / m Retellers / d Commentators / d
+Gesture type according to speaker's role/ stage
+Head gesture combinationsdepictivepragmaticpragmatic awaypragmatic/pointingpragmatic+pointingregulatorpointingadaptor
+Motion verbs in multimodal communication Fig. 13: Gesture types on relocation verbs Both for monologues and dialogues (
+Fig. 13) with prefixed and non-prefixed relocation verbs, depictive gestures, which are similar to hand gestures, prevail (χ-square, p<0.001), and pragmatic gestures are much less frequent. 14: Gesture types on verbs with hand movement semantics With the same predominance of depictive gestures (
+Fig. 14), for prefixed verbs the number of pragmatic and regulator gestures increases (χ-square, p<0.005), which draws the listener's attention to their hands. Gesture types on verb of relocation51525354555
+Narrators / m Narrators / d Retellers / m Retellers / d Commentators / d
+Speakers role / stage Number of gesturesdepictive / without prefixdepictive / with prefixpragmatic / without prefixpragmatic / with prefixpragmatic away / without prefixpragmatic away / with prefixpragmatic center / without prefixpragmatic center / with prefixpointing / without prefixpoiting / with prefixregulator / without prefixregulator / with prefix
+Gesture types on verbs with hand movement semantics51525
+Narrators / m Narrators / d Retellers / m Retellers / d Commentators / d
+Speaker's role / stage
+Number of gesturesdepictive / without prefixdepictive / with prefixpragmatic / without prefixpragmatic / with prefixpragmatic away / without prefixpragmatic away / with prefixpragmatic center / without prefixpragmatic center / with prefixpointing / without prefixpoiting / with prefixregulator / without prefixregulator / with prefix
+Evdokimova A.; Nikolaeva Y.; Budennaya E. Fig. 15: Depictive gesture types on relocation verbs Regardless of the prefixes, the type of depictive showing direction prevails (
+Fig. 15), which indicates the O-VP
+T. However, in this semantic group on verbs with prefixes, the number of depictive gestures increases, combining both functions: direction and pantomime (manner), as well as depictive type, from which we can conclude that the semantics of prefixes affects the change in the depictive gesture type (χ-square, p<0.002), and also changes the O-VP
+T to the C-VP
+T, more often in a monologue, but the С in the dialogue. 16: Depictive gesture types on verbs with hand movement semantics Motion verbs in multimodal communication
+Verbs with the semantics of hand movement increase (χ-square, p<0.001) in the number of depictive gestures of the movement manner and combining the function of direction and manner (
+Fig. 16). For some participants, the number of depictive gestures showing direction is reduced so much that they are no longer the predominant type. There is more variety in prefixed verbs. 3.4 Gesture clusters in the hands and head
+In multichannel analysis, we use clustering as a method , for which in this research a cephalic channel is selected as the main one. After this selection it is sequentially checked whether the gesture forms a cluster with manual channel according to time in direction (
+Fig. 17a) or by functions (
+Fig. 17 b): 17 a, b: Examples of depictive clusters a) 23
+N — zabiraetsya (climbs) b) 4
+R — povorachivaet (turns) As we see (
+Fig. 14), Narrators in monologue and dialogue more often use the separate gestures in each channels, but Retellers in monologue use the clusters of two channels: 18: Distribution of clusters and gestures Distribution of gestures and clusters2060100120
+140
+Narrators / m Narrators / d Retellers / m Retellers / d Commentators / d
+Speaker's role / stage
+Number of unitsclusters of two channelsgestures outside clusters
+Evdokimova A.; Nikolaeva Y.; Budennaya E.
+When applying this method to the entire set of considered verbs, we revealed the following patterns (
+Fig. 14): 19: Cluster types of hand and head gestures In the monologues of Narrators (
+Fig. 19), depictive clusters predominate (more than 50%). For Retellers, clusters of depictives combined with pragmatic gestures increase in number. It can be explained by the fact that they have not seen the film. In narrator dialogues, the percentage of clusters with pragmatic and depictive gestures increases so much that Narrator #22 has no depictive gestures. This is because the role of the Narrator is yet realized, and he can afford to relax and participate in communication without describing anything else and illustrating it by depictive gestures. Regardless of the role in the recording, everyone has a greater variety of gesture clusters in monologues than in dialogues. 4 Conclusion
+Results show that choice in verbal and kinetic channels differ depending on the speaker’s role and type of discourse. In the verbal channel: Narrators and Commentators who saw the film at the preliminary stage, used more expressive and judgment verbs compared to Retellers. In addition, Retellers completed the narration with verbs with vector prefixes which were not used in the original story, meanwhile explicating the whole chain of events for himself. In the manual channel: Relocation verbs are more often illustrated by observer viewpoint gestures compared to hand movement verbs, which attract character viewpoint gestures; it is even more prominent for monologues. Hand movements are also more often illustrated by depictive gestures, but the tendency is less pronounced. It means that manual gestures clearly depend on the meaning of the word they accompany. Pointing and pragmatic gestures can be used to mark character’s relocation in longer parts of discourse by both who witnessed the story and who knew it second-hand, but referring to specific actions in a story needs personal experience and is more expected in monologues. Verb prefixes do not seem to influence choice of manual gestures. 51525354555
+Narrators / m Narrators / d Retellers / m Retellers / d Commentators / d
+Number of clusters
+Speaker's role / stage
+Type of gesture clustersdepictivedepictive and pragmaticpragmaticdepictive-depictive, pragmaticdepictive+pragmatic-depictivedepictive+pragmatic-pointing, pragmaticdepictive+pragmatic-other, pragmaticdepictive+pragmatic/pointing-depictivedepictive+regulator-depictivedepictive+pragmatic away-depictivedepictive+pragmatic+pointing-depictivepragmatic-depictive, pragmaticpragmatic-pointing, pragmaticpragmatic-other, pragmaticpragmatic-bit, pragmaticpragmatic+depictive-depictivepragmatic+depictive-other, pragmaticpragmatic+depictive-pointing, pragmaticregulator+depictive-depictive
+Motion verbs in multimodal communication
+In the cephalic channel: on the verbs of motion, depictive gestures predominate, most often showing the direction and expressing the point of view of the observer (O-VP
+T) (χ-square, p<0.001). In the relocation verb semantic group on verbs with prefixes, the number of depictive gestures, combining both functions: direction and manner of movement, increases (χ-square, p<0.002), as well as depictive showing manner of motion, from which we can conclude that the semantics of prefixes affects the change in the depictive gesture type. On verbs with the semantics of hand movements, the depictive gestures' percentage of the (pantomime) type (χ-square, p<0.001) increases, both in combination with direction gestures and on their own, which indicates the role of the character (C-VP
+T), in some gestures points of view overlap. As a result of the analysis, it was revealed that Narrators and Retellers repeated the same motion verbs when talking about the same episodes but used a different concomitant head gesture (either of a different functional type, or performing a different direction, amplitude and/or movement type (tilt, turn, etc.). Thus, when the Reteller repeated the verbs previously used by the Narrator and the Commentator, the Reteller’s accompanying gestural behavior differed from the first two speakers. In gesture clusters from two channels, depictive ones prevail (χ-square, p<0.001). Narrators (three times more in 22 entries) use the gesture clusters more often in monologue than in dialogue, and Narrator in 22 entries, on the contrary, 1.5 times in dialogue. Narrators more often resort to clusters with pragmatic gestures combined with depictive instead of purely depictive ones (χ-square, p<0.001) since they have not seen the film and are not so confident in their story. The overall analysis showed that the relationship between semantic type of the verb, non-verbal behavior and the speaker’s role depends on a complex set of factors. In the verbal channel, verbs tend to be repeated among all participants, however, Narrators more often used verbs with vector prefixes, completing the sequence of events by themselves. In non-verbal channels, the prefixes did not affect the choice of gesture; the latter was largely guided by the stage (monologue vs. dialogue), the speaker's role and the semantic type of the aligned verb (the Narrators more often accompanied hand movements descriptions by pointing and pragmatic gestures). The semantics of the verb and the situation (manipulation vs. displacement) also turns out to be tied to the choice of point of view (C-VP
+T vs. O-VP
+T), but to a lesser extent to the choice of gesture functional type.

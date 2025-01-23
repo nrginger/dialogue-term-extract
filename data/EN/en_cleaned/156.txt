@@ -1,0 +1,223 @@
+Adjunct role labeling is a sub­task of semantic role labeling (SR
+L) that addresses the identification andclassification of the non­core arguments of a predicate. Among semantic roles that communicate “
+Whodoes What to Whom and Why and How and When and Where?”, Who and What are the core argumentsthat are defined and constrained by the semantics and governing properties of the particular predicate,while other elements (adjuncts) are less strongly associated, functionally and formally, with it. One canassume that any event takes place in a certain setting, namely, Location and Time, may be explained by acertain Purpose, Reason, or Condition, and may be characterised by aspects such as Frequency, Manner,
+Measure, Evaluation, or Modality. As the non­core arguments are not necessary to complete the meaningof the predicate, they tend to occur only sporadically in the phrase and thus are considered semanticallyand syntactically non­obligatory (circumstances in Tesnière’s terms ).
+At the same time, both formal and functional schools claim that adverbs and other non­core argumentshave their own selectional and structural preferences, are highly integrated into the structure of the verbphrase and may non­trivially interact with the predicate semantics and grammar, as well as with the verbphrase structure in general and other adjuncts .
+Over the past twenty years the task of SR
+Lwas mainly focused on detecting and labeling the obligatoryarguments, overshadowing adjuncts, their essence and types. In most analyses, any information aboutadjuncts is omitted or briefly mentioned. Our study, by contrast, narrowly addresses the distributionalproperties of adjuncts as a guide to build feature­based labelers for their semantic roles in the verb phrase.
+Somewhat simplifying, the task of the adjunct role labeling in a sentence can be subdivided into threesubtasks:1. whether or not the element A and the predicate P are related;
+2. whether or not A is an adjunct of P;
+3. of which particular type this adjunct relation is.
+This paper concerns the third subtask, assuming that (1) and (2) are identified correctly. We frame adjunctclassification as a supervised one­of­
+N classification problem. Specifically, we investigate what kind oflinguistic information about the form and meaning of adjuncts and verbs is relevant to the identificationof the adjunct roles.
+2 Related works
+SR
+L as a computational linguistic task has become widespread since the active development of machinelearning. The pioneering work of Gildea and Jurafsky supervised machine learning to predictsemantic roles in English Frame
+Net , with syntactic features having the most discriminative power.
+Since then, a variety of methods has been applied to SR
+L and SR
+I (semantic role induction): globaloptimisation , semi­supervised learning , and unsupervised learning and graph similarity .
+More recently, various neural architectures have been found effective for the task .
+As regards the SR
+L for Russian, Dialing , ETA
+P3 Compreno be mentionedamong the early applications. For example, Dialing was based on the method of full variants and rules.
+the dictionary­based approach with a data­driven transition­based model trained on theautomatically enriched SynTag
+Rus treebank.
+After the SR
+L­labeled resource Russian Frame
+Bank was published , a number of supervisedmethods were evaluated on it. an SV
+M­based labeling model that used hand­craftedfeatures extracted from corpus including syntactic features and clustered lexicon. inform­ation available in annotations (morphosyntactic features of arguments, lemmas of predicates, syntacticlabels of arguments, relative positions of arguments) with the word2vec embeddings of arguments andpredicates. Bi­GR
+U and attention to extract the potential features of arguments and then vot­ing ensemble over three models that took both extracted and basic features. In order to overcome biasesand scarcity in available annotated data, using the pretrained contextual embeddings andintroduced two models to process the argument structures of known and unknown predicates. with cross­lingual transfer learning and showed that pretraining on English Frame
+Netslightly improves the results.
+Kazakov R., Lyashevskaya O.
+One more SR
+L resource for Russian was presented recently — Prop
+Bank , but it is not in use fornow, because of its small size.
+Nevertheless, the large amount of work on SR
+L doesn’t change the fact that adjuncts are nowhere insight for researchers. Unfortunately, they are rarely mentioned or even classified. The article of as a weak counterexample: adjuncts were classified into preposition phrases and adverbs. Perhaps,the reason for such a strange bypassing of adjuncts is somewhere in their nature. More detailed and deepwork on adjuncts was performed in the article of , based on Chinese Prop
+Bank data . Alongwith core arguments authors consider different non­core ones (arguments­modifiers): location, temporal,condition, frequency etc. Their classification architecture was based on the SV
+M method. One moresystem that works with adjuncts is Compreno model , but it does not distinguish core arguments andadjuncts because of another development purposes: it tries to translate a phrase in a natural language to theuniversal language, so the type of the valency is not important in this scope. This model is applied mainlyin automatic translation. However, this model involves the structure of slots’ levels where circumstantialvalencies are at the higher levels and actant valencies are at the lower ones .
+Some works are focused on automatic systems for the identifying of specifically temporal
+3 Theoretical background
+The main distinction between arguments and adjuncts lies in their relations with predicates that are calledvalencies . Valencies are divided into two types: semantic and syntactic. Semantic valencies are thosevalencies of the word which attach syntactically dependent words to it, and each of them corresponds tothe variable in the interpretation of the word’s meaning . Syntactic valencies are capacities to enterin syntactic connections with other elements . Y. Testelets proposes a simple table to understand thedifference between arguments and adjuncts (
+Table 1) .
+Semantic valency Syntactic valencycore arguments + +adjuncts ­ +
+Consequently, core arguments fill in the semantic valency of a predicate while adjuncts do not. In otherterms, (core) arguments are called binding valencies of the predicate, while adjuncts— non­binding ones.
+There are no ideal criteria differentiating between arguments and adjuncts distinction and there is a vasttheoretical literature on borderline cases between non­obligatory core valency roles and circumstances. Plungian and Rakhilina suggest the criterion of the compatibility control: 1) a binding valencymanifests itself in the relevant compatibility of the predicate; if it does not, there are two outcomes: thereis not such a variable in the semantic representation of the predicate or, in rare cases, there are some rulesthat prohibit its usage; 2) the compatibility of the relevant binding valency is «non­trivial». It means thatadjuncts may be used with «any» predicate, but, apparently, this does not hold empirically.
+Note that compatibility frequently depends on the semantic types of adjuncts, which are not a hetero­geneous class. There are different classifications of adjuncts . Classes in them are more or less stable(for example, temporal adjunct can be found in all of them). For our pilot study, we used data in whichpredicates, core arguments and adjuncts are manually labelled. It will be described in the next section.
+4 Data set
+Russian Frame
+Bank includes examples from the Russian National Corpus in which the verb predicatesand their core arguments map to the dictionary of the verb constructions. Non­core elements whichsemantically relate to the verb but do not correspond to the argument slots in the dictionary are labelledas adjuncts, matrix predicates, or modal elements. Adjuncts include adverbs and particles, prepositionalphrases, case phrases, subordinate clauses, infinitive and gerundive verb phrases for the most part, whichcan be either syntactically dependent on or independent of the predicate.
+Adjunct role labeling for Russian
+Phrase Form Role Key
+Lexeme (predicate)сильно (‘hard, really’) AD
+V DEGRE
+E беспокоить (‘to bother’)в редакции (‘in the editorial office’) в (‘in’) + S.LO
+C PLAC
+E брать (‘to take’)на ходу (‘on the move’) на (‘on’) + S.LO
+C MANNE
+R менять (‘to change’)... ... ... ...
+Only the pairs of adjuncts and the corresponding verb predicates were taken to compile the Adjuncts­
+Framebank data set. Each line (e. g. Table 2) represents an adjunct, its form, its type, and a predicate.
+A form can be a part of speech (e.g. AD
+V — an adverb), a part of speech and morphosyntactic tag (e.g.
+V.IN
+F — a verb in infinitive), or a more complex structure (за + S.AC
+C до + S.GE
+N — a prepositionalphrase (P
+P) in the accusative case with the preposition за (‘over’) that governs another P
+P with thepreposition до (‘before’)). Adjuncts can be sentential and of any length (17% groups has length greaterthan 3), there are not any restrictions on their form.
+Some types (explications) assigned to adjuncts in Frame
+Bank were combined to further simplify clas­sification (
+Table 3). It was decided to divide adjuncts into six groups: PLAC
+E, TIM
+E, MANNE
+R, DE­GRE
+E, PURPOS
+E, REASO
+N. After aggregating and cleaning, the data set includes 7860 adjunct­verbentries (976 unique verbs, 2819 unique adjuncts).
+Generalized class Frequency, % Frame
+Bank class Frequency, % ExamplePLAC
+E 12.06 PLAC
+E 10.13 в огороде (‘in the garden’)FINA
+L POIN
+T 1.27 в Госдуму (‘to the state Duma’)INITIA
+L POIN
+T 0.33 отсюда (‘from here’)DISTANC
+E 0.33 издали (‘from afar’)TIM
+E 32.02 DURATIO
+N 12.25 долго (‘for a long time’)TIM
+E 10.99 вчера (‘yesterday’)FREQUENC
+Y 8.62 порой (‘sometimes’)MOMEN
+T O
+F TIM
+E 0.1 в этот час (‘at this hour’)TIM
+E – LIMI
+T 0.07 по сей день (‘to this day’)DURATIO
+N – LIMI
+T 0.05 до рассвета (‘until dawn’)MANNE
+R 7.5 MANNE
+R 4.75 порывисто (‘gusty’)MEAN
+S 2.15 на глаз (‘to eye’)SOUN
+D 0.67 громко (‘loudly’)DEGRE
+E 29.44 DEGRE
+E 29.44 безмерно (‘immensely’)REASO
+N 16.58 REASO
+N 16.58 от пота (‘with sweat’)PURPOS
+E 2.33 PURPOS
+E 2.33 для чая (‘for tea’)
+It must be noted that there is one more classification of adjuncts. They can be divided into modifiersof sentences and modifiers of predicates . They are not distinguished in this work. Hence, there areadjuncts of both types in the data set.
+speech of the content­word head of the adjunct phrase. The first two dimensions of the C
+A plot explainca. 84% variance. We see that PAR
+T (intensifying particles) are strongly associated with DEGRE
+E,whereas S (prepositional phrases), V (gerundive and finite clauses), and AD
+V (adverbials) are ratherneutral. SPR
+O (mostly personal and demonstrative pronominals) are associated with PURPOS
+E andPLAC
+E. Other parts of speech are less frequent.
+Another C
+A plot shows most frequent head words of adjuncts associated with the class of adjuncts(
+Figure 2). TIM
+E is associated with adverbs such as теперь (‘now’), потом (‘later’), тогда (‘then’),сейчас (‘now’) and nouns such as время (‘time’), год (‘year’), день (‘day’), раз (‘time’). PLAC
+E isassociated with the adverbs там (‘there’), здесь (‘here’), где (‘where’), высоко (‘high’). DEGRE
+Eis associated with the particles даже (‘even’) и и (‘and’), adverbs сильно (‘strongly’), очень (‘very’),
+Kazakov R., Lyashevskaya O.
+Figure 1. C
+A map: adjunct class vs. head PO
+Sбольше (‘more’). MANNE
+R — with the adverbs так (‘this way’), как (‘how’), просто (‘just’). Inter­estingly, PURPOS
+E and REASO
+N do not have frequent head words associated with them. REASO
+N isalso more neutral, which can indicate that it is associated with words of different classes.
+Figure 2. C
+A map: adjunct class vs. head word
+Finally, C
+A plot on adjuncts. There are three clusters:• centered around DEGRE
+E;• centered around MANNE
+R and PLAC
+E;• centered around TIM
+E, REASO
+N, and PURPOS
+E.
+We can see some fascinating regularities, but the classifying experiment probably will make them clearer.
+5 Method
+The classifier predicts the role of an adjunct in the input sentence, given three features:1. a word2vec representation an (lemmatized) adjunct; if an adjunct consists of more than one
+word, the program calculates the mean of all meaningful constituents’ scores;
+Adjunct role labeling for Russian
+Figure 3. C
+A map: adjunct class vs. verb2. a word2vec vector score of a corresponding (lemmatized) predicate;
+3. a form (see Section 3); it is a categorical feature, so all forms’ types (27) were encoded to lists of 0
+and 1 by one­hot encoding.
+In this work, a word2vecmodel1 was used, pre­trained on Taiga Corpus 5 G
+W) and suppliedwith Universal PO
+S Tags. The model architecture was continuous skip­gram, with the vector size of 300and the context window size of 2.
+Then, after preprocessing, the data were divided into two samples: a training set (80%) and a test one(20%).
+We tested four classification models on our data: Decision Tree, Random Forest and two Gradient
+Boosting models: basic one from Scikit­learn library and advanced one from Cat
+Boost Python library. As a baseline, two models were used that choose the most frequent tag for the adjunct(character string) and the adjunct form, respectively. Table 4 represents the quality metrics of thesemodels and the baseline models.
+Model Precision Recall Macro F1­score
+Baseline – – 0.09
+Decision Tree 0.88 0.87 0.87
+Random Forest 0.95 0.89 0.91
+Gradient Boosting 0.92 0.91 0.91Cat
+Boost 0.95 0.94 0.94
+The Cat
+Boost model performed best (
+F1­score is 0.94).
+6 Results
+A summary of the Cat
+Boost model performance on the test set is presented below (
+Table 5). The macro­
+F1 is 0.94 and micro­ and weighted F1 is 0.95, which indicates the high quality of the model. Whereasthe F1­score for the roles of TIM
+E and PLAC
+E is 0.97 and higher, the model performs poorly on theminority class, REASO
+N (
+F1 = 0.9). It has rather low recall (0.86).
+els. Surprisingly, the adjunct word2vec feature emerges as more important than the two others used in1
+The model was taken from Rus
+Vectōrēs (UR
+L: https://rusvectores.org/ru/models/).
+Kazakov R., Lyashevskaya O.
+Precision Recall Macro F1­scorePLAC
+E 0.94 0.97 0.96TIM
+E 0.98 0.98 0.98MANNE
+R 0.92 0.95 0.93DEGRE
+E 0.97 0.93 0.95PURPOS
+E 0.95 0.95 0.95REASO
+N 0.94 0.86 0.90
+Macro average 0.95 0.94 0.94
+Weighted average 0.95 0.95 0.95both model. However, importance of the form feature is different (0.098 for Cat
+Boost and 0.022 for Ran­dom Forest). Probably, it is because the Cat
+Boost algorithm handles categorical data better than otheralgorithms with one­hot encoding. Perhaps it is the main reason why the Cat
+Boost model performedbetter than others.
+Figure 4. Feature importance of the Cat
+Boost and Random Forest models7 Analysis
+It turned out that the adjunct word2vec feature is the most important feature. This indicates that adjunctsby themselves are strongly associated with certain semantic roles and, to some extent, semantically inde­pendent of the predicates. Furthermore, the word2vec vector score of a predicate feature is relatively low(hereinafter the Cat
+Boost model: 0.106), but not around zero, and this confirms that adjuncts do not fillin semantic valencies of predicates, though at the same time adjuncts may not be used with any predicate.
+Perhaps this depends on the type of adjunct.
+The lowest F1­score was shown by the group of REASO
+N adjuncts (
+F1=0.9). Interestingly, there isa wide gap between precision and recall. This means that the classifier leaves a lot of true negativesand some types resemble them. This is most likely due to the heterogeneity of REASO
+N adjuncts andthe small amount of them in our data sample (only 132 elements in the test set). In addition, adjunctsof REASO
+N and PURPOS
+E are often longer than others (they are expressed sometimes by subordinateclauses). By contrast, temporal adjuncts performed almost perfectly (the F1­score is 0.98) due to theirsemantic similarity. Thus, more homogeneous types demonstrate better results. This situation had beendescribed in detail via a correspondence analysis: it presented three distinct clusters including temporal,
+Adjunct role labeling for Russianlocative, manner and degree adjuncts (
+Figure 2). It is noteworthy that higher results were expected fromlocative adjuncts (the F1­score is 0.96), because this type seemed to be extremely detached.
+PLAC
+E, MANNE
+R, REASO
+N are classes that have the lowest precision: it seems that the word2vecembeddings models are not confident enough to distinguish metaphorical shifts, e.g. assigning PLAC
+Eto adverbs used in temporal meaning (cf. здесь ‘here, in this moment’) and MANNE
+R to adverbs usedas intensifiers (cf. нежно ‘gently, slightly’).
+Besides that, the lemmatized word2vec models are content words­biased and fail to identify cases inwhich the semantics of the preposition and other closed­class words shifts the interpretation of the wholephrase (e.g. минуту ‘for a minute’, TIM
+E ­ ради такой минуты ‘for the sake of such a moment’,PURPOS
+E).
+8 Discussion
+Considering the feature importance metrics, it may seem like the representation of an adjunct is the onlysignificant feature, but it is not. There are some examples (под бомбами ‘under the bombs’ — PLAC
+E)where meaningful words do not refer to the type of the adjunct. Such cases provide the idea that formand predicate also affect the final prediction of the classifier.
+9 Conclusion
+In this work, we performed the labeling experiments for Russian adjuncts with rather high efficiency(average F1­score is 0.94). The proposed method can further be implemented in the SR
+L systems toclassify elements that are not core arguments of the predicate. Owing to its interpretability, it promisesto be helpful, in different areas, for example, information retrieval, information extraction, Q
+A­systems,and automatic translation.
+The word2vec representations of adjuncts turned out to be a powerful effect in the task. Contextualembeddings and/or syntactic features are obvious candidates to be added to the model in order to improveits quality and ensure more accurate labeling of long adjuncts.
+The theoretical assumptions that adjuncts do not fill in semantic slots of predicates based on the distinc­tion of arguments and adjuncts are confirmed for the most part. Adjuncts demonstrate high independencefrom predicates, but apparently it is not an absolute truth.

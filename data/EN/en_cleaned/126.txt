@@ -1,0 +1,323 @@
+Global access to the Internet has enabled the spread of information all over the world and has given manynew possibilities. On the other hand, alongside the advantages, the exponential and uncontrolled growthof user-generated content on the Internet has also facilitated the spread of toxicity and hate speech. Muchwork has been done in the direction of offensive speech detection . However, it has becomeessential not only to detect toxic content but also to combat it in smarter ways. While some socialnetworks block sensitive content, another solution can be to detect toxicity in a text which is being typedin and offer a user a non-offensive version of this text. This task can be considered a style transfer task,where the source style is toxic, and the target style is neutral/non-toxic.
+The task of style transfer is the task of transforming a text so that its content and the majority of properties stay the same, and one particular attribute (style) changes. This attribute can be the sentiment ,the presence of bias , the degree of formality , etc. The work more examples of styletransfer applications. Considering the task of detoxification, it has already been tackled by differentgroups of researchers , as well as a similar task of transforming text to a more polite form .
+However, all these works deal only with the English language. As for Russian, the methods of text styletransfer and text detoxification have not been explored before.
+To the best of our knowledge, our work is the first effort to solve the text style transfer task with afocus on toxicity elimination for the Russian language. We leverage pre-trained language models (GP
+Tand BER
+T) and demonstrate that they can successfully solve the task after being trained on a very smallparallel corpus or only on non-parallel data.
+The contributions of this work are three-fold:1. We introduce the new study of text detoxification for the Russian language;
+2. We conduct experiments with two well-performing style transfer methods: a method based on
+GP
+T-2 which rewrites the text and a BER
+T-based model which performs targeted corrections;3. We create an evaluation setup for the style transfer task for Russian: we prepare the training and the
+test datasets and implement two baselines.
+2 Problem Statement
+The definition of textual style in the context of NL
+P is still vague . One of the first definitions ofstyle refers to how the sense is expressed . However, in our work, we adhere to the data-drivendefinition of style. Thus, the style simply refers to the characteristics of a given corpus that are distinctfrom a general text corpus . The style is a particular characteristic from a set of categorical values:{positive, negative} , {polite, impolite} , {formal, informal} . Commonly, it is assumed that this textual characteristic is measurable using a function 𝑔𝑔(𝑥𝑥𝑖𝑖) → 𝑠𝑠𝑖𝑖 that getsas input text 𝑥𝑥𝑖𝑖 and returns the corresponding style label 𝑠𝑠𝑖𝑖. For instance, it can be implemented using atext classifier.
+We define the task of style transfer as follows. Let us consider two corpora 𝐷𝐷𝑋𝑋 = {𝑥𝑥1, 𝑥𝑥2, ..., 𝑥𝑥𝑛𝑛}and 𝐷𝐷𝑌𝑌 = {𝑦𝑦1, 𝑦𝑦2, ..., 𝑦𝑦𝑚𝑚} in two different styles – 𝑠𝑠𝑋𝑋 and 𝑠𝑠𝑌𝑌 , respectively. The task is to create amodel 𝑓𝑓𝜃𝜃 : 𝑋𝑋 → 𝑌𝑌 , where 𝑋𝑋 and 𝑌𝑌 are all possible texts with styles 𝑠𝑠𝑋𝑋 and 𝑠𝑠𝑌𝑌 . The task of selectingthe optimal set of parameters 𝜃𝜃 for 𝑓𝑓 consists maximising the probability 𝑝𝑝(𝑦𝑦′|𝑥𝑥, 𝑠𝑠𝑌𝑌 ) of transferring asentence 𝑥𝑥 with the style 𝑠𝑠𝑋𝑋 to the sentence 𝑦𝑦′ which saves the content of 𝑥𝑥 and has the style 𝑠𝑠𝑌𝑌 . Theparameters are maximised on the corpora 𝐷𝐷𝑋𝑋 and 𝐷𝐷𝑌𝑌 which can be parallel or non-parallel. We focuson the transfer 𝑠𝑠𝑋𝑋 → 𝑠𝑠𝑌𝑌 , where 𝑠𝑠𝑋𝑋 is the toxic style, and 𝑠𝑠𝑌𝑌 is neutral.
+3 Related Work
+Style transfer was first proposed and widely explored for images . However, the task of text styletransfer has currently gained less attention, partly due to the ambiguity of the term “style” for texts.
+Nevertheless, there exists a large body of work on textual style transfer for different styles. All theexisting methods can be divided into techniques that use parallel training corpora and those using onlynon-parallel data. The latter category is larger because pairs of texts which share the content but havedifferent styles are usually not available. At the same time, it is relatively easy to find non-parallel texts ofthe same domain with different styles (e.g. positive and negative movie reviews, speeches by politiciansfrom different parties, etc.).
+One of the methods which uses only non-parallel data is Delete, Retrieve, Generate It isbased on the idea that words in a sentence can be divided into those responsible for the sentence semanticsand those carrying the style information. Therefore, if we delete the style words and replace them with
+Dementieva D., Moskovskiy D., Logacheva V., Dale D., Kozlova O., Semenov N., Panchenko A.the corresponding words of the opposite style, we can change the style of the sentence while keeping thecontent intact. Alternative to this approach are methods that create disentangled representations of text. In this case, the style and the content of a text are encoded into different spaces. When generating atext with a new style, we substitute the vector of the text style with the vector representation of the targetstyle and generate a new sequence.
+On the other hand, if there exists a corpus with parallel sentences {(𝑥𝑥1, 𝑦𝑦1), (𝑥𝑥2, 𝑦𝑦2), ..., (𝑥𝑥𝑛𝑛, 𝑦𝑦𝑛𝑛)}then style transfer can be formulated as a sequence-to-sequence task, analogously to supervised Machine
+Translation, summarization, paraphrasing, etc. Such models can greatly benefit from pre-trained language models, such as GP
+T T5 . They often perform well on a range of NL
+P tasks withno fine-tuning. Moreover, when a small training dataset is available, their performance improves evenfurther. For example, in GP
+T-based model was fine-tuned on an automatically generated parallelcorpus to transfer between multiple styles. The recently released ruGP
+T31 model allows us to leveragebig textual data for the detoxification task in Russian.
+4 Methodology
+We suggest several solutions to the text detoxification task. We test a method based on the GP
+T model,which uses parallel data and a BER
+T-based solution trained solely on non-parallel corpora. We alsoimplement several baselines.
+4.1 Baselines
+Duplicate This is a naive baseline that amounts to performing no changes to the input sentence. Itrepresents a lower bound of the performance of style transfer models, i.e. it helps us check that themodels do not contaminate the original sentence.
+Delete This method eliminates toxic words based on a predefined toxic words vocabulary. The idea isoften used on television and other media: rude words are bleeped out or hidden with special characters(usually an asterisk). The main limitation of this method is vocabulary incompleteness: we cannot collectall the rude and toxic words. Moreover, new offensive words and phrases can appear in the language thatcan be also concatenated with different prefixes and suffixes. On the other hand, this method can preservethe content quite well, except for the cases when toxic words contain meaning that is essential for theunderstanding of the whole text.
+Retrieve This method introduced in targeted at improving the accuracy of style transfer. For agiven toxic sentence, we retrieve the most similar non-toxic text from a corpus of non-toxic samples. Inthis case, we get a safe sentence. However, the preservation of the content depends on the corpus sizeand is likely to be very low.
+4.2 detoxGP
+T
+GP
+T-2 a powerful language model which can be adapted to a wide range of NL
+P tasks using avery small task-specific dataset. Until recently, there were no such models for Russian. The A
+I Journeycompetition2 released the ruGP
+T3 model capable of generating coherent and sensible texts in Russian.
+We suggest using it for style transfer via the following setups:• zero-shot: the model is taken as is (with no fine-tuning). The input is a toxic sentence which wewould like to detoxify prepended with the prefix “Перефразируй” (rus. Paraphrase) and followedwith the suffix “>>>” to indicate the paraphrasing task. ruGP
+T3 has already been trained for thistask, so this scenario is analogous to performing paraphrasing. The schematic pipeline of this setupis presented in Figure 1.
+• few-shot: the model is taken as is. Unlike the previous scenario, we give a prefix consisting ofa parallel dataset {(𝑡𝑡𝑋𝑋1 , 𝑡𝑡𝑌𝑌1 ), ..., (𝑡𝑡𝑋𝑋𝑛𝑛 , 𝑡𝑡𝑌𝑌𝑛𝑛 )} of toxic and neutral sentences in the following form:1https://github.com/sberbank-ai/ru-gpts
+2https://ai-journey.ru
+Methods for Detoxification of Texts for the Russian Language
+“𝑡𝑡𝑋𝑋𝑖𝑖 >>> 𝑡𝑡𝑌𝑌𝑖𝑖 ”. These examples can help the model understand that we require detoxifying paraphrasing. The parallel sentences are followed with the input sentence which we would like todetoxify with the prefix “Перефразируй” and the suffix >>>. The schematic pipeline of thissetup is presented in Figure 2.
+• fine-tuned: the model is fine-tuned for the paraphrasing task on a parallel dataset{(𝑡𝑡𝑋𝑋1 , 𝑡𝑡𝑌𝑌1 ), ..., (𝑡𝑡𝑋𝑋𝑛𝑛 , 𝑡𝑡𝑌𝑌𝑛𝑛 )}. This implies training of the model on strings of the form “𝑡𝑡𝑋𝑋𝑖𝑖 >>> 𝑡𝑡𝑌𝑌𝑖𝑖 ”.
+After the training, we give the input to the model analogously to the other scenarios. The schematicpipeline of this setup is presented in Figure 3.
+Main part
+Toxic TextPrefix“Перефразируй”(Paraphrase)
+Suffix“>>>” Output Text
+Inputzero-shot detoxGP
+Tfew-shot detoxGPT
+Main part
+Toxic Text
+Suffix“>>>” Output Text
+Parallel corpus<toxic text 1> >>> <neutral text 1><toxic text 2> >>> <neutral text 2>.
+.
+.
+<toxic text N> >>> <neutral text N>InputPrefix“Перефразируй”(Paraphrase)
+Parallel corpus<toxic text 1> >>> <neutral text 1><toxic text 2> >>> <neutral text 2>.
+.
+.
+<toxic text N> >>> <neutral text N>
+Main part
+Toxic Text
+Suffix“>>>” Output Text
+Inputfine-tuned detoxGPT
+The described methods require parallel data. These have to be pairs of sentences with the same contentand the different toxicity level. Such sentences are not created “naturally” (unlike translations of thesame text into different languages), so they have to be written from scratch to train such models. Thisis a laborious process. However, our intuition is that the detoxGP
+T model can perform detoxificationafter being trained on a very small number (several hundred) of parallel sentences, which can be createdquickly.
+Dementieva D., Moskovskiy D., Logacheva V., Dale D., Kozlova O., Semenov N., Panchenko A.4.3 condBERTBER
+T (
+Bidirectional Encoder Representations from Transformers) a masked language model whichhas been trained on the task of predicting a missing word given the rest of the sentence. Although BER
+Tis mainly used for getting word vector representations or sequence labeling and text classification tasks,it can also be used in the gap-filling scenario, i.e. for retrieving a word in a context that has been replacedwith a This scenario perfectly suits the delete-retrieve-generate style transfer method,which replaces individual words of a sentence and, as a result, generates so-called “lexical substitution".
+To make BER
+T fully suitable for style transfer, we need to change the model so that masking andreplacing words changes the style of the input sentence. This can be done via fine-tuning BER
+T on stylespecific corpora for the source and the target styles so that it learns the word distributions conditionedon a style and makes replacements that agree with it. Such a BER
+T-based model was first applied to thedata augmentation task in . Then, in , a similar model was used for sentiment style transfer.
+The model condBER
+T (conditional BER
+T) model was proposed in . While the tokens to replacewere selected randomly in the original work, we mask tokens associated with the source style (toxic). Toselect the toxic words, we train a bag-of-words logistic regression model, which classifies the sentencesas toxic or neutral. As a by-product of this model, we acquire weights for each word from the vocabulary.
+These weights can be interpreted as the toxicity level. We consider a token to be toxic if its weight ishigher than a predefined threshold.
+Ты что, идиот, сам прочитать не можешьТы что, идиот, сам прочитать не можешьТы что, , сам прочитать не можешьТы что, , сам прочитать не можешьТы что, уважаемый, сам прочитать не можешь● парень● уважаемый● дорогой
+We then train the model on two corpora 𝐷𝐷𝑋𝑋 and 𝐷𝐷𝑌𝑌 for the source and the target styles. To teach themodel to distinguish styles, we include the style information as an extra embedding layer as describedin . Thus, it learns different distributions for toxic and non-toxic texts. To further force the modelto replace toxic tokens with tokens that have a close meaning and are not toxic, we calculate the toxicitylevel of each token in the BER
+T vocabulary (using the logreg weights) and penalize the predicted probabilities of tokens that have a high toxicity. Finally, we enable condBER
+T to replace a single token with multiple words. We generate the next tokens progressively by beam search and score eachmultitoken sequence by the harmonic mean of the probabilities of its tokens. The schematic illustrationof condBER
+T approach is presented in Figure 4.
+To evaluate the efficiency of BER
+T fine-tuning, we test condBER
+T in two scenarios:
+Methods for Detoxification of Texts for the Russian Language• zero-shot where BER
+T is taken as is (with no extra fine-tuning);• fine-tuned where BER
+T is fine-tuned on a dataset of toxic and safe sentences to acquire a styledependent distribution, as described above.
+The scenarios are different only in terms of BER
+T pre-training. They both use the classifier-basedselection of toxic words and penalties for the toxicity of word replacements.
+The strength of condBER
+T compared to the GP
+T-based method is that it does not require any paralleldata. Besides that, it does not rewrite the sentence, which might be a better strategy in terms of contentpreservation.
+5 Evaluation
+To perform a comprehensive evaluation of a style transfer model, we need to make sure that it (i) changesthe text style, (ii) preserves the content, and (iii) yields a grammatical sentence. The majority of works onstyle transfer use individual metrics to evaluate the three parameters. However, out that thesethree parameters are usually inversely correlated, so they need to be combined to find the balance. Ourevaluation setup (individual metrics and the joint metric which combines them) follows this principle.
+5.1 Style transfer accuracy
+To evaluate style transfer accuracy (ST
+A), we train a binary classifier 𝑔𝑔(𝑥𝑥𝑖𝑖) → 𝑠𝑠𝑖𝑖 based on RuBER
+T that classifies text 𝑥𝑥𝑖𝑖 into style 𝑠𝑠𝑖𝑖 ∈{toxic, neutral}. We fine-tune the RuBER
+T model onRu
+Toxic dataset (see Section 6.1). It achieves the F1-score of 0.83 on a held-out test set. Thus, it shows areasonable result on detection of toxic texts and can be used for evaluating the strength of style transfer.
+Since we want to perform the detoxification task, we expected the outputs of style transfer methods to benon-toxic. We compute the accuracy based on this assumption.
+5.2 Content preservation
+We approach the assessment of content preservation from two sides. First, we calculate word-basedmetrics: (i) the unigram word overlap (W
+O) between the tokens of the original sentence 𝑥𝑥 and the styletransferred sentence 𝑦𝑦: 𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐(𝑥𝑥∩𝑦𝑦)𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐(𝑥𝑥∪𝑦𝑦) and (ii) BLE
+U score, which is the ngram precision for 𝑛𝑛 from 1 to4. Secondly, we calculate the cosine similarity (C
+S) between the vector representations of the input and
+the output sentences. We calculate vector representations as the mean of token vector representationsextracted with a fast
+Text from Rus
+Vectores.35.3 Language quality
+We use perplexity (PP
+L) to evaluate the quality of the generated sentence. As a language model forthis metric, we use the ruGPT2
+Large4 model which was trained on bigger amount of content than usedruGP
+T3 models and was not used in our detoxGP
+T setups. Thus, we can claim that this model can giveus the fair score for the perplexity.
+5.4 Aggregated metric
+Following , we combine the three parameters. Namely, we compute the geometric mean of ST
+A, C
+S,and 1/PPL:G
+M = (𝑚𝑚𝑚𝑚𝑥𝑥(ST
+A, 0)×𝑚𝑚𝑚𝑚𝑥𝑥(C
+S, 0)×𝑚𝑚𝑚𝑚𝑥𝑥(1/PP
+L, 0))1
+3
+We denote this joint metric as G
+M. Other content preservation metrics do not participate in the combination and are reported to understand the model properties better.
+Although there are still discussions about the efficiency of the usage of automatic metrics for theevaluation style transfer tasks, we believe that the described metrics can adequately illustrate thestrength of style transfer methods.
+3http://vectors.nlpl.eu/repository/20/213.zip
+4https://github.com/sberbank-ai/ru-gpts#Pretraining-ruGPT2
+Large
+Dementieva D., Moskovskiy D., Logacheva V., Dale D., Kozlova O., Semenov N., Panchenko A.6 Experiments
+We train and evaluate the two proposed models (detoxGP
+T and condBER
+T) and compare them to thebaselines.
+6.1 Datasets
+All our methods including the Delete and Retrieve baselines require collections of toxic and non-toxictexts for training. There exist non-parallel corpora of such texts for Russian. Two corpora of toxic comments were released on Kaggle.5,6 We concatenate these resources and denote the joint corpus Ru
+Toxicdataset. It consists of 163,187 texts (31,407 (19%) toxic and 131,780 non-toxic) from the Russian socialnetworks Odnoklassniki7 and Pikabu.8
+We also use a fraction of this dataset to construct the parallel training data for detoxGP
+T: we select200 toxic sentences and manually rewrite them into non-toxic ones. Besides, we use the Ru
+Toxic dataset
+to train toxicity weights for condBER
+T.
+We test all models on 10,000 randomly selected toxic sentences from Ru
+Toxic. These sentences arenot used for training.
+6.2 Experimental Setup
+For the Delete method, we use a manually created set of rude, obscene, and toxic words. We extend thelist with word lemmas for better coverage. In Retrieve method we get the word vector representationsfrom Russian fasttext model from the Rus
+Vectores website. The text vector representations are obtainedas the mean of token vectors. We use cosine similarity as the metric of similarity between texts. Forboth Delete and Retrieve methods the input was preprocessed with the following steps: the input textwas tokenized and obtained tokens were lemmatized with UD
+Pipe. 9ruGP
+T3 model is available in three flavours: small (125m parameters with 2048 context), medium(350m parameters with 2048 context), and large (760m parameters with 2048 context). We experimentwith all of them. We denote the detoxGP
+T models that use these ruGP
+T3 pretrained L
+Ms as detoxGP
+Tsmall, detoxGP
+T-medium, and detoxGP
+T-large. ruGP
+T3 uses the following hyper-parameters:• top_k: integer parameter that is greater or equal to 1. Transformers (which GP
+T actually is) generate words one by one, and the next word is always chosen from the top 𝑘𝑘 possibilities, sorted byprobability. We use top_k = 3.
+• top_p: floating-point parameter from 0 to 1. The idea is similar to the top_k parameter, but thesampling is done by choosing from the smallest possible set of words whose cumulative probabilityexceeds the probability 𝑝𝑝. We use top_p = 0.95.
+• temperature (𝑡𝑡): floating-point parameter greater or equal to 0. It represents the degree of freedomfor the model. For the higher temperatures (e.g. 100), the model can start a dialogue instead ofparaphrasing, whereas for a temperature of around 1 it barely changes the sentence. We use 𝑡𝑡 = 50.
+For the few-shot and fine-tuned scenarios, we used the dataset with 200 parallel samples as described in
+Section 6.1.
+For condBER
+T we use two setup of pre-trained weights:• Conversational RuBER
+T10 from Deep
+Pavlov ;• A smaller version of multilingual BER
+T for Russian11 from Geotrend .
+The BER
+T model from Deep
+Pavlov is more commonly used for Russian language, but it is shippedwithout the masked L
+M layer that has to be trained from scratch. The BER
+T from Geotrend, conversely,has a pretrained L
+M head.
+5https://www.kaggle.com/blackmoon/russian-language-toxic-comments
+6https://www.kaggle.com/alexandersemiletov/toxic-russian-comments
+7https://ok.ru
+8https://pikabu.ru
+9https://ufal.mff.cuni.cz/udpipe/1/models
+10https://huggingface.co/Deep
+Pavlov/rubert-base-cased-conversational
+11https://huggingface.co/Geotrend/bert-base-ru-cased
+Methods for Detoxification of Texts for the Russian Language
+6.3 Results and Discussion
+The performance of the proposed models on this data is shown in Method ST
+A↑ C
+S↑ W
+O↑ BLE
+U↑ PP
+L↓ GM↑
+Duplicate 0.00 1.00 1.00 1.00 146.00 0.05 ± 0.0012
+Delete 0.27 0.96 0.85 0.81 263.55 0.10 ± 0.0007
+Retrieve 0.91 0.85 0.07 0.09 65.74 0.22 ± 0.0010detoxGP
+T-smallzero-shot 0.93 0.20 0.00 0.00 159.11 0.10 ± 0.0005few-shot 0.17 0.70 0.05 0.06 83.38 0.11 ± 0.0009fine-tuned 0.51 0.70 0.05 0.05 39.48 0.20 ± 0.0011detoxGP
+T-mediumfine-tuned 0.49 0.77 0.18 0.21 86.75 0.16 ± 0.0009detoxGP
+T-largefine-tuned 0.61 0.77 0.22 0.21 36.92 0.23* ± 0.0010condBERTDeep
+Pavlov zero-shot 0.53 0.80 0.42 0.61 668.58 0.08 ± 0.0006Deep
+Pavlov fine-tuned 0.52 0.86 0.51 0.53 246.68 0.12 ± 0.0007
+Geotrend zero-shot 0.62 0.85 0.54 0.64 237.46 0.13 ± 0.0009
+Geotrend fine-tuned 0.66 0.86 0.54 0.64 209.95 0.14 ± 0.0009C
+S: Cosine similarity. W
+O: Word overlap rate. PP
+L: Perplexity. G
+M: Geometric mean. The larger↑(or lower↓), the better. Gray numbers show that a method singificantly fails to preserve the content. Thevalues in bold are the best scores. The asterisk * denotes the improvement over the Retrieve baseline thatis statistically significant at 𝑝𝑝 ≤ 0.01. The standard deviations of G
+M are calculated by bootstrappingthe test dataset.
+The baseline approaches represent the two extremes: while Delete gains a low ST
+A and high contentsimilarity, the Retrieve method, on the contrary, achieves a relatively high ST
+A with extremely low W
+Oand BLE
+U. These results are natural since the Delete method only eliminates toxic words and leaves therest of the sentence intact, which results in high word-based similarity. At the same time, such deletionof words often ruins the sentence structure and results in high PP
+L. The Retrieve method always outputsonly non-toxic, fully human-readable sentences; this strategy achieves a high ST
+A score and the highestG
+M score between baselines. However, the content of such sentences is unpredictable and usually verydifferent from the original input.
+We experiment with zero-shot, few-shot, and fine-tuned setups for the three detoxGP
+T model versionsas described in Section 4.2. However, the quality of the output of the zero-shot and few-shot scenariosis poor for all models. Thus, we report the results of zero-shot, few-shot only for the detoxGP
+T-smallmodel to illustrate the difference in scores. Table 1 shows that content similarity and fluency of bothzero-shot and few-shot models are lower than those of the baselines. The zero-shot method manages toreach high style accuracy by generating completely irrelevant texts which happen to be mostly non-toxic.
+As a result, we do not take into account its results in comparison with other approaches. On the otherhand, when fine-tuned on only 200 samples, detoxGP
+T models outperform the baselines. The best resultsare achieved by the detoxGP
+T-large model. It reaches the highest values for all metrics (and the lowestfor PP
+L which stands for the highest naturalness) including the joint G
+M score.
+The condBER
+T-based models also outperform the Delete baseline, but fall short of the Retrievebaseline due to lower fluency. The condBER
+T models based on Geotrend pre-trained BER
+T model showbetter performance than Deep
+Pavlov setup in general. The reason is the pre-trained language model partin Geotrend RuBER
+T. For Deep
+Pavlov setup these weights of the model were not pre-trained and wereinitialized randomly. The comparison with detoxGP
+T is ambiguous: condBER
+T attains the highest ST
+Ascore and larger values of content similarity metrics, while the quality of language is quite low. The high
+Dementieva D., Moskovskiy D., Logacheva V., Dale D., Kozlova O., Semenov N., Panchenko A.style transfer accuracy is explained by the fact that the replacement words in condBER
+T are explicitlypenalized for toxicity. Nevertheless, the model can generate similar toxic or rude words, making itsstyle transfer quality imperfect. At the same time, as detoxGP
+T generates the sentences from scratch,we cannot control the content preservation (the models occasionally change it entirely). In contrast, thecondBER
+T model changes only a small fraction of words. However, the downside of condBER
+T is theloss of naturalness. GP
+T-based models are free to choose every single word in the output, usually yieldinga natural sentence. Conversely, when replacing only single words (as condBER
+T does), it is difficult tocontrol the overall grammar and fluency. Furthermore, condBER
+T, for instance, in Deep
+Pavlov setupsometimes substitutes words with special symbols such as .
+Model Sentence
+Input не дай бог моя дочь так оденется убью нахуй палкой(
+If, God forbid, my daughter goes out dressed like this, I’ll fucking kill her with a stick)
+Delete не дай бог моя дочь так оденется убью палкой(
+If, God forbid, my daughter goes out dressed like this, I’ll kill her with a stick)
+Retrieve не бросайте угла родного одной мы лежали больнице палате в в в те девчонкой была молодой годы(don’t abandon your native corner same hospital we were ward in in in those girl was young years)detoxGP
+T-small подскажите, у меня дочь так оденется палкой.
+(
+Could you give me an advise, my daughter gets dressed as a stick.)detoxGP
+T-medium да не торопись вы так, бабушка.
+(
+Granny, don’t rush, take your time.
+detoxGP
+T-large извините, но мне вас очень жаль, если вы начнете так одеваться.
+(
+Excuse me, but I feel sorry for you if you start getting dressed up like this.)condBER
+T не дай бог моя дочь так оденется станки палкой(
+God forbid, my daughter gets dressed up like this machine stick.)
+Input что ты читала из его произведений? дура.а если не читала,то прочти.
+(
+Which of his works have you read? You are an idiot. If you haven’t read any, go read.)
+Delete что ты читала из его произведений дура.а если не читала,то прочти(
+Which of his works have you read you idiot. If you haven’t read any, go read.)
+Retrieve одно не пойму, вы все реально думаете, что они читают что то в ок или ввк?(
+What I can’t understand do you all really think they read anything in Odnoklassniki or Vkontakte?)detoxGP
+T-small вы читали его произведения? не читали.
+(
+Have you read any of his works? No, you haven’t)detoxGP
+T-medium его посадить, извините, но мне вас очень жаль, если для вас оскорблениянорма.
+(
+Putting him in jail, excuse me, but I feel sorry for you if insult is normal for you.)detoxGP
+T-large вы читали его произведения? недалекие. попробуйте почитать посты егодрузей(
+Have you read any of his works? You are narrow-minded. Try reading his friends’ posts.)condBER
+T что ты читала из его произведений ? пусть . а если не читала , то прочти .
+(
+Which of his works have you read? Okay. If you haven’t read any, go read.)
+Input тебя вношу в список долбаебов.
+(
+I’m adding you to the list of buttheads.)
+Delete тебя вношу в список(
+I’m adding you to a list)
+Retrieve надо обнародовать этот список. чего молчать.
+(
+We should make this list public. Why keeping silence?)detoxGP
+T-small Вас вношу в список людей, нуждающихся в улучшении.
+(
+I’m adding you to the list of people who need being improved.)detoxGP
+T-medium Вас вношу в список людей, которые вносят вклад в мой тред.
+(
+I’m adding you to the list of people who contribute to this thread.)detoxGP
+T-large Вас вношу в список людей, которые не соответствуют вашим ожиданиям.
+(
+I’m adding you to the list of people who don’t meet your expectations.)condBER
+T тебя вношу в список до(
+I’m adding you to the list of to.)results of fine-tuned setup are presented. For condBER
+T model, the results of Geotrend fine-tuned setupare presented. The rude words used in sentences have no goal to abuse the reader, they are just anillustration of real-life toxic texts. The best outputs for each example according to a human judgment areunderlined.
+Methods for Detoxification of Texts for the Russian Language
+Table 2 shows the example outputs of the proposed models and the baselines. All the examples bydetoxGP
+T and condBER
+T models were generated via the fine-tuned scenario. The examples demonstrate the trends described above: condBER
+T sometimes makes an inappropriate replacement, and detoxGP
+T tends to output sentences not related to the input. Nevertheless, in most cases, at least one ofthe detoxGP
+T models provides a sensible answer. Interestingly, although detoxGP
+T-large performs bestaccording to the metrics, the manual analysis shows that its superiority is not always evident.
+7 Conclusion
+We presented the first study of text detoxification for the Russian language. We conducted experimentswith detoxification methods based on different principles: (i) detoxGP
+T model is trained on a parallelcorpus and rewrites the sentence, and (ii) condBER
+T is trained on non-parallel data and replaces individual toxic words with non-toxic synonyms. We described the evaluation setup, which includes thetraining and test data and the evaluation metrics. We evaluated the proposed methods and compare themto three simple baselines.
+The best aggregated score is achieved by detoxGP
+T. While condBER
+T shows the highest style transferaccuracy, it performs worse in naturalness preservation. However, for both methods, there is room forimprovement. The detoxGP
+T-based models could benefit from a larger parallel corpus and more carefultuning of hyperparameters, while for condBER
+T, more advanced word selection strategies can increasethe quality.
+As a result, there is no single method that outperforms others according to all parameters of the evaluation. Sometimes it is enough to delete obscene words from the text, whereas in other cases, they shouldbe replaced with their non-toxic synonyms. Finally, some texts can be detoxified only if fully reformulated. Thus, the most promising direction of future work would be to combine all presented strategiesand apply them based on the nature of toxicity in particular sentences.
+We provide all code and data used for training and evaluation online.12Acknowledgements
+This work was conducted under the framework of the joint Skoltech-MT
+S laboratory. We are grateful tothe anonymous reviewers for their helpful suggestions. Besides, we thank Alexey Shevtsov and Alexander Nevarko who conducted the first version of experiments with ruGP
+T as a part of their Deep Learningcourse final project at Skoltech.

@@ -1,0 +1,129 @@
+Gestures are often underrated in human communication. They may contribute a lot to a speech goingas far as to change what is being said to the opposite: a simple shrug can make audience question thecredibility of the speech. Humans actively use co-speech gestures to convey their emotions or visualizetheir attitude .
+The task of generating conversational motions can be used for social robots , conversational agents,and even automatic animation of virtual characters. Both rule-based and deep learning approaches havebeen employed to varying degrees of success. In this work, we propose several models to solve thisproblem as well as analyze what makes movement seem appropriate and indistinguishable from humansand which features are essential for such a task.
+The GENE
+A Challenge conducted to explore what kind of models can produce humanlike behavior for motion generation. The challenge organizers shared a 3.5-hour long dataset of audio,transcripts, and corresponding motions for body movement as well as several strong baselines. They alsoconducted a human evaluation of generated motions, consisting of 250 experts.
+DO
+I: 10.28995/2075-7182-2021-20-425-432
+Our systems were initially built upon baselines by organizers. We made several architectural adjustments, but conceptually the core of our systems was not dissimilar from aforementionedmodels. Our main contributions are adding contextual information and combining both textual and audioinformation in one model.
+Our paper is organized in the following way: section 2 describes related work; section 3 describesdata preprocessing, which is shared between all experiments; section 4 describes our models; section5 contains the discussion of our results; and section 6 contains the conclusion. Our code is publicly
+available1 to help other researchers reproduce our results. Our repository also contains a link to trainedweights and videos of generated motions.
+The dataset used in all experiments is described in . A complete task description along with evaluation of systems proposed for the workshop is described in . Our team was labeled as S
+D foranonymization purposes.
+2 Related work
+In consider motion generation problem as a mapping of sequence of words to a sequenceof human poses. To solve this problem they used sequence to sequence model soft attentionmechanism. The encoder processes input sequence of words which then transmitted to the decoder togenerate gesture motions. Word-level features are represented by Glo
+Ve Gestures arerepresented by 10 principal components converted from Open
+Pose by Principal Component
+Analysis (PC
+A). Their sequence to sequence model also has several modifications: decoder hidden stateis initialized by hidden state from previous sequence to make series of poses continuous. They also usemodified lossℒ = ℒ𝑚𝑚𝑚𝑚𝑚𝑚 + 𝛼𝛼 · ℒ𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐 + 𝛽𝛽 · ℒ𝑣𝑣𝑣𝑣𝑣𝑣𝑐𝑐𝑣𝑣𝑐𝑐𝑐𝑐𝑚𝑚where ℒ𝑚𝑚𝑚𝑚𝑚𝑚 is a mean squared error, ℒ𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐 is defined asℒ𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐𝑐 =∑︀𝑚𝑚𝑐𝑐=2 ‖𝑝𝑝𝑐𝑐 − 𝑝𝑝𝑐𝑐−1‖𝑚𝑚− 1where 𝑝𝑝𝑐𝑐 is a pose at time step 𝑡𝑡. ℒ𝑣𝑣𝑣𝑣𝑣𝑣𝑐𝑐𝑣𝑣𝑐𝑐𝑐𝑐𝑚𝑚 is defined as negative of the variance o 𝑝𝑝𝑐𝑐.
+In consider a slightly different problem: given a sequence of speech features 𝑠𝑠 = 𝑐𝑐=1:𝑇𝑇extracted from frames of speech audio at regular intervals 𝑡𝑡, the task is to generate a correspondinggesture sequence 𝑔𝑔 = 𝑐𝑐=1:𝑇𝑇 . They use MFC
+C to represent audio and features learnedby Denosing Auto Encoder to represent gestures. Authors use a recurrent neural network to encode awindow of audio features, then this representation of the window used to generate a single frame ofgestures. Savitsky
+Golay filter used for smoothing the final predictions.
+In the research paper propose a GA
+N approach to gesture generation. They use a 1
+D U
+Netfor MFC
+C to motion translation. The discriminator is used to avoid regressing to a mean pose.
+3 Data preprocessing
+The challenge organizers provided 23 recordings with an overall length of 3 hours and 40 minutes fortraining. Each recording consists of an audio file with speech recording, text transcripts, and BV
+H(bounding volume hierarchy) file with the motion data. The initial motion was captured by 60 framesper second; the generated motions for evaluation were rendered at 20 frames per second. The motionskeleton contained 71 joints, but we used only 15 points corresponding to the upper body without handsand fingers.
+We split the dataset for training and validation in the following way: the first recording Recording_001was used for validation (12 minutes), while the rest of the recordings were used for training (3 hours 28minutes total). As the evaluation process is rather long, we used only 1 minute of Recording_001 forhuman evaluation, and the remaining part of the sample was used to calculate mean squared error onjoints as a sanity check.
+1https://github.com/FineMotion/GENE
+A_2020
+Korzun V. A., Dimov I. N., Zharkov A. A.
+For all our models we used the same audio and motion data preparation pipeline provided in one ofthe baselines . For audio representation we used MFC
+C. We then averaged every five consequent Melfeatures to align audio features with motions (so that they have 20 FP
+S each). We represent motion databy 3 dimensional axis-angle rotation vectors for 15 joints. Thus each motion frame has 45 float features.
+This values are normalized over the mean value on train dataset. All aforementioned transformations ofdata result in input audio feature matrices to have size (
+N, 26) and output motion matrices to have size(
+N, 45), where N represents the number of frames in the sample.
+We use the term "context window". The context window consists of 61 frames centered around acertain point in time, represented by a frame. We also use a "mean pose" calculated from the trainingdataset to use it as a starting value in recurrent models.
+For paddings we used the MFC
+Cs of silence recording. In text-based models we also used text featuresin form of Glo
+Ve embedding for words in context window.
+For all proposed models we smoothed generated motions by applying the Savitzky
+Golay filter tothem. The length of the filter window and the order of the polynomial are 9 and 3, respectively. We didnot use any external data.
+4 Proposed models
+The task of generating a motion can be summarized in the following way: given a set of audio features𝐴𝐴 = (𝐴𝐴1, 𝐴𝐴2, ..., 𝐴𝐴𝑛𝑛) and words 𝑊𝑊 = (𝑊𝑊1,𝑊𝑊2, ...,𝑊𝑊𝑘𝑘) predict a corresponding set of motions 𝑀𝑀 =(𝑀𝑀1,𝑀𝑀2, ...,𝑀𝑀𝑛𝑛).
+𝑓𝑓(𝑊𝑊,𝐴𝐴) = 𝑀𝑀 (1)
+During training we minimize MS
+E loss and use it to assess model convergence. Our final loss functionsare modified by additional terms which are described in corresponding model sections.
+4.1 Sequence to sequence model
+Our first described model is a sequence to sequence model, which is a reimplementation of soundbased features. The model in the aforementioned paper used words to generate corresponding motions.
+The competition dataset provides audio, motions and words. Three seconds of speech correspond to 60poses and usually contain less than 10 words. We have decided to build our system on audio features anduse textual information to further improve the quality of the models. Aside from difference in densitybetween the two sets of features, speech obviously conveys more information like emotions, pauses,voice crackling, which are usually lost in text-to-speech systems.
+As motions and audio features are mapped on a one-to-one basis, our first model is a simple seq2seq consisting of GR
+U and decoder over audio and motions. This baseline system is illustrated on Figure 1. The encoder takes several audio features (MFC
+C) 𝐴𝐴𝑖𝑖−𝑘𝑘...𝐴𝐴𝑖𝑖 from correspondingframes, encodes them into a higher dimensional space represented by 𝐴𝐴𝐴𝐴𝑖𝑖−𝑘𝑘..𝐴𝐴𝐴𝐴𝑖𝑖 and passes it to thedecoder, which predicts the following motions labeled 𝑀𝑀𝑖𝑖+1...𝑀𝑀𝑚𝑚. Decoder’s final layer combines decoder hidden state and encoder-decoder dot-product attention make a motion prediction. As thedecoder requires a pose as the first input, we supply it a previously predicted pose or the "mean pose" ifno previous poses are available.
+We tried to further improve this model by adding a word encoder, which is illustrated in the dottedbox in Figure 1. The simultaneous use of words and audio features has the problem of alignment.
+The GENE
+A 2020 challenge dataset had a transcript with words and corresponding time regions. Suchmarkup is hard to annotate. Moreover while it helps to map words to various time windows there isstill a problem of combining just a few words and multiple audio features. We use attention mechanismbetween the two representations for automatic alignment.
+Words are embedded using Glo
+Ve are passed to another GR
+U. The hidden state of word-levelencoder is not directly passed to the decoder, but a second encoder-decoder attention vector is calculated,which is supplied to the final layer of the decoder, to make prediction based both on audio, previous posesand words. The words are taken from a 2-second window.
+Audio and Text
+Driven approach for Conversational Gestures Generation
+We tuned several hyperparameters and training strategies. As the authors in employed continuity loss and variance loss to make the generated motions more fluid and natural. The addition ofvariance loss significantly improved co-speech gesture quality. We trained model with learning rate of0.001 using Adam optimizer; audio encoder was a 2-layered bidirectional GR
+U with the hidden dimension of 150 units; word encoder was a single-layered GR
+U, both input and output dimensions were set
+to 100 units; decoder was a single-layered GR
+U with hidden dimension of 150 units. The model wastrained for 100 epochs with a batch size of 512, where each sample contained 10 previous poses and 20poses for prediction.
+We also explored various combinations of windows sizes for encoder and decoder. We did not findlarger windows to be beneficial to the quality of our predictions and we kept the same window sizes asin the original paper: we use 10 previous frames to predict the following 20 frames.
+Another strategy we tried to employ is a variation of scheduled sampling . During training ourautoregressive decoder models a following function:𝑓𝑓(ℎ𝑖𝑖−1, �̃�𝑚𝑖𝑖−1, 𝐸𝐸) = 𝑚𝑚𝑖𝑖, (2)where ℎ𝑖𝑖−1 is decoder’s hidden state, �̃�𝑚𝑖𝑖−1 is the true motion on a previous time step and 𝐸𝐸 correspondsto encoder states. During teacher forcing we replace the real motion �̃�𝑚𝑖𝑖−1 with previously generatedmotion 𝑚𝑚𝑖𝑖−1 with a probability of 0.5. The main idea behind it is to help the model to explore the errorspace and become more robust. In the end we found out that not supplying real poses at all was the bestoption and the rest of our models are using their own predictions during training, just as it would happenduring inference. This may be attributed to variance loss: the model was rewarded for making differentposes, which likely resulted in a pretty constant deviation from true poses.
+We also do not save hidden state of encoder and decoder between batches during training. Each training sample is processed individually without knowledge of previous time period, but during inferencethe model always supplies it’s state for the next segment. This may be the reason behind choppiness inpredicted movement. We used smoothing to eliminate this shortcoming.
+We’d like to state that our evaluation of hyperparameters is rather subjective: all the changes werejudged by a small group of people on a one-minute sample from the validation recording. It is quitepossible that we misjudged some of our experiments because of an unsuitable time sector or a simplehuman error.
+Korzun V. A., Dimov I. N., Zharkov A. A.4.2 Contextual encoder
+The second model is inspired by . We have decided to keep sequence to sequence model and enhanceit with contextual representations. In our basic sequence to sequence encoder each input corresponds toa single frame.
+We decided to represent each frame as a 3-second window around it, which resulted in 61 frames.
+We used two additional GR
+U encoders to encode the audio and textual context window as displayed on
+Figure 2. The audio encoder consists of 3 linear layers with batch normalization and RE
+Lu activation.
+Those layers are used to project audio features for the one-layer one-directional GR
+U. All audio encoderlayers have hidden size 150. The textual encoder is bidirectional one-layer GR
+U over Glo
+Ve embeddingsand hidden size of encoder is similar to the embeddings size which is 100. The outputs of both contextencoders are concatenated and projected to be passed as inputs to the seq2seq encoder with hidden dimension of 150 units. The rest of the model is a simple sequence to sequence architecture with attention,which was described earlier.
+We train this model with Adam optimizer with the learning rate of 0.001 and the batch size of 50.
+The final model was trained for the 100 epochs, however the target loss stabilized after 80th epoch.
+Furthermore, motions generated after 80th and 100th epochs were virtually identical.
+4.3 Adversarial training
+Even a single speaker has a significant variation of his movements even in extremely similar situations,same phrases and contexts. However, so far we described only models which tried to recreate the samemovements as the ground truth, even if it was not the only correct behaviour, but one of the many possiblemotions. To try to overcome this problem we used adversarial training (as done, i.e. in ).
+The generator model produces motions from audio, while discriminator model tries to classify realand generated motions. The generator loss is𝐿𝐿𝐺𝐺 = 𝐿𝐿𝑏𝑏𝑏𝑏𝑏𝑏𝑏𝑏(𝐺𝐺) + 𝜆𝜆𝐿𝐿𝑏𝑏𝑎𝑎𝑎𝑎(𝐺𝐺𝐺𝐺𝐺)𝐺 (3)where 𝐿𝐿𝑏𝑏𝑏𝑏𝑏𝑏𝑏𝑏 contains whatever non-adversarial components of generator loss and 𝐿𝐿𝑏𝑏𝑎𝑎𝑎𝑎 representsadversarial loss with weight 𝜆𝜆. In all of our experiments we used non-saturating GA
+N loss.
+We tried several discriminator models based on blocks of (1
+D convolution, 1
+D batch normalization,Leaky
+Relu(0.2)). After series of that blocks we flatten the outputs of convolutional block and apply two
+Audio and Text
+Driven approach for Conversational Gestures Generationmore linear layers. We varied total number of blocks from 2 to 6 with at least two of them reducingspatial dimension (stride > 1).
+Unfortunately, the training with adversarial loss was not stable (especially for relatively high 𝜆𝜆 valuesaround 10.0). Sometimes we got interesting and diverse results (mostly for small 𝜆𝜆 values around 0.1),however the quality was still lacking in comparison with our best model so in the final system adversarialtraining was not used.
+5 Results and discussion
+The challenge organizers used two human-evaluation metrics for evaluation:• Human-likeness the generated motion should be realistic for human. The evaluation participantsshould score the motion file without audio by this criterion.
+• Appropriateness the generated motion should match the corresponding audio. So participantsscore motion with audio.
+Summary statistics (sample median and sample mean) were provided in are listed in The challenge organizers provided results for all participating systems (with label S
+X), baselines (B
+Aand B
+T), natural (
+N) and mismatched (
+M) motion capture. Our system is labeled as S
+D.
+Human-likeness AppropriatenessI
+D Median Mean Median Mean
+N 72 ∈ 1.8 81 ∈ 1.8
+M " " 56 ∈ 2.0B
+A 46 ∈ 1.7 40 ∈ 1.8B
+T 55 ∈ 1.8 38 ∈ 1.9S
+A 38 ∈ 1.9 35 ∈ 1.9S
+B 52 ∈ 1.9 43 ∈ 2.0S
+C 57 ∈ 1.9 50 ∈ 1.9S
+D 60 ∈ 1.7 49 ∈ 1.9S
+E 49 ∈ 1.8 47 ∈ 1.8
+Our systems were built upon baselines, which allows us to estimate the importance of proposedmodifications. Our final submission has the highest median score among the participating systems andbaselines. It also has the second highest score by appropriateness. Although our system shows strongimprovement over baselines, it is still far behind human generated motions.
+Challenge organizers used a special set of mismatched audios and human motions during the humanevaluation. This approach was not surpassed by any system. That means that our synthetic generatedmotions are significantly less appropriate than random human movement.
+To select the best model we compared them on validation data using human evaluation among themembers of our team. The seq2seq model with contextual encoder was unanimously chosen as the bestmodel, however seq2seq with attention over text and audio was a close second.
+We found out that our team was looking for specific sorts of movements during the motion evaluation:we generally were looking for correspondence between motions and verbal pauses. We were moreinclined to vivid movements, even if they were choppy, and last but not least we were always lookingfor fast and sharp movements coinciding with loud and aggressive speech patterns.
+Our humble human evaluation has come to a conclusion, that the approach with context encoder helpsto make generated motions smoother, because is uses more information, especially for the last frames ina sequence, while basic seq2seq heavily relies on smoothing.
+6 Conclusion
+In this paper we proposed several modifications for existing approaches in co-speech gesture generation. In our approach we combined text and audio features and thus were able to outperform textand
+Korzun V. A., Dimov I. N., Zharkov A. A.audio-only baselines. Our models were rated highest for Human-likeness metric and second highest forappropriateness, however compared with the real data (human gestures) there is a striking gap in oursystem’s performance and real motions, meaning that there is still a lot to be improved.
+Our team also did not explore various sound preprocessing techniques, which could result in a morehigh-dimensional vector input representation, which would allow models to extract a more rich set offeatures.
+We believe that future research should focus on multimodal representations. We also believe thatthe quality of generated motions will increase with the expansion of the dataset, which will enable theresearchers to train more sophisticated models, like GA
+Ns or transformers.

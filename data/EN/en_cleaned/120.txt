@@ -1,0 +1,24 @@
+§1 P1Arguments(Topics)
+Argument (
+Topic) 1§1 P2-3
+Argument (
+Topic) 2§ 2-14 P4-17
+Sub-argument (
+Sub-topic) 2а
+Interior of the house at Verhlyovo §2-3 P4-5
+Sub-argument (
+Sub-topic) 2b
+Residents of the house at Verhlyovo §4-14 P 6-17
+Conclusion§15 P18
+Inkova O. Y., Nuriev V. A., Popkova N. A. 5: The graph for the connective да и in the SD
+B of hierarchical LS
+Rs Role of Paragraph in the Corpora of Annotated Texts Acknowledgements Joint Switzerland
+Russia Research Preparation Grant “
+Annotation methodology in a supracorpora database of connectives” of the State Secretariat for Education, Research, and Innovation. The research was carried out using the infrastructure of the Shared Research Facilities «
+High Performance Computing and Big Data» (CK
+P «
+Informatics») of FR
+C CS
+C RA
+S (
+Moscow).

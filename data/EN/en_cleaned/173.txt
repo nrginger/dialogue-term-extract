@@ -1,0 +1,209 @@
+The task of coreference resolution was introduced at the Sixth Message Understanding Conference(
+Grishman and Sundheim, 1996), where the first dataset for coreference resolution task was introduced.
+The dataset consisted of 25 articles from Wall Street Journal (30,000 words). The annotation schemewas considered a standard until the release of AC
+E 2005 Multilingual Training Corpus for the 20051https://github.com/vdobrovolskii/rucoco
+Computational Linguistics and Intellectual Technologies:
+Proceedings of the International Conference “
+Dialogue 2022”
+Moscow, June 15–18, 2022
+Automatic Content Extraction (AC
+E) technology evaluation (
+Doddington et al., 2004). The corpus included texts in English, Chinese and Arabic and contained around 650,000 words in total for the threelanguages.
+The MU
+C guidelines were domain-oriented, and their definition of a markable (mention) was mostlysyntactically motivated. But further developments in this area, starting with the AC
+E initiative, increasingly involved semantic factors, so that recent corpora with coreference annotation define markablesbased on semantic class restrictions.
+Quite a lot of such corpora were created in the last two decades, their primary goals being to increasethe size in order to satisfy the requirements of the data-driven approach and to improve inter-annotatoragreement which in many cases is too low, especially when a dataset addresses more complex cases ofcoreference.
+The most well-known corpus of this kind is Onto
+Notes 5.0 (
+Pradhan et al., 2013). Onto
+Notes containstexts of various genres in three languages: English, Arabic, and Chinese. The cumulative volume ofthis corpus is 2.9 million words (about 1.5 million being English). The average annotator agreement forOnto
+Notes is 91.8% for normal coreference and 94.2% for appositives (
+Hovy et al., 2006).
+The authors of the ARRA
+U corpus (
+Poesio et al., 2008; Uryupina et al., 2020) concentrate on "difficult" cases of anaphora: plural anaphora, abstract object anaphora, and ambiguous anaphoric expressions, so the corpus has bridging reference and discourse deixis annotated. It contains only Englishtexts (although there is an Italian analogue Live
+Memories (
+Rodríguez et al., 2010)); its current size is350,000 tokens. The inter-annotator agreement in ARRA
+U varies from 67% (annotation of anaphoric
+ambiguities) to 95% (annotation of complex anaphoric relations).
+Thus, most of the largest corpora with coreference annotation contain predominantly English texts;however, with the growing interest in natural language processing of Non
+English languages, corporain other languages are being developed more often. As for the Russian language, there now exist twosuch datasets, one of them being Ru
+Cor (
+Toldova et al., 2014; Toldova et al., 2015) and the other AnCor(
+Budnikov et al., 2019).
+Ru
+Cor contains texts from openly available sources, such as Russian Open
+Corpora, Lib.ru and
+Lenta.ru (156,000 words in total). In this corpus the annotation process was conducted over morphosyntactically pre-processed texts. The annotation scheme differentiates between primary and secondary markables, according to Potsdam Coreference Scheme (
+Krasavina and Chiarcos, 2007), where theprimary markables are always annotated and represent specific references, while the secondary markablesare annotated only if they are antecedents of any of the primary markables. Inter-annotator agreementfor Ru
+Cor is 66% (
+Cohen’s Kappa) or 85% (
+Mitkov’s metric).
+An
+Cor was created for the Ru
+Eval competition in 2019 and contained 523 texts of various genresfrom Russian Open
+Corpora (193,000 words in total). Named entities, common N
+Ps and pronouns wereannotated; the inter-annotator agreement for this dataset is 62.7% (75.5% agreement of both annotatorsand the final version).
+As can be seen, although there are plenty of different corpora with coreference annotation, the largestand the most complex ones do not contain texts in Russian, and as for the Russian corpora, they aresignificantly smaller than the English ones, besides, their inter-annotator agreement is lower.
+Therefore our main goals were to create a sufficiently big Russian corpus which would contain annotation of at least some difficult cases of anaphora with the inter-annotator agreement being high enoughcompared to Onto
+Notes and ARRA
+U.
+2 RuCo
+Co: Russian Coreference Corpus
+2.1 Data
+We utilize the news stories published by NEW
+Sru.com2 as our source of text data. The texts wereautomatically collected and processed in the following way:1. Any texts containing videos or embedded widgets from other websites were discarded as well as
+any texts marked as promotions.
+2https://www.newsru.com/
+Dobrovolskii V. A., Michurina M. A., Ivoylova A. M.2. Then the texts were converted to plain text format and cleared of any remaining HTM
+L artifacts.
+3. Texts that contained fewer than 20 tokens were also discarded, because they mostly consisted of a
+heading and a follow-up link only.
+4. We then uniformly sampled one million words worth of texts across all text lengths and news cat
+egories. The total number of sampled texts is 3075.
+2.2 Annotation layer
+The first release of RuCo
+Co covers identity (and in some cases, near-identity) coreference of nounphrases and pronouns. We do not annotate singletons, which means that each mention is linked to atleast one other mention. We do not assign any attributes to the markables.
+Mentions: We treat all noun phrases as potential mentions. Additionally the following types of pronouns are annotated:• personal, possessive and reflexive pronouns;• reciprocal pronouns, such as друг друга (‘each other’);• relative pronouns;• interrogative pronouns.
+However, at this point we do not annotate coreference links with adjectives, clauses and expressionsof time, all of which are going to be treated as valid mentions in the second revision of the corpus.RuCo
+Co: a new Russian corpus with coreference annotation
+Mention boundaries: In most cases full noun phrases are annotated. To avoid overlapping of mentions referring to the same entity, participle and relative clauses that depend on the mention head arenot included in mention boundaries. Therefore, in the following example there is no overlapping:{клиент}0, {который}0 хотел пополнить {свой}0 счет (‘{a customer}0, {who}0 wanted totop up {their}0 account’). Parenthesis is not annotated unless it contains an independent clause, in whichcase it is treated as a regular sentence.
+Coreference and anaphora: Coreference is annotated only for mentions of concrete entities. Forgeneric mentions and mentions of abstract entities, events and properties we only annotate anaphora:Может ли машина действовать разумно? Может ли {машина}0 обладать сознанием?Может ли {она}0 чувствовать? (‘
+Can a machine act intelligently? Can {a machine}0 have aconsciousness? Can {it}0 feel how things are?’). Here, the first mention of машина (‘a machine’) is notannotated as coreferent with other mentions, because it is a generic mention.
+Ellipsis: Mentions with elided heads are not annotated, as it would create ambiguity: Это твоясестра или {Даниэля}0? Это {сестра {Даниэля}0}1, {она}1 приехала на выходные. (‘
+Is thisyour sister or {
+Daniel’s}0? This is {{
+Daniel’s}0 sister}1, {she}1 came for the weekend.’). In the exampleabove, the underlined mention could be recovered as сестра Даниэля (‘
+Daniels’ sister’), but we do notannotate it as referring to entity #1, because there would be two identical mentions referring to differententities.
+Split antecedents: In RuCo
+Co, we annotate split antecedents as a means of dealing with the followingchallenges:• Mentions referring to multiple referents: {Премьер-министр}0 и {госпожа Саймондс}1поженились вчера днем, небольшая церемония прошла в Вестминстерском соборе.
+{Пара}0,1 отпразднует свадьбу с семьей и друзьями следующим летом.3 (‘{Prime
+Minister}0 has married {
+Carrie Symonds}1 yesterday afternoon in a "small ceremony" at Westminster Cathedral. {
+The couple}0,1 would celebrate again with family and friends next summer.’).
+• Coordinate dependents: {Сборные России и Канады}0,1 ранее ни разу не встречались в финалах чемпионатов мира. <..> {Отечественные хоккеисты}0 победили {канадцев}1со счетом 5-3 в Стокгольме в 1989 году. (‘{
+National teams of Russia and Canada}0,1 have notplayed in IIH
+F finals before. <..> {
+The Russian team}0 defeated {the Canadians}1 5-3 in Stockholmin 1989.’)
+Further in the text we refer to mentions linked to split antecedents as plural anaphors and to entities builtfrom such mentions as plural anaphor entities. The number of such entities in the corpus can be seen in
+Category Words Mentions Entities PA
+Entities APA
+Entitiesrussia 352,672 55,338 13,891 1,083 (7.8%) 2,471 (17.8%)world 311,445 50,283 12,660 1,045 (8.3%) 2,122 (16.8%)finance 94,015 11,739 3,020 176 (5.8%) 447 (14.8%)sport 80,352 11,807 3,331 279 (8.4%) 705 (21.2%)cinema 53,645 8,003 2,116 167 (7.9%) 431 (20.4%)realty 34,227 4,509 1,274 72 (5.7%) 184 (14.4%)hitech 31,365 3,895 1,080 77 (7.1%) 150 (13.9%)auto 24,735 2,914 881 40 (4.5%) 94 (10.7%)blog 17,649 1,917 624 39 (6.3%) 94 (15.0%)
+Total 1,000,105 150,405 38,877 2,978 (7.7%) 6,698 (17.2%)
+Metonymy: Linking of metonymies is allowed: {Лондон}0 и {Брюссель}1 официально объявили о соглашении по Brexit. {Евросоюзу}1 и {Великобритании}0 удалось выработать3https://www.newsru.com/world/30may2021/bjohnson.html
+Dobrovolskii V. A., Michurina M. A., Ivoylova A. M.соглашение об отношениях после Brexit. (‘{
+London}0 and {
+Brussels}1 have announced a Brexittrade deal. {
+The European Union}1 and {the United Kingdom}0 have agreed on a post
+Brexit tradedeal.’).
+Corpus format: RuCo
+Co is distributed as a collection of JSO
+N-formatted files. An entity is represented as a list of character offset pairs. Antecedents of plural anaphor entities are listed in the "includes"section.
+{"entities" : ], , ], ]],"includes" : , ],"text": "
+At half-past nine, that night, Tom and Sid were sent to bed, asusual. They said their prayers, and Sid was soon asleep.\n"→˓}
+Listing 1: JSO
+N-formatted annotation of the following example: At half-past nine, that night, {
+Tom}0and {
+Sid}1 were sent to bed, as usual. {
+They}0,1 said their prayers, and {
+Sid}1 was soon asleep.
+3 Corpus annotation
+3.1 Metrics
+There exist a number of coreference evaluation metrics, such as MU
+C (
+Vilain et al., 1995), B3 (
+Baggaand Baldwin, 1998), CEA
+F (
+Luo, 2005), BLAN
+C (
+Recasens and Hovy, 2011) and others. Since theCoNL
+L-2012 shared task (
+Pradhan et al., 2012), the average score of MU
+C, B3 and CEA
+F𝑒𝑒, has becomea de-facto standard way to evaluate coreference resolution systems. However, several shortcomingsof these three metrics were demonstrated by Moosavi and Strube (2016), who also introduced LE
+A, acoreference evaluation metric designed to overcome those shortcomings. LE
+A of a set of entities 𝐾𝐾 iscomputed as: ∑︀𝑒𝑒𝑖𝑖∈𝐸𝐸(𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖(𝑖𝑖𝑖𝑖)× 𝑖𝑖𝑖𝑖𝑟𝑟𝑖𝑖𝑟𝑟𝑟𝑟𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑟𝑟𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖(𝑖𝑖𝑖𝑖))∑︀𝑒𝑒𝑗𝑗∈𝐸𝐸 𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖(𝑖𝑖𝑗𝑗)(1)where 𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖(𝑖𝑖) = |𝑖𝑖| and the resolution score of entity 𝑘𝑘𝑖𝑖 is calculated against the response set ofentities 𝑅𝑅 as follows:𝑖𝑖𝑖𝑖𝑟𝑟𝑖𝑖𝑟𝑟𝑟𝑟𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑟𝑟𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖(𝑘𝑘) =∑︁𝑟𝑟𝑗𝑗∈𝑅𝑅𝑟𝑟𝑖𝑖𝑖𝑖𝑘𝑘(𝑘𝑘𝑖𝑖 ∩ 𝑖𝑖𝑗𝑗)𝑟𝑟𝑖𝑖𝑖𝑖𝑘𝑘(𝑘𝑘𝑖𝑖)(2)
+Here, 𝑟𝑟𝑖𝑖𝑖𝑖𝑘𝑘(𝑖𝑖) calculates the number of unique coreference link within 𝑖𝑖: 𝑟𝑟𝑖𝑖𝑖𝑖𝑘𝑘(𝑖𝑖) = |𝑖𝑖| × (|𝑖𝑖| − 1)/2.
+We adopt LE
+A as our primary metric for measuring inter-annotator agreement and evaluating the neuralcoreference resolution model. As LE
+A does not support split antecedents out of the box, we modifythe metric in the following way: for each plural anaphor entity we additionally calculate the scores of aspecial dummy entity with 𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖 set to be the number of antecedent entities and 𝑖𝑖𝑖𝑖𝑟𝑟𝑖𝑖𝑟𝑟𝑟𝑟𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑟𝑟𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖computed based on the directed links between the plural anaphor entity and its antecedent entities.
+The corpus was annotated by a team of 20 students of General Linguistics. The annotators werechosen based on trials that involved annotating documents of up to 1500 words. Each of the resultingdocuments was compared to the gold annotation using the LE
+A metric. The passing score was set to 0.9;the passing rate was 67%. Five of the annotators with the highest annotation quality were later appointedas moderators.
+3.2 Neural pre-annotator
+To speed up the annotation process, we developed a neural coreference resolution model to pre-annotatethe texts. The model is based on the architecture proposed by Lee et al. (2018) and improved by Joshi etal. (2019) with the following differences:RuCo
+Co: a new Russian corpus with coreference annotation• We use the Russian version of RoBER
+Ta (
+Liu et al., 2019) pretrained by Sber A
+I4.
+• We replace the neural mention extraction module with a rule-based syntactic mention extractor builton top of spa
+Cy (
+Honnibal and Montani, 2017). This allows us to explicitly define what a mentionis instead of relying on neural networks for mention extraction.
+• Following Dobrovolskii (2021), we represent mentions using only weighted sums of the subtokenembeddings that constitute the mention.
+To train the model, we used the automatically merged annotations obtained during the early phases ofannotation. We ignored plural anaphors and used the original LE
+A to evaluate the pre-annotation quality.
+The model performed at 0.62 F1 after being trained on 100,000 words, at 0.68 F1 after being trained on400,000 words and at 0.73 F1 after training on the whole dataset of 1,000,000 words.
+3.3 Annotation process
+The annotation process consisted of two steps: the first 100,000 words were annotated from scratch, i.e.
+the task was to identify and link all coreferent mentions in raw texts; the remaining 900,000 words werefirst pre-annotated by a neural coreference resolution model and the annotators were asked to correct theresulting documents.
+Each text in the corpus was annotated by two annotators and then finalized by a moderator who received an automatic merge of the two versions with differences highlighted. Additionally, 3500 wordsof each annotator were manually checked by the authors of the markup scheme to provide feedback onan early stage.
+3.4 Inter-annotator agreement
+We measured the inter-annotator agreement and found it to be 0.759 F1. Because the annotators do nothave a closed set of mentions to link, we suspect that some of the differences between annotations can beattributed to lack of attention. To eliminate this factor, we conducted the following experiment on a subsetof the data approximately 50,000 words in size: each annotator was given back their own annotationsautomatically merged with the other annotation versions. The annotators were asked to independentlycorrect the documents. The resulting inter-annotator agreement was 0.890 F1.
+3.5 Disagreement analysis
+We analysed discrepancies of the two phases of corpus annotation: 1) from scratch (50 random texts,about 16,000 words examined) and 2) pre-tagged annotation (158 random texts, 50,000 words examined).
+Discrepancies were divided into several categories:• missing/redundant coreference cluster;• missing/redundant markable;• missing/redundant anaphoric chain;• plural anaphors with split antecedents;• mentions referred to different entities;• N
+P borders.
+To make the comparison more informative, we carried out the error analysis of the neural model usedfor pre-tagging, although we need to keep in mind that after the first 100,000 words were checked,we made a number of minor clarifications and changes in the guidelines to facilitate the work of ourannotation team. See the comparison of discrepancies in annotation from scratch, model errors andpre-tagged texts in Figure 3.
+By missing/redundant coreference cluster we mean all cases when one of the two annotators skippedthe whole cluster or marked up an unnecessary entity. It is the most frequent type when annotatorsdisagree (about 39% for both annotation stages). There was no closed set of entities, moreover, forabstract and generic entities, events or referents denoting open sets (so-called non-concrete entities) onlyanaphora must be annotated. Thus, annotators should decide whether the entity is concrete or nonconcrete. They disagree on the following examples: locations without proper names like кризисный4https://github.com/sberbank-ai/model-zoo
+Dobrovolskii V. A., Michurina M. A., Ivoylova A. M.0 10 20 30 40 50 60 70 80 90 100
+Annotation from scratch
+Neural model annotation
+Pre-tagged annotation
+Coreference cluster Markable Anaphoric chain
+Plural anaphors Different entities N
+P bordersрегион (‘crisis area’), жилой квартал (‘residential area’), and also when locations are nested in anorganisation name: Россия (‘
+Russia’) in Министр транспорта России (‘
+Minister of Transport of
+Russia’) or in Верховном суде РФ (‘
+Supreme Court of the Russian Federation’). Some otherpopular types are events like концерт в Москве (‘the concert in Moscow’), чемпионат России похоккею (‘
+Russian ice hockey championship’) and some abstract entities that are very similar to eventsas they have participants like контракт (‘contract’), уголовное дело (‘criminal case’).
+Missing/redundant markable (about 20% and 28% respectively) is the case when an annotatormissed one or several mentions, although the coreference cluster is there in both annotation versions.
+For these cases we examined types of N
+Ps missed by one annotator in the annotation from scratch stage,having preserved the taxonomy as in (
+Toldova et al., 2015) in order to compare them. See Table 2 tocheck numbers. We can observe that both annotation groups of students tend to miss noun groups (i.e.
+noun phrases headed by a noun) more than any other N
+P type.
+N
+P Type Our Data, % Toldova et al., 2015, %
+Reflexive pronouns 4.73 3.76
+Relative pronouns 1.77 6.20
+Anaphoric pronouns 4.73 12.47
+Possessive pronouns 2.37 6.48
+Noun groups 85.2 71.08
+Adverbs (here/there) 1.18 0.00
+As for missing/redundant anaphoric chain (3.3% and 8.6%) i.e. chains with abstract or genericentities where only anaphora resolution was performed, annotators mostly missed chains containinga relative pronoun который (‘which/that’) as an anaphoric element e.g. срок, до которого (‘thedeadline by which’), той политической линии, которую (‘the policy that’).
+In plural anaphors with split antecedents (9% out of all discrepancies, both stages), the most common discrepancy is a missing relation between a person and a group of people: a son and a family,Кондолиза Райс (‘
+Condoleezza Rice’), сенатор Хиллари Клинтон (‘
+Senator Hillary Clinton’) andполитики (‘politicians’). Less frequent cases of disagreement are the following: part-whole relations(which are not annotated as split anaphora) and entities denoting several items with part of these itemsas split antecedents: 50 терактов (‘50 terror attacks’) and 20 терактов (‘20 terror attacks’).
+Mentions referred to different entities (6.4% and 7.9%) include cases where one or several mentionswere assigned to different clusters by annotators in some confusing contexts (e.g. pronouns) or oneannotator labelled some mentions in one and the same chain while the other one has divided it intoRuCo
+Co: a new Russian corpus with coreference annotationseveral chains e.g. cases with metonymy like Пхеньян (‘
+Pyongyang’) and КНДР (‘
+North Korea’),Израиль (‘
+Israel’) and Израильская армия (‘
+Israel Defense Forces’).
+Disagreement on N
+P borders covers 21% of discrepancies in the first stage and substantially less onthe pre-tagged stage (7.5 %). We may assume that it may be due to the ability of our model to find correctborders or that it is due to the clarified guidelines of syntactic ambiguities we made before the secondannotation stage: we have highlighted that in all such cases the maximum N
+P border must be annotated.
+This category presupposes cases where annotators excluded modifiers as in изменения (‘changes’) vs.
+самые существенные изменения (‘the most significant changes’), complements e.g. Банк (‘the
+Bank’) vs. Банк России (‘the Bank of Russia’) and less often appositives: Берт Ньюборн (‘Burt
+Neuborne’) vs. Берт Ньюборн, профессор права Университета Нью-Йорка (‘
+Burt Neuborne
+Professor of Civil Liberties at New York University’).
+This analysis was presented to the moderators so that they would know what to pay attention to.
+Despite all these discrepancies, the resulting inter-annotator agreement is still 0.890 F1 and all the disagreements were resolved by our moderators.
+4 Conclusion
+The result of our work is the Russian Coreference Corpus, which is the largest corpus with coreferenceannotation for Russian so far. We managed to achieve almost 90% inter-annotator agreement; we alsoanalyzed the most common disagreements between our annotators so that we know what issues are tobe solved. Further developments will include annotating more difficult cases of anaphora as well asincreasing the size and genre diversity of the corpus.
+Acknowledgements
+We are grateful to our annotation team from General Linguistics Department of RSU
+H for their hardwork, attentive approach to the project and immense help in discussions. We would also like to thank
+Prof. Svetlana Toldova and Evgeniya Inshakova for their useful observations and helpful advice.

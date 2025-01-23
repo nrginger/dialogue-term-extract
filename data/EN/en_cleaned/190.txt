@@ -1,0 +1,21 @@
+K., Korhonen A, Ryant N., Palmer M. Extending verbnet with novel verb classes. // Proceedings of LRE
+C, volume 2006. — 2006. — p. 1 A. Distributional semantics in linguistic and cognitive research. // Special issue of the Italian Journal of Linguistics, Rivista di Linguistica 20.1. — 2008. — p. 1-31.
+Shane M., Nirenburg S. A knowledge representation language for natural language processing, simulation and reasoning. // International Journal of Semantic Computing Vol. 6, No. 1, 3_23. — 2012. I.
+A. An essay of the theory of linguistic “
+Meaning ⇔ Text”models. Semantics. Syntax. . — Science , Moscow. — 1974. I. Semantics: From Meaning to Text. Vol. 1. — Amsterdam/
+Philadelphia: John Benjamins. — 2012. I. Semantics: From Meaning to Text. Vol. 2. — Amsterdam/
+Philadelphia: John Benjamins. — 2013. I. Semantics: From Meaning to Text. Vol. 3. — Amsterdam/
+Philadelphia: John Benjamins. — 2015. T. Events in the semantics of English: A study in subatomic semantics. — Cambridge, M
+A: The MI
+T Press. — 1990. C., Sag I. Information-based syntax and semantics. Volume 1. Fundamentals. // CLS
+I Lecture Notes 13. — 1987.
+Salvo Braz R., Girju R., Punyakanok V., Roth D., Sammons, M. Knowledge Representation for Semantic Entailment and Question
+Answering. // IJCA
+I’05: Workshop on Knowledge and Reasoning for Question Answering. — 2005. Boguslavsky I. M., Dikonov V. G., Inshakova E. S., Iomdin L. L., Lazursky A. V., Rygaev I. P., Timoshenko S. P., Frolova T. I. Sgall, P., Hajičová E., Panevová J. The Meaning of a Sentence in its Semantic and Pragmatic Aspects. — Prague Amsterdam: Academia – North
+Holland. — 1986. M. E., Budnikov E. A., Chelombeeva A. N., Matavina P. V., Skorinkin D. A. Information Extraction Based on Deep Syntactic
+Semantic Analysis. // Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2016” Moscow, June 1–4. — 2016. H., Zhu M., Della Senta T. Universal Networking Language. Edition 2. — UND
+L Foundation. Geneva. — 2005. A., Reisinger D., Sakaguchi K., Vieira T., Sheng Zhang, Rudinger R., Rawlins K., Van Durme B. Universal decompositional semantics on universal dependencies. // Proc. of EMNL
+P. — 2016. — pp. 1713–1723. Semantic Representations in Computational and Theoretical Linguistics: the Potential for Mutual Enrichment
+	
+Boguslavsky I. M., et al.: Semantic Representations in Computational and Theoretical Linguistics

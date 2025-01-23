@@ -1,0 +1,117 @@
+The starting point of this work is an observation made in (
+Kagan and Alexejenko 2011) that Russian adjectival suffi x -ovat means something like ‘slightly too’ (1a)
+in certain environments and simply ‘slightly’ (1b) in other cases:(1) a. Takĳ e kabluki dlja menja vysok-ovat-y. (=1b Kagan and Alexejenko 2011) such heels for me high-ovat-PL.NO
+M
+Such heels are somewhat too high for me.’b. Lena protjorla mebel’ vlažn-ovat-oj trjapkoj. (=2b Kagan and Alexejenko 2011) Lena wiped furniture wet-ovat-INST
+R duster
+Lena wiped the furniture with a wettish duster.’(1a) says that the degree that the heels reach on the scale of height is slightly greater than the highest degree that would be good for me to wear. Crucially, there is a ‘purpose’ proposition involved, defi ning a degree interval; its maximum is used as a standard of comparison. We call this “functional standard”. (1b) doesn’t have anything like that — it just states that the duster possesses a low degree of wetness.
+We discuss briefl y the technical details of degree semantics we will be using.
+2. Degree semantics background
+I follow (
+Bartsch and Vennemann 1972, 1973) and (
+Kennedy 1999, 2005) and analyze gradable adjectives as measure functions: functions of type <e, d> from the domain of individuals to degrees on a certain scale:(2) a. ] = x.tall(x)b. ] = x.expensive(x),where adj(x) is ‘the degree on the appropriate scale that represents x’s measure of adjective-ness’
+Measure functions are converted into properties of individuals by degree morphology, which includes comparative morphemes, intensifi ers and so forth. For (morphologically) unmarked positive form (
+John is tall) null PO
+S morpheme is introduced, with a denotation along the lines of (3), where ds is ‘contextually appropriate standard of comparison, whatever that is’:(3) ] = gx.g(x) ≥ ds (=9 Kennedy 2005)
+To be more precise, various evidence (which we omit here) shows that there are several homonymous PO
+S morphemes, at least this is one of the straightforward ways to capture the distinct behavior of gradable adjectives with different scalar structure. Relative adjectives (gradable adjectives encoding a scale with neither minimum nor maximum — tall, wide) combine with PO
+Srel, which is analogous to (3). The difference “
+Functional” standard in Russian and English degree constructions 171is the ‘signifi cantly’ component which is necessary for the positive form of the relative adjective to be true of an individual:(4) ] = g c
+De,t x.g(x) !≻ norm(c)(g) (in lines of Kennedy 1999, 2005) c = comparison class, g = gradable property, !≻ = signifi cantly exceed
+Absolute adjectives (encoding scales with minimum — sick, wet — or maximum — healthy, dry) combine with PO
+Smin or PO
+Smax. For an adjective like wet to hold of an object, it suffi ces for the object to possess any small degree of wetness, while for dry to hold it should be completely dry:(5) a. gx.g(x) ≻ min(SCAL
+E(g)) (=76bc Kennedy 2005)b. gx.g(x) = max(SCALE(g))
+Comparative clauses involve comparative elements (more) that are often treated as expressions that establish an ordering relation between two degrees: one derived by applying the adjectival head to its subject, the other by applying it to the ‘standard’ constituent, marked by than (
+Hankamer 1973; Hoeksema 1984; Heim 1985; Kennedy 1999). So that the predicate ‘larger than Rome’ would have semantics like x.large(x) ≻ large(
+Rome).
+3. Functional standards: possible analyses
+Functional standards are not limited to –ovat (1a). More examples from Russian and English:(6) a. Vasja nemnogo vysokĳ . (≈22 K&A2011)
+Vasja slightly tall ‘
+Vasja is slightly too tall.’b. Etot zal malenkĳ / mal dlja igry v basketbol. gym small for play in basketball
+This gym is too small for a basketball game’(7) a. These pants are *({a little bit / slightly / somewhat}) long for me.
+b. This soup is hot for me.
+There are two straightforward ways to approach functional standard semantics. We discuss them in turn.
+3.1. Contextual view
+The straightforward view on the functional standard composition would not make substantial difference between distributional and functional standards: for E. G. Bylinina
+a gradable predicate to hold of an individual (= for a positive form of an adjective to be true), the individual should exceed a standard degree on a relevant scale; whether the standard degree is fi xed distributionally or ‘functionally’, can be a matter of contextual salience and prominence.
+This is in fact the view adopted in (
+Kagan and Alexejenko 2011). They develop a unifi ed semantics for -ovat that covers both the cases when it means ‘slightly too’ and just ‘slightly’, depending on which kind of standard of comparison (d’) is used — a distributional (‘slightly’) or a functional one (‘slightly too’):(8) 
+P<d,et>d’dxe . max{d: P(d)(x)} > d’  (max{d: P(d)(x)} – d’ < dc) (=9 K&A2011)
+In prose, -ovat states that a degree an entity reaches on the scale provided by a gradable predicate exceeds a certain standard d’ and that the interval between these two degrees is small. The distributional standard is calculated on the basis of distribution of the relevant property (height, price etc.) within a comparison class (as in expensive for a studio), while the functional standard is the max degree on the interval of degrees that are compatible with the requirements of the situation (as in expensive for me): max{d: Ǝw›  Acc(w): P(w›)(d) = 1}; see similar treatment of ‘too’ construction in (
+Heim 2000). The choice between two options for d’ is (implicitly) treated as pragmatic rather than semantic. We argue against this view.
+No matter how strong the context is, it is not always the case that one can freely choose which standard to use. (1a), (6) and (7a) strongly disallow distributional standard interpretation. The low-level generalization here is that it’s the modifi cation of low degree (slightly, somewhat etc.) that bans the distributional standard reading with relative adjectives (= gradable adjectives with open scales). Thus, availability of functional vs. distributional standards depends on the scale structure of the gradable adjective. We think that low degree modifi ers are not acceptable in positive constructions with relative adjectives precisely because they are not compatible with a PO
+S morpheme for relative adjectives.
+The contextual view is not capable of treating scale structure sensitivity of functional standards — one is forced to conclude that construction with functional standards is not just the same positive construction, and we need to fi nd another analysis.
+3.2. Comparative analysis
+The other obvious analysis would relate functional standards to too, either positing a silent ‘too’-like element in the structure or equivalently postulating a similar type shift.
+A state-of-the art analysis of too is along the lines of (9). It incorporates an observation that a possibility element under comparative yields a maximal degree reading (and necessity yields min) (
+Heim 2001):(9) Bertha is too old to be allowed to drive a car{d | Ǝw: w  Hw* & Bertha is allowed to drive a car in w & AGEw(
+Bertha) ≥ d} {d | AGEw*(
+Bertha) ≥ d} (von Stechow 2003, von Stechow et al. 2004)“
+Functional” standard in Russian and English degree constructions 173
+The semantics of too-constructions is essentially comparative, stating the relation of inclusion between two sets of degrees: one of Bertha’s age range that includes her ages in at least one of the possible worlds where Bertha is allowed to drive — and the other set is her ‘actual age’. Existential quantifi cation over worlds refl ects the possibility modality. Doing it in terms of degree sets rather than points is a matter of convention. General acceptability of measure phrases (M
+Ps) in too-constructions (10) follows from a comparative analysis as in (9).
+(10) These pants are (10 cm) too long for me.
+As Russian doesn’t have M
+Ps, at least as closely attached to the adjective phrase as in English, we will look at English to check the idea of functional standard constructions as implicit too constructions. Alarmingly, M
+Ps are ok with too and ungrammatical with functional standards:(11) *
+These pants are 10 cm long for me.
+Since the acceptability of M
+Ps in too-constructions follows from a comparative analysis, we can conclude that M
+Ps are not compatible with functional standards since it is not a comparative construction, and adjectives themselves do not combine with M
+Ps unless they undergo further shifts (
+Schwarzschild 2005). Thus we believe the comparative view to be false as well.
+3.3. Alternative view
+We propose to attempt a straightforward account of the above data. The fi rst step is building a ‘purpose’ parameter into the expression. The ‘purpose’ phrase is quite often introduced by the for-phrase.
+For-phrases are found across degree constructions and come in various sorts. The most well-known are ‘comparison class’ (C
+C) (12a) (
+Fults 2006, Bale 2010, Solt t.a.) and ‘judge’ (12b) (
+Lasersohn 2005, Stephenson 2007) for-phrases:(12) a. Fred is tall for a 8-year-old.
+b. The movie was fun for me.
+If, as it has been argued, C
+C for-phrases are arguments of PO
+S morpheme, PO
+S has semantics in (13a) and the for-phrase provides a degree for contextual standard; ‘judge’ for-phrase is taken to be an argument of an adjective itself and ‘
+Skolemize’ the degree expression in a sense (13b):(13) a. ] = Cet
+Pd,ex.Ǝd Solt ta)b. ]c; w,t,j =
+We believe that functional standard for-phrases are not arguments of PO
+S, rather they are arguments of the adjective directly, similar to ‘judge’ P
+Ps, since they E. G. Bylinina
+appear in non-PO
+S constructions (for comparatives, one needs to fi nd an adjective that doesn’t preserve order under different purposes):(14) a. This book is more suitable for a 3-year-old than that oneb. Your room is best for our meetings.
+c. .. discusses how very expensive insurance is for circus performers.. (from web)
+We believe ‘expensive’ and the like to be ‘inherently purpose-relative’ and have type <st <ed>> as they freely combine with purpose for-phrases without low degree modifi ers:(15) This book is expensive for a 3-year-old.
+Once combined with a ‘purpose’ set of worlds, we get (15):(16) ] = x. PRIC
+E(x) – max{d | Ǝw’. PRIC
+Ew’(x)=d  Rw’(x)(3yo)}
+In prose, we measure the extent to which the price of x differs from the max price that would still make x fi t the purpose (in a world w, a conventionally prominent relation R holds between x and a 3-year-old). The resulting predicate has a scale with a derived minimum, which can combine with PO
+S that is tailor-made for absolute adjectives with a minimum (see Kennedy 2005 on ambiguity of PO
+S):(17) ] =…= PRIC
+E(x) ≻ max{d | Ǝw’. PRIC
+Ew’(x)=d  Rw’(x)(3yo)}
+Derivation would work in almost the same way for adjectives that are not inherently purpose-related (like long), though to get a purpose parameter they will need to undergo a purpose-shift:(18) x. LENGT
+H(x)  
+Pst x. LENGT
+H(x) – max{d | Ǝw’. LENGT
+Hw’(x)=d  Pw’}
+The relation R used in (16–17) is determined by the purpose for-phrase, but in an indirect way. The complement of for can be either an individual (me) or an indefi nite N
+P (a 3-year-old), and the purpose proposition is recovered on the basis of what relation is typical between the kind introduced by a subject N
+P and the kind introduced by a complement of for, restricted by the adjective. Say, in (15) R is a relation between books and 3-year-old children s.t. the price is relevant to it; it is very likely to be an OW
+N or BOUGHT-FO
+R relation. One might want to introduce generic semantics into R, and have an add-on for individual for-complement, but we will not attempt that now.
+4. English vs. Russian
+In English, a sentence like (6b) is ungrammatical without low degree modifi cation. When the low degree modifi ers are present, their incompatibility with PO
+Srel “
+Functional” standard in Russian and English degree constructions 175forces the functional standard reading. To get a purpose parameter long will need to undergo a purpose-shift.
+But it’s not true for all relative adjectives in English — adjectives like expensive and hot do not need to appear in an environment that excludes normal PO
+Srel to be interpreted as purpose-relative (7b). Thus there is a lexical distinction between ‘inherently purpose-relative’ adjectives in English and the rest of the adjectives.
+Russian doesn’t seem to exhibit this lexical contrast, compare (6b) and (7a) — all relative adjectives enter functional standard construction easily without modifi ers. One would argue for view A for Russian, but we believe it not to be the case because scale structure sensitivity is still present (1a and 6a do not allow for distributional standard interpretation). There are several possible ways to account for this. First, one could say that the difference is lexical — Russian has more inherently purposerelative adjectives than English. Second, it can actually be the case that English possesses of two similar constructions rather than one: one that is sensitive to a lexical class of the adjective but does not require a type-shift, and the other one requires a type-shift and is insensitive to the lexical difference the former is sensitive to; Russian exhibits only one of the two constructions. We will argue for the second view.
+5. Summary
+We introduced functional standards as propositional arguments of gradable adjectives (some have them from the start, some have to type-shift), which use functional standard to derive a min with a possibility modality inside. Combination with PO
+Smin explains that: a) low-degree modifi ers are fi ne with functional standards but not with a contextual standard that uses PO
+Srel, b) M
+Ps are not compatible with functional standards since it is not a comparative construction, and adjectives themselves do not combine with M
+Ps unless they undergo further shifts (
+Schwarzschild 2005). A potential problem is that expensive is quite often used as a relative adjective. We believe that the ‘purpose’ parameter can in these cases be suppressed. Crucially, however, expensive comes with a purpose parameter from the lexicon, while long doesn’t.
+As a working hypothesis, we propose that the difference between English and Russian is not lexical, but rather English has two similar constructions only one of which is represented in Russian.

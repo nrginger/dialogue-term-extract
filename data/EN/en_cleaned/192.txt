@@ -1,0 +1,17 @@
+With the widespread development of chats, social networks, and various forums, the need to classify andfilter offensive content has emerged. There is a large class of articles(
+Wang et al., 2021)(
+Georgakopouloset al., 2018) dealing with identifying and classifying offensive content sentences. But in addition tocategorizing toxic sentences, there may be a requirement to detoxify sentences, i.e. to bring the text intoa neutral, readable form. The task of detoxifying sentences seeks to reduce the offensive of the originalsentence, but at the same time preserve the meaning and message of the text. The text detoxificationproblem can be reformulated as a subclass of the text style-transfer problem since the style transferproblem is a widely discussed and researched area of natural language processing.
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2022”
+Moscow, June 15–18, 2022
+The existing methods of text detoxification and style transfer are mostly made for the English language,which makes it difficult to transfer to other languages. For this purpose, the RUSS
+E Detoxification corpus(
+Dementieva et al., 2022) was developed to solve the detoxification problem in the Russian language.
+This paper describes the general problem statement and proposes a detoxification method based on Ru
+T5and describes in detail experiments with autoregressive (A
+R) and non-autoregressive models (NA
+R) forstyle transfer. We compare the capabilities of Ru
+T5 (
+Raffel et al., 2019) models according to the baselinemodels of the competition, and explore different word alignment methods, combining different inferencestrategies and text preprocessing. The method was ranked 4th in the Automatic Evaluation and 1st in the
+Private Human Evaluation Leaderboard between models. To clarify, first place was awarded to "
+Human

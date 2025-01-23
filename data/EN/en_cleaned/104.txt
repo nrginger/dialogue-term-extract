@@ -1,0 +1,309 @@
+The NE
+R (
+Named Entity Recognition) task has been known for a long time and is generally formulatedas finding key elements, like names of people, places, brands, monetary values, and more, in a text. Thisis used in many software products, so there is a lot of research on this topic. Specifically, over the pastfew years, most NE
+R solutions have been based on the Transformer architecture.
+There are many different approaches to Transformer fine-tuning. First, there is a development directiondedicated to the modification of the loss function and a specific problem statement. For example, training
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2022”
+Moscow, June 15–18, 2022problem could be set as machine reading comprehence (question answering) instead of the standardsequence classification, or focal loss, dice loss and other things from other deep learning domains couldbe used instead of the standard cross-entropy loss function. Second, there are papers devoted to BER
+Textension, related to adding more input information from the knowledge graph, morpho-syntactic parsersand other things. Third, there is a group of algorithms associated with changing the learning procedure,such as metric learning (contrastive learning).
+Each direction has its own advantages and disadvantages, but the metric learning seems the mostpromising to us. Because the goal of any training is not to overfit the training sample and not just totake the top of the leaderboard on a particular test sample from the general population, but to ensurethe highest generalization ability on the general population as a whole. High generalization ability isassociated with good separation in the feature space. A good separation is possible when objects ofdifferent classes form sufficiently compact regions in our space. And methods of contrastive learningachieve better separation.
+Our goal is to test, on the basis of the RuNN
+E competition (
+Artemova et al., 2022), how true are thesetheoretical considerations in practice and how much will the use of comparative learning in BER
+T’s finetuning allow us to build more compact high-level representations of different classes of named entitiesand, as a result, improve the quality of recognition of named entities.
+2 Standing on the shoulders of giants: research of our predecessors
+Let’s consider some important approaches illustrating the previously described directions. In one theapproaches, described in the paper “
+A Unified MR
+C Framework for Named Entity Recognition”(
+Li etal., 2020a), the sequence tagging task transformed into question answering. The inputs of the model arethe “question” in natural language (for example, “
+Find locations in the text”) and the text, for which themodel must predict the indexes of the beginning and the end of the entity, which is the answer to the“question”. Questions are generated separately for each entity class and can be done manually or basedon rules. The model trained in this way showed the best quality of results compared to other BER
+T-basedmodels on various datasets, including those with nested entities.
+A comparable result was achieved by the WCL-BBCD(
+Zhou et al., 2022) approach, where, insteadof changing the task, a modified training procedure of the BER
+T-based model is used. Additionally,a priori information from knowledge graphs is also used. The idea of BER
+T training is representationlearning it is necessary to teach the model to separate representations of different classes in the featurespace. To do this, the generation of “similar” sentences by translating into another language and thenback-translating into the original language is used. The better the model determines whether a pair ofsentences are similar or not, the more the classes of entities contained in these sentences are separatedin the feature space, and the better the model will be fine-tuned for the NE
+R task. This idea is similar toours.
+Contrastive learning also helps to get better results in the few-shot NE
+R problem. For example, theauthors of the CONTaiNER(
+Das et al., 2021) article successfully used contrastive learning to solve thefew-shot problem and surpassed the results of previous models. In that model, unlike ours, Gaussianembeddings were used and there was no second stage of fine-tuning.
+We looked at the approaches that, in one way or another, inspired us to create our model. There arealso many other popular and interesting approaches to various formulations of the NE
+R problem.
+3 CoNE
+R: proposed contrastive named entity recognizer
+We propose CoNE
+R a Contrastive Named Entity Recognizer. It is based on a special two-stage finetuning of a pretrained BER
+T language model:• The first stage is a fine-tuning of the pretrained BER
+T as a Siamese neural network to contrastsemantics of different entities in text pairs• The second stage is a fine-tuning of the resultant neural network as a standard NE
+R (i.e. sequenceclassifier) with a BILO
+U tagging scheme
+Bondarenko I.3.1 Contrastive fine-tuning
+The first stage of the fine-tuning is based on working with BER
+T as with the Siamese neural networkwith a contrastive loss (see Figure 1).
+learning with Siamese BER
+T.
+Unlike the well-known Sentence BER
+T (
+Reimers and Gurevych, 2019), we work with pairs of entitiessuch as text segments instead of pairs of whole texts. Each text segment is specified as a pair 𝐸𝐸𝐸𝐸𝐸𝐸 =<𝑆𝑆𝑆𝑆𝑆 𝑆, where 𝑆𝑆 corresponds to a tokenized sentence containing the entity, and 𝑆𝑆 specifies a token-intext mask that defines the bounds of the entity. Thus, the named entity embedding generated from thelast hidden layer of BER
+T is described using the following expression:𝐻𝐻(𝑆𝑆𝑆𝑆𝑆) = 𝐹𝐹BER
+T(𝑆𝑆) ∘𝑆𝑆𝑆 (1)where ( ∘ ) is a masking operator which implements an element-wise multiplication between matricesof the same sizes (a masked matrix of embeddings and a masking matrix of zeros and ones).
+After that we apply 𝐿𝐿2 normalization to the named entity embedding to regard it as point on a unithypersphere:̃︀𝐻𝐻(𝑆𝑆𝑆𝑆𝑆) =𝐻𝐻(𝑆𝑆𝑆𝑆𝑆)||𝐻𝐻(𝑆𝑆𝑆𝑆𝑆)||(2)
+Finally, we formulate the probability of the classes of the entities in the pair matching based on theeuclidean distance between their embeddings as points on the unit hypersphere:
+Contrastive fine-tuning to improve generalization in deep NE
+R𝑝𝑝( ̃︀𝐻𝐻1, ̃︀𝐻𝐻2) =1 + exp(−𝑚𝑚)
+1 + exp
+(︁𝐷𝐷( ̃︀𝐻𝐻1, ̃︀𝐻𝐻2)−𝑚𝑚)︁ , (3)where 𝑚𝑚 is the margin parameter to inflict of a penalty on the matched pairs with a too large distance(usually it equals to 1). Then we can use the log-loss as in the classification case. This distance basedlogistic (DB
+L) loss for Siamese neural networks was firstly proposed for a special computer vision task,concerned with localizing street views on satellite images. (
+Vo and Hays, 2016)
+In comparison with a "classical" contrastive loss function, which is popular for Siamese neural networks, the DB
+L loss function is more effective owing to quicker convergence. In contrast to classificationloss function after Siamese network structure such as Sentence-BER
+T, the DB
+L loss function does notneed an additional trainable layer what allows us to stay focused on fitting the BER
+T sub-network only.
+Unlike the popular 𝑁𝑁 -pairs loss and the Sup
+Con loss function (
+Khosla et al., 2020), the DB
+L loss function provides a more stable training process on small mini-batches, and it is less inclined to the explodinggradients problem in such situations.
+3.2 Final fine-tuning for NE
+R
+We use the BER
+T model fine-tuned according to the principles from subsection 3.1 as the base for amulti-head sequence classifier where each head corresponds to one of 29 named entity classes. Sincea named entity can consist of several tokens, then we use the BILO
+U tagging scheme and describe thenamed entity class as a system of five token classes: the Outside, the Beginning, the Inside and the Lasttokens of multi-token chunks (see example 5) as well as Unit-length chunks (see example 4).
+For example, the text "В Китае отметили 170-летие публикации «Коммунистическогоманифеста»" (in English, "
+China celebrated the 170th anniversary of the publication of the Communist
+Manifesto") contains several named entities of different classes. Examples 4 and 5 illustrate applyingBILO
+U tagging to the named entities in this text, which consist of single token and multiple tokens,accordingly:(4) ВOКитаеUотметили
+O170-летие
+OпубликацииO«OКоммунистическогоOманифестаO»O‘BILO
+U labeling for the unit-length entity of the COUNTR
+Y class’(5) ВOКитаеOотметили
+O170-летие
+OпубликацииO«BКоммунистическогоIманифестаI»L‘BILO
+U labeling for the multi-token entity of the WORK_OF_AR
+T class’
+We have two reasons for using BILO
+U instead of well-known BI
+O (the Beginning the Inside the
+Outside) tagging scheme:1. some preceding experiments demonstrate that the BILO
+U formalism outperforms the BI
+O tagging
+scheme. (
+Ratinov and Roth, 2009)2. but also more importantly, the BILO
+U scheme brings more a priori knowledge about the structure
+of a natural language in trainable model.
+As a result of the above, the second fine-tuning stage is defined as training to solve 29 tasks of 5-classtoken classifications. The trainable algorithm consists of:• the shared hidden layer (
+Transformer base) fine-tuned on the previous stage• 29 different time-distributed dense layers (neural heads) initialized randomly.
+The total loss function for the trainable algorithm is formulated as the sum of particular loss functions(named entity losses) associated with each of 29 neural heads. In this case the key problem is determiningthe named entity loss function. We propose a special loss as weighted combination of the usual categorical crossentropy for multiclass classification and the dice loss for binary classification O vs. non
+O (i.e.
+all entity tokens including the Beginning, the Inside, the Last, and the Unit are opposed to the Outside):𝑁𝑁𝑁𝑁𝑁𝑁 = −𝛼𝛼 ·∑︁𝑖𝑖∈𝑇𝑇(y𝑖𝑖 · log(p𝑖𝑖))−2 ·
+∑︀𝑖𝑖 ̸=𝑂𝑂 p𝑖𝑖 ·∑︀𝑖𝑖 ̸=𝑂𝑂 y𝑖𝑖 + 𝛾𝛾(︁∑︀𝑖𝑖 ̸=𝑂𝑂 p𝑖𝑖)︁2+(︁∑︀𝑖𝑖 ̸=𝑂𝑂 y𝑖𝑖)︁2+ 𝛾𝛾+ 1.0 (6)
+Bondarenko I.where 𝑇𝑇 = {𝑂𝑂𝑂𝑂𝑂𝑂 𝑂𝑂𝑂 𝑂𝑂𝑂 𝑂𝑂} is the set of all BILO
+U tags for the named entity, 𝛼𝛼 is the weight of thecross-entropy item, and 𝛾𝛾 is the smoothing factor in the nominator and denominator of the dice loss.
+The dice loss item is included in the total formula of the named entity loss to reduce the influenceof the background-object label imbalance in data (evidently, frequency of the Outside tag is far greaterthan frequency of all entity tags, and it is a severe issue). As is well known, the dice loss has the classre-balancing property (
+Li et al., 2020b). Thus, the proposed named entity loss combines two advantages:• the dice loss item attaches the robustness to imbalance,• the categorical cross-entropy loss item accounts for the BILO
+U scheme which leads to better modeling the multi-token entities.
+It should be clarified that the first advantage is important for the named entity recognition task, sincelabels of any named entity class are very unbalanced (the number of words labeled as entities is extremely less than number of non-entity words). However, the dice loss conforms to the binary classification problem, while the BILO
+U scheme can be implemented as the multiclass classification problemonly. Consequently, we need to preserve the multiclass component in the formulated loss function. Thisimplies the significance of the second of these advantages.
+3.3 Rescoring with Viterbi algorithm
+The posterior probability distribution 𝑃𝑃 (𝑂𝑂|𝑊𝑊 ) of the BILO
+U tag sequence 𝑂𝑂 given the input word sequence 𝑊𝑊 is calculated using Bayes’ theorem:𝑃𝑃 (𝑂𝑂|𝑊𝑊 ) =𝑃𝑃 (𝑊𝑊 |𝑂𝑂) · 𝑃𝑃 (𝑂𝑂)𝑃𝑃 (𝑊𝑊 )𝑂 (7)where 𝑃𝑃 (𝑊𝑊 |𝑂𝑂) is an observation likelihood estimated by the corresponding neural head of the multihead NE
+R from subsection 3.2, 𝑃𝑃 (𝑂𝑂) is a prior distribution of BILO
+U tags determined by the languagestructure, and 𝑃𝑃 (𝑊𝑊 ) is a marginal distribution which does not depend on any BILO
+U tag sequence(hence we can neglect it). Thus the best way to find an optimal sequence of the BILO
+U tags is based onwell-known Viterbi search:𝑂𝑂* = argmax𝐿𝐿(𝑝𝑝(𝑊𝑊 |𝑂𝑂)𝑃𝑃 (𝑂𝑂)) . (8)
+The description of Viterbi algorithm is trivial and can be found in various papers and books on naturallanguage processing and speech recognition (for example, see (
+Jurafsky and Martin, 2008)). Nevertheless, it would be interesting to describe a technique for forming the prior distribution of BILO
+U tags. Thefact is that the input sequence does not consist of true words. Text units of the sequence are sub-wordsbuilt with a byte pair encoding according to the tokenization algorithm for the BER
+T model. Each trueword can consist of one or multiple such sub-words. Correspondingly, we define four cases:• the sub-word is equal to the true word,• the sub-word is the first part in the true word;• the sub-word is the middle part in the true word;• the sub-word is the last part in the true word.
+These cases are illustrated by the example 9. The true word "импичмент" (in English, "impeachment") is represented by one sub-word, but another true word "Руссефф" (in English, "
+Rousseff", whichis the surname of the 36th president of Brazil) consists of three sub-words, i.e of the first, middle and lastparts of the true word, accordingly.
+(9) ПрезидентупрезидентуБразилиибрази ##лииДилмеди ##л ##меРуссеффрус ##сеф ##фгрозитгрозитимпичментимпичмент‘
+Possible tokenization cases (the Sber
+Devices RuBER
+T-large tokenizer is used)’
+Possibility transitions from one BILO
+U tag to another are different for each of these cases, and theprior distribution 𝑃𝑃 (𝑂𝑂) is defined differently too. The discrete-time Markov chains for these four casesare shown on Figure 2.
+Contrastive fine-tuning to improve generalization in deep NE
+R(a) (b) (c) (d)
+Using the Viterbi search instead of the simplest greedy search allows us to rescore the output probabilities of the neural head accounting for some a priori knowledge, and the abovementioned way todetermine the prior distribution of BILO
+U tags rationally specifies this knowledge.
+4 Analysis and discussion
+We evaluated the quality of several versions of CoNE
+R on the NERE
+L dataset (
+Loukachevitch et al.,2021) in the context of the abovementioned RuNN
+E competition (
+Artemova et al., 2022). The F1 score
+is the relevance criterion of the quality, and it allows us to compare different NE
+R algorithms to confirmor deny our hypothesis about effectiveness of the contrastive fine-tuning. Nevertheless, to explain thereasons of effectiveness of the the contrastive fine-tuning in CoNE
+R, we need more than just comparingits F1 score to other NE
+Rs. In addition, it is important and necessary to analyze CoNE
+R’s mistakes inan attempt to find some patterns and regions of the algorithm errors. These issues will be the subject offurther discussion in this section.
+4.1 CoNE
+R vs. standard NE
+R: what’s better?
+We proposed the described two-stage fine-tuning to improve a NE
+R quality. We explained the theoreticalbasis of the improvment. However, practice is the criterion of truth. We organized a series of experimentsto compare two fine-tuning schemes:• standard NE
+R: fine-tuning BER
+T as a sequence classifier only;• CoNE
+R: two-stage fine-tuning BER
+T including the contrastive-based learning as the first stage.
+Both fine-tuning schemes were started from three pretrained BER
+T models: the Deep
+Pavlov RuBER
+Tand two variants (base and large) of the Sber
+Devices RuBER
+T. Here is a brief note about the differencebetween these pretrained models. The Deep
+Pavlov model was trained on the Russian part of Wikipediaand news data. The Sber
+Devices team added the Taiga corpus and a fiction corpus into the training datafor both of its models. The Sber
+Devices RuBER
+T-large is larger than the other two models. Also, incontrast to the Deep
+Pavlov RuBER
+T, all the models of Sber
+Devices are lowercased.
+According to the description in Section 1, there were two formulations of the problem, or two kinds oftasks: the main task and the few-shot task. All entity classes in the few-shot formulation were very rarein the training data, which led to a significantly greater imbalance of data set in relation to these entities.
+Both tasks were solved using the same NE
+R algorithm which was trained on the common trainingset. After that, the quality of this NE
+R for solving any task was evaluated on the same test inputs, buttest labels for each task were different depending on the corresponding entity classes. The results of theexperiments in the main formulation (main results) are presented in Table 1, and the results of analogousexperiments for the few-shot task (few-shot results) are presented in Bondarenko I.
+Type of pre-trained model Standard NE
+R CoNERDeep
+Pavlov RuBER
+T 0.7202 0.7425Sber
+Devices RuBER
+T base 0.6931 0.7233Sber
+Devices RuBER
+T large 0.7089 0.7113BER
+T models on the test data (i.e. at the RuNN
+E test phase).
+Type of pre-trained model Standard NE
+R CoNERDeep
+Pavlov RuBER
+T 0.3231 0.4037Sber
+Devices RuBER
+T base 0.3320 0.5099Sber
+Devices RuBER
+T large 0.4372 0.5256BER
+T models on the test data (i.e. at the RuNN
+E test phase).
+Results of CoNE
+R appear to be better for either type of the task (main and few-shot). We usedthe Wilcoxon signed-rank test for statistically significant acceptance of this statement. To test the nullhypothesis that there is no difference between quality measurements of a standard NE
+R and CoNE
+R, weapplied the two-sided test. Evidently, size of both measurement sets is 6 as sum of 3 samples for the maintask and 3 samples for the few-shot task. As a result, the test statistic was 0.0 with 𝑝𝑝-value of 0.03125.
+Hence, our null hypothesis was rejected at a confidence level of 0.05, and the differences in quality wereconfirmed.
+The following conclusions and summary can be made from these experiments:1. CoNE
+R is better than a standard NE
+R, and inclusion of contrastive learning in the fine-tuning
+scheme improves the generalization ability of any NE
+R in any formulation of the problem.
+2. This advantage of CoNE
+R is more apparent for the few-shot task.
+3. Using case-insensitive pretrained model similar to all Sber
+Devices models reduces the NE
+R quality
+for the main task. However, it likely is more effective in the few-shot formulation of the problemowing to suppression of the over-fitting on very imbalanced text datasets.
+For the final submission to the RuNN
+E leaderboard, we selected CoNE
+R based on the BER
+T modelpretrained by the Deep
+Pavlov team. This submission turned out to be the third out of 10 in the leaderboard for main task, and the eighth out of 10 in the few-shot formulation of the problem.
+4.2 Why does contrastive-based fine-tuning matter?
+It can be seen that CoNE
+R is better than a standard NE
+R, and the contrastive fine-tuning works. Nevertheless, we would like to explain these results. In section 2, we proposed a two-stage fine-tuning withthe contrastive first stage based on our supposition that Siamese neural network as a typical kind of thecontrastive learning algorithm has better discriminative ability in comparison to a standard classifier.
+As they say, "a picture is worth a thousand words", and this picture is shown on Figure 3. It illustrates the compactness of the entity word representations in different feature spaces obtained from thesequence output of different BER
+T models. MONE
+Y is used as a typical example of named entity classin this figure. As Figure 3a demonstrates, entity words and other words cannot be well separated in theusual pretrained BER
+T embedding space. Figure 3b shows that they have become better separated afterfine-tuning BER
+T as standard sequence classifier. Better, but not by much. And only inclusion of thecontrastive learning in the fine-tuning scheme, i.e. fine-tuning BER
+T as Siamese neural network, significantly increases the compactness and separability of entities in the word embedding space (this effectis clearly visible in Figures 3c and 3d).
+Besides the abovementioned visual explanation, we analyzed the quality of representations of entity
+Contrastive fine-tuning to improve generalization in deep NE
+R(a) (b)(c) (d)MONE
+Y entities and everything else, where (a) the embeddings before any fine-tuning RuBER
+T, (b)after fine-tuning as the standard NE
+R, (c) after the first and (d) second stage of the proposed twostagefine-tuning. The red crosses present words of money entities, and the blue dots are everything else, i.e.
+words of other entity classes and various background words.
+words with and without the contrastive-based fine-tuning stage using the Silhouette Coefficient, wellknown as a representative metric for the clustering performance evaluation. We formulated a hypothesisthat the contextual word embeddings generated by BER
+T from CoNE
+R allow us to build a more separableentity space compared to BER
+T from a standard NE
+R. To test this hypothesis, we did the following steps:1. We calculated contextual word embeddings from the last hidden output of the standard NE
+R for all
+words in the test set. Thereby, we built a new feature space of words from named entities.
+2. We separated all these words in the formed feature space into two clusters according to manual
+entity labeling: entity and non-entity. We did it for each of 29 entity classes, and we obtained 29kinds of clustering.
+Bondarenko I.3. We evaluated the Silhouette Coefficient for each kind of clustering from 29. Thus, we formed 29measure samples.
+4. Then we repeated these three steps with CoNE
+R instead of the standard NE
+R. As a result, we got
+yet another measure sampling with 29 elements.
+The two measurement samplings are shown in CoNE
+R is observable to the unaided eye. Nevertheless, we applied the dependent 𝑡𝑡-test for pairedsamples for statistically significant acceptance of difference between these two samplings (they comesfrom a normal distribution, and their sizes are too large to effectively apply the Wilcoxon signed-ranktest). The test statistic was -2.2866 with 𝑝𝑝-value of 0.029985. Hence, our null hypothesis that thecontrastive-based fine-tuning does not improve separability of entities in the embedding space was rejected at a confidence level of 0.05, and the differences in quality were confirmed. The inclusion offine-tuning BER
+T as Siamese neural network matters for BER
+T-based NE
+R.
+Entity class Word number in training texts Standard NE
+R CoNERAG
+E 1506 0.4363 0.4507AWAR
+D 757 0.4959 0.5014CIT
+Y 1432 0.4678 0.4639COUNTR
+Y 2671 0.4847 0.4788CRIM
+E 482 0.4064 0.4443DAT
+E 7087 0.4042 0.3886DISEAS
+E 53 0.3022 0.4220DISTRIC
+T 207 0.5490 0.5297EVEN
+T 5002 0.3102 0.3123FACILIT
+Y 893 0.5049 0.5196FAMIL
+Y 34 0.3242 0.4240IDEOLOG
+Y 368 0.4638 0.4510LANGUAG
+E 45 0.3438 0.4014LA
+W 1609 0.4601 0.4750LOCATIO
+N 462 0.5308 0.5331MONE
+Y 635 0.4982 0.5240NATIONALIT
+Y 434 0.4716 0.4271NUMBE
+R 1410 0.4745 0.4597ORDINA
+L 710 0.5275 0.5456ORGANIZATIO
+N 7127 0.4638 0.4588PENALT
+Y 73 0.4538 0.5251PERCEN
+T 216 0.5028 0.5166PERSO
+N 8063 0.3553 0.3439PRODUC
+T 398 0.3594 0.3636PROFESSIO
+N 7970 0.4314 0.4259RELIGIO
+N 101 0.5377 0.5609STAT
+E O
+R PROVINC
+E 485 0.5562 0.5741TIM
+E 693 0.4993 0.4914WOR
+K O
+F AR
+T 74 0.4396 0.4796space generated with CoNE
+R and the standard NE
+R. Entity classes with better value of the Silhouette
+Coefficient for the standard NE
+R are grey colored. Entity classes for the few-shot formulation of theproblem are bolded.
+Contrastive fine-tuning to improve generalization in deep NE
+R4.3 When does CoNE
+R make errors?
+CoNE
+R is good, but not the best according to the RuNN
+E competition leaderboard. CoNE
+R makessome errors. Confucius said that "people make errors according to the type of person they are. Byobserving their errors, you can understand humaneness". Similarly, by observing algorithm errors, wecan understand its generalization ability and some patterns of its work.
+Most errors can be divided into two types:1. The algorithm does not recognize nested entities of same entity class. For example, the phrase
+"Центральный комитет Коммунистического союза молодёжи Китая" (in English, "the
+Central Committee of the Communist Youth League of China") describes the organization, andalso it contains three nested organizations and one nested location. Nested organizations are "Центральный комитет" (in English, "the Central Committee"), "Коммунистического союзамолодёжи Китая" (in English, "the Communist Youth League of China"), and "Коммунистического союза молодёжи" (in English, "the Communist Youth League"). The nested location is"Китая" (in English, "
+China"). And our CoNE
+R correctly recognizes the "parent" organizationand its nested location, but it cannot find any "organization-in-organization".
+2. The algorithm come across an ambiguous manual labeling. For example, the full text "прессслужба филиппинского президента" (in English, "press service of the Philippine President")
+was labeled as organization, but the same words "пресс-служба" (in English, "press service")were not labeled as a part of the organization entity in the text "пресс-служба Светлогорскогогородского суда" (in Englisn, "press service of the Svetlogorsk City Court").
+The first disadvantage is not related to any fine-tuning scheme, and it was determined by the common architecture of proposed solution: entity outputs of neural network were developed without consideration of entity nesting of the same class (we considered that only entities of different classes could be nested). We are going to improve our algorithm on the basis of a special syntactical post-processing of the recognized entity that allows to find nested entities of the same class using noun groups in the "parent" entity.
+The second disadvantage is not really significant, because i t was explained by the incorrect manual labeling. Furthermore, this effect can demonstrate greater robustness of CoNE
+R, because it does not allow us to discover non-existent patterns by over-adapting to manual labeling.
+Also, the algorithm makes a lot of false negative errors for all entities in the few-shot task. This may be explained by the under-fitting effect for very rare entity classes.
+5 Conclusion. What’s next?
+We have confirmed o ur hypothesis about t he contrastive fi ne-tuning fo r th e N
+E R ta sk. We have also successfully performed error analysis and can apply this to improve our approach.
+Further work may include two directions. First, recognition of nested entities of the same class will be implemented (for example, using a special syntactical-based postprocessing). Second, modeling of linguistic concept hierarchy (morphology syntax semantics) using a hierarchical multitask learning on both fine-tuning stages will be analyzed, because this technique can increase the generalization ability and reduce the vanishing gradient problem.
+Acknowledgements
+The work is supported by the Mathematical Center in Akademgorodok under the agreement No. 075-15-2022—282 with the Ministry of Science and Higher Education of the Russian Federation.
+Especially the author would like to thank his student and fellow-thinker Alexey Pauls for his help and support.
+Bondarenko I.

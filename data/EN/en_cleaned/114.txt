@@ -1,0 +1,207 @@
+Multiword expressions (MW
+Es) are heavily underrepresented in existing Russian lexical resources. We encountered the problem of MW
+E extraction within a project aimed at creating a new wordnet for Russian. The study described in the paper deals with nominal bigrams—the most common MW
+E type. Since the pioneering work by Church and Hanks (1989) the problem of MW
+E extraction has been studied in depth, and various statistical association measures (A
+Ms) have been proposed. Despite the task seems to be solved, larger datasets and advanced statistical methods available nowadays offer opportunities for a more efficient solution.
+The proposed approach includes three components: 1) we use two different corpora—the Russian National Corpus (364
+M tokens) and Russian Wikipedia (1.2
+M articles, 318
+M tokens)—in parallel; 2) MW
+E candidates are described with a rich set of features (various corpus-based statistics, link-based Wikipedia features, phrase structure, Web statistics, etc.); 3) we formulate the MW
+E ranking task in terms of multiple ‘queries’ and ‘documents’ and apply learning-to-rank (LETO
+R) algorithms that showed good results in information retrieval (I
+R) scenario. Our approach deals with different kinds of MW
+Es—collocations, idioms, set phrases, etc. (see classification in Baldwin and Kim (2010))—in a uniform way. We took several thousands of nominal bigrams from existing Russian dictionaries and manually labeled them as positive and negative examples. This routine allowed us to minimize manual labeling efforts and is more advantageous than such alternatives as labeling output of an automatic method, which can potentially introduce bias towards presented results, or asking an expert to produce a list of good and bad examples from scratch, which is very labor-intensive. Using limited training data, we were able to rank the whole set of candidate MW
+Es extracted from both Multiple Features for Multiword Extraction: a Learning‑to‑
+Rank Approach corpora and cut them off at desired level (our estimate of the target number of MW
+Es for the wordnet under development is around 40
+K). Evaluation showed that proposed approach outperformed existing A
+Ms, as well as classification-based methods. Manual probes proved that high-ranked MW
+Es are good enough to be included in the resource with minimal manual intervention. The method is language-independent—it relies only on the availability of a large corpus, Wikipedia, and a part-of-speech (PO
+S) tagger. Furthermore, the method is highly flexible and can be applied to other MW
+E types.
+2. Related Work
+There is a large body of literature on extraction of multiwords, collocations, and keyphrases; Hasan (2014) and Ramisch (2015) provide an extensive overview of the field. Three groups of approaches related to our work can be distinguished: (i) methods based on purely statistical A
+Ms; (ii) machine-learned classification; (iii) Wikipedia-based approaches to terminology extraction.
+Traditional approaches rank a list of MW
+Es according to their co-occurrence frequencies or statistical A
+Ms (
+Evert and Krenn, 2005; Pecina and Schlesinger, 2006). Krenn and Evert (2001) evaluated Mutual Information (M
+I), Dice coefficient, Student’s t-score and log-likelihood ratio for adjective-noun pairs. Pecina and Schlesinger (2006) evaluated 82 measures on a Czech corpus. Some studies suggested different strategies for handling low-frequency and high-frequency items (
+Evert and Krenn, 2001; Evert and Krenn, 2005; Bouma, 2009). Wermter and Hahn (2006) showed that
+the most advanced A
+Ms perform similarly to raw frequency.
+State-of-the-art studies consider the MW
+E extraction task as a classification problem (
+Pecina and Schlesinger, 2006; Fothergill and Baldwin, 2011; Karan et al., 2012; Ramisch, 2015). Pecina and Schlesinger (2006), Ramisch et al. (2010) and Karan et al. (2012) employed support vector machines (SV
+M) with frequency counts, traditional A
+Ms, and PO
+S patterns as features. These supervised approaches are different from ours in that Karan et al. (2012) and Ramisch (2015) created a training set consisting of positive and negative MW
+E examples, while Fazly and Stevenson (2007) and Fothergill and Baldwin (2011) assigned MW
+E categories. Feature-rich ranking of keyphrases extracted from a document is close to our approach (
+Jiang et al., 2009). However, extracting keyphrases from a document exploits quite a different set of document-level features such as position of the first occurrence, document field (e.g. title, section heading, anchor text), and text highlighting (e.g. boldface). Document-level keyphrase extraction task differs from our setting in that the same word sequence occurring in different documents can be a good keyphrase in one case, but not suitable in other cases.
+Many studies explored Wikipedia as an external knowledge resource for terminology extraction (
+Hartmann et al., 2012; Vivaldi et. al., 2012) and keyphrase extraction (
+Medelyan et al., 2009). Medelyan et al. (2009) used a machine learning approach with Wikipedia-based semantic features to determine whether the document can be annotated with a given keyphrase. Hartmann (2012) considered n-grams that appeared in Wikipedia titles and anchor text as candidates for subsequent ranking by A
+Ms. (
+Vivaldi et al., 2012) used Wikipedia categories to validate term candidates extracted from scientific texts.
+Tutubalina E. V., Braslavski P. I.
+to limited space we do not survey a large body of literature on learning to rank and feature selection for I
+R; Liu (2009) gives a nice overview of approaches and methods. In our work we follow the feature selection approach proposed by Geng et al. (2007) that combines two scores: importance of individual features and similarity between features.
+3. Data
+In our study, we use two corpora—
+Russian National Corpus1 (RN
+C) and Russian Wikipedia2. RN
+C has genre subdivisions—scientific texts, classical literature, legal and official documents, religious texts, children’s literature, nonfiction, news, etc.—that we use for feature calculation. We treat Wikipedia both as a “plain text corpus” to calculate MW
+E statistics and as semi-structured data: we make use of Wikipedia links, redirects, categories, and page titles. Lemmatization and PO
+S-tagging is performed with mystem library3.
+We consider all bigrams conforming to one of six morpho-syntactic patterns—
+Adjective + Noun, Noun + Adjective, Participle + Noun, Noun + Participle, Noun + Noun (genitive), and Noun + Noun (instrumental)—as candidate MW
+Es. Moreover, a candidate MW
+E must occur at least ten times in the RN
+C or to be a Wikipedia title.
+We also collected nominal bigram entries from three dictionaries: Wiktionary4 (3,155), Small Academic Dictionary (2,955), and Ushakov’s Dictionary (2,506), which resulted in 7,751 unique bigrams in total. Manual inspection revealed that the list contained many archaisms (e.g. книга живота—book of life, духовное брашно—spiritual repast), narrowly used metaphorical expressions (e.g., деревянный макинтош—coffin (literally—wooden mackintosh), белый друг—toilet bowl (white friend)), joking expressions (e.g., губозакаточная машинка—lip-rolling machine), as well as named entities (e.g. Амурская область—
+Amur Region). The list underwent manual labeling by two lexicographers. Lexicographers labeled MW
+Es as positive (suitable for a general-purpose thesaurus) and negative (otherwise). Manual labeling resulted in an approximately equal number of positive and negative examples. Table 1 summarizes the data used in the study.
+Most advanced LETO
+R algorithms (so-called pair-wise and list-wise methods, see (
+Liu, 2009)) optimize ranking in the context of individual queries and respective result lists in contrast to earlier point-wise approaches that model relevance as global regression or classification task. In order to apply modern LETO
+R algorithms to the MW
+E extraction task, we represent the data as a set of “queries” and “documents”. Our hypothesis is that ‘divide and conquer’ approach helps deal with MW
+Es of different types and frequency ranges in a unified way in the learning phase. For “queries”, we took 5,871 unique words from labeled examples to create individual lists of MW
+E candidates (“documents”) containing the “query” (see Table 2). 56.5% of all 1 http://ruscorpora.ru/en
+2 http://ru.wikipedia.org
+3 https://tech.yandex.ru/mystem
+4 http://ru.wiktionary.org
+Multiple Features for Multiword Extraction: a Learning‑to‑
+Rank Approach candidates were included at least in one list. We randomly sampled 80% of the ‘queries’ for training and held out 20% for testing.
+(overlapping bigrams have at least one common word)# of positive examples 3,981# of negative examples 3,770# of unique words in labeled examples 5,871# of positive examples in the test set 1,322# of candidate MW
+Es from the RN
+C 190,416# of candidate MW
+Es from Wikipedia 157,748# of unique candidate MW
+Es from both corpora 329,866# of candidate MW
+Es overlapping with labeled set (RN
+C) 82,456# of candidate MW
+Es overlapping with labeled set (
+Wiki) 117,837# of unique candidate MW
+Es overlapping with labeled set 188,441(overlapping candidate MW
+Es); positive examples are underlinedword (‘query’) overlapping bigrams (‘documents’)неправильный неправильная установка (wrong installation), неправильная постановка (wrong statement), неправильная музыка (wrong music), неправильная галактика (wrong galaxy), неправильная переменная (wrong variable), неправильная дробь (improper fraction)струна слабая струна (weak string), натянутая струна (tense string), гетеротическая струна (heterotic string), бозонная струна (bosonic string), квантовая струна (quantum string), золотая струна (gold string), космическая струна (cosmic string), спинная струна (notochord)корова белая корова (white cow), cтарая корова (old cow), черная корова (black cow), синяя корова (blue cow), священная корова (sacred cow), дойная корова (milk cow), морская корова (sea cow)вещество специальное вещество (special substance), обычное вещество (usual substance), рабочее вещество (working substance), солнечное вещество (solar substance), сухое вещество (solid), белое вещество (white substance), мягкое вещество (soft substance), полярное вещество (polar substance), компактное вещество (compact substance), радиоактивное вещество (radioactive material), живое вещество (live substance), лекарственное вещество (medicinal substance), действующее вещество (active ingredient), вредное вещество (harmful substance), серое вещество (gray substance), простое вещество (simple substance), органическое вещество (organic), химическое вещество (chemical agent)
+Tutubalina E. V., Braslavski P. I.
+Methods
+To apply a ranking algorithm to the data we have to present each MW
+E candidate as a feature vector. Note that, in the I
+R scenario a vector represents a query-document pair, i.e. there are features depending on the query, document, or both. In our case, all features describe an individual MW
+E independently from the “query”, which allows us to apply the obtained ranking function later to the global set of candidates (hundreds of thousands items). The feature set used in the study (42 features in total) is described below.
+RN
+C features (14): RN
+C global frequency, ten frequencies in genre subcorpora (reflects specificity of the MW
+E), first and second words’ frequencies, the presence of the candidate in the corpus.
+Wikipedia-based features (20) included: Wikipedia frequency, the presence of a redirect with the given MW
+E, match with a Wikipedia title, the number of inand out-links, the number of categories assigned to the page, the presence of an infobox, 11 binary features corresponding to the infobox type5, and capitalization (the latter
+three features aimed at capturing named entities).
+Structural features (7) included six binary features corresponding to the above mentioned extraction patterns plus bigram length in characters (indirectly reflects the bigram specificity).
+Web document frequency (1) refers to the number of documents returned to MW
+E as a phrase query by a search engine (S
+E) through an AP
+I6.
+We used three algorithms implemented in the Rank
+Lib library7 to obtain MW
+E rankings: MAR
+T (
+Friedman, 2001), Rank
+Boost (
+Freund et al., 2003), and LambdaMAR
+T (
+Wu et al., 2007) with default parameters. To improve efficiency of the training, we applied a feature selection (
+Geng et al., 2007). We held out 20% of the training set as validation set to optimize the number of features. First, according to the method, we computed importance of each feature using mean reciprocal rank (MR
+R). We measured similarity between features with Kendall’s τ for pairs of corresponding rankings. Second, we maximized the sum of the importance scores of individual features and minimized the total similarity score between the features using a greedy search algorithm. Finally, five groups of features with the best results on the validation set were used to evaluate LETO
+R models on the test set.
+5. Evaluation
+We evaluated multiple intermediate rankings with artificial queries using two measures: 1) mean reciprocal rank (MR
+R) and 2) bpref, an evaluation measure suited for incomplete judgments (
+Buckley and Voorhees, 2004). MR
+R is an average 5 http://en.wikipedia.org/wiki/Wikipedia:
+List_of_infoboxes
+6 https://xml.yandex.ru/
+7 http://sourceforge.net/p/lemur/wiki/Rank
+Lib
+Multiple Features for Multiword Extraction: a Learning‑to‑
+Rank Approach of inverse ranks of the first positive example in each ‘query’; while bpref accounts for inversions—cases, when ‘relevant’ items are ranked lower than ‘non-relevant’ ones. Both measures were averaged over 1,449 lists in the test set.
+We compared our approach to state-of-the-art collocation extraction methods based mainly on frequency (
+Pecina and Schlesinger, 2006; Ramisch et al., 2010; Karan et al., 2012). In particular, we implemented the best-performing method for keyphrase extraction (
+Jiang et al., 2009) based on SV
+M-rank8 algorithm and following features: PO
+S patterns, MW
+E frequency, and 20 A
+Ms calculated using UC
+S toolkit9 on (i) RN
+C, (ii) Wikipedia, (iii) both corpora. We also implemented A
+Ms (t-score, loglikelihood, and M
+I) as baselines. Evaluation results are presented in Ranking method MR
+R bprefM
+I 0.440 0.353t-score 0.615 0.321log-likelihood 0.620 0.353
+Wikipedia frequency 0.625 0.467RN
+C frequency 0.624 0.328SV
+M-rank (RN
+C) 0.644 0.550SV
+M-rank (
+Wikipedia) 0.609 0.492SV
+M-rank (RNC+
+Wikipedia) 0.635 0.483MAR
+T 0.639 0.545MAR
+T + feature selection 0.639 0.480LambdaMAR
+T 0.679 0.742LambdaMAR
+T + feature selection 0.684 0.546Rank
+Boost 0.739 0.742Rank
+Boost + feature selection 0.758 0.825
+As the results show, LambdaMAR
+T and Rank
+Boost scored best compared to MAR
+T, SVM
+Rank and A
+Ms. SV
+M-rank and MAR
+T scores are comparable. Impact of feature selection is mixed: it improved both MR
+R and bpref for Rank
+Boost, but degraded LambdaMAR
+T and MAR
+T bpref scores. Best LambdaMAR
+T results were obtained with all features except for the Wikipedia title feature and four Wikipedia infobox features. Rank
+Boost scored best using the Wikipedia title feature, number of categories, and presence of candidate in the corpus. Table 4 illustrates the contribution of different feature groups to the overall performance. The results support our initial hypothesis that multiple data sources improve results.
+8 http://www.cs.cornell.edu/people/tj/svm_light/svm_rank.html
+9 http://www.collocations.de/software.html
+Tutubalina E. V., Braslavski P. I.
+
+T: contribution of different feature groupsMR
+R highest MR
+R lowestall features 0.679 0.598w/o RN
+C-based features 0.565 0.497w/o Wikipedia-based features 0.609 0.543w/o structural features 0.671 0.592w/o results from the search engine 0.678 0.602Top-40
+K lists ranked by LambdaMAR
+T, SVM
+Rank, and RN
+C-based frequency contain 634, 472, and 452 positive examples (out of 990 ‘relevant’ MW
+Es in the initial global list), respectively. In the top-40
+K MW
+Es ranked by LambdaMAR
+T, 43% items occur in both corpora, 35% and 22% occur in Wikipedia or RN
+C only, respectively. This again illustrates the benefit of using two data sources in parallel. for these 40
+K-lists, see above). Table 5 shows MW
+Es at different levels of the global list ranked by LambdaMAR
+T.
+Fig. 1: RO
+C curves for four methods
+Multiple Features for Multiword Extraction: a Learning‑to‑
+Rank Approach Cut-off level = 100 Cut-off level = 1,000земная кора (
+Earth’s crust)программное обеспечение (software)основные фонды (basic assets)биологические науки (bioscience)общественное мнение (public opinion)подсадная утка (decoy-duck)народный дух (national character)разговорная речь (spoken language)публичная библиотека (public library)братская могила (mass grave)
+Cut-off level = 2,500 Cut-off level = 5,000диалектическая логика (dialectical logic)барионный заряд (baryon charge)врождённые идеи (innate idea)гонка вооружений (arms race)адский огонь (hellfire)фразовое ударение (phrasal stress)блуждающие огни (will-o’-the-wisp)золотой телец (golden calf)циркуляция крови (blood motion)кольцевые гонки (circuit race)
+Cut-off level = 10,000 Cut-off level = 30,000грудная железа (breast gland)критическая теория (critical theory)чесменский бой (battle of Chesma)автоматический огонь (automatic fire)личное дворянство (personal nobility)концептуальное искусство (conceptual art)институциональный инвестор (institutional investor)земские марки (zhemstvo stamps)агглютинативные языки (agglutinative language)ненасыщенный пар (unsaturated steam)
+Cut-off level = 100,000 Cut-off level = 150,000шлиховой анализ (panning)облеченный тон (invested tone)дардские народы (dardsky people)трамвайная археология (tram archeology)глухой удар (bump)ноги прохожих (feet of passers-by)разделенный экран (divided screen)воркутинская улица (
+Vorkuta street)осетинская церковь (
+Ossetian church)старый базар (old market)6. Conclusion
+In this paper, we described an experiment on MW
+E extraction from corpora. The novelty of the approach lays in the use of two data sources in parallel, a rich set of features, and advanced learning-to-rank methods applied to the task. The proposed approach outperforms traditional association measures and state-of-the-art classification methods. The method is language-independent and employs limited training data. In the future, we plan to apply the method to the extraction of verbal MW
+Es.
+Acknowledgments
+Work on problem definition, survey of related work, experimental design, and feature engineering was carried out by Pavel Braslavski and supported by the Russian Foundation for Basic Research grant no. 14-37-50953. Work on method implementation and evaluation was carried out by Elena Tutubalina and supported by the Russian Science Foundation grant no. 15-11-10019.
+Tutubalina E. V., Braslavski P. I.

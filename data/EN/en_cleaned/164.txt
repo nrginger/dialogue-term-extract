@@ -1,0 +1,167 @@
+Discourse analysis is the linguistics level that deals with language units of maximal size (
+Kibrik, Podlesskaya, 2009, 26). During discourse analysis the text is often represented as a hierarchical tree with its parts connected by various rhetorical relations. Discourse and pragmatics have been considered in Natural Language Processing only in recent years due to the complexity of the approach. Discourse parsing can be used in a wide range of natural language processing tasks, including machine translation evaluation, sentiment analysis, information retrieval, text summarization, information extraction, anaphora resolution, question-answering systems, text classification, etc.—it gives significant performance gain in all these applications, as has been shown by a lot of research.
+Creation of corpora with discourse structure has become very popular in recent years because they are then used for developing machine learning algorithms to build automated systems for discourse parsing and analysis. Discourse parsers already exist for several languages, most notably for English (RAST
+A, SPAD
+E, HILD
+A, CODR
+A parsers). However, there are no discourse-annotated corpora for written Russian at the moment, and therefore no possibility of creating an automated discourse parser, and as long as only manual annotation of texts is possible, discourse analysis will not be used in any applications for Russian. That is why it is essential to develop a publicly available discourse-annotated corpus for the Russian language.
+In this paper we describe the first steps of building a discourse corpus of Russian: the annotation procedure, including establishing the appropriate set of discourse relations, the process of measuring the inter-annotator agreement, and various challenges we faced along the way.
+Towards Building a Discourse-annotated Corpus of Russian 1.1. Background
+There are different approaches to discourse analysis. In Rhetorical Structure Theory (RS
+T) discourse structure amounts to a non-projective tree. Penn Discourse Treebank (PDT
+B) style is connective-led (PDT
+B (
+Webber et al., 2016), TurkishD
+B (
+Zeyrek et al., 2013), etc.) or punctuation-led (
+Chinese Discourse Tree
+Bank (
+Zhou, Xue, 2015)) and is not presented in a tree form. Models based on cohesive relations (
+Halliday, Hasan 1976) are also not tree-like. We decided to choose RS
+T to take into consideration not
+only cohesive markers and discourse cues, but also discourse structure of texts. It is important, for example, for coreference resolution in English—sometimes the most crucial for it is the rhetorical distance and not the linear one, cf. (
+Loukachevitch et al. 2011).
+Therefore, for our corpus we adopt the RS
+T framework (
+Mann, Thompson, 1988). It represents text as a hierarchy of elementary discourse units (ED
+Us) and describes relations between them and between bigger parts of text. Some ED
+Us are more essential and carry more important information (nucleus) than others (satellite). There are two rhetorical relation types: nucleus-satellite and multinuclear. While the first type connects a nucleus and a satellite, the latter includes ED
+Us that are equally important in the analysed discourse. The set of rhetorical relations can vary; it can include, for instance, such relations as Elaboration, Justify, Contrast, Antithesis, Volitional Result, etc. The rhetorical structure theory claims to be applicable to all languages.
+In our work we take into account the existing experience of constructing discourse corpora. There are many RS
+T-annotated corpora of different languages. The most wellknown one is the RS
+T Discourse Treebank (
+Carlson et al., 2003)—an English-language corpus of Wall Street Journal articles (385 articles—176,383 tokens). It is the biggest discourse corpus with a detailed manual. Potsdam Commentary Corpus (
+Stede, Neumann, 2014) a German-language corpus that consists of newspaper materials (175 articles—32,000 tokens). CorpusTC
+C (
+Pardo et al., 2004) is a corpus of Brazilian Portuguese. It includes 100 introductions (53,000 tokens) to Ph
+D theses. Well-developed are also corpora for other languages: Dutch—
+Dutch RU
+G Corpus (van der Vliet et al., 2011), Basque—RS
+T Basque Treebank (
+Iruskieta et al., 2013), Chinese and Spanish—Chinese/
+Spanish Treebank as a parallel corpus (
+Cao et al., 2016), etc. Different sets of rhetorical relations have been created based on the “classic set” (
+Mann, Thomspon, 1988). For instance, the RS
+T Discourse Treebank makes use of 88 relation types (53 nucleus-satellite and 25 multinuclear relations), the Potsdam Commentary Corpus is based on 31 relation types.
+The only existing discourse corpus project for Russian is TED
+Multilingual Discourse Treebank. This project contains a parallel corpus of TE
+D talks transcripts for 6 languages, including Russian (along with English, Turkish, European Portuguese,
+Polish, and German). However, it is based on the principles of the Penn Discourse Treebank annotations framework—discourse connectives as discourse-level predicates with a binary argument structure at a local level (
+Prasad et al., 2007; Zeyrek et al., 2013)—and not on the RS
+T framework. Besides, this recent effort is still in progress and is not publicly available yet.
+The foundation for the project of the Discourse-annotated corpus of Russian was laid by the following works of the research team of the Institute for Systems Analysis, FR
+C CS
+C RA
+S (
+Ananyeva, Kobozeva, 2016 ).
+Pisarevskaya D. et al.
+Rhetorical Structure Corpus for the Russian Language
+The Discourse-annotated corpus of Russian will include texts of different genres (scienсe, popular science, news stories, and analytic journalism). The development of the corpus will be continued for 3 years, during which time we are going to annotate more than 100,000 tokens. The corpus will be available for public use. The user will be able to view annotated texts (represented as discourse trees), search for specific relations (or sequences thereof) and word forms, download the annotated texts in XM
+L format.
+2.1. Annotation Principles
+After conducting extensive research on discourse corpora of other languages, we have developed a detailed annotation manual. As a tool for annotation we have chosen an open-source tool called rst
+Web , which allows to edit a set of relations and change other features if needed.
+International experience of discourse annotation demonstrates that due to grammatical differences between languages, an adaptation of the classic R
+S theory is necessary for almost all of them. That is why in our project we will, among other things, aim to specify the concept of a discourse unit and the set of rhetorical relations for Russian.
+Firstly, we have established a preliminary notion of an elementary discourse unit, which, from a syntactic point of view, we take to be roughly equivalent to a clause (similarly to the classic Mann & Thompson approach). However, there are several notable exceptions, such as nominalization constructions with prepositions like для ‘for’ and из-за ‘because of’ being classified as an ED
+U and relative clauses with restrictive semantics not being classified as one.
+Secondly, we have discussed main annotation principles and created a detailed manual to guide the annotators. It included description of the following 22 relations, which were based on the “classic set” with the specific features of news and scientific texts in Russian taken into account.
+•	 16 nucleus-satellite (mononuclear) relations: Background, Cause (with subtypes: Volitional Cause and Non-volitional Cause), Evidence, Effect (with subtypes: Volitional Effect and Non-volitional Effect), Condition, Purpose, Concession, Preparation, Conclusion, Elaboration, Antithesis, Solutionhood, Motivation, Evaluation, Attribution (with subtypes: Attribution1 (precise source specification) and Attribution2 (imprecise source specification)), Interpretation.
+•	 6 multinuclear relations: Contrast, Restatement, Sequence, Joint, Comparison, Same-unit.
+We decided to add Preparation and Conclusion to the set due to the genre properties of scientific and analytic texts. We divided Attribution into two subtypes due to the differing level of precision of specifying the information source in news stories.
+There are two strategies of annotators’ work in RS
+T analysis (
+Carlson et al., 2003). An annotator could apply relations to the segments sequentially, from one segment to another, connecting the current node to the previous node (left-to-right). This
+method is suitable for short texts, such as news reports, but even in such texts there is a risk of overlooking important relations. The other method is more flexible: the Towards Building a Discourse-annotated Corpus of Russian annotator segments multiple units simultaneously, then builds discourse sub-trees for each segment, links nearby segments and builds firstly larger subtrees and after that the final tree, linking key parts of the discourse structure (top-down and bottom-up). It is more suitable for big texts. We chose the second method of tagging since it is more intuitive and easier for the annotator.
+For the first 3 texts annotators used the set of discourse relations specified above. The texts were of approximately the same length (34, 26 and 38 sentences respectively). All of them were short news articles. The annotators followed the initial guidelines while annotating pilot texts: they segmented the texts and assigned RS
+T relations to the resulting segments. During subsequent discussion it has become clear that this set of relations was not quite convenient for the annotation since some of the relations were extremely hard to differentiate between. Moreover, we have realized that adopting a “classic set” requires further modifications as some relations are probably more obvious and therefore more common in English than in the Russian language.
+2.2. Inter-annotator agreement measurement
+One of the main problems with RS
+T tagging is the subjectivity of annotators’ interpretation: the same text can be annotated in very different ways (
+Artstein, Poesio, 2008). However, a simple discussion is not enough to establish the level of inter-annotator agreement (IA
+A). It must be measured quantitatively using a valid and reliable statistic.
+Much like in other discourse analysis tasks (
+Miltsakaki et al., 2004; Eckle
+Kohler, 2015), we faced certain challenges with inter-annotator consistency computation. Although the rules of splitting text into ED
+Us are relatively straightforward, the resulting segmentation is rarely the same for any text segmented by different people. That
+is why, for example, the Cohen’s kappa coefficient is not suitable in our case. The tokenbased Fleiss’ kappa is also not applicable as we deal with units that consist of several tokens. We have finally selected Krippendorff’s unitized alpha as a statistic to measure inter-annotator agreement. It operates on whole annotation spans instead of isolated tokens, it can be calculated for any number of annotators, it can be applied to sparse data, and it can process features of different types, including nominal features in our case. As splitting text into ED
+Us and labeling relations are two separate tasks, the inter-annotator agreement can be measured separately as well. However, Krippendorff’s unitized alpha can (and will in our case) be used for both measurements.
+The corpus size used for inter-annotator consistency calculation varies from one project to another. Usually it covers about 30 units (
+Lacy, Riffe, 1996), but we decided to take texts that contain more units so we could check if relation types in the manual are suitable for further work. The total number of ED
+Us was approximately 190.
+The RS
+T tagging by means of rst
+Web tool, which is used by annotators, is done in the browser (see Fig. 2), but the system allows to export the result file as an xmldocument, which has the following structure:
+Pisarevskaya D. et al.
+the relations used in the scheme are listed in the header of the xml-document.
+Each ED
+U tag includes two ids and a relation type, where “segment id” stands for the id of the ED
+U, “parent”—for the id of the nucleus in case it is a nucleus-satellite relation and “relname”—for the type of the relation. If the relation is multinuclear, “segment” and “parent” ids both represent the ids of equal by discourse importance ED
+Us. If the relation type is specified as “span”, the ED
+U is included in a bigger discourse group which is assigned a new id (i.e. the ED
+Us 4–6 form a bigger group of relations and the ED
+U 4 as the main nucleus in this group is marked to have a parent with id 54 which is automatically assigned to this group: <segment id="4" parent="54" relname="span">).
+Calculation of the IA
+A coefficient was implemented in Python. Xmltodict 0.10.2 package was used to read and to convert the XM
+L-object of the marked-up text to the Python dictionary. The code used for IA
+A calculation can be accessed via Git
+Hub .
+Towards Building a Discourse-annotated Corpus of Russian Since the ids of segments and groups may differ in the texts annotated by different people, we have decided to use concatenated text spans to uniquely identify the selected relations since it is the only reliable data between distinct annotations. This format has the additional advantage because it allows to locate identical relations in different parts of text in case of different ED
+U fragmentation.
+During the first iteration of the particular annotator’s markup processing, each of the relations trees is traversed in such a way that each node is associated with an ordered by id set of segments of the text, dominated by the node. The "span" relations were not counted during the IA
+A measurement since this relation plays a structural role in annotation and has no actual meaning. After that, the index of the form {key: value} was produced for all the relations, where the value is the type of the relation, and the key is represented as a string:•	 for mononuclear relations: “nuclear: <nuclear_text>, satellite: <satellite_text>”•	 for multinuclear relations: “multinuclear: <multinuclear_text>”,where <nuclear_text>, <satellite_text> and <multinuclear_text> are replaced by correspondent parts of the text. After performing this procedure for each of the annotators, the obtained indices are combined by key <key>, and the list of all the values of the relation, marked by each annotator, is assigned to it. Length of the list can be lower than the number of the annotators when the relation is absent in somebody’s markup.
+According to (
+Krippendorff, 2013) we then build the reliability data matrix:𝑘𝑘𝑘𝑘𝑦𝑦1 𝑘𝑘𝑘𝑘𝑦𝑦2 … 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢 … 𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁 𝑜𝑜𝑜𝑜𝑠𝑠1 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠1 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠1 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠1 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠1 𝑜𝑜𝑜𝑜𝑠𝑠2 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠2 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠2 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠2 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠2 … … … … … … … 𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 Number of coders marked 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢 𝑚𝑚1 𝑚𝑚2 … 𝑚𝑚𝑢𝑢 … 𝑚𝑚𝑁𝑁 … 𝑘𝑘 … 1 𝑜𝑜11 … 𝑜𝑜1𝑘𝑘 … 𝑛𝑛1
+… … … … … … 𝑐𝑐 𝑜𝑜𝑐𝑐1 … 𝑜𝑜𝑐𝑐𝑘𝑘 … 𝑛𝑛𝑐𝑐 = � 𝑜𝑜𝑐𝑐𝑘𝑘𝑘𝑘 … … … … … … … 𝑛𝑛𝑘𝑘 … 𝑛𝑛 = � � 𝑜𝑜𝑐𝑐𝑘𝑘𝑘𝑘𝑐𝑐 𝑜𝑜𝑐𝑐𝑘𝑘 = �𝑛𝑛𝑣𝑣𝑚𝑚𝑜𝑜𝑘𝑘𝑛𝑛 𝑜𝑜𝑜𝑜 𝑐𝑐 − 𝑘𝑘 𝑝𝑝𝑣𝑣𝑝𝑝𝑛𝑛𝑠𝑠 𝑝𝑝𝑛𝑛 𝑣𝑣𝑛𝑛𝑝𝑝𝑢𝑢 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢𝑚𝑚𝑢𝑢 − 1𝑢𝑢 𝛼𝛼𝑛𝑛𝑜𝑜𝑚𝑚𝑛𝑛𝑛𝑛𝑛𝑛𝑛𝑛 = 1 −𝐷𝐷𝑜𝑜𝐷𝐷𝑘𝑘=𝐴𝐴𝑜𝑜 − 𝐴𝐴𝑘𝑘1 − 𝐴𝐴𝑘𝑘
+=(𝑛𝑛 − 1)∑ 𝑜𝑜𝑐𝑐𝑐𝑐𝑐𝑐 − ∑ 𝑛𝑛𝑐𝑐𝑐𝑐 (𝑛𝑛𝑐𝑐 − 1)𝑛𝑛(𝑛𝑛 − 1) − ∑ 𝑛𝑛𝑐𝑐𝑐𝑐 (𝑛𝑛𝑐𝑐 − 1) where keyu serves as encoding unit and obsi stands for particular annotator. Using this matrix, the coincidence matrix within units is calculated (
+Krippendorff, 2013):𝑘𝑘𝑘𝑘𝑦𝑦1 𝑘𝑘𝑘𝑘𝑦𝑦2 … 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢 … 𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁 𝑜𝑜𝑜𝑜𝑠𝑠1 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠1 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠1 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠1 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠1 𝑜𝑜𝑜𝑜𝑠𝑠2 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠2 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠2 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠2 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠2 … … … … … … … 𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 Number of coders marked 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢 𝑚𝑚1 𝑚𝑚2 … 𝑚𝑚𝑢𝑢 … 𝑚𝑚𝑁𝑁 … 𝑘𝑘 … 1 𝑜𝑜11 … 𝑜𝑜1𝑘𝑘 … 𝑛𝑛1
+… … … … … … 𝑐𝑐 𝑜𝑜𝑐𝑐1 … 𝑜𝑜𝑐𝑐𝑘𝑘 … 𝑛𝑛𝑐𝑐 = � 𝑜𝑜𝑐𝑐𝑘𝑘𝑘𝑘 … … … … … … … 𝑛𝑛𝑘𝑘 … 𝑛𝑛 = � � 𝑜𝑜𝑐𝑐𝑘𝑘𝑘𝑘𝑐𝑐 𝑜𝑜𝑐𝑐𝑘𝑘 = �𝑛𝑛𝑣𝑣𝑚𝑚𝑜𝑜𝑘𝑘𝑛𝑛 𝑜𝑜𝑜𝑜 𝑐𝑐 − 𝑘𝑘 𝑝𝑝𝑣𝑣𝑝𝑝𝑛𝑛𝑠𝑠 𝑝𝑝𝑛𝑛 𝑣𝑣𝑛𝑛𝑝𝑝𝑢𝑢 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢𝑚𝑚𝑢𝑢 − 1𝑢𝑢 𝛼𝛼𝑛𝑛𝑜𝑜𝑚𝑚𝑛𝑛𝑛𝑛𝑛𝑛𝑛𝑛 = 1 −𝐷𝐷𝑜𝑜𝐷𝐷𝑘𝑘=𝐴𝐴𝑜𝑜 − 𝐴𝐴𝑘𝑘1 − 𝐴𝐴𝑘𝑘
+=(𝑛𝑛 − 1)∑ 𝑜𝑜𝑐𝑐𝑐𝑐𝑐𝑐 − ∑ 𝑛𝑛𝑐𝑐𝑐𝑐 (𝑛𝑛𝑐𝑐 − 1)𝑛𝑛(𝑛𝑛 − 1) − ∑ 𝑛𝑛𝑐𝑐𝑐𝑐 (𝑛𝑛𝑐𝑐 − 1) where k, c are concrete relation types and𝑘𝑘𝑘𝑘𝑦𝑦1 𝑘𝑘𝑘𝑘𝑦𝑦2 … 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢 … 𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁 𝑜𝑜𝑜𝑜𝑠𝑠1 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠1 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠1 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠1 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠1 𝑜𝑜𝑜𝑜𝑠𝑠2 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠2 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠2 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠2 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠2 … … … … … … … 𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 Number of coders marked 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢 𝑚𝑚1 𝑚𝑚2 … 𝑚𝑚𝑢𝑢 … 𝑚𝑚𝑁𝑁 … 𝑘𝑘 … 1 𝑜𝑜11 … 𝑜𝑜1𝑘𝑘 … 𝑛𝑛1
+… … … … … … 𝑐𝑐 𝑜𝑜𝑐𝑐1 … 𝑜𝑜𝑐𝑐𝑘𝑘 … 𝑛𝑛𝑐𝑐 = � 𝑜𝑜𝑐𝑐𝑘𝑘𝑘𝑘 … … … … … … … 𝑛𝑛𝑘𝑘 … 𝑛𝑛 = � � 𝑜𝑜𝑐𝑐𝑘𝑘𝑘𝑘𝑐𝑐 𝑜𝑜𝑐𝑐𝑘𝑘 = �𝑛𝑛𝑣𝑣𝑚𝑚𝑜𝑜𝑘𝑘𝑛𝑛 𝑜𝑜𝑜𝑜 𝑐𝑐 − 𝑘𝑘 𝑝𝑝𝑣𝑣𝑝𝑝𝑛𝑛𝑠𝑠 𝑝𝑝𝑛𝑛 𝑣𝑣𝑛𝑛𝑝𝑝𝑢𝑢 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢𝑚𝑚𝑢𝑢 − 1𝑢𝑢 𝛼𝛼𝑛𝑛𝑜𝑜𝑚𝑚𝑛𝑛𝑛𝑛𝑛𝑛𝑛𝑛 = 1 −𝐷𝐷𝑜𝑜𝐷𝐷𝑘𝑘=𝐴𝐴𝑜𝑜 − 𝐴𝐴𝑘𝑘1 − 𝐴𝐴𝑘𝑘
+=(𝑛𝑛 − 1)∑ 𝑜𝑜𝑐𝑐𝑐𝑐𝑐𝑐 − ∑ 𝑛𝑛𝑐𝑐𝑐𝑐 (𝑛𝑛𝑐𝑐 − 1)𝑛𝑛(𝑛𝑛 − 1) − ∑ 𝑛𝑛𝑐𝑐𝑐𝑐 (𝑛𝑛𝑐𝑐 − 1) ,
+Pisarevskaya D. et al.
+u is the encoded unit (keyu), mu is the number of annotators who have marked up this unit.
+The final calculation of the coefficient can be done in the following way:𝑘𝑘𝑘𝑘𝑦𝑦1 𝑘𝑘𝑘𝑘𝑦𝑦2 … 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢 … 𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁 𝑜𝑜𝑜𝑜𝑠𝑠1 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠1 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠1 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠1 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠1 𝑜𝑜𝑜𝑜𝑠𝑠2 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠2 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠2 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠2 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠2 … … … … … … … 𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦1,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦2,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 … 𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑣𝑘𝑘𝑘𝑘𝑘𝑘𝑦𝑦𝑁𝑁,𝑜𝑜𝑜𝑜𝑠𝑠𝑚𝑚 Number of coders marked 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢 𝑚𝑚1 𝑚𝑚2 … 𝑚𝑚𝑢𝑢 … 𝑚𝑚𝑁𝑁 … 𝑘𝑘 … 1 𝑜𝑜11 … 𝑜𝑜1𝑘𝑘 … 𝑛𝑛1
+… … … … … … 𝑐𝑐 𝑜𝑜𝑐𝑐1 … 𝑜𝑜𝑐𝑐𝑘𝑘 … 𝑛𝑛𝑐𝑐 = � 𝑜𝑜𝑐𝑐𝑘𝑘𝑘𝑘 … … … … … … … 𝑛𝑛𝑘𝑘 … 𝑛𝑛 = � � 𝑜𝑜𝑐𝑐𝑘𝑘𝑘𝑘𝑐𝑐 𝑜𝑜𝑐𝑐𝑘𝑘 = �𝑛𝑛𝑣𝑣𝑚𝑚𝑜𝑜𝑘𝑘𝑛𝑛 𝑜𝑜𝑜𝑜 𝑐𝑐 − 𝑘𝑘 𝑝𝑝𝑣𝑣𝑝𝑝𝑛𝑛𝑠𝑠 𝑝𝑝𝑛𝑛 𝑣𝑣𝑛𝑛𝑝𝑝𝑢𝑢 𝑘𝑘𝑘𝑘𝑦𝑦𝑢𝑢𝑚𝑚𝑢𝑢 − 1𝑢𝑢 𝛼𝛼𝑛𝑛𝑜𝑜𝑚𝑚𝑛𝑛𝑛𝑛𝑛𝑛𝑛𝑛 = 1 −𝐷𝐷𝑜𝑜𝐷𝐷𝑘𝑘=𝐴𝐴𝑜𝑜 − 𝐴𝐴𝑘𝑘1 − 𝐴𝐴𝑘𝑘
+=(𝑛𝑛 − 1)∑ 𝑜𝑜𝑐𝑐𝑐𝑐𝑐𝑐 − ∑ 𝑛𝑛𝑐𝑐𝑐𝑐 (𝑛𝑛𝑐𝑐 − 1)𝑛𝑛(𝑛𝑛 − 1) − ∑ 𝑛𝑛𝑐𝑐𝑐𝑐 (𝑛𝑛𝑐𝑐 − 1) We have measured the IA
+A coefficient for each of three texts and the coefficients for the texts were 0.2792, 0.3173 and 0.4965 respectively. We suppose the third text has the higher IA
+A coefficient due to the easier and more obvious discourse structure.
+The acceptable level of Krippendorff’s unitized alpha coefficient for our task would be approximately 0.8 and our results for every text were much lower.
+2.3. Initial tree’s modification
+We have decided to reduce the set of RS
+T relations used for annotation in order to reach the higher IA
+A coefficient and to minimize the subjectivity of the annotation.
+One of the main reasons to exclude particular relations was their high specificity and low frequency of their usage during annotation. Although presence of such relations would not radically affect IA
+A, reducing the relations’ set would make the annotation task easier, and at the same time we would not lose much if we got rid of highly specific and rare relations. If there was always a possibility of replacing some relation with another, more common one, without a great loss in semantic adequacy, it was considered to be an argument in favor of excluding it. The changes that we have accepted after a thorough analysis and much discussion are listed below.
+We have decided to exclude from the set of relations•	 Motivation, since it is very specific and therefore extremely rare: it was used only 2 times in these three texts (approx. 190 ED
+Us).
+•	 Antithesis (nucleus-satellite relation), since the only difference between Antithesis and Contrast (multinuclear relation) is that in Antithesis one part should be more important than the other. None of the annotators could establish the relative importance of ED
+Us in such cases.
+•	 Volitional and Non
+Volitional subtypes of Cause and Effect, since in many cases it was impossible to determine whether the actions were intentional or not. However, this distinction might be important for some of the tasks the corpus will be needed for. Those who will use the corpus for this kind of tasks will have the opportunity to substitute Cause/
+Effect relation with Volitional Cause/
+Effect or Non-volitional Cause/
+Effect themselves (as the annotated texts will be available for downloading in an easily changeable XM
+L format).
+•	 Conclusion, because it is quite rare and can be considered a subtype of Restatement, which we decided to use for contexts when the Conclusion relation could be possible.
+Towards Building a Discourse-annotated Corpus of Russian We have combined in one relation•	 Cause and Effect, since the difference between the two lies in determining the nucleus, which is cause in the Cause relation and effect in the Effect relation. Thus, the annotator has to conclude what is more important in two given ED
+Us: the cause or the effect, which is very subjective.
+•	 Interpretation and Evaluation, since the difference between these relations is very subtle and in order to distinguish between them, one has to determine the degree of objectivity of the evaluation, and that is again very subjective.
+•	 Attribution1 and Attribution2, since the level of precision required for Attribution1 is often unstable and unclear.
+All of the above has resulted in a new RS
+T relations tree. The set of relations in Fig. 4 is final and will be used during the rest of the annotation process:
+After modifying the set of discourse relations, three new texts were annotated and the IA
+A was measured again. The texts were, respectively, 37, 44 and 28 sentences long and all of them were short news articles, same as during the previous IA
+A measurement. The new IA
+A coefficients were 0.7768, 0.691 and 0.7615 respectively, which indicates a big leap in the annotation quality. These three texts, annotated in XM
+L format, are available at with other texts annotated so far. The web interface for the corpus will be created as soon as the appropriate number of texts (and tokens) is reached.
+Pisarevskaya D. et al.
+Conclusion
+By establishing a reliable set of discourse relations we have formed a sound basis for further work. The two iterations of IA
+A measurement let us believe that using the final relation list will lead to a less biased annotation from now on, which is very important because of the well-known subjectivity of the discourse relations’ understanding.
+During the rest of the project every text will be annotated by one person and then checked but not annotated by another one. We plan to measure IA
+A regularly to ensure that the agreement level remains high enough.
+After annotating approximately one hundred texts, we plan to conduct several experiments regarding automatic ED
+Us and discourse relations recognition. Automatic rhetorical structure analysis often relies heavily on determining linguistic discourse markers—connectors that join clauses and sentences into an interconnected piece of text. That is why during the annotation we will also fixate and analyze these markers in order to identify particular words and constructions that indicate discourse relations.
+Acknowledgements
+We would like to express our sincere gratitude to the advisor of the Discourseannotated corpus of Russian project, Svetlana Toldova, for the continuous support for the project and related research.

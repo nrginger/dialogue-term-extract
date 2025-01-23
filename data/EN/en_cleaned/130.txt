@@ -1,0 +1,468 @@
+rules.
+Complex objects consisting of clusterizing sentence elements are attested in a large class of world’s languages, cf. , . Empirically-oriented research has shown that almost all clusterizing elements attested in natural languages fall in the class of clitics, i. e. prosodically deficient elements linearized by specific rules presumably not affecting non-clitic elements, cf. Zwicky (1977), Sadock (1995). At the same time, not all clitics are clusterizing. Theory-oriented authors have tried to explain the nature of the clitic vs non-clitic distinction in terms of constituency grammars. In recent versions of the Minimalist Program, standard non-clitic elements (except for the pro-forms) are treated as maximal projections, i. e. groups (X
+P), while clitics are usually treated as heads (°
+X), cf. as socalled left-branching elements (XP/°
+X), i. e. reduced groups, cf. . Consequently, discussion of clusters in the Minimalist Program and related generative frameworks often starts from stating the researcher’s credo — whether (s)he believes that clitics are °
+X-s or XP/°
+X-s, and goes on global architecture of language. As a result, analysis of clusters in the framework-based research crucially relies on issues not 1 The paper was written with support of the Russian foundation for the humanities, project
+RF
+H 11-04-00282a ‘
+Typology of morphosyntactic parameters’. I am grateful to the anonymous reviewer for the valuable comments. For the abridged version of this paper see the volume of the ‘
+Dialog 2012’ conference.
+Zimmerling A.
+related to the surface order of elements — whether syntax and morphology are one module of grammar or two separate ones, on the linguist’s wish to go in for prosody of the clusterizing elements and the linguist’s readiness to assemble clusters from prosodically and morphologically heterogeneous items, etc. For instance, if a framework-based author adopts a controversial definition of a clitic as an element ‘lacking stress’2 and comes across clusters consisting of both unstressed and stressed elements, (s)he will likely conclude that these are some occasional sequences of heterogeneous elements. In short, current linguistic theories capitalize the idea that clusterizing elements are clitics, еxplain fixed combinations of adjacent elements with special features postulated for clitics without postulating special features for clusters and impose conditions that clusterizing elements should be homogeneous in all or most respects with regards to prosody, morphology of syntax. This condition may be called Homogeneity Condition:(i) Homonegeity Condition, H
+C. Clitics clusters must consist of clitics sharing all relevant prosodic and morphosyntactic features typical of clitics in this language.
+The main drawback of the approach outlined above is that no one has proved yet that clusterizing and non-clusterizing clitics have the same properties. Moreover, it is unclear whether these two sets are intersecting or not. Let us define non-clusterizing clitics formally.
+(ii) A non-clusterizing clitic is a phrase-level or clause-level element that does not clusterize with other elements of the same level.
+Note that according to the proposed definition a single clitic c is treated as clusterizing if it can be substituted with a cluster the element c in other phrases with the identical fragment of syntactic structure. E.g., if a language has both reflexive clitics used with reflexive verbs and auxiliary clitics and they invariably clusterize as , a single auxiliary clitic is considered clusterizing if it appears in a sentence without a reflexive verb. Similarly, if a language only has 1–2 p. auxiliary clitics which clusterize with reflexives but lacks 3 p. auxiliary clitics, a single reflexive clitic is considered clusterizing if used in a sentence with a verb in the 3 p.3 Similarly, if a language has a question marker which makes up clusters with a set of pronominal clitics in yes-no questions, its absence in non-interrogative clauses using the same set of pronominal clitics does not falsify the hypothesis that this marker and a pronominal clitic clusterize if they both are realized overtly in the same clause. I conclude that the optional character of clitics, selective restrictions imposed on their 2 This step is made i. e. in .
+3 This is attested, e. g. in Old Novgorod Russian . In Kashibo
+Kakataibo (
+Pano
+language family, spoken in Peru) 1–2 p. personal agreement markers clusterize with the discourse clitic ka, but in the 3 p. overt agreement markers do not show up, while ka is still possible .
+A unified analysis of clitic clusters in world’s languages combinations and correlations between subsets of clitics and types of speech acts are not by themselves sufficient for denying clusterizing capacities of a clitic. Meanwhile, there are indisputable examples of non-clusterizing clitics: these are elements that either do not occur in adjacent position to any other clitics of the same type4 and phrase level or do not form fixed sequences with them. E.g., Serbo
+Croatian has a set of enclitic pronouns in the accusative case which can attach to prepositions, cf. (1a): these enclitics do not combine with any other enclitics and are phrase-level (P
+P-level) elements that do not climb i. e. cannot be extracted to a higher domain, cf. the illformedness of (1b).
+(1) S
+C. а. Da =je Ivan računao . thatCOM
+P beCL.AUX.3S
+G Ivan countPST.3SG.
+M on meCL.ACC.1S
+G ‘that Ivan counted on me.’ b. *].
+Serbo
+Croatian also has segmentally identical accusative enclitics meACC.1S
+G, teACC.2S
+G which are clause-level elements encoding predicate arguments5. Clause-level accusative enclitics in Serbo
+Croatian clusterize with other enclitics and climb i. e. can be extracted to a higher clause6. It is a priori unclear whether the non-clusterizing meACC.1S
+G and the clusterizing meACC.1S
+G in Serbo
+Croatian should be analyzed as different elements or not: they have the same morphological marking but entirely different syntactic properties. If syntax of S
+C meACC.1S
+G crucially depends on its domain — clause vs phrase, it seems better to analyse the clause-level clusterizing S
+C clitic me1 and the phrase-level non-clusterizing S
+C clitic me2 as two homonyms but not as one and the same underlying syntactic element.
+Another empirical challenge to the hypothesis that the sets of clusterizing and non-clusterizing clitics intersect comes from the distribution of particles. In a number of languages indeclinable particle clitics seem to convey different meanings in configurations where they clusterize and where they do not. E.g., in Old Novgorod Russian the enclitic particle =že was non-clusterizing if conveyed an identifying meaning, cf. totъ=že ‘the same’, or an additive meaning, cf. sъ Gyurьgemъ=že sъ Lukoyu ‘with X and with Y’ but clusterizing in all other meanings . Again, it is possible to associate the identifying and additive meanings of =že2 with nonsentential uses, where it does not pertain to the clausal predicate, and to separate them from the clusterizing Old Novgorod Russian particle že1. It is natural that the 4 This stipulation is necessary if we want to separate possible proclitic + enclitic sequences,
+with a proclitic serving as a host element for the enclitic and a single enclitic attached to it, cf. example (1b), from clusters consisting of two or more proclitics/two or more enclitics.
+5 The paradigms of Serbo
+Croatian clause-level accusative enclitics and Serbo
+Croatian P
+Plevel accusative enclitics are similar but not identical, since the P
+P-level accusative enclitic
+=nj3SG.AC
+C has a form deviating from the clause-level accusative enclitics =ga3SG.ACC.
+M. and =ju3SG.ACC.
+F .
+6 Cf. the discussion of climbing out of infinitive clauses
+in Serbo
+Croatian.
+Zimmerling A.
+Old Novgorod Russian clitic že1 clusterizes with other clause-level clitics, since it is a clause-level operator itself, while the phrase-level (N
+P-level) že2 does not clusterize, since it is an N
+P-level element which serves as a means of highlighting particular discourse referents. Here different syntactic status of the N
+P-level nonclusterizing clitic že2 vs clause-level clusterizing clitic že1 corresponds to differences in semantics, while their prosodic features do not change: both =že1 and =že2 are strict enclitics and do not take the initial position in their domains.
+There are also languages where clusterizing clitics and their non-clusterizing counterparts differ in the prosodic type. E.g., in Modern Slovak the particle =už1 ‘already’, ‘still’ is clusterizing if it is an enclitic, cf. (2a) and non-clusterizing if it is a proclitic už2=, cf. (2b). The clusterizing enclitic =už1 cannot be clause-initial and is invariably placed after clusterizing clitic pronouns like =imDAT.3P
+L in (2a), while the nonclusterizing proclitic už2=can be clause-initial and occasionally precedes enclitic pronouns as in (2b). If one treats =už1 and už2= as one and the same underlying syntactic element and not as a pair of homonyms, one will arrive at the wrong conclusion that the enclitic particle =už1 is not part of the Slovak clitic cluster, since the relative order of { už1 } ∪ {už2} and Slovak pronominal enclitics is apparently invertible. This bug is eliminated if we separate už1 and už2 as elements with different categorial features and do not treat the proclitic + enclitic sequences like #už =ju in (2b) as clusters.
+(2) Svk a. Ale =im =už tešil. ‘
+But deep down he still found comfort in the hope <that P>’ b. #
+Už =jui aj začinajú . ‘
+One has already started building it <the road>’.
+(2) Svk. a. Ale =im =už tešil. But at heart CLREF
+L = CLDAT.3P
+L. already find.comfort.PST.3SG.
+M ‘
+But deep down he still found comfort in the hope <that P>’ b. #
+Už =jui aj začinajú .7 Already CLACC.3SG.
+F. and beginPRS.3P
+L workIN
+F ‘
+One has already started building it <the road>’. Finally, in a number of languages some clusterizing clitics have counterparts in non-clitic expressions with the same segmental structure. E.g. in Modern Czech clusterizing enclitic pronouns in the 3 Sg. feminine (=jiACC.3SG.
+F, =jíGEN.3SG.
+F, =jíDAT.3SG.
+F) are homonymic to non-clitic stressed pronouns in the same case, number and gender . In Warumungu8 this correlation is apparently extended to all personal pronouns: they are described as clitics when used clause-internally but as stressed non-clitic forms in the clause-initial position . Old Icelandic has clause-internal deictic particles nú ‘now’ and þá ‘then’ which clusterize with pronominal and adverbial clitics . The 7 The Slovak examples in (2a-b) and (4) are taken from the text: I. Habaj. Príbuzní z Ostrova.
+Bratislava, 1978, 88–133.
+8 An Australian language from the Pama
+Nyungan family.
+A unified analysis of clitic clusters in world’s languages clause-internal clusterizing enclitics nú1 and þá1 had non-clusterizing clause-initial counterparts nú2 and þá2 that likely were non-clitic elements bearing the sentence accent . The same problem arises with Old Russian 1–2 p. forms of the B
+E-auxiliary in the present tense indicative — they are distinguished from their non-clitic counterparts merely on the basis of their syntactic position, cf. .
+Similar facts do not prove automatically that clusterizing clitics and their nonclusterizing counterparts with the same segmental structure are homonyms but they obviously compromise the idea that clitic clusters are just occasional sequences of prosodically homogeneous non-clusterizing clitics. I am therefore giving up the Homogeneity Condition and conclude that the parameters ‘± clitic’ and ‘± clusterizing’ are independent. I am furthermore assuming that each slot in the binary matrix on Fig. 1 may have a non-empty filling.
+A.‘+ Clitic’. B.‘
+Clitic’.
+1. ‘Cluster’. + +
+2. ‘+ Cluster’. + CLITICOID
+S
+The existence of single non-clusterizing clitics (
+A1) and single non-clusterizing non-clitic elements (
+B2) is an observable fact. The existence of clusterizing clitics (
+A2) can be proved formally if a language also has a non-identical set of non-clusterizing clitics and all clitics involved in clusters met all the conditions met by non-clusterizing clitics in this language. Finally, the existence of (
+B2) can be proved if some or all clusterizing elements do not conform to the conditions met by clitics in this language. If they combine in a cluster with standard clitics whatever the definition of a clitic is chosen, the value ‘+clitic’ is not the most general feature of the clusterizing elements. I am tagging clusters consisting of elements which violate the H
+C as ‘cliticoids’. Informally, cliticoids are a set of clusterizing elements which share some common value overlapping but not directly matching with the value ‘+clitic’, e. g. a value like ‘+function word’, or ‘+discourse-activated element’ or ‘+yīn’, ‘+yáng’ etc. What a linguist usually does not know beforehand is whether B2 and A2 overlap or A2 is a proper subset of the B2. Empirically-oriented research has shown that world’s languages with clusterizing elements usually allow clusters consisting of elements representing two, three or more different kinds of sentence categories, e. g. Agreement markers, Case Markers, Reflexives, Discourse Operators. Therefore, the most general value assigned to all cliticoids in all world’s languages is less likely to be found in the set of morphosyntactic features and more likely to be found in the set of communicative or prosodic features.
+In order to get the diagnostic features of clusterizing clitics/cliticoids it is essential to establish the correlations of clusters vs structures where they occur. I am claiming that such correlations exist and that the distribution of clusters in world’s languages provides a key for retrieving information about syntactic domains. I also argue Zimmerling A.
+the list of diagnostic features of clusters can be construed without assuming that all clusterizing elements are clitics. Moreover, it can be shown that not all sequences of adjacent clitics are clusters even if the order of the elements is fixed and such sequences obey H
+C.
+The most salient counterexample is furnished by cases where adjacent clitics a, b belong to different syntactic categories X, Y and the fixed order a > b is straightforwardly derived from the fixed order X > Y. If X и Y are sentence categories that are placed in a fixed order , , the clitic а can attach to X° only from the right (
+X°=a), the clitic b can attach to Y° only from the left (b=
+Y°), the fixed order а > b is generated automatically: To eliminate such sequences and to keep them apart from clusters where all elements belong to one and the same syntactic domain , one needs a principle like (iii).
+(iii) The Independent Templatic Principle,IT
+P. If elements from the set {a,b,c…n} constitute a cluster, the order a > b for the each pair of adjacent elements (a,b) is predicted by an independent Template Rule which cannot be derived from the rules predicting the order of any pair of sentence categories X, Y, X ∉ {a,b,c…n}, Y ∉ {a,b,c…n}.
+It is reasonable to impose a further condition on clusters and specify that the clusterizing elements should represent one syntactic domain.
+(iv) The One Domain Principle, OD
+P. If clitics from the set {a,b,c…n} are ordered by a Template Rule, predicting the order a > b for each pair of adjacent elements (a,b), the cluster /a,b,c…n/ cannot be divided by any categorial brackets dividing the domains of any two syntactic categories X and Y, so that one part of the cluster would belong to X, and the other one to Y: *.
+We are unable to prove OD
+P in the strong sense, i. e. to prove that adjacent clitics a, b capable of taking more two or more positions in clause, cannot be placed in a fixed order a > b, if they belong to different domains X and Y. At the same type, OD
+P probably can be proven in the weak sense, i. e. for each world’s language which has clusters of clause-level elements /a,b,c…n/ it can be demonstrated that the clusterizing elements belong to one domain (not two or more).
+Sequences of clitics belonging to different domains may resemble clusters but are not recognized as such according to OD
+P. Such sequences sometimes arise in world’s languages where clusterizing clitics of the matrix clause attach to the right edge of the embedded clause which may have its own clitics. This is attested, e. g. in Cavineña9 and Slovene. Cavineña has phrase-final enclitics like =tibu ‘because’ that serve as complementizers . In example (3) the enclitic =tibu belonging to the embedded clause with the verb jipe-kware ‘approach’, ends up to the left of the cluster =pa=tu belonging to the main clause predicate pude-da ‘(be) red’.
+9 A Bolivian language from the Tacanan language family.
+A unified analysis of clitic clusters in world’s languages (3) Cav. # =pa =tu pude-da10. CL3ER
+G only sun approachPLPR
+F. CLCOM
+P # CLRE
+P CL3S
+G red ‘
+Since he <the vermillion flycatcher bird> is the only one who had approached the sun in the old days, he is red/brown.’
+The OD
+P condition has to be slightly modified for languages that allow climbing of the clusterizing clitics out of embedded clauses into the matrix clause. An example of climbing is given above in (2b), where the clitic =ju is generated in the embedded infinitive clause but moved to the main clause. A more complicated case is shown below in (4)(4) Svk. tej postele!]. And youNOM.S
+G. CLCON
+D. CL.BE.2SG.PR
+S CLREFL.AC
+C havePST.3S
+G.М. moveIN
+F from thatDA
+T.
+SG.
+F bedDAT.SG.
+F ‘
+It were better if you just arose from the sack!’
+In the cluster =by=si=sa the first two clitics are linked with the main-clause verb mal, while the third one with the embedded-clause verb (infitinitive) zodvihnúť. This condition is shown schematically in (4’), where the superscripts b1ci2 refer to syntactic
+heads V1 and V2 and the subscript (i) refers to the base-generation position of the moved (‘climbed’) clitic.
+(4’) ]. The well-formedness of structures like (4’) indicates that OD
+P must be complemented by a condition on embedding and climbing.
+(v) The Condition on Embedded Domains, CE
+D. A cluster defined on the set {a,b,c…n}, where for each pair of adjacent elements (a, b) the fixed order a > b can be established, and elements а,b,c,d are generated in different clauses of a poly-predicate complex ], syntactically belongs to the hierarchically highest clause of this complex, if the Template Rule has slots {{
+C …}, {
+D …}} for the clitics c, d extracted from the embedded clause .
+If the CE
+D condition is met, structures with climbing like (4’) do not violate the One Domain Principle, OD
+P. Cross-linguistically, climbing of pronominal clitics is more common, while climbing of particle clitics is a more rare option.
+Some sequences of adjacent clitics belonging to different domains and violating the OD
+P arise not at the clause junction as in the example (3) above, but in structures where clause-level clitics adjoin to the right edge of the preceding constituent which can include phrase-level clitics. This possibility is mentioned by A. A. Zaliznjak who is analyzing examples like (5), where the bound clitic =to is part of the relative 10 The example (3) is from .
+Zimmerling A.
+o-že=to and does not belong to the same level of representation as the free clusterizing clause level clitics =miDAT.1SG=esiAUX.2S
+G11.
+(5) O.
+Novg. =esi povedalъ]. Comp=CLRE
+L CLDAT.1S
+G. CLBE.AUX.2S
+G tellPST.SG.
+M ‘
+Since you have told me’.
+In order to separate sequences with phonetically adjacent clitics of a different level from clusters consisting of elements of the same level, we add the condition (vi).
+(vi) The One
+Level Condition, OL
+C. The Clusterizing elements must belong to one and the same level of representation. Phrase-level clitics do not clusterize with clause-level clitics.
+The separation of phonetically adjacent clitics from clusters in texts on exotic or old languages may be a difficult task, but we treat it as technical problem, not a conceptual one. If a linguist has a sufficient corpus of e. g. Novgorod birch bark letters or Warlpiri texts, the OL
+C usually makes it possible to verify or falsify the hypothesis that the k is a clusterizing element, i. e. an element placed by the same Template Rule that predicts the order of clitics a, b, c from some set {a,b,c…n }, where a,b,c…n are syntactic elements of the same level. For instance, Warlpiri12 clauses may have sequences like , as in (6а), where =ka and =rna are clusterizing clause-level clitics. Yet the first two elements scarcely belong to the clausal domain: the element ju2 is topic marker13 and is adjoined only to nouns and stressed pronouns, cf. nyuntu2S
+G. in (6a-b). The marker =ku is conventionally glossed as ‘
+Dative’, but it is again only possible on N
+Ps, cf. the example (7), where =ku is supported by the predicate-level dative clitic =rla which is placed in the cluster after nominative and accusative enclitics, according to the Warlpiri Template Rule.
+(6) Warl. а. =ka =rna wiri nyina . You CLDA
+T CLTO
+P CLAUX.PR
+S CL1SG.NO
+M big sit I CLTO
+P ‘
+I am bigger than you’. b. nyina wiri .14 I CLAUX.PR
+S CL1SG.NO
+M CL2SG.AC
+C. sit big you CLDA
+T CLTO
+P ‘the same’.
+11 The example (5) is from , the notation is ours — A.
+Z.
+12 An Australian language from the Pama
+Nyungan family.
+13 At the synchronic level Warl. =ju is described as a pair of homonyms: the clusterizing pronominal 1 p. accusative clitic =ju, cf.. We mark the homonyms =ju1
+и =ju2 with subscripts.
+14 The examples (6ab) are from , the notation is ours — A.
+Z.
+A unified analysis of clitic clusters in world’s languages (7) Warl. =ka =ju1 =rla Child
+Erg. CLAUX.PR
+S CL1SG.AC
+C CLDA
+T I CLDA
+T strike-N
+Past
+The child is striking at me’.
+Warl. =kuDA
+T and the topical Warl. =ju2 in (6-b) appear to be N
+P-level clitics which can immediately precede the clusterizing clause-level clitics =kaAUX.PRS=rna1S
+G.
+NO
+M due to a special parameter setting for Warlpiri: this language allows the placement of clause-level clitics after the first spelled-out clausal constituent16. Note that this conclusion is not based on any preliminary conventions about the clausal architecture of Warlpiri, but is prompted already by the combinatorics considered probable or improbable for the class of languages with clusters. In other words, if IT
+P, OD
+P, SE
+D and OL
+C are general principles instrumental in all languages or at least in a class of world’s languages with clusterizing clause-level clitics including Serbo
+Croatian, Old Novgorod Russian, Slovak, Cavineña and Warlpiri, it is not necessary to learn all languages from this class in detail in order to separate adjacent clitic sequences from clusters consisting of syntactic elements of the same level and belonging to one and the same domain.
+The technical difficulties with separation of adjacent clitic sequences from clusters are most salient in sentences like (3), (5), (6), (7) where clitics belonging to clusters are prosodically homogeneous with adjacent elements of a different phrase-level. At the same time, as we have shown above, clusterizing elements of the same phraselevel belonging to one and the same syntactic domain often violate H
+C: some of them have non-clitic counterparts with the same segmental structure and morphological marking, cf. Old Novgorod Russian clitic =esiBE.AUX.2
+Sg~ Old Novgorod Russian ESIB
+E.
+AUX.2
+Sg, others have counterparts in the set of non-clusterizing clitics (cf. S
+C clause-level =meACC.1S
+G and S
+C phrase-level =meACC.1S
+G), or counterparts differing in the prosodic type, cf. Svk. clusterizing enclitic=už1 with the non-clusterizing proclitic =už2. Such deviating features are by no means characteristic of all clusterizing elements in the corresponding languages. This indicates that neither presence nor absence of nonclusterizing counterparts is a prerequisite for clusterization. There are numerous other examples showing the prosodic and morphologic heterogeneity of clusters consisting of syntactic elements of the same level and belonging to the same domain. E.g. clusters of clause-level clitics in Vedic Sanskrit alternated stressed and unstressed elements . Template Rules in Old Novgorod Russian, Serbo
+Croatian, Slovak, Cavineña, Warlpiri, Tagalog and elsewhere operate on clusterizing clauselevel elements with a different number of syllables and assemble clusters consisting 15 The example (7) is from , the notation is ours — A.
+Z.
+16 In the terminology of , Warlpiri is a W2-system, its closest parallel being
+word order systems like Serbo
+Croatian and Luiseño. All these languages allow the placement of clitic clusters/clusterizing clitics both after the first phonetic word and after the first clausal constituent, but Serbo
+Croatian does not have phrase-level clitics in the first constituent. Such phrase-level clitics are possible in Cavineña, but this language does not allow splitting the first multi-word clausal constituent. Old Novgorod Russian has generalized splitting of the first clausal constituent, while Slovak and Cavineña have generalized the placement of clitic clusters/clusterizing clitics after the first multi-word clausal constituent.
+Zimmerling A.
+both monosyllabic and polysyllabic elements. Finally, in many languages the internal order of the clusterizing elements violated the so called Categorial Principle . This principle predicts that all clusterizing clitics/cliticoids are grouped in blocks according to their taxonomic morphosyntactic category, e. g. Particle, Pronoun or Auxiliary, so that the block of particles, pronouns and auxiliaries do not intersect in the Template: strings consisting of two or more particles cannot be intervened by any auxiliaries and vice versa. This condition is shown in (vii): the capital letters A, B, C are for different categories of clusterizing clitics, the lowercase letters with indexes a1, b1, cn are for particular clitics representing categories A, B, C.
+(vii) The Categorial Principle: the clusterizing elements are grouped according to the taxonomic morphosyntactic category. The order of non-intersecting blocks in a clitic template embodies some hierarchy of sentence categories.
+The condition in (vii) is preserved in Template Rules of several languages including Old Novgorod Russian, where all clusterizing particles precede all clusterizing pronouns, and all clusterizing pronouns precede all clusterizing auxiliaries. It is severely violated in Tagalog, where monosyllabic clusterizing particles intervene in sequences of two or more pronouns . It is mildly violated in the Slovak Template Rule where clusterizing auxiliaries and pronouns are placed between two slots for particle: the leftmost slot is filled by the conditional particle =by, the rightmost slots are filled by the spatial particles =tu, =tam and discourse particle =už.17Particle1
+Auxiliaries1–2 p.
+PronounsParticle2
+Reflexive Dative AccusativeNom.
+Acc.
+Sg. n.
+bysem, si2SG.PR
+S, sme, stesa, siREFL.DA
+Tmi, ti, mu, jej, nám, vám, imma, ťa, ho, ju, nás, vás, ichtotu, tamuž1 2 3 4 5 6 7 8
+Fig. 2 shows that 8 slots of the Template host 25 clusterizing elements representing 3 major taxonomic categories — Auxiliary, Pronoun and Particle. The slots 1,6,7,8 are
+filled with a single element each, while slots 2,3,4,5 are filled with sets of elements which share at least two properties — a) they do not occur simultaneously; b) they are ordered in the same way respective all other elements filling all other Template slots. This distributional restriction is a general characteristics of all Template Rules. 17 Note that Slovak has two homographic and homophonous clusterizing clitics taking different
+slots in the template: the auxiliary clitic =si2SG.PR
+S and the dative reflexive clitic =siREFL.DA
+T.
+A unified analysis of clitic clusters in world’s languages At the same time, the order of slots in a Template is idiosyncratic in the terminology of . The last term has a twofold load. For the first, it states that the order of slots is language-specific, not universal. For the second, it prompts that the order of slots is not derivable from any other rules and principles except those which exclusively pertain to the clusterizing elements, cf. the condition (iv) above, introduced in this paper as an autonomous principle, Independent Template Principle, IT
+P.
+(viii) The Template-and-Slots
+Principle, TS
+P. 1. The number of slots in a Template equals the number of non-overlapping
+subsets A,B,C..
+N, so that each subset consists of elements {a1, a2…an} {b1, b2…bn}, which stand in a complementary distribution with each other and are ordered uniformly respective any other elements from other subsets.
+2. The order of slots is idiosyncratic and cannot be derived from any other principles than IT
+P.
+Let us now treat Template Rules like that on Fig. 2 not only as empirical generalizations based on some text corpora but also as dynamic systems whose main function is to predict the order of any two elements < x, y > from the strictly bounded and relatively small set of the clusterizing elements {a,b,c…n}. There are two scenarios. If x, y take the same slot, they stand a in complementary distribution and do not show up simultaneously. If x, y take different slots and may show up simultaneously18, there are ordered in the only possible way x > y in all cases where they assume a contact position. If the clusterizing elements take a distant position and do not form a contact sequences, this requirement does not hold. That is, if a°, b°, c° are elements belonging to the cluster , sequences like *
+X=b° (2)=c° (3)= a° (1) are excluded if all these clitics are attached to one and the same sentence category X, but if b°, c° attach to X, while a° attaches to Y, sequences like X=b° (2)=c° (3) Y= a° (1) are possible19. Contrary to , disjoint placement of clusterizing clitics does not by itself defy the existence of clusters if the TS
+P is not violated and syntactic configurations with cluster splitting can be proved to be derived (in terms of a transformational grammar) from configurations without splitting. Rules triggering cluster splitting are called ‘
+Barrier Rules’ in the tradition based on 20. From the viewpoint of combinatory analysis, the difference between world’s languages with and without Barriers amounts to the difference 18 The implication that elements taking the same slot are never used simultaneously is true.
+The inverse implication that elements taking different slots are always used simultaneously is false, cf. the counterevidence mentioned in Fn. 2.
+19 The symbol ‘=’ is used in this sentence as a marker of cliticity, not as an equals sign. The notation X=b reads ‘clitic =b is attached to category X’.
+20 It is plausible that the same mechanism — Barrier Rules — also triggers configurations with
+the so called late clitic placement, where the whole cluster attaches not to the first sentence category X but to some category Y to the right of X: … Y = a° (1) =b° (2)=c° (3). Cf. discussion.
+Zimmerling A.
+systems where the parameter of contact position of the clusterizing elements is relevant and systems where it is irrelevant. Empirically-oriented research has shown that most if not all previously described word order systems with clusterizing clitics have Barrier Rules. If this fact is not incidental, it hints that Barriers serve as a means preserving syntactic independence of the clusterizing elements in natural languages, since they enlarge the list of positions available for them.
+If one interprets the internal ordering of clusters generated by Template Rules not in terms of slots but in terms of blocks, i. e. sets of slots sharing the same taxonomic category (i. e. Auxiliary vs Particle vs Pronoun or Monosyllables vs Disyllables etc) it will be evident that clusters consisting of two or more blocks tend to be heterogeneous in the sense of (i). Indeed, since the main function of a Template Rule is to predict the order of any two clusterizing elements x, y and both of them may share the same taxonomic category C, the system needs additional parameters in order to generate the fixed order x > y21. For instance, in Cebuano and Bikol22, where clusters may consist of particles and pronouns, the main principle of internal ordering of clusters, according to linked with the number-of-syllable-rule: monosyllabic elements precede disyllabic ones irrespective of their syntactic category. But if two monosyllabic particles or two monosyllabic pronouns form a cluster, the language still needs additional principles for their ordering. Therefore, a linearization algorithm for the clusterizing elements can be set as a hierarchy of different principles. I am aware of three kinds of principles used in the ordering of clitics and cliticoids, cf. A. Categorial Principle.
+Cf. (vii) above.
+B. Prosodic Principle. C. Diachronic Principle:
+B1. Number-of-syllable Rules: shortermonosyllabic elements precede longer disyllabic elements.
+C1. Right
+Edge Rules: new elements are added to the right edge of an already existing cluster.
+B2. Alternations of accented and deaccented elements in a cluster.
+C2. Left
+Edge Rules: new elements are added to the left edge of an already existing cluster.
+fig 3. Linearization Principles in clitic clusters21 We are not discussing situations when a word order system fails to generate the fixed order
+of two clusterizing elements and allows the variation x > y ~ y > x, since such situations are incompatible with the chosen definition of clusters. If one still wants to account for sporadic deviations from a Template Rule, it is possible to treat them as unstable transitional states of the system (linearization algorithm).
+22 Both — Central Philippine languages from the Austronesian language family.
+23 The example (5) is from , the notation is ours — A.
+Z.
+24 Postulated for Old Novgorod Russian in , .
+25 Presumably attested in Vedic Sanskrit, cf. .
+26 Postulated for Ossetic in .
+A unified analysis of clitic clusters in world’s languages The linearization algorithms generating clusters may also be analyzed in a diachronic aspect, i. e. in their dynamics. The standard model discussed above capitalizes the situation where a Template Rule is stable, the borderline between clusterizing and non-clusterizing elements is clear-cut and new clusterizing elements do not arise, so that the Template Rule at every moment of time signals that the sets of clusterizing and non-clusterizing elements do not intersect. It is nevertheless reasonable to analyze a broader class of situations, where new clusterizing elements may come to existence. If one tries to analyze the development of Template Rules, there are three possible scenarios left.
+A. Pure clitics join together and start clusterizing. This scenario implies that clusters always consist of clitics and obey H
+C. Initially, all clitics belong the set {Cluster}, at some point t0 some of them go over to the set {+ Cluster}.
+B. Pure clitics attract other elements which start clusterizing. This scenario implies that existing clusters are expanded by new elements which before the moment t0 did not belong to the set {+
+Clitic}. This may cause a violation of H
+C.
+C. Non-clitic elements join together and become clusterizing. This scenario implies that some elements from the set {
+Clitic} ∪ {Cluster} at some moment t0 simultaneously go over to the set {+
+Cluster}. This may cause a violation of H
+C if some elements from the set {+
+Cluster} belong to the subset {
+Clitic} and other elements from the set {+
+Cluster} belong to the subset {+
+Clitic}.
+In a general form, Scenario A seems least likely. It is nevertheless taken as the default option in the Minimalist Program and related theories with the H
+C condition for clitics. Indeed, the evolution of Template Rules is seldom ever mentioned in generative syntax, but Scenario A is what one is inevitably left with if one adopts a H
+C-based synchronic analysis of clusters a la : both authors explicitly state that clusters consist of homogeneous clitics and though Franks identifies clitics as syntactic heads (°
+X) while Bošković treats them as left-branching elements (XP/°
+X), these framework-internal subtleties do not change the basic approach27. Scenarios B and C can be formalized if a cluster theory gives up the H
+C condition.
+The choice between Scenarios A vs B and C may seem an abstract issue given the incompleteness of our knowledge about the evolution of most languages. I however argue that indirect evidence about the formation of clusters can be retrieved from the frequency rates of the clusterizing elements in a text corpus if the latter meets two conditions — a) clauses with clusters are frequent; b) all clusterizing elements are represented. I am proposing the following procedure: 1) Clauses with clusterizing elements are subdivided into two subcorpora — clauses with clusters (CLUSTE
+R) and clauses with a single clusterizing element (SINGL
+E). CLUSTE
+R and SINGL
+E share the same set of clusterizing elements <a,b,c…n>, where a,b, c … stand for slots in a Template Rule. 27 With nearly the same effect one can analyze clusterizing clitics as pre-syntactic elements, the
+so called phrasal affixes which is made e. g. in .
+Zimmerling A.
+In clauses with clusters the frequency rates are measured for each clusterizing element. 3) Average frequency values are established for each subcorpus according to the
+formula m/n, where m is the total number of clusterizing elements in a subcorpus and n is the total number of Template slots that can be filled simultaneously in the same type of clauses, e. g. in verbal clauses. The m/n ratio predicts average frequency rates for each clusterizing element if all elements are represented evenly in a subcorpus. 4) The probability of clusterization is measured according to the formula C/
+S = kC
+L,
+where C is the total number of clusterizing elements in CLUSTE
+R, S is the total number of clusterizing elements in SINGL
+E and kC
+L is the expected ratio of clusterization given that all clitics are represented evenly in CLUSTE
+R. 5) The ratios Ca/
+Sa = ka, Cb/
+Sb= kb …Cn/
+Sn=kn are calculated for every clusterizing element and the deviations from kC
+L are measured 6) Those clusterizing elements which show the positive difference ki > kC
+L are identified as COR
+E elements if their frequency rates in both CLUSTE
+R and SINGL
+E are significantly above the average values mi/ni. 7) Those clusterizing elements which have kj < kC
+L are identified as ATTRACTE
+D elements if their frequency rates in both CLUSTE
+R and SINGL
+E are below the average values mj/nj and their absolute figures in CLUSTE
+R and SINGL
+E are comparable. The working hypothesis is that COR
+E elements are more likely to have a higher frequency ratio in SINGL
+E, since they do not need clusterizing with other elements to be realized in a sentence. The working hypothesis concerning ATTRACTE
+D elements is that they tend to have a higher frequency ratio in CLUSTE
+R, since they gain support from combinations either with COR
+E or other non-core clusterizing elements.
+The group COR
+E is intuitively clear and easy to measure. The group ATTRACTE
+D is intuitively clear but difficult to define in a general form. Informally, these are new elements added to an existing cluster; they are expected to be rare and tend to have a higher frequency in CLUSTE
+R than in SINGL
+E, since their occurrences in a sentence are supported by combinations with other elements. Preliminary results show that if one takes a corpus where kC
+L = 0,5, i. e. the average frequency of a clusterizing element in SINGL
+E is twice as high as its frequency in CLUSTE
+R, the ratio of an attracted element kj may be close to 1,0, while the ratio of a core element ki will be below than kC
+L and may be close to 0,2. At this stage we are not ready to test the proposed procedure on large text corpora. Nevertheless it proved operational on smaller corpora, if statistics of clusters is used as an expert estimate confirming or testing linguistic hypotheses. I have preliminary results for 5 languages — Serbo
+Croatian, Slovak, Macedonian, Old Novgorod Russian and Kashibo
+Kakataibo: in all cases the contrast of COR
+E and ATTRACTE
+D groups is salient, though every language selects different elements as COR
+E: in Serbo
+Croatian it is auxiliary clitics, in Slovak — reflexives, in Macedonian and Old Novgorod Russian — accusative clitics, in Kashibo
+Kakataibo — discourse markers indicating conversational vs narrative register.
+In the final section of this paper I am showing the results for a Modern Slovak prosaic narrative fiction text28 with a total number of 826 clauses with clusterizing elements. 298 clusterizing elements come up in 135 clauses from CLUSTE
+R, 691 elements come up in SINGL
+E. The Slovak Template Rule is shown above on Fig. 2, it has 28 I. Habaj. ‘
+Stopy v snehu’. In: I. Habaj. Príbuzní z Ostrova. Bratislava, 1978, 88–133.
+A unified analysis of clitic clusters in world’s languages 8 slots hosting 25 elements. The maximum length of a cluster (measured in elements)
+in the corpus is 4, the normal length is 2. Clitics from all slots freely combine in verbal clauses. The ratio KC
+L for all elements = 0,431. The expected average value for the elements from CLUSTE
+R: 298: 8 = 37, 25. The expected average value for the elements from SINGL
+E: 691: 8 = 86,375. In order to get more exact results for the slot 3 elements which have the highest absolute frequencies in CLUSTE
+R and SINGL
+E separate ratios were calculated for the accusative reflexive =sa and dative reflexive =si2 which stand in complementary distribution. This has not been done for other elements standing in a complementary distribution to elements from the same slot: such elements are also found in slots 2 (auxiliaries), 4 (dative pronouns), 5 (accusative pronouns) and 7 (spatial particles), see fig. 2 above.
+1 2 3 4 5 6 7 8
+CLUSTE
+R298
+34 27
+80:11
+Si
++69 Sa70 44 14 10 19
+SINGL
+E691
+5 21
+441:99
+Si
++342
+Sa84 102 12 8 18
+KC
+L=0,431 Kby=6,8 KAux1=1,285KRefl=0,181KSi=0,111KSa=0,201K
+Dat=0,833 K
+Acc=0,431 K
+To=1,166 K7=1,25 Kuž=1,055
+The results confirm the hypothesis that the COR
+E elements are in slot 3, notably the accusative reflexive =sa: there are 342 occurrences of =sa in SINGL
+E which is almost four times higher than the expected average and 69 occurrences of =sa in CLUSTE
+R which is 1,85 times higher than the expected average. The low clusterizing ratio 69/242 = 0,201 confirms that =sa is a COR
+E element: its frequency in CLUSTE
+R is decreased relative to its frequency in SINGL
+E. The accusative clitics from slot 5 are COR
+E elements too: the figures are similar though the absolute values are more modest and the clusterization ratio is higher: 44/102 = 0,431. Incidentally, the ratio K
+Acc and the overall clusterization ratio KC
+L coincide. Elements from slots 1 (conditional particle =by), 2 (auxiliaries), 6 (nominative-accusative pronoun SG.
+N), 7 (spatial particles), 8 (discourse particle =už) are clear examples of ATTRACTE
+D: they all have a frequency in CLUSTE
+R below the expected average (37,25), while their frequency in SINGL
+E is considerably lower. This leads to high clusterization ratios ranging from Kuž=1,055 to Kby=6,8. The abnormally low frequency of =by in SINGL
+E (5 examples) may well be a special feature of the chosen corpus or a special feature of Slovak syntax but the contrast in clusterization ratios of COR
+E elements (0,201–0,431) and ATTRACTE
+D elements from slots 2,6,7,8 (1,055–1,285) is probably a general feature of all clusters with consisting of COR
+E and non-core elements. Finally, elements from slot 4 (dative pronouns) with the ratio 0,833 have an intermediate status. On the one hand, they are frequent in CLUSTE
+R (70 examples which is 1,879 times higher than the expected average), on the other hand their frequency in SINGL
+E (84 examples) Zimmerling A.
+near the expected average. This indicates that dative pronouns from slot 4 gain frequency in CLUSTE
+R which is typical for ATTRACTE
+D elements.
+These statistical results do not contradict linguistic analysis of Slovak data. It is plausible that ATTRACTE
+D elements from slots 6,7,8 represent the most recent layer of the clusterizing elements. The conditional marker =by (slot 1) is made part of a cluster later than dative and accusative pronominal clitics which were clusterized already in the Common Slavic period, cf. the discussion of details. The auxiliary clitics from slot 2 have a longer clusteriziation history than =by from slot 1, but they get a slot in a Template Rule after the disintegration of the Common Slavic
+period29. Linguistic considerations prompt that dative (slot 4) and accusative clitic pronouns (slot 5) are both old and classify as COR
+E elements. The deviating features of the dative clitic pronouns in the corpus, notably their high clusterization ratio (0,833), may be due to the fact that dative clitics are regularly used by ditransitive verbs which also have a valency for an accusative object, while the verbs governing a sole accusative object (102 examples) are more frequent than the verbs/predicates governing a sole dative argument (84 examples). The unusually high frequency of reflexive markers (slot 3) in SINGL
+E is not directly linked with their clusterization history, since reflexive markers get a special slot in Template Rules later than pronominal clitics30. At the same time, it may be due to a combination of three factors: 1) the list of Slovak reflexive predicates is large; 2) Slovak allows climbing out of embedded clauses, cf. examples (2b), (4a); 3) In the absence of overt 3 p. B
+E-auxiliaries, Svk. =sa and =si2 often turn to be the
+leftmost functional word in a cluster and take over the function of personal agreement markers, since the combination of a zero copula and a reflexive marker ∅B
+E + sa/si2 signals that the clausal predicate is used in the 3 p.31
+Conclusions and perspectives.
+We have proposed a syntax-oriented model of clusters and processes of clusterization which has minimal or no recourse to prosody/phonetic manifestation of the 29 Slavic present tense indicative forms of B
+E-auxiliary take different positions in Template
+Rules in East, West and Balcanic Slavic type. In the West Slavic areal type the 1–3 p. B
+Eauxiliaries precede the block of clitic pronouns. In position is tagged AU
+X1: …].
+In the Old Novgorod/
+East Slavic areal type 1–2 p. B
+E-auxiliaries are placed after the block of clitic pronouns. This position is tagged AU
+X2 in :
+In the Balcanic Slavic type all present tense indicative forms of B
+E-auxiliary, except for 3 Sg. =je, take AU
+X1, while =je takes AU
+X2:
+X2]. Slovak falls in the West Slavic areal type of the Template Rule, with one deviation: it lacks overt 3 p. present tense indicative B
+E-auxiliaries in the verbal clauses. This is an East Slavic feature shared by Slovak and Polish, while Czech, Upper Sorbian and Lower Sorbian show the West Slavic areal type in the canonical form, since they preserve overt 3 p. present tense indicative B
+E-auxiliaries in all clauses.
+30 In the West Slavic areal type of Template Rules reflexive markers precede the block of dative
+and accusative clitic pronouns: ]…]. In the Balcanic Slavic areal type reflexive markers normally stand after the block of dative and accusative clitics: East Slavic languages do not show a uniform pattern.
+31 The Svk. conditional particle =by which takes the leftmost element in the Template Rule cannot serve as an personal agreement marker since it freely combines with the present tense
+indicative B
+E-auxiliaries in all persons.
+A unified analysis of clitic clusters in world’s languages clusterizing elements. Aprioristic assumptions that all clusterizing elements are clitics and that clusterizing and non-clusterizing clitics represent the same set of elements have been rejected. Clusters are formed according to Template Rules that are independent from other rules of ordering and arrange elements in an idiosyncratic order. This condition has been introduced as the IT
+P principle. Clusterizing elements should belong to the same domain and level representation and cannot belong to two or more independent syntactic domains. These conditions have been introduced as principles OD
+P, CE
+D and OL
+P. The Template structure can be analyzed in terms of slots and in terms of blocks of slots sharing the same taxonomic category. The Template-and
+Slot Principle (TS
+P) predicts that the number of slots in a Template equals the number of non-overlapping subsets A,B,C…
+N, so that each subset consists of elements a1, a2…an which stand in a complementary distribution with each other and are ordered uniformly respective any other elements from other subsets. Clusters meeting the IT
+P, OD
+P, CE
+D, OL
+C and TS
+P conditions may consist of heterogeneous elements, some of which have non-clitic correlates. At the same time, adjacent clitic sequences which violate IP
+T, OD
+P, CE
+D, OL
+C and TS
+P, often meet the homogeneity condition, H
+C. The H
+C condition is incompatible with the analysis of Template Rules in terms of blocks, since the linearization algorithms which assemble clusters need a hierarchy of parameters, not a single parameter. The Template Rules can also be analyzed in a dynamic aspect. The preliminary results indicate that clusters typically consist of COR
+E and ATTRACTE
+D elements: both groups have their characteristic statistical profiles that can be retrieved by synchronic analysis. The COR
+E elements are older and/or functionally more prominent elements that have frequency rates significantly above the average and a higher frequency in the subcorpus SINGL
+E (i. e. single clusterizing elements). The ATTRACTE
+D elements are newer elements that have frequency rates below the average and a higher frequency in the subcorpus CLUSTE
+R (i. e. clusters of two and more elements). The proposed procedure of identifying COR
+E and ATTRACTE
+D elements on the basis of their statistical profiles may complement linguistic analysis of clusters.
+The IT
+P, OD
+P, CE
+D, OL
+C and TS
+P conditions can be build in the syntactic modules of a linguistic processor: in this case parsing of clusters can be done automatically. The hypothesis that a sequence as <x,y, u, w> is a cluster will lead to further hypotheses about the syntactic domains of x, y, u, w: these hypotheses can be checked by using filters based on OD
+P, CE
+D, OL
+C, while the IT
+P and TS
+P conditions help checking the internal ordering of clusters. The model of Templates presented in this paper is backed empirically by data from a large class of world’s languages with clusterizing clause-level elements. At the same time, real usage may deviate from the model and show the fluctuation a, b ~ b,a where the model predicts a fixed order. Here a theorist must separate a) bad usage from b) bad descriptions of data and c) transitional stages of a word order system. Bad usage (and bad introspection) can be ignored unless it is covered by names of authority or reflected by bad descriptions of some circulation. Transitional stages of word order system have to be subdivided into two cases: c1) minor fluctuations in selected pairs of elements {a, b} reflect a transition from Template Rule 1 to Template Rule 2 which may differ in number and order of slots; c2) major fluctuations in most pairs {a, b} reflect a type shift and may indicate that a language changes its word order system, cf. .
+Zimmerling A.

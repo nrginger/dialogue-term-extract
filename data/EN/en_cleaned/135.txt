@@ -1,0 +1,231 @@
+Automatic named entity recognition (NE
+R) is one of the basic tasks in natural language processing. The NE
+R methods are usually tested on well-known datasets such as CONL
+L-2003 for English and some other European languages . For Russian, such known datasets are Gareev’s dataset , Persons-1000 , Collection3 , FactRu
+Eval . The majority of well-known datasets consist of news documents with three types of named entities labeled: person (people’s names), organization (names of organizations), location (places, mostly geographical objects). For these types of named entities, the state-of-the-art NE
+R methods usually give impressive results.
+Nevertheless, if some other types of texts are being processed or some other types of named entities are being extracted, various difficulties arise. In such cases, one has to establish new principles of annotation and to ensure that these principles are applied consistently. However, even this being done, one can still face such a problem as insufficient amount of entities of a certain type, which leads to decrease of recognition quality.
+In this paper we discuss the NE
+R task in the cybersecurity domain . Several additional types of named entities for this domain were annotated if compared to general datasets such as software programs, devices, technologies, hackers, and malicious programs (vulnerabilities). The most important entities for this domain are names of malicious software and hackers. However, the annotated dataset contains a modest number of entities of these types. This could be explained by the fact that usually names of viruses and hackers are not known at the time of an attack and are revealed later.
+To improve NE
+R quality in such conditions, we suggest using BER
+T transformers well as an automatic dataset augmentation method, by which we mean extending a training dataset with sentences containing automatically labeled named entities.
+Our paper’s contribution is as follows:• We study how quality of a NE
+R system changes depending on variants of the BER
+T model used. We experimented with the following models: a multilingual model, a model fine-tuned on Russian data, and a model fine-tuned on cybersecurity texts. We compare these results with the CR
+F-model that previously achieved the best performance on the cybersecurity dataset.
+Pretraining and Augmentation in Named Entity Recognition Task for Cybersecurity Domain in Russian• We introduce a new method of dataset augmentation for NE
+R tasks and study the parameters of the method.
+The remainder of the paper is organized as follows. Section 2 presents related work. Section 3 describes the labeled data in the cybersecurity domain used in the study. Section 4 presents the BER
+T-based models and the augmentation approach specially intended for NE
+R tasks. Section 5 describes the results of the experiments.
+2. Related Works
+2.1. Named Entity Recognition in Information
+Security Domain
+The information extraction task in cybersecurity domain has been discussed in several works. However, most works consider information extraction only from structured or semi-structured English texts. For instance, Bridges at al. training corpora consisting of Microsoft Bulletins and National Vulnerability Database descriptions mainly. The training corpus presented in contain unstructured blog posts, but those comprise less than 10% of the corpus.
+The proposed NE
+R systems are based on such methods as principle of Maximum Entropy , Conditional Random Fields (CR
+F) , . Gasmi et al. two different NE
+R approaches: the CR
+F-model and a neural network (N
+N) based model LSTM-CR
+F (as suggested by Lample et al. ). The N
+N-based model combined bidirectional LST
+M, the word2vec representation as a source of pre-trained word embeddings and CR
+Fs as an output layer.
+In , the Sec_col2 cybersecurity corpus for Russian named entity recognition was described. The corpus contains unstructured texts, it was collected from journal articles, news reports, and forum posts. All these data can provide additional details on cybersecurity problems. The authors compared different models for cybersecurity NE
+R including CR
+F and several variants of neural networks.
+2.2. Using BER
+T in Named Entity Recognition
+The state-of-the-art models for named entity recognition utilize various contextualized vector representations. One such a popular model is BER
+T . BER
+T is an implementation of a statistical language model based on deep neural networks; the task of the BER
+T pretraining is to predict the word in a given place in the text. The BER
+T architecture consists of a 12-layer transformer-encoder that forms contextualized token representations, thus converting a sequence of tokens into a sequence of vectors.
+Using BER
+T made it possible to achieve better results in various natural language processing tasks , including named entity recognition. Such results are due to the high information content of vector representations, which, unlike static vector representations, such as word2vec , depend on the context. In addition, an important 2 https://github.com/LAIR-RCC/InfSecurityRussianNL
+P
+https://github.com/LAIR-RCC/InfSecurityRussianNLP
+Tikhomirov M. M., Loukachevitch N. V., Sirotina A. Yu., Dobrov B. V. point is the use of transfer learning techniques. BER
+T is pretrained on a large amount of unlabeled data on the language modeling tasks, and then it is finetuned for a specific task.
+Initially, BER
+T is multilingual, trained on multilingual data. The paper an approach to further training of the multilingual model on the Russian-language data (
+Russian Wikipedia and the Russian news corpus). The new model, called RuBER
+T, showed an improvement in quality in three NL
+P tasks in Russian in comparison with previous results and multilingual BER
+T. The use of RuBER
+T in the NE
+R task on the Russian dataset Collection3 gave a significant improvement .
+In 2019, the named entity recognition shared task for Slavic languages was organized . Most participants and the winner used BER
+T as the main model. An interesting detail of this competition was that there was a significant imbalance among the types of entities in the data. For example, the entity type “product” (PR
+O) was annotated only for 8% of all entities in the Russian data. The results of extracting this type of entities were significantly lower than for other entities, which raises the question of improving the quality of rare entity recognition in unbalanced datasets.
+2.3. Methods of Data Augmentation
+Methods of data augmentation for natural language processing are mainly discussed for such tasks as machine translation and automatic text classification. The simplest augmentation method is to replace source words with their synonyms from manual thesauri (for example, Word
+Net ) or with words that are close to the source words according to a distributional model trained on a large text collection .
+In was claimed that synonyms may not fit into the context, therefore the replacement words should be those that are the most probable according to a language model.
+The authors of four simple augmentation techniques for the classification tasks: replacing words with their synonyms (Word
+Net), occasional word insertion, occasional word deletion and occasional word order changing. This method was applied to five datasets for the text classification task. Quality evaluation was presented for RN
+N and CN
+N neural networks . The average improvement of 0.8% for F-score was achieved. The study showed that all four operations contributed to the obtained improvement.
+In this paper we discuss a specialized method of data augmentation for named entity recognition. We obtain additional annotated data by inserting named entities in appropriate sentences and contexts.
+3. Data
+We use a renewed version of Sec_col corpus a training dataset for the NE
+R task. The final corpus contains 861 unstructured texts (more than 400,000 tokens), which are posts and comments extracted from several sources on cybersecurity.
+The set of corpus labels includes four general types: PE
+R (for persons excluding hackers), OR
+G (for organizations excluding hacker groups), LO
+C, and EVEN
+T; Pretraining and Augmentation in Named Entity Recognition Task for Cybersecurity Domain in Russianand five domain-specific types such as PROGRA
+M (for computer programs excluding malware), DEVIC
+E (for various electronic devices), TEC
+H (for technologies having proper names), VIRU
+S (for malware and vulnerabilities), and HACKE
+R (for single hackers and hacker groups). The corpus was pre-annotated automatically, then multipass manual annotation took place. The annotation principles are described in detail in . The quantitative characteristics for each tag are presented in Type on entity Description
+Number of entitiesOR
+G organizations (not including hacker groups) 3,791PROGRA
+Mprogrammes (software products and their parts: codes, procedures)3,497
+TEC
+H technologies (named methods and approaches) 2,962LO
+C locations (geographical locations) 1,376PE
+R persons (names of people that are not hackers) 1,015DEVIC
+E devices (various electronic devices and computer programs) 539VIRU
+S viruses (malicious software and vulnerabilities) 480EVEN
+T events 301HACKE
+R hackers (individual hackers and hacker groups) 60
+According to the table, one of the labels, HACKE
+R, is severely underrepresented in the dataset. One of the reasons for that could be that at the time when an attack happens, hackers are unknown, therefore their names are not mentioned. Another important type of label, VIRU
+S, is represented better than HACKE
+R, but its frequency is still lower than for the other tags.
+4. Models Used in Cybersecurity NE
+R
+4.1. BER
+T Models
+As part of this study, we evaluated BER
+T in the cybersecurity NE
+R task with the following pretrained weights:• multilingual-bert-base model (BER
+T),• model trained on Russian general data RuBER
+T,• RuCyBER
+T, which was obtained by additional training RuBER
+T on informationsecurity texts.
+Training RuCyBER
+T was similar to training RuBER
+T , but without creating a new vocabulary. To do this, the pretraining procedure was launched on 500
+K cybersecurity texts with the initialization of all weights from RuBER
+T. The training lasted 500k steps with batch size 6.
+All three models have the same architecture: transformer-encoder 12 transformer blocks, 12 self-attention heads and H = 768 hidden size. The models
+Tikhomirov M. M., Loukachevitch N. V., Sirotina A. Yu., Dobrov B. V. are fine-tuned for 6 epochs, with B = 16 batch size, with learning rate 5e-5 and T = 128 maximum sequence length. When forming input for the model, only the first token of a word gets a real word label, the remaining tokens get a special label X. At the prediction step, the predicted label of the first token is chosen for the whole word.
+4.2. Training Data Augmentation
+The important classes of named entities in the cybersecurity domain are names of viruses and hackers (including hacker groups). The Sec_col collection, however, includes a quite small number of hackers’ names. This could be due to the fact that names of many hackers and hacker groups are not known, therefore many texts related to cybersecurity include only unnamed descriptors (such as hacker, hacker group, hacker community).
+Analysis of some extra texts revealed that additional manual annotation is not a reasonable solution to the problem, as most texts mention almost the same wellknown hacker groups and their attacks. During the analysis, a new augmentation approach for the NE
+R task was proposed. The core idea of the NE
+R augmentation is as follows: in most contexts where an entity descriptor is mentioned, some other variants of mentions are possible. For Russian, such variants can be: 1) a descriptor followed by a name or 2) just the name alone. The first above-indicated variant of entity mentioning is language-specific, depends on language-specific grammar rules. Consequently, we could augment the collection by adding names after descriptors or by replacing descriptors with names.
+Tables 2 and 3 show the examples of the proposed augmentation procedure in English translation. In the first pair of sentences, the descriptors were replaced with the names; in the second pair of sentences, the names were inserted after the descriptors хакер (‘hacker’, hacker) and зловред (‘zlovred’, malware). It should be noted that the sentences are given in translation into English, and for English the correct insertion of a name is before a descriptor. In parentheses, we give fragments with initial Russian augmentation.
+Original ModifiedReplacement
+The absence of vulnerabilities on the site and its willingness to resist hacker attacks is an important issue, but often stubbornly ignored by site owners.
+The absence of vulnerabilities on the site and its willingness to resist Pwn2
+Own attacks is an important issue, but often stubbornly ignored by site owners.
+Insertion
+And the number of installed software protection tools against hackers is lower—71% of those who installed a firewall.
+And the number of installed software protection tools against Sandworm hackers (хакеры Sandworm in Russian) is lower—71% of those who installed a firewall.
+Pretraining and Augmentation in Named Entity Recognition Task for Cybersecurity Domain in Russian
+Original ModifiedReplacement
+Almost 30% are seriously concerned about this issue, another 25% believe that the danger of spyware is exaggerated, and more than 15% do not consider this type of threat to be a problem at all.
+Almost 30% are seriously concerned about this issue, another 25% believe that the danger of Remcos is exaggerated, and more than 15% do not consider this type of threat to be a problem at all.
+Insertion
+The malware described above is unique and can create big problems for both an individual and the whole company.
+The Locker malware (Зловред Locker in Russian) described above is unique and can create big problems for both an individual and the whole company.
+The suggested augmentation includes two subtypes: inner and outer. The inner augmentation involves extracting sentences that contain relevant descriptors within the existing training data. If a sentence meet augmentation restrictions, then the descriptor is replaced with a name or a name is added after the descriptor with equal probability. In both cases, we require that the descriptor must not be followed by a labeled named entity and it must not be preceded by words that agree with the descriptor in gender, number or case, such as adjectives, participles, ordinal numbers, and others.
+For the outer augmentation, we look for sentences with relevant descriptors in a collection of unannotated cybersecurity texts. There also must not be any evident named entities (words starting with a capital letter) in a window of certain width around the descriptor. As for this purpose an unannotated collection is used, we do not know the classes of potential named entities, thus we have to exclude sentences with such entities. Besides, we also require the absence of adjectives before the descriptor. The selected sentences also undergo the procedure of inserting a name after a descriptor or replacing the descriptor with a name with equal probability.
+The augmentation has been implemented for two types of named entities: malicious software (VIRU
+S label) and hackers (HACKE
+R label). 24 virus descriptors and 6 hacker descriptors were used. By means of inner augmentation, 262 additional annotated sentences for viruses and 165 annotated sentences for hackers were created.
+The outer augmentation can be of an unlimited size. In this paper we study how the size of the outer augmentation affects the NE
+R quality.
+Inserted named entities are obtained in the following way. We took a large cybersecurity text collection and used it to extract names and sequences of names that follow target descriptors. We created the frequency list of extracted names and chose those names for which frequency was higher than a certain threshold (5). Then we excluded the names that appeared in the annotated training collection and belonged to classes that are different from the target class. The rest of the names were randomly used for insertion into the augmented sentences.
+Tikhomirov M. M., Loukachevitch N. V., Sirotina A. Yu., Dobrov B. V. 5. Experiments
+We compare several variants of the BER
+T model on the NE
+R task for information security domain. In addition, the results of using augmentation of the labeled data are investigated.
+The CR
+F method was chosen as the baseline model for comparison, since in previous experiments with the Sec_col collection, this method showed better results than several variants of neural networks that are usually used for the NE
+R task (BiLST
+M with character embeddings) . The CR
+F model utilizes the following features: token embeddings, lemma, part of speech, vocabularies of names and descriptors, word clusters based on their distributional representation, all these features in window 2 from the current token, tag of the previous word. The detailed description of CR
+F features, vocabularies, and implementation is given in . Also, for comparison, the LSTM-CR
+F model based on Flair3 realization was added. The LSTM-CR
+F model used fasttext embeddings4 and the first capital letter feature for training.
+Table 4 shows the classification results for four models for all labels used, as well as the averaged macro and micro F-measures. It can be seen that the use of the multilingual-bert-base (BER
+T in the table) gives better results than the CR
+F model for all types of named entities. The use of the pretrained models on the Russian data (RuBER
+T) and information security texts (RuCyBER
+T) gives a significant improvement over previous models. The LSTM-CR
+F model with the described features showed weak results, therefore, did not participate in further experiments.
+LSTM-CR
+F CR
+F BER
+T RuBER
+T RuCyBERTDEVIC
+E 13.92 31.78 34.04 43.13 46.77EVEN
+T 28.79 42.70 60.38 64.49 67.86HACKE
+R 5.70 26.58 42.69 52.43 61.03LO
+C 83.10 82.30 90.00 91.28 90.01OR
+G 62.82 68.15 76.10 78.95 78.58PE
+R 58.71 67.10 80.99 84.32 84.56PROGRA
+M 44.22 62.15 63.15 64.77 66.57TEC
+H 47.14 60.65 67.08 67.60 69.24VIRU
+S 14.39 40.90 40.21 46.92 54.72
+F-micro 53.12 63.95 69.37 71.61 72.74
+F-macro 39.87 53.59 61.63 65.99 68.82
+F-macro std 2.63 — 1.52 0.93 0.86
+Since models based on neural networks due to random initialization can give slightly different results from run to run, the results in the tables for all BER
+T models are given as averaging of four runs. The last row of Table 4 indicates (
+F-macro std) 3 https://github.com/flairNL
+P/flair
+4 araneum_none_fasttextcbow_300 from https://rusvectores.org/ru/models/
+https://github.com/flairNLP/flairhttps://rusvectores.org/ru/models/
+Pretraining and Augmentation in Named Entity Recognition Task for Cybersecurity Domain in Russianthe standard deviation of the results from the mean. It can be seen that the better the model fits the data, the better the results are, and the standard deviation decreases.
+The following tables show the use of the proposed data augmentation approach to extract two types of named entities HÀCKE
+R and VIRU
+S with inner and outer augmentations. For the outer augmentation, options for adding 100, 200, 400, 600 augmented sentences for each entity types (HÀCKE
+R and VIRU
+S) were considered. However, the outer augmentation of 600 sentences gave a stable decrease in the results for all models, and therefore these results are not given in the tables. The “mean F1” column shows the averaging of the values of the F1 measure over all types of entities. The best achieved results are in bold. The results improving the basic results (without augmentation) are underlined.
+Table 5 presents the results of applying augmentation to the CR
+F model. All types of the augmentation improved the results of extracting target entities. The best augmentation was inner augmentation, which gave an increase in the average quality of extracting named entities HACKE
+R and VIRU
+S named entities by 10 percentage points (almost a third). Macro F1 measure for all types of entities (last column) is also significantly improved.
+HACKER_VIRU
+S macro
+P R F1 F1base (no augmentation) 66.31 24.21 33.73 53.59inner 42.08 47.31 43.58 57.39outer 100 47.36 32.63 38.20 54.98outer 200 48.12 35.36 40.21 55.18outer 400 40.58 35.27 36.97 54.21
+Table 6 shows the performance of the augmentation procedure for the multilingual BER
+T base. The table shows how unstable the multilingual BER
+T model behaves, demonstrating a very high standard deviation on the two types of entities that interest us. Any variant of augmentation reduces the standard deviation, which, however, remains quite high (column F1 std). Two models of outer augmentation increase the quality of extraction of target entities while significantly reducing the standard deviation compared to the original model.
+HACKER_VIRU
+S macro
+P R F1 F1 std F1 F1 stdbase (no augmentation) 46.43 38.14 41.45 7.23 61.63 1.52inner 36.81 45.44 39.92 3.53 61.26 0.86outer 100 39.13 44.96 41.04 2.18 62.02 0.55outer 200 39.32 48.24 42.51 4.33 62.21 0.74outer 400 40.23 45.97 42.53 4.59 62.12 1.08
+Tikhomirov M. M., Loukachevitch N. V., Sirotina A. Yu., Dobrov B. V. Table 7 presents the results of the RuBER
+T model, trained on the Russian data. The results are significantly higher than for the previous model, the standard deviation is lower. And in this model, the augmentation in all cases reduces the standard deviation of F measures for target and all types of entities. The results on the target entities increased with outer augmentation of 200 sentences for both entities. Also, for some reason, the outer augmentation only with viruses positively influenced the extraction of both of them (100 and 200 sentences). The study of this phenomenon is planned to continue.
+HACKER_VIRU
+S macro
+P R F1 F1 std F1 F1 stdbase (no augmentation) 53.65 47.38 49.67 4.65 65.99 0.93inner 45.01 55.74 48.87 3.48 65.92 0.68outer 100 47.46 53.29 49.38 3.10 65.88 0.79outer 200 47.83 55.34 50.71 2.96 66.24 0.59outer 400 45.57 53.45 48.46 2.36 65.77 0.67outer viruses 100 57.14 51.67 53.79 3.05 66.85 0.64outer viruses 200 55.33 52.55 53.34 3.90 66.68 0.77
+Table 8 presents the results of the RuCyBER
+T model, trained on the informationsecurity texts. The basic quality of this model is much higher, and there is no improvement from the augmentation. The augmentation on average reduces the standard deviation of F-measure, which leads to the fact that the performance of models with augmentation and the basic model is comparable.
+It can be also seen from Tables 5–8 that in almost all experiments the proposed augmentation significantly increases recall, but decreases precision.
+HACKER_VIRU
+S macro
+P R F1 F1 std F1 F1 stdbase (no augmentation) 61.33 55.89 57.87 3.75 68.82 0.86inner 52.51 62.57 56.03 2.54 68.61 0.53outer 100 50.78 59.69 53.79 2.36 67.78 0.43outer 200 52.82 59.61 54.82 3.94 68.06 0.74outer 400 52.42 61.31 55.64 2.16 67.93 0.716. Conclusion
+In this paper we present the results of applying BER
+T to named entity recognition for cybersecurity Russian texts. It is shown that the multilingual model performs better than the CR
+F model, which uses a substantial number of token features. Further tuning of the model (first on the Russian data and then on the cybersecurity collection) Pretraining and Augmentation in Named Entity Recognition Task for Cybersecurity Domain in Russianhas significantly improved the NE
+R quality. The highest macro F-score shown by BER
+T model (RuCyBER
+T) is 15 percent higher than macro F-score of the CR
+F model.
+For each model, we have also presented a new form of augmentation of labeled data for the NE
+R task, that is adding names after or instead of a descriptor of a certain type. A considerable improvement is recorded for relatively weak CR
+F and multilingual BER
+T models. For the fine-tuned models, the quality has barely grown. Nevertheless, if in some cases it is impossible to fine-tune BER
+T on a specialized collection, the presented augmentation for named entities could be of great use while extracting named entities of non-standard types. Besides, the proposed augmentation approach can be used in automated creation of a domain-specific NE
+R annotated dataset from general datasets such as CONL
+L-2003, or Collection3. The described Sec_col collection and the trained RuCyBER
+T model can be obtained from the repository5.

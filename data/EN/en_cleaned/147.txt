@@ -1,0 +1,111 @@
+This paper describes models used in Dialogue Evaluation 2021 competition in Russian news clustering. Our team was called naergvae and took second place among thirteen participants. The competitionaims to collect and compare approaches in news clustering task and the task of selecting the best headlinefor the resulting clusters. This paper focuses only on the first part of the competition clustering. Newsclustering often occurs as a practical problem in news aggregators. The current problem aims to groupnews by one event into one cluster. These groups can be used for event importance estimation, newspicture of the day visualization, and other tasks. The other important task is to filter similar content. InMT
+S A
+I we use this approach when developing a news service which is then used by a smart assistant.
+The smart assistant can read news from several sources, and it is better if the assistant does not deliversimilar consecutive news about one event.2 Related work
+A natural approach to the competition task leads to review related work from the two following perspectives: choosing good news document representation(text embeddings) and choosing a good clusterization/classification scheme.
+Some of the algorithms were based on unsupervised learning algorithms to cluster news articles, followed by supervised learning algorithms to classify recent articles, such as the K
+Means Clusteringalgorithm. In is described several algorithms for news clustering, such as similarity measures. Itwas also found that k-means with knowledge from Word
+Net give better aggregate results when it comesto efficiency and the Word
+Net-enabled W-k means clustering algorithm significantly improves standardk-means generating. In novel clustering method was announced for an incoming stream of multilingual documents into monolingual and cross-lingual story clusters which consider a small and knownnumber of labels.
+Recent EMNL
+P work the quality of news document embeddings and reports BER
+Toutperforms Word2vec, Glo
+Ve, fast
+Text, EL
+Mo on Reuters and 20 Newsgroups datasets.
+Using monolingual Russian pre-trained model RuBER
+T better than multilingual BER
+T for Russian language tasks. BER
+T set a new state-of-the-art performance on sentence-pair regressiontasks like semantic textual similarity, which is very similar to the clustering task. However, this iscomputationally inefficient, and this problem is solved in Sentence-BER
+T deriving semanticallymeaningful sentence embeddings that can be compared using cosine-similarity.
+Other papers using Sentence-BER
+T on news clustering: , . Recently in the text clustering problem , Supporting Clustering with Contrastive Learning (SCC
+L) was proposed a novel frameworkto leverage contrastive learning. Considering the landscape of the embedding clustering methods, thereare no recent game-changers to our knowledge. Algorithms from a decade ago , still at theforefront of many near state-of-the-art results .
+3 Method description
+As for embeddings, we focus on the power of pre-trained Transformers encoders, specifically BER
+T,since it has been dominated on a wide range of NL
+P tasks.
+In recent years, models based on transformers have become very popular in different NL
+P tasks. Ourapproach follows this trend. We introduce two models based on Bidirectional Encoder Representationsfrom Transformer BER
+T. The first model is trying to learn good news text representation embeddings forsubsequent clustering. The second one uses binary classification to classify if two news texts are fromthe same group or not. For both of these models, input is tokenized concatenation of headline and newstext.
+3.1 Embeddings using BER
+T triplet networks
+The first approach was inspired by . The idea is to train a model which will produce a fixed-size embedding representation vector for news text. These vector representations are then used for unsupervisedclustering with cosine distance metric. The scheme of model inference is shown in Fig.1.
+First, tokenized news text goes to the pre-trained BER
+T layers. Then, BER
+T output embeddings foreach token are averaged by the pooling layer. These averaged vectors then proceed to the fully connectedlayer size of 768, followed by L2 normalization layer. For model training, hard triplet loss is used. BER
+T weights do not freeze while training and initialized from pre-trained model RuBER
+T .
+We trained the model on GP
+U Tesla V100 for ten epochs with a learning rate of 1e-6 and a batch sizeof 16. For the final result, the model is used to make representation embeddings for each news text,which is then used for agglomerative clustering with average linkage and cosine distance. Our modelwas compared on the public leaderboard with two models without fine-tuning and our model was better.
+To obtain vector representations of texts, the Universal Sentence Encoder (US
+E ) model and SBER
+Tdistilbert-multilingual-nli-stsb-quora-ranking model were applied, the comparison is shown in Khaustov S. V., Kalmykov A. V., Gorlova N. E., Kabaev A. S.
+Model F1-score public LBUS
+E 89.4%SBER
+T 88.1%
+Our 91.7%3.2 BER
+T classifier
+The second approach is based on the transfer from clustering problem to news pair binary classificationproblem. We train a model which can classify whether the news texts pair is from the same cluster or not.
+To solve this problem, we used an approach similar to BER
+T Next Sentence Prediction problem in .
+The general scheme of the approach is shown in Fig.2. The BER
+T inputs are a tokenized sequence ofboth news texts separated by a special token by a special token . A token segmentsvector is needed for the model to understand which token belongs to which news text. The input passesthrough the BER
+T layers, which make the vector representations of each token. We use BER
+T pooledoutput which corresponds to token and follows this output with a softmax classificationlayer. The model is trained with cross-entropy loss. BER
+T weights do not freeze while training and areinitialized from the pre-trained model RuBER
+T. Google bert-base-multilingual model and Sberbank A
+Isbert-large-nlu-ru model were also tried for weights initialization, but RuBER
+T performed better on thepublic leaderboard, the comparison is shown in the batch size of 8 for 6 epochs with a learning rate of 1e-5.
+Model F1-score public LBRuBER
+T 96.7%bert-base-multilingual 96.1%sbert-large-nlu-ru 96.2%4 Results
+We use the dataset with 15
+K training news document pairs provided by the competition organizers. Thisdataset is collected from the same data sources as Telegram Data Clustering Contest (2021) but specifiedwith additional human annotations crowdsourced via Yandex.
+Toloka. Annotators were asked to conductBER
+T for Russian news clusteringa pairing task, judging pairwise news clustering relatedness. Competition leaderboard (8.5
+K public, 8.5
+Kprivate) evaluates in terms of F1-score for positive examples (calculated only on truly positive sentencepairs, i.e., representing the same news documents).
+We considered two models: BER
+T embeddings with agglomerative clustering and BER
+T classifier in
+Next Sentence Prediction setting. The results are reported in approach clearly outperforms the first one. At the end of the competition, this approach took the secondplace. However, the advantage of our first approach is comparative computational efficiency. It representsa better practical suite for the production inference. While NS
+P-like Bert classifier requires at inferencepairwise news documents comparison (quadratic from the expectedly huge number of news documents),BER
+T embeddings with clustering require only a single inference and a single neighbor search (allowsefficient approximate nearest neighbor search with such tools as Facebook’s Faiss, Spotify’s Annoy).
+We conclude that using a common trick from recommender systems practice, such as generating candidates shortlist with a less complicated model and later reranking with a more advanced one, may yieldthe solution that will perform well enough in general.
+Model F1-score public L
+B F1-score private LBBER
+T Embeddings + clusterization 91.7% 91.27%BER
+T Classifier 96.7% 95.98%
+Competition winner 96.9% 96.04%5 Error analysis
+We analyzed the results of our best-performing model (BER
+T classifier) on the public test data of 8.5
+Ksamples to identify the potential common causes of errors. The confusion matrix shows there were263 misclassifications: 148 false positive and 115 false negative. Detailed investigation of a random
+subsample of the errors can be summarized as follows. Table 4 provides some examples.
+Khaustov S. V., Kalmykov A. V., Gorlova N. E., Kabaev A. S.error type first news fragment second news fragmentfalse positive,doubtful labelsСтоличные отделения загс зарегистрировали за апрель около 4 тыс.
+браков, что на 24 % меньше, чем зааналогичный период прошлого года.
+Количество разводов в апреле этогогода сократилось на 65 % по сравнению с апрелем 2019 года говоритсяв сообщении.
+В апреле нынешнего года количество разводов в российской столицеуменьшилось на 65 % по сравнениюс апрелем прошлого года . . . В апреле в отделах загс и дворцах бракосочетания москвы поженились околочетырех тысяч пар, на 24 % меньше,чем в апреле прошлого года сообщили агентству в пресс-службе.
+false positive,addition ofcontinuationЖитель вологды дмитрий губин подал в суд на кадырова из-за комендантского часа в чечне.
+Верховный суд чечни не стал рассматривать иск вологжанина дмитрия губина, в котором он пытался оспорить спецмеры из-за пандемии коронавируса, введенные рамзаном кадыровым.
+false positive, sametopic but differentplace/timeВ туле покупатели устроили давку вочереди за дешевыми кастрюлямиВ башкирии устроили давку из-за кастрюль за 99 рублейfalse negative,usage ofhypernym/hyponymrelationsСуществует несколько способов борьбы с сонливостью , но самые частыеметоды взбодриться — это кофе и физическая нагрузка . команда ученыхиз канады решила проверить , какойиз способов самый действенный.
+Ученые из лаборатории университета западного онтарио изучают, какфизические упражнения могут улучшить различные показатели здоровья, один из которых — когнитивныеспособности.
+Таблица 4: Error analysis.
+We identify 45% of false positive samples to have questionable labels: even though they are labeled asa different news stories, they are strongly the same in our view. We observe another 15% of false positivealso relates to the same news main event, but with the addition of continuation or person’s comments;such cases are indeed errors due to the competition terms. The rest 40% of false positive samples definitely belong to different news stories but shares similar topics or context, often with different locationsand dates: weather forecasts, news about financial exchange rates, announcements of football matchesor their results, etc.
+Using the previous errors classification terms, we find that false negative samples follow the next distribution: 33% have questionable labels, 48% are supported with additional recap/continuation/person’scomment, and 19% are surely the model’s errors. Interestingly we noticed several cases of the same newsthat classifier confused due to the usage of different hypernym/hyponym relations, specifically geographical toponyms. Another pattern that leads to errors is probably the abundance of quoted speech in thetexts.
+6 Conclusion
+In this paper, we presented and compared two approaches for news clustering based on BER
+T, oneof them showing competitive results in Dialogue 2021 evaluation. The first approach is supervisedrepresentation learning followed by clustering. This approach is computationally efficient and canbe easily applied in real life to a large set of documents. We showed that representation learningwas able to outperform unsupervised approaches from baselines. The second method with abinary classifier shows the superiority of supervised learning over unsupervised methods. Thiserror type first news fragment second news fragmentfalse positive,doubtful labelsСтоличные отделения загс зарегистрировали за апрель около 4 тыс.
+браков, что на 24 % меньше, чем зааналогичный период прошлого года.
+Количество разводов в апреле этогогода сократилось на 65 % по сравнению с апрелем 2019 года говоритсяв сообщении.
+В апреле нынешнего года количество разводов в российской столицеуменьшилось на 65 % по сравнениюс апрелем прошлого года . . . В апреле в отделах загс и дворцах бракосочетания москвы поженились околочетырех тысяч пар, на 24 % меньше,чем в апреле прошлого года сообщили агентству в пресс-службе.
+false positive,addition ofcontinuationЖитель вологды дмитрий губин подал в суд на кадырова из-за комендантского часа в чечне.
+Верховный суд чечни не стал рассматривать иск вологжанина дмитрия губина, в котором он пытался оспорить спецмеры из-за пандемии коронавируса, введенные рамзаном кадыровым.
+false positive, sametopic but differentplace/timeВ туле покупатели устроили давку вочереди за дешевыми кастрюлямиВ башкирии устроили давку из-за кастрюль за 99 рублейfalse negative,usage ofhypernym/hyponymrelationsСуществует несколько способов борьбы с сонливостью , но самые частыеметоды взбодриться — это кофе и физическая нагрузка . команда ученыхиз канады решила проверить , какойиз способов самый действенный.
+Ученые из лаборатории университета западного онтарио изучают, какфизические упражнения могут улучшить различные показатели здоровья, один из которых — когнитивныеспособности.
+Таблица 4: Error analysis.
+We identify 45% of false positive samples to have questionable labels: even though they are labeled asa different news stories, they are strongly the same in our view. We observe another 15% of false positivealso relates to the same news main event, but with the addition of continuation or person’s comments;such cases are indeed errors due to the competition terms. The rest 40% of false positive samples definitely belong to different news stories but shares similar topics or context, often with different locationsand dates: weather forecasts, news about financial exchange rates, announcements of football matchesor their results, etc.
+Using the previous errors classification terms, we find that false negative samples follow the next distribution: 33% have questionable labels, 48% are supported with additional recap/continuation/person’scomment, and 19% are surely the model’s errors. Interestingly we noticed several cases of the same newsthat classifier confused due to the usage of different hypernym/hyponym relations, specifically geographical toponyms. Another pattern that leads to errors is probably the abundance of quoted speech in thetexts.
+6 Conclusion
+In this paper, we presented and compared two approaches for news clustering based on BER
+T, oneof them showing competitive results in Dialogue 2021 evaluation. The first approach is supervisedrepresentation learning followed by clustering. This approach is computationally efficient and canbe easily applied in real life to a large set of documents. We showed that representation learningwas able to outperform unsupervised approaches from baselines. The second method with abinary classifier shows the superiority of supervised learning over unsupervised methods. ThisBER
+T for Russian news clusteringmethod has shown promising results, but it can hardly be applied without modifications in reallife due to performance.

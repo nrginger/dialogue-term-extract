@@ -1,0 +1,311 @@
+Opinion mining is an an important task in natural language processing (
+Pang et al., 2008; Liu, 2012).
+This task was started from general sentiment analysis over texts or text fragments such as users’ reviews,which should extract overall authors’ sentiment conveyed in texts. More detailed analysis of opinions canbe achieved via so-called targeted sentiment analysis, which determines the author’s sentiment towards
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2022”
+Moscow, June 15–18, 2022specific entities or topics, discussed in texts. Sentiment expressed in relation to specific targets can bedifferent from general sentiment of the text.
+Targeted sentiment analysis comprises such tasks as aspect-based sentiment analysis (ABS
+A) (
+Pontikiet al., 2016), which determines sentiment in relations to aspects (parts or characteristics) of an entity,reputation monitoring of companies and organizations (
+Amigó et al., 2013; Loukachevitch and Rubtsova,2015), extraction of an attitude towards some topics, so-called stance detection (
+Mohammad et al., 2016),
+or sentiment relations between entities (
+Rusnachenko et al., 2019).
+Another significant direction of opinion mining is argument mining (
+Lawrence and Reed, 2020). Argument mining tasks are quite diverse, minimal tasks are detection of arguments and classifying them to"for" and "against" classes (so-called premise classification).
+For Russian, various tasks of sentiment analysis such as general sentiment analysis, aspect-basedsentiment analysis, reputation monitoring have been studied. But only a few works were devoted tostance detection and argument mining. This paper is devoted to description of an approach proposed forthe Ru
+Arg-2022 evaluation (
+Kotelnikov et al., 2022), which is devoted to stance detection and premiseclassification for COVI
+D-related topics discussed in users’ comments. We study methods of text classification based on so-called NL
+I-setting (natural language inference) of BER
+T-based text classification(
+Sun et al., 2019; Golubev and Loukachevitch, 2020), for which the input of a model includes two sentences: a target sentence and a conclusion (for example, positive to masks. Besides, we use additionalmarking of targeted entities. Our approach achieves the best results on both Ru
+Arg-2022 tasks. We alsostudy the contribution of marking techniques across datasets, tasks and models of Ru
+Arg evaluation. Wefound that marking 4 (<A:ASPEC
+T> keyword </A:ASPEC
+T>) gave the highest average increase overcorresponding basic methods.
+2 Related Work
+Intensive study of the stance detection task in social networks began in 2016, when Mohammad etal. (
+Mohammad et al., 2016) created the Sem
+Eval-2016 dataset containing five independent topics, suchas legalization of abortion or Hillary Clinton. Each of the tweet/topic pairs selected for annotation wasannotated via the Crowd
+Flower crowdsourcing system by at least eight annotators. Sobbani et al. (
+Sobhani et al., 2019) presented the problem of stance detection on several topics (
+Multi-target) and createda dataset that consists of three sets of tweets corresponding to target pairs (U
+S presidential candidates):
+Donald Trump and Hillary Clinton, Donald Trump and Ted Cruz, Hillary Clinton and Bernie Sanders.
+Tweets with hashtags related to two politicians were extracted to form the dataset. The task was to determine the position of the author (for, against or otherwise) to each of the politicians mentioned in thetweet. Last stance-oriented studies are devoted to extraction of stance towards various aspects of COVIDepidemic(
+Glandt et al., 2021; Miao et al., 2020).
+The best results for stance detection in the Sem
+Eval-2016 experiments were obtained using the SV
+Mngrams classifier, which used word and symbol n-grams (
+Mohammad et al., 2016) as features. In recentworks, it has been found that the best results in stance detection are achieved by approaches based on theBER
+T (
+Devlin et al., 2018) neural network model. Gnosh et al. (
+Ghosh et al., 2019) compared previousapproaches and found that the BER
+T model is the best model for stance detection in the Sem
+Eval2016dataset. The work (
+Glandt et al., 2021) compares three groups of methods for stance detection regardingaspects of COVI
+D: based on LST
+M and CN
+N networks, and also based on the BER
+T model. The bestresults with a large margin are given by models based on BER
+T.
+For Russian, in 2015-2016 a shared task on targeted sentiment analysis was organized (
+Loukachevitchand Rubtsova, 2015). The participants should extract sentiments towards banks or mobile operatorsfrom tweets. Later, the results on these datasets were greatly improved by using BER
+T-based classifiers(
+Devlin et al., 2018) and automatically annotated additional data (
+Golubev and Loukachevitch, 2020;
+Golubev and Loukachevitch, 2021; Smetanin and Komarov, 2021). The best results were achieved using
+Russian BER
+T RuBER
+T (
+Kuratov and Arkhipov, 2019) and a sentence-pair classification task (suchas natural language inference (NL
+I)), when auxiliary sentences are added to initial sentences (
+Sun etal., 2019). In (
+Nugamanov et al., 2021), a new Russian dataset annotated with stance in relation to
+Alibaeva K., Loukachevitch N.four COVI
+D aspects (masks, quarantine, vaccination, government actions), was presented. For stancedetection, classical machine methods, several BER
+T-based classifiers were used. The best results wereobtained with the NL
+I setting of the BER
+T model.
+In (
+Vychegzhanin and Kotelnikov, 2017), the authors study stance towards children vaccination. Thedataset consists of messages from the social network "V
+Kontakte" classified to two classes: "for" and"against". The best results (84.3 F-measure) were achieved by the SV
+M classifier with rbf kernel. Insubsequent work (
+Vychegzhanin and Kotelnikov, 2019) additional two topics were considered: "unifiedstate exam" and "human cloning". The best results were obtained using by majority voting based onvarious classifiers (kN
+N, SV
+M, Naive Bayes, etc.)
+Etnicity-targeted sentiment analysis was considered in (
+Koltsova et al., 2020). The task was to determine hate-speech by classifying into three classes. The RuEthno
+Hate dataset containing 5,5
+K socialmedia texts has been created. The best results were achieved by deep learning models despite a relativelysmall dataset size. The performance significantly benefit from a combination of linguistic and sentimentfeatures with BER
+T pre-training and fine-tuning techniques.
+3 Tasks and Data
+Ru
+Arg-2022 evaluation (
+Kotelnikov et al., 2022) is devoted to analysis of COVI
+D-related opinions andincludes two tasks: stance detection and premise classification in relation to three topics: masks, vaccination, and quarantine during COVI
+D epidemic. In the first task, it is required to determine the point ofview (stance) of the text’s author in relation to a given topic expressed in a given fragment. In the secondtask, is is necessary to determine if the text contains premises “for” or “against” to a given claim.
+The dataset consists of single sentences. In total, 9,550 sentences were annotated by stance andpremises for all three topics. Thus, each sentence has six labels. Each label can have one of the following values: “for“, “against“, “other“, or “irrelevant“. The difference between tasks can be explainedas follows: the author of opinion can be positive to mask wearing, but does not explain why. In this case,stance to masks is “for“, but argument for mask wearing is absent therefore the correct class for premiseclassification is “other“.
+Participating systems should automatically annotate each test sentence by stance and premises foreach topics separately. In total, six labels (with one of four values) must be assigned to the sentence.
+For evaluating performance of systems, macro F-measure was used. It was calculated as averaging of
+F-measures of three relevant categories for each topic 𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑟𝑟𝑟𝑟𝑟𝑟 (
+Kotelnikov et al., 2022). In fact, forboth tasks four-class classification is carried out, but irrelevant class is not significant for opinion miningtherefore macro-averaging over three classes is performed.
+4 BER
+T-based Natural Language Inference
+The Ru
+Arg-2022 evaluation includes two tasks: stance detection and premise classification, which areboth considered as four-class classification for each topic. Additionally, we can single out the relevanceclassification in both tasks, which separates irrelevant texts for each topic. Irrelevant texts are the samefor both stance detection and premise classification. Therefore it is possible to consider a two-stage classification: extraction of relevant texts and then three-class classification for stance detection or premiseclassification.
+Our approach to all tasks is based on NL
+I (
+Natural Language Inference) setting of the BER
+T model(
+Sun et al., 2019; Golubev and Loukachevitch, 2020). The NL
+I method adds to every input sentencean additional sentence, which can be an ’assumption’ of the original sentence class. In the relevanceclassification task, the assumption sentence was the aspect itself (’
+Masks’, ’
+Vaccination’, ’
+Quarantine’).
+For other tasks, the assumption includes also a stance option (for the stance classification task) anda sentiment (for the premise classification task). In this way, the multi-label classification tasks aretransformed into binary classifications for the model. Such a binary classification model for stancedetection or premise classification can be trained and applied to all topics, it does not require trainingseparate classifier for each topic. The NL
+I model was selected because it showed high performancein previous studies (
+Sun et al., 2019; Golubev and Loukachevitch, 2021; Nugamanov et al., 2021).
+Analyzing COVI
+D-related Stance and Arguments using BER
+T-based Natural Language Inference
+Table 1 shows examples of input for all tasks: relevance classification, stance detection, and premiseclassification.
+We studied the following configurations based on the same NLI-BER
+T approach, where the RuBER
+Tconversational model (
+Kuratov and Arkhipov, 2019) was used for Russian text representation:• two-stage classification – three classifiers: relevance detection on the first stage, three-class classifiers for stance detection and premise classification applied to relevant sentences (2stage3classf),• two four-class classifiers for stance detection and premise classification (1stage2classf),• two-stage classification – two classifiers: relevance detection on the first stage, a single classifier forboth tasks (stance detection and premise classification) (2stage2classf),• three-stage processing – two classifiers using English translation: relevance detection on thefirst stage based on Russian texts, machine translation of Russian sentences into English, asingle classifier for both tasks of translated texts using a specialized COVI
+D-tuned BERT(3stage
+English2classf) .
+For the relevance task, no additional text preprocessing was applied, the input sentence pairs were in
+Russian in all settings. The relevance classifier was trained using entire training part of the dataset.
+For the 3stage
+English2classf method, all texts having at least one relevant topic were translated into
+English using Helsinki-NL
+P/opus-mt-ru-en model from Hugging
+Face Transformers library. Stance detection and premise classification tasks were combined into a single task via NL
+I method so every pair ofthe aspect and the current text that is relevant to this aspect was transformed into six input objects (threefor each of the stance options and three for each of the sentiments for the premise classification). To runtest cases, for every test text the relevant aspects set was obtained with the trained relevance classifier andthen, as before, for each such aspect from the set six input examples were obtained. The classifier givesprobabilities of answers "yes" (1) or "no" (0) for each label and topic in the stance detection and premiseclassification tasks. The final label is chosen according to the maximum soft-max BER
+T-classifier outputvalue of the outputs for each label option.
+The classifiers include the BER
+T models (different for each task) and the full-connected neural network. For all the above-described configurations, the same BER
+T parameters were used: learning rate =0.000005, batch size = 16, epochs = 2. The parameters were not selected using validation with extra data
+because BER
+T learning is a very expensive and enduring process. The full-connected network consistsof the dropout layer, the linear layer (BER
+T hidden size layer, 256) size, ReL
+U activation function, onemore dropout layer and one more linear layer (256, number of classes) size, the softmax layer.
+For the relevance task Deep
+Pavlov/rubert-base-cased-conversational model was used that was trainedon Open
+Subtitles, Dirty, Pikabu, and a Social Media segment of Taiga corpus. For the stance detectionand premise classification task specialized covid BER
+T model 1 was used which was pretrained on acorpus of English messages from Twitter about COVI
+D-19.
+5 Additional Marking of Target Entities
+Targeted opinion mining including stance detection and premise classification involves a target entity(topic). In this respect it is similar to relation extraction, which involves two entities. In previous works,several entity representation methods for relation extraction were proposed (
+Zhou and Chen, 2021),which we decided to compare in the Ru
+Arg evaluation. We evaluated the following entity representationtechniques based on entity representations for relation extraction:1. Entity mask. This technique introduces new special tokens mask the supposed entities in the original text, where ASPEC
+T is substituted with one of the three topics studied in the
+evaluation; entity type,2. Entity marker. This technique introduces a special tokens pair , enclose the topic
+entity, therefore modifying the input text to the format of “ keyword”,3. Entity marker (punct). This technique is a variant of the previous technique that encloses entity
+spans using punctuation. In our case, it modifies the input text to “* keyword*. In contrast to theprevious technique, this one does not introduce new special tokens into the model’s vocabulary,1digitalepidemiologylab/covid-twitter-bert-v2
+Alibaeva K., Loukachevitch N.
+Task Sentence Aspect Tokenized input
+Relevance (’
+I don’t get it. They said it was enoughto wear a mask and gloves so theywouldn’t get infected when you left thestreet.’, ’Masks’)
+Masks ’, ’i’, ’don’, "’", ’t’, ’get’, ’it’,’.’, ’they’, ’said’, ’it’, ’was’, ’enough’,’to’, ’wear’, ’a’, ’mask’, ’and’, ’gloves’,’so’, ’they’, ’wouldn’, "’", ’t’, ’get’,’infected’, ’when’, ’you’, ’left’, ’the’,’street’, ’.’, ’’, ’masks’, ’’]
+Relevance (’
+At a time when the time is right to introduce quarantine, it seems too early.’,’Vaccination’)
+Vaccination ’, ’at’, ’a’, ’time’, ’when’, ’the’,’time’, ’is’, ’right’, ’to’, ’introduce’,’qu’, ’aran’, ’tine’, ’,’, ’it’, ’seems’,’too’, ’early’, ’.’, ’’, ’va’, ’cci’,’nation’, ’’]
+Stance Detection (’
+Vacation would only give rise to thespread of the virus, and it was not theweekend that had to be declared but thequarantine.’, ’
+Against Quarantine’)
+Quarantine ’, ’vacation’, ’would’, ’only’,’give’, ’rise’, ’to’, ’the’, ’spread’, ’of’,’the’, ’virus’, ’,’, ’and’, ’it’, ’was’,’not’, ’the’, ’weekend’, ’that’, ’had’,’to’, ’be’, ’declared’, ’but’, ’the’,’qu’, ’##aran’, ’##tine’, ’.’, ’’,’against’, ’qu’, ’##aran’, ’##tine’,’’]
+Stance Detection (’, the virus is smaller than themask cells, and the drops of water withwhich it flies are larger’, ’None-stanceMasks’)
+Masks ’, ’’, ’,’, ’the’,’virus’, ’is’, ’smaller’, ’than’, ’the’,’mask’, ’cells’, ’,’, ’and’, ’the’, ’drops’,’of’, ’water’, ’with’, ’which’, ’it’,’flies’, ’are’, ’larger’, ’’, ’none’,’-’, ’stance’, ’masks’, ’’]
+Premise Classification(’
+When I started buying groceriesand started wearing a mask, everyonelaughed.’, ’
+Neutral to masks’)
+Masks ’, ’when’, ’i’, ’started’, ’buying’, ’groceries’, ’and’, ’started’, ’wearing’, ’a’, ’mask’, ’,’, ’everyone’,’laughed’, ’.’, ’’, ’neutral’, ’to’,’masks’, ’’]
+Premise Classification(’
+China, without any vaccine, managed the infection, the method of selfisolation.’, ’
+Positive to quarantine’)
+Quarantine ’, ’china’, ’,’, ’without’, ’any’,’vaccine’, ’,’, ’managed’, ’the’, ’infection’, ’,’, ’the’, ’method’, ’of’, ’self’,’-’, ’isolation’, ’.’, ’’, ’positive’,’to’, ’qu’, ’##aran’, ’##tine’, ’’]4. Typed entity marker. This technique incorporates the stance topic types into entity markers. In
+our case, it introduces new special tokens “A:ASPEC
+T“, “/A:ASPEC
+T“, where ASPEC
+T is thecorresponding stance topic. The input text is accordingly modified to “<A:ASPEC
+T> keyword</A:ASPEC
+T>”,5. Typed entity marker (punct). This variant marks the target span and target types without introducing new special tokens, which in our case looks as follows: * @ ASPEC
+T @ keyword *.
+Used keywords are shown in Ru
+Arg evaluation concerns three topics: masks, quarantine, and vaccines. Thus, we selected these words(mask, quarantine, vaccination) as initial keywords for marking. Besides, we added synonyms of initialkeywords and morphologically related words, known examples of vaccines. Each marking method replaces a word from the keyword list in case if the current text is relevant to the corresponding topic ofthe current word. All the techniques of marking are illustrated in All keywords were prepared in Russian. To use keywords for the stance detection and premise classification tasks in the English-based 3stage
+English2classf approach, Russian keywords were translatedusing the same translation model as for the dataset’s texts. Original Russian lists are bigger than translated ones because some Russian words have the same translations into English. In Table 2 both original
+Analyzing COVI
+D-related Stance and Arguments using BER
+T-based Natural Language Inference
+Russian and auto-translated English variants are presented.
+Aspect Related words list (
+Russian) Related words list (English)
+Masks ’маска’, ’масочный’ ’mask’
+Quarantine ’карантин’, ’карантинный’, ’локдаун’’quarantine’, ’lockdown’
+Vaccination ’вакцина’, ’вакцинный’, ’вакцинация’, ’иммунизация’, ’вакцинировать’, ’вакцинирование’, ’прививка’, ’прививать’, ’прививочный’,’спутник’, ’спутник v’, ’модерна’,’pfizer’, ’ковивак’, ’эпиваккорона’,’astrazeneca’’vaccine’, ’immunization’,’vaccination’, ’satellite’, ’satellitev’, ’moderna’, ’pfizer’, ’quivac’,’epivaccorone’, ’astruseneca’
+No. Marking rule Text Text with markers1
+He certainly didn’t make it, two
+weeks quarantine, and he wentto work, healthy, not infected!’’
+He certainly didn’t make it, twoweeks , and hewent to work, healthy, not infected!’2
+After all, when a person wears a
+mask on his face and mouth, theperfect habitat for every microorgan appears.’’
+After all, when a person wears a mask his face andmouth, the perfect habitat forevery mibaselinecro-organ appears.’3 * keyword * ’
+The normal decline must be
+after vaccination, at least thepeople will get less sick.’’
+The normal decline must beafter * vaccination *, at least thepeople will get less sick.’4 <A:ASPEC
+T> keyword
+</A:ASPECT>’
+Now the finals are acceptedonly by your citizens, and ourseither fly directly to you or waitfor the quarantine to be cancelled.’’
+Now the finals are accepted only by your citizens,and ours either fly directly to you or wait for the<A:QUARANTIN
+E> quarantine </A:QUARANTIN
+E> to becancelled.’5 * @ ASPEC
+T @ keyword
+*’
+Then the academic epidemiologist Gundarov said everythingabout death masks and panic.’’
+Then the academic epidemiologist Gundarov said everythingabout death * @ MASK
+S @masks * and panic.’6 Results on the Ru
+Arg Dataset
+Table 4 shows results obtained with all approaches described in Section 4 on the validation part ofthe Ru
+Arg dataset. Approaches 2stage2classf and 3stage
+English2classf were also applied with all themarking methods. It can be seen that all models obtained much better results than the baseline modelprovided by Ru
+Arg-2022 organizers. The baseline used “ bert-base-cased” model from Hugging Face2.
+Three BER
+T models were trained separately for all three topics: “masks”, “vaccines”, “quarantine”.
+2https://huggingface.co/bert-large-cased
+Alibaeva K., Loukachevitch N.
+In our proposed approach, three best methods (3stage
+English2classf, 3stage
+English2classf + marking4, 3stage
+English2classf + marking5) were applied to the test part of the Ru
+Arg dataset. The finalRu
+Arg leaderboard is shown in with the proposed model 3stage
+English2classf + marking5, its scheme is shown in 1.
+Approach Stance Detection Premise Classification
+Baseline 39.24 45.172stage3classf 59.76 54.25
+1stage2classf 61.74 61.05
+2stage2classf 60.85 57.70
+2stage2classf + marking1 60.64 61.14
+2stage2classf + marking2 62.23 63.26
+2stage2classf + marking3 60.29 58.89
+2stage2classf + marking4 62.57 62.93
+2stage2classf + marking5 58.59 58.72
+3stage
+English2classf 69.81 67.81
+3stage
+English2classf + marking1 68.82 66.64
+3stage
+English2classf + marking2 67.33 67.06
+3stage
+English2classf + marking3 67.54 68.47
+3stage
+English2classf + marking4 71.30 67.37
+3stage
+English2classf + marking5 71.29 66.55
+Participant Stance Detection Premise Classificationcamalibi 69.68 74.04sevastyanm 68.15 72.35iamdenay 66.76 65.55ursdth 65.73 70.64sopilnyak 56.03 43.38kazzand 55.52 56.03morty 53.53 54.53invincible 52.86 54.28dr 47.50 60.36baseline 41.80 43.55the proposed model 3stage
+English2classf + marking5.
+From Tables 4, 5, we can see that the contribution of marking methods may vary for different datasetsand tasks. For example, marking 2 and 4 improve the basic method 2stage3classf in the stance detectiontask, marking techniques 1, 2, 4, 5 improve premise classification for the same basic method. The3stage
+English2classf basic method on the validation dataset can be improved using marking 4 and 5 for
+stance detection and marking 3 for premise classification.
+To measure contribution of markers across tasks and datasets, we calculated the average improvementof marking techniques over a corresponding basic method for: two tasks of Ru
+Arg-2022, two datasets (validation and test) and two methods: Russian-based 2stage3classf and English-based 3stage
+English2classf. The results of averaging are presented in best techniques are markings 4, 5. For premise classification, the best marking technique is marking 4,and marking 5 is similar to a basic method on average. Thus, we can conclude that the marking method 4
+Analyzing COVI
+D-related Stance and Arguments using BER
+T-based Natural Language Inference(<A:ASPEC
+T> keyword </A:ASPEC
+T>) was the best on average on the Ru
+Arg tasks. These resultscorrelate with findings of (
+Zhou and Chen, 2021), which found that marking 4 (
+Typed entity markers)was best for BER
+T-based relation extraction.
+Marking No. Stance Detection Premise Classification1 0.46 -1.5
+2 -0.71 -2.26
+3 0.24 -0.61
+4 0.79 1.94
+5 1.65 -0.2
+7 Error Analysis
+Tables 7 and 7 present confusion matrices for stance detection and premise classification. It can be seenthat opposite labels are rarely mixed up. It is more difficult to distinguish between any polar opinion(stance or argument) and neutral one. Thus, the study should be continued to understand how best to findmarkers of difference between polar and neutral opinions.
+Model prediction Irrelevant Against Other For
+Irrelevant 2824 6 7 3
+Against 0 144 46 5
+Other 0 97 715 105
+For 0 10 93 238
+Model prediction Irrelevant Against Other For
+Irrelevant 2824 15 7 0
+Against 0 72 54 4
+Other 0 64 1087 47
+For 0 7 37 81
+Alibaeva K., Loukachevitch N.
+Tables 9 and 10 present examples that were misclassified by the best model.
+Topic Text True label Model predictionvaccination ’
+Andrei will be first in line for the vaccine.’ For Othermasks ’
+And only with masks do we want to stop thissecond wave?’
+Other Forquarantine ’
+It’s funny– quarantine doesn’t work, treatment doesn’t work, prevention is funny– but!’
+Other Against
+Topic Text True label Model predictionvaccination ’
+Who will not be destroyed by thecoronavirus, drugs and vaccines will kill’
+Against Othermasks ’
+In Japan and Korea and before the pandemic,the people wore masks, especially in transport.’
+Other Forquarantine ’, quarantine is only a deterrent measure, not a neutralization of the virus.’
+For Against
+Table 10: Misclassification examples (premise classification).
+8 Conclusion
+In this paper we presented our approach for stance detection and premise classification in argumentmining from COVI
+D-related messages developed for the Ru
+Arg-2022 evaluation. The proposed methodis based on so-called NL
+I-setting (natural language inference) of BER
+T-based text classification, whenthe input of a model includes pair of sentences: a target sentence and a conclusion (for example, positiveto masks) and should predict if a conclusion can be entailed from the target sentence. We also usedtranslation of Russian messages to English, which allowed us to leverage a specialized BER
+T model pretrained on a text collection of COVI
+D-related tweets. Besides, we used additional marking of targetedentities. Our approach achieved the best results on both Ru
+Arg-2022 tasks.
+We also studied the contribution of marking techniques across datasets, tasks ans models of Ru
+Argevaluation. We found that marking 4 (<A:ASPEC
+T> keyword </A:ASPEC
+T>) gave the highest averageincrease over corresponding basic methods. In the current evaluation, aspects for marking were veryeasy to determine. In future, we plan to integrate various techniques for aspect (topic) identification touse them for improving performance in opinion mining tasks.
+Acknowledgements
+The work is supported by the Russian Science Foundation, grant #21-71-30003.

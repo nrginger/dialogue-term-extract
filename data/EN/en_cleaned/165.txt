@@ -1,0 +1,186 @@
+The gender of many Russian nouns cannot be determined from their inflectional affixes. But nouns are not distributed evenly among genders and declensions. Firstly, masculine nouns are in general more frequent than feminine and neuter (48% vs. 35% and 17% forms in the grammatically disambiguated subcorpus of the Russian
+National Corpus (RN
+C, http://www.ruscorpora.ru)). Secondly, a nominative singular form ending in -a/ja or with a zero inflection may be masculine or feminine, but the former is much more likely to be feminine, while the latter is much more likely to be masculine (more details about are given below). Thirdly, if the final consonant of a noun with a zero inflection is taken into account, we will see that, for example, most nouns ending in -s’ are feminine, while most nouns ending in -r’ are masculine.
+In this paper, we present two experimental studies exploring whether native speakers of Russian are sensitive to the distributional properties outlined above. The first experiment is dedicated to the online processing of gender agreement. In the second pilot experiment, we study how participants determine the gender of real and nonce nouns.
+Now let us discuss the relevant properties of nouns in more detail. Table 1 shows the distribution of nouns among genders and declensions in the grammatically disambiguated subcorpus of the RN
+C. Masculine nouns ending in -a/ja and feminine nouns with a zero inflection are termed non-prototypical due to their low relative frequency. These nouns are known to be problematic for the L1 and L2 acquisition (e.g. ; ; ; ). But studied naturally occurring errors in spoken Russian found that adult native speakers do not make more gender agreement errors with such nouns1. Still, what does not show up in the number of errors may influence online sentence processing. Experiment 1 is dedicated to this question.
+In this paper, we focus on consonant-final nouns. The distributional picture gets more complex if the nature of the final consonant is taken into account. The gender of the words ending in /ž/, /š/, /č’/, /š’č’/ can be determined orthographically, while words ending in other non-palatalized consonant can be only masculine. No such clues are available for the words ending in other palatalized consonants, but, as Table 2 shows, their distribution between the two genders varies greatly (to represent both the relative frequencies of different forms and the number of existing lemmas we relied not only on the RN
+C, but also on the Grammatical Dictionary of the Russian Language ).
+The majority of nouns ending in labials are feminine. Most nouns ending in -r’ and -l’ are masculine, many of them have agentive suffixes like -tel’ or -ar’. Nevertheless, feminine nouns are not just singular cases in this group. Forms of nouns ending in other lingual consonants are either predominantly feminine or are evenly distributed between the two genders (but the number of feminine lemmas is still larger). The majority of nouns ending in -t’, which are especially numerous, have the suffix -ost’. In our pilot experiment 2, we explored whether adult native speakers are sensitive to these differences.
+1 Cases where gender variation is observed are not taken into account (a corpus-based study
+of such cases was conducted by ).
+Gender, Declension and Stem-final Consonantsin the grammatically disambiguated subcorpus of the RNC2
+Declension and gender
+Percentage of nouns in the RNC
+Ending in Nom.
+Sg and prototypicality Examples1st decl. feminine 29% nouns end in -a/ja, ‘prototypical F’ zhena ‘wife’
+1st decl. masculine 1% nouns end in -a/ja,
+‘non-prototypical M’djadja ‘uncle’2nd decl. masculine 46% nouns end in a consonant,
+‘prototypical M’syn ‘son’, gel’ ‘gel’2nd decl. neuter 18% nouns end in -o/e, ‘prototypical N’ pole ‘field’
+3rd decl. feminine 5% nouns end in a consonant,
+‘non-prototypical F’mel’ ‘shallow’irregular and indeclinable1% nouns
+subcorpus of the RN
+C and in the GDRL
+Final consonantRN
+C (Nom.
+Sg forms) GDR
+L (lemmas)
+M F M F/b’/ 34 (24%) 110 1 11/p’/ 3 (2%)3 169 — 19/v’/ 13 (1%) 1,448 1 20/f’/ 0 2 — 2/m’/ 0 16 — 3/d’/ 748 (51%) 707 10 55/t’/ 713 (5%) 13,184 17 3414/z’/ 319 (49%) 327 7 34/s’/ 80 (14%) 491 5 57/n’/ 2,354 (45%) 2,842 126 112/r’/ 2,160 (76%) 677 177 34/l’/ 6,648 (71%) 2,653 1083 2152. Previous experimental studies
+Two groups of experimental studies are relevant for the present paper: analyzing gender agreement and nouns with more or less morphologically regular inflections. 2 The counts are taken from . Substantivized adjectives were
+not taken into account.
+3 These three forms are rup’ (a reduced form of the noun rubl’ ‘ruble’).
+Slioussar N. A.
+There are relatively few experimental studies of gender agreement in Russian. In three of them (; ) adjectives were presented before nouns audially or visually. In congruent conditions, adjectives agreed with the following nouns, in incongruent ones they did not, and some experiments also included a baseline condition where bare adjective stems without inflections or adverbs were presented. Several methods were employed, including lexical decision (answering whether the presented stimulus is a real word or a nonce word), grammaticality judgment (answering whether the presented fragment is grammatical) and cued-shadowing in which participants must repeat the second presented word (the target noun).
+However, the question was always the same: would participants answer significantly faster and more accurately in congruent conditions compared to incongruent ones, and would there be any differences associated with the gender of the nouns? In experiments with a baseline condition, it was also possible to check whether the difference between congruent and incongruent conditions was primarily due to facilitation in the former, or to inhibition in the latter, or both effects were equally prominent. In brief, significant facilitation and inhibition effects for feminine nouns, while for masculine nouns, only inhibition was significant, and for neuter ones, only facilitation was significant4. Results from other studies were similar.
+The explanations offered in these studies go along the same lines. Masculine gender as the most frequent is assumed to be unmarked, or default, while neuter is considered the most marked. Thus, masculine is expected by default, and strengthening this expectation by a masculine adjective does not produce a big difference (hence no significant facilitation effects). Neuter is the least expected option, so priming a neuter noun with a neuter adjective has the largest effect compared to the baseline condition (hence facilitation effects for neuter nouns are larger than for feminine nouns). Inhibition effects are explained by rechecking, which is especially costly for masculine nouns presented after non-masculine adjectives.
+None of these three studies looked at 3rd declension feminine nouns, while the experiments by focused on them. Taraban and Kempe selected masculine and feminine nouns ending in a palatalized consonant (opaque condition) and in non-palatalized consonants or in -a/ja, which are unambiguously masculine or feminine (transparent condition). They examined the role of such transparency for subject–predicate agreement using word-by-word self-paced reading and forced choice tasks. Participants were asked to read sentence beginnings like (1a) or (2a) and then to select one of the two verb forms in the remaining fragment like (1b) or (2b). In some conditions, sentence fragments contained adjectives. Participants were adult native speakers and L2 learners. For native speakers, transparency and the presence of a gender-marked adjective did not play any role.
+(1) a. Daže (obyčnaja) muka/sol’ teper’… ordinary
+F flourF.1D/saltF.3
+D now b. isčez/isčezla iz magazinov.
+F from stores4 This study also involved aphasiac patients, while native speakers to second language learners, but we will not discuss these groups here.
+Gender, Declension and Stem-final Consonants(2) a. Nakanune (otёkšij) palec/lokot’ sil’no… swollen
+M fingerM.2D/elbowM.2
+D strongly b. bolel/bolela ot udara.
+F from injury studied gender agreement attraction. To give an example, an attraction error is present in the English sentence “
+The key to the cabinets are rusty”, where the verb agrees not with the head of the subject phrase, but with another noun, termed attractor. In production, such errors are more frequent than agreement errors without attraction. In comprehension, they are missed more often and produce smaller delays in reading times and less pronounced ER
+P responses.
+Number agreement attraction is widely discussed in the literature, while gender agreement has been analyzed only in a few studies so far. Among other things, it was noted that both in production and in comprehension, attraction effects can be observed in the sentences with singular heads and plural dependent nouns (e.g., “
+The key to the cabinets...”), but not in the sentences with plural heads and singular dependent nouns (e.g., “
+The keys to the cabinet...”). Almost all proposed explanations appeal to feature markedness, although approaches to markedness may be very different, from representational to frequency-based. Looking for similar asymmetries in gender agreement attraction, several studies of Romance languages obtained controversial results (e.g. ; ; ; ). that neuter behaves as unmarked in a series of production experiments on Slovak, in which neuter is the least frequent gender, but is used in impersonal sentences, like in Russian.
+one production and three comprehension experiments. The results of the former were similar to the Slovak study, while in the latter, masculine behaved differently from feminine and neuter. Namely, attraction was observed for all dependent noun genders, but only for neuter and feminine heads. In other words, masculine heads were significantly more resistant to attraction: readers detected agreement errors irrespective of possible attractors’ interference5.
+This result can be reconciled with the observations made in ; . However, given that different patterns were observed for production and comprehension, we cannot explain them by a particular single property of gender features anymore. This reminds us that the notion of markedness usually invoked to explain all asymmetries between features is problematic because some studies rely on representational markedness (primarily counting the number of positive feature values in formal morphological models), the others consider the most frequent value to be the default etc. From the representational point of view, neuter is the unmarked gender in most accounts, while if we rely on frequency, masculine is. Maybe, these approaches should be seen as complementary, because different properties of features appear to be relevant in different experimental tasks.
+5 It is traditionally assumed that the features of the dependent noun are crucial for attraction, but both this study and some other findings suggest that the features of the head might
+be more important. We will not discuss this problem here.
+Slioussar N. A.
+Now let us turn to the problem of inflections that are more or less typical for a particular gender. Many experimental studies used different tasks (for example, determining a noun’s gender or selecting an article) to show that nouns with more typical inflections are associated with faster and more accurate answers. This was demonstrated for Italian, French, Hebrew, Bulgarian etc. (e.g. ; ; ; ).
+However, fewer studies investigated the role of this factor in sentence processing. To give an example, Caffarra et al. (2015) looked at Italian nouns with more and less typical endings presented in the same sentences. They were preceded by articles, which carried gender information. Nouns from the two groups elicited different ER
+P responses. for Italian, Spanish, and French that heads with regular inflections are more resistant to agreement attraction. The same is true for number agreement attraction (e.g.; ).
+As for Russian, only discussed above addressed this problem. The authors found no differences between prototypical and non-prototypical subject nouns. However, the task they used required selecting a correctly agreeing verb form, which is a less immediate measure than simple reading times. For this reason, we decided to come back to this factor in the present study.
+3. Experiment 1
+This experiment was conducted together with Pavel Shilin, an M
+A student at Saint
+Petersburg State University. The goal of the experiment was to find out whether subject–predicate gender agreement is processed differently depending on the declension and gender the subject noun belongs to. 33 native speakers of Russian aged 18–55 (12 women) took part in the experiment.
+It is impossible to test all potentially interesting combinations of gender and declension in one experiment, so we selected the following three groups of inanimate nouns as subjects: masculine nouns of the 2nd declension (prototypical masculine, 2D
+M), feminine nouns of the 1st declension (prototypical feminine, 1D
+F), and feminine nouns of the 3rd declension (non-prototypical feminine, 3D
+F). The materials included 36 sets of target
+sentences in six conditions exemplified in (3a-f). All sentences had the same structure: a subject noun, byl/byla ‘wasM/
+F’, an adjective or participle, and a three-word P
+P.
+(3) a. 2D
+M G(rammatical): Xalat byl potrepannym ot noski.
+G was
+M shabby
+M from wear b. 2D
+M U(ngrammatical): Xalat byla potrepannoj...
+G was
+F shabby
+F c. 1D
+F G(rammatical): Kurtka byla potrepannoj…
+G was
+F shabby
+F d. 1D
+F U(ngrammatical): Kurtka byl potrepannym…
+G was
+M shabby
+M Gender, Declension and Stem-final Consonantse. 3D
+F G G(rammatical): Šinel’ byla potrepannoj…
+G was
+F shabby
+F f. 3D
+F U(ngrammatical): Šinel’ byl potrepannym…
+G was
+M shabby
+M ‘
+The robe / jacket / overcoat was shabby from being worn for many years.’
+Half of the sentences contained gender agreement errors on the predicate because taking previous studies of agreement into account (primarily agreement attraction experiments), the effects could be expected to be different in grammatical and ungrammatical sentences6. Subject nouns in the three declension groups were balanced for frequency and length using the Stimul
+Stat lexical database (http://stimul.cognitivestudies.ru, ). Frequency information in this database is taken from the Frequency Dictionary of Modern Russian Language .
+Target sentences were distributed into six experimental lists so that each participant saw only one sentence from each set. The lists also contained 80 grammatically correct filler sentences. The sentences were presented on a P
+C using Presentation software (http://www.neurobs.com). We used the word-by-word self-paced reading methodology. Each trial began with a sentence in which all words were masked with dashes while spaces and punctuation marks remained intact. Participants were pressing the space bar to reveal a word and re-mask the previous one. One third of the sentences were followed by forced choice comprehension questions to ensure that the participants were reading properly.
+We analyzed participants’ question-answering accuracy and reading times. On average, participants answered 12% questions to target sentences incorrectly, no participants made more than 3 errors. Reading times that exceeded a threshold of 2.5 standard deviations, by region and condition, were excluded . In total, 2.0% of the data were excluded as outliers. Average reading times per region in different conditions are presented in Figure 1.
+figure 1. Average reading times per region (in ms) in different experimental conditions6 We selected predicates that consisted of a copula and an adjective or participle because such
+predicates were used in the previous experimental studies of subject—predicate gender agreement in Russian.
+Slioussar N. A.
+For each region, we made pairwise comparisons between the three conditions using a 2 × 2 Repeated Measures ANOV
+A with grammaticality and declension as factors. Analyses by participants (
+F1) and by items (
+F2) were performed. In region 1 (the subject noun), there were no significant results, which means that nouns in different conditions were properly balanced and that nouns of a particular gender or declension are not intrinsically more difficult to process.
+Region 2 contains the verb byl / byla ‘wasM/
+F’—this is where agreement errors appear in ungrammatical sentences. to these errors was different depending on the declension of the subject noun. In the conditions 1D
+F and 2D
+M (with prototypical feminine and masculine subjects), reading times in ungrammatical sentences are longer than in grammatical ones, while no such difference can be seen in the 3D
+F conditions (with non-prototypical feminine subjects), which indicates that the error tends to remain undetected in the latter case.
+Statistical analyses support this intuition. In the comparison between 1D
+F and 3D
+F conditions, grammaticality and the interaction between declension and grammaticality are significant (
+F1(1,32) = 8.13, p < 0.01, F2(1,35) = 4.20, p = 0.05;
+F1(1,32) = 7.41, p = 0.01, F2(1,35) = 4.05, p = 0.05), while the main effect of declension does not reach significance. This means that the influence of grammaticality depends on the declension of the subject. In the comparison between 2D
+M and 3D
+F conditions, grammaticality reaches significance, while the interaction between
+declension and grammaticality is marginally significant (
+F1(1,32) = 8.01, p < 0.01, F2(1,35) = 4.09, p = 0.05; F1(1,32) = 3.98, p = 0.05, F2(1,35) = 3.17, p = 0.08). When 1D
+F and 2D
+M are compared, only the grammaticality factor is significant (
+F1(1,32) =
+18.66, p < 0.01, F2(1,35) = 10.21, p < 0.01).
+In region 3 that contains an adjective or participle, differences between grammatical and ungrammatical sentences become visible in all conditions. Accordingly, the grammaticality factor is significant in all pairwise comparisons (
+F1(1,32) = 15.90, p < 0.01, F2(1,35) = 21.24, p < 0.01 for 1D
+F vs. 2D
+M; F1(1,32) = 11.98, p < 0.01, F2(1,35) = 6.20, p = 0.02 for 1D
+F vs. 3D
+F; F1(1,32) = 9.73, p < 0.01, F2(1,35) = 7.83, p < 0.01 for 2D
+M vs. 3D
+F). No other factors or interactions reach significance.
+Regions 4–6 contain a three-word P
+P. In region 4, a tendency that can be already detected in region 3 becomes statistically significant: the error-related delay in reading times is more pronounced in the 2D
+M conditions (with masculine subjects) than in the 1D
+F and 3D
+F conditions (with feminine subjects). In the comparison between 1D
+F and 2D
+M conditions, grammaticality and the interaction between declension and
+grammaticality are significant (
+F1(1,32) = 36.95, p < 0.01, F2(1,35) = 15.91, p < 0.01; F1(1,32) = 9.77, p < 0.01, F2(1,35) = 6.45, p = 0.02), while declension is not significant. The same is true for the comparison between 3D
+F and 2D
+M (
+F1(1,32) = 50.11, p < 0.01, F2(1,35) = 13.17, p < 0.01; F1(1,32) = 11.38, p < 0.01, F2(1,35) = 5.51, p = 0.03). When 1D
+F and 3D
+F are compared, only the grammaticality factor is marginally
+significant (
+F1(1,32) = 12.34, p < 0.01, F2(1,35) = 3.65, p = 0.07).
+In region 5, only the grammaticality factor is significant in all pairwise comparisons (
+F1(1,32) = 18.51, p < 0.01, F2(1,35) = 17.67, p < 0.01 for 1D
+F vs. 2D
+M; F1(1,32) = 14.78, p < 0.01, F2(1,35) = 6.10, p = 0.02 for 1D
+F vs. 3D
+F; F1(1,32) = 18.07, p < 0.01, F2(1,35) = 10.07, p < 0.01 for 2D
+M vs. 3D
+F). In region 6, there are no significant differences.
+Gender, Declension and Stem-final Consonants
+Finally, let us note that when we planned the experiment, we did not consider assessing the role of the final consonant of 3D
+F nouns. But 10 out of 36 nouns we selected ended in -l’ or -r’, which is more characteristic for masculine, while other nouns had final consonants characteristic for feminine. So the role of this factor could be estimated, and there were no hints of any relevant differences.
+4. Pilot experiment 2
+This pilot experiment was included in a study we conducted together with Varvara Magomedova (SUN
+Y, Stony Brook) and Natalia Chuprasova, an M
+A student at Saint
+Petersburg State University. The main goal of the study was to find out how Russian speakers determine the gender of real and nonce nouns with diminutive and augmentative suffixes. However, to make the materials more diverse, other nouns had to be included, and we selected 12 real and 12 nonce nouns ending in palatalized consonants (as well as some indeclinable nouns etc.).
+Participants were 30 native Russian speakers (17 women), aged 19–30. They received a list of seven adjectives and then were presented with nouns one by one. They were asked to pick a matching adjective and pronounce the resulting phrase. Adjectives had meanings like ‘big’, ‘small’, ‘cool’, ‘bad’ etc., to make participants think that the experiment was about semantic connotations of different nouns.
+Analyzing the gender of the adjectives selected by the participants, for 12 real nouns ending in palatalized consonants (6 masculine and 6 feminine) we found only 7 errors out of 360 responses. There were three errors with žen’šen’ ‘ginseng
+M’, two
+errors with stupen’ ‘step
+F’, and one error with kisel’ ‘starch drink
+M’ and with prorub’ ‘ice-hole
+F’. The low number of errors agrees with the previous findings by Rusakova (2013): adult native speakers of Russian do not experience particular difficulties determining the gender of such nouns.
+As for 12 nonce nouns, we had two examples with each of the following endings: -b’, -d’, -s’, -n’, -l’ and -r’. The number of answers with masculine adjectives in these groups was 22 (out of 60), 26, 38, 30, 44 and 51, respectively. We can see that the nature of the final consonant played a role. To estimate it statistically, we used mixed effects logistic regression with random slopes and random intercepts by participants and by items. Only nonce nouns ending in -l’ and -r’ were significantly different from the other groups (β = 2.48, S
+E = 1.15, z = -2.15, p = 0.03; β = 4.00, S
+E = 1.54, z = -2.60, p < 0.01). Unlike all other palatalized consonants, these final consonants are more characteristic for masculine nouns.
+5. Conclusions
+In the introduction, we outlined three distributional properties of Russian nouns. Firstly, masculine gender is more frequent than feminine and neuter. Secondly, some combinations of genders and declensions are more frequent than the others (we called them prototypical). Thirdly, for nouns ending in palatalized consonants, some consonants are more characteristic for masculine nouns and the others for feminine nouns. Slioussar N. A.
+Previous studies indicate that these factors do not increase the number of naturally occurring gender agreement errors for adult native speakers of Russian . But speakers might still be sensitive to them, and in the present paper we demonstrated this in two experiments.
+Experiment 1 revealed the role of the two first factors. It was not designed to assess the role of the third factor, but, as far as we could estimate from the data, this factor does not play a role in online agreement processing. However, the influence of this factor can be detected when speakers try to guess the gender of a novel noun—like in the pilot experiment 2. In further studies, we plan to use more stimuli, testing speakers’ sensitivity to different suffixes etc.
+Now let us discuss the results of experiment 1 in more detail. It demonstrated that both gender and declension of the noun influence online processing of the subject–predicate gender agreement in Russian. But, firstly, this influence can be detected only in the sentences with agreement errors, i.e. no gender or declension is intrinsically more difficult to process (at least, in the sentence context7). Secondly, declension plays a role at a very early stage and its effect is very short-lived, while the role of gender becomes visible later and its effect is more pronounced.
+The fact that a masculine verb form is less readily detected after a 3rd declension subject noun can be explained by the fact that its ending is more typical for masculine nouns that for feminine ones. However, alternative explanations are also possible, for example, all agreement errors (in masculine or in neuter) may be harder to detect after 3rd declension subject nouns, i.e. their gender can be in general harder to retrieve. To exclude this and some other possibilities, other experiments should be conducted. Another line of further research should look at non-prototypical masculine nouns like papa ‘dad’. The picture may be different not only because of their different gender, but also because all these nouns denote humans, so the gender feature is not semantically empty in this case, which may aid its processing and retrieval.
+As for the role of gender as such, we saw that agreement errors with masculine subjects cause a larger delay in reading times compared to errors with feminine subjects, i.e. were costlier for processing. This is in line with the previous findings on gender agreement in comprehension reported in the literature ; ; . However, to have a full picture, neuter subjects and predicates should be introduced in further experiments.
+So far, several explanations are possible. It is well known that while reading, we generate expectations about the upcoming predicate based on the features of the subject and rechecking is prompted if these expectations are violated (which is associated with increased reading times). Perhaps, the masculine form of the predicate, being the most frequent, causes less disruption if used incorrectly—similarly, using a frequent word instead of an infrequent one provokes less surprise than the opposite mistake. Maybe, these expectations are more robust for masculine subjects, so violating them is more disruptive. Maybe, if an agreement error is detected and rechecking is initiated, masculine subjects are retrieved more readily and reliably— this is what 7 It is well known that many differences that can be detected in the processing of isolated
+forms disappear when these forms are embedded in an appropriate context.
+Gender, Declension and Stem-final Consonants suggested based on their agreement attraction results where all combinations of genders on subjects, attractors and predicates were examined. All these explanations are compatible with the observed difference between ungrammatical sentences with masculine and feminine subjects. Further experiments are necessary to tease them apart and to gain a better understanding of the patterns observed in previous studies.
+The study was supported in part by the grant #16-18-02071 from the Russian Science Foundation.

@@ -1,0 +1,259 @@
+Case marking is one of the most reliable linguistic “tags” that signal the relation of its bearer to the syntactic context and/or its thematic relation to the governing element. The correct recognizing of the argument structure of predicates is crucial for understanding the core meaning of the sentence in both human and automatic language processing. Accordingly, using case morphology as a marker of a specific grammatical relation of the nominal to the predicate/sentence or as an encoding of a specific thematic role is a universal mechanism of syntactic parsing and semantic analysis.
+Indeed, research in both experimental and computational linguistics shows the role of case marking in the parsing process. A facilitation effect in sentence parsing due to case marking has been reported for many languages with rich case morphology, such as Japanese (
+Mazuka, Lust 1990; Yamashita 1997), Finnish (
+Hujanen 1997) or Basque (
+Santesteban et al. 2015). Similarly, syntactic parsing of morphologically rich languages can rely heavily on morphological dependencies (
+Tsarfaty et al.
+2013). Thus, using of morphological marking of the highly inflectional language such
+as Czech in adjusting a statistical parsing model showed a 7% improvement in dependency accuracy (
+Collins et al. 1999); see also (Øvrelid, Nivre 2007; Øvrelid 2008) on argument differentiation based on different grammatical features in data-driven dependency parsers.
+The one-to-one correspondence between morphological case marking and syntactic relation is broken in at least two directions. The first challenge is the case syncretism that results in underdetermination of the morphological tagging of a nominal and makes it much harder for a statistical system to learn the morphological marking patterns of a language (
+Seeker, Kuhn 2013). The second challenge is that the regular case marking of the given grammatical function can be biased by the case variation process licensed by some language-specific grammatical factor.
+Although differential case marking (DC
+M) is highly widespread, its impact on language processing seems to be underestimated (but see (
+Butt, King 2001; Butt, King, Varghese 2004)). Yet, modeling of DC
+M can neutralize the disturbing effect of case variation on the association of a nominal with its grammatical or thematic role; moreover, factors licensing differential case marking can contribute to the syntactic and semantic analysis.
+In this paper, I investigate modeling of case variation within the two competing formal theories of case—the minimalist syntactic case theory and the configurational case theory. I use the parameters distinguishing cross-linguistically attested patterns of DC
+M in order to identify the characteristic “profile” of case variation that can be easily accommodated within each theory, as well as the blind-spots of each theory, that is, linguistic phenomena that cannot be expressed within it.
+The paper is organized as follows. Section 2 provides a typological overview of differential case marking and introduces parameters that characterize case variation. In section 3, the two formal theories of case assignment are briefly described. Section 4 discusses their potential in modeling different aspects of case variation. Conclusions are drawn in section 5.
+Formal Modeling of Case Variation: a Parametric Approach 2. Differential case marking: positions and parameters
+Case variation is a widespread linguistic phenomenon. The most deeply studied differential object marking (DO
+M) received much attention in the literature at least since (
+Bossong 1985); the keynote papers summarizing the functional and typological perspective of DO
+M are Aissen 2003; de Swart 2007; von Heusinger, Klein and de Swart 2008; de Hoop, Malchukov 2007; Malchukov, de Swart 2008. In (1), a definiteness-conditioned DO
+M in Hebrew is exemplified.
+(1) a. Dan kara *(et) ha-itonim. read оm def-newspapers
+Dan read the newspapers.’ Dan kara (*et) itonim. read (*оm) newspapers
+Dan read newspapers.’ (
+Danon 2006: (1))
+Differential subject marking (DS
+M) was recognized as a unified phenomenon only recently (de Hoop, de Swart (eds.) 2009); previous approaches to DS
+M focused mostly on split ergativity—cases when ergative alignment is absent in some transitive clauses (
+Silverstein 1976; de
+Lancey 1981; Dixon 1994) and on active/semantic alignment or split intransitivity, whereby the sole argument of an intransitive verb does not receive a uniform encoding (
+Mithun 1991; Donohue, Wichman (eds.) 2008). DS
+M is often accompanied by DO
+M: thus, in aspectually determined split ergativity in Georgian ergative/nominative encoding of the subject vary in parallel with nominative/dative encoding of the object, as in (2).
+(2) а. Aorist (
+Series I
+I), ergative subject, nominative object gia-s surateb-i ačvena. Gia-dat picture-nom show.aor
+Nino showed the picture to Gia.’ Present (
+Series I), nominative subject, dative object gia-s surateb-s ačvenebs. Gia-dat picture-dat show.prs
+Nino is showing the picture to Gia.’
+A huge amount of data concerns differential case marking of arguments in embedded structures such as nominalizations or causative constructions (
+Comrie 1976; Givón 1990; Alexiadou 2001). In nominalizations, case variation usually involves “clausal” and “nominal” case marking of the subject (
+Szabolcsi 1983; Abney 1987), and this is how possessor case marking is included into the perspective of the differential case marking of clausal arguments. Example (3) shows specificity-induced DS
+M in Turkish nominalized clause where “clausal” nominative case marking varies with “nominal” genitive case marking (von Heusinger, Kornfilt 2005: (16)).
+Lyutikova E. A.
+a. Yol-dan bir araba geç-tiğ-in-ı gör-dü-m. one car pass-nml-3sg-acc see-pst-1sg
+I saw that a car by on the road.’ Yol-dan bir araba-nın geç-tiğ-in-ı gör-dü-m. one car-gen pass-nml-3sg-acc see-pst-1sg
+I saw that a car by on the road.’
+The morphosyntactic encoding of the possessor, in its turn, exhibit variation concerning semantic type of possessive relation (alienable/inalienable possession, Haiman 1983), structural position of the possessor (internal/external possessor, Shibatani
+1994; Payne, Barshi (eds.) 1999) and its referential characteristics (
+Pereltsvaig, Lyutikova 2014; Testelets 2014).
+Thus, DC
+M occurs in various syntactic positions; it should be noted, however, that these positions—subject, object, possessor—have much in common: they correspond to the basic grammatical functions of the noun phrases that tend to receive a uniform linguistic encoding—special flagging with grammatical cases (nominative, accusative, ergative, genitive) and priority indexing in the predicate (predicative and possessive agreement). This prototypical encoding is biased by licensing factors of DC
+M to the effect that the nominal receives a special case marking (or “loses” case marking), and this can influence its ability to control agreement. This general scheme of case variation, as well as the regular interrelations of DO
+M, DS
+M and possessor marking mentioned above allow us to analyze DC
+M within a single parametric system, extending and adjusting the parametric description of DO
+M proposed in (von Heusinger, Klein and de Swart 2008).
+At least the following parameters of DC
+M required by empirical generalizations and relevant for formal models of case assignment can be distinguished:•	 locality;•	 semantic motivation;•	 positional differences;•	 correlation with agreement.
+Degree of locality characterizes the localization of the licensing factor of DC
+M. Local DC
+M is conditioned by the properties of the argument itself—e.g. its formal feature (noun/pronoun, locutor/non-locutor), syntactic category (DP/N
+P), animacy, definiteness, referentiality, topicality etc. Non-local DC
+M comes in two varieties: predicate-determined and coargument-determined DC
+M. Predicate-determined DC
+M is based on properties of the predicate (possibly in combination with the properties of the argument). Thus, DO
+M in Finnic languages involves quantization of the internal argument and perfectivity/imperfectivity of the V
+P (4):(4) а. Ta ehitas silla (kahe aasta-ga). build.pst bridge.gen (two.gen year.obl-comit)
+He built a bridge (in two years).’ Modeling of Case Variation: a Parametric Approach b. Ta ehitas silda (kaks aastat). build.pst bridge.part (two.part year.part)
+He was building a bridge (for two years).’
+The aspectual, temporal and modal characteristics of the predicate can also influence DS
+M. In Hindi, ergative encoding of the external argument is attested in perfective clauses, whereas imperfective clauses license a nominative subject (5). Other properties of the predicate that can license DS
+M of the external argument are volitionality and agentivity; they often correlate with animacy of the external argument.
+(5) a. laṛke-ne kitāb xarīdī. book.nom buy.pf
+The boy bought a book.’ laṛkā kitāb xarīdtā hai. book.nom buy.ipf aux.prs
+The boy is buying a book.’
+Coargument-determined DC
+M takes place if an argument gets a case marking depending on the characteristics of its coargument. In (6) from Awtuw (Sepik
+Ramu) the direct object receives accusative marking only if it overranks the subject in animacy (de Hoop, Malchukov 2007); so DO
+M in Awtuw is determined hierarchically and motivated by disambiguation (but see Arkadiev 2008 for the critisism of disambiguation approach based on DC
+M in two-term case systems).
+(6) a. Tey tale-re yaw d-æl-i. woman-acc pig f.agt-bite-pat
+The pig bit the woman.’ Tey tale yaw d-æl-i. woman pig f.agt-bite-pat
+The woman bit the pig.’DS
+M can be conditioned by the encoding of the internal argument: in Bagwalal (Andic/
+Dagestanian) example (7), the choice of the ergative or nominative case of the external argument depends on the case marking of the internal argument (which reflects its thematic role).
+(7) a. anwar / *anwar-i-r ila-ł̅a w-alli. / *
+Anvar-obl-erg mother-obl.sup.lat m-shout.pst
+Anvar addressed to his mother.’ anwar-i-r / *anwar ila j-alli. / *
+Anvar.nom mother.nom f-shout.pst
+Anvar called his mother.’
+Lyutikova E. A.
+parameter of semantic motivation distinguishes between the semantically motivated vs purely configurational case variation. Let us consider the encoding of the causee in the causative construction. In Balkar (Turkic/
+Altaic), causee encoding observes Comrie’s (1976) Paradigm Case rule and is determined exclusively by transitivity of the input verb. Regardless of the thematic role of the causee, his/her control over the performed action and semantics of the causative construction, the causee receives accusative with causatives of intransitives and dative with causatives of transitives (
+Lyutikova et al. 2006). In Hungarian, however, the case of the causee depends on its agentivity: in causer-controlled structures, the causee receives accusative, but in causee-controlled structures, it is marked with instrumental.
+(8) a. Az orvos pisiltette a gyereket. doctor.nom pee.caus.3sg det child.acc
+The doctor made the child pee.’ Az orvos pisiltetett a gyerekkel. doctor.nom pee.caus.3sg det child.instr
+The doctor had the peeing done by the child.’ (
+Ackerman 1994:537)
+Positional distribution is often observed with DC
+M. In Sakha, accusative and unmarked direct objects occupy different positions with respect to the indirect object or V
+P-level adverbials ((9), Baker, Vinokurova 2010).
+(9) a. Masha . porridge-(*acc) eat-pst.3sg Masha salamaat-*(y) . porridge-*(acc) eat-pst.3sg ‘
+Masha ate porridge quickly.’
+Similarly, in Tatar, genitive case-marked referential possessor precedes adjectives, whereas unmarked non-referential possessor follows them (
+Pereltsvaig, Lyutikova 2014; Lyutikova, Pereltsvaig 2015). However, case variation may occur in the same structural position. This becomes clear if we compare Tatar example (10) with Sakha example (9). In Tatar, accusative direct object can occupy the same (preverbal) position as the unmarked direct object.
+(10) Bajras kat-kat xat-(nı) ukı-dı. Bayras again-again letter-(acc) read-pst ‘
+Bayras read the/a letter again and again.’
+The correlation of DC
+M with agreement is evident when one (or even both) of the cases that can be assigned to a noun phrase licenses predicative or possessive agreement. In Tatar example (11), the subject of the relative clause exhibit case Formal Modeling of Case Variation: a Parametric Approach variation between nominative and genitive. Genitive case marking enforces possessive agreement on the head noun.
+(11) a. Marat Kazan-nan al-ıp kajt-kan kitap bik kızık. Kazan-abl take-conv return-pf book very interesting Marat-nıŋ Kazan-nan al-ıp kajt-kan kitab-ı bik kızık. Kazan-abl take-conv return-pf book-3 very interesting ‘
+The book that Marat brought from Kazan is very interesting.’
+On the other hand, agreement may persist irrespectively of case marking. This is what happens in Amharic (Ethiopian/
+Semitic, Baker 2012) where primary object can be marked with accusative or embedded under the prepositional phrase. Object agreement is optional with accusative primary object (12a) and possible with prepositional primary object (12b). Thus, case variation in primary objects does not influence agreement options.
+(12) a. Ləmma wɨʃʃa-w-ɨn j-aj-al || j-aj-əw-al. dog-def-acc 3m.Su-see-aux.3m.
+Su 3m.Su-see-3m.Obj-aux.3m.
+Su
+Lemma sees the dog.’ L
+Aster lɨʤ-u-n assajj-əhw-at. dat
+Aster baby-def-acc show-1sg.Su-3f.
+Obj
+I showed the baby to Aster.’
+In section 4, I discuss the possible interpretation of the parameters outlined above within the syntactic models of case, but first, a brief characterization of the two formal theories of case assignment is due.
+3. Formal theories of case assignment
+In the formal syntactic literature, two major approaches to case assignment can be found. The first approach, which is mainly associated with Noam Chomsky’s work, considers case as a syntactic phenomenon that licenses N
+Ps; the second approach, put forward in the work by Alec Marantz, treats case as a postsyntactic, purely morphological phenomenon.
+In the modern minimalist syntactic approach (
+Chomsky 2000, 2001) Case is an unvalued uninterpretable feature of a noun phrase that has to be valued in the course of the derivation. In the Chomsky-style model, Case is assigned to a noun phrase under agree relation with a dedicated case-assigning head.
+In (13), the head F which has unvalued φ-features as a goal and seeks for an active bearer of valued φ-features its c-command domain. The D
+P with an unvalued Case and valued φ-features suits as a goal. The agree relation Lyutikova E. A.
+F and D
+P is established, and F values its φ-features copying the values accessible on the D
+P. The φ-complete F can, in its turn, value the case feature of the goal. Additionally, the second-order feature attract the goal D
+P into the projection of F
+P.
+(13)
+P
+P Two kinds of case-assigning heads can be distinguished: lexical heads, that assign case to their own arguments exclusively, and functional heads, that assign structural case to the nearest goal D
+P available in their c-command domain. Lexical heads assign the lexical (or inherent) case at the very moment of merging with their arguments, discharging their theta-roles; thus lexical case is syntactically local and theta-related.
+The characteristic properties of a structural case are: (i) its independence from a theta-role; (ii) its somewhat non-local nature and (iii) the non-obligatoriness of its realization. In view of these properties, three major structural cases are usually recognized: nominative, assigned by the finite predicative head T; accusative, assigned by the transitive light verb head v; and genitive, assigned by the (possessive) determiner head D.
+The competing configurational approach dates back to the seminal paper by Alec Marantz (
+Marantz 1991). The basic idea behind this approach is that (morphological) case assignment can be dependent not only on the presence of governing heads, but also on the presence of other noun phrases (“case competitors”) in the same syntactic domain.
+The category of case is organized hierarchically. Marantz distinguishes four distinct kinds of case, forming a disjunctive Case realization hierarchy (14). This hierarchy determines the order in which the different kinds of case shall be assigned.
+(14) Case realization disjunctive hierarchy:•	 lexically governed case•	 “dependent” case (accusative and ergative)•	 unmarked case (environment-sensitive)•	 default case
+First, the most specific lexically-governed case is assigned. Next, the rule of dependent case assignment applies. The dependent case rule requires a configuration where there are at least two caseless N
+Ps in the clausal domain. If this requirement is met, these noun phrases enter into case-competition. In accusative languages, the lower N
+P is marked with the “dependent” accusative case (15a), and in ergative languages, the higher N
+P is marked with the “dependent” ergative case (15b).
+Formal Modeling of Case Variation: a Parametric Approach (15) a.
+G
+Then, the rule of the unmarked case applies that marks any still case-less N
+P in a given syntactic domain with the dedicated case. Finally, if neither of the previous rules applied to an N
+P, it receives the default case. It is important that the universal availability of the default case realization in Marantz’s system means that case assignment is set apart from licensing: case as a purely morphological phenomenon only interprets the syntactic structure, but does not filter it out.
+Though some adherents of the approach pursue the postsyntactic analysis of case issues (Mc
+Fadden 2004; Bobaljik 2008), attempts have been made to incorporate the appealing idea of the “dependent” case assignment into the narrow syntax. Thus, in (
+Bittner, Hale 1996; Baker 2009, 2012, 2015; Preminger 2011, 2014; Kornfilt, Preminger 2015; Levin, Preminger 2015) the authors explore various paths of implementing configurational case assignment within the syntactic model of case. The basic innovations in the Marantz-style system include a more elaborate definition of case competition domains. Within the clause, more domains for case competition have been distinguished, e.g. V
+P and T
+P, which allowed to subsume dative case assigned in ditransitive constructions under a similar analysis.
+Although Marantz-style case assignment is construed as independent from agreement of lexical or functional heads (i.e. agree operation), the morphological case marking can in principle feed the agreement process (
+Bobaljik 2008; Preminger 2011, 2014). Thus, J. Bobaljik reinterprets E. Moravcsik’s (1974, 1978) hierarchy as the hierarchy of accessibility of case-marked D
+Ps as controllers of agreement (16). Agreement
+is said to be case-discriminating, in the sense that only those D
+Ps that bear a specific case are visible as goals for a probe looking for a source of valued φ-features.
+(16) unmarked case ≫dependent case ≫ lexical case
+In the series of papers by J. Kornfilt (
+Kornfilt 2013; Kornfilt, Preminger 2015) a further refinement of the configurational analysis is put forward: “nominative” and “genitive” are considered as descriptive labels for caseless N
+Ps. In her system, agreement targets caseless N
+Ps exclusively.
+In the next section, I address the question of how case variation can be implemented within the proposed systems.
+4. Evaluating theories
+Let us start with discussing explanatory mechanisms available for the two theories. Lexical case assignment seems to be treated similarly in both of them, so the difference is in explaining DC
+M involving structural cases.
+Lyutikova E. A.
+seems that the configurational case assignment model has only one explanatory mechanism based on the positional alternative. If a noun phrase exhibit differential structural case marking, it may belong to different domains of case assignment, or its domain of case assignment may contain or lack a potential case competitor. This is how various factors licensing structural case variation are to be modeled.
+Chomsky-style case assignment is more flexible in that it allows various mechanisms of modeling factors triggering case variation. External factors like telicity, perfectivity or polarity are naturally conceived as (features of) functional heads that assign a structural case to D
+Ps. The impact of factors internal to the noun phrase can be analyzed as a split morphological realization of the same syntactic case. Besides, as case assignment obeys at least phase-level locality and relativized minimality, the positional alternative is also an option for the Chomsky-style model.
+Now we can proceed to the parameters of DC
+M.
+The locality parameter distinguishes the local DC
+M and the two types of the nonlocal DC
+M: predicate-determined and coargument-determined. The local DC
+M is easily implemented in the Chomsky-style syntactic case theory, e.g. as a morphologically conditioned realization of the syntactic case, as a parametrization of the case filter allowing structurally deficient nominals to remain caseless (
+Lyutikova 2014) or as positionally distributed case options available for noun phrases with different features. Configurational case theory can only rely on the positional alternative. Predicatedetermined DC
+M is best conceived as the interdependence between a predicate with a specific feature and an argument selected by it. This is exactly what the “case assignment by functional heads” theory proposes. For the configurational case theory, modeling of predicate-determined DC
+M has to be mediated by the reorganization of structural configurations, whereby the licensing factor (e.g. imperfective aspect) is associated with more case domains than its counterpart (i.e. perfective aspect). Although sometimes it is indeed the case (thus, biabsolutive constructions in Basque or Tsez have been claimed to be biclausal), extending this mechanism to all cases of predicate-determined DC
+M is not an attractive decision. On the contrary, coargument-determined DC
+M is best subsumed under the configurational model. In example (7) above DS
+M is easily modeled as depending on the presence or absence of the case competitor—the internal argument without lexical case. For a Chomsky-style model, the analysis of (7) involves ergative-assigning and nominative-assigning functional heads, and their choice should somehow depend on the case assigned to the internal argument.
+In both models, semantic motivation can be easily implemented if it yields the lexical case assignment (cf. Genitive of negation in Russian). If the DC
+M involves two structural cases, the explanatory proficiency of the two theories differs. In the minimalist theory the regular semantically motivated case, such as instrumental in (8b), can be interpreted as a theta-related case assigned to an argument by a functional head (this is E. Woolford’s (2006) analysis of ergative and dative). In the configurational case theory, however, all non-lexical cases (such as ergative, dative, or instrumental) are semantically as empty as the accusative or nominative.
+Positional distribution accompanying the DC
+M is in the very heart of the configurational model. If case variation occurs in the same syntactic position and involves structural cases, as is the case in Tatar DO
+M (10), the configurational model Formal Modeling of Case Variation: a Parametric Approach is handicapped. As for the Chomsky-style model, it can deal with both positionally dependent and independent DC
+M.
+The interdependence of case assignment and agreement is an attribute of the minimalist case theory. It presupposes one-to-one correspondence between agreement and case, because valuing the φ-features of the functional head enables it to assign case to the goal D
+P. If no overt agreement is associated with case marking, one can hypothesize that the agree operation still takes place but is not realized morphologically. It is much more difficult to explain the optionality of agreement (12a) and the immunity of agreement to case variation (12b).
+The configurational model accounts easily for various kinds of splits between agreement and case assignment. If a strong correlation between case and agreement exists (e.g. only nominative subjects control predicative agreement, and predicative agreement is obligatory if there is a nominative subject), the mechanism of case discrimination can be exploited. The weak point of this mechanism is that it predicts the possibility of the multiple agreement of different heads with the same D
+P. If this option is undesirable on empirical grounds, the configurational model fails to exclude it.
+Evaluation of case theories in representing various types of DC
+M is summarized in formal theories of case assignment
+Parameter Minimalist case theory Configurational case theory
+Locality local DC
+Mpredicate-determined DC
+Mlocal DC
+Mcoargument-determined DCM
+Semantic motivationeasily representable non-representable outside of lexical government
+Positional distributionnon-obligatory obligatory
+Correlation with agreementstrong correlation various splits between case and agreement5. Conclusions
+In this paper, I considered the two most elaborated formal theories of case—the minimalist syntactic case theory and the configurational case theory—and explored their expressive power in modeling various types of differential case marking. I showed that none of the theories is superior to the other—rather, each of them has its own strengths and weaknesses in modeling different types of case variation. However, this conclusion should not disappoint us. It seems that the mere existence of various patterns of DC
+M calls for the elaboration of various models of case assignment—at least until the uniform theory of case, flexible enough to account equally well for all attested types of DC
+M, and restrictive enough to exclude unattested types, Lyutikova E. A.
+proposed. Meanwhile, we should be aware of different theories, their potential and their limitations, in order to choose the right model for the empirical data.
+Addressing applicability of the study to NL
+P, I shall emphasize that linguistic rules possibly employed in argument structure retrieval are not required to constitute a uniform theoretical system. Thus, we can adjust the specific mechanisms of the two models discussed in this papers to specific DC
+M phenomena of a specific language, to the effect that, for example, in Balkar the identification of the causee can be determined configurationally, but the identification of the possessor can be based on the presence of an agreeing nominal head. Interestingly, such a hybrid theoretical system aiming at more natural relations of facts and theories has been proposed recently for Sakha (
+Baker, Vinokurova 2010). It seems that exactly this sort of models is in demand in computational linguistics.
+Abbreviations1—1st person; 3—3rd person; AB
+L—ablative; AC
+C—accusative; AG
+T—agent;
+AO
+R—aorist; AU
+X—auxiliary; CAU
+S—causative; COMI
+T—comitative; CON
+V—converb; D—determiner (syntactic category); DA
+T—dative; DC
+M—differential case marking; DE
+F—definite; DE
+T—determiner (lexical item); DO
+M—differential object marking; D
+P—determiner phrase; DS
+M—differential subject marking; EP
+P—extended projection principle; ER
+G—ergative; F—feminine; GE
+N—genitive; INST
+R—instrumental; IP
+F—imperfective; LA
+T—lative; M—masculine; NM
+L—nominalization; NO
+M—nominative; N
+P—noun phrase; OB
+J—object agreement; OB
+L—oblique stem; O
+M—object marker; PAR
+T—partitive; PA
+T—patient; P
+F—perfective; P
+L—plural; PR
+S—present; PS
+T—past; S
+G—singular; S
+U—subject agreement; SU
+P—super (localization); T
+P—tense phrase (clause); V
+P—verbal phrase; φ-features—person, number, nominal class features.

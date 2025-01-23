@@ -1,0 +1,257 @@
+Automatic news feeds and aggregators are a common way to read, search and analyze news. Eventclustering is one of the core features for many news aggregators, including Google News and Yandex
+News. The news event clustering task is to collect news from different news agencies about the sameevent. It is essential to present all events from different perspectives to create a comprehensive picture.
+Moreover, selecting the most suitable headline and other entities is possible only within such clusters.
+The task can also be helpful for news monitoring systems. Correct clustering should help to accuratelycalculate any statistics about events, companies, or people’s mentions in the news.
+As for natural language research, this task is a good benchmark for different text clusterization or classification models. For example, the models should identify various types of paraphrasing and recognizenamed entities to distinguish clusters correctly.
+After event clustering, it is necessary to choose the most relevant headline for every cluster. Thus, itis the headline selection task. One can define relevance in many ways. We provide a list of criteria bywhich a title can be considered suitable. The main points of this list are informativeness and the absenceof clickbait.
+Instead of choosing one of the existing headlines, one can generate a completely novel headline basedon news texts. The main reason to do this is to evade the situations where all presented headlines areinadequate.
+To solve these three problems, we composed a shared task as a part of the Dialogue 2021 conference1.
+These three problems are considered as independent tasks and evaluated separately. We provided datasetsfor each of them and hosted Kaggle-like competitions on the Coda
+Lab platform to determine the bestmodels.
+The primary source of data for all tasks is the Telegram Data Clustering contest2. Telegram conductedit in 2020. The task was to build a news aggregator over a provided document collection. The subtaskswere language detection, category detection, and event clustering. Only HTM
+L documents without anyadditional annotations were given.
+The contributions of our paper are as follows: we present datasets for the Russian news event clustering, headline selection, and headline generation tasks along with baselines. The first two datasets are thefirst of their kind for the Russian language. The last one is the first dataset for headline generation for
+Russian with multiple reference headlines. Furthermore, we present and analyze some of the works ofthe shared task participants.
+2 Related work
+Many works on event clustering exist. This task is also known as "documental event detection" or just"event detection". We will use these names as synonyms in this paper.
+The Topic Detection and Tracking (TD
+T) initiative the first significant effort for this task. Theevent detection task was a part of TD
+T. There were only 25 events in the dataset. The CM
+U approachused TF-ID
+F embeddings, hierarchical agglomerative clustering with average linking, and a time windowwith incremental ID
+F for online detection.
+Azzopardi et al. used TF-ID
+F document representations and incremental k-means clustering withcosine similarity between these representations. There were no human annotations involved, and thecomparison was with Google News automatic clustering.
+Miranda et al. focused on cross-lingual clustering. They used TF-ID
+F document representationwith separate vectors for different document sections and incremental centroid clustering. There werealso two versions of these representations: monolingual and cross-lingual. They introduced a multilingual dataset adapted from Rupnik et al. containing articles in English, Spanish and German. Itwas manually annotated with monolingual and cross-lingual event labels. Linger et al. utilized thesame multilingual dataset, but used the multilingual DistilBER
+T and the Sentence-BER
+T tripletnetwork structure for multilingual document representation.
+There are some works on news clustering that focus on thematic news clustering instead of eventclustering (with categories like "sports" or "technologies") .
+There are few papers on Russian news event clustering. Dobrov et al. described event clusteringon a ROMI
+P-2006 news collection. Three different document representations were utilized: TF-ID
+F fortexts, TF-ID
+F for titles, and a conceptual index. Several clustering methods were used, including hierarchical clustering, DBSCA
+N, and centroid clusterings. They utilized custom software for creatinga manual reference clustering.
+Voropaev et al. used the same document collection we do, Telegram Data Clustering contest document collection, but without a large-scale manual markup. They took the solution of one of the Telegramcontest participants as a reference clustering. They utilized TF-ID
+F, BER
+T, LASE
+R for document representation, and hierarchical clustering or DBSCA
+N.
+1http://www.dialog-21.ru/evaluation/
+2https://contest.com/docs/data_clustering2
+Gusev I. O., Smurov I. M.
+As for headline selection, we did not find any papers with a similar task definition. However, there areseveral works on clickbait detection in headlines which is a part of our task.
+The headline generation is a well-covered task in previous papers. Statistical models for news headlinegeneration in Banko et al. are among the first approaches to this task. Takase et al. were the firstto use encoder-decoder neural models for headline generation. In 2019, there was a Dialogue Evaluationshared task for Russian news headline generation. The main drawback of the 2019 shared task wasthe fact that it was about single-document headline generation. It means that there was only one actualheadline for every article, so automatic evaluation methods were not effective in this setup.
+3 Clustering
+3.1 Data and metrics
+For the first two tasks, we took news documents from the Telegram Data Clustering contest coveringthree days of May 2020. After using all baseline clustering algorithms, we sampled a set of documentpairs from their output and included a small number of random pairs. Next, we annotated every pair with
+Yandex Toloka, a Russian crowdsourcing platform. The task was to determine whether two documentsdescribe the same event. The annotators were provided with a comprehensive guide and a simple heuristic: "if two titles of two documents are interchangeable, these documents are from the same cluster".
+Five people annotated each pair. Annotators were required to pass training, exam, and their work wascontinuously evaluated through the control pairs ("honeypots"). We included only pairs with an agreement of 4/5 or 5/5 in the final markup.
+May 25 May 27 May 29#
+Documents 19380 20080 19096#
+Pairs 14838 8493 8476#
+Positives 7301 3918 3896
+Fraction of positives 49.2% 46.1% 46.0%
+The final statistics for every day are shown in document collection and at least 500 unique news agencies. The top 5 news agencies by the number ofdocuments are shown in Figure 1.
+Host #
+Documentstass.ru 645lenta.ru 301www.mk.ru 223www.rosbalt.ru 199ura.news 188
+According to annotation guidelines, a pair of documents refer to the same cluster when they havethe same: time of the event; numbers, such as the stock price of a company or the number of victims;locations. A pair of documents are not from the same cluster when they contain: inconsistent facts, suchas the time or place of the event or significantly distinguished number of victims; description of an eventin one of the documents, and a commentary on this event in another document. These criteria are similarto the definition of an event in TD
+T.
+We do not publish documents themselves, only two UR
+Ls and an annotation result, to evade legalissues. However, Telegram shares archives with all documents, so it is easy to join documents and
+Russian News Clustering and Headline Selection Shared Taskannotations. An example of the joining process can be found in the baseline script3. No additionalscraping is needed.
+In the shared task rules, we forbade the use of any news documents from the test set for trainingor pretraining, including pretraining word vectors on these documents. In the real world, texts are notavailable for the model in advance, so the tested models must not use the test-time texts in any way.
+However, it was permissible to use texts with earlier dates from the Telegram contest for pretraining.
+It is possible to collect non-pairwise annotations for clustering with crowdsourcing methods, but it ishard to organize proper quality control of the annotation process. Non-pairwise annotations we know offor event detection were done by experts, not via crowdsourcing.
+As the primary metric for this task, we chose F1-score (corresponds to Dice similarity coefficient forclustering). The proper clustering metrics like Adjusted Rand Index are not directly applicable toour dataset as we have no reference clustering for all documents. Several dozen possible pair-countingbased clustering metrics are available, and it is an active research question what metric is better.
+As for our choice, we decided that the metric should be interpretable from the classification perspective,and our classes are imbalanced, so we chose F1.
+3.2 Baselines
+As a baseline clustering algorithm, we utilized hierarchical agglomerative clustering with average linking.
+We used different pretrained embeddings with cosine similarity to compute the distance matrix. Thesimplest ones are Fast
+Text text embeddings, TF-ID
+F with truncated SV
+D for dimensionality reduction (latent semantic analysis, LS
+A), and Universal Sentence Encoder (US
+E). Fast
+Text textembeddings are computed as a concatenation of average, maximum, and minimum of Fast
+Text wordembeddings. The examples of clusters based on US
+E embeddings are shown in Figure 2.
+Text2
+Title embeddings are Fast
+Text embeddings with an additional linear matrix trained to determinewhether a headline and a text are from the same document. HNS
+W index on the original Fast
+Textembeddings was used to mine hard negatives for the triplet loss. The model architecture is depictedon Figure 3. The main advantage of this model is its speed, as it consists of only one linear layer on topof the Fast
+Text embedding.
+3https://github.com/dialogue-evaluation/Russian-News-Clustering-and-Headline
+Generation/blob/main/baselines.ipynb
+Gusev I. O., Smurov I. M.5
+Russian News Clustering and Headline Selection Shared TaskTTGen
+Bottleneck is a BER
+T seq2seq model based on RuBER
+T with practically disabled crossattention between encoder and decoder. It was trained to predict a headline for a document. "
+Bottleneck"is the encoder embedding of the first token: the only embedding decoder can attend. We design it4 tocontain all information from the text needed to generate a headline.
+We emphasize that none of the baseline models were fine-tuned to the news event detection task in anyway.
+We present the results of all baselines in as additional pretraining helps to create more representative embeddings. TTGen
+Bottleneck is the bestbaseline model.
+Model Validation Public L
+B Private LBTTGen
+Bottleneck 93.4 93.9 93.7US
+E 89.3 89.4 87.8Text2
+Title 86.5 86.4 84.8LS
+A 83.1 82.7 80.5Fast
+Text 80.9 81.9 80.13.3 Results
+The task can be solved both as a classification task or as a clustering task. The baselines were for theclustering only, but many participants preferred to use classification models.
+The final results are in participants had to resubmit their answers. Not all of them managed to do that.
+Rank Codalab login Public L
+B Private L
+B1 maelstorm 5 96.9 96.0
+2 naergvae 96.0
+3 g2tmn 96.5 95.7
+4 Kouki 95.5
+5 alexey.artsukevich 95.8 95.3
+6 smekur 93.9
+7 nikyudin 93.8 93.0
+8 landges 91.6 90.6
+9 kapant 90.7 89.9
+10 bond005 90.2 89.2
+11 anonym 90.6 89.1
+12 mashkka_t 71.5
+13 vatolinalex 47.6
+blanchefort 94.1imroggen 90.3Abiks 89.4dinabpr
+Gusev/gen_title_tg_bottleneck_encoder
+5
+Leonid Pugachev and Alim Adelshin, Deep
+Pavlov
+6https://github.com/oldaandozerskaya/D
+E2021_news_similarity
+Gusev I. O., Smurov I. M.
+The best solution was a classification model, an ensemble of 4 bert-base-multilingual models trainedwith stochastic weight averaging (SW
+A). The second-placed model was also classification-based andconsisted of a single RuBER
+T in a standard pair classification setting. Finally, the third-placed modelwas a hard-voting classification ensemble of RuBER
+T models.
+The best clustering-based model (4th place overall) was based on SBER
+T: a siamese BER
+T modelover RuBER
+T. The authors improved the model by using Global Multihead Pooling and contrastive loss. It should be noted that this model scored only 0.005 F1 less than the best classification modelon the private test. Additionally, this is the only model that did not experience score deduction on theprivate test set compared to the public set.
+Unsurprisingly all top-placed models utilized pretrained masked language models. In particular, thetop three classification-based models and the best clustering-based model (4th place overall) all usedBER
+T. The best solution not utilizing language model embeddings was able to score 0.930 F1 (7thplace overall) and had the following architecture: Cat
+Boost over Fast
+Text and US
+E as well assome handcrafted features (hyperlinks and named entities intersections).
+Another system of note is GP
+T-3-based zero-shot model. The idea is as follows: the two headlines’perplexity is computed and compared to thresholds. While the final score is rather unimpressive, 0.7 F1,the completely unsupervised nature of training makes this result worth mentioning.
+4 Headline selection
+4.1 Data and metrics
+The documents for this task are from the same collection as the documents for the clustering task. Thetask was, for each given pair of headlines, to predict which headline is better. There are four possibleoptions: "left", "right", "draw", and "bad". The "bad" option is for the case if two headlines are fromdifferent news events. Annotation conditions are the same as for the clustering task. According toannotation guidelines, one headline is better than the other if some of the following conditions are met:it contains more information than the other; it does not hide any details; it does not contain undefinedentities; it has no grammatical errors; it is not emotional; it is not too wordy. Some of these criteria aresubjective, so we use only examples with high agreement to reduce subjectivity.
+The final statistics for every day are shown in May 25 May 27 May 29#
+Pairs 5091 3147 3103#
+Left won 2185 1254 1216#
+Right won 2167 1269 1207#
+Draw 362 184 161#
+Bad 377 440 518
+The primary metric for this task is weighted accuracy. The dataset contains a lot of "bad" examples.
+They were added to the dataset to prevent data leaks for the clustering task. We ignore them in thedenominator and numerator. The systems can predict any label for them. For the other three labels,scores in the numerator are calculated as stated in predictions for the "draw" pairs should not be penalized as hard as "left/right" errors. We do not provide
+F1-scores, as the dataset is balanced, and the only information these scores add to accuracy is how well"draw" pairs are detected.
+4.2 Baseline
+We used a ranking gradient boosting model (Cat
+Boost) with US
+E embeddings as features and Pair
+Logit loss as a baseline for this task. This Cat
+Boost mode is designed to take pairs as input, so it fits the
+Russian News Clustering and Headline Selection Shared Task
+Left Right Draw
+Left 1.0 0.0 0.5
+Right 0.0 1.0 0.5
+Draw 0.5 0.5 1.0task perfectly. We present the result accuracy of this model in 𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃(𝑝𝑝𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑝 𝑃𝑃𝑝𝑝𝑃𝑃) = −∑︁𝑝𝑝𝑝𝑝𝑝∈𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑙𝑙𝑃𝑃𝑃𝑃(1 + 𝑝𝑝−(𝑝𝑝𝑟𝑟𝑝𝑝𝑝𝑝−𝑝𝑝𝑟𝑟𝑝𝑝𝑛𝑛))
+Model Validation Public L
+B Private LBUS
+E + Catboost 81.0 ± 1.5 81.2 ± 0.5 81.1 ± 0.44.3 Results
+Most of the successful submissions are based on the same schema as the baseline. The results arepresented in ensemble of ranking models trained on different embeddings, including US
+E, SBER
+T, RuBERT,XLM
+R, and m
+T5. The most effective single model was m
+T5.
+Rank Codalab login Public L
+B Private L
+B1 sopilnyak 85.4
+2 landges 81.3 82.0
+3 nikyudin 83.2 81.6
+4 LOLKE
+K 80.8 81.4
+5 maelstorm 81.8 79.8
+6 a.korolev 65.8 66.2
+5 Headline generation
+5.1 Data and metrics
+In this track, the task was to generate a headline for a news cluster. It should be similar to any of theheadlines of cluster documents. Other formulations to this task are possible. For example, there is a muchmore complicated task formulation where one should generate a headline similar to the best headline ofthe cluster. However, we chose the weak formulation as it does not require any annotation. We were notable to use the documents and annotations of the first two tracks because of possible data leaks.
+To make a dataset entirely unknown for participants, we scraped news documents from a test versionof the Telegram news aggregator7 from March 9 to March 12, 2021. We used the TTGen
+Bottleneckclustering method with a distance threshold skewed into precision to the detriment of recall, as it formsvery restricted clusters.
+We made available for participants only clustered document texts without any headlines or additionalmeta information. There are 6726 documents and 1035 clusters in the dataset.
+7https://1398.topnews.com/ru/
+Gusev I. O., Smurov I. M.
+This formulation can be considered more robust than the single document (and single news agency) headline generation as it does not force the model to generate a headline in a particular style to getgood automatic metrics.
+We use traditional automatic metrics for headline generation, ROUG
+E, and BLE
+U. We calculate metrics between a predicted headline and every actual headline of a cluster and use the maximumscore as a prediction score.
+5.2 Baselines
+There are two baselines for this track. The first is Random Lead-1, where we choose the first sentenceof a random document from the cluster as a baseline. The second baseline is a generative sequence tosequence RuBER
+T trained on news text-title pairs from the Telegram contest8. We generate aheadline for every text in the cluster and choose randomly from them. We present the metrics for thebaselines in Model ROUG
+E BLE
+U ROUG
+E-1 ROUG
+E-2 ROUGE-L
+Seq2seq RuBER
+T 44.9 ± 0.3 74.5 ± 0.5 52.5 ± 0.4 32.8 ± 0.4 49.5 ± 0.5
+Random Lead-1 30.2 ± 0.5 47.8 ± 0.4 36.8 ± 0.6 20.4 ± 0.4 33.6 ± 0.65.3 Results
+There were only two participants in this track, mainly because of hard time restrictions. Their scores canbe seen in Table 10. The baseline remained unbeaten.
+The solution by Rybolos was based on fine-tuning the ruGP
+T-3 Large model. We suppose theirmetrics are low compared to baselines because of possible technical error or only a tiny part of thedataset used for training.
+Codalab login ROUG
+E BLE
+U ROUG
+E-1 ROUG
+E-2 ROUGE-LLOLKE
+K 38.7 69.5 46.3 26.4 43.3
+Rybolos 29.2 59.6 36.5 17.6 33.5
+Table 10: Final results of the headline generation track, in %6 Conclusion
+6.1 Reproducibility
+All materials of the shared task are available at the official repository9, including all data, annotationguidelines, baselines, and links to the Coda
+Lab competitions. The competitions themselves will bepermanently open in order to make comparison easier for new researchers.
+6.2 Organization notes
+The timeline was as follows:• February 8: Clustering task started on Codalab.
+• February 26: Headline selection task started on Codalab.
+• March 13: Headline generation task started on Codalab.
+• March 22: Final deadline for all competitions.
+• March 28: Final deadline for paper submission.
+8https://huggingface.co/Ilya
+Gusev/rubert_telegram_headlines
+9https://github.com/dialogue-evaluation/Russian-News-Clustering-and-Headline-Generation
+Russian News Clustering and Headline Selection Shared Task
+The main reason for a short time window for submissions for the last task was that it was unclearwhere to get previously unseen data from roughly the same domain. We should have solved this questioneven before the shared task was announced. Unfortunately, the news clustering task was the only onethat we fully prepared before the start.
+The other major problem was with the private leaderboard for the clustering task, as the initial privatepart of the test dataset was a copy of a public part by our technical mistake, so it was impossible tomeasure metrics without resubmitting answers.
+6.3 General conclusions
+In the event detection task, most of the successful models were classification-based BER
+T models. However, it turns out clustering embeddings can be almost as effective when trained with correct pooling andloss function. Moreover, they generalize better, they are easier to deploy, and they are more computationally effective. It is arguably the most important takeaway of the shared task.
+Unsurprisingly, big multilingual models and ensembles showed the best metrics in the headline selection task. Nevertheless, the task participants did not diverge much from the baseline solution, so we hopemore sophisticated schemas and models will be developed in the future.
+There was only one week to develop a valid generative model in the headline generation task. Only twoparticipants managed to present a complete model in these challenging time restrictions, so we considerthis track results inconclusive. However, the dataset itself can be helpful in future research.
+6.4 Future research
+There are several possible directions for future research:1. Finding models with good accuracy/speed trade-offs is a very promising research path. Almost all
+of the models used by participants were extremely parameter-heavy and slow. Distillation of thesemodels into lightweight ones is needed in order to enable their use in production systems.
+2. Different clustering methods should be inspected. Solutions for the clustering task were
+agglomerative-centered — almost no one used BIRC
+H clustering, and only a few people usedDBSCA
+N and its modifications.
+3. The Telegram Data Clustering news documents are multilingual, so datasets and models should
+be multilingual too. We created only a Russian dataset because we used a Russian crowdsourcingplatform and had a constrained money budget. There are no principal reasons why these datasetsshould not be multilingual.
+4. The existing clustering dataset is focused on 24-hour time windows. Clustering on more extensive
+periods can be significantly harder. Moreover, online event detection (as it originally was in TD
+T)is also possible and requires windowed or incremental clustering.
+5. Synthetic checklists can be used to evaluate the quality of event detection and headline selection.
+It is easy to create pairs of documents differing only in numbers, entities, or time of an event.
+6. As for the headline generation task, the clustering enables proper conditioning. It is possible to
+train a model to write headlines in the style of the particular news agency without a thematic bias,as agencies will be equally presented in clusters.
+7. It is possible to revisit other TD
+T tasks in light of recent advances in building document representations with big pretrained models like BER
+T.
+Acknowledgements
+We would like to thank the participants of all three tracks, especially Tatiana Shavrina, Ivan Bondarenko,and Nikita Yudin for helpful comments and valuable suggestions.

@@ -1,0 +1,169 @@
+This year within Russian Information Retrieval Seminar a new sentiment analysis track was offered to the participants. This track had three tasks related to the classification of documents by sentiment expressed in them:•	 two-class classification task,•	 three-class classification task,
+Chetviorkin I. I.
+five-class classification task.
+In addition the documents (blog posts) from the test collection were about entities from various domains: books, movies and digital cameras. Each domain requires extra tuning of the algorithms and it can be difficult to achieve a good performance in all domains.
+The easiest task is to classify reviews into two classes: positive and negative . Quality of two-way classification using the topic-based categorization approach for reviews exceeds 80 % . In quality of review classification, based on the so-called appraisal taxonomy, is described as 90.2 %.
+However, when we turn to the problem of review division into three classes, the quality of automatic classification decreases to 75 % after an adjustment to an individual author's style, and 66.3 % in a case of author independent test collection .
+In rating-inference problem with four classes reported accuracy is 54.6 % using metric labeling formulation 59.2 % using graph-based semi-supervised learning algorithm with adjustment to an author style .
+Recently we had conducted the similar research for the three-way classification problem in the movie domain . It was interesting to compare our results with other participants and to try to utilize our approach in the two-class and five-class tasks in various domains.
+In the current paper we describe our classification approach using such features as word weights, opinion words and polarity influencers. We have submitted five runs for the three-way classification task in the movie domain and one run (with complete set of features) for all other combinations of tasks and domains.
+The reminder of this paper is structured as follows. Section 2 provides a short description of the training collections. Section 3 briefly describes our approach to the sentiment classification. Section 4 gives an overview of our submission results. We provide concluding remarks in Section 5.
+2. Data Collections
+All participants were granted three train collections, one for each domain (for score distribution in these collections see ). But we had created our own collections from the same sources earlier. It was more convenient for us to use our collections in the experiments.
+Our movie and book collections (28,773 and 15,113 reviews accordingly) were collected from the online recommendation service www.imhonet.ru. Each review in these collections had user’s score on a ten-point scale. The digital camera review collection (8,181 reviews) was collected from the Yandex.
+Market service and had user's score on a five-point scale. Score distributions in there three collections can be found in Fig.1–3.
+Testing the sentiment classification approach in various domains — ROMI
+P 2011 1. Score distribution in the movie review collection
+Figure 2. Score distribution in the book review collection
+Figure 3. Score distribution in the camera review collection
+Chetviorkin I. I.
+addition all participants gained the test collection with 16,821 blog posts about various entities.
+3. Sentiment Classification Algorithm
+In the sentiment classification track we used the same approach as provided in . We will shortly describe the main points of our algorithm and major changes, which were applied to it in correspondence with the various tasks and domains.
+3.1. Features for review classification
+In this research we utilized the best feature combinations which were obtained during the three-way classification experiments in the movie domain . To improve the quality of the review classification we analyzed the following features:•	 word weights based on different collections,•	 opinion words,•	 use of polarity influencers: they may reverse or enhance (not, very) polarity of other words,•	 length and structure of reviews,•	 use of punctuation marks
+The best results were achieved using the bag of words (all words from the train collection with frequencies higher than four), TFID
+F word weights, polarity influencers and opinion word weights.
+TFIDF
+The main elements of our feature set were lemmas, which appeared in the train collection more than three times. The simplest approach for document classification was to create feature vectors using binary weights of words, but not the most effective.
+To improve the quality of classification we used TFID
+F weights lemmas with inversed document frequency calculated using the news collection with one million documents.
+TFID
+F (l) = β + (1β)∙tf(l)∙idf(l)dlavgdllfreqlfreqltfDDD
+D_5.15.0)(
+)()(⋅++=)1log())(5.0
+log()(++=cldfclidf
+Testing the sentiment classification approach in various domains — ROMI
+P 2011 freq
+D(l) — number of occurrences of l in a document D,•	 dl D(l) — length measure of a document D, in our case, it is number of terms in a review,•	 avg_dl — average length of a document,•	 df(l) — number of documents in a collection (e. g. description or news collection) where term l appears,•	 β = 0.4,•	 |c| — total number of documents in a collection.
+Opinion words
+Opinion words are the main polarity carriers in a text. We tried to utilize them in various ways in a combination with a bag of words . Only one useful variant was found: to modify word weights accordingly to opinion word weights in the extraction model.
+We used our algorithm extract high quality domain dependent opinion words. To generate the list of such words, four text collections were exploited: the review collection about entities from a specific domain, the collection of entity descriptions, the special small corpus and the collection of general news. On the basis of these collections a set of statistical features for words mentioned in reviews was calculated. We trained our model using word feature vectors in the movie domain and then utilized this model in two other domains. As a result we obtained a list of sentiment words for each domain, ordered by the predicted probability of their opinion orientation (opinion weight).
+There are examples of opinion words with high probability value in the movie domain:•	 Trogatel’nyi (affecting), otstoi (trash), fignia (crap), otvratitel’no (disgustingly), posredstvenniy (satisfactory), predskazuemyi (predictable), ljubimyj (love) etc.
+In the review classification tasks we modified the weight of each word in the feature vectors as follows:5.0)()()( −⋅= xopinweightexTFID
+Fxwordweight
+Thus, we increased weights of words with high opinion weight, and decreased weights of other words.
+Polarity influencers
+We used the same set of polarity influencers in all domains:•	 operator (–): net (no), ne (not);•	 operator (+): polnyj (full), ochen' (very), sil'no (strongly), takoj (such), prosto (simply), absoljutno (absolutely), nastol'ko (so), samyj (the most).
+Chetviorkin I. I.
+the basis of this polarity shifter list we substituted sequences “polarity influencer word” using special operator symbols (“+” or “–“) depending on an polarity shifter, for example:N
+E HOROS
+HĲ (NO
+T GOO
+D) → –HOROS
+HĲ (— GOOD)SAMY
+J KRASIVY
+J (TH
+E MOS
+T BEAUTIFU
+L) → + KRASIVY
+J (+ BEAUTIFUL)NASTOL'K
+O KRASIVY
+J (S
+O BEAUTIFU
+L) → + KRASIVY
+J (+ BEAUTIFUL)
+Thus we added to the review vector representation only the operator phrases but not both words. It allowed us to take into account the impact of the polarity influencers.
+3.2. Classification algorithm
+Authors of previous studies almost unanimously agreed that Support Vector Machine algorithm works better for text classification tasks (and review classification in particular) . In view of the fact that we had a large amount of data and features (bag of words), library LIBLINEA
+R was chosen . All parameters of the algorithm were left in accordance with their default values.
+3.3. Scale mapping
+To train our algorithm for classification in a certain scale, we need to map scores from the train collection scale to the task scale. We used the following mapping functions:•	 Two-class task: {1–7} → “1” (thumbs down), {8–10} → “3” (thumbs up)•	 Three-class task: {1–6} → “1” (thumbs down), {7–8} → “2” (so-so), {9–10} → “3” (thumbs up)•	 Five-class task: {1–3} → “1”, {4–5} → “2”, {6–7} → “3”, {8} → “4”, {9–10} → “5”
+For the digital camera collection we firstly multiplied each user's score by two and then used aforementioned mapping schemes.
+It is rather important to choose a correct mapping function. We investigated the best mapping functions for the three-way classification problem in previous studies . For the two other tasks we used our insights to define the mapping functions.
+4. Results Overview
+We have submitted five runs for the three-class task in the movie domain:•	 Bag of words with TFID
+F word weights (Bo
+W+tfidf)•	 Bag of words with opinion word weights (Bo
+W+opweight)•	 Bag of words with combination of TFID
+F and opinion weights. We took only the first thousand of the most probable opinion words (Bo
+W+tfidf+opweigh1000).
+Testing the sentiment classification approach in various domains — ROMI
+P 2011 Bag of words with combination of TFID
+F and opinion word weights. We took only first ten thousand of the most probable opinion words (Bo
+W+tfidf+opweight10000).
+•	 Bag of words with combination of TFID
+F and opinion word weights. We took opinion weights for all words from the bag of words (Bo
+W+tfidf+opweight).
+For all the other pairs of tasks and domains we submitted only one run with Bo
+W+tfidf+opweight set of features.
+Besides we continued our study of the proposed tasks after the ROMI
+P deadlines and present our unofficial runs (in italic) in the same tables.
+To obtain our first unofficial run 1,393 review duplicates were excluded from our book review collection. On the basis of such collection we obtained slightly better results. We marked such runs with “nodupl” postfix in the result tables.
+Further we were interested to compare the results of our algorithm trained on the ROMI
+P data collections with the results of the algorithm trained on our data collections. In this way we retrained the classification model in each domain and evaluated it. These results were marked with “romip” postfix in corresponding tables.
+4.1. Official metrics
+There were a large amount of available metrics for evaluation . To evaluate the performance of our algorithm we used macro_precision, macro_recall, macro_
+F-measure, accuracy and average Euclidian distance.
+In addition two evaluation schemes were offered:•	 AN
+D, in evaluation involved only those reviews, which had the same score from both assessors (only for two-class classification)•	 O
+R, we considered the answer of the algorithm as the right one if it matched with at least one of the assessors.
+4.2. Three-class task
+We started our study of sentiment classification with the three-class classification task. We had the best results in the classification of reviews about digital cameras and movies accordingly to accuracy and macro_
+F measures. In the book domain our algorithm was the second one accordingly to macro_
+F and fifth accordingly to the accuracy. The results can be found in Four out of five of our runs in the movie domain had no statistically significant differences (
+Wilcoxon signed-rank test/
+Two-tailed test, α = 0.05), and the result of one of them was considerably worse. Thus TFID
+F word weights were very important for the quality of the classification but the amount of opinion words had no crucial meaning.
+The exclusion of book review duplicates had improved all primary measures. In this case our macro_
+F result was the best in the book domain. Training on ROMI
+P collections gave roughly the same results in book and camera domains, but worse results in the movie domain. We discuss these differences in Section 4.5.
+Chetviorkin I. I.
+
+D Object Macro_
+Prec Macro_
+Rec Macro_
+F Accuracyxxx-3 book 0.677 0.532 0.577 0.756xxx-43tfidf_opbook 0.671 0.517 0.570 0.756xxx-11 book 0.658 0.475 0.488 0.771
+Baseline book 0.227 0.333 0.270 0.68tfidf_opnoduplbook 0.679 0.525 0.578 0.76tfidf_opromipbook 0.664 0.510 0.571 0.76yyy-3tfidf_opcamera 0.843 0.594 0.663 0.841yyy-11 camera 0.797 0.596 0.661 0.815
+Baseline camera 0.216 0.333 0.262 0.648tfidf_opromipcamera 0.804 0.598 0.658 0.837zzz-10tfidf_opfilm 0.671 0.535 0.592 0.754zzz-19tfidf_op1000film 0.657 0.526 0.583 0.754zzz-9tfidf_op10000film 0.660 0.524 0.582 0.751zzz-1tfidffilm 0.661 0.524 0.584 0.751zzz-18op_weightfilm 0.585 0.431 0.494 0.635
+Baseline film 0.235 0.333 0.276 0.705tfidf_opromipfilm 0.582 0.425 0.487 0.6294.3. Two-class task
+In this task our results were the second by two primary measures in the camera domain (and first after training on the ROMI
+P collection) and second by macro_
+F in the movie domain (after training on the ROMI
+P collection we have lower results, see Section 4.5). In the book domain the results were rather low, but after training on the ROMI
+P collection the best macro_
+F result was obtained. The removal of duplicate reviews from the book collection had no effect in this task.
+Testing the sentiment classification approach in various domains — ROMI
+P 2011 4 shows our results and best two runs for each entity for evaluation schema O
+R in terms of macro f-measure and accuracy, our runs are underlined and unofficial runs are in italic.
+Run_I
+D Object Macro_
+Prec Macro_
+Rec Macro_
+F Accuracyxxx-40 book 0.714 0.804 0.747 0.895xxx-0 book 0.751 0.721 0.735 0.924xxx-24 (46) book 0.968 0.630 0.690 0.938xxx-19 book 0.790 0.651 0.694 0.931xxx-35tfidf_opbook 0.682 0.851 0.720 0.851
+Baseline book 0.46 0.5 0.479 0.92tfidf_opnoduplbook 0.682 0.851 0.720 0.851tfidf_opromipbook 0.710 0.852 0.751 0.876yyy-24 camera 0.918 0.940 0.929 0.959yyy-16tfidf_opcamera 0.944 0.898 0.919 0.956
+Baseline camera 0.426 0.5 0.46 0.852tfidf_opromipcamera 0.931 0.945 0.938 0.963zzz-23 film 0.776 0.797 0.786 0.881zzz-9tfidf_opfilm 0.706 0.794 0.730 0.812zzz-14 film 0.743 0.597 0.623 0.860
+Baseline film 0.427 0.5 0.461 0.854tfidf_opromipfilm 0.682 0.790 0.685 0.7424.4. Five-class task
+The five class evaluation scheme is very widespread in the Internet (five stars system), but a five-class sentiment classification is a rather difficult problem because we need not only to determine a text sentiment, but also to show its strength (the rating-inference problem).
+Primary measures here were the accuracy and the average Euclidian distance. We achieved the best result accordingly to the accuracy measure in the movie domain and the second result in the book domain. After training on the book collection Chetviorkin I. I.
+duplicate reviews our algorithm gained the best accuracy result. On the ROMI
+P book collection the quality dropped significantly (see Section 4.5).
+In the digital camera domain our results were quite low. Partly it could be explained by utilization of pros and cons by the other participants and differences in training collections. In our collection there was no strictly negative class (see Section 2).
+Run_I
+D Object Avg_Eucl_
+Distance Macro_
+F Accuracyxxx-7 book 0.872 0.284 0.622xxx-4 (9) book 0.892 0.291 0.622xxx-5tfidf_opbook 0.972 0.270 0.615
+Baseline book 0.909 0.123 0.48tfidf_opnoduplbook 0.953 0.281 0.629tfidf_opromipbook 1.04 0.201 0.542yyy-1 camera 0.928 0.298 0.567yyy-3 camera 0.940 0.287 0.570yyy-4 camera 0.971 0.342 0.626yyy-2 camera 1.215 0.332 0.626yyy-9tfidf_opcamera 1.203 0.193 0.485
+Baseline camera 1.165 0.144 0.563tfidf_opromipcamera 1.125 0.234 0.530zzz-1 (5) film 1.026 0.286 0.599zzz-1 film 1.071 0.266 0.559zzz-6tfidf_opfilm 1.133 0.247 0.602
+Baseline film 1.460 0.135 0.506tfidf_opromipfilm 1.107 0.268 0.5934.5. The differences between collections
+To substantiate the differences between the results obtained by our algorithm trained on different collections in one domain we decided to conduct some additional statistical research.
+Testing the sentiment classification approach in various domains — ROMI
+P 2011 the digital camera domain performance of the algorithm trained on our collection was worse than on ROMI
+P collection. We connect this gap with the differences in the review score distributions. (class “1” frequency, Section 2).
+For the book and movie domains we had calculated the share of reviews in each class accordingly to the mapping scheme for a two-class task (for three class and five-class tasks results are the similar) and compared it with assessors’ score distribution (O
+R evaluation scheme). We underlined the distribution that was more similar to the assessors.
+Table 4–5. Score distribution in the train collections
+Movie 1 2
+Our 0.36 0.64ROMI
+P 0.43 0.57
+Eval 0.19 0.81
+Book 1 2
+Our 0.33 0.67ROMI
+P 0.29 0.71
+Eval 0.11 0.89
+Thus the score distribution similarity between the train and test collections is highly correlated with the quality of review classification. The size of train collection has low influence on the quality of classification if the score distributions differ significantly.
+5. Conclusions
+This work is based on our previous research about influence of various features on the three-way review classification quality. In this study we describe the contribution of word weights to the quality of the three-class movie review classification. Then we apply the algorithm with the complete set of features to the other domains and tasks. Our approach demonstrates the good quality of classification in almost all domain-task pairs.
+In addition we studied the dependence of the classification quality on the training collection. The similarity of the train and test collection score distributions played here a key role.
+Acknowledgements. This work is partially supported by RFB
+R grant N11-07-00588-а.

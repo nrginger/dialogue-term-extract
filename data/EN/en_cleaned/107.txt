@@ -1,0 +1,107 @@
+Imagine that we ask a person if he likes bananas, and he replies No!, wrinkling his nose and showing great disgust. Although the expression can be quite evident, the stimulus for the emotion — “imagined banana” — is too weak to force such a strong feeling. We rather say that the person simulates the emotion in order to communicate his appraisal and make the communication more effective or enjoyable. Sometimes such simulated or intentionally performed emotions are described as “pull-emotions” (in contrast to “push-emotions” where expression is forced by an incoming stimulus and internal arousal) .
+Combination of different types of emotions is important for the development of emotional computer agents, which should understand human emotions or produce emotional cues in communication . Sophisticated computer agents should not only balance between several emotional states, but also activate several “emotions” at the same time, simulate internal emotional confl icts and produce compound emotional patterns. In particular, Greta agent simulates “blended emotions” where the initial arousal (despair) is masked by the superfi cial pattern (anger), both emotions simultaneously control the facial expression, creating a complicated expressive pattern .
+The studies of emotional communication are carried out on the basis of emotional corpora, and further allow modeling of the agent’s behavior . We collect and annotate the Russian Emotional Corpus1 (RE
+C) . It contains 295 audiovisual recordings or oral university exams (total length 29.5 hours) and 510 recordings of interactions with clients at a municipal offi ce on the questions of payment for municipal utilities (total length 32 hours). The material of RE
+C shows that people quite often simulate different emotions in order to color up their speech, to make the communication more effective or to manipulate the addressee. Our goal is to create a typology of simulated emotions (based on RE
+C) and extend the architecture of a computer agent to make it simulate not only “original” (or “push”), but also “simulated” (“pull”) emotions.
+2. Mechanism of reaction substitution
+We develop software agents, which react to incoming phrases, encoded as semantic trees, and provide rich emotional reactions.
+The agent is controlled by a set of scripts (rule-based or productive model), where premises and implications are represented by semantic trees with sets of semantic markers in tree nodes . Scripts are activated by incoming semantic trees: events or phrases after parsing. The trees may contain “emotional” markers, but the agent may ignore or even challenge incoming emotional appraisal, depending on its internal state. Activated scripts may generate a set of reactions: (a) output semantic trees for speech synthesis, (b) ready-made phrases and (c) gestures in BM
+L format . This output protocol is used to animate the behavior of 2
+D and 3
+D computer fi gures.
+1 Information page for RE
+C is available at http://www.harpia.ru/rec/
+Corpus is not available for copying or distribution, but is available for research purposes and verifi cation, please, contact authors.
+Types of simulated emotional expressive states in the Russian emotional corpus 365
+Scheme 1. Reactive scheme for the computer agent simulating emotional oscillation
+Scripts are controlled by microstates — short emotional or communicative states. An input event may match several scripts, so the agent may activate several microstates, which further discharge, compete and control the agent’s behavior for several minutes, simulating the “emotional oscillation” . Microstates can be used, in particular, to simulate the case of sarcasm, where a negative emotional appraisal in speech is replaced by a positive utterance with irony markers .
+As represented on Scheme 2, if the agent activates and suppresses Script 1, corresponding to a negative microstate, and looks for the best script, matching the input and corresponding to the opposite microstate — Script 3. Initially Script 3 has received too low activation to output its phrases and gestures (other — negative — reactions were more appropriate), but here it is exploited by Script 1 for sarcastic output with irony markers. A similar substitution framework may apply to make the agent generate simulated emotions.
+Scheme 2. Reactive scheme for the computer agent who has been ‘hit’ and uses sarcasm in his reply
+We suggest the following defi nition for the phenomena. Simulated emotional expressive states appear when some suppressed emotional or rational reaction (script) exploits another emotional reaction (script) to output its expressive patterns, because this output is considered more effective to achieve the communication goals.
+A. A. Kotov
+As the superfi cial reaction is required to be emotional, scratching and fi ddling (which may be resulted by nervousness) are not considered in our classifi cation.
+Of course, the superfi cial reaction may simply cover an inappropriate internal reaction, but we also need a selector to suggest which of the numerous superfi cial reactions to choose, and why this superfi cial reaction should be an emotional pattern: we cannot choose a random emotional reaction in case of confusion. So we involve the notion of “goal” in our defi nition, suggesting that the superfi cial reaction is chosen for some emotional interaction with the addressee in the diffi cult situation, where we have to hide our primary reaction.
+3. Goal processing by the computer agent
+The central processor of the agent contains two main components: reactive and problem solving. In the reactive component the agent receives an input event, enumerates all the scripts with the corresponding premises, and generates a number of microstates with expressive cues (phrases and gestures) for the output. In the problem solving component the agent for a given goal enumerates all the scripts with the corresponding implication in order to fi nd a script which leads to (implies) the given goal.
+Goals cannot be directly loaded at the input: all the instructions and commands should meet the agen’t internal motivation and thus should be processed by the reactive component (some commands may be ignored, some may even “irritate” the agent). To set up a new goal the agent should receive an input predicative structure, activate a reactive script (script 1), which constructs a single goal predicative structure or a composition of such goals. For the problem-solving task we use a combination of two goals (goals A and B). A student in an oral exam has to fi nd a solution S
+B for a theoretical question (goal B) and satisfy the examiner with his answer (goal A). We distinguish theoretical goals, which only require a theoretical solution, and performance goals, which should be reached through action. For an exam task goal B is theoretical (we only need to fi nd a theoretical solution), while goal A is a performance goal (we have to infl uence the examiner). A robot may be asked to clean water on the fl oor, so it has to fi nd a way to do it (theoretical goal B), perform and clean the water (performance goal B), and check if the human is satisfi ed (performance goal A).
+Goals may be linked with actions (to be executed to achieve the goal), but if the agent doesn’t know a specifi c action to be performed for the goal, the goal is transferred to the problem solving component (like goal B). In this component the agent enumerates all the possible scripts (scripts a, b), which may lead to the successful conclusion (goal B), and for the best of these scripts the problem solving component sends back the initial model S
+B. S
+B may suggest an action to be performed or an answer to be communicated, in both cases the agent fi nally should satisfy the main goal A.
+If the agent experiences diffi culties with achieving goal A or goal B, it may use simulated emotional cues to bypass the task and achieve a successful conclusion through emotional performance. In this architecture, the simulated expressive states are divided into two groups: states forced by the problem solver (while searching for a solution for goal B), and states aimed at infl uencing the addressee (goal A).
+Types of simulated emotional expressive states in the Russian emotional corpus 367
+Scheme 3. Interaction between reactive and problem solving components4. Types of simulated emotional expressive states
+Following the defi nition of the phenomena, in our classifi cation we have to answer the following main questions. What is the master reaction to provoke the simulated expression? Why are usual expressive means for the reaction not available? What subordinate reaction is used for expression? How are the expressive cues modifi ed?
+Classes of simulated emotional expressive reactions in RE
+C are represented in Function of the simulated emotional expressive state
+Motive for the simulated emotion
+Simulated emotional patterns
+Imaginary statement of the speaker1.
+Good performance during problem solving (PS)
+Social situation during P
+S, failure during PS
+Interest, inspiration“
+You should appreciate my efforts”2.
+Bad performance during PS
+Failure during P
+S, request
+Frustration, caprice, nervousness, pain“
+I feel bad, help me to fi nd the solution”3. Shared appraisal
+Hedge,<pride>Disregard,<admiration>“
+We all understand, that it’s not so important”, <
+You should admire my efforts!>
+A. A. Kotov
+Function of the simulated emotional expressive state
+Motive for the simulated emotion
+Simulated emotional patterns
+Imaginary statement of the speaker4.
+Negative infl uence, pressure
+Undesirable action of the addressee
+Blame, indignation(sarcasm)“
+You are doing something bad, this causes my negative emotion, you should take it into account and stop doing that!”5.
+Positive infl uence, manipulation Failure, request
+Provoke pity or look appealing, tiredness“
+I’m nice and tired, I deserve some mercy”
+In all the cases the original underlying reaction affects the social face of the speaker (when students fail to answer the question or clients have to acknowledge mistakes in their payments) or the social face of the listener (when students try to receive a positive mark or clients ask the offi cer to solve their question). This “face threatening act” forces the speaker to conceal the initial reaction and replace it with a simulated expression in order to infl uence the addressee through a symmetric communication (shared appraisal) or through a positive or negative emotional infl uence.
+4.1. Good performance during the P
+S
+Students may simulate “good” performance and try to satisfy the addressee (achieve goal A) through superfi cial cues and simulated emotions, even if the solution S
+B is not found. They may show great concern and fussiness, perform different iconic gestures and manipulative cues (as if operating with physical objects) when explaining their answer or when looking for a solution. The intensity of these actions should convince the examiner of the student’s competence. Student also show intense emotional cooperation with the examiner: they nod and repeat answers, accepted by the examiner. Students may also simulate emotions, linked with the problem solving task: exaggerated interest or inspiration.
+Interest Students change their gaze direction and look aside, as if trying to discern the answer in the air. They intensely squint and frequently change the gaze direction (for example, in 20081225-fi pp-a02, 01:08).
+Inspiration Students show inspiration when starting to look for the solution: they sit up, frown, cough, say “
+Ok!” (or a similar interjection), look around or start to organize objects on the table (for Types of simulated emotional expressive states in the Russian emotional corpus 369example, in 20080717-c01, 00:42). These actions should “exteriorize” the process of problem solving for the examiner and through the intensity of actions show a great motivation of the student to solve the problem.
+For the emotional agent it means, that if the problem solving task includes social aspect and the solution has to be communicated and evaluated by the addressee (goal A), the agent may exploit and exaggerate different expressive means, normally evoked by the problem solving component.
+4.2. Bad performance during the P
+S
+People may show failures and negative emotional appraisal of the situation in order to provoke the opponent to correct the situation. During an oral exam student may start to answer and then express sudden failures in order to force the examiner to suggest the answer. For example in (20080717-f-psy, 00:41) during an answer a student starts to count types of psychological scales (the exam question) on the fi ngers of her left hand, and then hesitates on “the last fi nger”, tapping it with a right hand fi nger and forcing the examiner to suggest the name of the last type.
+Tiredness In (20081225-fi pp-b3, 01:07) a student simulates tiredness and exhales deeply while trying to fi nd an answer. In (090623-a17) a client (female) expresses exhaustion and says I’m tired because I keep having to come to you! (implying: ‘
+You make too many mistakes each time’). Through this superfi cial emotional pattern she manages to conceal her face threatening act (accuse the offi cer) and provoke assistance.
+Caprice In (20081230-a13, 01:45 and 01:51) a student (female) simulates child-like caprice when being asked to suggest an example; immediately after she asks the examiner to suggest the example himself, so that she analyses it.
+Frustration In (20081225-fi pp-a02, 04:04) a student reports with regret and concern: I don’t seem to be able to remember it today (also reducing the signifi cance as in 4.3).
+Emotional appraisal A person may show negative emotions about the current situation (which should be fi xed) or about a potential situation (which should be avoided) to conduct the dialogue in a desirable direction. For example in (091005-b11, 01:04) when a client (female) asks how to fi ll in the form, she adds Because I was getting so nervous about that! Here she refers to own negative emotions to motivate the opponent and to justify her request.2 In (091005-b17, 00:45) a client worries that he has received 2 This also corresponds to strategy #6 for negative politeness “give overwhelming reasons” .
+A. A. Kotov
+the same bill twice and paid it only once. When the offi cer confi rms, that he paid correctly, he adds: Or, I thought, they could snatch again! Here he conveys his emotional appraisal by using the high intensity verb snatch , representing to the offi cer a negative situation to be avoided. As shown by the examples, if the agent fails to fi nd a solution S
+B for a local goal B (answer to the current question) he may choose and express moderate negative emotions in order to force a cooperative addressee to help him with the task. Students can show expressive patterns for strong negative emotions — like pain and aggression — modifying these patterns with markers of irony: they smile and turn their head aside from the addressee to dissimilate the patterns with real emotions.
+Pain In (20081231-a2, 01:06) a student (female) performs an expressive pattern for pain (squints, bares teeth) when answering a question.
+Aggression In (20081230-a24, 01:58) a student (female) shows pattern of aggression (growls, squints) modifi ed by smile, when she receives a question, which she failed to answer last time. To perform this expression with a computer agent, we have to execute the following activation pattern. If a computer agent activates and suppresses a negative emotional reaction, it may choose a more “prototypic” reaction for that emotion (e. g. choose ‘pain’ for being displeased, choose ‘aggression’ for resentment) and express this reaction accompanied with markers of irony (look aside, smile).
+4.3. Shared appraisal
+In negative situations where the speaker wants to reconcile with the addressee, he may try to reduce the signifi cance of his own negative action (or the action of the addressee) by saying Oh! It’s not a big deal! He expects that the addressee shares appraisal and shall not be upset or angry as a result of the situation. The same can be achieved by demonstrating disregard for the result of these negative actions, e. g. by squinting, wrinkling nose, waving a hand. This emotional mechanism extends the notion of “hedge” — “a particle, word or phrase, that modifi es the degree of membership of a predicate or noun phrase in a set”, e. g. You are quite right . A pattern of disregard makes a phrase less defi nitive and secures the speaker from possible mistakes, as the mistakes will look less signifi cant.
+Disregard In (20081209-zhurn6, 01:22) a student shows disregard (squints, wrinkles nose, turns the head slightly aside), when hesitating and reporting a rejected answer immediately followed by a suggested answer: It’s not with different meanings, Types of simulated emotional expressive states in the Russian emotional corpus 371it’s in different situations. When forced to report the answer (goal A) and not being confi dent about the answer (S
+B) the agent may exploit the expression of disregard to reduce the defi nitiveness of the answer, and bypass the expected criticism from the addressee.
+We expect, that on a wider corpus the shared appraisal substitution may also apply to positive emotions, for example, when a speaker wants to confi rm his pride (which is not very modest) and communicates admiration for the situation (and for his own actions) to be shared by the addressee.
+4.4. Negative infl uence, pressure
+If a speaker is not satisfi ed by the action of the addressee, he may show blame, indignation or even aggression to change the addressee’s behavior.
+Blame, indignation In (20081717-c15, 00:14) the examiner is surprised to meet a student (female) who is on the list, but whom he doesn’t remember (surprise here may serve as a simulated pattern, concealing a reproach). The student replies with exaggerated indignation: How can it be? We talked so nicely during the consultation? How could you forget? Here the emotional simulation allows the bypassing of unpleasant explanations. Exaggerated indignation is expressed by clients of the municipal offi ce, for example, in (20090623-a35). These emotional reactions are normally activated by undesirable actions of the opponent (for example, his question). The agent may simulate indignation or laughter (2009sp02, 07:25), based on the incoming request, where this request applies to him undesirable obligations or otherwise threatens
+his face.
+4.5. Positive infl uence, manipulation
+If we have a higher level goal A ‘to satisfy the listener’ and all the subordinate means to achieve this goal fail, the agent may look for an “infl uence” script to satisfy the goal through emotional manipulation.
+Provocation of pity / In (20081230-b4, 08:35) a student (female) whimpers and holds her hands up to her chest like a rabbit or puppy. In (20081225-fi pp-a14, 03:17) a student (female) intentionally deeply breathes and watches the addressee (this also corresponds to 4.2 “
+Tiredness”). tender emotions
+A. A. Kotov
+The agent can use the problem solver to fi nd the best infl uence script for the given circumstances: goal A (not goal B). It may look for the best action, which infl uences the speaker and leads to goal A not through a successful performance, but through emotional manipulation. This strategy should not be always condemned: a mobile home robot should maintain a good impression even if it fails to execute the users instructions.
+5. Conclusion
+The suggested classifi cation has many limitations. All the situations in RE
+C include problem solving in a situation of a long communicative distance. There is no friendly chat, no romantic or tender relations, where we can expect numerous types of emotional simulation and games. Due to the same limitation we didn’t observe emotional games, when both parties simulate similar (or the opposite) emotions and take into account the mutual role play.
+We expect that emotional roles can be explored on a wider corpus and should be simulated by a more complicated architecture, which can apply an emotional role and play it through numerous dialogue turns, not only to trigger several emotional reactions, based on 1–2 incoming events, as it is presently the case in our architecture.
+At the same time, classifi cations of emotional expressions in natural corpora are useful for several reasons: (a) they help to collect and organize expressive patterns for naturally occurring emotional states (not only for basic emotions), (b) they help to design the “alphabet” of expressive means/states to be used by emotional agents and mobile robots, (c) they help to understand emotional dynamics and the structure of cognitive mechanisms, involving rational and emotional processing during communication. All this may advance our design of mobile robots and computer agents, supporting believable emotional interaction with humans.

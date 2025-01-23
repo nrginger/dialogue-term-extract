@@ -1,0 +1,299 @@
+Language reflects the society to which it belongs. Its lexis reflects undergoing changes in political,scientific, technological, and other spheres of life. As new scientific and technical inventions emerge
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2023”
+June 14–16, 2023Parameter
+Efficient Tuning of Transformer Models for Anglicism Detection and Substitution in Russianregularly, new words (neologisms) are coined to denote new concepts. The English language has avast influence in the context of globalisation, exerted by global economic, social, and cultural processesover national ones. “
+The English language finds itself at the centre of the paradoxes which arise fromglobalisation. It provides the lingua franca essential to the deepening integration of global servicebased economies. It facilitates transnational encounters and allows nations, institutions, and individualsworldwide to communicate their world view and identities“ (
+Graddol, 2006).
+English nowadays is an international language of communication, business, education, and innovation.
+English has affected most languages in the past 100 years (
+Görlach, 2002b). For this reason, Görlach(2002a) called the English language “the world’s biggest lexical exporter“ , as most of the newly-coinedwords are English. Moreover, statistics show that 14.7 English neologisms are created per day1, making
+English a highly productive Source Language (or S
+L, in short).
+A significant number of English words are integrated into different spheres of human activity (e.g.,modern and youth culture, civil and political life, I
+T, science, education, sports, medicine) in the formof loanwords. English borrowings (or Anglicisms), thus, form a vast lexical stratum in many languages,including Russian. However, often the meaning of these loanwords is uncertain or domain-specific andincomprehensible to people outside a particular field or social strata. Therefore, Anglicisms may impede effective communication between representatives of different generations, professions, subcultures.
+Furthermore, Anglicisms are inappropriate in some official and scientific discourse unless they “referto terminology or common vocabulary recorded by explanatory dictionaries of the Russian language“(Апетян, 2011). In this regard, we frequently have to adjust our writing and speaking styles to aparticular audience, social context, or formality of the occasion. In addition, the Anglicisms detectionand substitution task is relevant in Natural Language Processing (or NL
+P, in short). Anglicisms oftenpose challenges for this sphere (for example, machine translation, rewriting and summarization, text-tospeech) as many systems are often dependent on the lexicon.
+This paper presents methods for automatic Anglicism detection and their elimination via paraphrasingthe original text with these loanwords replaced by their native equivalents. These methods can contributeto many NL
+P systems enhancing the accuracy of large language models or machine translation systems.
+Moreover, they can make contribution to language correction and proofreading applications. By identifying potential loanwords, the Anglicism detector can assist writers and editors in to ensure grammaticaland stylistic accuracy in written content. Altogether, our models can improve the text’s overall readability by replacing Anglicisms with more natural and understandable phrases in the target language. Suchtools can be particularly useful in business, education, science, and journalism, where clear and effectivecommunication is crucial. In addition, we present a parallel corpus of Anglicisms in Russian2 and thecode is available on our Git
+Hub repository3.
+Thus, the contribution of our paper is three-fold: (
+I) first, we present a parallel corpus for the Anglicisms detection and their substitution with the detailed Anglicism markup, (I
+I) we train and evaluateseveral models for Anglicisms detection (II
+I) we present, several generation models for Anglicisms substitution.
+The rest of the paper is structured as follows: in section 2, we overview the papers related to thisresearch. Next, in section 3, we formally define the task. Section 4 describes the Anglicism dataset,section 5 discusses the methods we used, section 6 describes the metrics we used and the experimentalsetup, and section 7 presents evaluation results. Finally, section 8 concludes the paper.
+2 Related work
+The task of Anglicisms detection is relevant in NL
+P research: these words often refer to out-ofvocabulary words, and as many systems are often dependent on the lexicon, it poses various problems formachine translation, text processing, speech recognition, Natural Language Understanding, and text-tospeech synthesis (
+Jawahar et al., 2021), (
+Weller et al., 2022) (
+Pritzen et al., 2021). And the global trend1https://languagemonitor.com/
+2https://huggingface.co/datasets/shershen/ru_anglicism
+3https://github.com/dalukichev/anglicism_removing
+Lukichev D., Kryanina D., Bystrova A., Fenogenova A., Tikhonova M.is gaining momentum: code-switching (the mixing of languages within a single conversation or text), thepredominance of Anglicisms over the Receptor Language (or R
+L, in short) equivalents, the emergenceof hybrid languages (e.g., Frenglish, Denglisch, Runglish, or Spanglish).
+There are multiple works related to Anglicisms detection in different languages, e.g. detecting Anglicisms in Spanish (Álvarez Mellado and Lignos, 2022). The article describes the creation of an annotatedcorpus of Spanish text containing examples of unassimilated borrowings, which can be used to trainmachine learning models to identify such borrowings in new texts. The corpus has 370,000 tokens.
+The authors also propose several approaches to modelling unassimilated borrowings, including machinelearning algorithms such as decision trees, support vector machines and rule-based systems that rely onlinguistic features such as phonetics, morphology, and syntax. CR
+F, BiLSTM-CR
+F, and Transformerbased models were used to assess their performance on a new annotated corpus of Spanish newswire fullof unassimilated lexical borrowings. The results of this work demonstrate that a BiLSTM-CR
+F modelbeats results produced by a multilingual BER
+T-based model.
+Another idea for borrowed word detection is presented in (
+Miller et al., 2020), where the authors focuson phonological and phonotactic aspects of words in a language for the detection in monolingual wordlists using such methods as Markov Models, Bag of Sounds and Neural Networks. The authors presentedthe idea to train a lexical language model on a dataset of annotated borrowings and then use it in detectionfor previously unseen word loans. The model performed well when tested on artificially generated words,but the three methods proved ineffective on a sample of actual words taken from WOL
+D 4. Failureanalysis shows that to achieve a positive result in the detection task, many borrowed words from a givenlanguage and coherent and consistent word properties are required. For our task, this problem was alsotaken into account.
+Detecting Anglicisms in the Russian language has some peculiar features due to their transliterationinto the Cyrillic script (comparison: Youtube ютьюб/ютуб ; big data биг дата ), lexicalization and some internal processes in the language (loanwords constitute an effectivemechanism for word formation). The authors (
+Fenogenova et al., 2016) proposed an automated methodfor Cyrillic-written Anglicism detection based on the idea that speakers tend to preserve phonetic andorthographic properties of the borrowed words. The proposed method involves a combination of twoapproaches: 1) a linguistic approach based on identifying patterns of English words in Russian text, and2) a machine learning approach that utilises a feature-based classifier to predict whether a given word
+is an Anglicism. Using transliteration (ru-en), phonetic transcribing(en-ru) and morphological analysismethods and various filters, authors compose a list of “unknown Anglicism” pairs. They used the Levenshtein distance (
+Levenshtein and others, 1966) with thresholds (2-3) to measure the similarity betweentwo words in a pair, and the possible candidates’ shortlist was created. With the help of Skip
+Gram andCBO
+W, the list of hypotheses was shortened: if words are semantically and phonetically similar and areclose in the word2vec model, they can be considered borrowings.
+The substitution of Anglicisms in a text can be viewed as a paraphrasing task. In research mentionedin (
+Egonmwan and Chali, 2019), the authors present a new method for text paraphrasing based on theseq2seq and Transformer-based (
+Vaswani et al., 2017) models. As a result, the authors proposed a newTRANSE
+Q framework that combines the efficiency of the transformer model and seq2seq and improvesthe current state-of-the-art (
+Gupta et al., 2017) of QUOR
+A and MSCOC
+O paraphrase data.
+In our work, we trained the models for Anglicisms detection and their substitution using differentvariations of prompt-tuning techniques. The prompt-tuning method was proposed in (
+Lester et al., 2021).
+The fundamental concept of this approach involves training soft prompts, which are incorporated intothe input sequence passed to the model while all other parameters of the model are frozen.
+This idea was further developed in (
+Liu et al., 2021), where the authors introduce the concept of deepprompt tuning, which involves adding prompts in different layers as prefix tokens. In (
+Konodyuk and
+Tikhonova, 2022), the authors studied the applicability of the prompt-tuning method for the Russianlanguage: they showed that it could be a good alternative to model training techniques.
+In addition, in our research, we experiment with low-rank adaptation methods (or LoR
+A) proposed in4
+World Loanword Database: https://wold.clld.orgParameter
+Efficient Tuning of Transformer Models for Anglicism Detection and Substitution in Russian
+(
+Hu et al., 2021). This method compresses the original language model into a low-rank representationthat captures the essential information for the target task. This compression is achieved through a lowrank matrix factorization, which decomposes the original weight matrices of the model into two low-rankmatrices. Once the low-rank representation of the original language model is obtained, the compressedmodel is fine-tuned on the target task using a small amount of labelled data. The fine-tuning processupdates the compressed parameters of the model to suit the target task better while preserving the mostimportant information from the original model. The authors demonstrated the effectiveness of the LoR
+Amethod in several NL
+P tasks. In addition, they showed that the LoR
+A approach generates compressedmodels that exhibit significantly smaller sizes than the original models while still achieving comparableor better performance on the target tasks.
+3 Task Definition
+In this paper, we formulate the Anglicism substitution (or elimination) problem as the task of rewriting asentence by replacing Anglicisms with their Russian equivalents.
+In our work, we define an Anglicism based on the definition of Görlach(
+Görlach, 2002b): “a word oridiom that is recognizably English in its form (spelling, pronunciation, morphology, or at least one of thethree), but is accepted as an item in the vocabulary of the receptor language”.
+According to Pulcini (2012), there are different types of lexical borrowings:1. phrasal borrowings: usually multi-word units or whole phrases, i.e. collocations, idioms, proverbs.
+(e.g., “она, конечно, бест оф зе бест” (best of the best), “ху из ху” (who is who)).
+2. lexical borrowings: words or multi-word units.
+(a) direct : formal evidence of the S
+L is detectable.
+i. loanword – borrowed from S
+L; meaning in R
+L is close to meaning in S
+L (e.g.,голкипер goalkeeper, нон-стоп non-stop)ii. hybrid – a combination of S
+L and R
+L elements (e.g., (OVE
+R-) + adv./adj.: овердофига домашки, овер-пресный рассказ)(b) indirect : the S
+L model is reproduced in the R
+L through native elements.
+i. Calques – reproduce the etymon in the form and meaning or meaning only.
+A. loan translation – translation of S
+L item into R
+L (e.g., небоскреб skyscraper,утечка мозгов brain drain, промывка мозгов brainwashing);
+B. loan rendition – compound or multi-word unit, one part of which is translatedfrom S
+L and the other is a loose equivalent of the S
+L part (e.g., топовый (ТОР+ овый: adj.affix) блогер, оффлайновое (OFFLIN
+E + овое: adj.affix) издание,фолловить (FOLLO
+W + ить: verb.affix) звезду, фаниться (FU
+N + ить +ся:verb refl.affix));
+C. loan creation – R
+L freely renders the S
+L equivalent (e.g., синий чулок bluestocking).
+ii. Semantic loans an already existing item in the R
+L takes a new meaning after a S
+Lone. (e.g., обои (на экране) wallpaper, карта bank card)
+In addition, it is noteworthy to mention such a phenomenon as Pseudo
+Anglicisms, which are either:• lexical units borrowed from English into another language, which have a meaning differing from theS
+L, and which are used in contexts and situations in which they would never appear in English (смокинг(smoking) -> dinner jacket, автостоп (autostop) -> hitch-hiking, паркинг(parking) ->parking lot));• Russian formations created by combining English morphemes or imitating the phonetic shape of
+English words ( e.g., фейс контроль “face control”, рекордсмен “recordsman” (recordholder) (Дьяков, 2012).
+In this paper, both Anglicisms and pseudo
+Anglicisms are the objects of our interest. Therefore, examples of pseudo
+Anglicisms were included in the dataset along with Anglicisms (for simplicity, werefer to both types simply as Anglicisms).
+Borrowed words, as was mentioned earlier, are altered to fit the phonetic and grammatical structure of
+Lukichev D., Kryanina D., Bystrova A., Fenogenova A., Tikhonova M.the language. As English and Russian employ different alphabetic systems, loanwords from English aretransliterated into the native Cyrillic-based writing system, where Anglicisms usually adopt the structureof the English source word and typically have the set of endings presented in -ер , бартер , стриммер -инг -мен -мент , истеблишмент -ист , лоббист -зер , тизер -изм , нарциссизм -енд(энд) , хэппиэнд , бэкенд -аут , камингаут , чилаут -ент/ант , резидент , фигурант -джер , тинейджер -бэк , фидбэк , хэтчбэк In the Russian language, Anglicisms usually undergo a process known as domestication, which poseschallenges to NL
+P systems due to the lack of standardization and inconsistency in the usage of domesticated and non-domesticated borrowings. Domestication refers to how a language adapts foreign words orexpressions to fit into its linguistic system, making them sound more natural and familiar to native speakers. This process is usually accompanied by altering the word’s spelling, pronunciation, or meaning tobetter fit into the R
+L’s linguistic system. In addition, the borrowed word is altered to fit the phonetic andgrammatical structure of the language. For example, софт (software); “грозятся закидать дизами”(dislikes); “нужно установить обнову на винду” (
+Windows).
+4 Data
+To create an Anglicisms dataset, we collected 1084 sentences which contained 472 unique words fromdifferent domains. This data was collected semi-automatically from several sources (the Russian National Corpus5, dictionaries (e.g., A.
+I. Dyakov’s6, dictionary of Anglicisms in Russian language, Russian
+Wikidictionary7), several Internet resources such as Kartaslov8, Habr9, Pikabu10, as well as blogs andsocial media sources.
+To create a parallel corpus, we paraphrased each sentence replacing all Anglicisms with their Russianequivalents, which were taken from multilingual dictionaries11,12 and Wikipedia13. All sentences werevalidated and paraphrased manually by the linguists. It should also be noted that replacing an Anglicismwith a single word was not always possible. In some cases, they were substituted with collocations or setexpressions (фидбэк (feedback) обратная связь, краудфандинг (crowdfunding) коллективный сбор средств, фандрайзинг (fundraising) сбор средств, оффер (job offer) предложениепо трудоустройству, приглашение на работу).
+Thus, we obtained a novel corpus for Anglicisms detection and substitution in the Russian Language14.
+It consists of parallel text pairs: an original sentence with Anglicisms and a sentence in which their Rus5https://ruscorpora.ru
+6http://
+Anglicismdictionary.ru
+7https://ru.wiktionary.org/wiki/РӘРөСЂРҳРүР«СҐРҷСЅ:Р№РҳР«РњР«РүРҷРҹРёСҜ/ru
+8https://kartaslov.ru
+9https://habr.com/
+10https://pikabu.ru/
+11
+Multitran: https://www.multitran.com/
+12
+Cambridge dictionary: https://dictionary.cambridge.org/dictionary/english-russian/
+13https://ru.wikipedia.org/wiki/
+14https://huggingface.co/datasets/shershen/ru_anglicismParameter
+Efficient Tuning of Transformer Models for Anglicism Detection and Substitution in Russian
+Word Form Sentence Paraphrase without Anglicismsагриться сагрилась Пойдем пока она Пойдем пока она нне сагрилась на нас. не разозлилась на нас.
+кринж кринжового Ничего более кринжового Ничего более постыдногоя в жизни не видел. я в жизни не видел.
+трушный трушным Рядом с тобой даже Джонни Бой Рядом с тобой даже Джонни Бойбыл трушным пацаном. был настоящим пацаном.
+слот, позер слоты, позеры Во дворе эти позеры заняли Во дворе эти притворщики заняливсе парковочные слоты. все парковочные места.
+эпикфейл эпикфейла Моему злорадству по поводу эпикфейла Моему злорадству по поводу проваласего сайта нет предела. сего сайта нет предела.
+Sentence (English)
+Let’s go before she gets angry at us.
+That’s the most cringe-worthy thing I’ve ever seen in my life.
+Next to you, even Johnny Boy was a real kid.
+In the yard, these posers took up all the parking slots.
+My gloating over the epic fail of this site has no limits.
+sian analogues replace them. A snippet from the dataset is presented in Table 2 (the English translationof the sentences is given in Table 3).
+The resulting dataset consists of 1084 sentence pairs divided into train and test parts (999 for the trainpart and 85 for the test part). The test part includes 30 unique Anglicisms which are not encountered inthe train part.
+The modest size of the dataset can be partially explained by the fact that in our work, we decided toprioritize the data quality before its quantity. That coincides with the results of the recent research (
+Zhouet al., 2023), which shows that a relatively small amount of high-quality data can be more beneficial thanlarge low-quality datasets. Thus, we put additional effort into collecting data and selecting good Anglicism examples, which took additional time and resources. Namely, to ensure the annotation quality andto avoid potential errors, we avoided using such annotation services as Yandex.
+Toloka15 and paraphrasedall sentences with the help of professional linguists, which was more expensive and time-consuming.
+As a result, we obtained a relatively modest but high-quality dataset. In addition, it should be notedthat we took into account the current dataset size and selected suitable methods, such as prompt-tuningand LoR
+A (see section 5), which can be successfully applied to such amounts of data (
+Konodyuk and
+Tikhonova, 2022).
+5 Method
+Our approach consists of two parts: 1) a model for Anglicisms detection and 2) a paraphrasing model,which rewrites a sentence, replacing the Anglicisms with their Russian-language equivalents.
+5.1 Prompt-tuning
+Both parts of the algorithm use different variations of prompt-tuning(
+Lester et al., 2021). Prompting is atechnique that provides additional information to the language model to condition during the generationof output 𝑌𝑌 . Typically, this is achieved by adding a series of tokens 𝑃𝑃 to the input 𝑋𝑋 , resulting in a newinput . The model’s parameters remain fixed while it maximizes the possibility of generating thecorrect 𝑌𝑌 :15https://toloka.yandex.ru
+Lukichev D., Kryanina D., Bystrova A., Fenogenova A., Tikhonova M.𝑌𝑌 = argmax𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝜃𝜃(𝑌𝑌 |).
+The generative model incorporates the prompt tokens 𝑃𝑃 , into the model’s embedding table, parameterized by frozen 𝜃𝜃. Finding an optimal prompt involves selecting prompt tokens from a fixed vocabularyof embeddings, either through manual search or non-differentiable search methods. Prompt tuning, onthe other hand, enables the prompt to have its own dedicated parameters, 𝜃𝜃𝑝𝑝, that can be updated. Prompttuning involves using a fixed prompt of special tokens, with only the embeddings of these prompt tokensbeing updatable. In essence, prompt tuning eliminates the requirement for the prompt P to be parameterized by 𝜃𝜃, as in traditional prompting.
+There are different types of initialization of added embeddings:1. embeddings of random words from the dictionary
+2. embeddings of class labels from the task
+3. random initialization (does not work well)
+We use this variant of prompt-tuning for the Anglicism substitution part, applied in combination with theparaphrase decoder-based models. In our approach, embeddings of random tokens from the first layer ofthe model are used.
+As for Anglicisms detection, we, among other approaches, deployed advanced prompt-tuning. However, in the original prompt-tuning, only continuous prompts are incorporated into the input embeddingsequence, which presents two major drawbacks. First, the sequence length limitations impose constraintson the number of trainable parameters. Secondly, the impact of the input embeddings on model predictions is relatively indirect. To overcome these obstacles, P
+Tuning v2 (
+Liu et al., 2021) introduces theconcept of deep prompt tuning, which involves adding prompts in different layers as prefix tokens. Thisapproach enables tuning more task-specific parameters (between 0.1 and 3 per cent), providing greaterper-task capacity while remaining parameter-efficient. Additionally, prompts added to deeper layers havea more direct impact on the model’s predictions.
+5.2 Anglicism detection
+We regard the Anglicism detection problem as a token classification task. Tokens that are Anglicisms arelabelled as 1, and the remaining are labelled as 0. For this task, we evaluated three models:• ru
+Bert-tiny16: a small BER
+T-like model;• ru
+Roberta-large17: a large Russian language RoBER
+Ta model;• XLM-RoBER
+Ta18: a large multilingual RoBER
+Ta model.
+Since large models tend to overfit on a small amount of data, we used different approaches for trainingsmall and large models. Namely, for small models, we used a relatively low learning rate (see section 6.2for the details). For the large models, we implemented the P
+Tuning v2 technique. In addition, we haveincorporated the trained tensors into each model layer, effectively decreasing the number of trainableparameters to prevent overfitting. All together, this enables to fine-tune large models for the downstreamtask, even with limited data.
+5.3 Anglicism substitution
+We used the prompt-tuning technique to train a paraphrasing model for Anglicism substitution. Theimportant aspect of this approach is to specify the position of trained embeddings within the model’sinput. In our work, we used the following types of prompts formats:• only sent: <prompt> sentence with Anglicisms <prompt> its paraphrase without Anglicisms• sent + angl: <prompt> sentence with Anglicisms <prompt> Anglicism <prompt> its paraphrasewithout Anglicisms
+In the first format, the embeddings that have been trained are positioned both at the beginning ofthe sample and between the sentence and its paraphrase, which does not contain Anglicisms. In the16https://huggingface.co/cointegrated/rubert-tiny
+17https://huggingface.co/sberbank-ai/ru
+Roberta-large
+18https://huggingface.co/xlm-roberta-baseParameter
+Efficient Tuning of Transformer Models for Anglicism Detection and Substitution in Russian
+second prompt format, we also pass an Anglicism as a model input together with the original sentenceand the sentence paraphrase. For this approach, we need the knowledge of Anglicisms to format ourexamples. We used an Anglicism detector trained at the Anglicism detection stage. Namely, we utilisedruRoBER
+Ta-large detector, which showed the best results in our experiments on Anglicism detection(see section 6 for the details). Thus, the second approach incorporates two models. The detection modelidentifies Anglicisms in the sentence and then feeds them, along with trained embeddings, to the inputof the paraphrasing model.
+We utilise the large-scale Russian language model ruGPT3
+Large19 and a multilingual GP
+T-basedmodel mGP
+T20.
+For the low-rank adaptation approach, we add the product of two matrices with dimensions 𝐻𝐻 ×𝐾𝐾 toall attention layers, where 𝐻𝐻 is the dimension of the hidden state of the model, and 𝐾𝐾 is a small value.
+In our experiments, we use 𝐾𝐾 = 4, which was motivated by the research conducted in (
+Hu et al., 2021).
+6 Experiments
+6.1 Evaluation
+Anglicism detection As long as we consider the Anglicism detection task as a binary token classificationproblem, we use binary classification metrics (
+F1, precision, and recall) for evaluation.
+Anglicism substitution As for the Anglicism substitution, we evaluate this part using the followingmetrics, which are commonly used for generative tasks and the paraphrase tasks in particular:1. CHRF++21(
+Popović, 2015)
+2. BLE
+U score(
+Papineni et al., 2002)
+3. Rouge-L(
+Lin, 2004)
+4. BERTScore(
+Zhang et al., 2019)
+5. LaBSE(
+Feng et al., 2020)22
+All metrics listed above are computed between gold paraphrases and model predictions and averagedover the test set.
+6.2 Experimental setup
+One of the essential hyperparameters of prompt tuning is the length of the prompt. In our research, weuse the following prompt lengths:• detection: in our methodology, we introduce prompts of length 100 to each attention layer andoptimize them using the learning rate 1𝑒𝑒 − 3. Additionally, the linear head is optimized with alearning rate of 1𝑒𝑒− 5, with a batch size of 8 and for a duration of 10 epochs.
+• sentence-paraphrase approach: we add a prompt of length 50 before the sentence and a prompt oflength 40 between the sentence and the paraphrase. We optimize prompts with a learning rate of1𝑒𝑒− 3 and linear head with a learning rate of 1𝑒𝑒− 5 with a batch size of 8 and for 5 epochs.
+• sentence-anglicism-paraphrase approach: we add a prompt of length 50 before the sentence, aprompt of length 20 between the sentence and the Anglicism and a prompt of length 40 between the
+Anglicism and the paraphrase. We optimize prompts with a learning rate of 1e-3 and linear headwith a learning rate of 1𝑒𝑒− 5 with a batch size of 8 and for 5 epochs.
+In low-rank adaptation approaches, the models are trained with the learning rate 1𝑒𝑒−5, which is kept thesame for both the model and linear head parameters, using a batch size of 8 and for a total of 15 epochs.
+The Adam
+W optimizer (
+Loshchilov and Hutter, 2017) and linear scheduler with warm-up are employedin all the experiments.
+19https://huggingface.co/sberbank-ai/rugpt3large_based_on_gpt2
+20https://huggingface.co/sberbank-ai/mGP
+T
+21https://huggingface.co/spaces/evaluate-metric/chrf
+22https://huggingface.co/sentence-transformers/LaBS
+E
+Lukichev D., Kryanina D., Bystrova A., Fenogenova A., Tikhonova M.7 Results7.1 Anglicism detection
+Analyzing the results of Anglicism detection (see Table 4), it can be observed that ru
+Roberta-large showsthe best quality surpassing other models in all metrics. XLM-RoBER
+Ta also produces competitive results, while ru
+Bert tiny performs much worse. We hypothesize that such low performance can be explained by the fact that the model was fine-tuned without prompt tuning, and even though it contains asmall number of parameters, it still began to overfit too quickly on the small dataset.
+The obtained results coincide with the work of (
+Leidig et al., 2014), where the authors tried the combination of several features (G2
+P confidence, grapheme perplexity, Google hits count) to detect Anglicisms in German and achieved a 0.75 F1 score. The work (
+Mellado et al., 2021) devoted to the sametask for Spanish, presented in Iber
+Lef 2021, reported F1 scores ranging from 0.37 to 0.85. In addition,another research for the Norwegian language (
+Andersen, 2005) is devoted to Anglicism extraction using a combination of methods (rule-based, lexicon-based, and chargram-based). In their work, such acombined approach yielded the most favourable outcome, achieving an overall 0.96 accuracy score forcorrectly annotated forms and a precision rate of 0.76, which is comparable with our results.
+Model F1 Precision RecallruBER
+T-tiny (fine-tuning) 0.62 0.59 0.66ruRoBER
+Ta-large (prompt-tuning) 0.72 0.69 0.80XLM-RoBER
+Ta (prompt-tuning) 0.70 0.67 0.78
+Besides the general Anglicism detection evaluation, we also performed an additional study of Anglicism detection mistakes. For this, we analyzed the predictions of the best model, that is, the ruRoBER
+Talarge (prompt-tuning) model (see Table 5 for the most typical mistakes).
+Sentence Model prediction(token level)В ЛДЦ “Кутузовский” в Москве вы можете пройти полное чек-ап обследование всего организма.
+чекЕсли не знаешь как начать дейтиться, то этот коуч научит тебя.
+дейт, коучМожешь рассчитывать даже на апельсиновый фреш в моём исполнении!ап
+From the mistake analysis, several conclusions can be made:1. The model demonstrates a restricted capability in accurately identifying Anglicisms that consist of
+multiple words connected by hyphens. Although the model can identify such Anglicisms, loweringthe sensitivity threshold of the linear classification layer resolves this issue.
+2. In the process of tokenization, some Anglicisms are tokenized as several tokens. As a result, the
+model sometimes marks only the English root as an Anglicism, omitting suffixes and inflections.
+3. The model occasionally generates false positive errors by incorrectly marking tokens resembling
+English word parts as Anglicisms.
+7.2 Anglicism substitution
+As for the Anglicism substitution results (see Table 6), the two model variants can be highlighted here.
+Namely, ruGP
+T3 sent+angl outperforms other models by CHF
+R++ and BLE
+U, and ruGP
+T3 LoR
+A yieldsthe best score by Rouge
+L, BER
+Tscore, and LaBS
+E. This result was obtained due to the fact that in thefirst approach, the model did not always replace Anglicism in the sentence. In contrast, in the secondParameter
+Efficient Tuning of Transformer Models for Anglicism Detection and Substitution in Russianapproach, the model replaced Anglicism more often, but sometimes not with the same word as in ourgolden paraphrase. Nevertheless, the substitution the model proposed was semantically close to thegolden one. Therefore, metrics measuring semantic proximity, BERT
+Score and LaBS
+E turned out to behigher in the second approach. The low-rank adaptation approach has demonstrated its efficiency as itmaximizes the potential of large pre-trained models by optimizing all model layers, albeit in a specificmanner. The hypothesis that multilingual models cope better with Anglicisms detection and substitutionhas not been confirmed.
+It should also be noted that we solve the Anglicism substitution problem as the generative task and,therefore, employ generative metrics for their evaluation. Thus, due to the possible plurality of thecorrect answers and the variety of generated output and distinctiveness, these metrics are not expected toreach the theoretical maximum when assessing the effectiveness of generative models like the one in ourapproach.
+Model CHR
+F++ BLE
+U Rouge
+L BERT
+Score LaBSEruGP
+T3 only sent 0.79 0.58 0.74 0.89 0.91ruGP
+T3 sent+angl 0.81 0.72 0.77 0.91 0.93mGP
+T3 only sent 0.75 0.64 0.73 0.89 0.92mGP
+T3 sent+angl 0.78 0.68 0.75 0.90 0.91ruGP
+T3 LoR
+A 0.76 0.67 0.8 0.92 0.94mGP
+T3 LoR
+A 0.71 0.62 0.78 0.90 0.91
+Analyzing the predictions of ruGP
+T3 Lora, which yielded the best scores by most of the metrics, twomain types of mistakes can be highlighted:1. The model leaves the sentence unchanged. This usually happens with uncommon Anglicisms,
+which are, by being rare, tokenized into several tokens. For example, in the sentence “Футболист Лионель Месси является амбассадором Adidas.” the Anglicism “амбассадором” istokenized into four tokens, and the model fails to replace it.
+2. The model replaces an Anglicism with a wrong word changing the meaning (e.g., “Она скринит
+наши переписки.” paraphrased as “Она проверяет наши переписки.”). This is most likelydue to the fact that the model failed to learn the correct meaning of the Anglicism.
+8 Conclusion
+This article is devoted to Anglicism detection in Russian and their substitution with Russian equivalents to ensure effective communication across various social and professional strata. In this work, wepresented a parallel corpus of Anglicism, several models for Anglicism detection and a set of generativemodels for Anglicism substitution. In addition, we compared a series of experiments and performed acomprehensive model evaluation. All the code and all the models are available in our repository23 andthe dataset can be downloaded24 from Hugging
+Face project.
+As a part of future work, we plan to augment the existing dataset with both new Anglicisms and newsentences with the current one. We hope that such data augmentation will improve the result.
+8.1 Possible Misuse
+We believe that our research should not be involved in creating content that affects the individual orcommunal well-being in any way, including• legislative application or censorship;• misand disinformation;• infringement of the rights of access to information.
+23https://github.com/dalukichev/anglicism_removing
+24https://huggingface.co/datasets/shershen/ru_anglicism
+Lukichev D., Kryanina D., Bystrova A., Fenogenova A., Tikhonova M.8.2 Biases and data quality
+The Anglicism corpus includes large segments representing the Internet domain, and therefore, it maypossibly contain a variety of stereotypes and biases. Proper evaluation is still needed to explore possiblemodel vulnerabilities in terms of generalizing on the new data and specific new data.

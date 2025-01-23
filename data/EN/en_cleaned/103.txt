@@ -1,0 +1,227 @@
+The paper presents a series of experiments conducted by the team aryzhova within the Dialogue’21RuShift
+Eval competition aimed at automatic detection of a degree of semantic change in Russian nounsthroughout three time periods: a pre­
+Soviet (1700­1916), a Soviet (1918­1990), and a post­
+Soviet (1991­2016) ones .
+Semantic change is a shift in themeaning of a lexeme occurring due to socio­cultural or purely linguisticreasons. Such changes can be substantial and clearly seen. A common example is a new technical devicelabeled with an already existing lexical item, cf. a computermouse, or Russianmama ‘mother’ acquiringthe meaning ‘motherboard’. At the same time, some changes affect just a particular aspect of a word’smeaning, such as its general connotations and associations, cf. Kosovo which is strongly associatedwith war thematics after the conflicts in 1998­1999 . Between these extremities, there are plenty ofintermediate cases.
+The RuShift
+Eval shared task consisted in ranging a set of Russian nouns according to the degree ofsemantic change which they underwent in a given time span. We test a set of distributional models(word2vec , EL
+Mo , RuBER
+T ) with different parameter settings in application to this task.
+The aim of our study is twofold. On the one hand, we intend to test the applicability of the mostprominent semantic change detection methods that have proven their efficiency in languages other than
+Russian (mostly in English). Since Russian, in contrast to English, has a rich morphology, we makeseveral attempts to take it into consideration. On the other hand, we expect the results of the experimentsto shed new light on the linguistic nature of semantic change. Thus some of our experiments test certainlinguistic properties of the given lexical items.
+2 Related work
+Semantic change is a linguistic phenomenon intriguing scholars from a long time ago (see, e.g. ).
+However, as a specific domain of studies, it shaped relatively recently. The main achievements in thedomain are still mostly limited to the detailed descriptions of individual words’ trajectories of semanticchange (cf. ; , among others) or the research of individual mechanisms of semantic shift, such asmetaphor, metonymy, and others (; , to mention just a few).
+The emergence of large­scale corpora gave rise to computational studies of semantic change (;) and allowed to formulate and test some general laws underlying these semantic processes. Amongthese general laws are a correlation between a word’s frequency, its level of polysemy, and its aptitudeto meaning change , or dependency of the degree of semantic change on the level of the word’sprototypicality in the previous time period . However, the lion’s share of the studies is still basedsolely on the English data.
+In Russian linguistic tradition, there is a fundamental study by V. V. Vinogradov animpressive number of words and expressions through the prism of their diachronic change, followed by arecent volume an in­depth corpus analysis of twenty words across two centuries. Due tothe lack of diachronic corpus data in open access, computational analysis of semantic change in Russianwas limited until very recently. Now, the release of the diachronic subcorpora of the RN
+C opens up newperspectives in the field.
+The most prominent methodologies of semantic change detection in English (and some other lan­guages) make use of various distributional models . We use these algorithms as a basis of our exper­iments as well.
+3 Dataset
+The organizers of the competition provided three datasets: train, development, and test.
+The train set consists of two parts, called RuSem
+Shift1 and RuSem
+Shift2, the first semantic changedatasets in Russian . The RuSem
+Shift1 covers pre­
+Soviet and Soviet times and includes 48 words; theRuSem
+Shift2 covers Soviet and post­
+Soviet times with 51 words. The datasets contain both nouns andadjectives. However, we exclude the adjectives from consideration since the development and test sets
+Ryzhova A. A., Ryzhova D. A., Sochenkov I. V.
+Dataset Number of tokenspre­
+Soviet 73542513
+Soviet 95043479post­
+Soviet 83269542contain only nouns. The resulting datasets include 44 and 43words in the RuSem
+Shift1 andRuSem
+Shift2,respectively.
+We used recently released diachronic sub­corpora of the Russian National Corpus for our experiments,which correspond to the three time periods. Table 1 presents the volumes of these corpora in tokens.
+The semantic change value is measured by COMPAR
+E metric . In brief, for each word, the an­notators get random pairs of sentences. The sentences belong to two different periods. The annotatorsevaluate them, placing scores from 1 to 4, where the lowest score corresponds to the strongest change.
+The resulting score for each pair of sentences is the average of the scores of the annotators. The score foreach word is the average of the scores for each pair of sentences.
+The development dataset includes 12 words, the test dataset – 99 words. For each word the par­ticipants of the competition have to predict semantic change score (COMPAR
+E) in three pairs of timeperiods: pre­
+Soviet ­ Soviet (RuSem
+Shift1), Soviet ­ post­
+Soviet (RuSem
+Shift2), pre­
+Soviet ­ post­Soviet(RuSem
+Shift3). The words are ranged according to these scores, and the results are evaluated with the
+Spearman correlation between the produced ranking and the ranking obtained from human annotation.
+4 Experiments
+Our main experiments are based on the model architectures suggested in . We use static word embed­dings, word2vec , and contextualized word embeddings, EL
+Mo . The word2vec model considersonly corpus statistics, but it can capture some semantic properties of words, assigning to each word ex­actly one vector representation. The EL
+Mo model has the BiLST
+M architecture and is believed to catchdeeper semantic properties. The embedding of each word depends on the given context, so for each wordmention the model provides a separate embedding vector. In our research, we consider models trainedboth on lemmas and on tokens. In addition, we conduct a simplistic experiment testing whether a changein a morphological profile correlates with a change in meaning.
+Below we describe each experimental setup in more detail.
+4.1 Experiment 1: Word2vec
+In the first experiment series, we use the word2vec models provided by the organizers of the competition.
+These models are trained separately on the Russian diachronic corpora using CBO
+W algorithm, contextwindow size equals 5, vector size is 300.
+As a baseline, we range the words by the cosine similarity of their word2vec representations in themodels corresponding to the different time periods. The models were trained on lemmas and alignedwith Procrustes alignment (cf. ).
+On the word2vec models trained on tokens we run three different experiments. We compute finalscores in the same way as in the baseline, but we test three types of vector representations:1. Vector of the word is the average vector of all its word forms.
+2. Vector of the word is the vector of its most frequent word form.
+3. Vector of the word is the vector of its word form which displays the highest rate of semantic change
+in the given period. We computed the cosine similarity of word embeddings for each word form,and then took the one with the lowest final score.
+Detection of Semantic Changes in Russian Nouns with Distributional Models and Grammatical Features4.2 Experiment 2: EL
+Mo
+The following experiment series is based on EL
+Mo contextualized embeddings.
+For each word we find all the sentences where these words occur and construct 100 random pairs.
+The first sentence in a pair belongs to one time period, the second to the other period. For example, inthe RuSem
+Shift1 task, the first sentence is picked from the pre­
+Soviet time corpus, the second – fromthe Soviet one. For each sentence we compute the EL
+Mo embedding of the word for which we want tomeasure the semantic shift value. We also build additional models where each sentence is presented bythe average vector of the target word embedding and the embeddings of the words from its closest context(one, two, or three items away from the target word), which proved efficient in similar experiments from. The final score is the average cosine similarity for all pairs. To achieve a certain level of robustness,we take the average value of the cosine similarity from 5 experiments on different 100 random pairs ineach iteration.
+Another parameter that we vary in this experiment series is sentence preprocessing: the target andthe context words are either treated as tokens or substituted by their lemmas. For the experiment ontokens, we use the tokens EL
+Mo model ruwikiruscorpora_tokens_elmo_1024_2019, trained on RN
+Cand Wikipedia, from Rus
+Vectores . For the experiment on lemmas, we lemmatize texts with themorpho_ru_syntagrus_pymorphymodel from Deep
+Pavlov library, which also allows excluding personalnames from consideration. It is a neural morphological tagger; the algorithm is described in . TheEL
+Mo model ruwikiruscorpora_lemmas_elmo_1024_2019 is also taken from Rus
+Vectores.
+4.3 Experiment 3: RuBER
+T model
+This experiment repeats the previous algorithm with another model, RuBER
+T, presented in . It is astandard BER
+T model with transformer architecture, trained on the Russian Wikipedia and news, basedon the multilingual BER
+T model. In this case we take into account only the target word embedding.
+4.4 Experiment 4: Grammatical features
+Previous theoretical studies of various semantic phenomena show that a meaning change can affect notonly the distributional properties of a word but its grammatical profile as well (see, for example, ).
+Trying to test this hypothesis on large­scale data, we represent each target noun with a vector of its gram­matical preferences. These grammatical vectors consist of 12 dimensions that correspond to differentmorphological forms appropriate for Russian nouns, i.e., the combinations of six cases and two gram­matical numbers. The values of these dimensions are computed as raw counts of tokens of the target wordin the given morphological form within each time period. The final scores, which are expected to signalthe level of semantic change, are computed as in the previous experiment series – as the cosine similarityof two vectors representing the same word in different time spans.
+4.5 Experiment 5: Regression
+In the final experiment, we try to benefit from distributional and grammatical properties of words takentogether. To achieve this, we train a linear regression with regularization given by the l2­norm (Ridge
+Regression). The regularization strength alpha is selected with the gridsearch on 5 fold cross­validationand equals to 0.1. We use the cosine similarities from the experiment in Section 4.2 with an EL
+Mo model(tokens + context of window size 1), and the cosine similarities of the corresponding grammatical vectorsas features.
+5 Results
+We conducted all our experiments on the train RuSem
+Shift1 dataset, and then evaluated the best methodson other datasets. Tables 2­6 present the results we obtained. In Tables 5 and 6, Spearman correlation1, Spearman correlation 2, and Spearman correlation 3 state for correlation coefficients corresponding
+to the three time period pairs: pre­
+Soviet and Soviet, Soviet and post­
+Soviet, pre­
+Soviet and post­
+Soviet,respectively; an asterisk in the same tables indicates the results where the p­value is lower than 0.05.
+Ryzhova A. A., Ryzhova D. A., Sochenkov I. V.
+Model Spearman correlationword2vec similarity 0.485EL
+Mo, layers=’average’ 0.508EL
+Mo, layers=’top’ 0.526EL
+Mo with context, ’average’, window=2 0.579EL
+Mo with context, ’top’, window=2 0.555
+Model Spearman correlationword2vec, average of all word forms 0.282word2vec, the most frequent word form 0.361word2vec, the most changed word form 0.28EL
+Mo, layers = ‘average’ 0.54EL
+Mo with context, ’average’, window=3 0.593EL
+Mo with context, ’average’, window=2 0.593EL
+Mo with context, ’average’, window=1 0.621RuBER
+T 0.411grammatical vectors 0.30linear regression 0.602
+Tables 2­6 show that the results differ depending on the dataset. However, it is clearly seen that theEL
+Mo model with a small window size outperforms both word2vec and EL
+Mo with a bigger windowsize models. RuBER
+T performs worse than EL
+Mo, but it should be taken into account that the EL
+Momodels were trained on the RN
+C collection, while we do not fine­tune RuBER
+T on the same corpora.
+Interestingly, pretty simple grammatical vectors get rather high scores, even outperforming word2vecand RuBER
+T models on some datasets. It means that change in meaning is indeed correlated with gram­matical re­profiling. Figure 1a, representing the distribution of morphological forms of the noun svalkain the pre­
+Soviet and the Soviet subcorpora, gives an illustration of a clear grammatical shift which canbe easily explained from the semantic point of view. The most frequent morphological form of this wordin the pre­
+Soviet period is the nominative singular, while in the Soviet period, the accusative singularform becomes almost as frequent as the nominative singular one. The prevalent meaning of this word inthe pre­
+Soviet subcorpus was that of a fight . Since the word denoted an event, it was frequently usedin existential contexts, declaring that a fight was taking place (see Example 1) – hence the preference forthe nominative case. In contrary, in the Soviet period this meaning is rarely attested, giving way to themeaning ’dumping ground’. This new semantics triggers the usages of the word svalka in the accusat­ive case, because, denoting a specific place, it often plays the role of the goal of a motion (
+Example 2)typically marked with the accusative case in Russian.
+(1) Totčas že na zemle zakipela svalka.Nom
+Sg, i desyatki tel smešalis’ v odnu obš’uyu kričaš’uyumassu.
+’
+A scuffle ensued, with dozens of women in a bawling, struggling mass on the ground.’(2) Govoryat šefu: stanok slomalsya. On verit, volokut stanok na svalku.Acc
+Sg.
+’
+They would tell the boss that a lathe was broken. He would believe them and they would drag thelathe out on to the rubbish dump.’ Detection of Semantic Changes in Russian Nouns with Distributional Models and Grammatical Features
+Model Spearman correlationword2vec on lemmas 0.545EL
+Mo tokens with context, layers=’average’, window =1 0.715RuBER
+T 0.211grammatical vectors 0.465linear regression 0.733
+Model Spearmancorrelation 1
+Spearmancorrelation 2
+Spearmancorrelation 3word2vec on lemmas 0.49 0.538 0.622∗EL
+Mo lemmas, ’average’ 0.559 0.343 0.664∗EL
+Mo tokens + context,’average’, window =10.636∗ 0.769∗ 0.818∗
+RuBER
+T 0.322 0.531∗ 0.517∗grammatical vectors 0.392 0.259 0.252linear regression 0.741∗ 0.727∗ 0.832∗
+Model Spearmancorrelation 1
+Spearmancorrelation 2
+Spearmancorrelation 3word2vec on lemmas 0.141 0.246∗ 0.330∗EL
+Mo lemmas, ’average’ 0.469∗ 0.450∗ 0.453∗EL
+Mo tokens + context,’average’, window =10.430∗ 0.451∗ 0.469∗
+RuBER
+T 0.380∗ 0.429∗ 0.448∗grammatical vectors 0.157 0.199∗ 0.343linear regression 0.480∗ 0.487∗ 0.560∗
+It is also clear that change in morphological preferences is more crucial in some cases, while in othersthey seem insignificant. For example, the noun element ’element’ exhibits substantial semantic differ­ences between the pre­
+Soviet and the Soviet periods, according to the annotators (its COMPAR
+E equals1.91), nevertheless it remains grammatically stable.
+The opposite situation, where grammatical re­profiling is present, while almost no semantic change isdetected (i.e., COMPAR
+E value is higher than 3) is also attested. This is usually the case for rare words,such as roždestvo ’
+Christmas’ or agenstvo ’agency’. However, it seems that, for somewords, grammaticalchanges reveal some interesting tendencies remained unnoticed by the annotators. For example, theword pravitel’, which does not change in meaning from the pre­
+Soviet to the Soviet times, accordingto human annotation (COMPAR
+E equals 3.38), shows a clear shift towards plural forms with almostno change in the case forms ratio. This phenomenon could reflect a cultural (political) change in thecorresponding linguistic society, i.e. the shift from monarchy to socialism. However, such effects requirefurther investigation.
+As for the regressionmodel, it only slightly outperforms othermodels, being in general compatible with
+Ryzhova A. A., Ryzhova D. A., Sochenkov I. V.00,05
+0,1
+0,15
+0,2
+0,25
+0,3
+0,35
+0,4
+0,45
+Acc
+Pl Acc
+Sg Dat
+Pl Dat
+Sg Gen
+Pl Gen
+Sg Ins
+Pl Ins
+Sg Loc
+Pl Loc
+Sg Nom
+Pl NomSgSovietpre
+Soviet(a) Svalka0,050,1
+0,15
+0,2
+0,25
+0,3
+Acc
+Pl Acc
+Sg Dat
+Pl Dat
+Sg Gen
+Pl Gen
+Sg Ins
+Pl Ins
+Sg Loc
+Pl Loc
+Sg Nom
+Pl NomSgSovietpre
+Soviet(b) Pravitel’the Soviet periods.
+the best EL
+Mo model. However, it seems to add some robustness to the algorithm and shows substantialimprovement on the datasets with words that have undergone more or less significant grammatical re­profiling.
+6 Discussion
+Most evidently, the lack of textual data leads to a worse model performance, and this factor is expectedlymore crucial for models based on the word2vec CBO
+W architecture than for those based on the EL
+Moalgorithm. The pre­
+Soviet subcorpus is the most problematic in this respect: while covering the longesttime span, it is the most modest in size, and it is less representative in terms of the text genres. In additionto it, this subcorpus is quite heterogeneous and seems to split into two parts: the texts written app. beforethe 1830s versus the texts written app. after 1830. This borderline is mentioned in a range of case studiesof semantic changes occurred in individual lexical items (cf. znatnyj ‘famous’, mama‘mother’, slavnyj ‘famous’, among others). It is grounded on observations that it is only afterthe 1830s that the traces of colloquial speech ­ the register which is mostly prone to semantic changes ­start to penetrate into written texts reflected in the corpus. Thus, many words are used rather differentlyin these parts of the pre­
+Soviet subcorpus. This piece of information is lost when a word representationis built on this subcorpus as a whole. It could be better to divide this time period (and, consequently, thesubcorpus) into two parts, or even totally exclude the texts written before the 1830s from consideration.
+However, the amount of textual data representing this period, being already insufficient, would decreaseeven more.
+Another problematic area is the evaluation metrics. The ‘golden standard’ dataset that was used inthe competition is compiled from human judgements on the level of semantic differences within pairs ofusages of one and the same lexical item randomly picked from the corresponding text corpora (see and Section 2). This benchmark has many advantages. First, annotators deal with a word in context,which allows them to estimate semantic similarity more accurately than it is done in traditional datasetson semantic similarity, such as Word
+Sim353 , where words are given in isolation. Second, the annota­tion procedure is not very difficult and allows for crowdsourcing. Third, this approach to constructionof an evaluation dataset is fully data­driven, it is not based on the previous knowledge acquired fromdictionaries or other resources. Finally, because of the random sampling of the context pairs, the datasetroughly represents the respective frequencies of different word senses in the corpus.
+At the same time, this benchmark has some drawbacks, the most important of which, to our mind,concerns the vague nature of semantic change. Semantic change is an umbrella term for very differ­
+Detection of Semantic Changes in Russian Nouns with Distributional Models and Grammatical Featuresent processes, including metaphoric and metonymic shifts, grammaticalization and pragmaticalization, specification and generalization of a word meaning, cf. , . Heterogeneity of these processes com­plicates the task of annotating and ranking words according to the level of semantic change they have undergone, since word meanings change in very different ways and aspects. The complexity of the task for humans is clearly seen from the level of inter­annotator agreement, which sometimes does not exceed 0.2.
+It might be fruitful to develop a classification of linguistic phenomena related to semantic change and to annotate evaluation datasets according to it, assigning different weights to different classes (e.g., 1 for metonymy, 2 for metaphor, 3 for grammaticalization, etc.). For every lexical item within a pair of time periods, such an annotation would include the list of the attested types of semantic changes together with the total scores counted as the sum of these types weights.
+It should be admitted that construction of such a dataset would be pretty costly: it would require a certain level of annotators’ linguistic proficiency and a more rigorous analysis of various data sources. However, it could be useful for theoretical studies of semantic change, since it would allow for testing different methodologies for different kinds of processes (cf. different metrics for culturally versus lin­guistically driven shifts in ). The results of such experiments could help to reveal new regularities appropriate for various linguistic phenomena.
+For example, it is already well known that a change in meaning usually correlates with a change of the usage context. This assumption underlies the so­called distributional hypothesis , which, in its turn, gives rise to distributional semantics, i.e. to the most prominent methodology used to complete the task of semantic change estimation. However, our experiments show that the correlation between the level of semantic change and the level of change of the word’s morphological profile is sometimes also rather high. This effect is expected for grammaticalization and pragmaticalization processes, but the examples of such changes were not so numerous in the datasets. It seems that some grammatical effects are appropriate for semantic shifts of other types as well – this topic deserves further investigation.
+7 Conclusion
+The task of an automated semantic shift detection in Russian is a promising field for future experiments, interesting for both computational and theoretical linguistics. The methods that we had implemented did not receive the highest scores in the RuShift
+Eval competition. Our model based on the EL
+Mo algorithm with the smallest window took the 6th place among 14 participating systems, while the regression model was not submitted. There is definitely much room for further improvement: additional corpus data, fine­tuning of the RuBER
+T model, or usage of the train dataset for a supervised model generation could result in better performance.
+One of the most interesting theoretical outcomes that we got is a rather strong correlation between grammatical re­profiling and semantic change. We find it an interesting topic for further research which could shed additional light on the nature of semantic shifting.
+We would also like to highlight that the competition was devoted to nouns, and it would be an interesting challenge to look for the best ways of semantic change detection in adjectives and verbs. We hope that the next competition within the Dialog conference will include this task.
+Acknowledgements
+We deeply thank Lidia Pivovarova and Andrey Kutuzov for the organization of the competition and for their constant support of its participants, as well as the anonymous Reviewers for their insightful com­ments which helped us to improve this text in many respects. We are also grateful to Ekaterina Rakhilina for the idea that grammar matters. Anastasiia Ryzhova and Ilya Sochenkov are supported by RFB
+R, re­search project no. 18­29­03187, and partially by the Ministry of Science and Higher Education of the Russian Federation according to the agreement between the Lomonosov Moscow State University and the Foundation of project support of the National Technology Initiative No 7/1251/2019 dated 15.08.2019 within the Research Program “
+Center of Big Data Storage and Analysis” of the National Technology Ini­tiative Competence Center (project “
+Text mining tools for big data”). Daria Ryzhova is supported by RFB
+R, research project no. 20-012-00240.
+Ryzhova A. A., Ryzhova D. A., Sochenkov I. V.

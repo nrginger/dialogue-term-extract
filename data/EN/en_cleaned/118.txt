@@ -1,0 +1,215 @@
+Possessivity and how it is expressed by means of possessive and reflexive possessive pronouns is a popular topic in theoretical linguistics. This subject is discussed from many different perspectives, e.g. typological, historical, semantic, syntactic and discursive. The approach used in this paper is contrastive, multilingual and corpus-based.
+While analysing the correspondences between coreferential expressions in parallel English
+Czech texts (Novák—
+Nedoluzhko, 2015), we have observed that possessive pronouns in English appear more frequently than they do in the same positions in Czech. This led us to carry out a systematic analysis of such cases. While analysing the Czech counterparts we discovered many language-specific details in Czech that required a comparison to another Slavic language in order to properly interpret this more thoroughly. We chose Russian1 for this analysis. The use of possessives has been analysed in detail for each language separately (see Section 2). However, Czech and Russian are typologically and genetically very close, and the rules for the use of possessives are quite similar. So, the general rule both for Czech and Russian is that a reflexive possessive can substitute personal possessive pronouns if it is coreferential with the subject. On the other hand, the use of possessives is not completely identical. For example, the distributive meaning of the reflexive possessive svoj is very common in Russian, while in Czech it is completely marginal, see Example 1:(1) R
+U: U každogo učenogho jesť svoja biblioteka—C
+S: Každý vědec má *svou/vlastní knihovnu 1 One of the reasons is that there is extensive literature on this topic in Russian.
+Possessives in Parallel English‑Czech‑
+Russian Texts The main concern of this paper is to investigate the use of possessive and reflexive possessive pronouns in English, Czech and Russian. For our analysis, we used a newly created three-language Czech-English
+Russian parallel corpus (PCEDT
+R, see Section 3), which we provided with automatic word alignment, its manual correction and annotation. For the aligned annotated data, we compiled the statistics of correspondences of the pronouns under analysis in the three languages (
+Section 4). The next step was to analyse the resulting correspondences. In Section 5, we provide proof for the assumption that Russian possessive and reflexive possessive pronouns occur less frequently than in English, however we also show that they are used significantly more frequently than in Czech. The differences between Czech and Russian are addressed in Section 6. Overall in this paper, we use existing theoretical knowledge from non-corpusbased monolingual research, the annotation of corpus data and our language intuition to formulate hypotheses about the use of possessives in Czech, English and Russian and support them with the statistics from the three-language parallel corpus analysis. We have not found the theoretical basis for all of our assumptions yet, which is planned for the next stages of the research. We believe that the research in this field is helpful both for the improvement of machine translation work (e.g. it would be easier to identify which English possessives should be translated into Czech and Russian and which should not) and for theoretical comparative language analysis.
+2. Related work
+There is a variety of means to express the notion of possessivity (see e.g. a detailed survey in Brykina 2009). In this paper, we are interested, above all, in pronouns. In English, there is one group of possessive pronouns (his, her, its, their)2, which are translated into Czech and Russian as possessive ( jeho, její, jejich in Czech, jego, jeje, ich in Russian) and possessive reflexive (svůj in Czech and svoj in Russian) pronouns.
+For Czech, the description of personal and possessive reflexive pronouns begins with Svoboda (1880) and is further addressed in a number of theoretical studies and grammars (see e.g. in Gebauer 1890, Trávníček 1951, Daneš—
+Hausenblas 1962, Panevová 1986, Dočekal 2000, etc.). The concurrence of possessive and reflexive possessives is described in most detail for syntactic constructions with one predication (
+Já čtu svou/?mou knihu = I’m reading my book) and for cases with an explicitly embedded predication (
+Já slyším tě zpívati svou/mou/tvou oblíbenou píseň. = I hear you sing your/my favorite song3). Many examples of different types are systematically analysed, but the results are formulated rather as tendencies than as strong rules and are based on syntactic (
+Trávníček 1951, Daneš—
+Hausenblas 1962, Dočekal 2000), semantic (
+Panevová 1986) or discursive (Čmejrková 1998) criteria. For Russian, the concurrence of possessive and reflexive possessive pronouns is addressed in most 2 Here and later, we only speak about possessives in the third person.
+3 This Gebauer’s (1890) example was used by many researchers addressing this topic.
+Nedoluzhko A., Schwarz (
+Khoroshkina) A., Novák M.
+in Padučeva (1985); the author provides ten distinctions between the different types and explains them with syntactic, semantic and referential arguments. Some non-typical types of control of possessive reflexive were addressed in Fed’ko (2007).
+As for the meanings of the reflexive possessive in Russian, Padučeva (1983) considers 6 different types of svoj. The basic type is the possessive form of a reflexive pronoun sebja (oneself), the same as in Czech; other meanings are derived from the basic one with additional functions added, such as the distributive meaning, the meaning of ‘special’, ‘appropriate’, the contrast ‘one’s own’ ↔ ‘somebody’s else’ and so on. In contrast to Czech (
+Panevová, 1986), Padučeva describes the tendency of svoj to take part in different kinds of idiomatic expressions. And in addition to the six meanings of svoj introduced in Padučeva (1983), Brykina (2009) mentions that it may be used in sentences where it is semantically redundant, though it also possesses discursive or syntactic functions, such as indicating the focus of attention and maintaining referential connectivity (
+Brykina, 2009:135ff.).
+The study of meaning and distribution of possessive and reflexive possessive pronouns in our analysis is closely connected to the subject of external possessivity. In this respect, we took into account the research provided in Brykina (2005, 2009) and Kibrik (2003) for Russian and Krivan (2007) for Czech.
+As for existing parallel corpora including all the languages under analysis, there are the Intercorp (a part of the Czech National Corpus)4 and the Para
+Sol5 multi-language corpora. In Intercorp, parallel data can be excerpted for pairs of languages, namely separately for e.g. English
+Czech and Czech
+Russian. Texts in both corpora are automatically sentence-aligned, there is no word-alignment. As far as we know, parallel language data have not been used for this kind of analysis yet. The research addressing semantic and pragmatic functions of possessives in Czech mostly relies on the linguistic intuition of the authors and the analysis of constructed or specially found examples.
+3. Data and methods
+Our core analysis is based on the newly created three-language parallel EnglishCzech
+Russian corpus. The English
+Czech part of it was taken from the Prague Czech
+English Dependency Treebank (PCED
+T, Hajic et al. 2012) and translated into Russian (in what follows, the abbreviation PCEDT
+R will be used for this three-language parallel corpus). Given the size of PCED
+T, the translation and the manual annotation of word alignment of the entire PCED
+T would be extremely time-demanding. We therefore limited the dataset to only 1078 sentences located in the first half of the PCED
+T section 19, i.e. the 50 documents from wsj_1900 to wsj_1949.
+The English part consists of the Wall Street Journal (WS
+J) section of the Penn Treebank (
+Marcus et al., 1999). The Czech and Russian parts were manually translated 4 Texts in Intercorp are taken from the Project Syndicate website (http://www.project-syndicate.org).
+5 The project of the Humboldt University of Berlin, http://www.slavist.de/
+Possessives in Parallel English‑Czech‑
+Russian Texts from the English source sentence by sentence.6 The linguistic annotation in the English
+Czech part of PCEDT
+R is provided within the following annotation layers: the lowermost “word” layer (w-layer) representing the tokenized plain text, the morphological layer (m-layer) containing automatic part-of-speech tagging and lemmatization, the analytical layer (a-layer) representing surface dependency syntax, and the deep syntax or tectogrammatical layer (t-layer). The t-layer includes semantic labeling of content words (nouns, adjectives, adverbs, and verbs) and coordinating conjunctions, ellipsis reconstruction, coreference annotation, and argument structure description based on a valency lexicon. PCEDT
+R is the same excerpt of texts that was used for analysis of coreferential expressions in English and Czech (Novák—
+Nedoluzhko, 2015), thus it already contains manual annotation of word alignment for English personal and possessive pronouns and Czech relative pronouns. The Russian part was automatically aligned with the Czech part of PCED
+T using GIZ
+A++ (
+Och and Ney, 2000), which was run on a large amount of parallel Czech
+Russian data. The resulting triples containing possessive units (in at least one of the languages used) have been manually annotated and analysed from the perspective of each language separately.
+Table 1 shows some of the basic statistics and information related to the present work calculated on PCEDT
+R.
+English Czech Russiantexts 50sentences 1,078tokens 26,560 25,477 25,396possessive 238 106 120possessive-reflexive pronouns— 91 85morphological and syntactic annotationyes yes no (planned)
+To confirm our hypotheses formulated on the basis of examples and statistics from PCED
+T and its Russian translation, we also used the examples from Inter
+Corp. However, parallel texts there only have sentence automatic alignment and automatic morphological tagging, they are not word-aligned. It means that searching for possessive pronouns there leads to numerous false results. In this study, we do not use the statistics obtained from this corpus. We used it to search for specific triples of sentences (ENG-CS-R
+U) for cases that we considered to be of interest. In general, over 600 English-Czech
+Russian triples have been concerned in Intercorp, and only 70 of them are relevant for our analysis.
+6 The Czech translation has been created for the whole PCED
+T (ca. 50,000 sentences, see Hajič
+et al., 2012) by professional translators. The translation into Russian has been completed recently by A. Schwarz. The Czech and Russian translators were instructed to keep the sentence structure of the source texts.
+Nedoluzhko A., Schwarz (
+Khoroshkina) A., Novák M.
+confirm some of our general estimates, we also used two short questionnaires for native speakers of Czech. Mainly, they contain questions aiming to find systematic differences between Czech and Russian possessives and are based on the functional description of reflexive possessive pronoun svoj in Russian completed by E.
+V. Padučeva (
+Padučeva, 1983).
+4. Statistics
+For PCEDT
+R, we have calculated the number of occurrences of counterparts of aligned possessive and reflexive possessive pronouns. The calculation has been completed for each of the analysed languages.
+Tables 2, 3 and 4 show the statistics for the aligned counterparts for English, Czech and Russian respectively. Possessives in language A may be mapped on the following categories in language B:•	 possessive pronouns (the poss label, e.g. E
+N: his—R
+U: jego—C
+S: jeho);•	 reflexive-possessive pronouns (the refl-poss label, e.g. E
+N: his—R
+U: svoj—C
+S: svůj);•	 nouns, anaphoric zeros, demonstrative and personal pronouns (the N
+P label, see Example 2);(2) E
+N: <
+His> members alone have pledged $800,000.—R
+U: Только члены правления <Степпенвулф> обещали $800 000.
+•	 external possessive expressions, the definite article (in English) or relative clauses (the other label, see Example 3, where the possessive meaning is expressed in Czech with external dative reflexive si, and Example 8 in Section 5 below for the definite article);(3) E
+N: Glenn Beebe had sued the company after installing Burlington carpets in <his> office.—C
+S: Glenn Beebe zažaloval společnost poté, co <si> koberce Burlington položil do kanceláře.
+Possessive and reflexive possessive pronouns may remain unaligned in two cases: Еither when no possessive expression has been used in the same syntactic construction (the no-poss label), or the syntactic construction of the translated sentence has been reformulated, making the word alignment impossible (the reword label). Rewordings include cases where e.g. a biclausal construction in one language becomes a monoclausal construction in the other (see Example 9 in Section 5 below), comitative in one language and coordination in the other (a boy with his father vs. a boy and his father) and so on.
+Table 2 shows that a significant7 part of English possessive pronouns have other (or no) means of expression in Czech and Russian: Only 72% (92+80) and 7 This is significant at p-level p≤0.05. Significance has been calculated by bootstrap resampling using 100,000 samples. The same holds for all other claims about differences referred
+to as significant.
+Possessives in Parallel English‑Czech‑
+Russian Texts 82% (112+83) of English possessive pronouns are expressed by Czech and Russian
+possessive and reflexive-possessive pronouns, respectively. However, there is also a significant difference in expressive means between Czech and Russian. The reasons for such a difference (about 10%) can be found in the translator’s style or special language features and will be addressed in more detail in later sections. It is also possible that the difference between the frequency of pronouns Russian and Czech is occasional, the lack of pronouns in Czech being partly compensated by rewording (15 in Czech vs. 10 in Russian) and externally expressed possessivity.
+poss refl-possexternal means not alignedN
+P other no-poss rewordC
+S 92 80 6 6 39 15R
+U 112 83 5 3 25 10possessive pronouns in English and Russianposs refl-possexternal means not alignedN
+P other no-poss rewordE
+N 174 5 6 3 9R
+U 94 62 9 — 22 10possessive pronouns in English and Czechposs refl-possexternal means not alignedN
+Ps other no-poss rewordE
+N 196 — 2 2 3 2C
+S 81 73 6 3 28 145. Analysis: English ↔ Czech & Russian
+One of the most interesting points addressed in Novák—
+Nedoluzhko (2015) concerns the expression of possessivity in English and Czech. The statistics of the correspondence of English possessive pronouns to their Czech counterparts confirms the general tendency of Czech to express personal possessive pronouns less frequently than in English. For example, in Czech, it is not common to use a possessive (or a reflexive possessive) pronoun in sentences like (4). However, it is not ungrammatical. Nedoluzhko A., Schwarz (
+Khoroshkina) A., Novák M.
+Czech sentence in Example 4 would remain grammatically correct after adding a reflexive possessive svůj.
+(4) E
+N: As a result of <their> illness, they lost $1.8 million in wages and earnings.—C
+S: Důsledkem (<své>) nemoci přišli na mzdách a výdělcích o 1.8 milionu dolarů.
+We suggest that the high frequency of possessives in English is related to the grammatical category of definiteness. English has a strong tendency to avoid using bare nouns, i.e. nominal groups (especially in singular) should be mostly specified by either an article or another determiner. Possessive pronouns in cases such as their in Example 1 express definiteness even more explicitly than the definite article does, giving a monosemantic reference to the possessor. As a Slavic language without grammatical category of definiteness, Czech does not have such a strong tendency to express it. If our suggestion is correct, the situation in Russian should be more similar to Czech than to English, as it is also a language without obligatory expression of definiteness.
+The translation of the sentence (4) into Russian supports this assumption: The use of the reflexive possessive pronoun svoj is grammatically correct but it is neither obligatory nor especially common.
+(4)’ R
+U: В результате (<своей>) болезни они потеряли $ 1,8 млн заработной платы и других доходов.
+As shown in Table 2 for PCEDT
+R, ca. 23% (39+15=54 occurrences) of English possessive pronouns are not expressed in Czech. For Russian, this number is lower: unexpressed pronouns make up ca. 15% (25+10=35 occurrences), but the difference with English is still statistically significant. In 13 cases (5%) in PCEDT
+R, English possessive pronouns were not translated either into Czech or Russian. These are mostly the cases where the pronouns rather expresses definiteness than possessivity, cf. English its in its first quarter in Example 5.
+(5) E
+N: Bear Stearns reported improved earnings for <its> first quarter, ended Sept. 29.—C
+S: Společnost Bear Stearns oznámila zvýšené výdělky za <> první čtvrtletí, končící 29. září.—R
+U: Bear Stearns сообщил об увеличившейся прибыли за <> первый квартал, закончившийся 29 сентября.
+There are occasional examples (one found in PCEDT
+R, and some were found in Intercorp or can be constructed), where an English construction with a possessive was translated into Czech with a determiner, but with a different one than used in English. See Example 6 with the demonstrative pronoun ten in Czech. In Russian, the reflexive possessive svoj remains expressed (like in English).
+(6) E
+N: Lionel also urged holders of its stock and debt not to tender <their> securities.—C
+S: Společnost Lionel též tlačí vlastníky svých akcií a dlužníky, aby <tyto> cenné papíry nenabízeli.—R
+U: Лайонел также убедил держателей его акций и долгов не номинировать <свои> ценные бумаги.
+Possessives in Parallel English‑Czech‑
+Russian Texts Occasionally (4 instances in PCEDT
+R), English possessives can also be translated into Czech or Russian with relative clauses (see Example 7 for Russian):(7) E
+N: Coupled with <his> current 1.2 million shares stake would have given him control of 55% of the concern.—C
+S: Ve spojení s <jeho> současným 1.2 milionu akcií mu tento podíl poskytl kontrolu nad 55% podniku.—
+R
+U: Будучи соединена с 1,2 миллионами акций, которыми он в данный момент владеет ставка обеспечила бы ему контроль 55 % концерна.
+Observing the PCEDT
+R data from the perspective of Czech and Russian, we can see that much fewer possessive expressions do not find their counterparts in English, than it was for the perspective English → Czech and Russian. For Czech (see Table 3), among 197 possessive and reflexive possessive pronouns, only 12 remain unexpressed (3 no-poss and 9 rewordings). Other cases are expressed either with possessive pronouns (174 cases), possessive nominal groups (e.g. the company’s instead
+of its—5 cases) or the definite article (6 cases, see Example 8). For the perspective Russian → English & Czech (see Table 4), these numbers are even smaller.
+(8) C
+S: Tento maloobchodník nebyl schopen najít pro <svoji> budovu kupce.—EN: 
+The retailer was unable to find a buyer for <the> building.—R
+U: Компания была неспособна найти покупателя для <> здания.
+The interchangeability of a possessive pronoun and the definite article is especially interesting. It appears to be relatively systemic. Not only in PCEDT
+R, but also in Intercorp, we can easily find examples where Czech and Russian possessive (or possessive reflexive) pronouns are aligned with the English definite article the. On the one hand it speaks in favor of our idea of correlation between the English grammatical category of definiteness and the frequency of possessive pronouns as compared to the Slavic languages Czech and Russian. On the other hand, it also means that possessive pronouns in Czech and Russian do not always express the possessivity exclusively. This meaning of reflexive possessive svoj and other possessive pronouns was described for Russian in Brykina (2009) but as far as we know no extensive research has been done for Czech.
+The analysed examples allow us to confirm the proposed definiteness hypothesis, but more data need to be analysed to formulate the distributional rules more precisely. There are also some aspects of comparison that should be addressed in more detail in further analysis. For example, it seems that in cases where possessive pronouns fill actant positions in valency frames, they seem to be more frequent in Czech and Russian than in English (
+Example 9). Possessives in Czech and Russian tend to be more obligatory if the possessor’s antecedent is more distant from the pronouns or belongs to a different clause (судья Bork никогда не будет иметь высокого шанса на ?<свое>/??<его>/<>утверждение // судья Bork никогда не будет иметь высокого шанса на то, что <его>/??<0> утверждение будет одобрено).
+Nedoluzhko A., Schwarz (
+Khoroshkina) A., Novák M.
+C
+S: Byl mimo provoz od konce srpna, kdy mexická vláda oznámila <jeho> krach...—E
+N: It hasn’t been operating since <it> was declared bankrupt by the Mexican government—R
+U: Он не действует с тех пор, как мексиканское правительство объявило о <его> банкротстве.
+6. Analysis: Czech ↔ Russian
+6.1. Optionality
+As we have observed in Section 4, Table 2 shows a significant difference in the frequency of possessive and reflexive possessive pronouns between Russian and Czech when translated from English possessive pronouns. It shows that possessives in Russian are used more frequently in translations. Why is it so? To answer this question, we have annotated optionality in PCEDT
+R. Next to each sentence with a possessive or reflexive possessive pronoun, the label <OP
+T> was inserted in the cases where the possessive element could be omitted or inserted (if missing). The possibility to omit the pronoun does not necessarily infer that the meaning remains absolutely the same, it is rather our assumption that in the same pragmatic context, the sentence could be also used without this pronoun, and the possessive meaning may be mostly reconstructed from the context.
+expressed OP
+T unexpressed OP
+T total OP
+T all nodescz refl_poss 27 13 50 238cz poss 10ru refl_poss 36 2 54ru poss 16
+Table 5 shows a similar optionality in Czech and Russian:8 Out of the translations of 238 English possessive pronouns, 50 and 54 cases, respectively (ca. 20% in both cases), are optional. However, in Czech, optionality was marked in a larger number of cases where possessivity was not expressed (13 cases in Czech vs. only two cases in Russian). Moreover, we observe a substantial difference in optionality of expressing possessivity between possessive and reflexive possessive in both languages: Reflexive possessives can be omitted more frequently (27 and 36 cases of reflexive possessives vs. 10 and 16 possessives in Czech and Russian respectively).9 This fact appears especially interesting if we compare these numbers with the numbers in Table 2, showing 8 This fact was not checked for statistical significance, because optionality is a subjective feature.
+9 The reasons for this difference can be rather empirical: reflexive possessive is coreferential to the subject, so possessor may be easier reconstructable from the context that in cases
+of non-reflexive possessivity. However, this has not been proved and will be eventually addressed in the future work.
+Possessives in Parallel English‑Czech‑
+Russian Texts that, in general, possessive pronouns are more frequently translated with possessive pronouns than with reflexive possessives in Czech and Russian.
+A possessive pronoun is obligatory in cases where it fills a valency position of the inserted predication, if it expresses the contrastive meaning (e.g. his magazines—many women’s magazines in Example 10) and so on.
+(10) E
+N: Today, Mr. Lang believes <his> magazines will offer what many women’s magazines don’t.—C
+S: Dnes je Lang přesvědčen, že <jeho> časopisy nabízejí něco, co mnohé jiné ženské časopisy nemají.—R
+U: Сегодня г-н Лэнг считает, что <его> журналы предложат то, что не предлагают многие другие женские журналы.
+The possessive meaning is often lost when omitting the possessive expressive unit. In some cases it remains clear from the context, in other cases it does not, but still we suspect that there is no special need to express it. This makes our judgement about optionality rather weak and subjective. Nevertheless, we consider it to be very important as it helps us understand the graduality of this category in Slavic languages.
+Analysing examples with a different degree of optionality of possessive elements in Czech and Russian, we made some assumptions that can be confirmed or refused with a larger set of data and a more thorough analysis. For example, pronouns seem to be less obligatory when defining an inalienable part of the possessum. Also, in comitative constructions (
+A with B) a pronoun can be dropped out easier than in coordinative ones (
+A and B) as in Example 11.
+(11) E
+N: The play concerns Teddy ‘s homecoming with <his> wife of six years, Ruth.—C
+S: Hra se soustředí na Teddyho návrat domů s manželkou Ruth, se kterou je již šest let.—R
+U: Пьеса повествует о возвращении домой Тэдди и <его> жены Рут, на которой он женился за 6 лет до того.
+6.2. External possession
+External possession (
+Haspelmath, 1999) is a phenomenon where a nominal unit is syntactically encoded as a verbal dependent but semantically understood as the possessor of one of its co-arguments. Krivan (2007) claims for Czech that the variability of semantic and syntactic properties of external possession constructions is higher than in other languages of the European linguistic area. We suppose that it is also higher in Czech than in Russian. Moreover, in Czech, external possession is expressed more frequently and specific steps towards grammaticalization of this phenomenon can be observed. In Czech, possessivity is often expressed by the Dative possessor si, which occurred in our examples parallel to English possessive pronouns, cf. Example 12.
+(12) C
+S: Sběratelé, kteří <si> vydělali peníze na Wall Street, se stali více a více důležitou součástí obchodu s uměním—E
+N: Collectors who have made <their> money on Wall Street have become an increasingly important part of the art business.
+Nedoluzhko A., Schwarz (
+Khoroshkina) A., Novák M.
+in Czech, there is a gradual shift between the Dative possessor si and the so-called free Dative that does not contain the possessive meaning anymore (see Example 13 of colloquial Czech, where three datives are used at the same time). Free Dative is quite frequent in (especially colloquial) Czech, but the borderline between possessive and non possessive meaning is not clear in many cases.
+(13) C
+S: Pustila jsem dceru na hory a ona <ti> <si> <mi> tam zlomila nohu! (
+Jandová 1993:62, Cit. from Krivan 2007)—
+In Russian, cases where external possession is expressed with a reflexive pronoun are marginal in our data and it may be used in cases where it is supported by the valency frame:(14) R
+U: Жители прокладывали <себе> путь через посыпанные стеклом улицы.—E
+N: Residents picked <their> way through glass-strewn streets.—CS: 
+Obyvatelé města <si> razili cestu ulicemi zasypanými sklem.
+It appears to be reasonable to address this topic in more detail. For example, it makes sense to compare the frequency of Czech si with the possessive meaning in translated and original texts. We assume that in original texts the frequency will be higher, because the meaning of this particle is synthesized with more difficulties when translating from English.
+As for Russian, the question of external possessivity has been analysed e.g. in Haspelmath (1999), Kibrik (2003) and Brykina (2005), but from a different perspective. Addressing external possessivity in Russian on the corpus data in comparison with Czech and English is part of our plans for the future.
+7. Conclusion
+We have presented a corpus-based analysis of the use of possessive and reflexive possessive pronouns in the Prague Czech-English
+Russian (PCEDT
+R) parallel corpus. We have calculated the statistics of correspondences and analysed some tendencies that these statistics exhibit.
+The created parallel data let us address differences in the expression of possessivity in the analysed languages more precisely. The statistics of pronoun correspondences in English, Czech and Russian and the interchangeability of English possessive pronouns with the definite article the proved the hypothesis of an existing correlation between the category of definiteness and the use of possessive pronouns. Furthermore, we analysed the differences between the use of possessive and reflexive possessive pronouns in Czech and Russian.
+We believe that our findings may be interesting both from the theoretical and computational perspectives. From the perspective of computational linguistics, searching for rules of expressing possessivity helps us find and verify specific Possessives in Parallel English‑Czech‑
+Russian Texts features in text that can be further used as background knowledge for the development of a multilingual tool for coreference and anaphora resolution; also, for machine translation, it is important to know which possessive pronouns should or should not be translated into Czech and Russian. From the theoretical point of view, our research contributes to contrastive comparative analysis of typologically related (
+Czech and Russian) and more distant (
+English vs. Czech & Russian) languages. The knowledge acquired by such comparison not only gives us the typologically relevant information in general but also an opportunity to know more about each separate language. For example, by comparing the specificity of use of possessive pronouns in Czech with Russian, we can understand more about each of these languages.
+8. Acknowledgement
+We acknowledge the support from the Grant Agency of the Czech Republic (grant 16-05394
+S). The work on this project was (partially) supported by the grant “
+Multilingual Corpus Annotation as a Support for Language Technologies” (L
+H14011, Ministry of Education, Youth and Sports). This work uses language resources developed,
+stored and distributed by the LINDAT/CLARI
+N project of the Ministry of Education, Youth and Sports of the Czech Republic (project L
+M2015071).

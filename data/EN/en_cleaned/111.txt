@@ -1,0 +1,169 @@
+The development of richly-encoded dramatic corpora for digital literary research has been on the rise recently. Some examples include “
+Shakespeare His Contemporaries” (510 English plays from the Shakespeare era, ) “
+Théâtre Classique” (1080 French dramas from the XVI
+I and XVII
+I century, collected and encoded by Paul Fièvre at http://www.theatre-classique.fr/), the DLIN
+A corpus (466 German-language plays from 1730 up to 1930, ) , the Dramawebben (66 Swedish plays at http://dramawebben.se). These corpora are encoded in TE
+I and have all proved their usefulness for the digital literary studies , , . Adding a Russian-language collection to the family of drama corpora will enable similar research on Russian material and boost cross-cultural studies on the structure and evolution of dramatic texts.
+The ultimate goal of the RusDra
+Cor project is to provide a corpus of at least 500 encoded Russian plays spanning for two centuries, roughly in between 1740 and 1940 (later plays are still under copyright). Currently the corpus (rus.dracor.org) features 89 plays, provided with semantic and structural annotation described below. The earliest play in RusDra
+Cor is Horev (Хорев) by A. P. Sumarokov (1747); the newest—
+Ivan
+Vasilievich (Иван Васильевич) by M. A. Bulgakov (1936). The main sources for growing the corpus are Wikisource (wikisource.org), the Russian Virtual Library (rvb.ru), Online library of Alexei Komarov (ilibrary.ru) and Maxim Moshkov’s library (lib.ru).
+2. Annotation and metadata available at RusDra
+Cor
+RusDra
+Cor provides both structural and semantic markup for the plays included. It also contains certain meta information about the encoded texts. The corpus is encoded in accordance with the TE
+I guidelines (http://www.tei-c.org/
+Guidelines/), a widely used 30-year old XM
+L standard comprising around 550 elements, specifically defined for digital editions and the demands of Digital Humanities research. Source TEI/XM
+L files of the corpus are available at https://github.com/dracor-org/rusdracor. In this section we describe the layers of the corpus annotation implemented at this moment.
+2.1. Structural markup
+The structural markup asumes the hierarchical representation of all subdivisions in the play (acts, scenes, enters etc.). This is done with help of div tag:<div type=”act”><head>Действие первое</head><div type=”scene”><head>Сцена первая</head><div type=”enter”><head>Выход первый</head><stage> Игроки, князь Звездич, Казарин и Шприх. За столом мечут банк и понтируют...
+Кругом стоят.</stage>http://www.theatre-classique.fr/http://rus.dracor.org/https://github.com/dracor-org/rusdracor
+Building a Corpus for the Quantitative Research of Russian Drama<!--..text of the first enter..--></div></div></div>
+The main components of a dramatic texts are character speeches and stage directions. Our markup uses TE
+I tags <p> (paragraph) or <lg> + <l>(verse line group and a single verse line) for speeches and TE
+I tag <stage> for stage directions. Speaker is encoded with <speaker> tag; each character gets a unique identifier by which s/he is referenced in the markup throughout the entire play:<stage> Городничий, попечитель богоугодных заведений, смотритель училищ, судья, частный пристав, лекарь, два квартальных. </stage><sp who=”#
+Gorodnichij”><speaker>Городничий.</speaker><p> Я пригласил вас, господа, с тем чтобы сообщить вам пренеприятное известие: к нам едет ревизор.</p></sp><sp who=”#AmmosFedorovichLjapkin
+Tjapkin”><speaker>Аммос Федорович.</speaker><p>Как ревизор?</p></sp>***<sp who=”#
+Famusov”><speaker>Фамусов</speaker><lg><l>Сказал бы я, во-первых: не блажи,</l><l>Именьем, брат, не упрекай оплошно,</l><l>А, главное, поди-тка послужи.</l></lg></sp><sp who=”#
+Chatskij”><speaker>Чацкий</speaker><lg><l>Служить бы рад, прислуживаться тошно.</l></lg></sp>
+Cases of multiple speech authorship (‘Все’, ‘Оба’, ‘Вместе’) are resolved manually if possible at all:<sp who=”#
+Zagoretskij #Pervajaja
+Knjazhna #Vtorajaja
+Knjazhna #Tretjaja
+Knjazhna #Chetviortajaja
+Knjazhna #Pjatajaja
+Knjazhna #Shestajaja
+Knjazhna”><speaker>Все вместе</speaker><lg>
+Skorinkin D., Fischer F., Palchikov G.<l>Мсьё Репетилов! Вы! Мсье Репетилов, что вы!</l><l>Да как вы! Можно ль против всех!</l><l>Да почему вы? стыд и смех.</l></lg></sp>2.2. Semantic markup
+As of now, semantic markup is mostly limited to the specification of each character’s gender. Gender is first assigned automatically to each character during the initial conversion (relying on typical name endings). Then it goes through manual correction. We use standard way of specifying gender via the @sex attribute of each <person> element in <list
+Person> of the <tei
+Header> that is recommended by the TE
+I Consortium (see the ‘TE
+I Header’ section of the TE
+I P5: Guidelines at http://www.tei-c.org):<list
+Person><person xml:id=”Marija
+Vasilevna” sex=”FEMALE”><pers
+Name>Мария Васильевна</persName><pers
+Name xml:lang=”en”>
+Mariâ Vasil’evna</persName><pers
+Name xml:lang=”de”>
+Mariâ Vasil’evna</pers
+Name></person><person xml:id=”
+Telegin” sex=”MALE”><persName>Телегин</persName><pers
+Name xml:lang=”en”>Telegin</persName><pers
+Name xml:lang=“de“>Telegin</pers
+Name></person><!… rest of the list .. --><listPerson>
+We are also working on adding the ‘social status’ information for each character—whether s/he belongs to the nobility, or is a servant, a serf, a soldier, a merchant and so on. This could give more material for formal analyses of character systems that we implement (see the research cases below).
+2.3. Metadata
+The metadata is stored in the <tei
+Header> element of each document. It contains information about the author; dates of origin, publication and premiere of the play (if available), character names and I
+Ds, link to the source of the text. The following example demonstrates a part of a play metadata containing the information about the play and its author:<title
+Stmt><title type=”main” xml:lang=”ru”>Гроза</title><title type=”main” xml:lang=”en”>
+The Storm</title><title type=”sub” xml:lang=”ru”>Драма в пяти действиях</title><title type=”sub” xml:lang=”en”>
+A Drama in Five Acts</title>http://www.tei-c.org
+Building a Corpus for the Quantitative Research of Russian Drama <author key=”Wikidata:
+Q171976”>Островский, Александр Николаевич </author></titleStmt>
+Second example shows the encoding of metadata related to dates of creation, premiere and first publication:<bibl type=”original
+Source”><title> А. Грибоедов. Горе от ума. А. Сухово-Кобылин. Пьесы. А. Островский. Пьесы. “Библиотека Всемирной литературы”, М.: Художественная литература, 1974.</title><date type=”print” when=”1860”>1860 год (wikipedia)</date><date type=”premiere” when=”1859”>1859 год (wikipedia)</date><date type=”written” when=”1859”>1859 год (wikipedia)</date></bibl>3. Case study 1. Measuring the evolution
+of drama through stage directions3.1. Rationale for the research
+Our first case study is a research of the evolution of dramatic texts. We demonstrate the use of RusDra
+Cor, which currently contains plays written in between the middle of XVII
+I and the first third of the X
+X centuries, for diachronic studies. Specifically, we analyze the changes in length and linguistic composition of stage directions (<stage> tag, see the ‘
+Structural markup’ section above). These changes, in our view, reflect the general ‘epification’ of drama—a process that later reaches its peak with the emergence of Brecht’s ‘epic theatre’ theory .
+“
+A stage direction can be detailed and evocative <…> More typically, however, is direction that lacks specific details but instead invokes a formula where the implementation of the onstage effect is left to the players or to the imagination of a reader” . When one reads a play from the XVII
+I of early XI
+X century, s/he may not even notice stage directions at all. They are typically short and purely technical:1) <stage>Те же и невольник.</stage> (А. П. Сумароков. Хорев. 1747)
+2) <stage>Тамира и Клеона.</stage> (М. В. Ломоносов. Тамира и Селим.
+1750)
+3) <stage>Оскольд, Семира, Избрана, Возвед и воины.</stage>
+(А. П. Сумароков. Семира. 1751)4) <stage>Слуги уходят.</stage> (А. А. Шаховской. Пустодомы. 1819)
+5) <stage>Народ расходится.</stage> (А. С. Пушкин. Борис Годунов. 1826)
+However, as new types of drama evolve, stage directions become more elaborate and content-rich, turning into a significant part of the dramatic narrative. Consider these examples from plays in our corpus:
+Skorinkin D., Fischer F., Palchikov G.6) <stage>Слышно, как к дому подъезжают два экипажа. Лопахин и Дуняша быстро уходят. Сцена пуста. В соседних комнатах начинается шум. Через сцену, опираясь на палочку, торопливо проходит Фирс, ездивший встречать Любовь Андреевну; он в старинной ливрее и в высокой шляпе; что-то говорит сам с собой, но нельзя разобрать ни одного слова. Шум за сценой все усиливается. Голос: «Вот пройдемте здесь...» Любовь Андреевна, Аня и Шарлотта Ивановна с собачкой на цепочке, одетые по-дорожному. Варя в пальто и платке, Гаев, Симеонов-Пищик, Лопахин, Дуняша с узлом и зонтиком, прислуга с вещами—все идут через комнату.</stage> (А. П. Чехов. Вишневый сад. 1905)7) <stage>Прыгает в окно. Даль, видимая в окне, оказывается нарисованной на бумаге. Бумага лопнула. Арлекин полетел вверх ногами
+в пустоту. В бумажном разрыве видно одно светлеющее небо. Ночь истекает, копошится утро. На фоне занимающейся зари стоит, чуть колеблемая дорассветным ветром,—Смерть, в длинных белых пеленах, с матовым женственным лицом и с косой на плече. Лезвее серебрится, как опрокинутый месяц, умирающий утром. Все бросились в ужасе в разные стороны. Рыцарь споткнулся на деревянный меч. Дамы разроняли цветы по всей сцене. Маски, неподвижно прижавшиеся, как бы распятые у стен, кажутся куклами из этнографического музея. Любовницы спрятали лица в плащи любовников. Профиль голубой маски тонко вырезывается на утреннем небе. У ног ее испуганная, коленопреклоненная розовая маска прижалась к его руке губами. Как из земли выросший Пьеро медленно идет через всю сцену, простирая руки к Смерти. По мере его приближения черты Ее начинают оживать. Румянец заиграл на матовости щек. Серебряная коса теряется в стелющемся утреннем тумане. На фоне зари, в нише окна, стоит с тихой улыбкой на спокойном лице красивая девушка—Коломбина. В ту минуту, как Пьеро подходит и хочет коснуться ее руки своей рукой, между ним и Коломбиной просовывается торжествующая голова автора.</stage> (А. А. Блок. Балаганчик. 1906)8) <stage>Грохот, взрыв, выстрел. Победоносиков распахивает дверь
+и бросается в квартиру. На нижней площадке фейерверочный огонь. На месте поставленного аппарата светящаяся женщина со свитком в светящихся буквах. Горит слово «Мандат». Общее остолбенение. Выскакивает Оптимистенко, на ходу подтягивает брюки, в ночных туфлях на босы ноги, вооружен. </stage> (В. В. Маяковский. Баня. 1929)
+In a manner similar to the study of the evolution of novelistic titles by Moretti , we made an attempt to quantify and measure these changes in dramatic texts.
+3.2. Analysis
+To measure the evolution of stage directions in plays over time, one could use relatively simple & obvious features. Given the examples above, one obvious choice Building a Corpus for the Quantitative Research of Russian Dramawould be to use a set of features measuring absolute and relative lengths of the stage directions. We implemented the following measures (calculated for each play):1. total length of stage directions in a play (figure 1)
+figure 12. average length of a stage direction (figure 2)
+figure 23. ratio of stage directions text to the direct speeches text (measured in word
+tokens). (figure 3)
+Skorinkin D., Fischer F., Palchikov G.figure 3
+Another set of features verb usage in stage directions (we used My
+Stem (https://tech.yandex.ru/mystem/) to obtain Po
+S tags). As one may notice, earlier stage directions (examples 1–5) seem to contain only few verbs. These verbs usually describe the technical dynamics of the play: characters entering or leaving, also in some cases laughing, crying, dying and so on. In later stage directions (examples 5–8) there is a greater abundance diversity of verbs, which can be considered a marker of a narrative stage direction. Therefore, we also implemented the following verb-related measures:1. the total share of verbs per all words in stage directions texts in a play (figure 4)
+figure 4https://tech.yandex.ru/mystem/https://tech.yandex.ru/mystem/
+Building a Corpus for the Quantitative Research of Russian Drama2. the total number of unique verbs in all stage directions (figure 5)figure 5
+As one can see from figures 1–5, all measures show steady increase over time. And though the dependency is not linear in the strict sense, we can at least claim that no play in XVII
+I or early XI
+X century has long diverse stage directions of the narrative kind. In the late XI
+X and early X
+X centuries, on the other hand, we have a lot of plays with traits of ‘epification’ in them. Of course, this is only preliminary research, but the result could be a visible trace of a cultural evolutionary process that lead to the emergence of Brecht’s epic theatre theory.
+4. Case study 2. Gender specifics in character speech
+4.1. Rationale for the research
+In our second case study we switch to the analysis of direct speech in drama. Using the structural markup for speeches (<sp> tag and @who attribute) we can easily extract every speech instance for each character. And since we have gender information in the metadata, one obvious research goal could be to perform the statistical comparison of male and female speeches in the corpus. Similar research on movie subtitles fruitful results.
+4.2. Tools and preprocessing
+The earliest quantitative work on character speech is probably —the now-famous book that laid the foundations of contemporary stylometry Skorinkin D., Fischer F., Palchikov G.(computational stylistics). In this research we also chose to use stylometric tools, namely the widely used Stylo package for R . Stylo has a number of built-in stylometric functions for statistical exploratory analysis of differences in text/speech styles. To eliminate the effect of morphology we performed analysis on lemmatized text, using My
+Stem (https://tech.yandex.ru/mystem/) for lemmatization.
+4.3. Analysis
+To perform contrastive analysis of male and female speech in our corpus we used the oppose () function of Stylo package. This function performs a contrastive analysis between two given sets of texts, using Burrows’s Zeta its extensions by . The function takes two sets of texts as input and outputs words significantly preferred and avoided by texts in one set (as compared to the other). top left, most avoided words, as compared to male speech,—bottom right).
+figure 6. Results of the oppose() function applied to male and female character speech in RusDraCor
+Building a Corpus for the Quantitative Research of Russian Drama
+As one can see in figure 6, statistical analysis demonstrates results that can be called (awfully) stereotypical. Women tend to talk about marriages, matrimonial activity and procreation (‘мужчина’ = man, ‘муж’=husband, жених = ‘groom’, ‘замуж’= (to get) married, ‘рожать’=to give birth, ‘дитя’=child, ‘воспитывать’= to bring up (a child)), feelings & emotions (‘радость’ = joy, ‘весело’=cheerfully, ‘стыдно’=ashamed, ‘жаль’= it’s a pity, ‘счастие’ =happiness), clothes (‘платье’=dress, ‘туалет’=clothes, ‘одеваться’= get dressed) family (‘бабушка’=grandmother, ‘мать’=mother, папа=daddy, ‘маменька’=mummy, ‘тетушка’=auntie). Men, meanwhile, use swear words and offensive language (‘черт’=devil/demon, usually an expressive interjection, ‘дурак’=fool), talk about honor, honesty, affairs of the state and government service (‘бумага’= paper/official document, ‘превосходительство’= (your) excellency, standard address to an official of a certain rank, ‘государь’=emperor/polite address to a person, ‘докладывать’=to make an official report to a superior, ‘служить’=to serve, ‘служба’=service).
+5. Case study 3. Network analysis
+5.1. Rationale for the research
+Literary network analysis is a sub-branch of digital literary studies that applies methods of network science to the study of fiction. The rise of literary network analysis is typically associated with the works of Moretti, who provided the philological rationale for this sort of digital formalism in Shakespeare’s Hamlet as a showcase. However, there is also substantial amount of earlier research dedicated to network analysis of literary work. In analyze the network of characters in Simple stories, a contemporary novel by Ingo Shulz describing life in the former GD
+R after the unification of Germany. the vast network of Marvel comics characters, extracted automatically from a total of 12,942 comics issues. The authors apply theoretical apparatus from graph theory, namely network density, clustering coefficients, average node degree, average path length and other formal metrics of the resulting network. This study demonstrates that fictional networks are structurally similar to the social networks of the real world and can be investigated with help of standard approaches from social network analysis.
+In a follow-up study of the same Marvel universe characters are additionally classified into heroes and villains, which enables authors to speculate on Marvel’s marketing techniques. that most heroes are connected to each other within one huge connected component of the network, whereas villains do not form a unified group. This, the authors suggest, could result from Marvel’s attempts to popularize new and yet unknown characters by pairing them with older well-known superheroes, such as Captain America or Superman.
+Other early network-related research includes several analyses of Shakespeare’s plays analysis of community Skorinkin D., Fischer F., Palchikov G.structures in Les Miserables , comparison of rural and urban networks in XI
+X century British novels . After lot more research on literary network analysis came around, see , , , , , . Literary network studies on Russian material include . Dramatic text with its inherent structure (acts, scenes, speeches) naturally becomes an easier target for automated network extraction and analysis. Studies like , , network analysis to large-scale digital exploration of drama (in a way following Moretti’s lead with Hamlet).
+5.2. Extracting networks
+In our research we follow older formalist/structuralist approaches in literary studies , , . We formalize interactions in drama as co-appearance of two characters in one scene of a play, in which both character speak at least once. This formalisation has its drawbacks, but its huge benefit is that it allows easy conversion of a play (provided with structural markup) into a network of characters and their interactions. And the availability of a multitude of plays in our corpus opens opportunities for large-scale research on the structure and evolution of different compositional types of plays. networks extracted from all the plays currently included in RusDra
+Cor.
+figure 7. Visualization of character networks extracted from all plays currently included in RusDra
+Cor (ordered chronologically)
+Building a Corpus for the Quantitative Research of Russian Drama5.3. Large-scale network analysis
+Even simple visual analysis of figure 7 already tells something about certain changes in types of drama over time. For instance, one may notice from the first two rows that the networks of plays from XVII
+I and early XI
+X century all share certain traits. These traits include1. relatively small number of nodes (characters)
+2. single densely interconnected core, with few to none periphery characters
+(which are typically servants)
+This structure apparently reflects the classicist tradition with its three unities of action, time and place. For better demonstration we provide figure 8, which features all plays in our corpus from 1747 (earliest) to 1825.
+figure 8. Visualization of character networks for all plays in our corpus from 1747 (earliest) to 1825. Ordered chronologically
+The first two plays in our corpus to violate the standard structure are (marked with red) Griboedov’s Woe from Wit (“Горе от ума”) and especially Pushkin’s Boris Godunov (Борис Годунов). Both plays are known to be a result of Shakespearean influence, and Shakespeare himself was an acknowledged breaker of the classical tradition . Similar observations were made in regard to Shakespearean influence on Goethe and the structural evolution of German drama. A huge advantage of network formalization is the possibility to combine visual analysis with strict mathematical measures provided by graph theory. The visible difference of mentioned networks can be observed through networks metrics. Some of the metrics are1. number of nodes
+2. network density, which is the ratio of the number of edges in a graph to the
+maximum possible number of edges in that graph (i.e. if each node was connected to every other node).
+3. network diameter, or the length of the longest path between one node and
+another in that network, measured in the number of edges
+Skorinkin D., Fischer F., Palchikov G.
+Figures 9, 10 and 11 present number of node, density and diameter measures for each play in our corpus. N
+B that networks with several components have no diameter measure in this implementation.
+figure 9. Number of nodes in play networkfigure 10. Network densities
+Building a Corpus for the Quantitative Research of Russian Dramafigure 11. Network diameters
+As one can see, the networks that are visually different also have extreme network measures. For instance, Boris Godunov, chronologically the first play with no single ‘core’ of main characters (see figure 7), is clearly an outlier in terms of the number of characters (much higher than the others), density (much lower) and diameter (much bigger). All these measures obviously reflect the specific structure of Pushkin’s play, the fact that its plot takes place in different chronotopes and that the play itself was not meant to be staged (a specimen of the ‘closet’ plays). It is also no accident that similar measures are observed in the dramatic trilogy by A. K. Tolstoy, which also exhibits Shakespearean traits. Another example of a play with many characters and low density is Gogol’s Leaving the theatre (Театральный разъезд)—a very specific meta-play of peculiar structure.
+Other network measures can be used to track the evolution of plays in general. For instance, on figure 9 one can see that the average degree of a node in play (that is the number of connections each character has according to the chosen formalisation) gradually increases over time. This could also signify important changes in the types of drama produced in different time periods.
+Skorinkin D., Fischer F., Palchikov G.figure 12. Average node degree in plays5.4. Zooming in on Boris Godunov
+All the research described above represents the Distant Reading approach literary studies, where distance (i.e. large-scale quantitative analysis) “is a condition of knowledge” . However, some people advocate a less radical, blended approach called Scalable Reading , where after large-scale analysis researcher might zoom in onto interesting samples. Here we take this step with Boris Godunov.
+As we demonstrated above, Pushkin’s play is one of the most expressive outliers in our corpus. The structure of the network, with several clearly distinguishable clusters, makes it an interesting target for more detailed network analysis.
+Figure 13 shows the network for Boris Godunov visualized with Gephi . Colors represent automatic modularity clustering, which obviously captures Polish cluster with the False Dimitry in the middle, Moscow cluster with tsar Boris and his son Feodor, and the People cluster (‘
+People/Народ’ is an important ‘group’ character in the play). Node sizes are proportional to weighted degree, and the most central nodes generally correspond to the main characters (
+False Dimitry, Feodor, Boris etc.).
+Building a Corpus for the Quantitative Research of Russian Dramafigure 13. Boris Godunov network, nodes proportional to weighted degree
+However, if we change the preferred centrality measure to betweenness centrality (нагрузка узла), i.e. the number of shortest paths going through this node, the picture changes significantly. The alternative visualization can be seen on figure 14.
+Skorinkin D., Fischer F., Palchikov G.figure 14. Boris Godunov network, nodes proportional to betweenness centrality
+As one may notice, the most central character now is Gavrila Pushkin—clearly not one of the main heroes of the play. However, his high betweenness centrality is fairly obvious to those familiar with the plot. Gavrila Pushkin (one of the two Pushkin characters in the play) acts as a messenger ad mediator: he is being sent from Poland to Moscow to convey the False Dimitry’s terms to Boris, and then he embarks on a mission to convince military chief Basmanov change sides—which eventually helps False Dimitry win the throne. After fulfilling this task, Gavrila Puskin as a follower of Dimitry, announces the decrees of the new tsar to the People (‘Народ’), thus becoming the character that connects all cluster in the play.
+This leads us to think that network metrics can sometimes reflect specific functions of characters in plays. And the function of Gavrila Pushkin may not be an accidental one, but rather deliberate: the idea that Pushkin’s noble ancestors were actively involved in the Russian history, and especially the history of the Time of Troubles (Смутное время) can be traced throughout Pushkin’s lyrics—see, for example, his famous poem ‘
+My Pedigree’ (“Мы к оной руку приложили”). All in all, such findings foreshadow new opportunities to network-oriented research of character systems in fiction.
+Building a Corpus for the Quantitative Research of Russian DramaConclusions
+In this paper we presented an open research-oriented corpus of Russian drama suitable for large-scale literary studies. Although the corpus is at the early stage of development, it can already serve as the basis for diverse research on structure and structural evolution of Russian drama, as we strove to highlight in our three cases studies above.
+Later on, we hope to add more layers of annotation (e.g. named entities, classes of stage directions) and metadata (genres of the plays, social statuses of the characters etc.). This will open up new. The availability of compatible non
+Russian corpora with similar markup obviously calls for cross-cultural research. RusDra
+Cor is released under a free license, se we welcome derivation and enrichment efforts from third parties.
+Acknowledgements
+The article was prepared within the framework of the Academic Fund Program at the National Research University Higher School of Economics (HS
+E) in 2017–2018 (grant № 17-05-0054) and by the Russian Academic Excellence Project “5-100”.

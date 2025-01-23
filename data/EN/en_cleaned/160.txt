@@ -1,0 +1,257 @@
+When an author attempts to provide a logical or affective argument in for something, a number of argumentation patterns can be employed. One of such patterns is to make a claim emotionally loaded, heated, escalated, associated with a confrontation. In text, argumentation patterns are associated with certain discourse features, and heated arguments are expressed in text by discourse means attempting to amplify the strength of these arguments.
+The basic points of argumentation are reflected in rhetoric structure of text. A text without an argument, with a heated argument and with a logical one would have different rhetoric structures (
+Moens et al., 2007). When an author uses an affective argument instead of logical, it does not necessarily mean that his argument is invalid ) as a means to represent discourse features associated with heated argumentation. Nowadays, a performance of both rhetoric parsers and argumentation reasoners has dramatically increased, and a discourse structure of text to be learned is formed from text automatically (
+Galitsky 2017a). Taking into account the discourse structure of conflicting dialogs, one can judge on the authenticity and validity of these dialogs in terms of validity of heated argumentation. In this work we will evaluate the combined argument validity assessment system that includes both the discourse structure extraction and reasoning about it with the purpose of validation of the complainant’s claim.
+Most of the modern techniques treat computational argumentation as specific discourse structures and perform detection of arguments of various sorts in text, such as classifying text paragraph as argumentative or non-argumentative (, , ). In this paper we intend to build the whole heated argumentation pipeline, augmenting argument extraction from text with its logical analysis. This pipeline is necessary to deploy an argumentation analysis in a practical decision support system:1) Extract syntactic features;
+2) Compute segmentation into elementary discourse units;
+3) Build discourse trees;
+4) Label their nodes with extracted communicative actions;
+5) Form logical representation for clauses extracted from discourse tree;
+6) Identify the main claim;
+7) Given the logical representation as a Defeasible Logic Program, confirm
+or reject the main claim;8) Produce a decision on whether argumentation for the main claim is accept
+able or not.
+Building this pipeline, we leverage two research areas: argument-mining, which is a linguistic-based, and logical validation of an argument, which is logic based. To the best of our knowledge, nowadays the former research area supports extracting various kinds of arguments from text on a scale, and the latter research area focuses on logical argumentation analysis of limited manually constructed argumentation structures. The contribution of this paper, the pipeline which implements the algorithms discovered in both these research areas, allows to perform logical analysis of a high quantity of heated arguments extracted from text. Therefore, industrial applications of mining and reasoning about heated arguments become possible. Since the paper combines linguistic and logical analyses, knowledge of both these domains is required from the reader to follow the whole pipeline of understanding heated arguments.
+Discovering and Assessing Heated Arguments at the Discourse Level
+The concept of automatically identifying argumentation schemes was first discussed in (
+Walton et al., 2008). In (
+Ghosh et al., 2014) authors investigate argumentation discourse structure of the specific type of communication—online interaction threads. Identifying argumentation in text is connected to the problem of identifying truth, misinformation and disinformation on the web (
+Pendyala and Figueira, 2015, Galitsky 2015, Pisarevskaya et al 2015). In (
+Lawrence and Reed, 2015) three types of argument structure identification are combined: linguistic features, topic changes and machine learning.
+To represent the linguistic features of text, we use the following sources:1) Rhetoric relations between the parts of the sentences, obtained as a discourse
+tree.
+2) Speech acts, communicative actions, obtained as verbs from the Verb
+Net resource (the verb signatures with instantiated semantic roles).
+To assess the logical validity of extracted argument, we apply Defeasible Logic Program (DeL
+P, Garcia and Simari 2004), part of which is built on the fly from facts and clauses extracted from these sources. We integrate heated argumentation detection and validation components into a decision support system that can be deployed, for example, in a Customer Relationship Management (CR
+M) domain. To evaluate our approach to extraction and reasoning about argumentation, we choose the dispute resolution / customer complaint validation task because complainants frequently use heated argumengts to bring their point across. Most complainants are in a strong emotional distress due to a disparity between what they expected and what they received. Moreover, heated arguments appear in response to how companies communicate the issues with complainants. Most complaint authors report incompetence, flawed policies, ignorance, indifference to customer needs and misrepresentation from the customer service personnel. The complainants have frequently exhausted conventional communicative means available to them, confused, seeking recommendation from other users and advise others on avoiding particular financial service. Multiple affective argumentation patterns are used in complaints; the most frequent is an intense description by a complainant on a deviation of what has actually happened from what was expected, according to a common sense. This pattern covers both valid and invalid argumentation.
+2. Representing Discourse for Heated Argumentation
+We provide an example of conflicting agents providing their interpretation of certain events.
+We show an example of a discourse tree (D
+T) for a heated argumentation of a customer treated badly by a credit card company American Express (amex) in 2007 (
+Fig. 1). Text split into logical chunks is as follows:
+Galitsky B., Taylor R.
+We first explain how a traditional discourse tree encodes information flow in a paragraph of text. Text is split into logical chunks (elementary discourse units, ED
+Us) according to the order the entities of text are being introduced, attributes attached to them, and inter-relationships established. The author first introduces her opponent, describes how this opponent treats herself and others unfairly (according to her viewpoint) and enumerates different steps of this treatment.
+D
+T is a tree where the ED
+Us are the labels of the terminal nodes. The other nodes are labeled with rhetorical relations encoding the type of logical links between the ED
+Us, such as elaboration (default), attribution, cause and others. Rhetorical relations hold not only between ED
+Us but also between the higher level logical chunks which might in turn include the lower level ones. That is how logical flow of text such as a heated argument can be visualized hierarchically. At the highest level, this text is split into two parts following the presentation sequence: 1) what happened; 2) what I think about it. This presentation style is covered by the rhetorical relation topic-comment (shown at the top of hierarchy).
+In this study, to demonstrate the discourse features associated with heated argumentation, we augment the information on logical flow which is encoded in a traditional discourse tree and extend it by two components:1) Communicative actions, showing how some elementary discourse units are
+being communicated ;2) Sentiment associated with some elementary discourse units.
+It turns out that to differentiate a heated argumentation from a default, logical argumentation, 1) and 2) are essential. We refer to an extension of D
+T as a Communicative D
+T, CD
+T. CD
+T is a D
+T with labels for edges that are the Verb
+Net expressions for verbs (which are communicative actions, C
+A). Arguments of verbs are substituted from text according to Verb
+Net frames. The first and possibly second argument is instantiated by agents and the consecutive arguments—by noun or verb phrases which are the subjects of C
+A.
+Discovering and Assessing Heated Arguments at the Discourse Level
+Fig. 1: A communicative discourse tree that includes labels for communicative actions and sentiments. Visualization of used
+In Fig. 1, the verbs communicative actions such as mistreat(amex, me) augment D
+T with necessary information about the text to match with other similar D
+Ts. The Galitsky B., Taylor R.sequence of communicative actions provides information on the structure of a dialogue between a proponent and an opponent of a given argument. This information is complementary to what D
+T encodes for logical chunks provided irrespectively of how the entities from these chunks were communicated. Communicative actions are labels of the edges of the D
+T leading to the terminal nodes; sentiments are labels of these edges as well. We denote a sentiment polarity as + or—and the subject of this sentiment as the proponent (me) and opponent (here, amex). Naturally, an author provides an argument for how she is right and hew opponent is wrong, therefore one expects the positive sentiments with the author’s ED
+Us and the negative ones with her opponents’ ED
+Us. For each label, it is attached to the CD
+T edge nearest to the right end of the label expression.
+Argumentation analysis needs a systematic approach to learn associated discourse structures. The features of CD
+Ts could be represented in a numerical space argumentation detection can be conducted; however structural information on D
+Ts would not be leveraged. Also, features of argumentation can potentially be measured in terms of maximal common sub-D
+Ts, but such nearest neighbor learning is computationally intensive and too sensitive to errors in D
+T construction .
+Therefore a CD
+T-kernel learning approach is selected which applies SV
+M learning (, ) to the feature space of all subCD
+Ts of the CD
+T for a given text where a heated argument is being detected.
+We combined Stanford NL
+P parsing, coreferences, entity extraction, D
+T construction (discourse parser, ), Verb
+Net and Tree Kernel builder into one system available at https://github.com/bgalitsky/relevance-based-on-parse-trees.
+Our second example is a regular discourse tree for a text advising on how to behave communicating a heated argument .
+When you are in the middle of an argument, it can be easy to get caught up in the heat of the moment and say something that makes the situation even worse. Nothing can make someone more frenzied and hysterical than telling them to calm down. It causes the other person to feel as if you are putting the blame for the elevation of the situation on them. Rather than actually helping them calm down, it comes off as patronizing and will most likely make them even angrier.
+A default D
+T for text such as a work of fiction or a scientific article, introducing and explaining a subject, would have default rhetoric relation of elaboration (as well as joint, attribution, background). This D
+T in addition has topic-comment on the top level, and also enablement, which indicates a peculiar logic flow. We will apply machine learning approach with extensive dataset of D
+T examples to observe a specific features of D
+Ts associated with heated argumentation. In our earlier studies developed a technique to extract and learn logical argumentation from text, and now we will apply it to heated arguments.
+https://github.com/bgalitsky/relevance-based-on-parse-treeshttps://github.com/bgalitsky/relevance-based-on-parse-trees
+Discovering and Assessing Heated Arguments at the Discourse Level
+Fig. 2: The D
+T for a text advising on how to behave communicating an argument
+Galitsky B., Taylor R.3. Assessing Validity of Extracted Argument Patterns via Dialectical Analysis
+To convince an addressee, a message needs to include an argument and its structure needs to be valid. Once an argumentation structure extracted from text is represented via CD
+T, we need to verify that the main point (target claim) communicated by the author is not logically attacked by her other claims. For a given domain, this claim is known (such as innocent or guilty, winning or loosing case, complaint is valid or not, violation has occurred or not). Most facts and clauses are pre-specified in a vertical domain ontology (the static part) and some of them are extracted from text via CD
+T (those can be less reliable).
+To assess the validity of the argumentation, Defeasible Logic Programming (DeL
+P) approach is selected, an argumentative framework based on logic programming (, ), and present an overview of the main concepts associated with it.
+A DeL
+P is a set of facts, strict rules P of the form (A:
+B), and a set of defeasible rules D of the form A-<
+B, whose intended meaning is “if B is the case, then usually A is also the case”. Let P=(
+P, D) be a DeL
+P program and L a ground literal.
+Defeasible Rules Prepared In Advancerent_receipt -< rent_deposit_transaction.
+rent_deposit_transaction -< contact_tenant.
+┐rent_deposit_transaction -<contact_tenant, three_days_notice_is_issued.
+┐rent_deposit_transaction -< rent_is_overdue.
+┐�repair_is_done -< rent_refused, repair_is_done. repair_is_done -< rent_is_requested.
+┐rent_deposit_transaction -< tenant_short_on_money, repair_is_done.
+┐repair_is_done -< repair_is_requested.
+┐repair_is_done -<rent_is_requested.
+┐repair_is_requested -< stay_unrepaired. ┐repair_is_done -< stay_unrepaired.
+Target Claim to be Assessed?—rent_receipt
+Clauses Extracted from textrepair_is_done -< rent_refused.
+Facts from textcontact_tenant. rent_is_requested. rent_refused. remind_about_repair. three_days_notice_is_issued.
+rent_is_overdue. stay_unrepaired.
+Fig. 3a: An example of a Defeasible Logic Program for heated argument extracted from text
+Let us now build an example of a DeL
+P for legal reasoning about facts extracted from text (
+Fig. 3). A judge hears an eviction case and wants to make a judgment on whether rent was provably paid (deposited) or not (denoted as rent_receipt). Discovering and Assessing Heated Arguments at the Discourse Level
+An input is a text where a defendant is expressing his point. Underlined words form the clause in DeL
+P, and the other expressions formed the facts (
+Fig. 3b).
+The landlord contacted me, the tenant, and the rent was requested. However, I refused the rent since I demanded repair to be done. I reminded the landlord about necessary repairs, but the landlord issued the tree-day notice confirming that the rent was overdue. Regretfully, the property still stayed unrepaired.
+Fig 3b: Text of a complaint and its CDT
+Galitsky B., Taylor R.
+A defeasible derivation of L from P consists of a finite sequence L1, L2, . . . , Ln = L of ground literals, such that each literal Li is in the sequence because:(a) Li is a fact in Π, or(b) there exists a rule Ri in P (strict or defeasible) with head Li and body B1,
+B2,... ,
+Bk and every literal of the body is an element Lj of the sequence appearing before Lj (j < i ).
+Let h be a literal, and P=(Π, Δ) a DeL
+P program. We say that <
+A, h> is an argument for h, if A is a set of defeasible rules of Δ, such that:1. there exists a defeasible derivation for h from =(Π ⋃ A);
+2. the set (Π ⋃ A) is non-contradictory; and
+3. A is minimal: there is no proper subset A0 of A such that A0 satisfies conditions
+(1) and (2).
+Hence an argument <
+A, h> is a minimal non-contradictory set of defeasible rules, obtained from a defeasible derivation for a given literal h associated with a program P.
+We say that <
+A1, h1> attacks <
+A2, h2> iff there exists a sub-argument <
+A, h> of <
+A2, h2> (
+A ⊆�
+A1) such that h and h1 are inconsistent (i.e. Π ⋃ {h, h1} derives complementary literals). We will say that <
+A1, h1> defeats <
+A2, h2> if <
+A1, h1> attacks <
+A2, h2> at a sub-argument <
+A, h> and <
+A1, h1> is strictly preferred (or not comparable to) <
+A, h>. In the first case we will refer to <
+A1, h1> as a proper defeater, whereas in the second case it will be a blocking defeater. Defeaters are arguments which can be in their turn attacked by other arguments, as is the case in a human dialogue. An argumentation line is a sequence of arguments where each element in a sequence defeats its predecessor. In the case of DeL
+P, there are a number of acceptability requirements for argumentation lines in order to avoid fallacies (such as circular reasoning by repeating the same argument twice).
+Target claims can be considered DeL
+P queries which are solved in terms of dialectical trees, which subsumes all possible argumentation lines for a given query. The definition of dialectical tree provides us with an algorithmic view for discovering implicit self-attack relations in users’ claims. Let <
+A0, h0> be an argument (target claim) from a program P. A dialectical tree for <
+A0, h0> is defined as follows:1. The root of the tree is labeled with <
+A0, h0>
+2. Let N be a non-root vertex of the tree labeled <
+An, hn> and Λ = sequence of labels of the path from the root
+to N). Let attack <
+An, hn>. For each attacker <
+Bi, qi> with acceptable argumentation line , we have an arc between N and its child Ni .
+A labeling on the dialectical tree can be then performed as follows:1. All leaves are to be labeled as U-nodes (undefeated nodes).
+2. Any inner node is to be labeled as U-node whenever all its associated chil
+dren nodes are labeled as D-nodes.
+3. Any inner node is to be labeled as D-node whenever at least one of its associ
+ated children nodes is labeled as U-node.
+Discovering and Assessing Heated Arguments at the Discourse Level
+After performing this labeling, if the root node of the tree is labeled as a Unode, the original argument at issue (and its conclusion) can be assumed as justified or warranted.
+In our DeL
+P example, the literal rent_receipt is supported by <
+A, rent_receipt> = <{ (rent_receipt -< rent_deposit_transaction), (rent_deposit_transaction -< tenant_short_on_money)}, rent_receipt> and there exist three defeaters for it with three respective argumentation lines: <
+B1, ┐rent_deposit_transaction> = <{(┐rent_deposit_transaction -< tenant_short_on_money, three_days_notice_is_issued)}, rent_deposit_transaction>.
+<
+B2,┐rent_deposit_transaction> = <{( ┐ rent_deposit_transaction -< tenant_short_on_money, repair_is_done), (repair_is_done -< rent_refused)}, rent_deposit_transaction>.
+<
+B3, ┐rent_deposit_transaction> = <{(┐rent_deposit_transaction -< rent_is_overdue)}, rent_deposit_transaction>. The first two are proper defeaters and the last one is a blocking defeater. Observe that the first argument structure has the counter-argument, <{rent_deposit_transaction -< tenant_short_on_money}, rent_deposit_transaction), but it is not a defeater because the former is more specific. Thus, no defeaters exist and the argumentation line ends there. B3 above has a blocking defeater <{(rent_deposit_transaction -< tenant_short_on_money)}, rent_deposit_transaction>which is a disagreement sub-argument of <
+A, rent_receipt> and it cannot be introduced since it gives rise to an unacceptable argumentation line. B2 has two defeaters which can be introduced: <
+C1, ┐repair_is_done >, where C1 = {(┐repair_is_done -< rent_refused, repair_is_done), (repair_is_done -< rent_is_requsted)}, a proper defeater, and <
+C2, ┐repair_is_done >, where C2={(┐repair_is_done -< repair_is_requested)} is a blocking defeater. Hence one of these lines is further split into two; C1 has a blocking defeater that can be introduced in the line<
+D1, ┐repair_is_done >, where D1= <{(┐repair_is_done -< stay_unrepaired)}. D1 and C2 have a blocking defeater, but they cannot be introduced, because they make the argumentation line inacceptable. Hence the state rent_receipt cannot be reached, as the argument supporting the literal rent_receipt is not warranted. The dialectical tree for A is shown in Having shown how to build dialectic tree, we now ready to outline the algorithm for validation the domain-specific claim for arguments extracted from text:1. Build a D
+T from input text;
+2. Attach communicative actions to its edges to form CD
+T;
+3. Extract subjects of communicative actions attached to CD
+T and add to ‘
+Facts’
+section;
+Galitsky B., Taylor R.4. Extract the arguments for rhetoric relation contrast and communicative actions of the class disagree and add to ‘
+Clauses Extracted From
+Text’ section;5. Add domain-specific section to DeL
+P;
+6. Having the DeL
+P formed, build a dialectical tree and assess the claim.
+We used for DeL
+P implementation. The Tweety package contains several classes for dealing with abstract argumentation frameworks which can be imported programmatically using specific methods. Tweety supports reasoning relying on the extension-based approaches of grounded, stable, complete, preferred, ideal, semistable, C
+F2, and stage semantics as well as the ranking-based approaches of .
+
+A, rent_receipt> D
+B1, ┐rent_receipt> U
+D1, ┐repair_is_reqiested> U
+C1, ┐repair_is_done > D
+B2, ┐ rent_given_as_cash > D
+B3, ┐ rent_given_as_cash > U
+C2, ┐ repair_is_done > U Fig. 4: Dialectical tree for target claim rent_receipt4. Evaluation of Detection and Validation of Affective Arguments
+The objective of argument detection task is to identify all kinds of arguments, not only ones associated with customer complaints. We formed the positive dataset from textual customer complaints dataset (
+Galitsky et al., 2009, and https://github.com/bgalitsky/relevance-based-on-parse-trees/blob/master/src/test/resources/opinionsFinance
+Tagged.xls.zip, scraped from consumer advocacy site Planet
+Feedback.com. This dataset is used for both argument detection and argument validity tasks.
+Method / sources P R F1
+Bag-of-words 57.2 53.1 55.07WEKA
+Naïve Bayes 59.4 55.0 57.12SV
+M T
+K for RS
+T and C
+A (full parse trees) 77.2 74.4 75.77SV
+M T
+K for D
+T 63.6 62.8 63.20SV
+M T
+K for CD
+T 82.4 77.0 79.61
+Discovering and Assessing Heated Arguments at the Discourse Level
+For the negative dataset, only for the affective argument detection task, we used Wikipedia, factual news sources, and also the component of that includes such sections of the corpus as: , instructions for how to use software; , instructions for how to use hardware”, and , a presentation of a news article in an objective, independent manner, and others. Further details on the data set are available in .
+A baseline approach relies on keywords and syntactic features to detect argumentation (
+Table 1). Frequently, a coordinated pair of communicative actions (so that at least one has a negative sentiment polarity related to an opponent) is a hint that logical argumentation is present. This naïve approach is outperformed by the top performing T
+K learning CD
+T approach by 29%. SV
+M T
+K of CD
+T outperforms SV
+M T
+K for RST+C
+A and RS
+T + full parse trees about 5% due to noisy syntactic data which is frequently redundant for argumentation detection.
+SV
+M T
+K approach provides acceptable F-measure but does not help to explain how exactly the affective argument identification problem is solved, providing only final scoring and class labels. Nearest neighbor maximal common sub-graph algorithm is much more fruitful in this respect . Comparing the bottom two rows, we observe that it is possible, but infrequent to express an affective argument without C
+As.
+Assessing logical arguments extracted from text, we were interested in cases where an author provides invalid, inconsistent, self-contradicting cases. That is important for CR
+M systems focused on customer retention and facilitating communication with customer . The domain of residential real estate complains was selected and DeL
+P thesaurus was built for this domain. Automated complaint processing system is essential, for example, for property management companies in their decision support procedures .
+Types of complaints P R F1 of validation F1 of total
+Single rhetoric relation of type contrast87.3 15.6 26.5 18.7
+Single communicative action of type disagree85.2 18.4 30.3 24.8
+Two or three specific relations or communicative actions80.2 20.6 32.8 25.4
+Four and above specific relations or communicative actions86.3 16.5 27.7 21.7
+In our validity assessment we focus on target features related to how a given complaint needs to be handled, such as compensation_required, proceed_with_eviction, rent_receipt and others.
+Complaint validity assessment results are shown in Galitsky B., Taylor R.relation respectively. In the third row we assess complaints of average complexity, and in the bottom row—most complex, longer complaints in terms of their CD
+T. The third column shows detection accuracy for invalid argumentation in complaints in a standalone argument validation system. Finally, the fourth column shows the accuracy of the integrated argumentation extraction and validation system.
+For decision support systems, it is important to maintain a low false positive rate. It is acceptable to miss invalid complaints, but for a detected invalid complain, confidence should be rather high. If a human agent is recommended to look at a given complaint as invalid, her expectations should be met most of the times. Although F1 measure of the overall argument detection and validation system is low in comparison with modern recognition systems, it is still believed to be usable as a component of a CR
+M decision support system.
+5. Conclusions
+We observed that relying on discourse tree data, one can reliably detect patterns of affective argumentation. Communicative discourse trees then become a source of information to form a defeasible logic program to validate an argumentation structure. Although the performance of the former being about 80% is significantly above that of the latter (29%), the overall pipeline can be useful for detecting cases of invalid heated argumentation, which are important in decision support for CR
+M. Once it is possible to extract amplified, heated arguments, in our future studies we will proceed to combining mining and reasoning about general arguments, not necessarily accented by a sentiment.
+We anticipate the difficulties in adopting the argumentation pipeline in industry. Today, sentiment analysis is extensively used by companies to understand which features of products and services are appreciated by customers and which need improvement. Deeper understanding of customer complaints, implemented in this study, would reveal shady corporate practices and would put a blame on certain company management individuals responsible for respective product limitations and customer support deficiencies. Internal corporate policies and internal conflicts of interest between management structures could potentially be affected by findings produced by the argumentation pipeline, and a significant number of corporate management members might oppose obtaining these findings. Hence a series of issues outside of the technology area might prevent argumentation pipeline from being deployed in industry. the corporate conflict of interest models from the standpoint of multiagent systems; the results show that a corporate multiagent system can involve into behavioral forms distant from being rational or competent.
+In this paper we attempted to combine the best of both worlds, argumentation mining from text and reasoning about the extracted argument. Whereas applications of either technology are limited, the whole argumentation pipeline is expected to find a broad range of applications. In this work we focused on a very specific legal area such as customer complaints, but it is easy to see a decision support system employing the proposed argumentation pipeline in other domains of CR
+M.
+Discovering and Assessing Heated Arguments at the Discourse Level
+An important finding of this study is that argumentation structure can be discovered via the features of extended discourse representation, combining information on how an author organizes her thoughts with information on how involved agents communicate these thoughts. Once a communicative discourse tree is formed and identified as being correlated to argumentation, a defeasible logic program can be built from this tree and the dialectical analysis can validate the main claim.

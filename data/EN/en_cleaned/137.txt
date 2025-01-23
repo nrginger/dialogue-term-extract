@@ -1,0 +1,458 @@
+These days many researchers are coming to a dreadful realisation that we are not that much advancedin natural language understanding (NL
+U) as we used to think. Huge Transformer-based models arecrowning the SuperGLU
+E leaderboard , yet one should not trust these shining examples so fast. Ithas been shown in actually these models are exploiting statistical patterns related to the lack ofdiversity in data or class imbalances to demonstrate amazing performance without looking deeper andtruly emulating natural language understanding. The danger of having such statistical cues is not in theirmere presence. The core of the problem is that they are inherent to particular datasets only and thereforeare hardly applicable to the language itself. It means that the systems do not really ‘understand’ naturallanguage: instead, they are utilising statistical cues that are typical to these specific datasets, so the wholeprocess comes down to simple pattern matching. Modern language models are trained on the amount ofdata no native speaker will hardly ever see . But are they really as superior as we believe them to be,and is it even necessary to do genuine NL
+U to solve the test sets at this level of performance?
+The issue became even more relevant now that the SuperGLU
+E benchmark, that was initially createdfor English, was adopted for Russian in the form of Russian SuperGLU
+E (RS
+G) benchmark and the corresponding leaderboard . In this paper, we study the possibility to achieve results comparable to onesin the leaderboard without using any machine learning algorithms. We manually examined the datasetsin order to find statistical regularities. As a result, we came up with a list of simple rule-based heuristics(for instance, label instances as ‘entailment’ if they contain the word ‘был’ ‘was’). We do not have direct proofs that machine learning based models also make use of these shallow heuristics in the case ofRS
+G. But we do know that this was confirmed to be true for the English SuperGLU
+E , and we knowthat deep neural nets are extremely efficient in capturing regularities useful for their objective function.
+Following the Occam’s Razor, we argue that finding and exploiting shallow statistical cues (not necessarily the ones we found manually) is much more plausible explanation for the observed performance ofpre-trained language models than the assumption that they ‘understand’ Russian discourse.
+Moreover, we evaluated a set of trivial baselines, such as random choice, majority class and random balanced choice. The goal was to compare state-of-the-art (SOT
+A) results against those and to seewhether cutting-edge deep learning architectures (GP
+T-3, BER
+T, etc) significantly outperform them. Aswe found out, this is not always the case.
+1.1 Contributions
+The contributions of this work can be formulated as follows:1. We introduced a set of simple rule-based heuristics applicable to various datasets of Russian SuperGLU
+E benchmark1, and evaluated their performance on the test data.
+2. We evaluated the performance of even more trivial baselines (random choice, majority class, etc) on
+the Russian SuperGLU
+E tasks, to establish a lower boundary for language models’ performance.
+1https://github.com/tatiana-iazykova/2020_HACK_RUSSIANSUPERGLU
+E
+Iazykova T., Bystrova O., Kapelyushnik D., Kutuzov A.3. A number of suggestions, spotted annotation errors and generally problematic or controversial casesare given for the authors of the Russian SuperGlU
+E benchmark, for further improvement.
+2 Previous work
+Leaderboards provide the NL
+P community with tools to evaluate language models. This competitionensures a fair ground for comparison as the models are required to solve the same tasks on a singleindependently curated set of data. For example, the GLU
+E leaderboard initially designed for
+English and consists of several diverse natural language understanding tasks and a diagnostic datasetwith openly available labels to evaluate models.
+By March 2021, the situation with the GLU
+E dataset is the following: 14 different models hold ahigher ranking than the human performance which is equal to 87.1 ). The knowledge about languageis considered as key to solve the GLU
+E or any NL
+U tasks, yet when the SOT
+A approach of now)exceeded human performance by 3.8, the creators of this model hypothesised that it was not necessaryfor those specific datasets. With 14 other models outperforming the human level as well, it has soonbecome clear that the benchmark itself is no longer able to provide a challenging evaluation system. As aresult, the authors of GLU
+E designed SuperGLU
+E a more representative analysis of the currentprogress in NL
+U. To track this progress for other languages, other researchers created language-specificbenchmarks similar to GLU
+E and SuperGLU
+E, e.g. Russian SuperGLU
+E in this paper orCLU
+E the Chinese language.
+Although the SuperGLU
+E benchmark is more recent, its current SOT
+A score of 90.3 managedto surpass the human performance 0.5. As these competitions attract the world’s best engineeringteams with almost unlimited resources, models like T5 , GP
+T-3 , BER
+T its optimizedversions like RoBER
+Ta hold top rankings and yet their performance scores differ by a merefraction. These models prove their reputation by achieving scores that are very close to or even higherthan human benchmark, and this is where some room for criticism appears.
+Such complex models require considerable resources, raising questions about their general utility .
+Indeed, for the majority of us the size and efficiency of a model is as important as the performancescores, and some trade-off has to be allowed. Through such discussions, e. g. , the NL
+P communityattempts to increase the transparency of benchmarks. Fortunately, the leaderboards are open for changesand new functionality. For example, the MOROCC
+O project has been recently launched to evaluate
+Russian SuperGLU
+E models in two additional dimensions: inference speed and GP
+U RA
+M usage2.
+Although these issues are important, another question — probably a deeper one — is raised by how exactly large-scale language models are ‘solving’ certain NL
+U tasks. For example, BER
+T has skyrocketedthe performance in many NL
+P tasks for English, yet if we take a closer look into its ‘language skills’, wemight be disappointed . It appears that BER
+T never misses an opportunity to use shallow heuristicswhile solving tasks on natural language inference , reading comprehension ,argument reasoning comprehension text classification .
+The above-mentioned analysis is mostly English-centred, and we are truly grateful to the creators ofthe Russian SuperGLU
+E , since it is now possible to have a fair ground for comparing Russian NL
+Umodels. It is the first standardized set of diverse NL
+U benchmarks for Russian.
+Some of the instances for its datasets were translated from the corresponding tasks in the SuperGLU
+E,while the others were collected by the RS
+G authors from scratch .
+In this paper, we explore all the datasets thoroughly to test their vulnerability to shallow heuristics.
+The results are compared to other approaches represented in the Russian SuperGLU
+E leaderboard. Itshould be noted that the RS
+G has been created very recently, and the human performance of 0.811 isstill at the top of the leaderboard. As of early May 2021, the highest score of 0.679 was achieved by anensemble of Transformer models.
+2https://russiansuperglue.com/performance/
+Unreasonable Effectiveness of Rule
+Based Heuristics in Solving Russian SuperGLU
+E Tasks
+3 Methodology
+The Russian SuperGLU
+E benchmark consists of 9 datasets or tasks, that follow the GLU
+E and SuperGLU
+E methodology. Each task is designed to evaluate if a model or an approach can solve problemswith the help of logic, common sense and reasoning. Data is split into training, validation and testsamples. The true labels of the test set are not openly available and to evaluate a system on the test set,it is necessary to submit the predictions to the leaderboard. Currently there are two versions of RussianSuperGLU
+E present, namely 1.0 and 1.1; our research was based on the latest 1.1 version.
+Our general approach was to identify shallow heuristics and design rule-based functions that wouldsurpass the results achieved by the trivial baselines (majority class, random choice and random balancedchoice) and potentially approach SOT
+A scores. Being native Russian speakers, we invested our effortsinto manual exploration of each dataset. Additionally, EL
+I53, a tool to debug machine learning classifiersand explain their predictions, was applied to some of the tasks. It was used to check if any tokens aremore specific to one of the classes in the dataset. Moreover, whenever the lemmatisation was needed,pymorphy2 morphological analyzer used.
+As the datasets differ significantly, there was no intention to identify a single heuristic to solve themall: we analyzed them separately. Heuristics found in the training sets were applied to the validationsets to get an idea of their performance. All of the heuristics that were proved to work on trainingand validation sets were combined into functions with a set of if-else statements. To determine theorder of these statements, we tested different sequences empirically and chose the ones with the higherperformance scores.
+Finally, these rule-based functions were applied to the relevant test sets. To handle examples that didnot trigger any of the heuristics, three aforementioned baseline methods were used to predict the label.
+All the predictions were grouped by their baseline function and submitted to the leaderboard to receivescores for each dataset individually as well as the total score per submission. The results are shown inthe Table 8 in the section 4. Below we first describe task-specific heuristics in more detail.
+3.1 Linguistic Diagnostic for Russian (LiDi
+Rus)
+Inspired by , the authors of the original SuperGLU
+E benchmark included a small curated test datasetcalled A
+X-b for the analysis of the models’ overall performance. It was ‘provided not as a benchmark,but as a tool for error analysis, qualitative model comparison, and development of adversarial examples’. LiDi
+Rus is a Russian version of this dataset, where each sentence was translated from Englishinto Russian with the help of ‘professional translators and linguists to ensure that the desired linguisticphenomena remain’ .
+We identified a set of heuristics for this dataset. They are grouped in Table 1, which also demonstrateshow many samples in the validation set were covered by each heuristic and the percentage of their correctpredictions. Only basic split on white-space is applied for pre-processing sentences for all heuristics butone. ‘
+All lemmas in sentences 1 and 2 overlap’ required lemmatisation first.
+As the dataset does not assume any training and validation samples, the corresponding parts of the
+Textual Entailment Recognition for Russian (TER
+Ra) dataset from the same RS
+G benchmark were usedto make predictions to calculate the class distribution for the majority class and random weighted baselinefunctions if the utterances did not trigger the use of any heuristics. TER
+Ra’s class distribution differsfrom LiDi
+Rus4 but maintains the same dataset organisation.
+The performance of the aforementioned heuristics (as well as heuristics for other RS
+G tasks) is consolidated into Table 8 which can be found in section 4. It provides SOT
+A scores for each task as of May2021, performance scores of the baseline functions, as well as the results for heuristics-based approach
+supported by one of the three baseline functions. The evaluation metric used for LiDi
+Rus is Matthewscorrelation coefficient . The authors of the original benchmark for English suggested this metric, as3https://github.com/eli5-org/eli5
+4
+The labels are distributed in the following proportions: 58.4% not_entailment, 41.6% entailment for LiDi
+Rus vs. 49.15%
+not_entailment, 50.85% entailment for TERRa
+Iazykova T., Bystrova O., Kapelyushnik D., Kutuzov A.
+Heuristic Target label Coverage Correct1 Number of tokens in sentence 1 differs from
+sentence 2 by more than 10not_entailment 24.3% 65.2%2 Sentences 1 and 2 differ by two commas not_entailment 27.3% 64.1%
+3 Sentences 1 and 2 differ by two words not_entailment 16% 66.6%
+4 The presence of ‘и’, ‘не’, ‘что’, ‘никогда’,
+‘вовсе’, ‘это’ (‘and’, ‘not’, ‘that’, ‘never’, ‘atall’, ‘this’) in only one of the two sentencesnot_entailment 29.3% 66.3%5 Vocabularies of two sentences overlap by
+100% (lemmatised data)
+entailment 4% 64.4%6 ‘Чтобы’, ‘будет’, ‘от’, ‘он’ (‘in order to’,
+‘will’, ‘from’, ‘he’) occur in both sentencesentailment 11.6% 57%correct predictionsit can be applied to unbalanced binary classification problems and its values range from -1 to 1, with 0being the performance of uninformed guessing .
+As it is a diagnostic dataset, the SOT
+A approach is hardly applicable to it, though the fact that thereis a small performance gap between heuristics and other models deserves to be mentioned. It supportsthe hypothesis that shallow heuristics might play a significant part in the results of the approaches whichapply pre-trained language models to solve NL
+P tasks.
+3.2 Russian Commitment Bank (RC
+B)
+Russian Commitment Bank is a Natural Language Inference task dataset that consists of naturally occurring discourses where the task is to predict the relation of one phrase (hypothesis) to the given text(premise), where the options are entailment, contradiction and neutral.
+The training data is distributed unequally in this dataset (46.3% — neutral, 35.4% — entailment,18.3% — contradiction for train data; 52.7% — neutral, 33.6% — entailment, 13.6% — contradiction
+for validation data). This imbalance can potentially lead to a substantial bias towards a certain class forthe large pre-trained language models. The model can simply predict the majority class and still achievea rather good result, though it by any means would not be natural language understanding.
+The number of instances in the training data is 438, in the validation — 220 and in the test — 438.
+Two metrics are used to evaluate the model’s performance on solving this task: Accuracy and F1, as isthe case with the corresponding Commitment Bank task in the original SuperGLU
+E . According tothe authors of the SuperGLU
+E, the imbalanced nature of the dataset (relatively fewer neutral examples inthe English version and significantly more neutral instances in the Russian SuperGLU
+E) was the reasonfor them using two metrics, where they used macro
+F1 for multi-class problems.
+One of the heuristics (you can see its performance in Table 2) used for solving this dataset utilised thecorrelation between the label and the number of words in the hypothesis or the premise.
+Instances with 5-7 words in the hypothesis would more likely have the ‘neutral’ label (median for itis 5) and instances with less than 5 words in the hypothesis would more likely have the ‘contradiction’label (median for it is 4).
+Instances with more than 30 words in them would likely belong to the ‘entailment’ category (medianfor the ‘entailment’ is 27).
+As we can see from the Table 2, the heuristics do not cover all the data, leaving some answers tobe predicted with the help of three baselines (majority class, random choice, random balanced choice).
+The results achieved with the help of the heuristics were comparable with results of large pre-trainedlanguage models in the RS
+G leaderboard, which are given in the section 4 of this paper.
+Unreasonable Effectiveness of Rule
+Based Heuristics in Solving Russian SuperGLU
+E Tasks
+Heuristic Target label Coverage Correct1 The hypothesis is a sub-string of the premise entailment 26% 40%
+2 75% intersection of the hypothesis and
+premise’s vocabularies (lemmatised data)entailment 5% 45%3 The presence of ‘признать’ (‘admit’) (lemmatised data)
+entailment 6% 36%4 The presence of ‘подозревать, cчитать, говорить, думать, надеяться, понять, уверять’ (‘suspect, consider, say, think, hope, assure, realise’) (lemmatised data)
+neutral 6% 36%5 Hypothesis > 5 words contradiction 41% 23%
+6 4 < hypothesis < 8 words neutral 34% 70%
+7 More than 30 words in the premise entailment 35% 39%
+predictions3.3 Choice of Plausible Alternatives for Russian language (PA
+Rus)
+To evaluate progress in open-domain common sense casual reasoning, the authors of Russian SuperGLU
+E provided the Choice of Plausible Alternatives for Russian language (PA
+Rus) dataset. It is basedon the English COP
+A . A typical task in PA
+Rus consists of a premise and two alternatives, where thegoal is to select the alternative that has a causal or effect relation with the premise.
+There are 400 samples in the train dataset and 100 in the validation set. Since there is no semanticsbehind the labels, the difference between label distribution in the training and validation data should beconsidered irrelevant. Also because of this lack of label meaning, it was challenging to find linguisticheuristics to solve this task. All textual data was lemmatised to get better results. The heuristics used fortackling this task are shown in The heuristics check whether one of the choices has more shared lemmas with the premise than theothers, and if so, then this choice should be taken as an answer. If the vocabulary overlap was the samefor all choices, one of the baseline functions was applied. If one of choices had more words than theother, then this choice was taken as an answer.
+Heuristic Coverage Correct1 If one of choices has more shared lemmas with the premise than the
+others, it is taken as an answer (lemmatised data)22% 64%
+2 If one of choices has more words than the others, then this choice
+should be taken as an answer (lemmatised data)59% 52%
+3 The combination of these two heuristics (lemmatised data) 66% 52%
+correct predictions
+As we can see from Table 3, these heuristics cover less than 70% of the data, therefore many answersstill depend on one of three baselines. Overall results are presented in the Table 8 in section 4. Themaximal accuracy score was 0.516. To achieve SOT
+A performance, we probably need more complexalgorithms. It proves that this task fulfills its goal and we do need to learn some open-domain commonsense casual reasoning to solve such tasks.
+Iazykova T., Bystrova O., Kapelyushnik D., Kutuzov A.3.4 Russian Multi
+Sentence Reading Comprehension (MuSeRC)
+The MuSeR
+C dataset is collected for the reading comprehension task. It contains more than 900 paragraphs across 5 different domains: elementary school texts, news, fiction stories, fairy tales, and summaries of T
+V series and books . Samples were collected based on the following criteria:1. the passage length is less than 1.5
+K characters;
+2. the passage contains named entities;
+3. if the passage contains only one named entity, then it must have one or more co-reference relations.
+Furthermore, the authors of the dataset ensured correct sentence splitting and used these sentences ina crowd-sourcing effort at the Yandex.
+Toloka platform. In it, humans were asked to generate questions,a set of answers for each of them and to check that answering a question requires consulting with morethan one sentence in the text. The answer can be either True or False, so all the answers are either corrector incorrect with no in-between. The number of correct answers varies and each question/answer pair istreated individually5.
+A set of heuristics identified for this dataset is grouped in Heuristic Target label Coverage Correct1 All lemmas from the answer occur in the text
+(lemmatised data)
+True 39.2% 58.8%2 The answer is longer than 11 tokens True 10.3% 72.3%
+3 More than 6 overlapping lemmas between the
+answer and the text (lemmatised data)
+True 18.9% 73.9%4 No overlapping lemmas between the answer
+and the text (lemmatised data)
+False 9.9% 89.1%5 The answer is shorter than 4 tokens False 46.4% 64.9%
+6 One overlapping lemma between the answer
+and the text (lemmatised data)
+False 18.6% 69.3%correct predictions
+While predicting, the if-else statements dealt with the ‘
+True’ label first, as it is less frequent in thedata. The function yields the intended label as long as at least one of the heuristics gets triggered. Afterthat, the opposite set of heuristics is applied.
+The overall performance is given in Table 8 which can be found in section 4. To provide the evaluationmetrics, the dataset authors roughly followed the evaluation procedure by . Since each answeroption can be assessed independently, F1-averaged (
+F1a) is applied to evaluate binary decisions over allthe answer options in the dataset. It is a harmonic mean of precision and recall per question. Exact
+Match (E
+M) is the exact match per each instance, i.e. each set of predictions should be the same as ofthe answers .
+We were not able to reach neither the SOT
+A score nor the human performance, although the obtainedresults are on par with some of those produced by large pre-trained language models. In fact, at thetime of submission, our heuristics-based approach combined with the majority class baseline functionachieved higher performance scores for this task than Multilingual Bert and RuGPT3
+Small6.
+3.5 Textual Entailment Recognition for Russian (TER
+Ra)
+Textual Entailment Recognition is another dataset dedicated to the Natural Language Inference task.
+This task requires to recognise, given two text fragments, whether the meaning of one text is entailed(can be inferred) from the other text . This task is similar to the RC
+B, yet in TER
+Ra there are only5
+The average number of questions is approximately 20. The labels are distributed in the following proportions: 55% false
+and 45% true for the training set vs. 55.6% false and 44.4% true for the validation set.
+6https://huggingface.co/sberbank-ai/rugpt3small_based_on_gpt2
+Unreasonable Effectiveness of Rule
+Based Heuristics in Solving Russian SuperGLU
+E Tasks
+two categories (entailment/not_entailment) instead of three. The number of instances in the training datais 2 616, in the validation — 307 and in the test — 3 198.
+Similar to the RC
+B, one of the heuristics (
+Table 5, heuristics 6 and 7) used in solving this datasetutilised the interplay between the label and the number of words. Unlike with the RC
+B, in this datasetit was possible to find such relations only between the label and the number of words in the premise.
+Instances with less than 29 words would more likely have the label ‘not_entailment’ (median numberof words for not_entailment is 29) whereas if the number of words was more than 32, then the label islikely‘entailment’ (median number of words for entailment is 32).
+Another heuristic (8 in Table 5) for TER
+Ra dealt with the presence of specific words, namely ‘только’(‘only’) and ‘мужчина’ (‘man’) in the hypothesis. It was possible to find a rather noticeable correlationbetween their presence and the label.
+Heuristic Target label Coverage Correct1 The hypothesis is a sub-string of the premise entailment 1% 50%
+2 Vocabularies of the hypothesis and the premise
+overlap by 33% (lemmatised data)not_entailment 11% 69%3 Vocabularies of the hypothesis and the premise
+overlap by 75% (lemmatised data)entailment 9% 52%4 Vocabularies of the hypothesis and the premise
+overlap by 66% (lemmatised data)entailment 9% 56%5 Vocabularies of the hypothesis and the premise
+overlap by 100% (lemmatised data)entailment 14% 65%6 Less that 29 words in the premise not_entailment 45% 58%
+7 More than 32 words in the premise entailment 45% 60%
+8 The presence of ‘только’, ‘мужчина’ (‘only’,
+‘man’) (lemmatised data)not_entailment 21% 66%correct predictions
+As we can see from the Table 5, the heuristics do not cover all the data, leaving some answers to bepredicted with the help of the three trivial baselines. However, the results achieved with the help of theheuristics were comparable with the results of large pre-trained language models in the RS
+G leaderboardand even outperformed the ones by RuGPT3
+Medium and RuGPT3
+Small.
+3.6 Russian Words in Context (RUSS
+E)
+Depending on its context, a word can have multiple, potentially unrelated, senses. For example, the
+Russian word ‘лук’ (’onion’/’bow’) can mean either vegetable or weapon depending on its surroundingwords. The ‘word in context’ task can be described as a binary classification problem, and the goal is topredict whether a given word has the same meaning in both given sentences. The Russian SuperGLU
+Etask borrows original data from the Russe Word Sense Induction and Disambiguation shared task .
+To find out whether the decision can be made based on simple rules, we checked whether the targetword appears in the same form in both sentences. In addition, we calculated the proportion of sharedtokens to all tokens in both sentences and the difference in their lengths.
+The heuristics cover about 50% of the data and make correct predictions in about 65% cases. According to Table 8 in Section 4, we managed to achieve 0.595 accuracy score.
+3.7 The Winograd Schema Challenge for Russian (RWS
+D)
+The original purpose of the Winograd Schema Challenge (WS
+C) was to serve as an alternative Turingtest to evaluate an automatic system’s capacity for common sense inference . The challenge evaluatesthe models’ ability to identify the antecedent of the pronoun, which might be critical, for example, fortranslation purposes . The performance scores on the WS
+C for English quickly progressed from a
+Iazykova T., Bystrova O., Kapelyushnik D., Kutuzov A.
+Heuristic Target label Coverage Correct1 Target word in the same form True 14% 58%
+2 Tokens overlap by more than 10% True 4% 50%
+3 Number of tokens in sentence 1 differs from
+sentence 2 by more than 6
+False 49 % 65 %correct predictionssimple guess to near-human level neural language models trained on massive corpora wereapplied to solve this challenge.
+The RWS
+D dataset is a Russian translation of the pronoun disambiguation task used in the SuperGLU
+Ebenchmark . RWS
+D maintains the same structure providing a pair or a batch of sentences that differby one or two words:
+Example 1: ‘Кубок не помещается в коричневый чемодан, потому что он слишкомбольшой.’ (‘
+The trophy doesn’t fit into the brown suitcase because it is too large.’)
+Example 2: ‘Кубок не помещается в коричневый чемодан, потому что он слишкоммаленький.’ (‘
+The trophy doesn’t fit into the brown suitcase because it is too small.’)
+There is an ambiguity in these sentences, namely ‘он’ (‘it’) might refer to either ‘кубок’ (‘the trophy’)or ‘чемодан’ (‘suitcase’). Each sentence is followed by an antecedent and a pronoun for disambiguation,which can be successfully resolved if a model assigns a ‘false’ label to the first example for the pair of‘чемодан’(‘suitcase’) and ‘он’ (‘it’), and if ‘true’ is assigned to the second example for the same pair.
+The model cannot rely on the word order or the structure of a sentence, as the task is organised so thatthey cannot be used for the disambiguation process . Each sentence might be either ‘true’ or ‘false’depending on a suggested pair of antecedents and pronouns. For example, one has to pay attention to aspecial word, i.e. ‘большой’ (‘large’) or ‘маленький’ (‘small’) in the aforementioned sentences.
+There is a clearly unequal distribution of classes in the RWS
+D dataset. The labels for the training andvalidation sets are distributed as follows: 51% ‘false’ and 49% ‘true’ labels for the former and 55.4%‘false’ and 44.6% ‘true’ labels for the latter. However, the ‘false’ values appear 67% of the times in thetest set, which is very different from the datasets provided for training and validation.
+We were not able to identify any heuristic that would surpass the performance score of predictionsmade by the majority class baseline (see Table 8 for reference), but this misfortune carries one of ourmost important findings.
+Apparently, the very same approach to choose the most common value was used by many sophisticatedmodels listed in the Russian SuperGLU
+E leaderboard by the time of our submission. The SOT
+A score,which is the score achieved by Multilingual T5, several BER
+T variations (trained on multilingual dataand on Russian corpora only), RuGPT3
+Medium and RuGPT3
+Small, is 0.669: the same as achieved byour majority class baseline function. While solving the task, these models allegedly opted to predictusing the majority class rather than try to actually solve the Winograd Schema Challenge. Such modelsas Golden Transformer, RuGPT3X
+L few-shot and RuGPT3
+Large apparently made an attempt to reallypredict something, but their results are sub-optimal:0.545, 0.649 and 0.636 respectively, which is infact below the 0.662 tf-idf baseline provided by the RS
+G creators. The problem is similar to that with
+Winograd Schema Challenge (WS
+C) in the original SuperGLU
+E .
+3.8 Yes/no Question Answering Dataset for Russian (DaNetQ
+A)
+DaNetQ
+A is a question answering dataset for yes/no questions. Each example is a triplet of (passage,question, answer), with the title of the page as optional context . The answers are encoded in aTrue/
+False formal similar to the corresponding SuperGLU
+E ‘Bool
+Q’ dataset. As with the Russian Commitment Bank task, here we can also notice the unequal distribution of labels (
+Train: True — 60.7%,
+Unreasonable Effectiveness of Rule
+Based Heuristics in Solving Russian SuperGLU
+E Tasks
+Heuristic Target label Coverage Correct1 The question starts with ‘был’ (‘was/were’) True 45% 58%
+2 The question starts with ‘есть’ (‘is/are’) True 13% 81%
+3 The question starts with ‘входит ли’ (‘does it
+belong to’)
+False 37% 100%4 The question starts with ‘едят ли’ (‘do they
+eat’)
+False 2% 53%5 The question starts with ‘правда ли’ (‘is it
+true’)
+False 18% 89%6 More than 5 words in the question False 46% 71%
+7 More than 90 words in the passage False 48% 53%
+correct predictions
+False — 39.3%) and the mismatch of this relation among training and validation data (
+Vaidation: True— 50.2%, False — 49.8%). The number of instances in the training data is 1 749, in the validation —821 and 805 in the test set.
+Like with the RC
+B and TER
+Ra, one of the heuristics used in solving this dataset utilised the relationsbetween the label and the number of words in questions (
+Table 7, heuristic 6) or passage (heuristic 7).
+Instances with more than 5 words would more likely have the label ‘
+False’ (median number of wordsfor False is 6 in the training data).
+Heuristic 3 exploits correlation between the beginning of the question and the label: if the questionstarts with ‘входит ли’ (‘does it belong to’), the label in the validation dataset is False 100% of the time.
+As we can see from the Table 7, the heuristics do not cover all the data, leaving some answers to bepredicted with the help of the three trivial baselines. However, the results achieved with the help of theheuristics were comparable with the results of large pre-trained language models in the RS
+G leaderboard.
+3.9 Russian Reading Comprehension with Commonsense Reasoning (RuCO
+S)
+Russian reading comprehension with Commonsense reasoning (RuCo
+S) is a large-scale reading comprehension dataset which requires common sense reasoning. Unlike MuSeR
+C, the main data domain forRuCo
+S is news articles and there is more data for this task. Also in this task, a system is given a list ofnamed entities from which it should choose the right answer (while in the MuSeR
+C, the answers do nothave to be named entities at all). RuCo
+S consists of queries automatically generated from news articles;the answer to each query is a text span from a summarizing passage of the corresponding article.
+This task is based on the English ReCoR
+D benchmark . All text examples were collected from
+Russian media. The texts were then filtered by the IP
+M frequencies of the contained words and, finally,manually reviewed.
+The heuristics applied to this task dealt with the presence of name entities in the question. The algorithm simply predicted all the entities present in the question. A modification of this approach wasto sort the remaining entities based on the frequency of their appearance in the text. We tried severalthreshold values for this rule and finalized our choice on the following rule: all entities whose stemsappeared less than three times were removed from our predictions.
+Both heuristics were applied every time we made predictions. Thus, their coverage is 100%. Wemanaged to outperform the tf-idf baseline with both F1 score end E
+M metric around 0.26, but the SOT
+Aresults are on par with human performance score, which is 0.93/ for F1 and 0.89 for E
+M.
+Iazykova T., Bystrova O., Kapelyushnik D., Kutuzov A.
+Metrics Hum. SOT
+A maj. rand. r.(b) H maj. H rand. H r.(b)LiDi
+Rus M. Corr 0.626 0.231 0.000 0.024 0.000 0.147 0.149 0.182RC
+B Avg. F1 0.680 0.452 0.217 0.332 0.319 0.400 0.401 0.401
+Acc. 0.702 0.546 0.484 0.347 0.374 0.438 0.436 0.438PA
+Rus Acc. 0.982 0.908 0.498 0.474 0.480 0.478 0.508 0.470MuSeR
+C F1a 0.806 0.941 0.000 0.477 0.450 0.671 0.669 0.669E
+M 0.420 0.819 0.000 0.078 0.071 0.237 0.195 0.202TER
+Ra Acc. 0.920 0.871 0.513 0.503 0.483 0.549 0.547 0.548RUSS
+E Acc. 0.805 0.729 0.587 0.501 0.528 0.595 0.497 0.543RWS
+D Acc. 0.840 0.669 0.669 0.487 0.597 0.669 0.565 0.604DaNetQ
+A Acc. 0.915 0.917 0.503 0.494 0.520 0.642 0.629 0.629RuCo
+S F1 0.930 0.920 0.250 0.250 0.250 0.260 0.260 0.260E
+M 0.890 0.924 0.247 0.247 0.247 0.257 0.257 0.257
+Total 0.811 0.679 0.374 0.372 0.385 0.468 0.445 0.454‘rand.’ — random choice, ‘r.(b)’ — random balanced choice, H — the heuristics-based approach.
+4 Discussion
+Table 8 shows the best results after applying the heuristics described above to the Russian SuperGLU
+Etest sets. The heuristic based approach (
+H) was combined with one of the trivial baseline functions. Themajority value and weights for baseline functions were obtained from combined training and validationsets. For every task, we chose heuristic (or combination of several heuristics) that led towards the bestscore. Even if for some tasks we are still far away from beating SOT
+A performance, simple baselinesand heuristics can achieve relatively good results. For RWS
+D task one can achieve SOT
+A performancejust by using the majority class baseline.
+Our heuristics approach works well for the RC
+B task with the difference between H maj. model andSOT
+A being about 5%. For TER
+Ra, RUSS
+E and DaNetQ
+A we are far from SOT
+A results but, still, ourresults are on the same level with RuBER
+T GP
+T models from the leaderboard.
+Yet for several tasks, the heuristics approach did not work as well. RuCo
+S, MuSeR
+C and PA
+Rusproved that it is not enough to use dataset-specific statistical cues to solve them, so for these three tasks itseems that the large pre-trained language models really pick up some peculiarities of Russian language.
+Since our approaches can be divided into two groups (trivial baselines and rule-based heuristics), wewill look closer at them separately.
+4.1 Trivial baselines
+As it was mentioned before, first we chose three baseline methods to solve all tasks in Russian SuperGLU
+E: majority class, random choice and random weighted choice. When comparing these baselines tothe other methods, we should keep in mind that they do not rely on any linguistic knowledge at all.
+All three baselines show very interesting results. For the majority class baseline, the best result isthe one for the RWS
+D task. It should be emphasized again that not only one can achieve the SOT
+Aperformance with the majority baseline here, but, at the moment of submission, half of the leaderboardmodels probably use this approach as their solver method, since they all have the same performancescore. Simple random choice worked good on the RC
+B and RWS
+D as well. Random balanced choiceoutperforms the majority class approach on the DaNetQ
+A, RWS
+D, TER
+Ra, PA
+Rus, and RUSS
+E.
+Across all RS
+G tasks, the balanced random choice baseline achieves the average score of 0.385. Language models obviously outperform this score, but the difference is marginal: only half of the systemsin the leaderboard achieve a score higher than 0.5, and the best ensemble of transformers reaches 0.679
+Unreasonable Effectiveness of Rule
+Based Heuristics in Solving Russian SuperGLU
+E Tasks(the human performance is 0.811). For some benchmarks (for example, RuCO
+S), the random balancedbaseline outperforms BER
+T and GP
+T-3 models. In one specific case of the RWS
+D benchmark, no modelmanaged to outperform the simple majority class baseline.
+From this, we conclude that the RS
+G leaderboard scores should be taken with a grain of salt andcompared to the trivial baselines. For example, the 0.669 accuracy of the SOT
+A models on the RWS
+Ddataset is not a sign of their ‘human-like comprehension abilities’: it is just that these models (or theirauthors) could not do any better than simply predict the same label for all the instances in the test set.
+For other tasks, the picture is only slightly better: in most cases, the leaderboard participants managedto improve the random balanced baseline only by a small margin. Another important finding is that theclass balances in the RS
+G test sets are similar to those in the validation and training sets: this allows oneto achieve boosted accuracies by simply replicating these distributions in the test answers. This is truefor all the tasks evaluated by accuracy (six of the RS
+G tasks). If the class labels in these six datasetswere perfectly balanced, the expected average accuracy of the random baseline would be 0.472. In thereal RS
+G, this value is 0.538. This is certainly an undesired property for a test set in general; in thiscase it additionally makes it difficult to assess to what extent the large-scale language models’ NL
+Uperformance for Russian is actually an artifact of this data leakage.
+4.2 Rule-based heuristics
+Rule-based heuristics tend to improve trivial baselines in cases of TER
+Ra, RUSS
+E, RC
+B (considering
+Avg. F1 score). Here we categorize the described rules. Note that most of them are language-agnosticand can be tested on benchmarks for other languages as well.
+1. Using text length (e. g. ‘
+More than 30 words in the premise’): these rules are useful for RC
+B,
+PA
+Rus, MuSeR
+C, TER
+Ra, RUSS
+E, DaNetQ
+A.
+2. Using binary lexical features (e. g. ‘
+Presence of ‘чтобы’, ‘будет’, ‘от’, ‘он’): these rules are useful
+for LiDi
+Rus, RC
+B, TER
+Ra, DaNetQ
+A.
+3. Using word forms or lemmas overlap (e. g. ’
+Sentences 1 and 2 use the same set of lemmas’): these
+rules are useful for LiDi
+Rus, RC
+B, PA
+Rus, MuSeR
+C, TER
+Ra, RUSS
+E.
+4. Other task-specific heuristics.
+The existence of such statistical cues is not a problem in itself: after all, this is what machine learning isafter. What we see as problematic is the fact that the large over-parameterized models seem to mostly relyon them (judging by their performance scores which are not radically higher, and sometimes even lowerthan the scores of our rule-based approach). This means they do not employ valid inference strategies,and do not demonstrate anything close to much-praised ‘natural language comprehension’. We againemphasize that our heuristics are extremely simplistic and often boil down to counting the number ofwords in the sentence or to finding the lexical overlap between the question and the answer (sometimesafter lemmatisation). There is no doubt that billion-parameter language models can find much morestatistical cues in the training data than the authors of this paper were able to come up with. But theseregularities will only work on the test instances drawn from the same general population (annotated orgenerated according to the same guidelines). This is pattern matching, not language understanding.
+5 Conclusion
+The recently introduced Russian SuperGLU
+E (RS
+G) set of natural language understanding benchmarks has already attracted well-deserved attention from the Russian NL
+P practitioners. The RS
+G leaderboard is filled with the impressive performance scores produced by sophisticated language modelstrained with bleeding-edge deep learning architectures (BER
+T, GP
+T-3, etc) on titanic corpora of Russian.
+But are these scores really so impressive? In this paper, we studied what performance can be achievedfor the RS
+G benchmarks without training any language models.
+First, we established the performance boundaries of the trivial baselines: random choice, majorityclass choice and balanced random class choice (probabilities weighted by the distribution of class labelsin the training data). We found that in some cases, these baselines outperform large-scale languagemodels. Second, we moved on to find out whether the RS
+G datasets contain other statistical regularities.
+Iazykova T., Bystrova O., Kapelyushnik D., Kutuzov A.
+In has been shown in prior work for English and other languages that deep learning models are veryprone to collecting low-hanging fruits and tracing shallow semantic and structural phenomena which helpminimizing the loss on a particular dataset, instead of actually learning real linguistic generalizations.
+To this end, we manually compiled a set of very simple custom rule-based heuristics for each RS
+Gdataset (for example, ‘set the label ‘contradiction’ if the word не ‘not’ is present in the hypothesis’,etc).
+It turned out that up to 50% and more of instances (depending on a particular dataset) might be coveredby this or that heuristic. Moreover, applying these rules to actually solve the RS
+G (with fallback to themajority class baseline if no rule is applicable) constitutes a system which achieves a very competitiveRS
+G average score of 0.468. This outperforms RuGPT3
+Small, on par with RuGPT3
+Medium, and isvery close to the BER
+T performance.
+We conclude that most RS
+G datasets abound in statistical regularities which can easily be found attraining time and employed at test time, without expensive and complicated language model pre-training.
+The reasons are arguably the same as with the English test sets7: compilation of benchmarks by crowdsourcing and the natural desire of crowd-workers to fulfill the job in the easiest way possible.
+To sum up, we recommend the RS
+G maintainers to 1) modify the test sets to minimize the data leakagefrom label distributions; 2) diversify the datasets so as to eliminate at least the most striking statisticalcues (it shouldn’t be possible to find the correct answer by simply counting words); 3) provide officialmajority class and random weighted baselines. We believe this will make the Russian SuperGLU
+Eleaderboard even more informative of the real state of the art in Russian natural language processing.
+In the future, it will be useful to develop a Russian equivalent of the HAN
+S benchmark : a testset containing adversarial examples, or even simply examples drawn from sources substantially differentfrom those in the RS
+G. It will allow to evaluate the generalization abilities of large pre-trained languagemodels for Russian. It would also be interesting to study the correlations between the predictions ofour heuristics and the predictions of the language models in the RS
+G leader-board, in order to find outwhether they actually exploit similar rules.
+Finally, in the course of working on this paper, we collected a large trove of annotation errors andgenerally problematic or controversial cases in the RS
+G datasets. We have shared these findings with theRS
+G maintainers, in the hope of its future improvement.

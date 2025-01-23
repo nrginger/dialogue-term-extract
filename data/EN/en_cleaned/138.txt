@@ -1,0 +1,151 @@
+SYMMETR
+Y AN
+D SYMMETRICA
+L PREDICATES*
+Partee Barbara (partee@linguist.umass.edu)
+University of Massachusetts, Amherst, M
+A, USA;
+Russian State University for the HumanitiesЦель этой статьи – проанализировать разницу между математическими определениямисимметрии и понятием симметрии, которое бы наилучшим образом соответствовалолингвистическим обобщениям. Это требует тщательного анализа лингвистического «поведения» симметричных и несимметричных предикатов.
+1. Background
+“
+Symmetrical predicates” have distinctive linguistic properties in many languages. But the concept of “symmetry” merits closer examination, especially in the light of the controversial claim by the psychologist Amos Tversky theconcept ‘similar’, a standard example of a symmetrical predicate, is in fact not symmetrical. Tversky’s evidence includesthe fact that experimental subjects generally rate (1a) as holding to a higher degree than (1b).
+(1) a. North Korea is similar to Red China.
+b. Red China is similar to North Korea.
+Lila Gleitman and colleagues argue in an interesting paper ‘similar’ is symmetrical, and that the difference injudgments reflects the independent contribution of figure-ground differences encoded in the syntax. They argue in support of a robust linguistic distinction between symmetrical and “asymmetrical” predicates. Gleitman et al use a semantic paraphrase test as a central property in characterizing linguistically symmetrical predicates in English: does the intransitive version of a given predicate have a meaning close to the meaning of an overt reciprocal with the correspondingtransitive version? This test is illustrated in (2) and (3) below, where (2a) and (2b), with symmetrical meet, are close inmeaning, but (3a) and (3b), with the “asymmetrical” drown, are not.
+(2) a. John and Bill meet.
+b. John and Bill meet each other.
+(3) a. John and Bill drown.
+b. John and Bill drown each other.
+Gleitman et al’s paper analyzes symmetrical and what I will call “quasi-symmetrical” or “sometimes-symmetrical” predicates in English, including verbs (meet, kiss), and adjectives (similar), to which I will add nouns (sibling, brother). Theirpaper addresses and solves the mysteries raised by Tversky’s work concerning the apparent non-symmetrical behavior ofsymmetrical predicates like similar.
+The arguments in the paper are convincing; at the same time, Gleitman et al’s uses of the terms “symmetrical” and“asymmetrical” do not always fit the standard mathematical definitions, given in (4). (
+Variation in definitions is discussedin Section 2.)(4) a. A relation R is symmetrical iff for all x, y: if R(x,y), then R(y,x).
+b. A relation R is asymmetrical iff for all x, y: if R(x,y), then ¬ R(y,x).
+c. A relation R is non-symmetrical iff if is not symmetrical.
+One goal of this paper is to analyze the differences between the standard mathematical definitions of symmetry and aconcept of symmetry that would fit best with observed linguistic generalizations. In order to try to modify the mathematical definitions to better fit the linguistic facts, we have to look at the linguistic facts more carefully as well.
+Труды международной конференции «Диалог 2008»606
+* This material is based upon work supported in part by the National Science Foundation under Grant No. BC
+S-0418311 to Barbara
+H. Partee and Vladimir Borschev. For discussion and suggestions, I am grateful to Lila Gleitman over several years, and to Muffy
+Siegel, Tony Kroch, and other members of the audience at the University of Pennsylvania where a preliminary version of this workwas presented in October 2007.
+2. Definitions and examples
+2.1. The standard terminology and its consequences, with examples
+The definitions of symmetrical, asymmetrical, non-symmetrical in (4) above are taken from Partee, ter Meulen, and
+Wall
+W) (where the equivalent symmetric, asymmetric, non-symmetric are used), which in turn followed suchclassics as . There is a fourth term in this family, antisymmetrical, defined in elsewhere as follows:(5) A relation R is antisymmetrical iff for all x, y: if R(x,y) and R(y,x), then x = y.
+Typical examples: ≤ is antisymmetrical, whereas < is asymmetrical. An antisymmetrical relation is asymmetrical except for possible instances of x
+Rx. Turning it around, an asymmetrical relation is one that is antisymmetrical andirreflexive.
+We begin by reviewing some consequences of the standard definitions and some examples.
+First of all: Are the four properties mutually exclusive? No.
+(i) Every asymmetrical relation is non-symmetrical. One can call asymmetrical a ‘strong’ negation of symmetrical: itmeans “never symmetrical”. Non-symmetrical just says “sometimes not”: R is non-symmetrical iff it is not symmetrical.
+(ii) Every asymmetrical relation is also antisymmetrical. If it’s asymmetrical, the if-clause in the definition of antisymmetrical is never satisfied, so the entire statement is vacuously satisfied.
+(iii) Can a symmetrical relation ever have any of the a-, non-, antisymmetry properties? Yes: the empty relation, forinstance, is symmetrical, asymmetrical, and antisymmetrical. And the identity relation on some domain D, which hasall and only pairs of the form <a,a> for a in D, is both symmetrical and antisymmetrical.
+Secondly, are the four properties exhaustive? That is, does every relation have at least one of those properties?
+Yes, because symmetrical and non-symmetrical are complements: every relation on a given domain A × B must beeither symmetrical or non-symmetrical.
+The relation father of is asymmetrical, since for all x, y, if x is the father of y, then y is not the father of x.
+The relation sibling of (i.e. brother or sister of) is symmetrical, since for all x, y, if x is a sibling of y, then y is asibling of x.
+What about the relation brother of: is it true that for all x,y, if x is the brother of y, then y is the brother of x? Thiscan’t be answered without specifying the domain of the relation.
+(a) On the domain of all humans, brother of is neither symmetrical nor asymmetrical, but non-symmetrical: if x isbrother of y, y may be brother of x or sister of x.
+(b) On the domain of all male humans, brother of is symmetrical.
+We’ll return to this case in Section 4.2, because brother behaves linguistically like a symmetrical predicate in sentences like (6).
+(6) John and Bill are brothers.
+2.2. Colloquial terminology
+The terminology: When talking about the brother-of relation, students often say “sometimes it’s symmetrical andsometimes it’s asymmetrical.” Or “it has both symmetrical and asymmetrical instances.” But according to the definitions, symmetrical and asymmetrical are properties of relations, and it doesn’t make sense to apply those terms toinstances, or to say that a relation has such a property “sometimes”. But it’s clear what the students mean, and we cangive new definitions to extend the terminology in these ways.
+Defining “symmetrical instances”:(7) (a) “
+Sometimes brother is symmetrical” and “
+Brother has symmetrical instances” can both be defined as follows:there are pairs a,b such that a is brother of b and b is brother of a.
+(b) Brother has asymmetrical instances” can be similarly defined as saying that there are pairs a,b such that a isbrother of b and b is not brother of a.
+Note that in both cases we start from an instance of a
+Rb, and then ask whether b
+Ra holds. Since either it does
+Symmetry and symmetrical predicates607
+or it doesn’t, there are only two cases, symmetric or asymmetric, for ‘instances’.
+Given this notion of symmetrical and asymmetrical instances, the original concept of a symmetrical relationbecomes “a relation that has no asymmetrical instances” (this negative characterization takes care of the if-then natureof the original definition, and is consistent with the fact that the empty relation is symmetrical). An asymmetrical relation becomes “a relation that has no symmetrical instances”. And a non-symmetrical relation becomes “a relation thathas at least one asymmetrical instance.”
+Defining “sometimes symmetrical and sometimes asymmetrical”:(8) The colloquial locution “
+On the domain H × H of all humans, sometimes brother is symmetrical and sometimesit’s asymmetrical” can be defined as “
+The domain H × H can be partitioned into two non-empty subdomainssuch that brother is symmetrical on one and asymmetrical on the other.”
+If we let F be the set of female humans and M be the set of males, brother is symmetrical on M × M and asymmetricalon M × F ∪ F × M. (
+This isn’t yet a partition of H × H, because we haven’t included F × F. But since brother is theempty relation on F × F, it is both symmetrical and asymmetrical on that domain, so we could add F × F to either cellof the partition without changing the result.)2.3. Alternative terminology
+Not all texts use the terms asymmetrical and non-symmetrical in the way defined in (4).
+(i) Gleitman et al use asymmetrical in the way that I defined non-symmetrical. Initially I thought their usage was amistake, but I have discovered that both usages are common. Authors differ as to which term carries the meaning “notsymmetrical”.
+I will continue to use asymmetrical as defined in (4), but it’s important to be aware of the way Gleitman et al areusing it, and the fact that that is also an accepted usage.
+(ii) There are also two definitions of non-symmetrical in the literature.
+(a) The definition in (4), “not symmetrical”, can be called the “broad sense” of ‘non-symmetrical’.
+(b) The other, “narrow sense” defines non-symmetrical as “neither symmetrical nor asymmetrical”.
+There are advantages and disadvantages to both notions. The first choice is more intuitive and linguistically uniform:«non» means «not», and that holds also for non-reflexive and non-transitive. The second choice but not the first provides convenient terminology for a three-way partition of relations (on a specified domain) into symmetrical, asymmetrical, and neither.
+3. What do “symmetrical”, “non-symmetrical” apply to?
+3.1. The “asymmetrical act of drowning someone”.
+In standard mathematical terminology, the properties “symmetrical” and “asymmetrical” apply to binary relations andnothing else. But in other parts of mathematics the properties may apply to geometrical figures, to certain algebraicstructures, and to other mathematical objects. And in everyday English and in Gleitman et al’s article, those expressions have additional uses relating to acts, propositions, situations, as illustrated in (9).
+(9) a. asymmetric warfare: warfare between two very unequal forces, with the two sides often using very differentmethods.
+b. an asymmetric power situation: a situation involving two individuals or two states a and b in which a hasmuch more power over b than b has over a.
+c. asymmetric interdependence: a state of interdependence between two (or more) individuals or other entities,in which there are pairs a,b such that a is much more dependent on b than b is on a.
+Gleitman et al begin their discussion of the relation between reciprocal structures with each other and reciprocal interpretations of intransitive symmetrical and non-symmetrical predicates, as in (2) and (3), with the observation that manyobviously non-symmetrical predicates license the reciprocal construction. “
+Thus if John drowns Bill while Bill drowns
+John, we can say(10) John and Bill drown each other.” Partee B.
+H.
+608
+They describe (10) as depicting a situation in which two individuals reciprocate the “decidedly asymmetric act ofdrowning someone.” What is an “asymmetric act”?3.2. In what sense is drowning an “asymmetric act”?
+I can see three possible factors behind the idea that drowning is an “asymmetric act.”(i) In most cases where a drowns b, b does not drown a. If we make symmetry a graded notion with formal asymmetry and formal symmetry as the extremes, and rank the non-symmetrical relations on a scale according the proportionof a
+Rb cases for which b
+Ra also holds, then the relation a
+Rb expressed by “a drowns b” is very close to the asymmetrical end of the scale. (
+Similarly, ‘is a friend of’ and ‘is best friend of’ may be non-symmetrical but close to the symmetrical end.)(ii) We may be influenced by geometrical symmetry/asymmetry when we picture an act. Most imaginable ways inwhich someone drowns someone have the agent and victim in different positions – it’s not a visually symmetrical picture. (
+But one can imagine a possible double murder where they manage to drown each other in a symmetrical-lookingway.)
+There is the related linguistic factor of Agent and Patient roles and how different they are. This is discussed by
+Gleitman et al, but in a different context, together with Figure
+Ground changes, as involving changes in somethingother than actual semantic content. But semantics may be relevant: for transitive drown, the Agent and Patient roles aremuch more distinct than for, say meet, and there are no Agent or Patient roles at all with adjectival predicates like similar or noun predicates like sibling or uncle or prepositions like near.
+(iii) The role of the event argument be relevant. Active verbs have an event argument, which may not bepresent with adjectives or stative predicates. Suppose the basic argument structure of drown is as in (11).
+(11) drown(e,a,b) : e is an event of a drowning b.
+Then the question arises: can one and the same event be an event of a drowning b and b drowning a? This is a nontrivial question: compare debates about whether a buying event and a corresponding selling event are always/sometimes/never the same event. If the answer is “no”, that is, if one can argue that they are never the same event even ifthey happen at the same time, that could be another basis for the intuition that drowning is an asymmetrical act.
+3.3. What is the relation between ‘drowned’ and ‘drowned each other’?
+One of Gleitman et al’s insights is that a reciprocal sentence can in some sense turn an asymmetrical relation into anon-symmetrical one, i.e. can allow ‘symmetrical instances’ even if the core lexical predicate does not. How can wemake formal sense of this intuitively appealing idea?
+Consider sentence (10) again, here converted to the past tense for naturalness.
+(10) John and Bill drowned each other.
+And consider again Gleitman et al’s statement that “
+In (10), these two reprobates have reciprocated the decidedlyasymmetric act of drowning someone.” We have considered three possible bases for calling the act of drowning asymmetric. What might it mean then to say that John and Bill have “reciprocated” an asymmetric act?
+First we note that the overt reciprocal construction certainly allows for two distinct events, as illustrated by the possibility of attributing different properties to the two events, as in (12).
+(12) John and Bill drowned each other by different methods.
+For a happier verb, and one for which it’s easier to imagine two completely separate events, consider rescue in (13).
+(13) John and Bill rescued each other by different methods/ on different days.
+And as Gleitman et al note, even for a (relatively) symmetrical predicate like kiss, the reciprocal construction in (14a)allows for two distinct acts, unlike the intransitive (14b).
+(14) a. John and Mary kissed each other on different parts of their faces.
+b. John and Mary kissed *on different parts of their faces. Symmetry and symmetrical predicates609
+Returning to drown: Suppose that the meaning postulate in (15) is correct.
+(15) drown’(e,a,b) → ¬drown’(e,b,a) for all a,b such that a ≠ b.
+This meaning postulate is a way of saying that the lexical drown relation is antisymmetrical relative to a fixed event e.
+(
+It’s antisymmetrical, not asymmetrical, since a person can drown himself.)
+Even if lexical drown is thus antisymmetrical, the sentence ‘
+John drowned Bill’ is consistent with the sentence ‘
+Billdrowned John’, because in a full sentence, the event argument is existentially quantified, as in (16).
+(16) Possible: both ∃e1(drown’(e1, a, b)) and ∃e2(drown’(e2, b, a))
+In other words, “
+John drowned Bill” and “
+Bill drowned John” can both be true by virtue of two different events, sinceeach just says that there is an event of the given kind.
+So if the sentence ‘
+John drowned Bill’ includes an existentially quantified event argument, that explains how the sentence can express a merely non-symmetrical relation, even if the core predicate drown inside it is asymmetrical or antisymmetrical. Thus we can formalize Gleitman et al’s idea that the reciprocal construction can turn an asymmetricalrelation into a non-symmetrical one, one that can have “symmetrical instances.”4. Non-symmetrical predicates that pass the linguistic test for “symmetrical predicates”
+Predicates of various syntactic classes that are classed as symmetrical predicates by Gleitman et al include the verbsmeet, kiss, the adjective similar, and I will add the noun sibling.
+The linguistic property considered as central by Gleitman et al for distinguishing the symmetric from the non-symmetric class is the test with intransitives, whether their meaning is or is not similar to the meaning of an overt reciprocal,as discussed in Section 1.
+4.1. The observed meaning difference between reciprocal and plural intransitives with symmetric predicates.
+Gleitman et al note carefully that even in the case of most of the predicates they class as symmetrical, such as kiss, themeanings of the intransitive-plural and the reciprocal sentences are not judged identical, only similar. This observeddifference may also be explainable on the basis of the event argument plus the lexical semantics of the derived intransitive.
+(17) a. Susan and Bill kissed each other.
+b. Susan and Bill kissed.
+(i) The adverbial test illustrated with (14a-b) supports the idea that there is just one event in the intransitive sentence,two in the overtly reciprocal sentence. But Gleitman et al raise the interesting question of how the structure and compositional semantic derivation of (17b) differ from that of a sentence with an intransitive variant of a non-symmetricalverb, such as drown, as in (3a), John and Bill drown.
+(ii) First of all, let us grant that (17b) has a single event argument and describes the occurrence of a common eventwith two participants, and let us look at the structure of (17a). Appealing to analyses such as those in , , , wemay argue that the overt reciprocal sentence (17a), while not derived from a conjunction of two sentences (we agreewith Gleitman et al about that), nevertheless describes a non-atomic event, one that has parts that are subevents of thegiven event.
+(iii) Returning to the intransitive (17b), I would argue that if it unambiguously posits a single event of mutual kissing,then the intransitive verb kiss needs to be considered a separate derived variant of the transitive kiss. Lexical rules forderiving several kinds of intransitive alternants of transitive verbs were proposed by Dowty . Russian marks several sorts of derived intransitives (reciprocals, reflexives, unaccusatives) with the morpheme sja. English uses “zeroderivation” instead. The following is based on Dowty’s rule, modified to include an event argument.
+(18) transitive kiss: λyλxλe kiss’(e,x,y)inherently reciprocal kissrecip: λXλ
+E This is to be read as follows: kissrecip, the derived ‘inherently reciprocal’ version of kiss, is predicated of a single‘plural event’ E and a single plural entity X, and kissrecip (E,
+X) says that for every atomic individual y who is part of
+X, there is a subevent e of E and an atomic individual z that is part of X such that e is an event of y kissing z.
+It is likely that intransitive kiss has further lexicalized and has a more specific meaning than that, perhaps requiring that the ones who are kissing are not just kissing each other but kissing each other on the mouth. Dowty’s lexical
+Partee B.
+H.
+610
+rules are proposed as semi-productive sense-deriving processes which can be followed by further lexicalization. Themeaning suggested in (18) is a simple version of a reciprocal meaning; see the works mentioned above for moresophisticated suggestions for the semantics of reciprocals.
+What is crucial is that it is possible to say that there is a single event with a single plural actant in the case of theintransitives, while characterizing that event in terms of subevents involving the corresponding transitive predicates.
+4.2. Why does brother pattern as a symmetrical predicate?
+We observed earlier that brother is non-symmetrical on the class of humans, and symmetrical only when restricted tothe domain of males. Yet it patterns with symmetrical predicates in forming plurals as in (6). This seems to challengeone of the main conclusions of Gleitman et al, that “overwhelmingly often, symmetrical concepts are expressed bypredicates marked with a special lexical feature. This lexical feature licenses a reading of noun phrase conjunction toexpress reciprocality of the relation between the nominal conjuncts. No asymmetrical this feature.” (p. 365.)
+Asymmetrical is used in that paper as I use non-symmetrical (perhaps limited to non-symmetricals that are not“nearly symmetrical”). Brother is clearly non-symmetrical, since only about half the instances are ‘symmetricalinstances’. And yet it patterns like the fully symmetrical sibling and cousin and the nearly symmetrical friend, andunlike the nearly asymmetrical uncle.
+Why does this happen with brother (and sister)? Is brother on the domain of males a separate concept? Is there aseparate symmetrical lexical item brother distinct from the non-symmetrical one1? Or is it rather that with nouns, pluralization is able to pick out the symmetrical subrelation of the broader relation? I don’t have an answer. One place Iwould look for ideas is in the work of Staroverov on conjoined relational nouns of the type husband and wife, brotherand sister , since there is something intrinsically reciprocal about those predicates, and they are very close inmeaning to spouses, siblings respectively.
+5. Conclusions
+A great deal of progress in semantics has emerged from studying areas where certain ‘standard’ logical notions do notseem to have a perfect fit with their nearest natural language equivalents, and finding better notions where they turnout to be needed. What I have argued in this paper is that there is an interesting field for research starting from apparent mismatches between logicians’ definitions of symmetry and asymmetry and the way those notions are used in ordinary language, a field of research whose value is clear from the very fruitful insights in the pioneering work of
+Gleitman et al.

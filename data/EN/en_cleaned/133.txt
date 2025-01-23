@@ -1,0 +1,168 @@
+Sentiment Analysis (S
+A) is a critical task in Natural Language Processing (NL
+P) that involves identifyingthe sentiment expressed in text. With the increasing amount of text data generated every day on variousplatforms such as social media, customer reviews, and news articles, sentiment analysis has becomemore important than ever. The goal of sentiment analysis is to automatically determine the emotionaltone conveyed by a piece of text, which could be positive, negative, or neutral.
+Over the years, several methods have been proposed for S
+A, ranging from traditional machine learningtechniques to deep learning models based on neural networks. These methods have shown remarkableperformance on different sentiment analysis tasks, such as document-level sentiment analysis, sentencelevel sentiment analysis, and aspect-based sentiment analysis. In this competition, we faced one of themost significant and demanded S
+A problems called Named Entity Sentiment Analysis (NES
+A) whichusually requires both identifying entities in text and determining their corresponding sentiment. However, in this case, we had to predict a sentiment label of the predetermined entity, so in this paper, wefocus only on the second part.
+Despite the significant progress made in sentiment analysis, there are still several challenges needed tobe addressed. For example, handling sarcasm, irony, and figurative language in the text can be challenging, as these expressions may convey a sentiment opposite to their literal meaning. In addition, namedentity sentiment may come from at least three different sources: author opinion, quoted opinion, andimplicit opinion.
+In this paper, we review our method for Named Entity Sentiment Analysis which achieves the bestresult on Dialog 2023 evaluation and discuss the challenges and opportunities in this field. We alsopresent a comprehensive overview of approaches that have been tested including all the common anduncommon competition tricks. Finally, we identify some promising directions for future research insentiment analysis, such as developing models that can handle linguistic nuances and context-dependentsentiment.
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2023”
+June 14–16, 2023HAlf-M
+Asked Model for Named Entity Sentiment analysis2 Related works
+Modern Deep Learning contains a huge domain of tasks called Text Classification Tasks like topic orintent classification, spam and fraud detection, language identification, and many others. Methodologiesof solving these problems were very similar over the years and worked quite well until (
+Pang et al., 2002)proposed to classify documents by sentiment. The authors found out that document sentiment analysisis a more challenging task to address and well-known at the time approaches were not that effective.
+So, researchers had to develop robust models capable of deciphering the intricate nuances of humanlanguage.
+The Word2
+Vec model (
+Mikolov et al., 2013) revolutionized the field of natural language processingwith its efficient training of word embeddings, which capture the semantic relationships between words.
+These embeddings have since become a fundamental component in many sentiment analysis models.
+Recurrent Neural Networks (RN
+N) based approaches were dominant in the field of S
+A for a longtime because they excel at modeling sequential data and capturing temporal dependencies in text. Thereare multiple improvements of this technique especially for sentiment analysis such as Recursive Neural
+Tensor Network (
+Socher et al., 2013) which computes compositional vector representations for phrasesof variable length and syntactic type, CNN-BiLST
+M model (
+Yoon and Kim, 2017) which combineshigh-level features of document extracted by CN
+N and the context considered by BiLST
+M that capturelong-term dependency, and generalization of the standard LST
+M architecture to tree-structured networktopologies named Tree-LST
+M (
+Tai et al., 2015).
+The introduction of the Transformer architecture (
+Vaswani et al., 2017) marked a major breakthroughin natural language processing. With its self-attention mechanism and parallel computation capabilities,the Transformer model has become the basis for many state-of-the-art sentiment analysis systems. Theappearance of such a powerful tool blurred the distinction between varieties of Text Classification tasksto some degree. Fine-tuning BER
+T (
+Devlin et al., 2018) or its any further modifications has been a crucialmethod of addressing this task until recently. Although, there are plenty of tricks that can vastly improvemodel performance in such a specific domain. For a comprehensive understanding of this field of study,conference organizers offer an accurate and detailed observation (
+Golubev et al., 2023) of the variouscontributions to this domain.
+3 Methodology
+We explored and evaluated various approaches to tackle the given problem, aiming to identify the mosteffective technique. While we found H
+Alf M
+Asked Model (HAMA
+M) method to be the clear winnerin terms of performance, other approaches still demonstrated notable results, deserving of honorablemention. This comprehensive assessment allowed us to not only establish the superiority of the winningtechnique but also gain valuable insights into the strengths and limitations of alternative methods withinthe context of the specific task.
+3.1 Zero-shot NES
+A
+The zero-shot named entity sentiment analysis method leverages pre-trained Masked Language Models(ML
+Ms), such as BER
+T, to perform sentiment classification without the need for fine-tuning or labeleddata specific to the task. The following steps and figure 1 provide a detailed overview of this approach:1. Insert a right before the target entity in the sentence. This helps the model to focus
+on the context surrounding the entity.
+2. Run the modified input sequence through the pre-trained ML
+M model, such as BER
+T. The model
+computes the probability distribution over the vocabulary for the based on the givencontext.
+3. Create two lists of tokens representing "good" and "bad" sentiment, which will be used to compute
+average sentiment probabilities. For each list, extract the corresponding softmax output probabilitiesfrom the model for the tokens in that list.
+4. Calculate the average probability of "good" and "bad" tokens. If the average probability of "good"
+tokens is higher than that of "bad" ones, classify the sentiment as positive. Otherwise, classify it as
+Podberezko P., Kaznacheev A., Abdullayeva S., Kabaev A.negative.
+This zero-shot method offers a straightforward approach to named entity sentiment analysis withoutthe need for task-specific training. However, it may have limitations in handling more complex or nuanced sentiment expressions, as it relies solely on the pre-trained ML
+M’s understanding of sentimentrelated words. Moreover, it’s tough to determine a neutral class because the difference between theaverage probabilities of "good" and "bad" tokens can be highly variable. Identifying a suitable thresholdto distinguish neutral sentiment becomes difficult as the fluctuating difference makes it hard to establishclear boundaries of "approximately equal" probabilities.
+3.2 Multi-sample dropout
+In this section, we provide a detailed description of the multi-sample dropout technique, a regularizationmethod presented by (
+Inoue, 2019). This advanced approach enhances the generalization capabilities ofdeep learning models by employing multiple dropout masks during training for the same mini-batch ofinput data.
+In the original dropout technique, proposed by (
+Srivastava et al., 2014), a single dropout mask isgenerated for each input instance in a mini-batch during training. This mask is applied to deactivatea random subset of neurons (or features) with a certain probability (commonly between 0.2 and 0.5),helping to prevent the model from relying too heavily on any single neuron. After applying the dropoutmask, the model performs a single forward and backward pass, updating its weights accordingly.
+In contrast, the multi-sample dropout applies multiple dropout masks to each input instance in a minibatch during training. As demonstrated in figure 2, for each input instance multiple forward passes areperformed using different dropout masks, effectively exploring a broader range of neuron combinations.
+The outputs (logits or probabilities) from these multiple forward passes are then averaged, resemblingan ensemble-like approach. The backward pass is performed using this averaged output, computinggradients and updating the model’s weights. Therefore, this approach notably decreases the requirednumber of training iterations.
+In summary, while both the original dropout and multi-sample dropout techniques utilize dropoutmasks to improve generalization, the multi-sample dropout method extends this concept by employingmultiple masks per input instance and averaging the resulting model outputs. This results in:HAlf-M
+Asked Model for Named Entity Sentiment analysis• accelerating training and improve generalization over the original dropout• reducing a computational cost, as the majority of computation time is expended in the lower layers,while the weights in the upper layers are shared• achieving lower error rates and losses3.3 Pooled Sentiment Model
+This method for named entity sentiment analysis combines the use of special tokens, fine-tuning, regularization techniques, and cross-validation to create a comprehensive approach that addresses overfittingand improves the model’s ability to accurately predict sentiment for specific entities in a given text.
+We insert a special before the target entity in the input text. This token servesas an indicator for the model to focus on the context surrounding the entity when predicting sentiment.
+Further, we chose a transformer-based model and fine-tune it to extract sentiment from the embeddingcorresponding to the In our experiments, we tested DistilBER
+T ((
+Kolesnikova etal., 2022)), BER
+T, and RoBER
+Ta ((
+Liu et al., 2019)). During the experiments, overfitting emerged as achallenge. To address this, various techniques were employed, including weight decay, dropout, and theutilization of weights from models trained for different tasks (such as aspect-based sentiment analysis,sentiment analysis, and Named Entity Recognition (NE
+R)). Also, some experiments were conductedusing the Monte Carlo dropout approach at inference time, which involves applying dropout duringthe testing phase to create an ensemble-like effect, potentially improving generalization and uncertaintyestimation.
+The final model was trained using cross-validation, a technique that partitions the dataset into multiple folds, training and validating the ensemble of models on different subsets to ensure a more robustevaluation of its performance.
+This approach proved to be quite robust, and had it not been for the superior method proposed, itwould have secured the 2nd position on the leaderboard.
+3.4 H
+Alf M
+Asked Model (HAMA
+M)
+The model builds a contextualized representation of an entity and classifies it into three given classes“positive”, “negative”, and “neutral”. As a backbone for building the representation, any transformermodel can be selected. A transformer takes tokenized text as an input and produces vector representations for each of the given tokens. Then two variants of entity representation are constructed:
+Podberezko P., Kaznacheev A., Abdullayeva S., Kabaev A.• mean pooled 𝑣𝑣𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚 = (ℎ𝑘𝑘 + ...+ ℎ𝑚𝑚)/(𝑚𝑚− 𝑘𝑘),• max pooled 𝑣𝑣𝑚𝑚𝑚𝑚𝑚𝑚 = Max(), with taking maximum over the last dimension,where 𝑘𝑘 is the index of the first entity token and 𝑚𝑚 is the index of its last token. Both 𝑣𝑣𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚 and 𝑣𝑣𝑚𝑚𝑚𝑚𝑚𝑚are then passed through the classifier module, which consists of the following consecutive layers:• linear transformation , where 𝑁𝑁 is the size of the final hidden representation from transformer;• hyperbolic tangent function;• multi-sample dropout, described in the section 3.2;• linear transformation from 𝑁𝑁 -dimensional vector to 3-dimensional space of target classes.
+The resultant three logits are averaged for cases of mean and max pooling: 𝑙𝑙𝑚𝑚𝑚𝑚𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒 = (𝑙𝑙𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚+ 𝑙𝑙𝑚𝑚𝑚𝑚𝑚𝑚)/2.
+But the values of 𝑙𝑙𝑚𝑚𝑚𝑚𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒 are not used for the final prediction yet, because to avoid model overfittingto some particular words, another run of the model is performed at this point, but with the maskedentity. The point is that in training data some entities might be overrepresented in one target class andunderrepresented in any other, which may lead to bias in model predictions for such entities. Also whilepredicting any unseen entity, the model may utilize bias in the pre-trained representations of this entity.
+Masking the entity words (replacing them with ‘’ token) helps to mitigate this effect and forcesthe model to extract sentiment information from a context rather than prior knowledge of the entity itself.
+The output of the masked run is a set of logits for three target classes 𝑙𝑙𝑚𝑚𝑚𝑚𝑚𝑚𝑘𝑘𝑚𝑚𝑚𝑚, which are averaged withthe 𝑙𝑙𝑚𝑚𝑚𝑚𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒 before applying the argmax function to extract the predicted class. The complete architectureof the described approach is shown in figure 3. The intuition for keeping predictions from the modelwith an unmasked entity and averaging it with the masked run is that despite the mentioned problemsabout bias, the entity itself can contain useful information for creating accurate token representations bya transformer.
+During training, the loss is calculated using final logits with the weighted cross-entropy function,where weights of 1 are assigned to the examples with positive and negative sentiments, while neutralexamples have weights of 0.1. The lower weight of neutral examples is motivated by, firstly, the targetcompetition metric, which concentrates on the quality of positive and negative predictions, and also bythe fact that the neutral class dominates training data as there are approximately 2.5 times more neutralexamples than there are positive and negative ones combined.
+Another trick motivated by the target metric and which was tested with the HAMA
+M approach is thethreshold on neutral class prediction. Instead of taking argmax of the final logits, we first apply softmaxto get probabilities of each class and in cases when the neutral class has the highest probability, but itsvalue is below some threshold, we select the most probable class from only “positive” and “negative”.
+Besides that, a well-known method for improving generalization – ensembling was tested. In orderto do that, we averaged the final logits from different transformer models trained on different subsets oftraining data. Specifically, the training dataset was split into five folds, each of which produces its ownmodel trained on the four rest folds and the resultant models can be used for ensembling.
+4 Experimental setup
+Many experiments were carried out with different models and training setups. The final results forHAMA
+M were obtained with the following experimental setup.
+The training dataset was split into 5 folds to perform cross-validation and eventually get 5 models,which can be ensembled for prediction on test data.
+Training on each of the 5 parts of the initial dataset was conducted during 6 epochs with validationperformed during each half-epoch. The checkpoint with the highest macro F1pn on validation wasselected to get a score on the dev and test sets.
+Several transformers were tested as a backbone for HAMA
+M, namely, ’Deep
+Pavlov/distilrubert-basecased-conversational’, ’sberbank-ai/ru
+Bert-large’, ’sberbank-ai/ru
+Roberta-large’, etc. Final results wereobtained with ensemble of ‘sberbank-ai/ru
+Roberta-large’, ‘xlm-roberta-large’ ((
+Conneau et al., 2019)),and ‘google/rembert’ ((
+Chung et al., 2021)).
+The maximal learning rate for the backbone transformer model was set to 1e-5, while added weightsHAlf-M
+Asked Model for Named Entity Sentiment analysis
+Transformer Сборная России по футболу готовится к ответственным матчам Start, endMeanAverageLogitsMaxSharedweightsSharedweightsSharedweightsPoolingTanh
+Multi-sample dropoutLinearLinearTanh
+Multi-sample dropoutLinearLinearLogitsTanh
+Multi-sample dropoutLinearLinearTanh
+Multi-sample dropoutLinearLinear
+Transformer к ответственным матчам MeanAverageAverageLogitsArgmax
+Predicted class
+Max Pooling
+Logitsfor classification were trained with the maximal learning rate of 1e-4. The initial learning rate was set to0 for all weights and warmed up to its maximal value during the first tenth part of the total training steps
+number and then linearly decayed to 0.
+The batch size of 8 was used, and the dropout rate in classification layers was set to 0.5. In the case ofmulti-sample dropout, the number of samples was set to 5.
+5 Results
+Table 1 shows results for models based on the various combinations of HAMA
+M parts. In the mostbasic form, such a model performs mean pooling of the given entity and then classifies it (first line intable). In the second line, we add class weights in the cross-entropy loss calculation. The third linealso adds a multi-sample dropout to this configuration, but due to the worsening of the results on localcross-validation, we removed the multi-sample dropout in the fourth line and added an entity maskingtrick, after which the model can be marked as HAMA
+M. Here we can see a large increase in crossvalidation score, so we assume that entity masking is indeed helpful in avoiding overfitting and increasesthe model’s generalizing ability. The fifth line introduces a more sophisticated approach to entity vector pooling – a combination of ‘mean’ and ‘max’ poolings. Lines six and seven present another testof multi-sample dropout (this time model already has entity masking) both with mean and mean-max
+Podberezko P., Kaznacheev A., Abdullayeva S., Kabaev A.pooling correspondingly. Based on the results of cross-validation alone it is hard to tell if the last twoadditions (mean-max pooling and multi-sample dropout) are really helpful for the model but based onthe general considerations it was decided to use the full HAMA
+M model for test submission. Dev scoresfor configurations other than full HAMA
+M were not obtained during the development phase of the competition, so they did not influence the model selection for the test phase.
+Model configuration Macro F1pn
+Local crossvalidationscore, mean+/std
+Dev set score,mean +/std
+Dev set scorefrom 5-foldensemble
+Test set scorefrom 5-foldensemble
+Mean pooling 65.11 +/1.54 66.04 +/1.11 69.41 61.9
+Mean pooling,class weights in loss66.11 +/1.05 66.61 +/0.79 70.47 65.25
+Mean pooling,class weights in loss,multi-sample dropout65.31 +/1.23 66.72 +/0.66 70.85 62.84
+Mean pooling,class weights in loss,entity masking67.83 +/0.45 67.38 +/0.54 70.86 65.42
+Mean-max pooling,class weights in loss,entity masking67.63 +/1.07 67.45 +/0.24 69.14 65.73
+Mean pooling,class weights in loss,entity masking,multi-sample dropout67.57 +/1.20 66.99 +/0.78 70.49 65.67
+Mean-max pooling,class weights in loss,entity masking,multi-sample dropout(full HAMA
+M)67.73 +/1.22 67.20 +/0.31 69.52 66.25
+cross-validation.
+Table 2 presents final results of our models on dev and test sets. HAMA
+M result with the thresholdon the prediction of neutral class yielded a small increase in performance on the dev set, so this modelconfiguration was used for the final submission on the test set, which gave our final test score of macro
+F1pn = 66.67.
+6 Error Analysis
+The first thing we found when manually analyzing errors is rather ambiguous labeling. Several suchexamples are shown in Assessing human-level performance on this dataset could be intriguing. Typically, neutral sentimenttends to be mistaken for negative and positive ones, as anticipated. Instances where the model assigns anegative sentiment to a positive label or vice versa are highly uncommon and can be attributed to ambiguous labeling. It is evident that the model has overfitted for words with highly contrasting sentiments andwhen they are closely associated with the entity. For example: “полиция задержала двоих человеквозле суда и одного — внутри.” The model returns "negative" for “полиция” entity.HAlf-M
+Asked Model for Named Entity Sentiment analysis
+Model configuration Macro F1pn
+Dev set score Test set score
+Pooled Sentiment model(5 sberbank-ai/ru
+Roberta-large ensemble)69.92 65.68
+HAMA
+M (5 sberbank-ai/ru
+Roberta-large ensemble) 69.52 66.25HAMA
+M (5 sberbank-ai/ru
+Roberta-large +4 xlm-roberta-large + 2 google/rembert ensemble)
+70.86 67.0
+HAMA
+M (5 sberbank-ai/ru
+Roberta-large+ 4 xlm-roberta-large + 2 google/rembert ensemble)+ neutral class 0.55 threshold70.94 66.67
+Sentence Entity
+Datasettrue label
+PredictedlabelНа момент смерти 54-летняя журналисткарасследовала коррупцию в России и нарушения прав человека в Чечне, где ранее федеральное правительство подавило попыткисепаратистов создать исламистское государство.
+правительство negative neutral58-летний Чавес одержал в октябре победу
+над Каприлесом с большим численным перевесом, завоевав еще один шестилетний срокна посту президента.
+Чавес negative positiveЭто был первый случай, когда сирийская армия обстреляла предполагаемых повстанцевв Ливане, который старается соблюдать нейтралитет в гражданской войне в СирииЛиване positive neutral7 Conclusion
+In this paper, we studied different approaches for solving named entity sentiment classification task inthe RuSentN
+E-23 competition. We presented the zero-shot technique, and also thoroughly investigatedfine-tuning approach finding out that overfitting to the sentiment of certain entities is its main drawback.
+We described several attempts at mitigating overfitting, among which replacing entity with ‘’tokens showed the best result. Using this trick, we developed a new approach, which after ensemblingseveral transformer models scored macro F1pn = 66.67 and reached first place in the competition.

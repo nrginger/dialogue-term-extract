@@ -1,0 +1,424 @@
+There is no exaggeration in saying that last decade in computational linguistics is the decade of «neural network turn». The works of Tomas Mikolov, e.g. , on vector representations of words revolutionized not only computational semantics, but entire computational linguistics (further, C
+L), stimulating the fast growth of embedding-based approach. Another breakthrough insight was the introduction of character-based networks by Santos and Zadrozny , permitting the researchers to solve practically every task from scratch provided enough data is available. After only several years, the vast majority of C
+L tasks of different complexity, from machine translation to morphological tagging, is solved mostly using different neural network-based architectures.
+In the present paper we focus on the task of automatic morphological tagging which takes as input the sequence of words and assigns each word a label (or tag) containing the morphological description of that word. In early years of C
+L only the partof-speech information was labeled, therefore this task is sometimes referred as PO
+Stagging. For analytical languages like English the sets for coarse part-of-speech tagging and fine-grained morphological labeling does not differ much in size and complexity. However, most of the languages are far more complex in its morphology and have a wider inventory of morphological categories, which makes the task of detailed morphological analysis much harder than coarse PO
+S-tagging. Downstream applications benefit more from detailed morphological information (words connected by syntactic dependency often agree in their morphology, which cannot be revealed using only part-of-speech tags), therefore we address this very task and use the term morphological tagging through the paper.
+Despite the undoubtable evidence for superior performance of neural network models for the plenty of tasks, their usage for morphological tagging worths further discussion. Indeed, most neural models were tested for English which has unbounded amount of training data and very simple morphology. For more complex morphology the patterns might be the opposite: for example, already the pioneer work conditional random fields was compatible with other morphological taggers. On the contrary, only clever design of learning process and output space made them capable to achieve state-of-the-art tagging level . There is no a-priori evidence, that the same neural architectures are suitable Improving neural morphological Tagging using Language Modelsfor developed morphological structure of Russian or for small corpora in case of less widespread languages.
+However, both the doubts are decisively disproved by recent research. What concerns the second problem, that a character-based neural tagger outperforms state-of-the-art CR
+F parser for a wide range of languages. The effect is rather clear even for training corpora with a thousand training sentences. That implies that LST
+Ms are more effective in capturing morphosyntactic patterns than CR
+Fs possible due to their capability to learn long-distance dependencies.
+The results of MorphoRu
+Eval challenge that a deep neural model of by a huge margin the second ranked tagger of , combining a hidden Markov model with linguistically motivated rules for reranking. Both these systems extensively used external knowledge in the form of morphological dictionary, the first one also utilized the output of a closed rule-based semantic parser as feature, while the second heavily relied on feature engineering. Interestingly, other neural models except the winner were clearly behind second place.
+Before describing our approach I would like to emphasize the difference between the behavior of neural and Markov tagging models on the example sentenceего решение задачи было неправильным(1) ego reshenie zadachi bylo nepravil’nymhis solution+Sg+
+Masc problem+Sg+
+Gen be+Past+Sg+
+Neut incorrect+Sg+Masc+Ins
+Due to extensive regular homonymy in Russian it has more than 100 variants of tagging as summarized in the table below.
+Его решение было неправильнымWord
+Number of tags Tagsего 5 pron, Gender=
+Masc, Case=
+Genpron, Gender=
+Masc, Case=
+Accpron, Gender=
+Neut, Case=
+Genpron, Gender=
+Neut, Case=
+Accdetрешение 2 noun, Gender=
+Neut, Case=
+Nomnoun, Gender=
+Neut, Case=
+Accзадачи 3 noun, Number=
+Sing, Case=
+Gennoun, Number=
+Plur, Case=
+Nomnoun, Number=
+Plur, Case=
+Accбыло 2 aux, Gender=
+Neutpartнеправильным 3 adj, Number=
+Sing, Gender=
+Masc, Case=
+Insadj, Number=
+Sing, Gender=
+Neut, Case=
+Insadj, Number=
+Plur, Case=Dat
+Sorokin A. A. parsing this sentence, an HM
+M relies on dictionary word-tag statistics and tag trigram frequencies. It decides that было should be an aux since it is a dominant label of this word. An aux,
+Gender = Neut tag is often followed by a neutral adjective in instrumental case and preceded by a noun, Gender=
+Neut, Case=
+Nom noun, Number=
+Sing, Case=
+Gen bigram. Finally, a determiner is more probable to occur before a noun, than a personal pronoun. Thus, the correct labeling is uncovered using only the tag cooccurence statistics. However, consider another sentence:его решение задачи будет неправильным(2) ego reshenie zadachi budet nepravil’nymhis solution+Sg+
+Masc problem+Sg+
+Gen be+Fut+
+Sg incorrect+Sg+Masc+Ins
+Russian verbs do not change by gender in non-past tense, consequently, the adjective неправильным has nothing to support the Gender=
+Neut hypothesis among its two preceding tags. Therefore HM
+M and CR
+F model are likely to fail since they do not take remote context into account.
+On the contrary, neural models rely on the lexemes themselves, not the tag statistics. The word было (not its tag) forces the network to assign Number=
+Sing, Gender=
+Neut label to the next adjective неправильным and Case=
+Nom label to the word решение in its left vicinity. This latter word supports det reading for его and case=
+Gen reading for задачи since genitives nouns often follow решение. Actually, this evidence is confirmed by other words ending by –ние as well since characterbased networks capture graphical similatity. Moreover, a neural model probably captures the dependency between решение and неправильным making the second example less problematic.
+Summarizing, lexical information is more important than grammar constraints that HM
+Ms are trying to capture. The main advantage of neural network with respect to HM
+Ms and CR
+Fs is its ability to compress this information. It is usually “stored” in the states of a bidirectional LST
+M, often being the principal layer of the model. To produce the probability distribution of word tags these states are usually passed through a one-layer perceptron with softmax activation. However, the tags predicted for different words do not directly affect each other. Consequently, the network has no direct mechanism to impose grammatical constraints on tag cooccurrences which may potentially limit its performance.
+These constraints can in principle be learnt by neural language models on morphological tags. Such models are known to capture long-distance dependencies using memory mechanisms . We propose two combinations which combine an underlying BiLST
+M model of a neural language model via the topmost layer of the tagger.
+We apply our approach to U
+D2.0 MorphoRu
+Eval for Russian language. Our paper is organized as follows: Section 2 introduces the baseline BiLST
+M model, section 3 explains our extension of it, section 4 describes the experimental setup and presents tagging results, section 5 discusses
+the results obtained and we conclude with directions for future work.
+Improving neural morphological Tagging using Language Models2. Baseline model
+Morphological tagging is a task of predicting a correct sequence of morphological tags 𝒕 = 𝑡₁, …, 𝑡𝑛, given the words 𝒗 = 𝑣₁, …, 𝑣𝑛. A character-based approach of this problem from scratch and does not require any other resources except for a morphologically annotated corpus. Their model consists of two parts: the first encodes each word 𝑣𝑖 (a sequence of characters) as a fixed-width embedding vector ℎ𝑖, while the second transforms the obtained sequence of vectors ℎ₁, …, ℎ𝑛 to the morphological tags.
+First, we describe the encoding component of the model. The paper of Heigold uses two architectures for word representation: the first is a 2-layer LST
+M while the second combines several convolutional and highway layers. The first one slightly outperforms the second for most languages, however, we selected the second due to memory requirements. We refer the reader to the original paper for the full description, see also , applying the same ideas to neural language modelling. Briefly, the architecture is the following:1. Each character is encoded as a 1-hot row vector with 𝑛𝑐 dimensions, where
+𝑛𝑐 is the number of characters. A word of length 𝐿 is represented by a sequence of 𝐿 such vectors 1
+, ,
+Li ix x′ ′…jj
+F f=∑ , yni iy y ∈ ,ijiki i ii izij zy yz Wyeeyπ===∑ 1 1 1 1 1( | ) ~ ( | ) ( )n n n n np t t v v p v v t t p t t… … … … …
+1 1 1 1
+1 1 2 1 3 1 2 4 2 3 2 1
+( | ) ( | ) ( | )( ( ) ( | ) ( | ) ( | ) ( | ))n n n nn n n np v v t t p v t p v tp t t p t p t t p t t t p t t t p t t t− −==… … …… …,1 , softmax(( ) )i i i d i ip p M T h= … = +p Ti i is C p= ,( , , ),softmax( ).
+i iL
+Mi iL
+M L
+Mi L
+M ih s hz LST
+M h h
+W zπ′=′ …== ′ log ( ) ~ log ( ) (1 ) log ( )base L
+Mi i it s t s tπ π π+ − ,( )sw base L
+Mi i i iw w wi iz z z pos
+S z bσ +==1 1
+2 2
+,' max( ,0),softmax( ' ).
+w base L
+Mi i i iw wi iwi iz z z posz S z b
+S z bπ== ++=, that form a matrix 𝑋 with 𝐿 rows and 𝑛𝑐 columns and exactly one unit in each row.
+2. This matrix is multiplied by a matrix 𝑈 of size 𝑛𝑐×𝑛𝑒, producing a sequence
+𝑋´=𝑋𝑈 of 𝐿 embeddings 1
+, ,
+Li ix x′ ′…jj
+F f=∑ , yni iy y ∈ ,ijiki i ii izij zy yz Wyeeyπ===∑ 1 1 1 1 1( | ) ~ ( | ) ( )n n n n np t t v v p v v t t p t t… … … … …
+1 1 1 1
+1 1 2 1 3 1 2 4 2 3 2 1
+( | ) ( | ) ( | )( ( ) ( | ) ( | ) ( | ) ( | ))n n n nn n n np v v t t p v t p v tp t t p t p t t p t t t p t t t p t t t− −==… … …… …,1 , softmax(( ) )i i i d i ip p M T h= … = +p Ti i is C p= ,( , , ),softmax( ).
+i iL
+Mi iL
+M L
+Mi L
+M ih s hz LST
+M h h
+W zπ′=′ …== ′ log ( ) ~ log ( ) (1 ) log ( )base L
+Mi i it s t s tπ π π+ − ,( )sw base L
+Mi i i iw w wi iz z z pos
+S z bσ +==1 1
+2 2
+,' max( ,0),softmax( ' ).
+w base L
+Mi i i iw wi iwi iz z z posz S z b
+S z bπ== ++=. 𝑗-th element of this sequence is a dense representation of 𝑖𝑗-th character in the alphabet.
+3. 𝑋´ is passed through 𝐾 parallel convolutional layers with different widths.
+After this step 𝐾 vectors of dimensions 𝑓₁,…,𝑘 are associated with each position of the word. Roughly speaking, 𝑘-th of these vectors contains information of useful ngrams of length 𝑤𝑘 around current position.
+4. All the vectors from the previous step are concatenated, producing a vector
+of length 1
+, ,
+Li ix x′ ′…jj
+F f=∑ , yni iy y ∈ ,ijiki i ii izij zy yz Wyeeyπ===∑ 1 1 1 1 1( | ) ~ ( | ) ( )n n n n np t t v v p v v t t p t t… … … … …
+1 1 1 1
+1 1 2 1 3 1 2 4 2 3 2 1
+( | ) ( | ) ( | )( ( ) ( | ) ( | ) ( | ) ( | ))n n n nn n n np v v t t p v t p v tp t t p t p t t p t t t p t t t p t t t− −==… … …… …,1 , softmax(( ) )i i i d i ip p M T h= … = +p Ti i is C p= ,( , , ),softmax( ).
+i iL
+Mi iL
+M L
+Mi L
+M ih s hz LST
+M h h
+W zπ′=′ …== ′ log ( ) ~ log ( ) (1 ) log ( )base L
+Mi i it s t s tπ π π+ − ,( )sw base L
+Mi i i iw w wi iz z z pos
+S z bσ +==1 1
+2 2
+,' max( ,0),softmax( ' ).
+w base L
+Mi i i iw wi iwi iz z z posz S z b
+S z bπ== ++= for each symbol of the word. A word is now a matrix wit 𝐿 rows and 𝐹 columns.
+5. A maximum-over-time (max-pooling) layer is applied to each row, finally encoding the word as a vector ℎ´ of fixed dimension 𝐹.
+6. Several highway layers applied to this vector. Highway
+layer performs the transformation ℎ=𝑠⊙(𝑉ℎ´)+(1−𝑠)⊙ℎ ,́ where 𝑉 is a square matrix with 𝐹 rows, 𝑔 is a non-linear function and ⊙ denotes coordinate-wise product. The highway layer simultaneously produces useful combinations of features using one-layer perceptron (𝑉ℎ´) and keeps relevant dimensions of ℎ .́ The contribution of both components is balanced by means of vector 𝑠, which is obtained by another one-layer perceptron with sigmoid activation: 𝑠=(𝑆ℎ´).
+The second component of the network transforms the obtained sequence of word vectors ℎ₁, …, ℎ𝑛 into 𝑛 probability distributions 𝜋₁, …, 𝜋𝑛. Here 𝜋𝑗 contains tag probabilities for 𝑗-th word in the sentence. First, two LST
+Ms are applied, the first processing the sentence from left to right and the second from right to left. The first produces vectors 𝑦⃗₁,…,⃗𝑛 and the second outputs �⃖�𝑛, …, �⃖�₁, thus each word is encoded by two vectors 1
+, ,
+Li ix x′ ′…jj
+F f=∑ , yni iy y ∈ ,ijiki i ii izij zy yz Wyeeyπ===∑ 1 1 1 1 1( | ) ~ ( | ) ( )n n n n np t t v v p v v t t p t t… … … … …
+1 1 1 1
+1 1 2 1 3 1 2 4 2 3 2 1
+( | ) ( | ) ( | )( ( ) ( | ) ( | ) ( | ) ( | ))n n n nn n n np v v t t p v t p v tp t t p t p t t p t t t p t t t p t t t− −==… … …… …,1 , softmax(( ) )i i i d i ip p M T h= … = +p Ti i is C p= ,( , , ),softmax( ).
+i iL
+Mi iL
+M L
+Mi L
+M ih s hz LST
+M h h
+W zπ′=′ …== ′ log ( ) ~ log ( ) (1 ) log ( )base L
+Mi i it s t s tπ π π+ − ,( )sw base L
+Mi i i iw w wi iz z z pos
+S z bσ +==1 1
+2 2
+,' max( ,0),softmax( ' ).
+w base L
+Mi i i iw wi iwi iz z z posz S z b
+S z bπ== ++=. The concatenation of these vectors is multiplied by a projection Sorokin A. A. 𝑊 with 𝑛𝑡 rows and 2𝑛𝑦 columns, 𝑛𝑡 being the number of tags. A softmax layer yields the required probability distribution:1
+, ,
+Li ix x′ ′…jj
+F f=∑ , yni iy y ∈ ,ijiki i ii izij zy yz Wyeeyπ===∑ 1 1 1 1 1( | ) ~ ( | ) ( )n n n n np t t v v p v v t t p t t… … … … …
+1 1 1 1
+1 1 2 1 3 1 2 4 2 3 2 1
+( | ) ( | ) ( | )( ( ) ( | ) ( | ) ( | ) ( | ))n n n nn n n np v v t t p v t p v tp t t p t p t t p t t t p t t t p t t t− −==… … …… …,1 , softmax(( ) )i i i d i ip p M T h= … = +p Ti i is C p= ,( , , ),softmax( ).
+i iL
+Mi iL
+M L
+Mi L
+M ih s hz LST
+M h h
+W zπ′=′ …== ′ log ( ) ~ log ( ) (1 ) log ( )base L
+Mi i it s t s tπ π π+ − ,( )sw base L
+Mi i i iw w wi iz z z pos
+S z bσ +==1 1
+2 2
+,' max( ,0),softmax( ' ).
+w base L
+Mi i i iw wi iwi iz z z posz S z b
+S z bπ== ++= (concatenation)
+In architecture is proved to be successful for languages of different morphological structure even with only several thousands of tagged sentences available for training.
+3. Our proposal
+3.1. Language models
+As has already been said, the described architecture does not care about for the probability of the tag sequence “as a whole”, it only tries to predict the most probable tag in each position. Hidden Markov models follow the opposite approach: they rewrite the probability of tag sequence given the word sequence as1
+, ,
+Li ix x′ ′…jj
+F f=∑ , yni iy y ∈ ,ijiki i ii izij zy yz Wyeeyπ===∑ 1 1 1 1 1( | ) ~ ( | ) ( )n n n n np t t v v p v v t t p t t… … … … …
+1 1 1 1
+1 1 2 1 3 1 2 4 2 3 2 1
+( | ) ( | ) ( | )( ( ) ( | ) ( | ) ( | ) ( | ))n n n nn n n np v v t t p v t p v tp t t p t p t t p t t t p t t t p t t t− −==… … …… …,1 , softmax(( ) )i i i d i ip p M T h= … = +p Ti i is C p= ,( , , ),softmax( ).
+i iL
+Mi iL
+M L
+Mi L
+M ih s hz LST
+M h h
+W zπ′=′ …== ′ log ( ) ~ log ( ) (1 ) log ( )base L
+Mi i it s t s tπ π π+ − ,( )sw base L
+Mi i i iw w wi iz z z pos
+S z bσ +==1 1
+2 2
+,' max( ,0),softmax( ' ).
+w base L
+Mi i i iw wi iwi iz z z posz S z b
+S z bπ== ++=and further decompose this probability as1
+, ,
+Li ix x′ ′…jj
+F f=∑ , yni iy y ∈ ,ijiki i ii izij zy yz Wyeeyπ===∑ 1 1 1 1 1( | ) ~ ( | ) ( )n n n n np t t v v p v v t t p t t… … … … …
+1 1 1 1
+1 1 2 1 3 1 2 4 2 3 2 1
+( | ) ( | ) ( | )( ( ) ( | ) ( | ) ( | ) ( | ))n n n nn n n np v v t t p v t p v tp t t p t p t t p t t t p t t t p t t t− −==… … …… …,1 , softmax(( ) )i i i d i ip p M T h= … = +p Ti i is C p= ,( , , ),softmax( ).
+i iL
+Mi iL
+M L
+Mi L
+M ih s hz LST
+M h h
+W zπ′=′ …== ′ log ( ) ~ log ( ) (1 ) log ( )base L
+Mi i it s t s tπ π π+ − ,( )sw base L
+Mi i i iw w wi iz z z pos
+S z bσ +==1 1
+2 2
+,' max( ,0),softmax( ' ).
+w base L
+Mi i i iw wi iwi iz z z posz S z b
+S z bπ== ++=assuming mutual independence of lexical probabilities 𝑝(𝑣𝑖|𝑡𝑖). Morphological tags are supposed to be generated by a trigram model. Restricting lexical probabilities to single word-tag pairs is a drawback of HM
+Ms since the morphological tag depends not only on the word it is assigned to, but also on the whole context (see discussion in the introduction). But proposed Char-LST
+M architecture lacks this component at all, which limits its possibilities in an opposite way. Though, n-gram language models used in HM
+Ms require much data for training and cannot access inner structure of morphological tags. However, language models can be based on neural networks as well, not only on n-grams: the probability of current tag 𝑡𝑖 given the preceding tags 𝑡₁,…,𝑡𝑖−1 might be obtained as an output of recursive neural network.
+Neural language models were successful in modelling sequences of words (see , multiple references there) in large-scale tasks. We apply them to model sequences of morphological tags. We adapt the model of uses a variant of memory networks attend the recent past.
+Improving neural morphological Tagging using Language Models
+Figure 1. Memory block from The goal is to extract information which is the most relevant to predict further tags from the immediate left context of the current one. LST
+M itself does this processing the sentence from left to right, but only partially, an additional memory block encoding context can capture more. The context in position 𝑖 is a matrix 𝑋𝑖 with 𝑑 rows and 𝑚𝑣 columns containing 𝑑 preceeding elements 𝑥𝑖−𝑑+1,…,𝑖. We multiply this context by two matrices 𝑀 and 𝐶 of size 𝑚𝑣×𝑚𝑒 obtaining two dense representations of the context 𝑀𝑖=𝑋𝑖𝑀 and 𝐶𝑖=𝑋𝑖𝐶. Actually, 𝑗-th row of 𝑀 is the “input” embedding of 𝑗-th element in the vocabulary while 𝑗-th row of 𝐶 is its output embedding. 𝑀𝑖 is used to define the attention distribution over 𝑑 preceding elements, which is calculated as:,1 , softmax(( ) )i i i d i ip p M T h= … = +p
+Informal explanation is the following: softmax favors those rows of 𝑀𝑖=𝑇 which are the most similar to ℎ𝑖. 𝑇 is the bias which forces the model to attend particular positions independent from their content. Since ℎ𝑖 indirectly encodes the information about the past, the selected rows are the most relevant for this past. These rows should contribute the most to the context representation, so we use 𝑝𝑖 as weights to produce an output representation of the context:
+Ti i is C p=𝑠𝑖 and ℎ𝑖 are concatenated to produce a joint embedding of the context in 𝑖-th position including both the global information from ℎ𝑖 and the relevant local information from 𝑠𝑖. As suggested in , this encoding is propagated through another LST
+M layer:,( , , ),softmax( ).
+i iL
+Mi iL
+M L
+Mi L
+M ih s hz LST
+M h h
+W zπ′=′ …== ′
+In experiments of are just one-hot word encodings. However, morphological tags possess inner structure, therefore we apply encoding scheme summarized in Sorokin A. A. dimension Valuenoun 1verb 0… 0noun, case=
+Nom 1noun, case=
+Gen 0adj, case=
+Nom 00
+noun, gender=
+Fem 1noun, gender=
+Neut 0noun, gender=
+Fem 0
+Language model allows us to discriminate between probable and improbable combinations of tags, the next step is to apply it to the output of Char-LST
+M to filter out inconsistent sequences.
+3.2. Model combination
+Now for each word in the sentence we have two probability distributions that predict its morphological tag. The first is the one of the Char-LST
+M model, while the second generates current morphological label given already predicted tags 𝜋𝐿(𝑡𝑖)=𝑝𝐿𝑀(𝑡𝑖|𝑡1…𝑡𝑖−1). They should be combined to produce the output distribution over tags. A naive way is to sum their logarithmic probabilities log (𝑡𝑖)=log 𝜋𝑏𝑎𝑠𝑒(𝑡𝑖)+log 𝜋𝐿𝑀(𝑡𝑖), assuming the independence of distributions under consideration. Obviously, these two distributions are not independent, therefore we take their weighted combination:log ( ) ~ log ( ) (1 ) log ( )base L
+Mi i it s t s tπ π π+ −𝑠 itself is not a constant: obviously, the reliability of both distributions depends from internal states of corresponding models as well as from the position in the sentence. Informally, for some words the Char-LST
+M model is already a good predictor, so the language model weight should not be large. In the beginning of the sentence neural L
+M is also irrelevant since there is no history it can rely on. On the contrary, when observing rare or homonymous words we should trust the L
+M more. Summarizing, we choose 𝑠 to be a vector of weights, not a single weight. It is predicted using a single-layer perceptron with sigmoid activation:,( )sw base L
+Mi i i iw w wi iz z z pos
+S z bσ +==
+Here 𝑝𝑜𝑠𝑖=𝑙𝑜𝑔(1+𝑖) is a scalar encoding current position; 𝑧𝑖𝑏𝑎𝑠𝑒 and 𝑧𝑖𝐿𝑀 are the states of the topmost LST
+Ms for Char-LST
+M tagger and neural L
+M, respectively; 𝑠𝑖 and 𝑏𝑤 are vectors of dimension 𝑛𝑡𝑎𝑔𝑠 and 𝑆𝑤 is a matrix with 𝑛𝑡𝑎𝑔𝑠 rows and 𝑑𝑏𝑎𝑠𝑒+𝑑𝐿𝑀+1 columns. Here 𝑑𝑏𝑎𝑠𝑒 and 𝑑𝐿𝑀 are hidden state dimensions for char-LST
+M and neural L
+M, Improving neural morphological Tagging using Language Modelsrespectively. In principle, a multilayer network instead of a single layer could be applied. We refer to this architecture as Char
+Weight in the further.
+However, the weighting scheme helps only if at least one probability distribution is reliable, it is not capable to correct synchronous errors. Analogously to , we use another approach. The output distributions of both the neural L
+M and the CharLST
+M tagger are obtained by projecting their states by means of one-layer perceptron. It implies that all the probability information is already encoded in these states. The idea is to fuse the states of CharLST
+M and neural L
+M into a single state and then process it using a separate network. We choose a two-layer perceptron with ReL
+U activation as such a network, formally:1 1
+2 2
+,' max( ,0),softmax( ' ).
+w base L
+Mi i i iw wi iwi iz z z posz S z b
+S z bπ== ++=
+We refer to the second model as Char
+Fusion.
+4. Experiments and Results
+4.1. Experimental setup
+For CharLST
+M model we use the setup of minor modifications. Namely, character encoding dimension is 32, there are 7 convolutional layers applied in parallel with their width ranging from 1 to 7. The number of filters on layer with width 𝑤 is min(200, 500𝑤), so each position of the word is encoded by vector with 1100 elements after passing the convolution. On the word level we use LST
+Ms with 128 units in each direction. To prevent overfitting we apply dropout to word embeddings and to the outputs of topmost LST
+M layer, the dropout probability is 0.2. We use the shallow variant of the architecture, which means only 1 convolutional and highway layers are applied on character level and only one LST
+M layer on the word level.
+In the neural language model dense tag embeddings have dimension 96 as well as the memory embeddings in the attention layer, the history window to be attended is 5. Output LST
+M has 128 hidden units. 0.2 dropout is applied to the outputs of all embedding layers. In the Char
+Fusion model we use 256 units on the hidden layer of the output perceptron.
+All models are implemented in Keras library Tensorflow backend. The models are optimized using Adam optimizer with Nesterov momentum , the learning rate and other optimizer parameters are set to default. The taggers are trained for 75 epochs, language models are trained for 50 epochs, the conventional cross-entropy loss (negative logarithmic probability of correct sequence) is used. When training Char
+Weight and Char
+Fusion models, we train the basic CharLST
+M component of them as well, the weight of the basic model loss is 0.25. We stop Sorokin A. A. when the loss on development set have not improve for 10 epochs, saving the model with the best performance on the validation set.
+We did not perform exhaustive hyperparameter search. However, preliminary experiments has shown that character embeddings of size 16 as in the original paper lead to worse performance and using recurrent networks with more hidden states or layers slightly deteriorates tagging accuracy. We have also found that regularizing the output probability distribution with L2 loss makes this distribution smoother and prevents overfitting, the regularization coefficient was set to 0.005.
+Searching for the optimal tag in position 𝑖 requires the knowledge of preceding morphological label. In the training phase we feed the model with golden tags, which are not available in test time. Therefore during testing we predict the tags one-byone from left-to-right and return the sequence with maximal sum of logarithmic tag probabilities. To make the model capable to recover from its errors we apply a beam search with beam width 5. That raises the problem of exposure bias: when training, the model sees only the correct tags as the left context. However, if in the test phase the models fails to predict a correct tag in position 𝑖, all the predictions in positions 𝑖+1, 𝑖+2, … will be done with incorrect tag history. Neither the tagger, nor the language model, are able to deal with such histories since they were trained only on gold contexts. This problem is called the exposure bias, to alleviate it we replace a 20% fraction of tags in the left context by a vector of all zeros forcing the model to operate correctly even if it lacks complete information about tag history.
+4.2. Dataset
+We evaluate our model on ru_syntagrus subcorpus of Universal Dependencies 2.0 corpus , the train subsection was used for training, the development one for validation and the test part for evaluation. We lowercase all the words,
+in case a word starts with a capital letter or consists of all capitals special pseudoletters <first_upper> or <all_upper> were added in the beginning. All the letters appearing less than 3 times were replaced by special <unk> symbol.
+The size of the corpus in sentences and words is given in 3. Experimental results are presented in Table 4, we evaluate both per-tag and per-sentence accuracy. We observe that Char
+Weight model reduces error rate by about 6% depending on the corpus while the Char
+Fusion error reduction exceeds 10%. It demonstrates that our model indeed improves the quality of morphological tagging.
+Corpus Words Sentences
+Train 870,033 48,814
+Development 118,427 6,584
+Test 117,276 6,491
+Improving neural morphological Tagging using Language Models
+Model Tag accuracy ER
+R Sentence accuracy ERRCharLST
+M (baseline) 95.1995.22
+0.0
+0.0
+52.22
+50.98
+0.0
+0.0
+Char
+Weight 95.5495.52
+7.3
+6.3
+54.95
+53.66
+5.7
+5.5
+Char
+Fusion 95.7095.70
+10.6
+10.0
+57.15
+56.29
+10.3
+10.8
+4.3. Using morphological dictionary
+Roughly speaking, morphological tagging for dictionary words simply selects the most appropriate tag from a predefined set of dictionary tags of the current word. Therefore we enrich the data which the model accesses with the output of morphological analyzer Py
+Morphy . For each word we compute the set of possible tags using Py
+Morphy, transform these tags to U
+D2.0 format by means of freely available russian-tagsets package and extract all U
+D2.0 categories that are compatible with the labels obtained. The list of categories is encoded using one-hot scheme and then embedded into a dense vector of length 256. This vector is concatenated to word embedding that is obtained from the character-level network.
+Table 5 contains results of model evaluation in case a morphological dictionary is added. We find that there is no clear gain from using a language model in this case. This effect is surprising to us and we plan to investigate it further.
+Model Tag accuracy ER
+R Sentence accuracy ERRCharLST
+M(baseline) 95.1995.22
+0.0
+0.0
+52.22
+50.98
+0.0
+0.0
+CharLSTM+Py
+Morphy 96.3096.43
+23.0
+25.3
+60.48
+60.01
+17.3
+18.4
+CharWeight+Py
+Morphy 96.2696.43
+22.2
+25.3
+60.65
+60.21
+17.6
+18.8
+CharFusion+Py
+Morphy 96.3496.46
+23.9
+25.8
+61.80
+60.70
+20.0
+19.8
+5. MorphoRu
+Eval 2017 Dataset
+We also evaluate our models on MorphoRu
+Eval-2017 dataset . We compare against two best models, the deep learning one of the HM
+M-based rule reranker . The results of comparison are in the official evaluation script of the contest.
+Sorokin A. A.
+Eval dev MorphoRu
+Eval test
+Tags Sentences Tags Sentences
+Anastasiev et al., 2017 97.8 N
+A 97.1 83.3
+Sorokin, Yankovskaya, 2017 96.3 78.5 94.8 69.3CharLST
+M 74.9 94.6 67.0Char
+Fusion 96.1 77.0 94.9 68.0CharLSTM+Py
+Morphy 96.3 77.4 95.1 68.8CharFusion+Py
+Morphy 96.6 79.8 95.4 71.1
+We observe that our best model outperforms the second system of MorphoRu
+Eval-2017 being sufficiently behind the first one. Note, that the model of an additional training corpus and complex representations from in-house parser. Therefore our tagger demonstrates state-of-the-art performance on MorphoRu
+Eval dataset as well.
+6. Conclusions and future work
+The present work mainly is a “proof-of-concept”: we have demonstrated that character-level morphological tagging can be significantly improved using neural language models on morphological tags. Our work establishes a new state-of-the-art for tagging from scratch without access to external morphological resources. The natural direction is to test our approach on other languages with less data available analogously to the previous work. However, tagging almost a half of the sentences erroneously is a significant problem. Actually, some of these errors are not relevant since U
+D morphological tags contain categories which cannot be determined from the context (e. g., verb aspect) or does not have a clear bound from other categories (e. g., participles, which are treated as verbs), therefore it would be more natural to exclude them from being evaluated.
+We have also demonstrated that adding the information from morphological dictionary can further improve performance. Actually, we have tried the simplest way to do it and further analysis is required. Another way to boost the model is to utilize task-independent embeddings obtained from large unlabeled corpora. The next challenge is to achieve the state-of-the art quality of closed systems using only open resources. We plan to address this question in the future work.
+Another direction of research is improving neural models for morphological tags. Actually, not all government constraints can be addressed by the language model. For example, prepositions in Russian require different cases to their right (“без друга” without the friend+
+Gen vs “про друга» about the friend+
+Acc). The information about preposition cases is not encoded in their U
+D tags therefore in this case the CharLST
+M component has to do the job more appropriate to the tag language model. Even a harder problem arises with verb government, consider солгал другу vs обманул друга both meaning “told+3 a lie to a friend” but with different case forms of the word друг (“friend”). Such examples demonstrate that actually we cannot separate “lexical” Improving neural morphological Tagging using Language Modelsand “morphological” part of tagging models. Probably, morphological tagging should be tackled using more complex architectures for sequence-to-sequence learning.
+Summarizing, we have introduced a straightforward and linguistically motivated way to improve the quality of morphological tagging without having access to any external resources except the annotated corpus. Using external morphological dictionaries further improves performance. Our architecture is language-independent and does not have task-specific parameters, which makes it useful for applying “out of the box”.
+7. Acknowledgements
+The author thanks Ekaterina Yankovskaya for invaluable help in editing and improving the first version of the paper. He is also grateful to his collegues in the laboratory of Neural Systems and Deep Learning of Moscow Institute of Physics and Technology and especially to Mikhail Arkhipov for helpful discussions.

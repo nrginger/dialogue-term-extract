@@ -1,0 +1,170 @@
+The analysis of discourse structure is a challenging issue for linguistic theory. It plays an important role in many high-level NL
+P applications, such as text summarization , sentiment analysis , question answering , argumentative discourse analysis others. Discourse parsing presupposes establishing the relations between coherent text spans. In many approaches, the identification of these relations relies on detecting special lexical clues. Thus, constructing a lexicon of discourse connectives is an essential task.
+In this paper, we present a corpus study of discourse connectives for Russian from the perspective of constructing such a lexicon. As a source of data, we use the pilot Russian RS
+T Treebank, built in 20172. To provide an in-depth analysis of connectives, we focus on causal relations with a special emphasis on ‘Cause
+Effect’ relation.
+We consider two basic classes of connectives, namely, primary vs. secondary ones depending on whether they are registered in Russian grammars or not (cf. primary vs. secondary connectives distinction in ).
+The first class includes among others different functional words such as conjunctions, prepositions etc. They have been studied for many years . However, the role of these connectives as signals of rhetorical relations within the RS
+T framework still remains under-investigated. Besides, little attention was paid in the literature to less grammaticalized items that can serve as clues for inter-sentential relations.
+As the result of our study, we provide the analysis of connectives with a special emphasis to less-grammaticalized items. We suggest a scheme for connectives annotation for Russian based on our corpus study with due consideration of other approaches 2 http://linghub.ru/ru-rstreebank/
+http://linghub.ru/ru-rstreebank/
+Toldova S., Pisarevskaya D., Kobozeva M., Vasilyeva M. ; ; We specify the basic patterns for less-grammaticalized connectives. These patterns can be used for extracting new connectives from an unannotated corpus. Besides, we provide a comparison of two classes of connectives (primary vs. secondary ones). Our research has shown that these two classes differ in their properties.
+2. Background
+In our research, the underlying discourse structure representation is the Rhetorical Structure Theory . It assumes, that a text is organized into a hierarchical non-projective tree where discourse units (text spans) of smaller size are embedded into bigger ones. Discourse units are connected to each other by rhetorical relations. We concentrate our attention only on asymmetric relations, in which one of the text spans, the Nucleus, carries more important information than the other one, the Satellite, as in (
+Peter went home)nucleus (because he was tired)satellite .
+As we are dealing with written texts, we consider clauses as elementary discourse units (ED
+Us), and not prosodic units (as in ; ; ). Structures smaller then a finite clause, such as nominalized constructions or infinitival clauses, can also be treated as ED
+Us ; . For example, a preposition can signal causal relations between its dependant expressed via nominalization and the rest part of a clause as in Из-за (его позднего возвращения)… ‘due to his late return’).
+The rhetorical relations quite often are signalled via special lexical clues (discourse connectives). Thus, the construction of a discourse connectives lexicon is an essential task. One of the possible approaches is to compile a repository of connectives manually, using standard dictionaries and grammars (e.g. dictionary of connectives for German and English DiM
+Lex ), for Spanish , for French . Another way to compile a list of connectives is extracting them from available corpora, e.g. Arabic lexicon , the list of connectives for Russian . Finally, a list of connectives extracted from existing corpora for a source language can be translated into the target language .
+Another relevant task is to settle a set of annotation features for connectives classification. In propose syntactic features such as part-of-speech, type of connection it establishes, scope of a connective, linear ordering of the conjunсts, connective position within a text span, semantic (semantic relations, polarity, functional ordering of spans) and pragmatic ones (discourse relation, presupposition, stylistic features). Some contextual features (occurrence in initial/final sentence or segment, previous/following word, level of embedding etc.) are mentioned in . In the Penn Discourse Treebank (PDT
+B) approach (cf. international multilingual project TE
+D ), discourse connectives are treated as discourse-level predicates that have two arguments – text spans referring to events or states . We consider this approach while working out our own scheme of connectives annotation.
+The cues for rhetorical relations in Russian: “Cause—
+Effect” relation
+We also take into account the typology of causal relations signals ; . According to , these are the following types of devices: (1) causal connectives linking two phrases, clauses or sentences (adverbial, prepositional, clause-integrated connectives); (2) causative verbs transitive verbs that specify the result of an action, event or state, or the influence of some object; (3) resultative constructions; (4) conditional constructions; (5) causative adverbs and adjectives. Only type (1) and type (2) devices are represented in our corpus in sufficient quantity.
+Thus, connectives lexicons usually represent morphological, syntactic, semantic and pragmatic description of connectives, the constraints on linear position of discourse units they connect and some other configurational properties.
+3. Data
+3.1. The current study is based on the relations annotated in the Ru-RS
+Treebank
+. The corpus consists of 79 texts, including news, news analytics and popular science (5582 ED
+Us and 49,840 tokens in total). The text segmentation in the corpus satisfies the principles suggested in . Besides ED
+Us, corresponding to finite clauses, it contains intra-clausal ED
+Us . Thus, prepositional phrases, adverbial phrases headed by corresponding connectives (cf. because of, in spite of) are treated as separate ED
+Us.
+We limit our investigation only to one type of discourse relations, namely, causal ones. There are 220 examples for the Cause
+Effect relation and 110 for the Evidence in our corpus, including both intraand inter-sentential relations. All these examples are annotated in terms of discourse connectives and their properties.
+3.2. The list of connectives is manually extracted from the examples. The connectives are divided into two classes, primary vs. secondary connectives, according
+to their degree of grammaticalization . As the degree of grammaticalization is a gradable feature rather than a binary one, we rely on the Russian grammar a reference source.
+Primary connectives are “mainly grammatical (or functional) words which primary function is to connect two units of a text” , e.g. из-за ‘because of’, поэтому ‘therefore’ etc. We treat the connectives that are enumerated in Russian grammar primary connectives. Thus, some of the multi-word prepositions are also treated as primary connective (e.g. в связи с ‘in connection with’).
+Secondary connectives, known as Alternative Lexicalization (Alt
+Lex) in the Penn Discourse Treebank , are not yet fully grammaticalized. These are, primarily, multi-word expressions, e.g. это привело к тому, что ‘this led to the fact that’, причина этого… ‘the cause is…’ etc. These connectives are quite frequent in our corpus. They occur in 46.5% of our examples.
+Thus, the class of secondary connectives is of special interest. It constitutes a heterogeneous and open-ended class of elements. Our goal is to single out basic patterns for secondary connectives formation.
+Toldova S., Pisarevskaya D., Kobozeva M., Vasilyeva M. The final list of discourse connectives for causal relations consists of 48 connectives (see Fig. 1 for the most frequent of them).
+Figure 1. Discourse connectives frequency in Ru-RS
+Treebank (frequency >1)3.3. Relying on the essential works devoted to the construction of connective lexicons
+; ; , we suggest a scheme for connectives annotation and annotate all the occurrences of connectives in our examples. The scheme includes the properties of connectives (whether it is a multi-word expression (MW
+U) or not, PO
+S of its core word (for core word see 4.1.); (b) whether a connective is mentioned in the certain resources (see 3.4 for details); (c) the position of a connective in a clause and in a sentence; (d) the properties of the arguments of a connective, such as their complexity, their position and their grammatical features (whether they are headed by a finite verb or by non-finite verb forms). Our final set of features is presented in of ‘Что приводит к тому, что’ Feature Values Example
+Type of connective primary/secondary/N
+A secondary
+Simple or complex structure simple/compound MWU
+Listed in the RN
+C MW
+U lists yes/no no
+A causal conjunction listed in Rus
+Gramyes/no no
+The cues for rhetorical relations in Russian: “Cause—
+Effect” relation
+Feature Values Example
+Core word in a connective verb verb
+Position of a connective within ED
+Uclause initial / clause internal clause initial
+Position of a connective within a sentencesentence initial/no no
+Position of a connective wrt. nucleus vs. satellitenucleus/satellite nucleus
+Connection type wrt sentential boundariesintra-/inter-sentensial inter-sentential
+Order of Nucleus (wrt. satellite) 1/2
+Occurrence with an anaphoric elementanaphoric element yes
+Satellite complexity span, sentence, multiclause, clause clause
+Nucleus complexity span, sentence, multiclause, clause, subclauseclause
+Number of clauses in the Nucleusnumber 1
+Number of clauses in the Satellitenumber 1
+Gram. features of the Nucleus headIndicative/converb/participle/nominalization/nounindicative
+Gram features of the Satellite headIndicative/converb/participle/nominalization/nounindicative
+Anaphoric element in the Nucleusthis/that/what/nd what
+Anaphoric element in the Satellitethis/that/what/nd nd
+Discontinuity no no
+We follow that we include the anaphoric elements into the connective annotation as in в следствие этого ‘in consequences of this’. We take into account the demonstrative это ‘this’ (Это могло стать причиной ‘
+This could have caused’), wh-relative pronouns as что (Что могло стать причиной) and expressions with то ‘that’ (cf. то, что ‘the fact, that’). We also register what text span (
+Nucleus vs. Satellite) an anaphoric element refers to (see 4.2. for details).
+3.4. We compare our results with the theoretical works devoted to expression of causal
+relations in Russian. We check the resulting list of connectives against the existing resources for functional words and phrases.
+There is a detailed survey of causal subordinate conjunctions in Rus
+Gram3 , both simple (так как; поскольку ‘as, since’ etc.) and complex 3 http://rusgram.ru/%D0%9F%D1%80%D0%B8%D1%87%D0%B8%D0%BD%D0%BD%
+D1
+%8B%D0%B5_%D0%BF%D1%80%D0%B8%D0%B4%D0%B0%D1%82%D0%BE%D1%87%D0%BD%D1%8B%D0%B5#12
+Toldova S., Pisarevskaya D., Kobozeva M., Vasilyeva M. (благодаря тому (,) что ‘due to’; в результате того (,) что etc. ‘as a result’). This survey concerns inter-clausal relations, though the author mentions that some of the connectives can signal intra-clausal relations, e.g. В результате этого ‘
+As a result of this’. We also have checked our list of connectives against the Russian National Corpus lists of functional MW
+Us4.
+A list of content words expressing cause-effect relation is given in Ju. Apresyan , such as causal verbs (e.g. вызывать (болезнь) ‘to cause (a disease)’, внушать (ужас) ‘to excite (a horror)’) and nouns (e.g. основание ‘a ground’, мотив ‘a motive’). The detailed analysis of lexemes expressing “cause” or “purpose” is proposed in . This work is devoted to lexicographic issues. However, both works provide lists of potential content words for ‘cause-effect’ connectives.
+4. Causal connectives in Ru-RS
+Treebank and their properties
+4.1. Patterns for Secondary Discourse Connectives
+signalling causal relations
+As a result of corpus analysis, the basic patterns for secondary connectives formation were distinguished. Our classification is based on the part of speech of the core word. According to , the core word of a connective is “the word that most strongly signals the relation that the whole connective expresses”. The types of secondary connectives are presented below.
+Constructions containing causative verbs; as causative verbs we treat the verbs whose meanings include a causal element as verbs of causation (
+X позволяет Y ‘
+X enables Y’, X вызывает Y ‘to produce’ etc.), verbs of mental impact ; X можно объяснить Y-ом ‘one can justify Х via Y’), motion causation verbs (
+X приводит к Y ‘to bring about’), change of state causation verbs (
+X изменяет Y ‘
+X causes the change in Y’) and some other (
+X порождает Y ‘
+X gives rise to’):(1)
+The poorly stopped car became a hindrance to the fast laps of many racers, including Fernando Alonso, and this evoked an investigation by the FIA.’
+In (1) the connective X вызывать Y is in nucleus, Y is a nominalization while X is an anaphoric element это ‘this’, both elements X and Y are located in the same ED
+U (nucleus), demonstrative это substitutes the satellite proposition.
+Light verbs constructions, that are structures including a content noun denoting ‘cause’ or ‘effect’ (причина ‘cause’, результат ‘result’, повод ‘matter’, основа ‘basis’, основание ‘basis’, вывод ‘conclusion’, отправная точка ‘starting point’, 4 http://ruscorpora.ru/obgrams.html
+http://ruscorpora.ru/obgrams.html
+The cues for rhetorical relations in Russian: “Cause—
+Effect” relationподтверждение ‘confirmation’, довод ‘argument’, свидетельство ‘evidence’ etc.) and a light verb (являться ‘to be’, становиться ‘to become’, давать ‘to give’ etc.):(2) the price increase was the result of the rise in price of raw materials.’
+In (2) both arguments of the connective are nominalizations.
+Complex prepositions, or secondary prepositions in term of the CzeD
+Lex , that usually are composed of a preposition and a content noun (в результате X ‘as a result’, вследствие X ‘in consequence of’, в отместку за X ‘in revenge’), excluding prepositions mentioned in :(3) К тому же неприличным был объявлен текст песни «
+Ich tu dir weh», в результате чего композицию запретили для исполнения на публике. ‘
+In addition, the lyrics of the song “
+Ich tu dir weh” were declared indecent, as a result of which the composition was banned for performance in public.’
+Adverbials: adverbial phrases converbs; (
+X связан c Y ‘concerned with’, X обусловлен Y ‘caused by’, учитывая X ‘taking into account’):(4) Предполагают, что синий цвет внешнего кольца обусловлен тем, что оно в дополнении к пыли обладает некоторой примесью мелких частиц водяного льда с поверхности Маба. ‘
+It is assumed that the blue color of the outer ring is due to the fact that in addition to the dust it has some admixture of small particles of water ice from the surface of the Mab.’
+Adverbs ((и) поэтому+C
+P ‘(and) therefore’, (а) потому ‘(and) that is why’, не случайно+C
+P ‘not accidentally’):
+Other constructions with nouns (
+X одна из основ Y ‘one of the bases’, как следствие ‘as a consequence’, причина AD
+J: ‘a cause is AD
+J’):(5) Нынешний норматив — 75% — был введен законом с подачи ЦБ вскоре после «великого дефолта». Причина простая: финансовый кризис лишил его валютных резервов. ‘
+Current norm—75% was established by the law at the C
+B behest soon after the “great default”. The reason (for that) is simple…’
+The proportion of different types of connectives, with respect to the core word, is given in Fig.2:
+Toldova S., Pisarevskaya D., Kobozeva M., Vasilyeva M. preposition+content noun3% noun
+4%
+adverbial 12%
+light verb construc tions20%
+adverb 27%
+verb34%
+Figure 2. Core words of secondary connectives for ‘Cause
+Effect’ relation (the grammaticalized complex prepositions ‘preposition+content noun’ are excluded)4.2. Anaphoric Elements in Multi
+Word Connectives
+As it has been mentioned, the connectives can contain anaphoric and cataphoric expressions such as the demonstrative это (этот) ‘this’ or the relative pronoun что ‘what’:(6) В то же время некоторые ведомства, в частности МЧС, готовы экспериментировать ... Благодаря этому они надеются резко повысить зарплату госслужащим ….
+At the same time some of the departments are ready to carryout experiments… Due to this they hope to raise wages of state employees.’(7) Многие современные лекарственные препараты включают несколько ингредиентов, благодаря чему достигается большая эффективность. ‘
+Many modern pharmaceuticals include several ingredients, that’s why (lit. thanks to which) the greater effect is achieved’Этот is used for inter-sentential connection, что for intra-clausal connection. While the expressions благодаря этому ‘due to this’ and благодаря чему ‘lit. due to what’ are not fully grammaticalized, the expressions with the same core word The cues for rhetorical relations in Russian: “Cause—
+Effect” relationcontaining то ‘that’ (e.g. благодаря тому, что ‘due to the fact that’) is a complex conjunction included in dictionaries and grammars. There is also a parallel nominalized construction (as in благодаря ED
+U ‘due to his return’). This construction is a part of a finite clause. It constitutes an ED
+U. In this case, the connective can consist only of a core word and can be classified as a primary connective.
+To sum up, the core word of some connectives can be combined with all of the mentioned above pronouns as well as with nominalized constructions. Thus, there are four possible constructions with the same meaning.
+4.3. Comparison of Primary and Secondary Connectives
+We conducted a comparative analysis of two classes of connectives, namely secondary vs. primary ones. The comparison is limited to the ‘Cause
+Effect’ subset (141 example with overt connectives from 155 in total). The aim is to single out the features of these two classes that can help in further connectives extraction and classification.
+Firstly, there is a statistically significant difference in the position of two types of connectives with respect to the satellite vs. nucleus opposition (a cause is a satellite and an effect is a nucleus in ‘Cause
+Effect’ relation). Primary connectives are more often located in satellites, while secondary “prefer” nuclei (cf. Table 2, excluding 6 examples where connectives are in both ED
+Us). Therefore, primary connectives are
+located in an effect-span more frequently than secondary ones.
+ED
+U with respect to connective typeconnective type / position nucleus satellite sumprimary 22 59 81secondary 37 17 54sum 59 76 135χ2(1) = 20.88, p < .001 (
+Yates’ correction)
+The order of ED
+U differs, depending on the class of the connective used to signal the relation between ED
+Us. The preferable order is “nucleus-satellite” for relations marked with primary connectives and the satellite precedence is preferable with secondary ones (table 3, excluding 1 discontinuous ED
+U):primary vs. secondary connectivesconnective type / span order nucleus precedes satellite precedes sumprimary 44 38 82secondary 19 39 58sum 63 77 140χ2(1) = 5.18, p = .023 (
+Yates’ correction)
+Toldova S., Pisarevskaya D., Kobozeva M., Vasilyeva M. The primary connectives signal inter-clausal relations within a sentence more frequently than secondary ones, while the latter are used to mark inter-sentential relations or they are used for intra-clausal relations when discourse units are expressed via nominalizations:wrt of signalling itravs. inter-clausal relationsconnective type / type of connectionintraclausalinterclausalintrasentential sumprimary 61 11 11 83secondary 26 19 13 58sum 87 30 24 141χ2(2) = 12.34, p = .002
+There is no statistically significant difference between spans size with secondary and primary markers.
+5. Conclusion
+In this paper, we present the analysis of discourse connectives in Russian. The analysis is based on detailed examination of ‘Cause
+Effect’ connectives. In our research, we consider the connectives used for signaling the relations between text spans of different size (clause, sentence or bigger). We pay special attention to less grammaticalized constructions for Russian.
+As a result, we suggest the list of causal relation connectives based on Ru-RS
+Treebank (it includes 48 elements), schemes for connectives annotation in the corpus and in the lexicon. All the examples of ‘Cause
+Effect’ relation are annotated according to the corresponding scheme. The basic patterns for non-grammaticalised connectives, including verb and light verb constructions are determined. These patterns can be exploited to expand the list of causal connectives automatically via mining them in an unannotated corpus.
+Besides, we provide the comparison of two classes of connectives. Our data show the statistically significant difference between primary vs. secondary connectives with respect to the nucleus/satellite position, intravs. inter-sentential relations and some others. The features that exhibit such a difference could be taken into consideration while developing machine learning technique for rhetorical relations extraction.
+The cues for rhetorical relations in Russian: “Cause—
+Effect” relation

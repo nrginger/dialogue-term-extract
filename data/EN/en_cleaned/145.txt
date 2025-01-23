@@ -1,0 +1,75 @@
+Research, Institute of Cognitive Science, University of Colorado at Boulder.
+6. Bulygina T. V., Shmelev A. D. (1997), Language conceptualization of the world
+(based on Russian grammar) , Jazyki Russkoj Kul’tury, Moscow.
+Lyashevskaya O. N., Kashkin E. V.
+Callison
+Burch C., Fordyce C., Koehn Ph., Monz C., Schroeder J. (2007), (
+Meta-)
+Evaluation of machine translation, in Proceedings of WM
+T, pp. 136–158.
+8. Dowty D. R. (1991), Thematic proto roles and argument selection, Language,
+Vol. 67, pp. 547–619.
+9. Dras M. (2015), Evaluating human pairwise preference judgements, Computational Linguistics, Vol. 41 (2), pp. 309–317.
+10. Faruqui M., Dyer C. (2014), Community Evaluation and Exchange of Word Vectors at wordvectors.org, in Proceedings of System Demonstrations, AC
+L 2014,
+available at: http://www.cs.cmu.edu/~mfaruqui/papers/acl14-vecdemo.pdf11. Fillmore Ch. J. (1968), The Case for Case, in Bach E. and Harms (
+Ed.), Universals
+in Linguistic Theory. New York, pp. 1–88.
+12. Frame
+Net . An online resource, available at: http://framenet.icsi.berkeley.edu
+13. Karpova O. S., Reznikova T. I., Arkhangel’skij T. A., Kjuseva M. V., Rakhilina E. V.,
+Ryzhova D. A., Tagabileva M. G. (2010), A database of polysemous qualitative adjectives and adverbs in Russian , Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialog” , Moscow, pp. 163–168.
+14. Kashkin E. V., Lyashevskaya O. N. (2013), Semantic roles and construction net
+in Russian Frame
+Bank , Computational linguistics and intellectual technologies. Proceedings of International Conference “
+Dialog”, Vol. 12–1, pp. 297–311.
+15. Kustova G. I. (2007), Russian adjectives: forms, constructions, semantics
+, in Nauchnye trudy Moskovskogo pedagogicheskogo gosudarstvennogo universiteta. Filologicheskie nauki , Prometej Publ., Moscow, pp. 85–97.
+16. Kustova G. I. (2009), Elektronnyj semanticheskij slovar’ glagol’nyh prilagatel’nyh:
+struktura i tipy informacii , Computational linguistics and intellectual technologies. Proceedings of International Conference “
+Dialog”, Vol. 8, pp. 271–277.
+17. Kuznetsov I. O. (2015), Semantic Role Labeling for Russian Language Based
+on Russian Frame
+Bank, in M. Yu. Khachay, N. Konstantinova, A. Panchenko, D. I. Ignatov, V. G. Labunets (eds.), Analysis of Images, Social Networks and Texts. Fourth International Conference, AIS
+T 2015, Yekaterinburg, Russia, April 9–11, 2015, Revised Selected Papers. Communications in Computer and Information Science, Vol. 542, Springer, pp. 333–338.
+18. Liu B. (2012), Sentiment analysis and opinion mining, Synthesis lectures on human language technologies, Vol. 5(1), pp. 1–167.
+19. Lyashevskaya O. (2010), Bank of Russian Constructions and Valencies, Proceedings of the Seventh conference on International Language Resources and Evaluation (LRE
+C’10), Valletta, pp. 1802–1805.
+Welcome to the club: Designing the inventory of semantic roles for adjectives 20. Lyashevskaya O. N., Kashkin E. V. (2015a), Frame
+Bank: a database of Russian
+lexical constructions, in M. Yu. Khachay, N. Konstantinova, A. Panchenko, D. I. Ignatov, V. G. Labunets (eds.), Analysis of Images, Social Networks and Texts. Fourth International Conference, AIS
+T 2015, Yekaterinburg, Russia, April 9–11, 2015, Revised Selected Papers. Communications in Computer and Information Science, Vol. 542, Springer, pp. 350–360.
+21. Lyashevskaya O. N., Kashkin E. V. (2015b), Types of information about lexical constructions in Russian Frame
+Bank , Trudy Instituta russkogo jazyka im. V. V. Vinogradova ,
+Vol. 6, pp. 464–555.
+22. Màrquez L., Carreras X., Litkowski K. C., Stevenson S. (2008), Semantic role labeling: an introduction to the special issue, Computational Linguistics, Vol. 34–2,
+pp. 145–159.
+23. Paducheva E. V. (2004), Dynamic patterns in lexical semantics , Jazyki slavjanskoj kul’tury, Moscow.
+24. Palmer M., Gildea D., Kingsbury P. (2005), The Proposition Bank: An annotated
+corpus of semantic roles, Computational Linguistics, Vol. 31–1, pp. 71–106. https://github.com/propbank/propbank-documentation/raw/master/annotation-guidelines/Propbank-Annotation
+Guidelines.pdf25. Palmer M. S., Wu Sh., Titov I. (2013), Semantic Role Labeling Tutorial. NAAC
+L
+2013 tutorials. Available at: http://naacl2013.naacl.org/
+Documents/semanticrole-labeling-part-1-naacl-2013-tutorial.pdf, http://naacl2013.naacl.org/
+Documents/semantic-role-labeling-part-2-naacl-2013-tutorial.pdf, http://naacl2013.
+naacl.org/
+Documents/semantic-role-labeling-part-3-naacl-2013-tutorial.pdf26. Rakhilina E. V., Reznikova T. I., Karpova O. S. (2010), Semantic shifts in attributive constructions: metaphor, metonymy, and rebranding ,
+in Linguistics of Constructions , Azbukovnik, Moscow, pp. 398–455.
+27. Shelmanov A. O., Smirnov I. V. (2014), Methods for semantic role labeling of Russian texts, Computational linguistics and intellectual technologies. Proceedings
+of International Conference “
+Dialog”, Vol. 13, pp. 607–619.
+28. Vol‘f E. M. (1978), Grammar and Semantics of Adjectives. Based on Ibero
+Roman
+Languages. , Nauka, Moscow.
+	
+Welcome to the club: Designing the inventory of semantic roles for adjectives	
+A new species or an extension to the known network?	
+Questionnaire and data	
+Design of the experiment	
+The inventory of verbal roles	Analysis	
+From roles of verbal arguments to roles of adjectival arguments	
+Roles of adjectival arguments: semantics vs. morpho-syntax	
+Semantics: stative vs. dynamic	
+On benefits for the structure of verbal roles	
+Conclusions	

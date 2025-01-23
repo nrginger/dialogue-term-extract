@@ -1,0 +1,202 @@
+The online reputation analysis task, performed on social networks’ data such as Twitter data, has several differences from the traditional sentiment tasks. We suggest that performance of systems designed to solve this problem depends on three factors:(i) Lexicon actualization—the first issue is that there are many texts that do not contain any intuitively subjective words, but nonetheless, express a person’s attitude. Usually such words are domain-specific. For example, in the context of everyday media usage of the word, the verb “выдавать” (most closely translated as to “fib”), has negative sentiment, because it is frequently used in meaning “to lie” (“представлять что-либо не тем, чем оно является на самом деле”) or “to betray” (“делать донос, предавать”)1. However, in banking, the same word means “to issue a credit card” or “provide a loan” (“передавать в чье-л. распоряжение”) and usually has a positive sentiment. A promising approach to sentiment word extraction was described in . In this paper, we study different Word2
+Vec models, trained by using news and social networks data.
+The second issue is that pejorative lexicon used by social network users does not always indicates a negative opinion. For example, someone may be using swear language to indicate either negative or positive affect, which may not be obvious immediately.
+1 Meanings of the verb “выдавать” are provided by Wiki
+Dictionary: http://ru.wiktionary.
+org/wiki/выдавать
+Entity Based Sentiment Analysis Using Syntax Patterns and Convolutional Neural Network (ii) Object matching—the issue here is linking the sentiment word with key object, especially when text is long or when there are multiple entities mentioned. For example, it would be very difficult to analyze the sentence “Билайн, которым я пользовался два года, гораздо лучше МТС” (“
+Beeline, that I’ve used for two years, is much better than MT
+S”) using only linear context because key sentiment word “лучше” is much closer in absolute word distance to the object “MT
+S,” rather than “
+Beeline.” Also, according to our experience, analysis of comparison structures such as “
+A is better than B,” without syntax information, produces erroneous results. Both our approaches incorporate syntax information, as described later in the paper. With that, we are basing our method on the classical approaches to solving this problem as described in , .
+(iii) Subjective fact interpretation—recent sentiment evaluation competitions show tendency of adding fact interpretations to sentiment analysis. For example, in the sentence “Сбербанк подаст в суд иск по банкротству Мечела” (“
+Sberbank will bring a bankruptcy case against Mechel to court”), we have a fact of a bankruptcy, negative for “
+Mechel”, but an ordinary bank activity for “
+Sberbank.” Processing such data requires many specific, often counteractive rules to deal with the problem of contradicting sentiments in the traditional rulebased approach, but could be efficiently performed by modern neural networks.
+Recent works involving CN
+N-based approaches in English , , demonstrated excellent results on various classification tasks, including sentiment analysis. Because we expected that (ii) and (iii) factors could only be solved with syntax-dependency information, we used CN
+N, which uses not only linear word order, but also syntax dependencies to extract sentiment, and could allow for more efficiency in the task processing.
+Rule-based approach, described later in this paper, is similar to the RC
+O approach , but there are differences in text preprocessing and lexical dictionaries’ extraction. The CN
+N approach is also similar to but we have changed the input vector and made entity token with special TARGE
+T mark to achieve a more efficient objectoriented sentiment analysis. We also used custom convolution patterns in this work.
+2. Methods
+with graphematic, morphological, and syntax parsers at the Text preprocessing stage. The rule-based approach assumes that predefined syntax patterns are enhanced by preliminarily generated Word2
+Vec models and sentiment dictionaries. as Resulting feature vector is analyzed by the extremely naive classifier that labels the object sentiment according to quantity of sentiment facts, linked with this object in the text. The resulting sentiment is a net sum of positive and negative sentiment labels. In case of the CN
+N-based approach, preprocessed text is vectorized with preliminary generated Word2
+Vec model. CN
+N returns the sentiment label as a result. We first build two separate classifiers, which can be easily combined, as shown in experiments section later in the paper. We now discuss each module in detail.
+Karpov I. A., Kozhevnikov M. V., Kazorin V. I., Nemov N. R.
+WV
+Sentiment lexicon
+Sentiment facts detection
+Naïve classification CNN-classification
+Text vectorisation
+Text preprocessing
+Input text
+Sentiment SentimentCN
+N-based approach
+Rule-based approach
+External resources2.1. Text preprocessing
+Since input data from social networks is very noisy, a substantial amount of preprocessing is required. These steps are discussed below.
+2.1.1. Remove UR
+Ls
+UR
+Ls do not carry a lot of substantial information regarding the sentiment of the tweet and contaminate the dictionary, so we remove them with simple regex.
+2.1.2. Remove nontextual data
+Hashtags and tokens, starting with an “at” sign (@) represent important information about the reviewed object. In order to find it, we remove certain punctuation such as quotation marks, hyphens, asterisks, “at” signs, etc.
+2.1.3. Tokenisation & morphology
+We applied our own NL
+P toolkit Mystem parser developed by Yandex2 for text preprocessing. Morphological analysis shows similar results, but tokenization, done by Mystem, was not designed to handle emotions and other punctuation specifics of social networks, so we preferred our own parser, which could overcome these limitations.
+2.1.4. Named Entity (N
+E) recognition
+We used Wikipedia hyperlink structure to find entities and their possible occurrences in the text as proposed in . The basic algorithm was enhanced by adding transcripts and translations for each separately occurring appearances of key objects. We also generate separate grammatical cases for each normal form of the word 2 https://tech.yandex.ru/mystem/
+Entity Based Sentiment Analysis Using Syntax Patterns and Convolutional Neural Network or phrase, describing the key object, and add them as a possible occurrence of key object in the text. As a result, we formulate the dictionary of the key objects’ occurrences in the text. During the text processing step we replace key objects’ occurrence with a special “TARGE
+T” token and an appropriate morphology information.
+2.1.5. Syntax parsing
+We process entire dataset with malt parser , trained on our own news corpora to get dependency trees used by both approaches. If the tweet contains multiple root nodes, they are all added as descendants of special fake “ROO
+T” node. Sample syntax parse result is shown at figure 2. In general, our constructs had a single root, but in case it was not so, we used the described approach.
+2.2. Word2
+Vec training
+We use the Word2
+Vec (V
+W) in both the ruleand the CN
+Nbased approaches. In case of a rule-based approach, W
+V is used for computing semantic similarity between sentiment words. In CN
+N, W
+V is needed to represent text as a matrix for the neural network input. W
+V is trained on word lemmas with part-of-speech codes. We exclude punctuation, conjunctions, prepositions, particles and short (less than 3 symbols) English words from the training data. We use 300-dimension vector size skipgram model with the minimum cut-off for the number of words = 3 in all cases.
+Corpora lexicon plays an important role in generating W
+V model. We gathered nearly 1.5 million twitter search results about general topics such as music, cinema, travelling, literature, sports, etc3. Obtained model takes into account the specifics of twitter language, but still suffers from the word sense ambiguity problem. Therefore, we also gathered twitter search results for banking and telecom topics of nearly 100,000 tweets each.
+3 Selected categories list, trained models and project code can be found at http://github.com/
+lab533/RuSentiEval2016
+Karpov I. A., Kozhevnikov M. V., Kazorin V. I., Nemov N. R.
+following combinations of gathered corpora were made to find the balance between corpora size and word ambiguity problem:•	 WV_
+Banks_clear: 120,000 bank tweets•	 WV_TT
+K_ clear: 120,000 telecom tweets•	 WV_
+Twitter: 1,500,000 gathered twits•	 W
+V_news: 4,500,000 news texts
+We also added news-based W
+V to explore the role of twitter-specific vocabulary in sentiment tasks. Different mixtures of gathered corpora was evaluated as described in experiments section.
+2.3. Rule-based approach
+As a first step, we look for sentiment words of a tweet. We use our own universal dictionary of sentiment words for this purpose. Dictionary consists of 2,074 positive and 6136 negative normal word forms, manually verified by experts. After inflection of normal words forms and their enrichment with top 2 most similar W
+V words, dictionary was transformed to 60,288 positive and 189,953 negative word forms. Using the syntax tree of the sentence, which contains sentiment word, we detect modal verbs and negotiation markers (like “не”, “нет” etc.).
+Next, we define sentiment facts associated with sentiment words. Sentiment fact is a semantically isolated part of a syntactic tree, which contains the sentiment word. In our rule-based approach, there are two types of sentiment facts, depending on parent of the sentiment word. If a parent of the sentiment word is a subordinate part of a sentence, a sentiment fact is a branch of the syntax tree with the parent of the sentiment word. This is the first type of sentiment facts. An example of such fact is the phrase “уродливое здание Сбербанка” (“ugly Sberbank building”) of the sentence “В каждом городе России есть уродливое здание Сбербанка” (“
+There is an ugly Sberbank building in each city in Russia”), as shown at figure 3.
+The second type of a sentiment fact is the sentiment word or its parent, which is one of the subjects of the sentence or one of its predicates. In this case, the sentiment fact includes a predicate, a subject, and all of their children tokens. For example, Entity Based Sentiment Analysis Using Syntax Patterns and Convolutional Neural Network the sentiment fact here is the “ненавижу Райффайзен банк” (“hate Raiffaizen bank”) in the sentence “Я не устану повторять, что ненавижу Райффайзен банк” (“
+I will never stop saying that I hate Raiffaizen bank”), as shown at figure 4.
+Next, we unite neighboring sentiment facts: if one of the tokens of the sentiment fact has a syntactic connection with a token of another fact, these two facts get combined into one. Then we apply rules of combination of positive and negative sentiment words inside facts, and calculate integer sentiment index for each fact.
+To improve general performance of the algorithm, we also made some individual rules for each domain:•	 Stop-words list (words from dictionary that do not have any sentiment for a specific domain);•	 Unigram and n-gram words list (words that have a sentiment value only for a specific domain);•	 Applying “
+No-rule” (words or n-grams that have sentiment only with or without negotiation);
+Finally, we find sentiment facts that contain a target object. If there is no sentiment fact with a target object, we assign object to the nearest fact in the syntactic tree. Then we calculate total sentiment score for each object and use it as a final sentiment result. We mark tweets that do not have any sentiment facts as neutral.
+2.4. Convolutional neural network approach
+Convolutional neural networks (CN
+Ns), originally invented in computer vision , in recent years have been applied in many natural language processing (NL
+P) tasks such as authorship detection, question answering, and sentiment analysis. Let 𝑥𝑥𝑖𝑖 ∈ 𝑅𝑅𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥1 ⊕ 𝑥𝑥2 ⊕ …⊕𝑥𝑥𝑛𝑛𝑤𝑤 ∈ 𝑅𝑅ℎ𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥𝑖𝑖 ⊕ 𝑥𝑥𝑝𝑝(𝑖𝑖) ⊕ …⊕𝑥𝑥𝑝𝑝𝑛𝑛𝑛1(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖) = �𝑝𝑝�𝑝𝑝𝑛𝑛−1(𝑖𝑖)� 𝑛𝑛 > 0𝑖𝑖 𝑛𝑛 = 0𝑠𝑠(𝑖𝑖, 𝑗𝑗) = �1 𝑝𝑝(𝑖𝑖) = 𝑝𝑝(𝑗𝑗)0 𝑝𝑝(𝑖𝑖) ≠ 𝑝𝑝(𝑗𝑗)
+the 𝑘-dimensional word vector corresponding to the 𝑖-th word in the sentence. The sentence of length n can be described as𝑥𝑥𝑖𝑖 ∈ 𝑅𝑅𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥1 ⊕ 𝑥𝑥2 ⊕ …⊕𝑥𝑥𝑛𝑛𝑤𝑤 ∈ 𝑅𝑅ℎ𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥𝑖𝑖 ⊕ 𝑥𝑥𝑝𝑝(𝑖𝑖) ⊕ …⊕𝑥𝑥𝑝𝑝𝑛𝑛𝑛1(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖) = �𝑝𝑝�𝑝𝑝𝑛𝑛−1(𝑖𝑖)� 𝑛𝑛 > 0𝑖𝑖 𝑛𝑛 = 0𝑠𝑠(𝑖𝑖, 𝑗𝑗) = �1 𝑝𝑝(𝑖𝑖) = 𝑝𝑝(𝑗𝑗)0 𝑝𝑝(𝑖𝑖) ≠ 𝑝𝑝(𝑗𝑗)
+
+Karpov I. A., Kozhevnikov M. V., Kazorin V. I., Nemov N. R.
+⊕ is the concatenation operator. Such vector is considered to be CN
+N input. A convolution operation involves a filter 𝑥𝑥𝑖𝑖 ∈ 𝑅𝑅𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥1 ⊕ 𝑥𝑥2 ⊕ …⊕𝑥𝑥𝑛𝑛𝑤𝑤 ∈ 𝑅𝑅ℎ𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥𝑖𝑖 ⊕ 𝑥𝑥𝑝𝑝(𝑖𝑖) ⊕ …⊕𝑥𝑥𝑝𝑝𝑛𝑛𝑛1(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖) = �𝑝𝑝�𝑝𝑝𝑛𝑛−1(𝑖𝑖)� 𝑛𝑛 > 0𝑖𝑖 𝑛𝑛 = 0𝑠𝑠(𝑖𝑖, 𝑗𝑗) = �1 𝑝𝑝(𝑖𝑖) = 𝑝𝑝(𝑗𝑗)0 𝑝𝑝(𝑖𝑖) ≠ 𝑝𝑝(𝑗𝑗)
+, which is applied to a window of h words to produce a new feature. This filter is applied to each possible window of words in the sentence to produce a feature map. Max-overtime pooling over the feature map is applied to capture the most important feature—one with the highest value—for each feature map. These features maps form the penultimate layer and are passed to a fully connected softmax layer, whose output is the probability distribution over labels.
+2.4.1. Dependency-based Convolution
+We are using the Mingbo’s to include syntax information into the classification process, where dependency-based convolution is described as follows: ∈ 𝑅𝑅𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥1 ⊕ 𝑥𝑥2 ⊕ …⊕𝑥𝑥𝑛𝑛𝑤𝑤 ∈ 𝑅𝑅ℎ𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥𝑖𝑖 ⊕ 𝑥𝑥𝑝𝑝(𝑖𝑖) ⊕ …⊕𝑥𝑥𝑝𝑝𝑛𝑛𝑛1(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖) = �𝑝𝑝�𝑝𝑝𝑛𝑛−1(𝑖𝑖)� 𝑛𝑛 > 0𝑖𝑖 𝑛𝑛 = 0𝑠𝑠(𝑖𝑖, 𝑗𝑗) = �1 𝑝𝑝(𝑖𝑖) = 𝑝𝑝(𝑗𝑗)0 𝑝𝑝(𝑖𝑖) ≠ 𝑝𝑝(𝑗𝑗)
+𝑥𝑥𝑖𝑖 ∈ 𝑅𝑅𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥1 ⊕ 𝑥𝑥2 ⊕ …⊕𝑥𝑥𝑛𝑛𝑤𝑤 ∈ 𝑅𝑅ℎ𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥𝑖𝑖 ⊕ 𝑥𝑥𝑝𝑝(𝑖𝑖) ⊕ …⊕𝑥𝑥𝑝𝑝𝑛𝑛𝑛1(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖) = �𝑝𝑝�𝑝𝑝𝑛𝑛−1(𝑖𝑖)� 𝑛𝑛 > 0𝑖𝑖 𝑛𝑛 = 0𝑠𝑠(𝑖𝑖, 𝑗𝑗) = �1 𝑝𝑝(𝑖𝑖) = 𝑝𝑝(𝑗𝑗)0 𝑝𝑝(𝑖𝑖) ≠ 𝑝𝑝(𝑗𝑗)
+the 𝑖-th word’s 𝑛-th parent, which is recursively defined as:𝑥𝑥𝑖𝑖 ∈ 𝑅𝑅𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥1 ⊕ 𝑥𝑥2 ⊕ …⊕𝑥𝑥𝑛𝑛𝑤𝑤 ∈ 𝑅𝑅ℎ𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥𝑖𝑖 ⊕ 𝑥𝑥𝑝𝑝(𝑖𝑖) ⊕ …⊕𝑥𝑥𝑝𝑝𝑛𝑛𝑛1(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖) = �𝑝𝑝�𝑝𝑝𝑛𝑛−1(𝑖𝑖)� 𝑛𝑛 > 0𝑖𝑖 𝑛𝑛 = 0𝑠𝑠(𝑖𝑖, 𝑗𝑗) = �1 𝑝𝑝(𝑖𝑖) = 𝑝𝑝(𝑗𝑗)0 𝑝𝑝(𝑖𝑖) ≠ 𝑝𝑝(𝑗𝑗)
+
+Text preprocessing notation and the peculiarities of twitter text often cause the TARGE
+T node to be separated from the sentiment fact into a different sentence. In order to capture these long-distance dependencies in the entire tweet, we use sibling convolutions defined as:𝑥𝑥𝑖𝑖 ∈ 𝑅𝑅𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥1 ⊕ 𝑥𝑥2 ⊕ …⊕𝑥𝑥𝑛𝑛𝑤𝑤 ∈ 𝑅𝑅ℎ𝑘𝑘𝑥𝑥1:𝑛𝑛 = 𝑥𝑥𝑖𝑖 ⊕ 𝑥𝑥𝑝𝑝(𝑖𝑖) ⊕ …⊕𝑥𝑥𝑝𝑝𝑛𝑛𝑛1(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖)𝑝𝑝𝑛𝑛(𝑖𝑖) = �𝑝𝑝�𝑝𝑝𝑛𝑛−1(𝑖𝑖)� 𝑛𝑛 > 0𝑖𝑖 𝑛𝑛 = 0𝑠𝑠(𝑖𝑖, 𝑗𝑗) = �1 𝑝𝑝(𝑖𝑖) = 𝑝𝑝(𝑗𝑗)0 𝑝𝑝(𝑖𝑖) ≠ 𝑝𝑝(𝑗𝑗)
+𝑖 > 𝑗. We take maximum five first left siblings of 𝑖-th token to avoid combinatorial explosion.
+2.4.2. Convolution patterns
+Inspired by rule-based approach, we added several convolution patterns of length two to four words. Maximum pattern length was taken from the rule-based approach, where we have very few patterns longer than four tokens deep. It should be mentioned that one token doesn’t equal one word, because we replace phrases with TARGE
+T mark during object matching phase.
+Pattern depth Patternword parentword parent child* childwordgrand parentword parentword child * childword parent grand parent great grand parentword parent grand parent childword parentword parent child* childwordgrand parentword parentword child * childword parent grand parent great grand parentword parent grand parent child
+Entity Based Sentiment Analysis Using Syntax Patterns and Convolutional Neural Network Pattern depth Patternword parentword parent child* childwordgrand parentword parentword child * childword parent grand parent great grand parentword parent grand parent childword parentword parent child* childwordgrand parentword parentword child * childword parent grand parent great grand parentword parent grand parent childword parentword parent child* childwordgrand parentword parentword child * childword parent grand parent great grand parentword parent grand parent childword parentword parent child* childwordgrand parentword parentword child * childword parent grand parent great grand parentword parent grand parent childword parentword parent child* childwordgrand parentword parentword child * childword parent grand parent great grand parentword parent grand parent child
+Asterisk in table 1 means that information about this word is not included to a convolution pattern. We also add information about the sequential token order in the tweet to compensate for parsing errors during the syntax analysis stage. The final input vector is a concatenation of feature maps from tree-based information and n-grams, with n=5.
+2.4.3. Training
+We substitute all “word + PO
+S” pairs are by unique ids and align all sentences to length 50 (zero padding). We take first 5 anchestors and first 5 siblings for each word in a sentence and concatenate all words to form input vector for our N
+N. Neural network consists of the following layers:•	 embedding layer—to turn word ids to word vectores, we used only words, contained in training;•	 convolution layer—layer with rectified linear unit (ReL
+U) activation where convolution patterns are applied as described in table 1;•	 max
+Pooling layer—which is down-sampling convolution layer output;•	 dropout layer—with dropout rate was set to 0.25;•	 dense layer—with ReL
+U activation;•	 dropout layer—with dropout rate was set to 0.5;•	 softmax layer—to form classification output.
+We employ random dropout on penultimate layer to avoid overtraining as described in . We trained our CN
+N for 40 epochs, but did not observe any increase in quality after the 2th epoch. Training was done through stochastic gradient descent over shuffled mini-batches with the Ada
+Grad update rule. Trained CN
+N models with exact parameters could be found at project repository, noted at section 2.2.
+Karpov I. A., Kozhevnikov M. V., Kazorin V. I., Nemov N. R.
+Experiments
+Results of our evaluation are presented in of the RusSenti
+Eval, the macro-averaged F1-measurewas used as a primary evaluation metric . Table 2 below describes positive and negative sentiment classes and micro-averaged F1.
+approaches in different configuration
+Domain Approach
+Training collection WV
+F1 positive
+F1 negative
+Macroaverage F1
+Microaverage F1
+Banks Rule-based Banks — 0.387 0.501 0.443 0.463
+Rule-based with domain rules
+Banks — 0.394 0.524 0.459 0.482CN
+N Banks Random 0.425 0.555 0.490 0.523
+Banks News 0.422 0.555 0.489 0.523
+Banks Twitter 0.429 0.552 0.490 0.522
+Banks & TT
+K Random 0.446 0.618 0.532 0.574
+Banks & TT
+K News 0.455 0.611 0.533 0.572
+Banks & TT
+K Twitter 0.456 0.615 0.536 0.574
+Telecom Rule-based TT
+K — 0.280 0.682 0.481 0.569
+Rule-based with domain rulesTT
+K — 0.285 0.695 0.490 0.582CN
+N TT
+K Random 0.097 0.556 0.326 0.497TT
+K News 0.091 0.557 0.324 0.499TT
+K Twitter 0.091 0.559 0.325 0.500
+Banks & TT
+K Random 0.307 0.738 0.523 0.681
+Banks & TT
+K News 0.298 0.740 0.519 0.682
+Banks & TT
+K Twitter 0.313 0.739 0.526 0.682
+In the table above, the column “
+Training collection” describes the collection, chosen to train the model. In case of “
+Banks & TT
+K” value, model was trained on both Banks and Telecom data shuffled in random order. “W
+V” column describes Word2
+Vec model, used in the experiment. Results in Table 2 demonstrate that training corpora size is more important than the selected V
+W model. It also appears that W
+V is extremely sensitive to the input data. In our case V
+W, trained with only the domain specific data, shows better results that can be increased by acquiring bigger corpora.
+3.1. Overall Performance
+The evaluation metric used in the SentiRu
+Eval 2016 competition is the macroaveraged F1 measure calculated over the positive and negative classes. Table 3 shows the overall performance of our system for bank and telecom datasets.
+Entity Based Sentiment Analysis Using Syntax Patterns and Convolutional Neural Network F1 measure among all participants
+Domain Approach
+F1 positive
+F1 negative
+Macroaverage F1
+Microaverage F1
+Banks Rule-based 0.394 0.524 0.459 0.482CN
+N 0.456 0.615 0.536 0.574
+Hybrid 0.457 0.619 0.538 0.577SentiRu
+Eval best 0.552
+Telecom Rule-based 0.285 0.695 0.490 0.582CN
+N 0.313 0.739 0.526 0.682
+Hybrid 0.313 0.740 0.527 0.684SentiRu
+Eval best 0.559
+In case of rule-based approach, the system was not developed for banks or telecom companies’ domains specially. Rule-based approach did not use any machine learning. Training collection was used only for extracting the proposed domain-specific rules, which approximately increased macro-average F-measure by 0.015.
+With the Hybrid approach, final sentiment marks of neutral tweets, gained from rule-based approach, are inputs for a CN
+N. In general, rules give more precise result, but fail in recall. This method shows small performance progress in case of telecom domain, but does not help in bank domain, which may be caused by overfitting when multiple rules interfere each other.
+4. Conclusions
+We presented results of sentiment analysis on Twitter by building two approaches based on hand-written syntactic rules and CN
+N. Rule-based linguistic method showed average performance result, which makes it useful when training collection is not available. Few hand-written rules with well-filtered dictionaries can give a little boost to the CN
+N output, but the system degrades as rules count increases. CN
+N show very high quality result that coincides with the best results of the competition, but this approach requires relatively large training collections. The same problem occurs in distributive semantics, applied in this work. Word2vec can extract deep semantic features between words if training corpora is large enough.
+Acknowledgment
+The article was prepared within the framework of a subsidy granted to the HS
+E by the Government of the Russian Federation for the implementation of the Global Competitiveness Program.
+Karpov I. A., Kozhevnikov M. V., Kazorin V. I., Nemov N. R.

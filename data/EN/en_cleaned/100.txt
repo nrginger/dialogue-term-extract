@@ -1,0 +1,227 @@
+Using word embeddings is a standard practice in NL
+P systems, both in shallow and deep architectures . Word embeddings exploits statistical techniques to embed words in a vector space. In this space, words with similar meanings tend to be located close to each other. These techniques are based on the Harris distributional hypothesis , which says that words in similar contexts have similar meanings. This statement provides a framework to use semantic relationship between words. Word embeddings has been used in a wide variety of applications such as query expansion , building bilingual comparable corpora , clustering . Classical count-based methods such as PM
+I matrices and SV
+D factorization were very popular to represent words as vectors. However, recently word2vec approach has been proposed to represent words as dense vectors by applying neural embedding methods . The neural embedding methods are particularly computationally-efficient predictive model for learning word embeddings. It comes in two types, the Continuous Bag-of
+Words model (CBO
+W) and the Skip
+Grams with Negative Sampling model (SGN
+S). In this work we answer the question of which model to choose for low resource languages when only small amounts of data are available.
+Word normalization is an important data preprocessing step for learning wordvector representations. It improves the vectors quality by reducing language variability. In order to reduce words to a common base form, most stemmers use the extensive set of linguistic rules developed for specific language . Usually low resource languages lack rule-based stemmers. In this work, we examine to what extend language independent stemmer can improve word embeddings quality when only small training data is available.
+In addition, we suggest a new scheme for word vector evaluation. We aim to develop a method that can address the common shortcomings mentioned in , at the same time this methods can be easily reproducible for any language.
+The remainder of the paper is organized as follows. Section 2 gives information on Buryat language. Then Section 3 provides an overview of the methods for building word-vector representations. Section 4 describes language independent stemming approach. Section 5 specifies the experimental setup and describes the evaluation methodology. Finally, Section 6 provides results and comparisons of various word embedding techniques.
+2. Buryat language
+Buryat language is one of the Mongolic languages. The majority of Buryat speakers live in Russia along the northern border of Mongolia where it is an official language in the Buryat Republic, Ust
+Orda Buryatia and Aga Buryatia. According to the Russian census of 2002, there are 353,113 native speakers in Russia. In addition, there are at least 100,000 native speakers in Mongolia and the People’s Republic of China as well. There
+are regularly published Buryat newspapers, journals, books, films, television and radio Learning Word Embeddings for Low Resource Languages: the Case of Buryatprograms, however, according to UNESC
+O report, Buryat is considered to be an endangered language and at risk of disappearing . Implementation of NL
+P tools is crucial for language preservation and development. The first syntactic treebank for Buryat language based on the Universal Dependencies was developed in . Buryat language has seven cases and two numbers. Its alphabet is based on the general Cyrillic scripts with three additional letters.
+3. Background
+There are two major word-vector representation methods: the count-based methods (PM
+I matrix, SV
+D factorization) and the neural embeddings methods (SGN
+S, CBO
+W). The previous results suggest that the new embedding methods consistently outperform the traditional methods by a non-trivial margin on many similarity-oriented tasks . However this result was reported only for rich resources languages . For example, the model used in trained on 2.8 billion tokens constructed by concatenating ukWa
+C1, the English Wikipedia2 and the British National Corpus 3. Unfortunately such big resources are not available for many languages, including Buryat language.
+We strictly follow the notation that was used in , where 𝑤 ∈ 𝑉𝑊 is collection of words and 𝑐 ∈ 𝑉𝐶 their contexts, and 𝑉𝑊 and 𝑉𝐶 are the word and context vocabularies. The collection of observed word-context pairs Is 𝐷. The number of times the pair (𝑤 ,) appears in 𝐷 is denoted as #(𝑤 ,𝑐 ). Then, #(𝑤 ) = ∑𝑐 ′∈ 𝑉𝑐 #(𝑤 ,𝑐 ′) and #(𝑐 ) = ∑𝑤 ′∈ 𝑉𝑤 #(𝑤 ′,𝑐 ) are the number of times 𝑤 and 𝑐 occurred in 𝐷, respectively.
+When words and contexts are embedded in a space of 𝑑 dimensions, each word 𝑤  ∈  𝑉𝑊 is represented as a vector 𝑤 ⃗ ∈ ℝ𝑑 and each context 𝑐 ∈ 𝑉𝐶 is represented as a vector 𝑐 ⃗ ∈  ℝ𝑑.
+In this work we focused on fixed-window bag-of-words contexts, where 𝐷 is obtained by using a corpus 𝑤 1, 𝑤 2, …, 𝑤 𝑛 and defining the contexts of word 𝑤 𝑖 as the words surrounding it in an 𝐿-sized window 𝑤 𝑖−𝐿, …, 𝑤 𝑖−1, 𝑤 𝑖+1, …, 𝑤 𝑖+𝐿.
+Section 3.1 describes the traditional pointwise mutual information method, which follows by singular values decomposition method in the Section 3.2. In addition, we examined word embeddings learned by Glo
+Ve, SGN
+S and CBO
+W methods. Due to space limitations we omitted their description here. The Glo
+Ve (
+Global vectors for word representation) method was described in . The neural based methods SGN
+S and CBO
+W were described in .
+1 http://wacky.sslmit.unibo.it
+2 http://en.wikipedia.org
+3 http://www.natcorp.ox.ac.uk
+Konovalov V. P., Tumunbayarova Z. B. Pointwise mutual information (PMI)
+Traditionally, the word-vector representations can be achieved by constructing a high-dimensional sparse matrix 𝑀, where each row represents a word 𝑤 in the vocabulary 𝑉𝑊 and each column a context ∈ 𝑉. The cell value 𝑀𝑖𝑗 represents the association between the word 𝑤 𝑖 and the context 𝑐 𝑗. Pointwise mutual information (PM
+I) is a traditional metric to measure this association .
+𝑐𝑐) = log𝑃𝑃(𝑤𝑤, 𝑐𝑐)𝑃𝑃(𝑤𝑤)𝑃𝑃(𝑐𝑐) 𝑃𝑃𝑃𝑃𝑃𝑃𝛼𝛼(𝑤𝑤, 𝑐𝑐) = log𝑃𝑃(𝑤𝑤, 𝑐𝑐)𝑃𝑃(𝑤𝑤)𝑃𝑃𝛼𝛼(𝑐𝑐) 𝑃𝑃𝛼𝛼(𝑐𝑐) =#(𝑐𝑐)𝛼𝛼∑ #(𝑐𝑐)𝛼𝛼𝑐𝑐 𝐷𝐷3(𝑋𝑋,𝑌𝑌) = �𝑛𝑛 −𝑚𝑚 + 1𝑚𝑚�1
+2𝑖𝑖−𝑚𝑚
+𝑛𝑛𝑖𝑖=𝑚𝑚 𝑖𝑖𝑖𝑖 𝑚𝑚 > 0 ∞ 𝑜𝑜𝑜𝑜ℎ𝑒𝑒𝑒𝑒𝑤𝑤𝑖𝑖𝑒𝑒𝑒𝑒 0,47
+0,49
+0,51
+0,53
+0,55
+0,57
+0,59
+0,61
+0,63
+0,5 1 1,5 2 2,5
+Performance Threshold complete-linkage average-linkage no stemming
+Good collocation pairs have high PM
+I because the probability of co-occurrence is only slightly lower than the probabilities of occurrence of each word. Conversely, a pair of words whose probabilities of occurrence are considerably higher than their probability of co-occurrence gets a small PM
+I score.
+𝑃𝑀� (𝑤 , 𝑐 ) =  −∞ if the number of co-occurrence of 𝑤 and 𝑐 equals 0. In order to address this, positive PM
+I (PPM
+I) is used, in which all negative values are replaced by 0.
+It is well-known that PM
+I (and PPM
+I) suffers from its bias towards infrequent events . A rare context 𝑐 that co-occurred with a word 𝑤 even once will often lead to relatively high PM
+I score because (𝑐 ), which is in PM
+I’s denominator, is very small. This causes a situation in which the most associated contexts with 𝑤 are often very rare words.
+This problem can be addressed by smoothing variation of PM
+I. Smoothing context distribution increases the probability of sampling a rare context (𝑃 (𝑐 ) > 𝑃 (𝑐 ) when 𝑐 is rare), which reduces the PM
+I of (𝑤 , 𝑐 ) for any 𝑤 co-occurring with the rare context 𝑐 . The smoothed PM
+I is very effective and consistently improves performance across different tasks and methods .
+𝑐𝑐) = log𝑃𝑃(𝑤𝑤, 𝑐𝑐)𝑃𝑃(𝑤𝑤)𝑃𝑃(𝑐𝑐) 𝑃𝑃𝑃𝑃𝑃𝑃𝛼𝛼(𝑤𝑤, 𝑐𝑐) = log𝑃𝑃(𝑤𝑤, 𝑐𝑐)𝑃𝑃(𝑤𝑤)𝑃𝑃𝛼𝛼(𝑐𝑐) 𝑃𝑃𝛼𝛼(𝑐𝑐) =#(𝑐𝑐)𝛼𝛼∑ #(𝑐𝑐)𝛼𝛼𝑐𝑐 𝐷𝐷3(𝑋𝑋,𝑌𝑌) = �𝑛𝑛 −𝑚𝑚 + 1𝑚𝑚�1
+2𝑖𝑖−𝑚𝑚
+𝑛𝑛𝑖𝑖=𝑚𝑚 𝑖𝑖𝑖𝑖 𝑚𝑚 > 0 ∞ 𝑜𝑜𝑜𝑜ℎ𝑒𝑒𝑒𝑒𝑤𝑤𝑖𝑖𝑒𝑒𝑒𝑒 0,47
+0,49
+0,51
+0,53
+0,55
+0,57
+0,59
+0,61
+0,63
+0,5 1 1,5 2 2,5
+Performance Threshold complete-linkage average-linkage no stemming 𝑃𝑃𝑃𝑃𝑃𝑃(𝑤𝑤, 𝑐𝑐) = log𝑃𝑃(𝑤𝑤, 𝑐𝑐)𝑃𝑃(𝑤𝑤)𝑃𝑃(𝑐𝑐) 𝑃𝑃𝑃𝑃𝑃𝑃𝛼𝛼(𝑤𝑤, 𝑐𝑐) = log𝑃𝑃(𝑤𝑤, 𝑐𝑐)𝑃𝑃(𝑤𝑤)𝑃𝑃𝛼𝛼(𝑐𝑐) 𝑃𝑃𝛼𝛼(𝑐𝑐) =#(𝑐𝑐)𝛼𝛼∑ #(𝑐𝑐)𝛼𝛼𝑐𝑐 𝐷𝐷3(𝑋𝑋,𝑌𝑌) = �𝑛𝑛 −𝑚𝑚 + 1𝑚𝑚�1
+2𝑖𝑖−𝑚𝑚
+𝑛𝑛𝑖𝑖=𝑚𝑚 𝑖𝑖𝑖𝑖 𝑚𝑚 > 0 ∞ 𝑜𝑜𝑜𝑜ℎ𝑒𝑒𝑒𝑒𝑤𝑤𝑖𝑖𝑒𝑒𝑒𝑒 0,47
+0,49
+0,51
+0,53
+0,55
+0,57
+0,59
+0,61
+0,63
+0,5 1 1,5 2 2,5
+Performance Threshold complete-linkage average-linkage no stemming Singular Value Decomposition (SV
+D)
+The dense low-dimensional vectors can be obtained by applying truncated Singular Value Decomposition (SV
+D) . Formally, SV
+D of matrix 𝑀 is factorization of the form 𝑈 · 𝛴 · 𝑉𝑇, where 𝑈 and 𝑉 are orthonormal and 𝛴 is a diagonal matrix of eigenvalues in decreasing order. We obtain 𝑀𝑑 =  𝑈𝑑 · 𝛴𝑑 · 𝑉𝑇𝑑 by keeping only top 𝑑 elements of 𝛴. The high dimensional spare word-vector representations of matrix 𝑀 can be substituted by low dimensional dense vectors of 𝑊𝑆𝑉𝐷 and 𝐶𝑆𝑉𝐷 that represent words and contexts respectively.
+ 𝑈𝑑 · 𝛴𝑑, 𝐶𝑆𝑉𝐷 =  𝑉𝑑 (4)
+However, word-vector representations of 𝑊𝑆𝑉𝐷 are not necessary the optimal for semantic tasks. It was shown that weighting the eigenvalues matrix 𝛴𝑑 can have a significant effect on the performance .
+ 𝑈𝑑 · 𝛴𝑝𝑑 (5)
+Learning Word Embeddings for Low Resource Languages: the Case of Buryat4. Word Normalization
+Identifying the original forms of words is important for natural language processing applications. The goal of normalization is to reduce inflectional forms and sometimes derivationally related forms of a word to a common base form, for instanceam, are, is → be car, cars, car’s → car
+Normalization can involve either lemmatization or stemming.
+Stemming usually refers to a crude heuristic process that chops off the ends of words, and removal of derivational affixes. As result of the process we get a stem that does not have to be a proper word. Lemmatization usually refers to doing things properly with the use of a vocabulary and morphological analysis of words, normally aiming to remove inflectional endings only and to return the base or dictionary form of a word, which is known as the lemma. Therefore stemmers are much simpler, smaller and usually faster than lemmatizers, and for many applications their results are good enough.
+Usually low resource languages lack NL
+P tools like stemmer/lemmatizer. There is no normalizer for Buryat language, however several techniques were proposed for Mongolian language . It is extremely important to develop normalizer for low resource language in order to alleviate language variability.
+4.1. Yet Another Suffix Striper (YAS
+S)
+YAS
+S is a statistical corpus-based stemmer that does not rely on linguistic expertise. It stems by clustering a lexicon without any linguistic input. Its performance is comparable to that obtained using standard rule-based stemmers such as Porter’s. Information retrieval experiments done on English, French and Bengali datasets found YAS
+S very effective .
+The clusters are created using hierarchical approach and distance measures. Four distance functions 𝐷1, 𝐷2, 𝐷3, 𝐷4 were proposed. The main intuition behind defining these distances was to reward long matching prefixes, and to penalize an early mismatch. The 𝐷3 distance function was found to be the most effective, so we focused on 𝐷3 solely .
+If the strings 𝑋 and 𝑌 are of unequal lengths we pad the shorter string with null characters to make the strings lengths equal. The distance 𝐷3 between two strings 𝑋 =  𝑥0 𝑥1 … 𝑥𝑛 and 𝑌 =  𝑦0 𝑦1 … 𝑦𝑛 is as following 𝑃𝑃𝑃𝑃𝑃𝑃(𝑤𝑤, 𝑐𝑐) = log𝑃𝑃(𝑤𝑤, 𝑐𝑐)𝑃𝑃(𝑤𝑤)𝑃𝑃(𝑐𝑐) 𝑃𝑃𝑃𝑃𝑃𝑃𝛼𝛼(𝑤𝑤, 𝑐𝑐) = log𝑃𝑃(𝑤𝑤, 𝑐𝑐)𝑃𝑃(𝑤𝑤)𝑃𝑃𝛼𝛼(𝑐𝑐) 𝑃𝑃𝛼𝛼(𝑐𝑐) =#(𝑐𝑐)𝛼𝛼∑ #(𝑐𝑐)𝛼𝛼𝑐𝑐 𝐷𝐷3(𝑋𝑋,𝑌𝑌) = �𝑛𝑛 −𝑚𝑚 + 1𝑚𝑚�1
+2𝑖𝑖−𝑚𝑚
+𝑛𝑛𝑖𝑖=𝑚𝑚 𝑖𝑖𝑖𝑖 𝑚𝑚 > 0 ∞ 𝑜𝑜𝑜𝑜ℎ𝑒𝑒𝑒𝑒𝑤𝑤𝑖𝑖𝑒𝑒𝑒𝑒 0,47
+0,49
+0,51
+0,53
+0,55
+0,57
+0,59
+0,61
+0,63
+0,5 1 1,5 2 2,5
+Performance Threshold complete-linkage average-linkage no stemming 𝑚 denotes the position of the first mismatch between 𝑋 and 𝑌.
+The distance function defined above is used to compose a distance matrix. Then the distance matrix is used to cluster words. Each cluster is expected to represent morphological variants of a single root word. The words within a cluster are stemmed to the “central” word in that cluster. Konovalov V. P., Tumunbayarova Z. B. variants of hierarchical clustering algorithms were tested, namely, singlelinkage, average-linkage and complete-linkage. In single-linkage clustering the similarity between two clusters is the maximal similarity between any two members of the groups. Complete-linkage clustering is similar to single-linkage, but instead of maximal similarity, it considers the minimal similarity between any two members as a clusters similarity. In average-linkage clustering the similarity between two clusters is the mean similarity between members of different clusters .
+5. Experimental Setup
+Section 5.1 describes the Buryat Wikipedia corpus. Section 5.2 specifies the methods that were used to learn the word-vector representations. Finally, the evaluation scheme is defined in Section 5.3.
+5.1. Corpus
+The models were trained on the Buryat Wikipedia, which consist of 1381 articles (each one is more than 50 words long). The articles were lower-cased and non-textual were removed. In addition, we excluded all words that contain non
+Buryat characters. As result the corpus contains 406715 words (64403 unique words).
+5.2. Training Embeddings
+The models were derived using windows of 2, 5, 10 tokens to each side of the focus word. For every window size we calculated PM
+I4 word representations and we learned a 50, 100, 500-dimensional representations with SV
+D, SGN
+S, CBO
+W and Glo
+Ve methods.
+5.3. Evaluation Datasets
+Several datasets have been used for evaluating word-vector representations. Among them R
+G , Word
+Sim-353 , WS
+Sim ME
+N . Each of these datasets consists of word pairs with corresponding similarity scores assigned by human annotators. A model is evaluated by assigning a similarity score to each pair and calculating the correlation (
+Spearman’s 𝜌) with the human ranking.
+However, these datasets suffer from some common shortcomings they have: associations of dissimilar words, low inter-rater agreement over the annotators . In addition, more fundamental problems were pointed out. In some cases the use of rating scales might lead to a variety of annotations biases. In addition, different relations were rated by the same scale and different targetwords were rated on the same scale, e.g.: (cat, pet) vs. (winter, season). The mentioned problems were addressed by the method proposed in , however this method requires extensive human annotations.
+4 To calculate PM
+I matrices we used COMPOSE
+S by
+Learning Word Embeddings for Low Resource Languages: the Case of Buryat
+We proposed a simple evaluation scheme that was inspired by , however it does not require extensive human annotations. In addition, our evaluation method can be easily adapted to any language. In order to evaluate the word-vector representations we picked 32 nouns (hypernyms) with corresponding hyponyms (from two to five for every hypernym). In hypernym-hyponym pairs, the target word (hypernym) with corresponding hyponyms were used to measure the positive pairs of the preferred relations, to measure the negative pairs we used the target words with hyponyms from the different hypernym. To simplify the process, we did not use human annotators to assign similarity scores, the similarity between positive pairs was set to 1 and the similarity between negative pairs was set to 0.
+Finally, as a result we calculated Spearman correlation between gold standard 0–1 vector and the vector of cosine similarities calculated in accordance to the tested
+model.
+6. Results
+We begin by identifying the best possible settings for stemmer including clustering algorithm and a threshold (
+Section 6.1). Section 6.2 compares the methods for learning word-vector representations.
+6.1. Word Normalization
+To find the best performing combination of clustering method and the threshold 𝛩 we ran number of experiments5. The preliminary results show that completelinkage and average-linkage approaches highly outperformed the single-average clustering, so we omit results for the single-average clustering.
+According to the evaluation scheme there are 88 positive and 82 negative pairs for hypernym-hyponym relation.
+As a baseline approach for comparison we used PM
+I. The PM
+I performance score without the stemming was 0.515 for hypernym-hyponym relation. The average-linkage clustering outperformed the complete-linkage clustering. The average-linkage clustering achieves its best results at 𝛩 = 1.5 for hypernym-hyponym relation.
+5 The clustering was performed by fastcluster 1.1.24
+Konovalov V. P., Tumunbayarova Z. B. 𝑐𝑐) = log𝑃𝑃(𝑤𝑤, 𝑐𝑐)𝑃𝑃(𝑤𝑤)𝑃𝑃(𝑐𝑐) 𝑃𝑃𝑃𝑃𝑃𝑃𝛼𝛼(𝑤𝑤, 𝑐𝑐) = log𝑃𝑃(𝑤𝑤, 𝑐𝑐)𝑃𝑃(𝑤𝑤)𝑃𝑃𝛼𝛼(𝑐𝑐) 𝑃𝑃𝛼𝛼(𝑐𝑐) =#(𝑐𝑐)𝛼𝛼∑ #(𝑐𝑐)𝛼𝛼𝑐𝑐 𝐷𝐷3(𝑋𝑋,𝑌𝑌) = �𝑛𝑛 −𝑚𝑚 + 1𝑚𝑚�1
+2𝑖𝑖−𝑚𝑚
+𝑛𝑛𝑖𝑖=𝑚𝑚 𝑖𝑖𝑖𝑖 𝑚𝑚 > 0 ∞ 𝑜𝑜𝑜𝑜ℎ𝑒𝑒𝑒𝑒𝑤𝑤𝑖𝑖𝑒𝑒𝑒𝑒 0,47
+0,49
+0,51
+0,53
+0,55
+0,57
+0,59
+0,61
+0,63
+0,5 1 1,5 2 2,5
+Performance Threshold complete-linkage average-linkage no stemming and thresholds for hypernym-hyponym relation6.2. Word
+Vector Representations
+The performance of the different word embedding methods is in in all cases bigger window size leads to better results. Stemming (based on average-linkage with fine-tuned threshold 𝛩) considerably improves word embedding performance.
+Methodwindimhypernym-hyponym2 5 10
+PM
+I no stemming — .517 .510 .528PM
+I — .585 .588 .611PM
+I smoothed — .555 .571 .599SV
+D 50 .638 .663 .690100 .632 .641 .722
+500 .612 .662 .691
+W2
+V CBO
+W 50 .022 −.006 .042100 −.003 −.015 .038
+500 −.024 −.033 .011
+W2
+V SGN
+S 50 .064 .146 .293100 .043 .136 .290
+500 .061 .150 .280
+Glo
+Ve 50 .115 .262 .363100 .124 .267 .363
+500 .127 .267 .390
+Learning Word Embeddings for Low Resource Languages: the Case of Buryat
+Our findings confirm that SGN
+S outperforms CBO
+W on small datasets . In addition, it justifies that Skip
+Grams approach works much better on the semantic tasks .
+Surprisingly, smoothed variation of PM
+I (with 𝛼 = 0.75) that was shown to outperform traditional PM
+I on English Wikipedia corpus , lost to traditional PM
+I when small corpus was used. To reduce dimensionality we used SV
+D factorization on PM
+I matrices after stemming. As expected, SV
+D factorization outperformed PM
+I matrices performance in all modes. However, weighted SV
+D (𝑑 = 0; 0.5) did not improve the performance further. Both fails of the count-based methods’ enhancements (smoothed PM
+I and weighted SV
+D) can be caused by the small size of the dataset.
+In addition, traditional count-based methods notably outperformed neural based methods in all settings, which contradicts with the results obtained on big datasets .
+7. Conclusion and Future Work
+In this paper we compared the capabilities of traditional count-based methods and neural embeddings methods to learn accurate word-vector representations in small text corpora (on the case of the Buryat Wikipedia). We found that traditional count-based methods outperform neural-based methods when the models are trained on small dataset. We believe that word2vec performance decrease in small corpora was caused by the fact that neural-based models need a lot of training data in order to fit their high number of parameters. We found that the tweaks (smoothed PM
+I and weighted SV
+D) that were found to improve performance on big text corpora not outperform the traditional PM
+I and SV
+D in our case. These fails can be caused by a small size of the dataset. Therefore, future work should carefully explore the influence of the hyperparameters on the quality of the word-vector representations.
+We found that language independent stemming approach (with tuned hyperparameters) can considerably improve word embeddings quality.
+In addition, we proposed a coarse but easily reproducible word embedding evaluation scheme.
+To promote further research, we made our code freely available6.
+8. Acknowledgements
+We thank Anton Alexeev, Anna Potapenko, Andrey Kutuzov and Dmitry Ustalov for their assistance and contribution.
+6 https://github.com/vaskonov/burvec
+Konovalov V. P., Tumunbayarova Z. B.

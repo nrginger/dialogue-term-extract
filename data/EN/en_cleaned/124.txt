@@ -1,0 +1,214 @@
+Several linguists and psychologists have drawn into doubt the assumption that word senses are mutually disjoint and that there are clear boundaries between them. Many psycholinguistic studies have found evidence for processing differences between distinct meanings (homonyms) and related senses (polysemes) (
+Frazier and Rayner, 1990; Rodd et al., 2002; Beretta et al., 2005; Klepousniotou and Baum, 2007; Mac
+Gregor
+et al., 2015), which shows that related senses are not associated with processing penalties. Moreover, polysemy processing seems to depend on sense overlap—high-overlap metonymic senses are processed easier than moderateand low-overlap, metaphoric senses (
+Klepousniotou 2002; Klepousniotou et al., 2008, 2012; Mac
+Gregor et al., 2015). Eye movement evidence of how people process polysemous words with metonymic senses suggests that instead of accessing a specific sense, language users initially activate a word’s meaning that is semantically underspecified (
+Frisson 2009, 2015). The problem of sense distinction has also been discussed by lexicographers. Some of them are skeptical about the view of word meanings as sets of discrete and mutually exclusive senses (
+Cruse 1995; Kilgarriff 1997; Hanks 2000). Kilgarriff (1997) claims that sense distinction is worthwhile only with respect to a task at hand, while Hanks (2000) calls into question the phenomenon of word senses, showing how different components of the meaning potential of the word are activated in different contexts. Furthermore, word senses descriptions in dictionaries depend on the consistency of lexicographers and their theoretical basis. Sense divisions may be influenced by personal preferences, as lexicographers traditionally distinguish ‘lumpers’ and ‘splitters’ among colleagues: those who tend to break up senses further and those who go for large, homonymic senses (
+Wilks, 1998: 276). One possible solution to the problem of sense distinction was proposed by Erk and colleagues (2013). They found that untrained annotators prefer to disambiguate words in a context in a non-binary manner. People are often inconsistent with disjoint sense partitions and are more comfortable with a graded scale. Thus, the authors proposed to describe word meanings in the Word Sense Induction for Russian form of graded judgments in the disambiguation task (see also (Mc
+Carthy et al., 2016) about the notion of ‘partitionability’).
+In the field of word sense disambiguation (WS
+D), the question of sense granularity is one of the key issues as the performance of WS
+D algorithms crucially depends on the sense inventory used for disambiguation. Although dictionaries and thesauri are the first option that comes to mind, they differ in the words that they cover, and also in the word senses that they distinguish. It was shown that sense distinction in most dictionaries is often too fine-grained for most NL
+P applications (see (
+Navigli, 2009) for a survey). This problem especially holds for the Word
+Net thesaurus (
+Fellbaum, 1998) and Word
+Net-like lexical databases—these resources are criticized for their excessive granularity that is not really needed for NL
+P tasks (
+Navigli, 2006; Snow et al., 2007) and for the loss of domain-specific senses (
+Pantel and Lin, 2002). Thus automated word sense induction (WS
+I) techniques may help establish an adequate level of granularity for NL
+P application and serve as empirically grounded suggestions for lexicographers.
+Word sense induction is a task of automatically identifying the senses of words in raw corpora, without the need for handcrafted resources (dictionaries, thesauri) or manually annotated data. Generally WS
+I takes the form of an unsupervised learning task with senses represented as clusters of token instances (
+Navigli, 2009; Navigli, 2012; Nasiruddin, 2013). WS
+I results are often used as an input to WS
+D systems (
+Van
+de Cruys and Apidianaki, 2011; Navigli and Vannella, 2013) which allows to achieve state-of-the-art results in unsupervised WS
+D (
+Panchenko et al., 2016). Another NP
+L issue that benefits from word sense induction is web search clustering (
+Kutuzov, 2014). Di Marco and Navigli (2013) proposed a novel approach to web search result
+clustering based on word sense induction which outperformed both web clustering and search engines. In the fields of linguistics and lexicography WS
+I was successfully applied to the task of novel sense detection, i.e. identifying words which have taken on new senses over time (
+Lau et al., 2012, 2014). WS
+I also provides data for the study of diachronic variation in word senses (
+Bamman and Crane, 2011).
+In this paper, we present an extensive comparison of four word sense induction techniques of different types. We chose two Bayesian approaches—a Latent Dirichlet allocation topic model (LD
+A) and a vector based Adaptive Skip-gram (Ada
+Gram) model, one feature-based approach that represents each instance as a context vector, then utilizes a clustering algorithm, and an approach that performs clustering of word2vec neighbours. We quantitatively and qualitatively evaluated these techniques and performed a deep study of the Ada
+Gram method comparing Ada
+Gram clusters for 126 words (nouns, adjectives, and verbs) and their senses in published dictionaries.
+We studied sense overlap and types of senses that can be distinguished distributionally and by means of lexicographic theories. The research was done for Russian, and this is the first extensive study of the WS
+I methods for the Russian language.
+2. Methods
+A substantial number of different approaches to WS
+I has been proposed so far. They can be subdivided into local algorithms that discover senses separately for each word and global algorithms that allow to determine senses by comparing them to the Lopukhin K. A., Iomdin B. L., Lopukhina А. А.
+of other words (
+Navigli, 2009; Van de Cruys and Apidianaki, 2011; Nasiruddin, 2013). In this study we compare four algorithms, two local and two global: Latent
+Dirichlet allocation that uses topic modeling, context clustering, word2vec neighbours clustering, and Ada
+Gram. Latent Dirichlet allocation (LD
+A) posits that each context is a mixture of a small number of topics (senses) and that each word’s occurrence is attributable to one of the context’s senses. Traditionally, Latent Dirichlet allocation is used for topic modeling in documents: each word in the document is assumed to originate from some topic, and the document can be represented as a mixture of topics. In case of the word sense induction, LD
+A is applied to contexts of one word, where documents correspond to target word contexts, and topics correspond to target word senses. The number of topics for LD
+A must be fixed in advance, but there are non-parametric variations like hierarchical Dirichlet process (HD
+P) that allow variable numbers of topics per document. One drawback of LD
+A here is that the word contexts are much smaller (just 10–20 words) than the documents that LD
+A is usually applied to (at least 100–1000
+words). Each sense is represented as words that have most weight in the topic. LD
+A was trained on contexts extracted from the ru
+Wac corpus with 6 topics for each word. No sampling of contexts was performed, most words had at least 10 thousand contexts. The words in each context were additionally filtered: only those with a weight greater than 1.0 were left. This is the same weighting as was used in the context clustering method and is described below and in (
+Lopukhin and Lopukhina, 2016).
+In the word2vec neighbours method, we took word vectors closest to the target word and clustered them using spherical k-means, and then merged close clusters. This method is based on two assumptions. The first one is that the word2vec vector of the polysemous word will capture the properties of all senses that are encountered in the corpus frequently enough. The second assumption is that each sense of the polysemous word has at least one monosemous word with a similar meaning that occurs in similar contexts and thus has a similar embedding. Both of these assumptions have their weaknesses. The first assumption does not hold for rare senses. If a word in one of its senses is used in a small number of contexts, the word vector will not capture its meaning. The second assumption causes even more trouble, as many senses will not have any reasonable synonyms that are used in similar contexts often enough. Still, this method is very efficient, easy to implement and produces reasonable results for many words. Senses are represented as words closest to the center of each cluster. The clustering method and sense merging are described in more detail in the description of the context clustering method below.
+Context clustering represents contexts as dense vectors, taking a weighted average of word2vec vectors of individual words. Context vectors are clustered using spherical k-means, and then close clusters are merged. In more detail, in this study each context was represented as a weighted average of word2vec embeddings of 10 words before and after the target word. Weights were equal to the pointwise mutual information of contexts words (
+Lopukhin and Lopukhina, 2016) and allowed to give more weight to words that are more important for disambiguation. This method of context representation proved to be efficient for word sense disambiguation (
+Lopukhin and Lopukhina, 2016; Lopukhina et al., 2016). The spherical k-means method was used Word Sense Induction for Russian for clustering of the context representations. Spherical k-means is similar to regular k-means clustering, but uses cosine distance instead of euclidian distance, which is a preferable measure of closeness for representations based on word2vec embeddings (
+Mikolov et al., 2013). The k-means clustering requires fixing the number of clusters in advance. But the number of senses is clearly different for different words, and k-means clusters often converge to very close points. To overcome both of these problems, clusters whose centers were closer than a certain threshold were merged. Senses are represented as most informative context words for a given sense.
+Ada
+Gram is a non-parametric Bayesian extension of the Skip-gram method. It automatically learns the required number of representations for all words at desired semantic resolution (
+Bartunov et al., 2015). It is able to learn the vector embedding for each sense of the word, where the number of senses is adapted depending on the number and diversity of contexts for each word. Ada
+Gram has an efficient online learning algorithm that learns sense vectors for all words simultaneously. In practice, training is p times slower than for word2vec Skip-gram algorithm, where p is the maximum number of senses for a word (hyperparameter set in advance, typically 10–20). The model was evaluated on word sense induction tasks of Sem
+Eval-2007 and 2010 (
+Bartunov et al., 2015: 8–9) and achieved results superior to other extensions of word2vec to multiple senses. Besides p, the most important hyperparameter of Ada
+Gram is α that controls granularity of produced senses. Other hyperparameters, such as vector dimension and window size, have the same meaning as in word2vec Skip-gram method. Ada
+Gram can perform word sense disambiguation using induced senses and represents senses with nearest neighbors. We extended the sense representation with context words that give most information about a particular sense and typical sense contexts, and developed a Python library that allows loading Ada
+Gram models and performing disambiguation. Ada
+Gram model was built for about 190,000 most frequent words. Mean number of senses across all words is just 1.4, but more frequent words have more senses: 5.1 for the first 1,000 words and 3.6 for the first 10,000. The model is available online: http://adagram.ll-cl.org/about. All models were trained on a 2 billion token corpus combining the ru
+Wac Internet corpus (
+Sharoff, 2006), a Russian online library lib.ru and the Russian Wikipedia. All words were lowercased and lemmatized, no stop-word removal was performed. The word2vec Skip-gram model for word2vec neighbours and context clustering was trained with vector dimension 1024, window 5 and minimal token frequency 100 (forming a vocabulary of about 190,000 words). The Ada
+Gram model was trained with maximum number of senses p = 10, sense granularity α = 0.1, vector dimension 300, window 5 and minimal frequency 100. Ada
+Gram has lower vector dimensionality, but this is compensated by the fact that multiple vectors are learnt for most words.
+3. Evaluation
+WS
+I evaluation is particularly arduous because there is no easy way of comparing and ranking different representations of senses. In fact, all the proposed measures in the literature tend to favour specific cluster shapes and consistency of the Lopukhin K. A., Iomdin B. L., Lopukhina А. А.
+produced as output. Here we apply two clustering measures—
+V-measure and adjusted Rand Index. Moreover, we qualitatively evaluated the obtained clusters and compared them with sense distinction in dictionaries.
+3.1. Quantitative evaluation
+For the quantitative evaluation of different WS
+I methods we compared induced senses with dictionary senses for 8 polysemous nouns and 10 polysemous verbs. For each word, 100–500 contexts were sampled from RuTen
+Ten11 (
+Kilgarriff et al., 2004) and RN
+C corpora (http://ruscorpora.ru/en/) and labeled with dictionary senses from the Active Dictionary of Russian (
+Apresjan, 2014) by a human annotator. The methods assigned each context to one of the induced senses. Thus we obtained two different clusterings of contexts for each word: one by a human annotator and one by a WS
+I method, and used two different clustering similarity measures to compare them. We did not do a quantitative evaluation of the word2vec neighbours method as it lacks a natural disambiguation approach: senses are induced directly from word2vec embeddings without using contexts; only a qualitative evaluation (below) was performed.
+Nouns Verbs AverageLD
+A 0.16 0.10 0.13
+Context clustering 0.39 0.22 0.31Ada
+Gram 0.33 0.18 0.26
+Nouns Verbs AverageLD
+A 0.12 0.02 0.07
+Context clustering 0.34 0.14 0.24Ada
+Gram 0.25 0.13 0.18
+V-measure is a harmonic average of homogeneity and completeness of clusters. It was used in the Sem
+Eval-2010 Word Sense Induction & Disambiguation competition (
+Manandhar et al., 2010), but was criticized for favoring clusterings with a large number of clusters. This is less of a problem for our evaluation as we cap the maximum number of clusters for all methods at 10. Still, it is important to use an evaluation metric that corresponds to human intuition of having a reasonable number of clearly distinct senses, so we additionally used adjusted Rand Index (AR
+I) (
+Hubert and Arabie, 1985). It does not have the abovementioned issue and was used by Bartunov and colleagues (2015) in the Ada
+Gram evaluation.
+The quantitative comparison shows that context clustering and Ada
+Gram are clearly better than LD
+A for nouns and especially for verbs. Context clustering performs better than Ada
+Gram in this test for both AR
+I and V-measure, especially for nouns, Word Sense Induction for Russian but this comparison is not entirely fair: hyperparameters of context representation for context clustering were specifically tuned during WS
+D evaluation in (
+Lopukhin and Lopukhina, 2016; Lopukhina et al., 2016) that were performed on a similar set of words, while Ada
+Gram hyperparameters were left at their default values. Close senses were not merged for Ada
+Gram, this could also improve V-measure and especially AR
+I. 3.2. Qualitative evaluation
+We also performed a qualitative evaluation of these methods on 15 nouns: 7 polysemous, having 3–9 senses in the Active Dictionary of Russian, and 8 nouns that have just one sense in the dictionary, but at least 5 of them have new and slang meanings (e.g. bomba ‘crib’, ‘sexually attractive woman’ and bajan ‘old joke’). All induced senses were divided into three groups by a human annotator. The first group represented quality senses: senses that have an intuitively clear meaning, even if they are more or less fine-grained than the dictionary senses, or are completely absent from the dictionary. The second group represented duplicate senses that did not have sufficient distinctions from other similar senses. The third group represented senses that were hard to interpret: either a mixture of several clearly distinct senses, or just uninterpretable sense descriptions. Therefore, an ideal WS
+I method would produce a large number of quality senses and minimal number of duplicate or hard to interpret senses. The average number of senses in each group for all studied methods is presented in unclear senses for the four WS
+I method
+Quality senses Duplicate senses Hard to interpret
+Word2vec neighbours 2.4 1.1 0.5
+Context clustering 2.8 1.0 0.9LD
+A 1.8 2.1 1.3Ada
+Gram 3.6 3.7 2.5
+The two best methods according to this metric are Ada
+Gram and context clustering. Ada
+Gram produces the largest number of quality senses, while also having more duplicates and hard to interpret senses. Context clustering has fewer duplicates and hard to interpret senses, while still giving a high number of quality senses.
+While Ada
+Gram and context clustering use conceptually similar context representation (bag of word vectors), Ada
+Gram has one computational advantage over the context clustering method: it learns sense vectors for all words simultaneously, while context clustering requires extracting contexts and clustering for each word separately. On one hand, this makes it much easier to change the algorithm and its hyperparameters, but on the other hand, Ada
+Gram is able to produce sense vectors for all words in the corpus much faster. This is why we chose Ada
+Gram for a deeper qualitative evaluation on more words.
+Lopukhin K. A., Iomdin B. L., Lopukhina А. А.
+Ada
+Gram qualitative evaluation
+First, we compared the average recall. We prepared a dataset of 51 nouns, 40 verbs and 35 adjectives with different ambiguity types—homonyms, words with
+metaphoric and metonymic senses, terms and frequent highly polysemous words (according to the Frequency Dictionary of Russian (
+Lyashevskaya and Sharoff, 2009)). For all these words we compared senses that are distinguished in four dictionaries (the Russian Language Dictionary (
+Evgenyeva, 1981–1984), the Explanatory Dictionary of Russian (
+Shvedova, 2007), the Large Explanatory Dictionary of Russian (
+Kuznetsov, 2014) and the Active Dictionary of Russian (
+Apresjan, 2014)) with clusters induced
+by Ada
+Gram. A cluster was considered a hit if it represented only one dictionary sense: mixed or broader clusters were rejected. This part of the evaluation was performed by many annotators without overlap, so inter-annotator agreement is unknown. Overall, the average recall for nouns is higher than for adjectives and verbs and is lower in comparison with the Active Dictionary of Russian than with other dictionaries.
+Ada
+Gram in comparison to dictionaries (recall)
+Apresjan, 2014
+Kuznetsov, 2014
+Evgenyeva, 1981–1984
+Shvedova, 2007 Average
+adjectives 0.44 0.72 0.68 0.66 0.62nouns 0.50 0.70 0.72 0.74 0.69verbs 0.35 0.61 0.68 0.71 0.61
+Average 0.43 0.68 0.70 0.71 0.64
+In order to compare the sets of senses induced by Ada
+Gram and described by lexicographers, we performed a following experiment. 98 polysemic words (30 nouns, 38 adjectives, 30 verbs) were chosen from the Active Dictionary of Russian. Then
+we performed a manual evaluation of the Ada
+Gram clusters (an example of the model’s output is presented in the Appendix). The Active Dictionary of Russian was chosen because it uses a series of linguistic criteria to systematically distinguish between senses of a given word (called lexemes).
+In many cases, Ada
+Gram distinguishes less senses than the dictionary does. As it appears, Ada
+Gram usually does not induce obsolete, obsolescent, vernacular, special etc. senses, e.g. bort ‘a front lap’ (of a jacket or coat: bort pidžaka <sjurtuka>), balovat’ ‘to horse around’ (
+Smotri ne baluj!), vstupit’ ‘to come in’ (vstupit’ na pomost ‘to mount a dais’), žaba as in grudnaja žaba ‘cardiac angina’. For some words, most of the senses are quite rare and therefore ignored by Ada
+Gram, e.g. all senses of the verb axnut’ except for the first and direct one (‘to gasp’): ‘to go off’ (v nebe axnulo ‘boom went the sky), ‘to hit smb’ (axnut’ po skule), ‘to hit smth’ (axnut’ kulakom po stolu ‘to thump a table’), ‘to drop smth with a loud noise’ (axnut’ printer ob pol ‘to flop the printer down’), ‘to empty a glass’ (axnut’ stakan vodki ‘to gulp down a glass of vodka’). This might be explained by the simple fact that these senses might not occur in the corpus at all, or occur very rarely.
+Word Sense Induction for Russian More interestingly, Ada
+Gram does not distinguish senses which differ in argument structure rather than in semantic components or domain, e.g. causative meanings: gasit’ ‘to extinguish’ (gasit’ svet ‘to switch off the lights’) and ‘to be the cause of extinguishment’ (
+Dožd’ gasit koster ‘
+The rain puts out the fire’); brit’ ‘to shave’ (
+On ne breet podborodok ‘
+He does not shave his chin’) and ‘to get shaved (by a barber)’ (
+On breet borodu v barberšope ‘
+He gets shaved in a barbershop’). Lexicalized grammatical forms of adjectives are not considered by Ada
+Gram as specific senses, e.g. bližajšij (‘the closest’, a superlative form of blizkij ‘close’, but also ‘near’: v blizhajšie dni ‘in the next few days’) or vysšij (‘the highest’, a superlative form of vysokij ‘high’, but also ‘higher’: vysšee obrazovanie’ ‘higher education’).
+On the other hand, in some cases Ada
+Gram offers more senses than the dictionary. First of all, these are proper names, e.g. Blok (a surname, literally ‘a block, a pulley’), Avangard (a hockey team, literally ‘advance guard’), Vidnoe (a town, literally ‘smth visible’), Groznyj (the Russian tzar and the capital of Chechnya, literally ‘menacing’), etc., which are normally excluded from explanatory dictionaries (at least in the Russian lexicographic tradition). More often, Ada
+Gram distinguishes between groups of contexts referring to different domains. For example, it divides into two clusters the following sets of collocates of the word babočka ‘a butterfly’: (1) motylek ‘a moth’, strekoza ‘a dragonfly’, porxat’ ‘to flutter’, krylyško ‘a winglet’, roit’sja ‘to swarm’, (2) gusenica ‘a caterpillar’, kajnozojskij ‘
+Cainozoic’, nasekomoe ‘an insect’, češuekrylyj ‘lepidopterous’, dvukrulyj ‘dipterous’. Obviously, these are not two different senses of the word babočka, but rather two types of texts (fiction vs. non-fiction) where it apparently occurs in distinctly different contexts. Similarly, Ada
+Gram postulates two meanings for the word oružie ‘weapon’ with contexts corresponding to wars vs. computer games, brak (civil vs. religious marriage), anglijskij ‘
+English’ (history books vs. sports). For the noun graf, apart from the mathematical sense (‘a graph’), not listed in the Active Dictionary of Russian, Ada
+Gram gives as many as four types of contexts corresponding to counts or earls in Russia, France, Britain and Western Europe in general, which the dictionary considers belonging to the same sense.
+In many cases, Ada
+Gram offers several clusters of contexts which do not overlap with the dictionary senses. For the adjective vozdušnyj, it offers two groups of contexts: (1) vozdušnyj potok ‘air flow’, vozdušnyj fil’tr ‘air filter’, vozdušnyj nasos ‘air pump’, vozdušnyj poršen’ ‘air piston’, (2) vozdušnyj šarik ‘party balloon’, vozdušnyj poceluj ‘air kiss’, vozdušnaja figurka ‘a feathery figurine’, vozdušnoe plat’e ‘a vapory dress’, which the dictionary subdivides into five different senses: ‘consisting of air’, ‘happening in the air’, ‘using air’, ‘using the energy of the air’, ‘lightweight’. Party balloons, kisses and dresses are more likely to be referred to in fiction, while air filters, pumps and pistols are more charachteristic for technical prose, and clearly these genres have quite different classes of contexts.
+Finally, there are some special senses found by Ada
+Gram but not listed in the dictionary; apart from the aforementioned graf ‘graph’, consider agent ‘chemical agent’, vint ‘hard disk’ (apparently a shortening from vinčester < Winchester), gorjačij ‘used for communication’ (gorjačaja linija, gorjačij telefon ‘hotline’).
+Our analysis shows that less distant senses are less likely to be distinguished by Ada
+Gram, according to the following hierarchy: homonyms > senses belonging Lopukhin K. A., Iomdin B. L., Lopukhina А. А.
+different subgroups > senses beloging to the same subgroup > exploitations of the same sense (all these entities are systematically distinguished and marked in the Active Dictionary or Russian). It is also worth noting that metaphors are much more recognizable by Ada
+Gram than metonymic shifts, which might also correspond to the way they are treated by native speakers. Although Ada
+Gram distinguishes less senses than the Active Dictionary of Russian, the feedback we received from our annotators shows that they are often more satisfied with smaller sets of senses found by the former than with the fine-grained distinctions provided by the latter.
+4. Conclusion
+In this paper we have explored the question of word sense induction for Russian. We applied four methods with different underlying approaches—a Latent Dirichlet allocation topic model (LD
+A) a vector based Ada
+Gram model, a feature-based context clustering method and an approach that performs clustering of word2vec neighbours. Quantitative evaluation performed for nouns and verbs showed that context clustering and Ada
+Gram are better than LD
+A for nouns and much better for verbs. The overall qualitative evaluation of the interpretability of the obtained clusters revealed that the two best methods are Ada
+Gram and context clustering. They produce the largest number of quality senses while word2vec neighbours and LD
+A performance is less powerful. This result can be explained by the fact that LD
+A has access to less information in this setup: it works only on contexts of each word individually, while the other methods have access to the whole corpus, either directly for Ada
+Gram or indirectly via word2vec embeddings for other methods. Context clustering works better than word2vec neighbours because it uses the contexts too, while word2vec neighbours requires existence of monosemous neighbours.
+In a deeper study of Ada
+Gram and its comparison with dictionaries, we found that the method performs consistently well for different parts of speech and induces overall 63% of senses that are distinguished by dictionaries. Moreover, Ada
+Gram allows to get
+new and domain-specific senses that may not be included in domain-neutral lexical resources. The major limitation of the method is its inability to take syntactic information into account. The problem of sense discrimination by context is most evident for verbs. Although, Ada
+Gram may not allow to solve the problem of the excessive granularity of lexical resources for NL
+P tasks (as it produces quite fine-grained clusters-senses), its clustering seems more corresponding to human intuition. And similarly to the conclusions from psycholinguistic experiments with ambiguous words, Ada
+Gram distinguishes homonyms and metaphors better than more closely related senses.
+The Ada
+Gram database for Russian is available online (http://adagram.ll-cl.org/). The Ada
+Gram method can be applied as a tool for lexicographers dealing with Russian—for sense induction from the large corpus and for novel sense detection. One of the Ada
+Gram’s possible application is the regular polysemy patterns detection which was discussed in (
+Lopukhina and Lopukhin, 2016). Besides, this instrument may help find patterns in big corpora that a human can not access. One possible development of this study may be making context representations “aware of” the word order and the syntactic relations. This might allow distinguishing Word Sense Induction for Russian senses that are currently lumped together. This goal can be achieved either by corpus preprocessing (e.g. applying a syntactic parser), or by using richer context representations (e.g. moving from the bag of words to recurrent neural networks). Another possible development may be adjusting the methods to produce more distinct senses, and improving the sense presentations to make them clearer for the users.
+Appendix
+An example of the Ada
+Gram model’s output for the word goršok (# 0 ‘flower pot’, #2 ‘potty’ and ‘clay pot’, #1 ‘clay pot’ and ‘potty’, #4 ‘clay pot’, #3 ‘given name’).

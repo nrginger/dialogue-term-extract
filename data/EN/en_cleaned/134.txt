@@ -1,0 +1,160 @@
+Lexical-semantic ambiguity is an inherent property of any natural language, thus word sense disambiguation (WS
+D) in an important part of many natural language processing tasks. Various WS
+D techniques were discussed during Sem
+Eval sessions (
+Pradhan et al. 2007) and in WS
+D surveys (
+Ide and Véronis 1998; Navigli 2009; Mihalcea 2011). The most powerful and promising approaches are those that use already existing resources and do not require much human labeled data. Knowledgebased approaches take advantage of thesauri, for example English Word
+Net (
+Fellbaum 1998) or Russian Ru
+Thes (
+Loukachevitch and Chujko 2007; Loukachevitch and Dobrov 2007) and encyclopedic resources, like Wikipedia (
+Ponzetto and Navigli 2010) and can be applied to domain-specific corpora with high accuracy (
+Agirre et al.
+2009). Unsupervised corpus-based approaches typically perform clustering of senses
+in a corpus without making explicit references to any sense inventory, see e.g. (
+Schutze 1998; Huang 2012; Neelakantan 2014; Bartunov et al. 2015).
+For Russian, several WS
+D experiments were performed on the Russian National corpus (RN
+C, ruscorpora.ru). Kobritsov et al. (2005) discussed the problem of automated word sense tagging in a large corpus and proposed a WS
+D approach based on lexical context markers. Shemanayeva et al. (2007) developed semantic filters aimed at raising the accuracy of sense disambiguation for adjectives in RN
+C. Mitrofanova et al. (2008) compared WS
+D techniques for Russian nouns that take into account either word lexical contexts or lexical-semantic tags of words in context. Both methods’ average accuracies reached 83% and 85% respectively, which is comparable to the state-of-the-art in this field.
+Sense disambiguation for Russian verbs was based on various linguistic resources. Kobritsov et al. (2007) performed a series of experiments on word sense disambiguation for verbs using information automatically extracted from dictionaries. They concluded that although the government pattern proves useful for disambiguation, Word Sense Disambiguation for Russian Verbs Using Semantic Vectors and Dictionary Entries automatically extracted information does not provide any substantial reduction of polysemy, and that accounting for semantic properties of the arguments is the most promising approach. Similar results were discussed in (
+Kustova and Toldova 2008). They studied several different methods of decreasing polysemy for Russian verbs: government pattern (morphological properties of arguments) and semantic properties of the arguments. Government pattern helped to halve the number of possible senses, and using fine-grained semantic properties of arguments allowed to reduce the number of possible senses to a single one for most studied verbs and most contexts.
+Theoretical studies of verb polysemy prove that valencies and government patterns normally stay the same as regular metaphoric shifts take place (
+Rozina 2005; Reznikova 2014). Valencies usually change if new meanings appear in slang, for example X gonit Y iz Z ‘
+X produces substance Y from substance Z’ / X gonit ‘
+X lies or says nonsense’ from the first issue of the Active Dictionary of Russian (
+Apresjan et al. 2014). For our WS
+D experiments, which imply disambiguation for all verb senses,
+it seems reasonable to focus on lexical contexts of verbs rather than on their syntactic structure.
+Other projects related to WS
+D of verbs are Disambiguation of Verbs by Collocation and Corpus Pattern Analysis led by Patrick Hanks and colleagues. These projects are focused on statistical analysis of corpus data in order to discover typical usage patterns and create the Pattern Dictionary of English Verbs (http://pdev.org.uk/; Hanks and Pustejovsky 2005; Hanks 2008). The authors emphasize that meanings are associated with prototypical sentence contexts (patterns or collocations) and not with word senses from dictionaries. Cf. also (
+Gries et al. 2010), where frequency distributions of English verbal constructions are discussed. The ongoing project of Russian Frame
+Bank also focuses on verb constructions (http://framebank.ru/; Lyashevskaya 2012; Kashkin and Lyashevskaya 2013). Although the abovementioned methods presuppose disambiguation techniques and are corpus-based, they deal with collocations
+and not dictionary senses and we do not consider them in our study.
+In this paper we set out to evaluate several techniques of word sense disambiguation for Russian verbs. The techniques are based on semantic vectors that use only existing linguistic resources—contexts and collocations from the Active Dictionary of Russian (A
+D; Apresjan et al. 2014). All the experiments are performed on 10 Russian verbs, whose senses are taken from A
+D. We evaluate all methods on contexts sampled from the web-based RuTen
+Ten11 corpus (
+Kilgarriff et al. 2004). To the best of our knowledge, this is the first evaluation of a semi-supervised word sense disambiguation method for Russian verbs.
+2. Method
+The aim of our method is to be able to perform word sense disambiguation for Russian verbs using only existing linguistic resources, without any additional annotation. Such method needs a predefined sense inventory, and it is convenient if a single resource provides both senses and examples of their usage. In this paper we use sense inventory and examples from the Active Dictionary of Russian, a reliable resource with Lopukhin K. A., Lopukhina А. А.
+strong theoretical basis in sense distinction that reflects contemporary language (
+Apresjan et al. 2014). Our disambiguation method consists of two major components: a context representation technique and a classifier trained on labeled contexts (examples and collocations from A
+D). More precisely, for each sense we extracted all examples (short and common usages), illustrations (longer, full-sentence examples from the Russian National Corpus), collocations, synonyms and analogues. Each example, illustration, etc. was treated as a separate context of a word used in a particular sense. Context representation technique takes contexts (some fixed window of words before and after the disambiguated word) as an input and produces some real-valued vector as an output. This vector is then fed into the classifier, which predicts the sense of a context. Method implementation is available online1.
+There are a lot of options to choose from when building a context representation: whether to take word order into account, to parse the input sentence, to use lemmatization, to extract morphological features, how to represent words, etc. An important consideration is the amount of training data available, and the nature of the classification task. We have evaluated several options, but the most robust and performant for this task turned out to be representing context as a weighted average of individual word vectors. Word vectors are obtained by training a word2vec (
+Mikolov et al. 2013) model on a large lemmatized corpus (about 2 billion words—combined Ru
+Wac, lib.
+ru and Russian Wikipedia). Resulting vectors usually have 200–2000 dimensions and represent semantically similar words as vectors with similar directions. Using such vectors as input features allows us to leverage information from large unlabeled corpora and to generalize from one labeled context to all contexts that contain semantically similar words. We take a weighted average of individual word vectors: weights represent to which extent each word affects the sense of a context. Consider for example the word verbovat’ (to recruit). If you see words such as agent ‘agent’ or razvedka ‘intelligence service’ in the context, these words alone give a strong hint about the sense of the target word. We give more weight to words that are more likely to be seen in the context of the target word than on their own (qi ={max(0, ln P (wi|c)
+P (wi))if P (wi|c) > 00.2 if P (wi|c) = 0
+�cn =n+10∑i=n−10i �=nqi �wi�cqi here is the weight of the word). Negative weights are clipped to 0. If the word is unattested in available contexts, it is given a low weight of 0.2:qi ={max(0, ln P (wi|c)
+P (wi))if P (wi|c) > 00.2 if P (wi|c) = 0
+�cn =n+10∑i=n−10i �=nqi �wi�cqi
+The context vector qi ={max(0, ln P (wi|c)
+P (wi))if P (wi|c) > 00.2 if P (wi|c) = 0
+�cn =n+10∑i=n−10i �=nqi �wi�cqi is a weighted average of word in vectors, where words are taken from the window of 10 words before and after the target word, crossing sentence boundaries:qi ={max(0, ln P (wi|c)
+P (wi))if P (wi|c) > 00.2 if P (wi|c) = 0
+�cn =n+10∑i=n−10i �=nqi �wi�cqi
+We have evaluated several classification approaches. In the first approach (Mean
+Vec), we calculate an average of all context vectors for each sense during training, thus obtaining a single vector for each sense. When disambiguating an unlabeled 1 https://github.com/lopuhin/sensefreq
+Word Sense Disambiguation for Russian Verbs Using Semantic Vectors and Dictionary Entries context, we find a sense whose vector is the closest to the context vector. In the second approach (LR
+Vec) we use an ensemble of logistic regression models with strong regularization. Each model is implemented as neural network that takes context vectors as input, applies dropout with p = 0.5 (
+Hinton et al. 2012), and a final softmax layer. An ensemble of 5 models is trained using stochastic gradient descent, and prediction of the most confident model is taken as the ensemble output. Dropout is employed to prevent overfitting on a small number of training contexts available from dictionary. The third approach (kNN
+Vec) is a k-nearest neighbours classifier, where the sense is determined by k-closest neighbours of the input vector, and ties are broken using closeness between sense and context vectors. Best results were obtained with k = 3. Both Mean
+Vec and kNN
+Vec use cosine similarity as a closeness metric.
+We also used two baseline methods (
+Bayes and SV
+M), as they are quite simple and often give strong results, especially with little training data. They used a different context representation: instead of semantic vectors, contexts were represented as bags of words with lemmatization and TF-ID
+F (term frequency inverse document frequency) downscaling. This means that inputs to these methods are sparse vectors, where each dimension corresponds to a word seen during training, and the only non-zero entries in each context vector correspond to words in this context vector. We compared two robust approaches for classification: a Bayes classifier and a support vector machine (SV
+M).
+3. Evaluation
+Word sense disambiguation accuracy is evaluated on contexts for 10 Russian verbs randomly sampled from the web-based RuTen
+Ten112 corpus, the largest Russian corpus consisting of 18 billion tokens integrated into the Sketch Engine system (
+Kilgarriff et al. 2004). 7 verbs were randomly chosen polysemous verbs from the first issue of the Active Dictionary of Russian, and 3 (vosprinimat’, brodit’, vypolzti) were specifically chosen to make our test set of words maximally diverse. The word brodit’ is homonymous (
+Ona brodit po ulitse / Kvas brodit) and both homonyms have several senses. Each word has 100 contexts labeled by one annotator. Annotated corpus is available online3.
+Comparison of word sense disambiguation accuracy on 10 verbs is presented in frequent sense (MF
+S) in training data, and the disambiguation accuracy for 5 approaches. MF
+S is usually considered a strong baseline in supervised WS
+D (
+Navigli 2009), but this is not the case here: dictionary examples are used for training, and
+it is not known which sense is the most frequent. We see that approaches based on semantic vectors (the first three) perform significantly better, with LR
+Vec giving the best average accuracy.
+2 Kutuzov and Kuzmenko (2015), Lopukhina, Lopukhin and Nosyrev (submitted) compared
+RN
+C and RuTen
+Ten11 and found that they agree in most cases, including polysemous words.
+3 https://github.com/lopuhin/ruslang-wsd-labeled
+Lopukhin K. A., Lopukhina А. А.
+
+Ten11 using Active Dictionary of Russian for training
+Word Senses MFSMeanVecLRVeckNN
+Vec Bayes SV
+Matakovat’ 3 0.49 0.67 0.58 0.61 0.44 0.39bayukat’ 2 0.74 0.83 0.83 0.78 0.77 0.72boltat’sya 5 0.37 0.55 0.60 0.47 0.45 0.28bombardirovat’ 4 0.47 0.83 0.83 0.85 0.64 0.55brodit’ 6 0.78 0.65 0.88 0.69 0.83 0.51verbovat’ 3 0.43 0.64 0.61 0.62 0.37 0.50vlit’ 3 0.89 0.91 0.90 0.92 0.64 0.65volnovat’sya 3 0.96 0.97 0.97 0.97 0.96 0.94vosprinimat’ 3 0.70 0.77 0.78 0.78 0.71 0.65vypolzti 6 0.42 0.54 0.48 0.42 0.36 0.30
+Average 3.8 0.624 0.735 0.745 0.712 0.617 0.548
+We also see that both baseline methods perform significantly worse than methods based on dense semantic vectors. This could be due to either the classification method or to the feature representation. In Table 2 we compare best performing semantic vector method (LR
+Vec) with Bayes and SV
+M using two different feature representations (dense vectors and sparse vectors). Results suggest that the main gain is from the feature representation, and that L
+R method is able to use it more effectively.
+across methods and feature representations
+Method \ Features Dense vectors Sparse vectorsL
+R 0.745 0.600
+Bayes 0.682 0.617SV
+M 0.693 0.548
+Some words in Table 1 have a much lower WS
+D accuracy: atakovat’, boltat’sya, verbovat’ and vypolzti. Most of them (except for atakovat’) were difficult to the human annotator too, although we have no interrater agreement score to back this up. Verbovat’ required very long contexts, often exceeding what was available, and general situation understanding. Disambiguation between several senses of boltat’sya required geometrical reasoning and sometimes quite specific knowledge. Vypolzti required animacy disambiguation, and often coreference resolution with long contexts. On the other hand, brodit’, which was by far the hardest word to annotate, has 88% accuracy with LR
+Vec approach.
+It is possible to analyse how our method determines the sense of the context. This is especially easy for the Mean
+Vec approach: each sense has a vector, each word in a disambiguated context also has a vector and a weight, so we can calculate Word Sense Disambiguation for Russian Verbs Using Semantic Vectors and Dictionary Entries closeness of a sense vector to each individual word vector. In Table 3 we present contexts for word atakovat’ (to attack) with 3 senses: ‘to attack someone in sport’, ‘to attack in a war conflict’, and ‘to ask someone many questions’. Word weight in the second column with values greater than 1.0 is highlighted in bold. The next three columns show similarities of individual words to each sense vector without taking weight into account. Context vector is calculated using individual word vectors and weights, and then compared with sense vectors, but since all operations are linear, it is equivalent to calculating weighted similarities for individual words, as shown in the table. It is interesting to observe that although the words turki (
+Turks) or CSK
+A (a sport team name) are absent in the training data, sense vectors help the method infer that the first word is more likely to be used in the war context, and the second in the sport context, due to their semantic similarity to other words in training data.
+Weight 1: sport 2: war 3: questionsv 0.0 — — —pervom 0.2 0.2 0.2 0.0tajme 3.0 0.4 0.1 0.1neskol’ko 0.5 0.1 0.1 0.0opasnyh 1.2 0.2 0.1 0.0momentov. 0.7 0.2 0.1 0.0
+Prichem 0.2 0.2 0.1 0.0turki 2.3 0.2 0.3 0.1staralis’ 0.2 0.1 0.0 0.0bol’she 0.2 0.0 0.0 0.0atakovat’ — — — —levym 1.5 0.2 0.2 0.0flangom, 3.9 0.5 0.4 0.0gde 0.0 — — —iz-za 0.3 0.1 0.1 0.0kadrovyh 0.0 — — —problem 0.0 — — —v 0.0 — — —zashhite 1.1 0.1 0.2 0.0u 0.0 — — —CSK
+A 1.6 0.4 0.1 0.1
+Result 0.7 0.4 0.1
+Our method is targeted to be able to train on a relatively low number of diverse examples from the dictionary, but it is possible to evaluate it in a supervised manner. We can train it on 50 out of 100 labeled contexts for each word, using other 50 for testing. WS
+D accuracy in Table 4 is averaged on 10 random splits of data into training and test sets. All approaches perform better when trained on contexts from corpora Lopukhin K. A., Lopukhina А. А.
+on dictionary examples, but the gap is smaller than what we observed for nouns in (
+Lopukhina, Lopukhin and Nosyrev, submitted).
+(
+Active Dictionary of Russian and 50 contexts from RuTen
+Ten11 corpus)
+Training data Mean
+Vec LR
+Vec kNN
+Vec Bayes SVM
+Active Dictionary 0.735 0.745 0.712 0.617 0.548RuTen
+Ten11 0.763 0.778 0.738 0.636 0.682
+In the last part of this section we would like to analyze some implementation details and their effect on WS
+D accuracy (LR
+Vec approach accuracy is reported unless otherwise specified):•	 Lemmatization. It was not clear upfront whether lemmatization is required: on one hand, word2vec models achieve higher quality vectors from lemmatized corpora, on the other, lemmatization loses information that could be especially useful for verbs. It turns out that higher-quality word vectors are more important: WS
+D accuracy with lemmatization is significantly better: 0.7384 vs. 0.709 with all other parameters being equal.
+•	 Stop-words. Stop-words removal is a common pre-processing step in many NL
+P applications. But in this case stop-words can be important for disambiguation: for example, for vosprinimat’ the WS
+D accuracy with stop-words removed is 0.68, whereas with stop-words included it is 0.78. Words such as kak turn out to be important discriminating factors here, while other stop-words are filtered out with weights. Stop-words were not removed when training a word2vec model, either.
+•	 Context size. The context size determines which words will be included in the context vector used for classification. Our experiments show that almost all words benefit from larger contexts: average WS
+D accuracy is 0.745 with context size 10, 0.710 with 5 and 0.687 with 3, where context size 3 means that 3 words before and after the disambiguated word are used. An example of a larger context benefitting disambiguation is the context for atakovat’ in tajm and CSK
+A have high similarity with the correct sense, and they are far from the disambiguated word.
+•	 Accounting for word order. All approaches described so far do not take word order into account, but word order is definitely useful for human speakers. We experimented with building contexts vectors by concatenating individual word vectors and using already described classifiers. But all methods we tried suffered from overfitting on larger context windows, with best results below 0.6 on window size 3. A possible way to resolve this problem is to build context representation that takes word order into account without supervision, and then use this representation to train a disambiguation method. We believe this is a promising direction for future study.
+4 This is different from 0.745 in Table 1 due to use of a smaller corpus and lower-dimensional
+vectors.
+Word Sense Disambiguation for Russian Verbs Using Semantic Vectors and Dictionary Entries •	 Using weights. Using weight when building context vectors improves WS
+D accuracy, but less than what we observed for nouns in (
+Lopukhina, Lopukhin and Nosyrev, submitted): we achieve 0.741 without weights and 0.745 with weights.
+•	 Word2vec model. We used the skip-gram model in all experiments. The main hyperparameters are window size and vector dimensionality. Larger window size (10–20) allows capturing topic/domain similarity, while smaller windows (2–3) better capture functional and syntactic similarity. In our experiments moderate window sizes (3–5) performed better: 0.723 with window size 10 and 0.745 with window size 5. Vector dimensionality also turned out to be an important factor: Mean
+Vec and kNN
+Vec significantly benefited from increasing it, while LR
+Vec was less sensitive but still achieved best performance with 2048-sized vectors.
+4. Conclusions
+We presented a method that is able to reach a word sense disambiguation accuracy of 75% for Russian verbs. Our method uses context representation based on semantic vectors with weightening and dictionary information: examples and collocations from the Active Dictionary of Russian (
+Apresjan et al. 2014). Method’s implementation and labeled contexts are available online on https://github.com/lopuhin/sensefreq.
+Although our method shows good accuracy on many words, there are some words that are especially problematic. We believe that the general approach with semantic vectors is sound, but our current implementation is basic: it does not explicitly identify the verb’s arguments, relying instead on weights to filter out words that help disambiguation. It would be interesting to check if a more sophisticated approach would improve the method’s accuracy.
+We would like to apply our method to other verbs and evaluate it on different types of predicates. The approach with the best performance will be implemented in the model for verb sense frequencies estimation, an ongoing project introduced in (
+Lopukhina, Lopukhin and Nosyrev, submitted)5.
+Acknowledgements
+This work was supported by the grant from the Russian Scientific Foundation (
+No. 16-18-02054). We thank the anonymous reviewers for the many helpful comments and suggestions they made.
+5 http://sensefreq.ruslang.ru
+Lopukhin K. A., Lopukhina А. А.

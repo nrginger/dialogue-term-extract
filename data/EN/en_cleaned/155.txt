@@ -1,0 +1,122 @@
+The categories of abstractness/concreteness and specificity/genericity are the focus of cognitive research on the organization of information in human brain. Modern approaches to the study of concreteness/abstractness originate from the fundamental papers . There seems to be a correlation between these categories, and they are not always distinguished. Let us say that the concept “furniture” is more generic than the concept “sofa”, and “furniture” is simultaneously more abstract than “sofa”. The main goal of this paper is to find out to what extent these two categories are correlated. The first study of such kind based on empirical material for the English was conducted in . This paper shows that there is a correlation, but it is moderate − 0.361, according to Spearman. We set the same goals as those that were in the abovementioned work, but the research is done for the Russian, and, of course, the external linguistic resources, which have been used, are changed. We strive to reproduce the methodology of the study of the paper accurately as possible to ensure comparability of the results. In particular, we analyze only nouns and ignore word combinations. This limitation is also due to the fact that it is for nouns that the hierarchical relationships are described in the most detail. It should be mentioned that the words “category” and “concept” will be used as synonymous, although there can be a difference between them as in Barsalou’s work . Concreteness is usually defined in published papers as the ability to perceive members of this category through the senses . A detailed discussion of abstractness is given in Barsalou’s work , while reviews of abstractness/concreteness studies can be found in the papers . It is generally assumed that abstractness/concreteness is not a binary but a continuous category, and the degree of concreteness of a concept is estimated by a number in a certain interval. Surveys of respondents are conducted to assess the degree of abstractness/concreteness, resulting in a dictionary with ratings of abstractness/concreteness of words. The first four-thousand-word dictionary for the English was described in the article is available at https://websites.psychology.uwa.edu.au/school/mrcdatabase/uwa_mrc.htm. A dictionary of 40,000 words was created later on . The RDC
+A (
+Russian Dictionary of Concreteness/
+Abstractness) dictionary for the Russian language for one thousand words was created at the Kazan Federal University . The category of specificity/genericity reflects paradigmatical semantic relations between hyponym (as a subtype) and hyperonym (as a supertype); such relations underlying thesaurus lexicon classifications. The category of specificity/genericity is not binary. In the following sequence of concepts: "a doberman" "a dog" "a predator" "a mammal" each next one is more general than the previous one. Our useage of terms is consistent with work , which explains the difference between Specificity и Concreteness: “… Specificity (which operationalizes the process of categorical abstraction) and Concreteness (which operationalizes the perceptibility of a referent associated with a concept)” (p. 368). An important contribution to its study was made by the classical works of Rosch . After the creation of the Word
+Net thesaurus , the degree of specificity/genericity is usually evaluated by the place of the concept in the Word
+Net thesaurus . The structure of Word
+Net and its relevance to linguistic facts is presented in . The closer the concept represented by the synset (synonymous sets) of Word
+Net is to the upper levels of the thesaurus, the more generic it is. It can be automatically quantified. Three formulas for calculating the specificity/genericity measure are proposed and compared in . The authors concluded that the most successful formula is: (1 + d) ∕ D, where d is the total amount of hypernyms (direct and indirect) of a target word and D is the maximum distance from synset leaves to the top node. For Word
+Net, this value is 20. In this study, we use this approach with the replacement of Word
+Net with the freely available Russian thesaurus Ru
+Thes . Generally speaking, the perception of such concepts as “concrete/abstract” and “specific/generic” should not depend on a language at least in close cultures of the modern globalized world. In our paper , we compared the concreteness ratings for Russian words and their equivalents in English and showed that they are mostly close, although there are significant differences, primarily related to the polysemy of words. Thus, the expected results are similar to the results for the English. However, in addition to differences in languages, the difference in the structure of the Ru
+Thes and Word
+Net thesauri can also influence the results. Research objectives. Q1. Do measures of concreteness and specificity correlate? In particular, will generic concepts be more abstract than specific ones? Q2. Does the division of concepts into abstract entities and physical entities, presented in Ru
+Thes, correspond to the concreteness indices? Q3. Which concepts have extreme values for the combination of concreteness and specificity parameters? To what extent are the Word
+Net and Ru
+Thes structures conformed in this aspect? If the results for English and Russian will differ considerably, what features of the structure of Word
+Net and Ru
+Thes can be responsible for this? Ivanov V., Solovyev V.2 Data and methods All dictionaries with human concreteness/abstractness ratings were created as follows. The respondents were asked to rate the degree of concreteness/abstractness of a word on a 5 or 7-point scale. In this work, we use the results of surveys on a 5-point scale. Recently, surveys have been conducted using crowdsourced platforms. For each word, at least 30 scores are obtained, which were averaged. At the same time, special measures are taken to screen out the ratings of unscrupulous respondents. The most frequent and/or well-known words are selected for rating. For more information on the methodology for creating dictionaries with human ratings, see . Dictionaries for other properties of concepts have also been created, for example, Imagability . The dictionary of the Russian language with the ratings of abstractness/concreteness, mentioned in the introduction, is insufficient for many studies. Therefore, the program was developed that extrapolates people's assessments of those words, which do not have ratings . A machine dictionary containing 22,000 words of the Russian language is available at https://kpfu.ru/tehnologiya-sozdaniya-semanticheskih-elektronnyh.html. Its quality was evaluated, and a high level of correlation between machine
+and human ratings was shown (about 0.8 according to Spearman) . This dictionary was used in the research. Ru
+Thes Thesaurus (http://www.labinform.ru/pub/ruthes/index.htm) contains more than 31.5 thousand concepts, 111.5 thousands of different text inputs (words and expressions of the Russian language), more than 130,000 polysemantic words, taking into account their meanings. Ru
+Thes was created on the basis of a large body of news texts on socio-political issues as a resource for automatic text processing. The general structure of Ru
+Thes corresponds to the structure of Word
+Net – a set of concepts represented by synsets and connected by semantic relations. In this study, only one type of relationship between synsets is needed – hyponymy/hyperonymy. The intersection of the set of nouns from Ru
+Thes and our dictionary with concreteness indexes contains 14,294 words. The study described in 13,518 words of English. To estimate the degree of synset specificity, we use the formula given in the introduction: (1 + d) ⁄ D, where d is the total amount of hypernyms (direct and indirect) of a target word and D is the maximum distance from synset leaves to the top node. For Ru
+Thes the value of D is equal to 13. The problem in calculating the degree of synset specificity is as follows. A synset can have several hyperonyms and, accordingly, several paths, possibly of different lengths, to the top of the hierarchy. Moreover, a word can have several meanings represented by different synsets. In , the first one in the Word
+Net list is selected from several options, which is usually the most frequent. Another possibility – averaging over all path lengths – is used in . An overview of the various distance measures in Word
+Net is provided in . We chose the second method for two reasons. First of all, the meanings of words in Ru
+Thes are arranged in random order, not ordered by frequency of use. The second argument is of a more theoretical nature. When determining the concreteness ratings, a word, but not particular meanings of the word, are represented to respondents. It is probable that the word has different meanings, some of them are concrete and others are abstract. This possibility and its relation to the metaphor are discussed in . The respondents' responses, which may reflect different meanings of the word, are averaged when calculating the concreteness rating. Due to the fact that we still do not have ratings of the concreteness of particular meanings of words, we found it quite possible to calculate also the average ratings of specificity. Both ratings – concreteness and specificity – are standardized and reduced to a 5-point scale, where 5 is the highest level of concreteness and specificity.
+3 Results
+3.1 Correlation coefficient
+Determining the degree of correlation between specificity and specificity for the Russian and comparing it with the English is our first result. First of all, let us compare the distribution of specificity values in Russian and English. Judging by the specificity histogram in towards genericity of concepts and lower specificity. In particular, the median is M = 2.192, S
+D = 0.378. For Ru
+Thes, the corresponding values are M = 2.840, S
+D = 0.569. This difference can be explained as The Relation of Categories of Concreteness and Specificity: Russian Datafollows: there are very long chains from the leaves to the top node – 20 nodes – in Word
+Net. However, not all chains, of course, are so long. So, for example, for a vintage leaf with a very specific value, the distance to the node ‘
+Entity’ is 6. When calculating the specificity formula, we get a fairly small number 7/20, which is more typical for abstract concepts; i.e., some specific concepts, according to this formula,
+are pulled up to the top of the hierarchy, shifting towards genericity. This effect is reduced for Ru
+Thes by the fact that the maximum branch length is the denominator in the specificity formula = 13, not 20. As a result, the ratio of general and specific concepts in Ru
+Thes is more balanced than in Word
+Net, as can be seen in values of concreteness and specificity for all of the 14,294 words of the Russian language considered by us are given in the ‘
+Concreteness Ratings in Ru
+Thes’ file on the project website (https://kpfu.ru/tehnologiya-sozdaniya-semanticheskih-elektronnyh.html). Spearman's correlation coefficient = 0.264, Pearson's = 0.256 (p<0.001). For English, the coefficients are 0.361 and 0.354, respectively . 3.2 Abstract entities vs Physical entities
+There are two high-level nodes (or concepts) the PHYSICA
+L ENTIT
+Y and the ABSTRAC
+T ENTIT
+Y in Ru
+Thes. Let us analyze the nodes of the thesaurus that are located below them. In the case of polysemy, when a word in one of the meanings is an abstract entity and a physical one in the other meaning, it is excluded from consideration. The average values and standard deviations are given in Table 1 and the histograms are shown in figures 2-5. For the t-test, the difference in the average values of both ratings for the ABSTRAC
+T ENTIT
+Y and PHYSICA
+L ENTIT
+Y groups is statistically significant (p<0.0001). Specificity All words under the labels ABSTRAC
+T ENTIT
+Y or PHYSICA
+L ENTIT
+Y (n=9377) M=3.570 S
+D=0.990 M=2.625 S
+D=0.653 Words under the label ABSTRAC
+T ENTIT
+Y (n=2952) M=2.553 S
+D=0.912 M=2.471 S
+D=0.626 Words under the label PHYSICA
+L ENTIT
+Y (n=6425) M=4.037 S
+D= 0.595 M=2.734 S
+D=0.663 p-value of 1-tailed t-test <0.0001 <0.0001 Cohen’s d (effect size) 1.9267 0.3527 Ivanov V., Solovyev V. Figure 2. Histogram of distribution of words under the label PHYSICA
+L ENTIT
+Y by the concreteness index 3. Histogram of distribution of words under the label ABSTRAC
+T ENTIT
+Y by concreteness index 4. Histogram of distribution of words under the label PHYSICA
+L ENTIT
+Y by specificity index 5. Histogram of distribution of words under the label ABSTRAC
+T ENTIT
+Y by specificity index The following patterns can be noted: 1. The average values of the concreteness and specificity indices are higher for words under the
+PHYSICA
+L ENTIT
+Y node than under the ABSTRAC
+T ENTIT
+Y node (fig. 2 and 4 vs. fig. 3 and 5). 2. The average values of the concreteness and specificity indices for words under the ABSTRAC
+T
+ENTIT
+Y node are close (fig. 3 and 5), although the average values of these indices differ significantly for words under the PHYSICA
+L ENTIT
+Y node (fig. 2 and 4). 3. Average values of indices of specificity of words under the nodes of the PHYSICA
+L ENTIT
+Y and
+of the ABSTRAC
+T ENTIT
+Y of the Russian language is close to the same for English, respectively 4.037 vs 4.311 and 2.553 vs 2.754 . 4. Average values of indices of the specificity of the words under the nodes of the PHYSICA
+L ENTIT
+Y and of the ABSTRAC
+T ENTIT
+Y for the Russian language is substantially higher than those for
+English, respectively 2.734 vs. 2.192 and 2.471 vs. 1.944 . 3.3 The distribution across the 4 quadrants
+Let us consider how the distribution of concepts across the quadrants, representing combinations of the analyzed parameters, look like: highly specific and highly concrete, highly specific and highly abstract, highly generic and highly concrete, and highly generic and highly abstract, and compare it with distribution in the English. The Relation of Categories of Concreteness and Specificity: Russian Data
+The distribution of English words across the four quadrants, obtained by crossing the variables Specificity and Concreteness is shown in Figure 6. Specificity and Concreteness , reproduced with permission of the authors. Specificity and Concreteness Ivanov V., Solovyev V.
+The distribution of Russian words across the four quadrants is shown in Figure 7. As we can see, there is a serious discrepancy in the configuration of the points on the rafts. For English, there is a large bias towards low specificity, i.e. high genericity. The probable reason for this was described in Section 3.1. Let us see which words have the extreme values of the concreteness-specificity parameters. Upper right quadrant: highly specific and highly concrete. Words in this sector were expected to denote typical concrete objects of the physical world that can be seen or touched. In English, the words karaoke, epinephrine, aspirin, heifer, triglyceride, glucose, chloroform, fructose, and petroleum have extreme meanings; in Russian – травмпункт (emergency room), мегафон (megaphone), бомбардировщик (bomber), психбольница (mental hospital), радиотелефон (radiotelephone), мобильник (mobile phone), домофон (intercom), монитор (monitor), госпиталь (hospital, usually for military men), ноутбук (laptop), больница (hospital), горбольница (city hospital), медпункт (medical center), эвакуатор (tow truck), холера (cholera). As you can see, not all of these words refer to concrete material objects – karaoke and холера (cholera) do not apply to them. It seems interesting that in both cases, a significant proportion of the words refer to diseases/medicines/medical institutions. Apparently, in the minds of people, these are very concrete entities. The semantic field of communication is also distinguished in this quadrant in Russian. Lower left quadrant: highly generic and highly abstract. Typical abstract entities, which are not perceived by the senses, were expected in this sector. The expectations were confirmed. In English they are: absurdity, adaptability, ambiance, ambivalence, amorality, applicability, aptitude, authenticity, belief, circumstances, commitment, contradiction, desire, destiny, and idea. In the Russian – воздействие (effect, impact), непохожесть (otherness, dissimilarity), бремя (burden), пребывание (staying), претворение (implementation), различие (difference). The article the following 9 domains of abstract concepts: cognition, action, shapes, communication, relations, states, events, time, and motives. Most of the above words belong to domains relations or states. The domain cognition is also provided for English, but not for Russian. Upper left quadrant: highly specific and highly abstract. In English this sector includes: cakewalk, fundamentalism, and vintage, bootleg, finisher, general, mankind, monotheism, polytheism, and summons. In , these words are characterized as referring to social reality. The following set of words is obtained for the Russian language: идолопоклонство (idolatry), кощунство (blasphemy), поругание (desecration), святотатство (sacrilege), плодородие (fertility), сретение (
+Candlemas), роскошество (addiction to luxury or expensive venture), помрачение (obscuration, confusion) , заикание (stuttering, impediment in one’s speech), роскошь (luxury), царствование (reign, kingship); most of them also relate to social reality. Moreover, a significant part of the words in both lists is related to issues of religion and faith. Lower right quadrant: highly generic and highly concrete. For English, these words are: ground, people, ribbon, seafood, ashes, breath, cloth, college, daytime, fabric, forest. For Russian: могильщик (gravedigger), зад (butt), бедро (hip), спина (back of the human body), снежинка (snowflake), подоконник (window sill), затылок (back of the head), бычок (young bull), задница (backside or ass), ягодица (buttock), подбородок (chin), фоторобот (identikit). In this sector, no connection between English and Russian words is found. As for the Russian, it is easy to see that most of the words refer to body parts. 4 Discussion and conclusion
+Let us formulate what answers we can give to the questions announced at the beginning in accordance with the results of the study. Q1. Do measures of concreteness and specificity correlate? In particular, will generic concepts be more abstract than specific ones? The correlation coefficient established by us, although positive and statistically significant, is classified as weak . Thus, the results of the work confirmed on the material of the Russian, which indicates the independence of the parameters of concreteness and specificity and the need to study them independently. Both generic and specific concepts can be abstract and concrete as well. The difference between the categories of abstractness and specificity raises important questions in the field of cognitive science. A large number of cognitive and neurophysiological studies are devoted to the representation and processing of concrete/abstract concepts in human brain. There is the so-called The Relation of Categories of Concreteness and Specificity: Russian Data“concreteness effect”, demonstrating greater ease of processing concrete words in the human mind . Several theories have been proposed to explain the concreteness effect. The most developed and frequently cited are the following two theories: the dual-coding theory (DC
+T) the context-availability theory (CA
+T) . A number of studies have found specific brain structures responsible for the representation of specific words . It would be interesting to investigate whether these results are relevant to specificity. Q2. Does the division of concepts into abstract entities and physical entities, presented in Ru
+Thes, correspond to the concreteness indices? We have shown that the concreteness indices for words under the PHYSICA
+L ENTIT
+Y node are statistically much higher than for words under the ABSTRAC
+T ENTIT
+Y node. Thus, the structure of Ru
+Thes corresponds well enough to native speakers' intuitive ideas of the degree of concreteness of words, expressed in their concreteness ratings. Compared to the data for the English language, the average concreteness value has little differences, which indicates a good consistency of the concreteness ratings in these two languages. At the same time, the average specificity value is different. For the Russian language, it is larger, which confirms the above-mentioned difference in the structures of the Word
+Net and Ru
+Thes thesauri (also discussed below). Q3. Which concepts have extreme values for the combination of concreteness and specificity parameters? To what extent are the Word
+Net and Ru
+Thes structures conformed in this aspect? If the results for English and Russian will differ considerably, what features of the structure of Word
+Net and Ru
+Thes can be responsible for this? For the Russian, the distribution of words in the four octants (highly specific and highly concrete, highly specific and highly abstract, highly generic and highly concrete, and highly generic and highly abstract) is almost even, which also confirms the independence of these two parameters. Here we see significant differences between Russian and English, with a predominance of generic concepts in the latter. This is probably due to some differences in the structure of Word
+Net and Ru
+Thes – 1.5 times longer chains of hypo-hyperonymic relations in Word
+Net. We are going to conduct additional research by modifying the formula for calculating specificity so that we can eliminate this difference in the structure of thesauri. The difference in the algorithms for calculating the specificity index can also impact the results. In our algorithm, we took the average length of paths from the synset to the top concept and in was the length of the path with the most probable (frequency) values. It is possible that the more generic values are the most frequent in the case of polysemy (which is quite natural). It could also explain the shift in ratings towards genericity. Word
+Net and Ru
+Thes are well aligned in another respect. Namely, the classes of words that simultaneously have extreme values of the parameters under consideration are largely similar. Prototypical abstract concepts were also among the most common in terms of their position in the hierarchies of both thesauri. For Ru
+Thes, this is, for example, воздействие (effect, impact), непохожесть (otherness, dissimilarity) различие (difference). Prototypical concrete entities that can be seen and touched were also among the most specific. For example in Russian they are: мобильник (mobile phone), ноутбук (laptop). In another quadrant – highly specific and highly abstract – words in both languages refer to social reality. And some of the words are related to questions of religion and faith. Taking into account the independent creation of Word
+Net and Ru
+Thes resources, as well as dictionaries with concreteness ratings, we can consider the degree of their consistency to be very high. There is no connection between the words of these thesauruses only in one quadrant. The comparison of the categories of specificity and concreteness has important implications for cognitive science. In , it is suggested that specificity reflects the nature of the structuring of the World by language, while concreteness reflects the structuring of the World by consciousness for the construction of mental representations. The difference between these two categories (a low degree of correlation) is an argument against the strong version of the Sepir
+Whorf hypothesis of linguistic relativity, which assumes that language determines thinking. Acknowledgements This research was financed by Russian Foundation for Basic Research, grant 19-07-00807. Ivanov V., Solovyev V.

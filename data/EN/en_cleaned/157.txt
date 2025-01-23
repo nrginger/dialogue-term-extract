@@ -1,0 +1,241 @@
+There is a vast amount of user-generated content on the Internet containing hate speech, profanity, toxicity, and aggression. It may not be appropriate for some platforms to show toxic texts. Some countriescan even consider illegal writing or showing such content.
+There are several ways to combat this problem. The obvious solution is to censor all toxic messages.
+Such texts can be deleted completely, covered with a warning, or placed at the very bottom of the page.
+However, it is ethically questionable apparent censorship.
+Another way is to prevent writing such messages by suggesting alternative neutral options to a user.
+We will refer to the task of making such neutral variants of toxic texts as detoxification. It is a styletransfer task where the source style is toxic, and the target style is neutral. The goal of this work was tobuild a system to solve this task.
+Why is this task difficult?1. Indistinct boundaries of what to consider toxic
+2. Obfuscations that hide the meaning of words
+Russian Texts Detoxification with Levenshtein Editing
+Ilya Gusev
+Moscow Institute of Physics and Technology
+Moscow, Russiailya.gusev@phystech.eduAbstract
+Text detoxification is a style transfer task of creating neutral versions of toxic t exts. In this paper, we use the concept of text editing to build a two-step tagging-based detoxification model using a parallel corpus of Russian texts. With this model, we achieved the best style transfer accuracy among all models in the RUSS
+E Detox shared task, surpassing larger sequence-to-sequence models.
+Keywords: detoxification, style transfer, BER
+T, T5, tagging, text editing DO
+I: 10.28995/2075-7182-2022-21-264-272
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2022”
+Moscow, June 15–18, 20223. Occasions of some rare insults
+4. Sarcasm and other issues that require external world knowledge
+Toxicity is a broad term that includes hate speech, obscene or condescending language, aggression, orgrave insults. An instruction for annotators should define the particular rules for it. From the perspectiveof the shared task organizers, a text should contain «insults or obscene and rude words» to be consideredtoxic.
+From a scientific perspective, it is a curious sequence-to-sequence task, where a target text is almostthe same as a source one but with a different style. It allows specific methods that rely on the similarityof source and target texts.
+This work is a part of the RUSS
+E Detox shared task (
+Dementieva et al., 2022), organized by a groupof researchers as a part of the Dialogue-2022 conference. The goal of the shared task was to build adetoxification model with provided parallel corpus. Organizers also provided several baselines.
+Our contributions:1. We adopt a concept from the LEWI
+S paper (
+Reid and Zhong, 2021) to build a two-step tagging
+based detoxification model using a parallel corpus of Russian texts.
+2. We compare this tagging-based model with sequence-to-sequence baselines trained on the same
+corpus.
+3. We propose a better model for toxicity classification.
+4. We achieve the best style transfer accuracy among all models in the shared task.
+Our code1 and models234 are available online.
+2 Related work
+2.1 Toxicity classification
+Nobata et al. (2016) made one of the first attempts to formulate the task of toxicity classification andcollect a unified test dataset for it. They used comments posted on Yahoo Finance and News and rated bytheir in-house workers. The model was Vowpal Wabbit’s regression over different manual NL
+P features.
+Gordeev (2016) selected anonymous imageboards (4chan.org, 2ch.hk) as the material for their corpusfor the task of analysis of aggression. Authors utilized convolutional neural networks to detect the stateof aggression in English and Russian texts.
+Andrusyak et al. (2018) collected a dataset from Russian You
+Tube comments in an unsupervised wayusing a seed dictionary of abusive words and an iterative process updating this dictionary.
+Smetanin (2020) used the Russian Language Toxic Comments Dataset (RT
+C dataset) from Kaggle5. Itis the collection of annotated comments from 2ch6 and Pikabu7 websites. Fine-tuned RuBER
+T (
+Kuratovand Arkhipov, 2019) was the best model from this paper.
+Zueva et al. (2020) introduced a novel corpus of 100000 comments posted on a major Russian socialnetwork (V
+K). As their primary model, they used a self-attentive encoder to get interpretable weights foreach input token. They also used several tweaks, such as identity dropout and multi-task learning.
+Saitov and Derczynski (2021) utilized Russian subtitles from the «
+South Park» T
+V show (RS
+P dataset)and the RT
+C dataset. Crowdsourcers annotated these subtitles for toxicity. Again, RuBER
+T held the bestresult.
+Pronoza et al. (2021) focused on ethnicity-targeted hate speech detection in Russian texts. The authorscomposed a dataset of 5600 texts with 12000 mentioned instances of different ethnic groups. They namedit RuEthno
+Hate. One more time, the modified RuBER
+T with additional linguistic features was the bestmodel.
+1https://github.com/Ilya
+Gusev/rudetox
+2https://huggingface.co/Ilya
+Gusev/rubertconv_toxic_clf
+3https://huggingface.co/Ilya
+Gusev/rubertconv_toxic_editor
+4https://huggingface.co/Ilya
+Gusev/sber_rut5_filler
+5https://www.kaggle.com/blackmoon/russian-language-toxic-comments
+6https://2ch.hk/
+7https://pikabu.ru/
+Gusev I.
+We used several of the mentioned datasets for toxicity classification to fine-tune a conversationalRuBER
+T model.
+2.2 Style transfer
+Li et al. (2018) started the whole field of research, proposing a set of simple baselines for unsupervisedtext style transfer. The baselines were based on detecting style tokens with n-gram statistics and replacingthem with altered retrieved similar sentences with the target style.
+Wu et al. (2019) introduced a way to augment texts without breaking the label compatibility. Theytrained a conditional BER
+T (
+Devlin et al., 2019) using a conditional ML
+M task on a labeled dataset.
+Aside from data augmentation, they proposed to use this method as a part of a style transfer system,using an attention-based method to find style words and conditional BER
+T to replace them.
+Krishna et al. (2020) suggested STRA
+P, Style Transfer via Paraphrasing. First, they generated apseudo-parallel corpus. They started with styled texts and applied paraphrasers to normalize these textsin terms of style. The diversity of paraphrasing was promoted by filtering outputs heavily. Then, theyfine-tuned style-changing inverse paraphrasers on this pseudo-parallel corpus. GP
+T2 (
+Radford et al.,2018) language model was used to implement both the paraphrasers and inverse paraphrasers. This
+scheme can also be used to augment an existing parallel corpus.
+They also criticized existing style transfer evaluation methods and proposed an evaluation schemebased on transfer accuracy, semantic similarity, and fluency that we use in this work.
+Malmi et al. (2020) introduced Masker, a system that used two language models to detect style tokensand padded masked language models to replace them. They tested it on sentence fusion and sentimenttransfer. As for supervised tasks, they created Laser
+Tagger (
+Malmi et al., 2019), a sequence taggingapproach that casts text generation as a text editing task.
+Krause et al. (2021) used Ge
+Di (
+Generative Discriminator) to control generation towards the desiredstyle. They use three language models: a base one, one for the desired style, and one for the undesiredanti-style. The Bayes rule is applied during generation to compute style modifiers for every token froma vocabulary. Then these modifiers are applied to predictions of the base language model. This methodallows computationally effective style-guided generation, but there is no source sequence, unlike the styletransfer task. Dale et al. (2021) introduced the ParaGe
+Di method that applies Ge
+Di for style transferusing a paraphrasing model instead of the base language model.
+Dementieva et al. (2021) introduced the first study of automatic detoxification of Russian texts. Theyproposed two methods, the unsupervised one based on condBER
+T and the supervised one based onfine-tuning pretrained language GP
+T-2 model on a small manually created parallel corpus.
+Reid and Zhong (2021) proposed LEWI
+S (
+Levenshtein Editing W
+Ith unsupervised Synthesis), theediting and synthesis framework for text style transfer. They had no parallel data, so the first task wasto create a pseudo-parallel corpus. They used an attention-based detector of style words and two stylespecific BAR
+T (
+Lewis et al., 2020) masked language models to replace these style words. Then theyfiltered resulting pairs with a style classifier, keeping only examples where the language models and theclassifier agree.
+After obtaining the pseudo-parallel corpus, they trained a RoBER
+Ta-tagger (
+Liu et al., 2019) on it,predicting coarse edit types: «insert», «keep», «replace» and «delete» (
+Levenshtein, 1966). Then theytrained a fine-grain edit generator to produce the target text, filling in phrases for coarse-grain edit types«insert» and «replace». We use this scheme almost without any modifications, but with a differentlanguage, with different base models, and already existing parallel corpus.
+3 Evaluation
+We built our style classifier by fine-tuning conversational RuBER
+T (
+Kuratov and Arkhipov, 2019) insteadof the model8 proposed by organizers of the shared task. In addition to ok.ru9 and 2ch/
+Pikabu10 datasets,8https://huggingface.co/Skolkovo
+Institute/russian_toxicity_classifier
+9https://www.kaggle.com/datasets/alexandersemiletov/toxic-russian-comments
+10https://www.kaggle.com/datasets/blackmoon/russian-language-toxic-comments
+Russian Texts Detoxification with Levenshtein Editing
+Test type Test description Skolkovo clf., E
+R, % Our clf., E
+R, %IN
+V Replace yo 0.6 0.0IN
+V Remove exclamations 0.9 0.4IN
+V Add exclamations 0.9 0.3IN
+V Captioned sentences to lowercase 73.9 34.8IN
+V Remove question marks 4.0 0.2IN
+V Add typos 3.6 1.9IN
+V Masking of characters in toxic words 5.2 0.5IN
+V Add typos to toxic words only 24.2 2.8MF
+T Concatenate non-toxic and toxic texts 15.5 3.1MF
+T Concatenate two non-toxic texts 2.1 0.6MF
+T Add toxic words from a vocabulary 16.3 0.1
+Model AU
+C, % Accuracy, % F1, %
+Skolkovo classifier 66.2 86.4 37.2
+Our classifier 73.5 90.3 51.3are toxicwe used Russian Persona Chat dataset11 as a reliable source of non-toxic sentences.
+We also tested models using a «checklist» (
+Ribeiro et al., 2020) methodology and augmented theresulting dataset with all the transformations. Test results are in and minimum functionality tests (MF
+T). Invariance tests ensure that a label will not change after atransformation, and M
+F tests have a fixed label to be predicted. It is clear from the table that our modelhas much lower error rates. From the user’s perspective, it is harder to pick up an adversarial examplefor our model than for the default one.
+Two models have different dataset splits, so comparing them on their native test sets is wrong. However, we used crowdsourcing to evaluate the style transfer model, so we can use these annotations as anindependent test set, keeping in mind that these samples are adversarial. Results for this new set are in
+We used models provided by organizers of the shared task for measuring semantic similarity12 andfluency13. They have similar problems, but we did not come up with better options.
+However, automatic metrics are not reliable, especially when being used with near-adversarial examples. Table 2 gives a glance at how unreliable they can be. To overcome this, we arranged ourin-house annotation process with crowdsourcing through the Toloka14 platform in addition to the finalevaluation provided by organizers of the shared task. We measured only style accuracy and semanticsimilarity, as fluency was much harder to define. Annotation instructions were close as possible to onesprovided by the organizers and are available in the repository. Five workers annotated every sample.
+Samples were aggregated by majority vote. The average agreement was 90% for the style accuracy project, with Krippendorff’s alpha of 46%. For the similarity project, the average agreement was 88%, with
+Krippendorff’s alpha of 49%.
+11https://toloka.ai/ru/datasets
+12https://huggingface.co/cointegrated/LaBS
+E-en-ru
+13https://huggingface.co/Skolkovo
+Institute/rubert-base-corruption-detector
+14https://toloka.ai
+Gusev I.4 Model
+We see text detoxification as a two-step process. In the first step, a model should determine what wordsshould be deleted or replaced. We can explicitly do it through tagging. In the second step, a generatorreplaces words or adds new ones. From this perspective, any classical sequence-to-sequence model hasa trivial first step, as all words can be replaced.
+4.1 Tagger — first step
+4.1.1 Based on interpretation of a classifier
+One way to find style tokens is to interpret a classification model. As for attention-based models, onecan find such tokens using attention distribution. Tokens with high attention scores correlate with tokensthat manifest style. Many researchers used this method (
+Xu et al., 2018; Wu et al., 2019; Hoover et al.,2020; Reid and Zhong, 2021).
+It is also possible to use models that allow interpretation by design. Dementieva et al. (2021) utilizedlogistic regression and its weights for each word from the vocabulary for this task, and Li et al. (2018)used a Naive Bayes classifier.
+4.1.2 Based on language models
+Another way is to use two language models, one trained on texts of one style and another trained ontexts of a different style. We can calculate the proportion of their predictions for every token if wehave such models. If a prediction of the first model is much higher than that of the second model, thena corresponding token can be style-loaded. For instance, Masker (
+Malmi et al., 2020) used a similarapproach.
+4.1.3 Based on tags from parallel corpus
+Finally, if we have a parallel corpus, we can directly compute edits required to transform source textsinto target texts, convert these edits to tags, and then predict these tags with a token classification model.
+4.2 Generator — second step
+4.2.1 Based on ML
+M models
+One way of filling the gaps is to use models pretrained for masked language modeling tasks (ML
+M) suchas BER
+T (
+Devlin et al., 2019) or T5 (
+Raffel et al., 2020). It is their original task, but one can fine-tunethem on texts of the required style (
+Wu et al., 2019). However, these models have no access to originalwords, so they can rely solely on context remained after masking.
+4.2.2 Based on pairs from parallel corpus
+The most direct way is to fine-tune a sequence-to-sequence model on a parallel corpus. Inputs aretemplates from the tagger, and outputs are masked words from the target sentence. The whole processof data generation for training is in Figure 1. We also concatenate a source sentence with the generatedtemplate, as in Reid and Zhong (2021), to provide access to the original masked words.
+Russian Texts Detoxification with Levenshtein Editing
+Architecture Generator ST
+A, % SI
+M, %
+Seq2seq T5 baseline 83.5 87.0
+Seq2seq cointegrated/ru
+T5-base 73.0 83.5
+Seq2seq sber/ru
+T5-base 81.0 85.0LEWI
+P cointegrated/ru
+T5-base 93.5 76.0LEWI
+P sber/ru
+T5-base 94.5 81.54.3 Final model
+Our final model uses tagger and generator, both based on a parallel corpus, so we will call it LEWIP(
+Levenshtein editing with parallel corpus), following the LEWI
+S (
+Reid and Zhong, 2021) scheme, asthere is no «unsupervised synthesis» step.
+We use conversational RuBER
+T as a base model for tagger and two versions of the ru
+T5-base modelfor generator1516, with the final submission based on the Sber model. We did not use ru
+T5-large in ashared task submission, as it did not fit into our GP
+U memory.
+Organizers of the shared task provided a parallel corpus of 11090 pairs for training, a development setof 800 samples, and a test set of 875 samples. We used only that data for the style transfer model.
+5 Results
+5.1 In-house annotation and automatic metrics
+Some results of in-house annotation are in organizers, we fine-tuned two ru
+T5-base models on our own. LEWI
+P with the Sber generator shows thebest style transfer accuracy among all tested models but a lower similarity score than the baseline. Sberru
+T5-base is better than the original ru
+T5-base for this task in both setups.
+Examples where LEWI
+P failed to generate non-toxic texts according to in-house annotation:1. Original: сколько же е**нутых в россии в месте с тобой
+Translation: how many f**ked up people in russia are there with you
+Generated: сколько же неадекватных в россии в месте с тобой
+Translation: how many inadequate people in russia are there with you2. Original: какие же эти люди сволочи!!!
+Translation: what kind of bastards are these people!!!
+Generated: какие же эти люди плохие !
+Translation: how bad are these people!
+Examples where LEWI
+P failed to generate similar texts according to in-house annotation:1. Original: у курки е**ные не оболщатесь это миф.
+Translation: f**king s toners, don’t be fooled, it’s a myth.
+Generated: у вас не оболденьтесь это миф
+Translation: you don’t go crazy, it’s a myth.
+2. Original: Только хотел спросить, что за завалы. Е**ть хреновые в Рашке плотники
+Translation: Just wanted to ask what are these obstructions. The carpenters in Russia aref**king bad
+Generated: Только хотел спросить, что за завалы. в Рашке плотники
+Translation: Just wanted to ask what are these obstructions. The carpenters in Russia
+It seems that the tagger works well in most cases, and problems are mostly in the generator.
+15https://huggingface.co/cointegrated/rut5-base
+16https://huggingface.co/sberbank-ai/ru
+T5-base
+Gusev I.
+Architecture Model Our ST
+A, % SI
+M, % F
+L, % J, %
+Seq2seq T5 baseline 86.3 82.7 83.7 59.3
+Seq2seq cointegrated/ru
+T5-base 78.8 85.0 83.9 55.2
+Seq2seq sber/ru
+T5-base 83.8 83.6 83.4 57.8LEWI
+P cointegrated/ru
+T5-base 93.6 79.7 88.4 66.1LEWI
+P sber/ru
+T5-base 93.1 79.8 88.5 65.8
+Team ST
+A, % SI
+M, % F
+L, % J, %
+Human

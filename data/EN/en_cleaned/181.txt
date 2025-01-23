@@ -1,0 +1,210 @@
+It has been discovered that a lot of forms of human intellectual and communication activity are associated with certain discourse structures. Rhetorical Structure Theory (RS
+T) a good means to express correlation between such form of activity and its representation in how associated thoughts are organized in text. Rhetorical Structure Theory presents a hierarchical, connected structure of a text as a discourse tree, with rhetorical relations between its parts. The smallest text spans are called elementary discourse units (ED
+Us). In communicative discourse trees (CD
+Ts), the labels for communicative actions (C
+As) (Verb
+Net expressions for verbs) are added to the discourse tree edges to show which speech acts are attached to which rhetorical relations; this structure helps to understand argumentation .
+Logical Argumentation needs a certain combination of rhetorical relations of Elaboration, Contrast, Cause and Attribution . Persuasiveness relies on certain structures linking Elaboration, Attribution and Condition . Explanation needs to rely on certain chains of Elaboration relations plus Explanation and Cause. A rhetorical agreement between a question and an answer is based on specific mappings between the rhetorical relations of Contrast, Cause, Attribution and Condition between the former and the latter . Discourse trees turned out to be helpful to form a dialogue and to build dialogue from text, in order to better understand the structure of texts.
+In this paper, we study rhetorical structure correlated with certain forms of verbal activity, namely we focus on deception in texts of various genres such as news articles, customer reviews and customer complaints. We intend to discover the distinct features of discourse trees associated with deception. Some of such features can be observed as a result of manual analysis, but most of such features are concealed and need to be tackled by a data-driven approach, so we adjust our customer complaints dataset tagged to detect improper argumentation patterns and invalid claims to serve as a training/test dataset for detection of deceptions.
+Research on automated deception detection in written texts is focused on classifying if a narrative is truthful or deceptive. Even if an exhaustive factual information / ontology for a domain is available, it is still hard to perform fact-checking in texts since substantially deep text understanding is necessary and text representation via a logic form is required. It is much more difficult to assess truthfulness when such ontology does not exist, as even manual deception detection, in order to collect datasets for machine learning, as a biased and subjective task. The main difficulty is to detect deception where factual knowledge is not available to a degree sufficient to computationally establish the truth. This situation is typical in the real world, from intuitive choice of product based on reviews to judges’ verdicts. It is impossible to establish the truth based on known facts, so decisions are based on implicit cues such as the way people explain what they have done and provide arguments for why they have done so.
+While detecting misrepresentation in writing, it is important to differentiate between different categories of writers. Professional writers are frequently good at misrepresenting, and they do not include cues for what might be a lie. Conversely, a content written by non-professional writers is often authentic in how it indicates the thought patterns of the writer where the traces of a lie and hints for how it is motivated can be found.
+An Anatomy of a Lie: Discourse Patterns in Ultimate Deception Dataset
+That’s why we analyze how misrepresentation occurs in both professional writing and user generated content (and provide examples of different genres: customer complaints and news stories). Due to this reason, we also provide the ground truth dataset that contains texts written by non-professional writers (bank customers). We also evaluate our classifier, trained on the new dataset, in the domain of business correspondence of non-professional writers such as Enron dataset.
+We focus on deception in reviews of products and services as a special case. Automated detection of fake reviews is important for online reputation management tasks. Since fake reviews dataset is available, this is a good domain to evaluate our general domain-independent deception detection algorithm. Fake reviews are deception, but they are artificial since their purpose is not to do a misrepresentation to achieve an agent goal. Usually, this goal is associated with a desired action of another agent who is the addressee of the text that includes this misrepresentation (that is a main scenario of why people lie in the real world). Instead, in the domain of reviews, its subgenre—fake complaints—are written on demand to manipulate public opinion, that is not an usual purpose of misrepresentation in interaction between people expressed in text. They are written with a definite objective, in order to get a better service after the complaint. Therefore, we believe that customer complaints could be the most adequate data source to explore the linguistic correlates of deception and train a classifier.
+In customer complaints, complainants frequently write that they have been provided a misrepresentation by a customer support personnel. At the same time, it might be possible that the complaints are in turn lying about what was said to them by their opponents. It is hard to determine, who is lying: customer support or the complaint author himself; however, the very fact that a given complain arose usually means that there is a misrepresentation associated with the text of the given complaint. That is why the complaints are a valuable systematic source of data on deception.
+To train a truth vs lie detection classified, one needs a corpora with defined ground truth. It is needed for classification tasks solving and exploring the links between implicit cues of rhetorical structure of texts and how truthful/deceptive are these texts.
+The first contribution of this paper is to investigate how discourse features can be used for deception detection. The second contribution is to present the new ultimate deception dataset of bank customer complaints, it contains ground truth, is written by non-professional writers and can be used for deception detection in written texts.
+The research was done for English. The paper is organized as follows. Firstly we show examples of misrepresentation in reviews and news stories, in order to highlight how it is presented in the discourse structure of texts of different genres, in both professional writing and user generated content (
+Sections 2, 3). Section 4 examines the existing datasets for deceptive reviews detection, it also presents briefly the main methods for deceptive texts detection, in general. In Section 5, the new dataset of customer complaints, with clear ground truth, is provided. In Section 6, we describe the deception detection methods, namely how communicative discourse trees construction and Tree Kernel learning can be applied in a system for classification of genuine/deceptive texts. Section 7 consists of first evaluation results of the classification Pisarevskaya D., Galitsky B. based on CD
+Ts construction and Tree Kernel learning, on the new provided dataset, accompanied by the results on the ‘gold standard’ dataset of genuine/fake reviews and on the dataset from the real world. Section 8 contains conclusions.
+2. Example of Misrepresentations in User
+Generated Content
+We provide some examples of misrepresentation in texts of different genres, in order to show how it is emphasized in the discourse structure of texts. Regarding possible misrepresentation in the user-generated content, the following example from customer complaints can be provided (1). We highlight the statement determined by the authors of this paper to be a deception in both text and its discourse tree. The statement is deceptive based on its factuality.
+(1) ‘
+I have accounts with them for almost 10 years, I hated it their customer service! Worst one ever. I don’t know what’s their problems, I’m not recommending their services and banking to anybody, I stopped using their credit cards already! The only reason I can’t close my accounts with them, it could drop my credit score. I will not close my credit cards, but I’m not definitely using them so they can’t make money from on us! I just had conversation with a supervisor from California called Steve he and his representative didn’t even understand my situation, which was not common at all, basically didn’t want to help me!’
+The author of this complaint does not provide a single argument backing up his claim. And the author’s statement that his credit history can be negatively affected by his closing an account is a misrepresentation.
+We show the text split into elementary discourse units as done by discourse parser . What do we see in the discourse tree for this text? We show important (non-default) rhetorical relations in bold and highlight the verbs with the role of communicative actions which are an important addition to the rhetorical relations.
+An Anatomy of a Lie: Discourse Patterns in Ultimate Deception Datasetelaboration (LeftTo
+Right) elaboration (LeftTo
+Right) (LeftTo
+Right)
+I have accounts with them for almost 10 years,
+I hated it their customer service !
+Worst one ever.
+(LeftTo
+Right) (LeftTo
+Right) (LeftTo
+Right) (LeftTo
+Right) (LeftTo
+Right) (RightTo
+Left)
+I do not know
+T:what is their problems,
+I’m not recommending their services and banking to anybody,
+I stopped using their credit cards already ! (RightTo
+Left)
+The only reason I can not close my accounts with them,
+T:it could drop my credit score.
+(RightTo
+Left)
+I will not close my credit cards, (LeftTo
+Right)
+T:but I’m not definitely using them
+T:so they can not make money from on us ! (LeftTo
+Right)
+I just had conversation (LeftTo
+Right)
+T: with a supervisor from California called Steve, he and his representative did not even understand my situation,
+T:which was not common at all,
+T:basically did not want to help me !
+Figure 1. A communicative discourse tree for the user-generated text example
+There is an unusual chain of rhetorical relations explanation-attribution-causeattribution-attribution. It is a suspicious explanation pattern on its own. Unsurprisingly, the atom statement for the last attribution (which is the basis of this explanation, highlighted in Figure 1) turns out to be false.
+Pisarevskaya D., Galitsky B. Example of Misrepresentations in Professional Writing
+For comparison with misrepresentation in texts written by non-professional writers, we show misrepresentation examples in news stories. In our first example, the objective of the author is to attack a claim that the Syrian government used chemical weapon in the spring of 2018 (2, Figure 2). An acceptable proof would be to share a certain observation, associated from the standpoint of peers, with the absence of a chemical attack. For example, if it is possible to demonstrate that the time of the alleged chemical attack coincided with the time of a very strong rain, that would be a convincing way to attack this claim. However, since no such observation was identified, the source, Russia Today, resorted to plotting a complex mental states expressing how the claim was communicated, which agents reacted which way for this communication. It is rather hard to verify most statements about the mental states of involved parties. We show the text split into ED
+Us as done by parser:(2) article (Russia
+Today 2018) does not really find counter-evidence for the claim of the chemical attack it attempts to defeat. Instead, the text says that the opponents are not interested in observing this counter-evidence. The main statement of this article is that a certain agent “disallows” a particular kind of evidence attacking the main claim, rather than providing and backing up this evidence. Instead of defeating a chemical attack claim, the article builds a complex mental states conflict between the residents, Russian agents taking them to Brussels, the West and a Middle East expert. That’s why we consider this example as misrepresentation.
+An Anatomy of a Lie: Discourse Patterns in Ultimate Deception Dataset
+Figure 2. CD
+T for the chemical attack claim. An author attempts to substitute a desired valid argumentation chain by a fairly sophisticated mental states expressed by CA
+Pisarevskaya D., Galitsky B. other example of controversial news is a Trump
+Russia link acquisition (BB
+C 2018, 3, Figure 3). For a long time it was unable to confirm the claim, so the story
+is repeated over and over again to maintain a reader’s expectation that it would be instantiated one day. There is neither confirmation nor rejection that the dossier exists, and the goal of the author is to make the audience believe that such dossier does exist neither providing evidence nor misrepresenting events. To achieve this goal, the author can attach a number of hypothetical statements about the existing dossier to a variety of mental states to impress the reader in the authenticity and validity of the topic.
+(3) In January 2017, a secret dossier was leaked to the press. It had been compiled by a former British intelligence official and Russia expert, Christopher Steele, who had been paid to investigate Mr Trump’s ties to Russia. dossier alleged Moscow had compromising material on Mr Trump, including claims he was once recorded with prostitutes at a Moscow hotel during a 2013 trip for one of his Miss Universe pageants. Mr Trump emphatically denies this. file purported to show financial and personal links between Mr Trump, his advisers and Moscow. It also suggested the Kremlin had cultivated Mr Trump for years before he ran for president. Trump dismissed the dossier, arguing its contents were based largely on unnamed sources. It was later reported that Mr Steele’s report was funded as opposition research by the Clinton campaign and Democratic National Committee. GP
+S, the Washington-based firm that was hired to commission the dossier, had previously been paid via a conservative website to dig up dirt on Mr Trump.
+An Anatomy of a Lie: Discourse Patterns in Ultimate Deception Dataset
+Figure 3. CD
+T for an attempt to prove something where an evidence is absent so the facts are “wrapped” into complex mental states as expressed by communicative actions
+Pisarevskaya D., Galitsky B. Background and Related Work on Deception Datasets
+As customer complaints are a subgenre of reviews, we pay the main attention to the existing truthful/deceptive reviews datasets. Deceptive product reviews can be referred to as deceptive opinion spam: fictitious opinions that have been deliberately written to sound authentic, in order to deceive the reader . Spammers write fake reviews to promote or demote target products. They are deliberately written in order to sound authentic, and it is difficult to recognize them manually: human average accuracy is merely 57.3% .
+Automated deception detection for reviews faces the lack of ‘gold standard’ corpora with verified examples of deceptive uses of language. Besides this, intentionally written (e.g. by crowdsourcing) texts are distinct from genuinely produced texts. Hence, such artificial texts classified as deceptive by human annotators are not necessarily totally deceptive.
+The release of two ‘gold standard’ datasets (available at http://myleott.com/) allowed for applying supervised learning methods, taking stylistic, syntactic and lexical features into consideration , , , . Hotels reviews were chosen for the datasets, because it was suggested that deception rates among travel reviews is reasonably small. The latter dataset includes, among other reviews, crowdsourced generation of deceptive reviews. It contains 400 truthful positive reviews from Trip
+Advisor; 400 deceptive positive reviews from Mechanical Turk; 400 truthful negative reviews
+from reviews websites; 400 deceptive negative reviews from Mechanical Turk.
+Later researchers tried to overcome the lack of large realistic datasets on different topics and domains. For example, Yao et al. a data collection method based on social network analysis to quickly identify deceptive and truthful online reviews from Amazon. The dataset contains more than 10,000 deceptive reviews in diverse product domains. The problem of the mentioned ‘gold standard’ datasets is that the fake reviews were not taken from genuinely written ordinary reviews and manually classified as fake. Instead, whey were written on demand by the Amazon Mechanical Turk workers, hence they are not indicative of deception . However, they are accepted as ‘gold standard’ datasets for this research field. Rules used in create ground truth datasets were used in later projects, such as in .
+The real-life Amazon dataset reviews from Amazon.com (crawled in 2006) which is large and covers a very wide range of products. It was used, for example, in Sun et al. , namely, three domains: Consumer Electronics, Software, and Sports. The metadata in this dataset provides only helpfulness votes of the reviews.
+In cases where there was no certain knowledge of the ground truth, different ways to collect reviews corpora, relying on other features, were used. For example, in De
+Rev corpus of books reviews, originally posted on Amazon, was collected using definite pre-defined deception clues, Book reviews in the corpus are marked as clearly fake, possibly fake, and possibly genuine. The corpus is constituted by 6,819 instances whose 236 were labeled with the higher degree of confidence and are considered as the ‘gold standard’.
+In , two publicly available Yelp datasets were presented. They are labeled with respect to the Yelps classification in recommended and not recommended reviews. Mukherjee et al. that the Yelp spam filter primarily relies on linguistic, http://myleott.com/
+An Anatomy of a Lie: Discourse Patterns in Ultimate Deception Datasetbehavioral, and social networking features. Classification provided by Yelp has been also used in many previous works before as a ground truth, where recommended reviews correspond to genuine reviews, and not recommended reviews correspond to fake ones, so these labels can be trusted. The Yelp NY
+C dataset contains reviews of restaurants located in New York City (359,052 reviews; 10.27% are fake); the Zip dataset is larger, since it contains businesses located in contiguous regions of the U.
+S. (608,598 reviews; 13.22% are fake).
+Big Amazon dataset is annotated with compliant/non-compliant labels. It has many different topics: from electronics and books to office products (https://s3.amazonaws.
+com/amazon-reviews-pds/readme.html). It contains labels about star rating, helpful vote, total votes, verified purchase. That could be used for making decisions.
+Hence, the existing recent datasets rely on external factors provided by their source, such as review’s rating, number of votes, social networking features of review’s author, metadata features etc. They are not annotated manually. So, despite the presence of different corpora, lack of corpora with exact ground truth can be understood as a bottleneck in deception detection of online reviews and similar text genres.
+For fake reviews detection, language features and behavioral features are usually used, as in , . The impact of different language features on deception detection, in general, was studied in , . In recent years, big amounts of news stories with misinformation caused by political reasons to the specific attention to fake news detection studies for English. Several new datasets were proposed, as in , , . In , the combined approach, based on language features, was suggested: there are linguistic (n-gram), credibility-related (capitalization, punctuation, pronoun use, sentiment polarity), and semantic (embeddings and DB
+Pedia data) features. Close approach based on a set of various language features was suggested in punctuation, psycholinguistic features, readability, syntax) and complexity, psychological features). Deep learning approaches were used in , . Source and web page features were added in , . As to language features, unlike lexical, syntactic and semantic features, discourse features are less used due to the complexity of the approach. Despite this, automated fake news detection, based on simple discourse features, was studied in is included in the proposed methods for deception detection in written texts. Hence, we decided to examine if more complex discourse features could be useful for automated deception detection in case of reviews and complaints.
+5. Description of the Training Dataset
+We introduce the ultimate deception dataset. It contains customer complaints—emotionally charged texts which are very similar to reviews and include descriptions of problems they experienced with certain businesses. Raw complaints in English were collected from Planet
+Feedback.com for a number of banks submitted in 2006–2010. The dataset consists of 2,746 complaints totally. 400 complaints were manually tagged with respect to the parameters related to argumentation and validity of text: perceived complaint validity; argumentation validity; presence of specific argumentation patterns; detectable misrepresentation. Here, validity of information https://s3.amazonaws.com/amazon-reviews-pds/readme.htmlhttps://s3.amazonaws.com/amazon-reviews-pds/readme.html
+Pisarevskaya D., Galitsky B. connected with validity of arguments. The dataset contains texts with direct truth confirmation based on manual annotation. It contains authentic data: both truthful and deceptive reviews were taken from spontaneously written customers’ texts. Among the annotated 400 complaints, 163 contain a deception.
+This dataset includes more emotionally-charged complaints in comparison with other argument mining datasets, such as , , . For a given topic such as insufficient funds fee, this dataset provides many distinct ways of argumentation that this fee is unfair. Authors attempt to provide as strong argumentation as possible to back up their claims and strengthen their case.
+If a complaint is not truthful, it is usually invalid: either a customer complains out of a bad mood or wants to get a compensation. However, if the complaint is truthful it can easily be invalid, especially when arguments are flawed. When an untruthful complaint has valid argumentation patterns, it is hard for an annotator to properly assign it as valid or invalid, without the guidelines. So, according to the guidelines for the manual tagging of the dataset, a complaint was considered as valid if a judge believed that the main complaint claim is truthful under the assumption that a complainant is making truthful statement. Valid complaint needs to include proper discourse and acceptable argumentation patterns. Following this approach, a complaint is marked as truthful if a judge cannot defeat it, using commonsense knowledge, available factual knowledge about a domain or implicit, indirect cues. Inconsistencies detected by a judge also indicate that the complaint author is deceiving. Mentioning multiple unusual, very rarely occurring claims also indicate that the complaint author is deceiving. The judge does not have to be able to prove that the complainant is lying: judge’s intuition is sufficient to tag a complaint as untruthful. We suggest that one can provide a valid argumentation and also provide a false statement in a single sentence: ’
+Rule is like this <correct rule> and I followed it, making <false statement>. Conversely, one can be truthful but provide an invalid argumentation pattern ”
+I set this account for direct deposit and sent a check out of it <truthful statement>, as my H
+R manager suggested <should not have followed advice from not a specialist in banking>. Therefore validity (of argumentation patterns) and truthfulness are correlated.
+Initial set of 400 complaints was tagged by the authors of the paper as experts. After that, three annotators worked with this dataset, having a set of definitions and applying them. Then precision and recall were measured by matching the tags done by the authors as the ’gold standard’, after that the set of definitions was edited and elaborated. In the further work, the Krippendorff’s alpha measure (for three annotators) was applied as inter-annotator agreement measurement, and it exceeds 80%. Complaints reveal shady practice of banks during the financial crisis of 2007—for instance, manipulating an order of transactions to charge a highest possible amount of non-sufficient fund fees. As it is possible to know, retrospectively and based on facts, the established ground truth, we suggest that the annotators can find out, with high confidence, what information in texts is deceptive. So the dataset would provide ground truth.
+The rest complaints were auto-tagged based on the model trained on this 400 set. Then they have been partially manually evaluated. The accuracy of auto tagging exceeds 75%, so these labeled complaints can be also used for the classifiers training.
+Customer complaints can be considered as a subgenre of reviews in general, but despite this complaints have much more significance for well-being of customers An Anatomy of a Lie: Discourse Patterns in Ultimate Deception Datasetin comparison with customer reviews. Furthermore, customer complaints have much more significance for well-being of customers in comparison with customer reviews. Therefore, tagged customer complaints have much more importance associated with truth/deception than customer reviews. Since reviews are associated with opinions which can be random and complaints with customers doing their best to achieve their goals, both the truth and a lie is much more meaningful and serious in comparison with review datasets.
+Complaints usually have a simple motivational structure; they are written with an obvious goal. Most complainants are faced with a strong deviation between what they expected from a service, what they received and how it was communicated. Most complaint authors report incompetence, flawed policies, ignorance, indifference to customer needs from the customer service personnel. The authors are frequently exhausted communicative means available to them, confused, seeking recommendation from other users and advising others on avoiding particular financial service. The focus of a complaint is a proof that the proponent is right and the opponent is wrong, as well as resolution proposal and a desired outcome.
+6. Detecting Deception via Communicative Discourse Trees
+In the Rhetorical Structure Theory , , discourse is understood as a hierarchical system of discourse units of different size, where smaller discourse units can be successively incorporated into larger ones. Discourse unites can be combined into a higher unit in case there is a rhetorical (discourse) relation of a certain type between them, e.g. Concession, Elaboration. One of the discourse units is the nucleus (more important), while the other is a satellite (contains the additional information). An elementary discourse unit (ED
+U) usually corresponds to a clause.
+Two RS
+T parsers constructing discourse tree (D
+T) from paragraphs of text are available at the moment. We used the tool provided by , . After that, we build CD
+Ts involving Verb
+Net.
+Argumentation analysis needs a systematic approach to learn associated discourse structures. The features of CD
+Ts could be represented in a numerical space so that argumentation detection can be conducted; however, structural information on D
+Ts would not be leveraged. Also, features of argumentation can potentially be measured in terms of maximal common sub-D
+Ts, but such nearest neighbor learning is computationally intensive and too sensitive to errors in D
+T construction. Therefore, a CD
+T-kernel learning approach is selected which applies a support vector machine (SV
+M) learning to the feature space of all sub-CD
+Ts of the CD
+T for a given text where an argument is being detected.
+Tree Kernel (T
+K) learning for strings, parse trees and parse thickets is a wellestablished research area nowadays. The CD-T
+K counts the number of common subtrees as the discourse similarity measure between two D
+Ts. In this study, we extend the T
+K definition for the CD
+T, augmenting D
+T kernel by the information on C
+As. T
+K-based approaches are not very sensitive to errors in parsing (syntactic and rhetorical) because erroneous sub-trees are mostly random and will unlikely be common among different elements of a training set.
+Pisarevskaya D., Galitsky B. CD
+T can be represented by a vector V of integer counts of each sub-tree type (without taking into account its ancestors):	 𝑉(𝑇) =	(# 𝑜𝑓 𝑠𝑢𝑏𝑡𝑟𝑒𝑒𝑠 𝑜𝑓 𝑡𝑦𝑝𝑒 1, …, # 𝑜𝑓 𝑠𝑢𝑏𝑡𝑟𝑒𝑒𝑠 𝑜𝑓 𝑡𝑦𝑝𝑒 𝐼, 	…, # 𝑜𝑓 𝑠𝑢𝑏𝑡𝑟𝑒𝑒𝑠	𝑜𝑓 𝑡𝑦𝑝𝑒 𝑛) . Given two tree segments CD
+T₁ and CD
+T₂, the tree kernel function is defined: (𝐶𝐷𝑇₁, 𝐶𝐷𝑇₂) = < 𝑉(𝐶𝐷𝑇₁) , 𝑉 (𝐶𝐷𝑇₂) >	= Σ𝑖𝑉(𝐶𝐷𝑇₁) , 𝑉(CD
+T₁) Σ𝑛₁Σ𝑛₂	Σ𝑖𝐼𝑖(𝑛₁) ×𝐼𝑖(𝑛₂) , where 𝑛₁∈𝑁₁, 𝑛₂∈𝑁₂ and 𝑁₁ and 𝑁₂ are the sets of all nodes in 𝐶𝐷𝑇₁ and 𝐶𝐷𝑇₂, respectively; 𝐼𝑖(𝑛) is the indicator function:	 𝐼𝑖(𝑛) ={1 𝑖𝑓 𝑎 𝑠𝑢𝑏𝑡𝑟𝑒𝑒 𝑜𝑓 𝑡𝑦𝑝𝑒 𝑖 𝑜𝑐𝑐𝑢𝑟𝑠 𝑤𝑖𝑡ℎ 𝑎 𝑟𝑜𝑜𝑡 𝑎 𝑡 𝑎 𝑛𝑜𝑑𝑒; 0 𝑜𝑡ℎ 𝑒𝑟𝑤𝑖s𝑒}. Further details for using T
+K for paragraph-level and discourse analysis are available in .
+Only the arcs of the same type of rhetorical relations (presentation relation, such as antithesis, subject matter relation, such as condition, and multinuclear relation, such as List) can be matched when computing common sub-trees. We use 𝑁 for a nucleus or situations presented by this nucleus, and 𝑆 for a satellite or situations presented by this satellite. Situations are propositions, completed actions or actions in progress, and communicative actions and states (including beliefs, desires, approve, explain, reconcile and others). Hence we have the following expression for RS
+T-based generalization ‘^’ for two texts 𝑡𝑒𝑥𝑡₁ and 𝑡𝑒𝑥𝑡₂:	 𝑡𝑒𝑥𝑡₁ ^ 𝑡𝑒𝑥𝑡₂ = ∪𝑖, 𝑗(𝑟𝑠𝑡𝑅𝑒𝑙𝑎 𝑡𝑖𝑜𝑛₁𝑖, 	(…, 	…) 	^ 	𝑟𝑠𝑡𝑅𝑒𝑙𝑎 𝑡𝑖𝑜𝑛₂𝑗(…, 	…) ) , 	where 𝑖 ∈ (𝑅𝑆𝑇 𝑟𝑒𝑙𝑎 𝑡𝑖𝑜𝑛𝑠 in 𝑡𝑒𝑥𝑡₁) , 𝑗 ∈	(𝑅𝑆𝑇	𝑟𝑒𝑙𝑎 𝑡𝑖𝑜𝑛𝑠 in 𝑡𝑒𝑥𝑡₂) . Further, for a pair of RS
+T relations their generalization looks as follows: 𝑡𝑖𝑜𝑛₁(𝑁₁, 𝑆₁) ^ 𝑟𝑠𝑡𝑅𝑒𝑙𝑎 𝑡𝑖𝑜𝑛₂	(𝑁₂, 𝑆₂) = (𝑟𝑠𝑡𝑅𝑒𝑙𝑎 𝑡𝑖𝑜𝑛₁^ 𝑟𝑠𝑡𝑅𝑒𝑙𝑎 𝑡𝑖𝑜𝑛₂) (𝑁₁^ 𝑁₂, 𝑆₁^ 𝑆₂) .
+We define C
+A as a function of the form verb (agent, subject, cause), where verb characterizes some type of interaction between involved agents (e.g., explain, confirm, remind, disagree, deny, etc.), subject refers to the information transmitted or object described, and cause refers to the motivation or explanation for the subject. To handle meaning of words expressing the subjects of C
+As, we apply word2vec models .
+For ED
+Us as labels for terminal nodes only the phrase structure is retained. The terminal nodes are labeled with the sequence of phrase types instead of parse tree fragments.
+We combined Stanford NL
+P parsing, coreference resolution tool, entity extraction, D
+T construction (discourse parser), Verb
+Net and Tree Kernel builder into one system.
+The system is available at https://github.com/bgalitsky/relevance-based-onparse-trees with the more detailed description. It can be used for similar tasks.
+For ED
+Us as labels for terminal nodes only the phrase structure is retained: we suppose to label the terminal nodes with the sequence of phrase types instead of parse tree fragments. For the evaluation purpose Tree Kernel builder tool used. These discourse trees features are given to the classifiers.
+https://github.com/bgalitsky/relevance-based-on-parse-treeshttps://github.com/bgalitsky/relevance-based-on-parse-trees
+An Anatomy of a Lie: Discourse Patterns in Ultimate Deception Dataset7. Evaluation Results
+We first train the deception detection model on our ultimate deception dataset. For the initial and automatically derived datasets, we show the accuracies of training (grayed) row and testing, averaging through 5x cross-validation. For the bottom three datasets, we only tested the obtained model. For genuine reviews, 380 cases of deception were detected which were false positives, assuming that review writers do not lie (
+Table 1).
+accuracies for deception detectionDatasetDeception
+No deception
+Precision Recall F1 score
+Manually tagged complaints163 237 91 85 88
+83 81 82
+Automatically tagged based on initial classifier1,132 1,615 78 75 76
+69 71 70
+Genuine reviews 580 3,420 83 100 91
+Fake reviews 414 286 100 59 74
+Enron 27 10,000 85 0.1 (estimated) 0.2
+We explored whether fake opinionated text have a similar rhetorical structure to text with deception, and genuine reviews have similar rhetoric structure to texts without deception. We took the ‘gold standard’ reviews dataset: fake reviews and genuine reviews ,
+Table 1).
+In , addressed the problem of detection of opinion spam: obvious instances that are easily identified by a human reader, including advertisements, questions, and other irrelevant or non-opinionated texts. The authors investigated a more implicit type of opinion spam such as deceptive opinion spam, ones that have been deliberately written to sound authentic, in order to deceive the reader. Fake reviews were written by Amazon Mechanical Turk workers. The instructions asked the workers to assume that they are employed by a hotel’s marketing department, and to pretend that they are asked to write a fake review (as if they were a customer) to be posted on a travel review website; additionally, the review needs to sound realistic and portray the hotel in a positive light. A request for negative reviews was done analogously.
+Although our SV
+M T
+K system did not achieve , of 90% on their data, the task of detection of fake review texts as the ones including deception was performed at 74% accuracy by the classifier.
+We suggest that the system could be applied to different text genres (written by non-professional writers), so it could be the universal text classification system for deception, the same which extracts arguments and assesses sentiments polarity. Hence, we run the following evaluation experiment in order to start checking this point.
+To assess the deception detection in a real world deception-neutral environment, we ran our detector again the business communication dataset of Enron , using Pisarevskaya D., Galitsky B. as the evaluation dataset. This dataset represents neither user-generated content since this is work-related correspondence, not professional writing since the email authors are employees of an organization with various roles. Naturally, deception is concealed, and we do not know what was actually happening in the company and among its business partners. However, a small number of interesting email have been discovered which have a peculiar logical structure and might well be a misrepresentation. Annotators looked at them manually to understand if they were similar to misrepresentation, although we did not have ground truth here. They could not be sure if reviews with tricky patterns similar to misrepresentation were really misrepresentation, but the detector could identify possible reviews with misrepresentation, that were also identified as the ‘suspicious’ ones (containing possible misrepresentation) by human annotators. Precision turned out to be high and recall extremely low since only a small fraction of deception emails has been discovered. The resultant 0.2% F-score is not an indication of recognition accuracy but instead of our available estimate of the classes in the Enron dataset.
+We do not know the actual proportion of emails with misrepresentation in Enron dataset but all detected cases are important since a misrepresentation is uncovered. Recall is not as important for this task as precision: we want to avoid false positives: once an email is classified as the one with deception we would expect to manually confirm it.
+We now zoom into the deception detection methodology for the most adequate case, the set of 2,747 automatically tagged complaints (
+Table 2).
+approach being proposed for deception detection
+Method Precision Recall F1 score
+Keyword-based 56 53 54
+Naïve Bayes 61 63 62SVM-T
+K over parse trees and D
+Ts 67 69 68SVM-T
+K over parse trees and D
+Ts labeled with C
+As 69 71 70
+One can see that keyword-based and Naive Bayes classifier perform slightly better than random, since deception manifests itself at the discourse level, not the syntactic one. Then we observe that proceeding to machine learning of D
+Ts delivers 8% gain in classification accuracy.
+A deep learning approach could be potentially applied to our structured representation. However, based on our experience with discourse-level data that the amount and quality of data contributes significantly more to the overall accuracy of a classifier, we believe experiments with the same data but different machine learning framework would be redundant.
+An Anatomy of a Lie: Discourse Patterns in Ultimate Deception Dataset8. Conclusions
+An extensive corpus of literature on RS
+T parsers does not address the issue of how the resultant D
+T will be employed in practical NL
+P systems. RS
+T parsers are mostly evaluated with respect to agreement with the test set annotated by humans rather than its expressiveness of the features of interest. In this work we focused on interpretation of D
+T and explored ways to represent them in a form indicative of a conflict rather than neutral enumeration of facts.
+In several previous papers about SV
+M T
+K and discourse, it was observed that using SV
+M T
+K, one can differentiate between a broad range of text styles, genres and abstract types. These classes of texts are important for a broad spectrum of applications of recommendation and security systems, from finance to data loss prevention domains. Each text style and genre has its inherent rhetorical structure which is leveraged and automatically learned. Since the correlation between text style and text vocabulary is rather low, traditional classification approaches which only take into account keyword statistics information could lack the accuracy in the complex cases.
+We showed that deception detection methodology based on rhetorical structure of texts, being applied to various text genres—news texts, online reviews, customer complaints, business communication texts—seems promising and needs to be investigated further. Next steps for proving the hypothesis of a deception being visible from a text’s discourse structure should be done. Here, further experiments based on the presented ultimate deception dataset of bank customer complaints should be held. This dataset is in the initial stage now and is still being developed. In the future studies, the whole complaint dataset should be manually annotated. The recognition method will be applied to a bigger annotated dataset part. Results obtained on this dataset should be also compared with other results obtained on ‘gold standard’ datasets. For a bigger dataset training, we could also apply deep learning models. We will also focus on more experiments for precision improvements, as reducing the number of false positives is mostly important for deception detection task. We also plan to run further experiments on different text genres, to check if the universal text classification system for deception, based on discourse features, could be universal. Both truthfulness and validity are recognized reasonably well which is a value for Customer Relation Management systems and could be useful in different NL
+P tasks that are based on online reviews analysis.
+Acknowledgements
+This paper is partially supported by Russian Foundation for Basic Research (project No. 17-29-07033).
+Pisarevskaya D., Galitsky B.

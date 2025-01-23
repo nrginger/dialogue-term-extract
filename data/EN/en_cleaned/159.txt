@@ -1,0 +1,164 @@
+Text complexity prediction is a task studied at various levels of linguistic units ((
+Crossley et al., 2008;Collins
+Thompson and Callan, 2005; Heilman et al., 2008; Shardlow et al., 2021; Shardlow et al., 2020)).
+The sentence-level complexity evaluation (SC
+E) subtask takes an intermediate position between the textfragment level (i.e., several coherent sentences) and the level of an individual word/phrase complexityprediction.
+Recent works study sets of features that can be used in SC
+E, including lexical, syntactical featuresfrom the target sentence, and contextual features from surrounding sentences (
+Schumacher et al., 2016;
+Iavarone et al., 2021). One possible application of sentence-level complexity prediction is more precisemodeling of text complexity beyond the passage-level. For longer texts readability measures such asFlesch
+Kinkaid formula (
+Flesch, 1948) (as well as many others) make use of statistics and typically
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2023”
+June 14–16, 2023
+A new dataset for sentence-level complexity in Russianprovide a robust solution. However, statistics such as average sentence length and average word lengthtend to vary a lot when one analyze individual sentence which may produce less robust predictions.
+Therefore, in such cases a fine-grained model for sentence complexity prediction might be useful.
+The SC
+E task presents issues, at the levels of interpretation of the model’s results and feature selection.
+One of the state-of-the-art approaches is deep neural networks capable to explore a wide range of featuresand combine them in a hierarchical and non-linear manner. What is more, deep neural networks havebeen applied in SC
+E before. For instance, (
+Schicchi et al., 2020) evaluated the long short-term memory(LST
+M) model with attention mechanism in a binary classification of Italian sentences.
+Datasets with manual annotations of sentence complexity were created for a number of languages.
+(
+Brunato et al., 2018) present a detailed analysis of features that affect human perception of sentencecomplexity. The authors study the contribution of a set of lexical, morphosyntactic, and syntactic features. The most important features are sentence length, maximum dependency length in a dependencysyntax tree, etc.; for sentences with the same length, the most important factors include average wordlength and lexical density. Analysis of text complexity in Russian academic text was performed in (
+Solovyev et al., 2018; Solnyshkina et al., 2018), where the main focus is modeling text complexity of awhole text or a passage.
+In this paper, we address two issues. First, we present a new dataset with sentence-level complexityannotations on a scale from 1 to 7. The dataset contains 1,200 sentences with more than 23,000 individualcomplexity judgments. To the best of our knowledge, this is the first dataset of this kind in Russian.
+Second, we analyze several types of features and evaluate linear models for predicting sentence-levelcomplexity.
+The rest of the paper is organized as follows. Section 2 discusses the related work. Section 3 presentsan approach to collect data. Section 4 describes the dataset and its features; Section 5 presents theexperimental results on sentence complexity prediction.
+2 Related Work
+Here, we focus only on works that are closely related to the present study and consider sentence-levelcomplexity datasets and evaluations. In (
+Inui and Yamamoto, 2001), authors study the relative complexity of sentences in the readability context for deaf people. Authors collected a corpus with pairs ofsentences with paraphrases. Modeling complexity was targeted on the classification of paraphrases intothree levels/classes (‘left’, ‘right’, ‘same’). Inui and Yamamoto developed a rule-based method and compared it to the SV
+M classifier. Later, in (
+Vajjala and Meurers, 2014), authors evaluated an SV
+M classifierto predict relative complexity of pairs of complex and simplified sentences. The study (
+Maqsood et al.,2022) compares different algorithms for SC
+E in English dataset with seven categories. Classification of
+sentence difficulty in Arabic language is addressed in (
+Khallaf and Sharoff, 2021).
+(
+Schumacher et al., 2016) studied models for predicting the reading difficulty of sentences, with andwithout the surrounding context. They binned sentences according to grade levels (e.g., a sentence fromgrade 1 was paired with sentences from grades 3-4, 5-6, 7-8, 9-10, 11-12). Authors studied lexical andgrammatical features to train a logistic regression classifier and Bayesian ranker. These authors showthat considering the context improves predicting sentence readability. The simplest model has only theAo
+A-based features, which allows to achieve higher score on the dataset. For Russian language sentencelevel complexity prediction was addressed in (
+Ivanov, 2022), but that study used automatically generatedcomplexity scores for sentences extracted from school textbooks.
+(
+Brunato et al., 2018) applied crowdsourcing to model human perception of single-sentence difficultyin Italian and English. These authors investigate a wide set of linguistic features and their importancefor human perception of sentence complexity. Brunato et al. analyzed few tens of features, such as‘char_tok’ (average number of characters per word) and ‘n_tokens’ (average number of words per sentence). In their experiments, authors show that syntactic features can play important role in defining thesentence complexity, but ‘char_tok’ and ‘n_tokens’ features are always in the top important features aswell. What is more, to explicitly control for sentence length, authors applied binning, i.e. sentences weregrouped by length (e.g. 10, 15, 20, etc.) up to 35 tokens.
+Ivanov V., Elbayoumi M. G.
+Finally, deep neural networks for sentence complexity classification were proposed in (
+Lo Bosco etal., 2021). Their model uses the Tree
+Tagger to extract syntactic features, two LST
+M layers, and a linearlayer. The last layer outputs the probability of a sentence belonging to the easy or complex class. Theexperimental results show the increased approach effectiveness for both Italian and English, comparedwith several baselines such as Support Vector Machine, Gradient Boosting, and Random Forest.
+3 Data Collection and Annotation
+Our approach to dataset collection consists of two parts: selection of sentences and annotating themusing the crowdsourcing platform (
+Yandex Toloka). We sampled sentences from the SynTag
+Ruscorpus. This Syntactically Tagged Russian text corpus contains more than 87,000 sentences (https://universaldependencies.org/treebanks/ru_syntagrus/index.html). The Universal Dependency versionof SynTag
+Rus is a comprehensive Russian dependency treebank that was developed by the Institute for
+Information Transmission Problems of the Russian Academy of Sciences (
+Lyashevkaya et al., 2016;
+Marneffe et al., 2021). It is a revision of the original SynTag
+Rus treebank that uses the Universal Dependency annotation scheme. The Universal Dependency annotation scheme is a standard annotationscheme for dependency treebanks that is used in many different languages. The treebank covers a widerange of genres, including news articles, fiction books, and academic papers. It is annotated with a variety of linguistic features, including part-of-speech, morphology, syntax, and semantics. We chose the
+Universal Dependency version of SynTag
+Rus because it is a high-quality treebank that covers a widerange of genres. We also believe that the linguistic features that are annotated in SynTag
+Rus are relevantto the study of sentence-level complexity.
+For extracting a sample of sentences for our dataset, we followed the methodology presented in(
+Brunato et al., 2018). Authors proposed reducing the influence of lexicon by pruning the sentencescontaining low-frequency lemmas using a lemma frequency list. In our study we use the frequency listdeveloped by Sharov and Lyashevskaya (
+Lyashevskaya and S.
+A., 2009).
+All the sentences contained in the SynTag
+Rus corpus were grouped into 6 bins based on a differentsentence length, i.e. 10, 15, 20, 25, 30, 35 tokens. Sentences in each subset were then ranked accordingto the average frequency of their lemmas. We extracted for each bin the first 200-top ranked sentences.
+Therefore, the dataset for annotation contains 1,200 sentences.
+Assessments were collected via crowdsourcing of human judgments in the following way. Sentenceswere randomly shuffled and divided into task pages (one sentence per page). Each assessor should havepassed a test for knowledge of Russian language. Out of all (approximately 10,000) such native speakersavailable at the Yandex Toloka platform, we admitted 30% of assessors with the highest score (accordingto the platform).
+We used several mechanisms to ensure the quality of the data. First, each sentence was evaluatedby multiple participants (each sentence got scores from ten assessors), which allowed us to calculate anaverage complexity score for each sentence and to estimate the level of agreement among the participants.
+Second, we used "gold standard" sentences in the task. These were sentences for which we already hadreliable complexity ratings. The participants were not aware which sentences were the gold ones. Theirratings for these sentences were used to monitor their performance and to adjust their trust scores. If aparticipant consistently rated the gold standard sentences incorrectly, their future responses were givenless weight in the final calculation of the sentence complexity scores.
+Assessors were asked to read a sentence and rate how difficult it was on a 7-point scale where 1 means“very easy” and 7 “very difficult”. We chose a 7-point scale because we wanted to have a granular rangeof complexity ratings. We also wanted to avoid using a binary scale (e.g., easy vs. difficult), as we believethat sentence complexity is a spectrum. There are a number of theoretical bases for using a 7-point scaleto measure sentence complexity. One theory is that sentence complexity is a continuous variable, ratherthan a discrete variable (
+Gernsbacher, 1999). This means that there are an infinite number of possiblelevels of complexity, rather than just a finite number of levels. Another theory is that sentence complexityis a multidimensional concept (
+Fletcher et al., 1986). This means that there are multiple factors thatcontribute to complexity, such as syntactic complexity, semantic complexity, and lexical complexity. A
+A new dataset for sentence-level complexity in Russian7-point scale can be used to capture these multiple factors. Last, but not least, a 7-point scale was applied
+in a similar previous work done for English and Italian (
+Brunato et al., 2018); which enables comparisonbetween the datasets in future. In the following section we analyze the collected dataset.
+4 Data Analysis
+4.1 Analysis of annotations and agreement
+The analysis of inter-annotator agreement is an important aspect of dataset validation, as it providesinsights into the quality and reliability of the annotations. First, we make use of the Toloka’s aggregationmethod (Dawid
+Skene model) that provides a confidence score for each sentence. The mean score foreach of seven label categories is above 99%. The distribution of aggregated labels are presented in Figure1. One can see that overall the dataset is slightly imbalanced towards difficult sentences. The simplest
+score (‘1’) has only 90 examples.
+Next, for each sentence we calculated the maximum number of assessors who agreed about somecategory for that sentence. On average, 4.3 assessors per sentence have agreed about a complexity label(with standard deviation of 1.2). Finally, in sentence length (bin). This plot clearly shows the correlation between sentence length and complexityscore.
+Our analysis suggests that the new dataset can provide a useful resource for studying sentence-levelcomplexity in Russian, but caution should be exercised when interpreting the scores, especially for longersentences. In the following subsection we analyze a set of features, including syntactical.
+4.2 Exploring features and correlation
+For our study, we extracted features that reflect various facets of sentence complexity, such as:• Average_path_length, which represents the average dependency distance between words in a sentence. Dependency distance is defined as the number of words between two words that have adependency relationship.
+• Maximum_path_length, this feature represents the maximum dependency distance between wordsin a sentence.
+• Num_clauses, represents the number of clauses in each sentence.
+• Num_phrases, represents the number of phrases in each sentence.
+Ivanov V., Elbayoumi M. G.• Num_subordinating_conjunctions represents the number of subordinating conjunctions in eachsentence. It is a measure of syntactic complexity and indicates the degree of subordination in thesentence.
+• Prop_nouns, represents the proportion of nouns in each sentence based on their PO
+S-tag.
+• Prop_verbs, represents the proportion of verbs in each sentence.
+• Prop_adjectives, represents the proportion of adjectives in each sentence.
+• Prop_pronouns, represents the proportion of pronouns in each sentence.
+• Average_freq, represents the average frequency of words in the sentence.
+• Avg_token_length, represents average letters per word.
+• sen_len is the sentence length measured in characters.
+The following examples describe how these features can contribute to complexity.
+Dependency distance is the length of the dependency path between a word and its head. A dependency path is the sequence of words that connect a word to its head. For example, in the sentence "
+Thecat that sat on the mat was black," the dependency path between the word "black" and its head "cat"is "cat-sat-on-the-mat-black." The dependency distance between "black" and its head "cat" is 4. Wefound that dependency distance was positively correlated with sentence complexity. This means thatsentences with longer dependency distances were more complex than sentences with shorter dependencydistances. One reason why dependency distance is correlated with complexity is that it is a measure ofthe syntactic complexity of a sentence. Sentences with longer dependency distances have more complexsyntax, which makes them more difficult to understand. This observation is supported by other studiesof text complexity both at sentence level (
+Brunato et al., 2018) and at the passage level (
+Solovyev et al.,2023).
+Number of Clauses, a clause is a group of words that has a subject and a verb. A sentence can haveone or more clauses. For example, the sentence "
+The cat that sat on the mat was black" has two clauses:"
+The cat sat on the mat" and "
+The cat was black." We found that the number of clauses in a sentence waspositively correlated with sentence complexity. This means that sentences with more clauses were morecomplex than sentences with fewer clauses. One reason why the number of clauses is correlated withcomplexity is that it is a measure of the semantic complexity of a sentence. Sentences with more clauseshave more complex semantics, which makes them more difficult to understand.
+A new dataset for sentence-level complexity in Russian
+Proportion of Nouns and Phrases, the proportion of nouns and phrases in a sentence is a measure ofthe lexical complexity of a sentence. Nouns and phrases are lexical items, which are words or groups ofwords that have meaning. We found that the proportion of nouns and phrases in a sentence was positivelycorrelated with sentence complexity. This means that sentences with a higher proportion of nouns andphrases were more complex than sentences with a lower proportion of nouns and phrases. One reasonwhy the proportion of nouns and phrases is correlated with complexity is that it is a measure of thevocabulary load of a sentence. Sentences with a higher proportion of nouns and phrases have a highervocabulary load, which makes them more difficult to understand.
+Feature Name L10 L15 L20 L25 L30 L35average_path_length 1.65 2.01 2.32 2.44 2.48 2.62maximum_path_length 8.04 10.80 14.71 18.31 20.84 24.04num_clauses 0.14 0.24 0.42 0.59 0.69 0.85num_phrases 2.63 3.13 4.03 4.81 5.37 5.79num_subord._conjunctions 0.15 0.22 0.33 0.47 0.46 0.67prop_nouns 0.24 0.24 0.24 0.24 0.25 0.25prop_verbs 0.13 0.11 0.11 0.11 0.10 0.10prop_adjectives 0.08 0.08 0.10 0.10 0.10 0.10prop_pronouns 0.02 0.02 0.02 0.03 0.03 0.02avg_token_len 5.59 5.57 5.81 5.89 5.96 6.06avg_freq 6333.51 5837.55 5548.08 5036.07 4687.93 4151.05sen_len 55.90 83.53 116.18 147.33 178.76 212.18score 2.43 3.09 3.73 4.27 4.52 4.94std_score 1.05 1.11 1.22 1.28 1.36 1.31
+Feature Name L10 L15 L20 L25 L30 L35 Allaverage_path_length 0.15 0.02 0.12 -0.08 -0.10 -0.10 0.39maximum_path_length 0.05 0.08 0.09 -0.09 -0.12 -0.15 0.58num_clauses 0.07 0.13 0.08 -0.11 -0.00 -0.01 0.32num_phrases -0.14 -0.03 -0.05 -0.12 -0.04 -0.01 0.40num_subordinating_conjunctions 0.09 0.01 0.03 -0.04 -0.07 -0.08 0.20prop_nouns -0.17 -0.01 0.00 0.20 0.16 0.15 0.08prop_verbs 0.02 0.11 0.03 -0.16 -0.07 0.04 -0.10prop_adjectives 0.02 -0.05 0.09 0.16 0.14 0.06 0.14prop_pronouns 0.04 -0.03 0.09 -0.10 0.03 -0.04 0.02avg_token_len 0.16 0.26 0.30 0.31 0.49 0.34 0.33avg_freq 0.04 -0.06 -0.15 -0.04 -0.08 -0.19 -0.51sen_len (in characters) 0.80 0.64 0.59 0.53 0.70 0.72 0.83
+To analyze the correlation between linguistic features and sentence complexity, we first calculatedthe average complexity judgments for six bins of sentences with the same length (10, 15, 20, 25, 30,and 35 tokens). Pearson correlation coefficient is presented in the strongest correlation to sentence complexity is sentence length (measured in characters).
+However,as indicated in Figure 3, exceptions exist where short sentences have high complexity scores and longsentences have low complexity scores.
+Our analysis revealed that some features had a stronger correlation with sentence complexity than others. For example, we observed that the correlation coefficients for various features differ depending onthe sentence length bin (see Table 2). Overall, features with the highest correlations are those related to
+Ivanov V., Elbayoumi M. G.number of exceptions.
+path length, proportions of nouns and phrases, and frequency as well as sentence/token lengths. Thesefindings imply that specific linguistic features substantially influence sentence complexity in Russian.
+Our results provide insights into the linguistic factors that contribute to sentence-level complexity in
+Russian and highlight the importance of considering multiple features when assessing sentence complexity.
+4.3 Comparison with English / Italian dataset
+(
+Brunato et al., 2018) investigated the correlation between different linguistic features and human judgments of sentence difficulty, using Spearman’s rank correlation coefficient. In contrast, our study explores the relationship between linguistic features and sentence complexity using Pearson correlation.
+Comparing the findings of the two studies, some similarities can be observed. Both studies foundthat sentence length (in characters) has a strong positive correlation with sentence complexity. Additionally, the two studies identified similar linguistic features that are significantly correlated with sentencecomplexity, such as average token length and number of clauses.
+In conclusion, while there are some differences in the correlation coefficients between the two studies, the overall findings suggest that certain linguistic features are consistently associated with sentencecomplexity.
+5 Linear Regression Model for Sentence Complexity
+Given the correlations coefficients (
+Table 2), we first train and evaluate a linear regression model. Feature selection shows that the best linear regression model can use three parameters, sentence length incharacters (SL
+C), average path length (AP
+L), and the number of clauses (NC
+L). The model presentedbelow has MS
+E=0.32 (±0.03), MA
+E=0.45 (±0.02) and 𝑅𝑅2 value of 0.71, while a model with a singleparameter (SL
+C) has MS
+E=0.33 and MA
+E=0.46.
+𝐶𝐶𝐶𝐶𝐶𝐶𝐶𝐶𝐶𝐶.𝐶𝐶𝐶𝐶𝐶𝐶𝐶𝐶𝐶𝐶 = −1.61 + 0.014 * 𝐶𝐶𝑆𝑆𝐶𝐶 + 0.146 *𝐴𝐴𝐴𝐴𝑆𝑆+ 0.057 *𝑁𝑁𝐶𝐶𝑆𝑆
+To confirm 𝐶𝐶𝑆𝑆𝐶𝐶 is a strong predictor, we run two experiments. First, the Linear regression withoutthe 𝐶𝐶𝑆𝑆𝐶𝐶 parameter achieves only 0.61 (MS
+E). Second, we fine-tuned the pre-trained RuBER
+T model on80% of the data. The performance of RuBER
+T is 0.54(MS
+E) and 0.57(MA
+E). It is worth noting that the
+linear model with three parameters systematically underestimates sentences with higher scores (close to6) and overestimates the complexity of simple sentences with low scores (
+Fig. 4). Our analysis of such
+errors shows that the most errors are coming from relying on the 𝐶𝐶𝑆𝑆𝐶𝐶 value. Therefore, we propose andevaluate models that make use of stratified by sentence length. To this end, we compare performance of
+A new dataset for sentence-level complexity in Russian(
+Error = predicted value true value).
+linear models that either use or not use the 𝑆𝑆𝑆𝑆𝑆𝑆 feature in each of the six bins. The results are providedin the parameter.
+with 𝑆𝑆𝑆𝑆𝑆𝑆 w/o 𝑆𝑆𝑆𝑆𝑆𝑆bin MS
+E MA
+E MS
+E MAE
+L10 0.254 0.405 0.257 0.408
+L15 0.272 0.417 0.269 0.414
+L20 0.310 0.443 0.293 0.430
+L25 0.295 0.438 0.294 0.435
+L30 0.295 0.435 0.298 0.439
+L35 0.313 0.413 0.312 0.4216 Conclusion
+In this paper, we present a dataset of 1,200 Russian sentences annotated for complexity, collected throughcrowdsourcing using the Yandex Toloka platform. The analysis of the dataset shows that it is slightlyunbalanced towards difficult sentences, with a correlation between sentence length and complexity score.
+The paper also presents various linguistic features that contribute to sentence complexity in Russian, suchas dependency distance, number of clauses and subordinating conjunctions, and proportion of nounsand phrases. The study found that certain features had a stronger correlation with sentence complexitythan others. These findings provide insights into the linguistic factors that contribute to sentence-levelcomplexity in Russian, and the dataset can be a useful resource for further research on this topic. Thedataset is available at https://zenodo.org/record/7937828#.ZGJEHC9ByZ
+A.
+Acknowledgments
+This work is funded by Russian Science Foundation, grant # 22-21-00334.
+Ivanov V., Elbayoumi M. G.

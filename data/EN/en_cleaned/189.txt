@@ -1,0 +1,380 @@
+Automated text complexity measurement tools have been proposed in order to help teachers to select textbooks that correspond to the students’ comprehension level and publishers to explore whether their articles are readable. Thus, plenty of readability indexes (R
+Is) were developed. Readability indexes focus on estimating complexity by evaluating aggregated syntactic and lexical features of the whole texts. There are many well-known R
+Is, such as Automated Readability Index , Flesch
+Kincaid readability tests , Gunning fog fairly modern ones like Linsear Write Formula . They all use statistics like the total number of words, mean number of words per sentence, or the number of syllables to evaluate how complex given text is. By combining these statistics, R
+Is assign the given document a complexity score. For instance, an Automated Readability Index (AR
+I) has the following form for the document d: AR
+I(d) = 4.71× cw+ 0.5× ws− 21.43, (1)
+W (d) =n∑i=1wi (3)
+W (d) =n∑i=1wpi (4). . . xi−ri = a xi−ri+1 xi−ri+2 . . . xi−2 xi−1 xi = a︸ ︷︷ ︸ri. . .
+ri = min1≤j<i
+{i− j | xi = xj}. (5)
+W (d) =n∑i=1wpi
+W (d, α) =K∑k=1αk
+Wk(d), αk ≥ 0, (10)∑d≺d′L(
+W (d′, α)−
+W (d, α)︸ ︷︷ ︸pair-wise margin)→ minα, (11)2|D|∑d≺d′L(
+W (d′, α)−
+W (d, α))+ λ((1− β)
+K∑k=1α2k + β
+K∑k=1|αk|)→ minα, (12)accuracy(c) =∑d≺d′|
+D|(13) (1)where c refers to the total number of letters in document d, w is the total number of words, and s denotes the total number of sentences in d.
+Quantile-based approach to estimating cognitive text complexityR
+Is are interpretable and easy to implement. However, due to the significant amount of constants, they are language-dependent and, most of the time, tailored to the U
+S grade level system. That restrains the number of possible applications a lot.
+As for research on complexity estimation of the Russian text, it is worth highlighting works of I. Oborneva , where she derives new version of Flesch Readability Ease (FR
+E) , customized for the Russian language.
+
+E(d) = 206.836 − (1.52 × AS
+L) − (65.14 − AS
+W), (2)where AS
+L stands for the mean number of words per sentence, AS
+W—for mean syllables per word. In 2018 V. Solovyev new readability formula created explicitly for Russian documents. Text complexities are valuable in different areas, e.g., complexity formulas for legal documents in Russian. In 2007 psychophysiological (cognitive) methods of measuring text complexity, highlighting the following assumptions:1. Any text can be considered as a sequence of tokens (codes)—parts of the
+finite alphabet—letters, syllables, sentences, words, etc.
+2. When reading the text, our nervous system decodes the tokens, progressively on the following language levels: morphological, lexical, syntactic,
+discursive, and semantic.
+3. Decoding processes occur in different nervous system zones (e.g., part of the
+cortex). Each zone is responsible for the specific token on a specific language level. When the zone finishes the decoding process, it moves into the state of refractoriness and needs time to recover. During the recovery, the zone cannot execute decoding and forces another zone to take the load. Such a redistribution of nervous system resources diminishes effectiveness of the nervous system as a whole, and the person starts perceiving the document with more effort.
+4. Thus, if the token’s distance to the previous occurrence exceeds some threshold, the nervous system must allocate additional resources to decode it.
+Such terms are considered complex. Hence, the complexity of the document is a combination of abnormally frequent (complex) tokens.
+In , authors propose to count the mentioned threshold as a quantile of the empirical distribution, calculated over the large set of simple texts (reference collection). They explore the morphological level, considering letters as a token. a lexical level model, assuming the word complexity is determined only by its length. the model on the discursive level, counting the number of connector words and phrases in each sentence.
+Based on the assumptions above, in this paper we elaborate our research presented in , offering models on the morphological, lexical, and syntactic levels, and then training the linear model, obtaining the all-levels complexity model. Experiments were performed on two datasets. We compare models with readability indexes and cognitive models proposed in , , .
+Eremeev M. A., Vorontsov K. V. General Model
+Let d be the arbitrary document, consisting of tokens x1, …, xn from a fixed token alphabet Ah. Here, h refers to the language level, i.e., morphological, lexical, syntactic, or discursive. So, the tokens may be letters, syllables, sentences, words, etc. We denote ci to be the cognitive complexity score of token xi, and wi—its weight. The document complexity score then is a sum of weights over tokens having abnormal complexities.
+To measure the token complexity, we use a reference collection—a set of moderately complex texts—to calculate empirical distributions of complexity scores for each token. Thus, the token’s complexity is abnormal when it is greater than a 𝛾-quantile of the counted distribution (figure 1) (assumption 4). In our experiments we use Russian Wikipedia and Noosphere (noosphere.ru) open corpora as reference collections. Former comprises more domain-specific documents (1.5
+M in total), while the latter incorporates various types of texts, including fiction and poems (200
+K in total).
+Finally, document d complexity W(d) is calculated by aggregating complexity scores ci of complex tokens in d.
+
+I(d) = 4.71× cw+ 0.5× ws− 21.43, (1)
+W (d) =n∑i=1wi (3)
+W (d) =n∑i=1wpi (4). . . xi−ri = a xi−ri+1 xi−ri+2 . . . xi−2 xi−1 xi = a︸ ︷︷ ︸ri. . .
+ri = min1≤j<i
+{i− j | xi = xj}. (5)
+W (d) =n∑i=1wpi
+W (d, α) =K∑k=1αk
+Wk(d), αk ≥ 0, (10)∑d≺d′L(
+W (d′, α)−
+W (d, α)︸ ︷︷ ︸pair-wise margin)→ minα, (11)2|D|∑d≺d′L(
+W (d′, α)−
+W (d, α))+ λ((1− β)
+K∑k=1α2k + β
+K∑k=1|αk|)→ minα, (12)accuracy(c) =∑d≺d′|
+D|(13) (3)where to the Iverson notation (i.e. 1, 0), n is the number of tokens from Ah in document d. Some examples of interpretable weights wi are presented in Raising the weight to the p power, we obtain a nonlinear sum of weights: AR
+I(d) = 4.71× cw+ 0.5× ws− 21.43, (1)
+W (d) =n∑i=1wi (3)
+W (d) =n∑i=1wpi (4). . . xi−ri = a xi−ri+1 xi−ri+2 . . . xi−2 xi−1 xi = a︸ ︷︷ ︸ri. . .
+ri = min1≤j<i
+{i− j | xi = xj}. (5)
+W (d) =n∑i=1wpi
+W (d, α) =K∑k=1αk
+Wk(d), αk ≥ 0, (10)∑d≺d′L(
+W (d′, α)−
+W (d, α)︸ ︷︷ ︸pair-wise margin)→ minα, (11)2|D|∑d≺d′L(
+W (d′, α)−
+W (d, α))+ λ((1− β)
+K∑k=1α2k + β
+K∑k=1|αk|)→ minα, (12)accuracy(c) =∑d≺d′|
+D|(13) (4) where p > 0 is an integer power.
+If the token xi does not appear in the reference collection, we set C𝛾(xi) equal to −∞, therefore always counting it as abnormally complex.
+↑Cγ(x)сi
+Quantile-based approach to estimating cognitive text complexity
+Thus, to set up the model, we need to specify the reference collection D, the alphabet Ah, token complexity function c, weights w, and power p.
+wi Meaning of wi1 number of complex tokens
+1/n × 100% complex tokens percentage
+ci total complexityci/n mean complexityci − C𝛾(xi) excessive complexity(ci − C𝛾(xi))/n mean excessive complexity3. Token complexity functions
+Firstly, we indicate two approaches to estimating the complexity of a single token.
+3.1. Distance-based complexity function
+According to assumptions 3–5, let ri be a distance from previous token occurrence xi to its current occurrence in the text:
+I(d) = 4.71× cw+ 0.5× ws− 21.43, (1)
+W (d) =n∑i=1wi (3)
+W (d) =n∑i=1wpi (4). . . xi−ri = a xi−ri+1 xi−ri+2 . . . xi−2 xi−1 xi = a︸ ︷︷ ︸ri. . .
+ri = min1≤j<i
+{i− j | xi = xj}. (5)
+W (d) =n∑i=1wpi
+W (d, α) =K∑k=1αk
+Wk(d), αk ≥ 0, (10)∑d≺d′L(
+W (d′, α)−
+W (d, α)︸ ︷︷ ︸pair-wise margin)→ minα, (11)2|D|∑d≺d′L(
+W (d′, α)−
+W (d, α))+ λ((1− β)
+K∑k=1α2k + β
+K∑k=1|αk|)→ minα, (12)accuracy(c) =∑d≺d′|
+D|(13) Equally, AR
+I(d) = 4.71× cw+ 0.5× ws− 21.43, (1)
+W (d) =n∑i=1wi (3)
+W (d) =n∑i=1wpi (4). . . xi−ri = a xi−ri+1 xi−ri+2 . . . xi−2 xi−1 xi = a︸ ︷︷ ︸ri. . .
+ri = min1≤j<i
+{i− j | xi = xj}. (5)
+W (d) =n∑i=1wpi
+W (d, α) =K∑k=1αk
+Wk(d), αk ≥ 0, (10)∑d≺d′L(
+W (d′, α)−
+W (d, α)︸ ︷︷ ︸pair-wise margin)→ minα, (11)2|D|∑d≺d′L(
+W (d′, α)−
+W (d, α))+ λ((1− β)
+K∑k=1α2k + β
+K∑k=1|αk|)→ minα, (12)accuracy(c) =∑d≺d′|
+D|(13) (5)
+If i is the first occurrence of term ti in document d, there is no previous occurrence, so ri is undefined. To solve this issue. we redefine ri so that sum of ri over all tokens xi = a is equal to n.
+For example, if Ah consists of the letters:token t h e g r e a t g a t s b yri — — — — — 3 — 7 5 3 3 — — —redefined ri 4 15 11 9 14 3 11 7 5 3 3 14 14 14
+Then, we define token complexity function as some decreasing function f of ri: = f(ri) (6)
+The f should be decreasing according to the assumption 4, as only the most frequent terms put pressure on the nervous system. Example of f: = −ri, (7)
+Eremeev M. A., Vorontsov K. V. we build an empirical distribution of complexities {f(ri)∣xi=a} for all tokens a ∈ Ah, count corresponding quantiles C𝛾(xi) and, finally, calculate the complexity score, according to formula (4).
+3.2. Counter-based complexity functions
+In the counter-based approach, we assume every term has fixed complexity score (not depending on position in the text), so alphabet Ah includes the only token: Ah = {a}. In other words, the token’s complexity is defined only by its linguistic properties (e.g., length of the word or sentence).
+Taking that into account, we construct single empirical distribution over all tokens. Therefore, the quantile is one for all tokens C𝛾(xi) = C𝛾 and model (4) takes the following form: AR
+I(d) = 4.71× cw+ 0.5× ws− 21.43, (1)
+W (d) =n∑i=1wi (3)
+W (d) =n∑i=1wpi (4). . . xi−ri = a xi−ri+1 xi−ri+2 . . . xi−2 xi−1 xi = a︸ ︷︷ ︸ri. . .
+ri = min1≤j<i
+{i− j | xi = xj}. (5)
+W (d) =n∑i=1wpi
+W (d, α) =K∑k=1αk
+Wk(d), αk ≥ 0, (10)∑d≺d′L(
+W (d′, α)−
+W (d, α)︸ ︷︷ ︸pair-wise margin)→ minα, (11)2|D|∑d≺d′L(
+W (d′, α)−
+W (d, α))+ λ((1− β)
+K∑k=1α2k + β
+K∑k=1|αk|)→ minα, (12)accuracy(c) =∑d≺d′|
+D|(13) (8)4. Considered models
+Trying different combinations of tokens and complexity functions, we want to share models on four language levels.
+4.1. Morphological complexity models
+At the morphological level, tokens are letters, morphemes, syllables, or, in general case, n-grams. Also, we can sort the letters in n-gram, therefore lessening the vocabulary size to acquire more reliable distributions. Indeed, our brain easily handles local letter permutations, so they do not affect the complexity much.
+In our experiments, we use a distance-based model with complexity function (7) for both letters, sorted and unsorted syllables.
+The examples of empirical distributions for letter-based models over the Russian Wikipedia and Noosphere reference collections are introduced in figure 2. Comparison of the distributions for syllables-based and sorted-syllables-based models are presented in figure 3.
+4.2. Lexical complexity models
+Here we use separate words as tokens. However, in such a case, the vocabulary turns out to be vast and makes the distributions less precise. To shrink it, we eliminate all short words (less than a length of 3) and too rare words (that appears only once on the whole reference collection).
+4.2.1. Distance-based model
+The distance-based complexity model uses complexity function (7) as it calculates the distributions of the score for every word (lexical distance model). The example of the distribution is shown in figure 4.
+Quantile-based approach to estimating cognitive text complexity−60 −50 −40 −30 −20 −10 004·105
+Complexity score ci
+Numberofoccurrences−60 −50 −40 −30 −20 −10 004·105
+Complexity score ci
+Numberofoccurrences−60 −50 −40 −30 −20 −10 0024
+·103
+Complexity score ci
+Numberofoccurrences−60 −50 −40 −30 −20 −10 0024
+·103
+Complexity score ci
+Numberofoccurrences−100 −90 −80 −70 −60 −50 −40 −30 −20 −10 00100
+150
+200
+Complexity score ci
+Numberofoccurrencescalculated over the Russian Wikipedia and Noosphere collections. The orange part of the distribution correspond to сi > Cγ (x), γ = 0.95−60 −50 −40 −30 −20 −10 004·105
+Complexity score ci
+Numberofoccurrences−60 −50 −40 −30 −20 −10 004·105
+Complexity score ci
+Numberofoccurrences−60 −50 −40 −30 −20 −10 0024
+·103
+Complexity score ci
+Numberofoccurrences−60 −50 −40 −30 −20 −10 0024
+·103
+Complexity score ci
+Numberofoccurrences−100 −90 −80 −70 −60 −50 −40 −30 −20 −10 00100
+150
+200
+Complexity score ci
+Numberofoccurrencesthe Russian Wikipedia collection for models with and without sorting. The orange part of the distribution corresponds to сi > Cγ (x), γ = 0.95−60 −50 −40 −30 −20 −10 004·105
+Complexity score ci
+Numberofoccurrences−60 −50 −40 −30 −20 −10 004·105
+Complexity score ci
+Numberofoccurrences−60 −50 −40 −30 −20 −10 0024
+·103
+Complexity score ci
+Numberofoccurrences−60 −50 −40 −30 −20 −10 0024
+·103
+Complexity score ci
+Numberofoccurrences−100 −90 −80 −70 −60 −50 −40 −30 −20 −10 00100
+150
+200
+Complexity score ci
+Numberofoccurrencescalculated over the Russian Wikipedia collection. The orange part of the distribution corresponds to сi > Cγ (x), γ = 0.95
+Eremeev M. A., Vorontsov K. V. Counter-based models
+We explore two functions here. Firstly, the complexity of the word as its length (lexical length model). Therefore, the model builds empirical distribution over all words’ lengths and counts the word as complex if it is long enough.
+Advancing this approach, we consider not the word length, but its counter value count(xi), which is the number of times word xi appears in reference collection (lexical counter model). The complexity function should be a decreasing function of count(xi). For example: = −count(xi) (9)4.3. Syntactic complexity models
+To estimate syntactic complexity, we use UD
+Pipe extract syntactic dependencies, part of speeches (noun, verb, adjective, etc.) and sentence parts (subject, object, attribute, etc.). Using derived information, we propose two models.
+4.3.1. Distance-based model
+Let Ah be a product of Po
+S—set of all parts of speech may occur, and S
+P—set of all sentence parts. Therefore each a ∈ Ah is a pair (p, s), where p ∈ Po
+S and s ∈ S
+P are part of speech and sentence part respectively. We call such pairs syntgams.
+We apply the distance complexity function (7) to such tokens to receive a distance-based syntactic model (syntactic syntgam model).
+4.3.2. Counter-based model
+Using the syntactic dependencies returned by the parser, we define the complexity function as a length of the dependency (alike using word length ) and acquire the counter-based syntactic model (syntactic length model). The examples of distributions are shown in figure 5.
+0 5 10 15 20 25 30
+02·106
+Complexity score ci
+Numberofoccurrences−60 −50 −40 −30 −20 −10 00
+0.2
+0.4
+0.6
+0.8
+1
+·106
+Complexity score ci
+Numberofoccurrencesdataset. The orange part of the distribution corresponds to сi > Cγ (x), γ = 0.95
+Quantile-based approach to estimating cognitive text complexity4.4. Discursive complexity models
+The last but not least language level we consider is the discursive level, initially proposed in . On this level, model evaluates the meaningfulness of text, its coherence, and consistency.
+To evaluate the complexity the vocabulary of common connector-words for the Russian language (i.e., «который», «из-за того что», «с тех пор как», etc.) is used. Thus, the more such connectors appear in the document, the more complex it is.
+Therefore, we define a counter-based model with sentences as tokens, and complexity function equal to the number of connectors in the sentence (discursive connectors model).
+5. Dataset
+We used a crowdfunding platform Yandex.
+Toloka to gather a labeled dataset of pairs of Russian Wikipedia pages.
+Assessors were asked to label 10
+K pairs of Russian Wikipedia articles. We suggested them to read both pages carefully and choose which is more challenging to comprehend. The interface consisted of two links to evaluated articles and four options to choose from: “LEF
+T” or “RIGH
+T” when an assessor assumes the left or the right document is more complex, “EQUA
+L” in case the assessor cannot determine which document is more challenging to comprehend and “INVALI
+D” option if the documents in given pair lie in different domains. The interface is shown in figure 6.
+We chose documents from math, physics, medicine, and programming areas. The topic modeling approach , namely the Additive Regularization of Topic Models (ART
+M) theory , was used to cluster the documents by fields. ART
+M features an effective way to build structured multimodal topic models , . We included the modalities of words and word collocations, obtained with Top
+Mine algorithm . Then, documents from a single domain and with almost identical lengths formed the pairs. Examples of document pairs to assess are introduced in Each pair was labeled by two assessors to avoid human factor mistakes. We assume that the pair was correctly labeled if labels were not controversial, i.e., one assessor labeled the first document as more complex while others chose the second document. If the pair was labeled as ‘INVALI
+D’ at least by a single person, we also eliminated it from the final dataset.
+Eremeev M. A., Vorontsov K. V. Document Right Document Which document is more complex
+Matrix Tensor RIGHT
+Rational number Fraction (mathematics) LEFT
+Proton Neutron EQUAL
+Mac O
+S X Convex Hull INVALID
+So, 8
+K pairs out of 10
+K were correctly labeled and formed the dataset
+D = {(d, d′) ∣ d′ is more complex than d)}.
+To shorten the calculations and formulas, let’s denote (d, d′) ∈ D as d ≺ d′.
+6. Ensembling models
+Having the dataset, we can train a supervised model to piece together all the proposed models. Such an ensemble combines estimations from all language levels.
+We chose a linear combination to be the resulted model: AR
+I(d) = 4.71× cw+ 0.5× ws− 21.43, (1)
+W (d) =n∑i=1wi (3)
+W (d) =n∑i=1wpi (4). . . xi−ri = a xi−ri+1 xi−ri+2 . . . xi−2 xi−1 xi = a︸ ︷︷ ︸ri. . .
+ri = min1≤j<i
+{i− j | xi = xj}. (5)
+W (d) =n∑i=1wpi
+W (d, α) =K∑k=1αk
+Wk(d), αk ≥ 0, (10)∑d≺d′L(
+W (d′, α)−
+W (d, α)︸ ︷︷ ︸pair-wise margin)→ minα, (11)2|D|∑d≺d′L(
+W (d′, α)−
+W (d, α))+ λ((1− β)
+K∑k=1α2k + β
+K∑k=1|αk|)→ minα, (12)accuracy(c) =∑d≺d′|
+D|(13) (10)where vector 𝛼 is the solution to the optimization problem: AR
+I(d) = 4.71× cw+ 0.5× ws− 21.43, (1)
+W (d) =n∑i=1wi (3)
+W (d) =n∑i=1wpi (4). . . xi−ri = a xi−ri+1 xi−ri+2 . . . xi−2 xi−1 xi = a︸ ︷︷ ︸ri. . .
+ri = min1≤j<i
+{i− j | xi = xj}. (5)
+W (d) =n∑i=1wpi
+W (d, α) =K∑k=1αk
+Wk(d), αk ≥ 0, (10)∑d≺d′L(
+W (d′, α)−
+W (d, α)︸ ︷︷ ︸pair-wise margin)→ minα, (11)2|D|∑d≺d′L(
+W (d′, α)−
+W (d, α))+ λ((1− β)
+K∑k=1α2k + β
+K∑k=1|αk|)→ minα, (12)accuracy(c) =∑d≺d′|
+D|(13) (11)where ℒ(
+M) is a smooth, non-increasing function of margin M.
+To avoid overfitting, we use Elastic
+Net of combining L1 and L2 regularizes:
+I(d) = 4.71× cw+ 0.5× ws− 21.43, (1)
+W (d) =n∑i=1wi (3)
+W (d) =n∑i=1wpi (4). . . xi−ri = a xi−ri+1 xi−ri+2 . . . xi−2 xi−1 xi = a︸ ︷︷ ︸ri. . .
+ri = min1≤j<i
+{i− j | xi = xj}. (5)
+W (d) =n∑i=1wpi
+W (d, α) =K∑k=1αk
+Wk(d), αk ≥ 0, (10)∑d≺d′L(
+W (d′, α)−
+W (d, α)︸ ︷︷ ︸pair-wise margin)→ minα, (11)2|D|∑d≺d′L(
+W (d′, α)−
+W (d, α))+ λ((1− β)
+K∑k=1α2k + β
+K∑k=1|αk|)→ minα, (12)accuracy(c) =∑d≺d′|
+D|(13) (12)where 𝛽 is a mixing parameter between ridge (𝛽 = 0) and lasso (𝛽 = 1), 𝜆 controls the regularization impact. For ℒ function we consider three options:• Negative S
+E: ℒ(
+M) = − M2• Negative sigmoid: ℒ(
+M) = −𝜎(
+M), where 𝜎(x) = 1/(1 + expx)—sigmoid function• Negative A
+E: ℒ(
+M) = −|M|
+The results of testing all models above and the ensemble are described in the Experiments section.
+Quantile-based approach to estimating cognitive text complexity7. Experiments
+We tested every model and the ensemble trained on the dataset mentioned above. For all experiments, we used Wikipedia as a reference collection. The accuracy score was selected as a quality metric.
+I(d) = 4.71× cw+ 0.5× ws− 21.43, (1)
+W (d) =n∑i=1wi (3)
+W (d) =n∑i=1wpi (4). . . xi−ri = a xi−ri+1 xi−ri+2 . . . xi−2 xi−1 xi = a︸ ︷︷ ︸ri. . .
+ri = min1≤j<i
+{i− j | xi = xj}. (5)
+W (d) =n∑i=1wpi
+W (d, α) =K∑k=1αk
+Wk(d), αk ≥ 0, (10)∑d≺d′L(
+W (d′, α)−
+W (d, α)︸ ︷︷ ︸pair-wise margin)→ minα, (11)2|D|∑d≺d′L(
+W (d′, α)−
+W (d, α))+ λ((1− β)
+K∑k=1α2k + β
+K∑k=1|αk|)→ minα, (12)accuracy(c) =∑d≺d′|
+D|(13) (13)
+To validate the ensembles, we preliminarily split the dataset into train Dtrain and test Dtest parts, so having 6
+K training objects and 2
+K testing.
+7.1. Single models
+We compare all aforementioned quantile-based models to various readability indexes and baselines proposed in , . As for hyperparameters, we used wi = ci / n (for text length not to affect the scores), p = 1, and 𝛾 = 0.95 for all models proposed. The results are exposed in Model Class Model Accuracy
+Readability Indexes Automated Readability Index 50.5%Flesch
+Kincaid Grade 44.7%
+Gunning FO
+G 44.4%
+Flesch Reading Ease 50.7%Dale–
+Chall 37.0%
+Linsear Write 45.2%Coleman
+Liau 52.1%
+Morphological Letter
+Syllables 70.9%
+Sorted Syllables 73.1%
+Lexical Length
+Distance 75.0%
+Counter 71.2%
+Syntactic Length 62.0%
+Syntgam 64.2%
+Discursive Connectors
+The lexical distance model demonstrates the best performance in terms of accuracy among all the described models. Moreover, all quantile-based models, except for lexical distance one, outperform readability indexes. The sorted-syllables model performs better than unsorted, which proves the assumption about the sustainability of distributions in the sorted-syllables model.
+Eremeev M. A., Vorontsov K. V. Ensemblesfunctions to the best models on different language levels
+Model Margin Function AccuracyColeman
+Liau — 52.1%
+Morphological Sorted Syllables — 73.1%
+Lexical Distance — 75.0%
+Syntactic Syntgams — 64.2%
+Connectors — 62.5%
+Ensemble Negative S
+E 88.1%
+Ensemble Negative sigmoid 84.6%
+Ensemble Negative A
+E 85.1%
+To validate ensembles trained on Dtrain, we first evaluate all models on Dtest part of the dataset to get comparable results. In table 5, we compare the best models from all language levels with ensembles with various margin functions. We set the hyperparameters equal 𝛽 = 0.5 and 𝜆 = 10 for all models.
+As can be seen, Negative S
+E works best for fitting an ensemble, while all ensembles demonstrate quality growth compared to other models.
+7.3. Noosphere Reference Collection
+Here we explore the impact of the reference collection on the models’ performance. We fitted the models with Noosphere corpora as a reference collection. This collection is less scientific and formal, featuring diverse literary works. We still evaluate the models on the labeled dataset, introduced in Section 5. The results are exposed in Model Class Model Accuracy
+Morphological Letter
+Syllables 69.2%
+Sorted Syllables 70.5%
+Lexical Length
+Distance 72.1%
+Counter 66.9%
+Syntactic Length 63.1%
+Syntgam 66.4%
+Discursive Connectors
+Ensembles Negative MS
+E 83.1%
+All scores are lower, except for the syntactic models. There are understandable reasons for that. Firstly, the Noosphere collection is smaller than Wikipedia, resulting Quantile-based approach to estimating cognitive text complexityin less accurate empirical distribution estimations. Secondly, the collection consists of the non-scientific documents and does not contain specialized terms. Nevertheless, syntactic models improve their performance, mainly because of the absence of formulas in the reference collection.
+Overall, the ensemble’s accuracy is still higher than 80%, which outperforms both the readability indices and cognitive model baselines.
+8. Conclusion
+In conclusion, we presented new quantile-based models to measure cognitive text complexity. All models are based on psychophysiological assumptions. We explored models dealing with tokens from morphological, lexical, syntactic, and discursive language levels. All complexity scores are calculated with respect to the reference collection—a set of adequately simple documents used to obtain the empirical distributions of the token complexities. The reference collection should be chosen carefully and be large enough, but it gives high flexibility to the discussed approach. By varying the reference collection, we can obtain complexity scores concerning a particular domain. We introduced the way to measure the quality of the cognitive complexity models, based on crowdsourcing. By ensembling models from various language levels, we attain an accuracy score of more than 88% and 83% using Russian Wikipedia and Noosphere reference collections, respectively. Suggested models outperform the readability indices and previously proposed cognitive complexity models.
+9. Acknowledgements
+This work is supported by the Russian Foundation for Basic Research, grant 20-07-00936.
