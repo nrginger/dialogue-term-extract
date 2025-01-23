@@ -1,0 +1,161 @@
+Sentiment analysis is a recent field of computational linguistics which emerged due to the growing demand of analysis of social media and user generated content in the Internet. Hence, to encourage the research in this field and to discover the current state of the art, sentiment analysis tasks have been included in a set of traditional evaluation campaigns tracks in information retrieval (I
+R) and natural language processing (NL
+P). TRE
+C1 2006 added a blog opinion mining track, Sem
+Eval2 2010 organized a task on polarity disambiguation of Chinese adjectives, I2
+B23 2011 dedicated one of the tasks to sentiment classification in suicide notes. In this paper, we describe our participation in ROMI
+P4 2011 sentiment analysis track.
+1 Text Retrieval Conference: http://trec.nist.gov/
+2 Evaluation Exercises on Semantic Evaluation: http://semeval2.fbk.eu/
+3 Informatics for Integrating Biology and the Bedside: http://www.i2b2.org/NL
+P/
+4 Russian Information Retrieval Evaluation Seminar: http://romip.ru
+Pak A., Paroubek P.
+Task description
+ROMI
+P is an annual evaluation campaign in information retrieval launched in 2002 . In ROMI
+P 2011, the organizers added the sentiment analysis track which aimed at classification of opinions in user generated content. A dataset composed ofproduct reviews collected from a recommendation service Imhonet5 and product aggregator service Yandex.
+Market6 was provided to participants for training their systems. The dataset contained reviews about three topics: digital cameras, books, and movies. Table 1 shows the characteristics of the dataset.
+Topic Source # of reviews
+Books Imhonet 24,159
+Movies Imhonet 15,718
+Cameras Yandex.
+Market 10,370
+Each review consists of the text of the review and meta information. Meta information contains the rating score assigned to the product, the product I
+D, reviewer I
+D, and the review I
+D. Reviews from Yandex.
+Market also contain review creation time, usefulness ofthe review (assigned by other users), pros and cons of the product given by the review author. Inour work, we used only the review text, the score, and pros/cons if available. The score is given on 1–5 scale for Imhonet reviews, and 1–10 scale for Yandex.
+Market reviews, where a higher value represents more positive opinion. The evaluation dataset was not provided until the evaluation phase at the end of the campaign. The organizers have collected 16 861 posts from Live
+Journal7 blogging platform that mention books, movies, or cameras out of which 874 posts were annotated by two human experts. What makes this track different from other evaluation campaigns, is that the evaluation dataset was not of the same nature as the training data. First, the texts had different genres (product reviews vs. blogposts), and secondly the annotations were produced differently: the training data was composed automatically, while the testdata was annotated manually. of a test document.
+The track was divided into three subtracks:•	 Opinion classification into two classes: negative/positive•	 Opinion classification into three classes: negative/mixed/positive5 http://imhonet.ru
+6 http://market.yandex.ru
+7 http://livejournal.com
+Language independent approach to sentiment analysis •	 Opinion classification into five classes: a score on the scale 1–5, where 1 represents an exclusively negative opinion, and 5 represents an exclusively positive opinion
+In its turn, each subtrack had 3 runs by the number of topics: classification in each topic was evaluated separately, resulting in total 9 separate evaluations.
+been translated into English only for this example1.2. Task challenge
+Sentiment analysis is a difficult task even for resource-rich languages (read, English). Along with simple language processing, such as part-of-speech (PO
+S) tagging, more sophisticated NL
+P tools such as discourse parsers and lexical re sources may be required by existing approaches. Thus, it is quite difficult to adapt methods that were developed in other languages (read, English) to Rus sian.
+The ROMI
+P track poses additional challenges other than the difficulty of analysing sentiments in general. As mentioned before, the evaluation set was not constructed the same way as the training data. That makes it more difficult for statistical based approaches as the language model differs in two datasets. Moreover, the distribution of classes is also different. The training set contained more positive reviews, however Pak A., Paroubek P.
+way the reviews were picked for annotation was unknown. Finally, the interpretation of rating also varies, as there were dif ferent conventions when assigning scoring products and when annotating the test set. In other words, a user of Yandex.
+Market may have a different inter pretation of 3 stars assigned to a camera from a human annotator who rates a review.
+Multiclass classification was another challenge, since most of research on polarity classification consider it a binary problem, i. e. classifying a document into positive/negative classes.
+been translated into English only for this example
+Therefore, to tackle the problem, we have decided to use a language independent approach that is not dependent on sophisticated NL
+P tools or lexical resources (e. g. affective lexicons) that are not available in Russian. We used an SV
+M based system with features based on n-grams, part-of-speech tags, and de pendency parsing. For that we have trained a dependency parser on the Russian National Corpus8. Additionally, a study on terms weighting and corpus compo sition has been performed in order 8 http://www.ruscorpora.ru/en/
+Language independent approach to sentiment analysis to optimize the performance of our system. The detailed description of our system is presented in Section 3 right after the overview of the current state of the art in Section 2. We report our experimental evaluation along with official results in Section 4. Finally, we draw conclusions in Section 5.
+2. Related work
+Polarity classification is one of the basic problems of sentiment analysis and probably the most studied. The existing approaches fall into two large categories: lexicon based and machine learning based methods.
+Lexicon based methods make use of existing lexical resources that vary in their complexity starting from simple lists of positive and negative words to more sophisticated semantic maps. For English, one may use resources developed specifically for sentiment analysis and affective science such as SentiWord
+Net , WordNet
+Affect , ANE
+W , General Inquirer , and also general purpose resources, such as Word
+Net . However, to our knowledge no similar publicly available resource exists in Russian, therefore a lexicon based approach would require to create a lexicon from scratch which is a costly process. More over, the quality of the system would strongly depend on the quality of the developed resource. As the lexicon should cover well the analysed language model.
+Machine learning based approaches in the majority are based on a classical framework for text classification. The most commonly used one is support vec tor machines with n-gram features trained on a large set of text with known polarities (usually positive or negative) .
+Other systems add on top of this basic framework additional text preprocessing, feature selection, and NL
+P.
+The amount and the complexity of NL
+P varies in different approaches. We have previously reported the usefulness of PO
+S tags for opinion mining . De pendency parsing has been also widely used in the sentiment analysis domain for extracting additional features , determining opinion subject , and addi tional text analysis. A recent work by Zirn et al. , used discourse parsing to take into account relation between phrases for fine-grained polarity classification. One of few works on sentiment analysis in Russian by Pazelskaya and Solovyev a manually constructed affective lexicon along with PO
+S-tagging and lexical parsing information for a rule based polarity classifier. However, many of these approaches are difficult to reproduce for the ROMI
+P track as there are few NL
+P tools for Russian that are publicly available.
+3. Our approach
+To overcome the difficulties of the task, thus to create a sentiment analysis system for Russian that would be robust in different topics without overfitting the training model, we developed an SV
+M based system using the LIBLINEA
+R package developed Pak A., Paroubek P.
+Fan et al. . For the 2-class track we trained SV
+M in binary classification mode, for the 3 and 5-class tracks, we used a multiclass and regression modes.
+3.1. Training dataset composition
+The distribution of opinion scores in the training data set was highly unbalanced, which caused difficulties for training the model. training dataset which creates a bias towards a positive class. For the 2-class problem, we have decided to balance the training dataset by using an equal number of reviews of negative and positive opinions. Thus we considered books and movies reviews with scores 1–4 as negative and 9–10 as positive, and in the cameras collection,we considered reviews with scores 1–2 as negative and 5 as positive. The rest of the reviews were not included in the training. For 3-class and 5-class problems we left the dataset as is, because there would not be enough data to represent each class.
+datasets
+Another decision which had to be made, was whether to train three separate modelsfor each topic orto combine all the data and to train one general model to classify reviews from each topic. We have experimented with both settings, and report the results in Section 4.
+Reviews from Yandex.
+Market on cameras contain product prosand cons.
+To benefit from this additional information, we decided to include it in the text of there view. Thus, if a review is considered to be positive (using the criteria as mentioned above) then we add pros as the last phrase of the text. Otherwise, if a review is negative, we use cons. We have discovered that by doing this, we improved the accuracy of binary polarity classification up to 13.7 %.
+3.2. Feature vector construction
+We have experimented with two types of features to build the model: traditional n-grams and our proposed d-grams features that are based on dependency tree of text sentences .
+Language independent approach to sentiment analysis N-grams In the n-gram model, text is represented as a bag of words subse quences of a fixed size. We have experimented with unigrams and bigrams. Any non alphanumeric character was considered as a word boundary. Negations has been handled by attaching a negation particle (не — no, ни — neither, нет — not) to a preceding and a following word when constructing n-grams .
+D-grams D-grams are similar to n-grams, however, while n-grams are constructed by splitting a text into subsequences of consecutive words, d-grams are constructed from a dependency parse tree, where words are linked by syntactic relations.
+Insubjdidauxnotneglike thisdetvideodobjforprepseveralamodreasonspobjsoundtrack was awful”. The dependency relations that we obtain are as follows:{ (
+I, nsubj, like), (did, aux, like), (not, neg, like), (this, det, video), (video, dobj, like), (for, prep, like), (several, amod, reasons), (reasons, pobj, for)}
+They are served as features in our d-gram model replacing the traditional n-gram model.
+To obtain dependency parse trees, we first applied Tree
+Tagger tokenization and PO
+S-tagging. Next, we fed the tagged output to the Malt
+Parser we had trained on the Russian National Corpora.
+Weighting scheme We consider two weighting schemes which are used in sentiment analysis.
+Binary weights were used in first experiments by Pang et al. proven to yield better results than traditional information retrieval weighting such as TF-ID
+F. It assigns equal importance to all the terms presented in a document: w(gi ) = 1, ifgi ∈ d, otherwise = 0 (1) where gi is aterm(n-gram), d is a document. Delta TF-ID
+F was proposed by Martineau et al. proven to be efficient by Paltoglou et al. , assigns more importance to terms that appear primarily in one set (positive or negative):
+Pak A., Paroubek P.
+= tf(gi) · logdfp(gi) + 0.5dfn(gi) + 0.5 (2)where tf(gi) is term-frequency of a term (number of times gi appears in document D), dfp(gi) is positive document frequency (number of times gi appears in documents with positive polarity), dfp(gi ) is negative document frequency.
+We augment Delta TF-ID
+F formula with our proposed average term-frequency normalization that lowers importance of words that are frequently used in a document : avg.tf(gi) =∑∀T,gi∈
+T tf(gi){
+T |gi ∈ T } (3) where {
+T|gi ∈ T } is a set of documents containing term gi . Thus, we modify Delta TF-ID
+F weight as follows: w(gi) =tf(gi)avg.tf(gi)· logdfp(gi) + 0.5dfn(gi) + 0.5 (4) 4. Experiments and results
+In this section, we report results obtained during the system development phase and the offocial results provided by the organizers of ROMIP.
+All the development results were obtained after performing 10-fold cross validation.
+4.1. Development results
+Rows corre spond to a dataset on which the model has been trained, columns correspond to test data. Combined is a combination of all three topics
+Train databooks movies cameras combined
+Test data books 76.0 74.0 65.5 73.4movies 77.3 76.4 66.4 74.5cameras 63.2 62.0 76.0 65.5combined 78.4 78.9 77.1 78.6
+For the development phase, we present results only on binary classification as all the system parameters were tuned according to the results of these ex periments. Language independent approach to sentiment analysis Table 2 shows results of n-gram based model with binary weights across different topics. According top revious research on domain-adaptation for sentiment analysis a model trained on the same topics as the test set performs better than one trained on another topic. However, we were interested whether combining all the training data thus increasing the size of the available training data set improves the model. As we can see from the results, the model trained on the combined data performs better than a model trained only on one topic and the model trained on the same topic as the test set performs better than a model trained on another topic. However, we will see that it would change once we add additional information.
+and including pros/cons
+Books Movies Camerasdiv com div com div comdefault 76.0 78.4 76.4 78.9 76.0 77.1+ balanced 78.1 +1.9 79.5 +0.9 76.3 −0.1 78.2 −0.7 77.4 +1.4 77.5 +0.4+ pros/cons 78.1 79.6 +0.1 76.3 78.6 +0.4 91.8 +13.7 87.9 +10.4
+Table 3 shows show the performance changes after balancing the training data, and after adding pros and cons. Balancing the training set improves accuracy when classifying books and cameras and slightly degrades the performance on the movies collection. Adding pros and cons drastically improves the performance over the cameras test set (up to 13.7 % of gain). Notice, also that the model trained only on the cameras collection performs much better than the one trained on combined data (91.8 % vs. 87.9 %). Thus, for the following experiments we keep these settings: balancing training set and including pros and cons.
+evaluated a model trained on the same topic (div) and a model trained on all the reviews (com)
+Books Movies Camerasdiv com div com div comngrams + binary 78.1 79.6 76.3 78.6 91.8 87.9ngrams + Δtfidf 77.4 78.8 76.2 76.5 93.1 90.4dgrams + binary 78.0 79.8 74.9 77.8 91.3 88.2dgrams + Δtfidf 78.4 80.2 76.1 77.3 93.6 91.3
+Table 4 shows the comparison of the model using different features and weighting schemes. Here we have compared the traditional n-grams model with our proposed d-grams features using the same weighting schemes (binary and Delta TF-ID
+F). As we observe from the results, d-grams with Delta TF-ID
+F yields better accuracy Pak A., Paroubek P.
+books and cameras test sets, while n-grams with bi nary weights perform better on the movies collection. However the difference is not very big.
+4.2. Official results
+According to the results we have obtained during the development phase, we have submitted the official runs on the unseen data. For 2-class track we have submitted 6 systems. For 3-class and 5-class tracks, we trained only systems based on n-grams due to time and resource constrains. For each of these tracks, we have submitted 4 systems. The summary of the submitted systems is pre sented in The overall standings are depicted in Figures 5–7.
+System I
+D Mode Features Weights Training set2-class track
+2-class track binary d-grams Δtfidf divided
+2-dgram-delta-com binary d-grams Δtfidf combined
+2-ngram-delta-div binary n-grams Δtfidf divided
+2-ngram-delta-com binary n-grams Δtfidf combined
+2-ngram-bin-div binary n-grams binary divided
+2-ngram-bin-com binary n-grams binary combined
+3-class track
+3-ngram-bin-div multiclass n-grams binary divided
+3-ngram-bin-com multiclass n-grams binary combined
+3-regr-ngram-bin-div regression n-grams binary divided
+3-regr-ngram-bin-com regression n-grams binary combined
+5-class track
+5-ngram-bin-div multiclass n-grams binary divided
+5-ngram-bin-com multiclass n-grams binary combined
+5-regr-ngram-bin-div regression n-grams binary divided
+5-regr-ngram-bin-com regression n-grams binary combined
+5. Conclusions
+Sentiment analysis is a challenging task for computational linguistics. It be comes especially difficult for resource-poor languages. In this paper, we have described our participation in Russian sentiment analysis evaluation campaign
+Language independent approach to sentiment analysis System I
+D Books Movies Camerasscore rank score rank score rank2-class track
+2-dgram-delta-div 65.1 24/53 70.3 5/27 81.7 11/25
+2-dgram-delta-com 66.1 23/53 70.9 3/27 76.6 17/25
+2-ngram-delta-div 61.8 31/53 70.0 7/27 77.8 15/25
+2-ngram-delta-com 63.0 27/53 67.7 8/27 80.6 12/25
+2-ngram-bin-div 57.9 36/53 63.7 10/27 79.2 13/25
+2-ngram-bin-com 58.8 35/53 65.3 9/27 78.8 14/25
+3-class track
+3-ngram-bin-div 48.4 12/52 47.7 9/21 55.7 8/15
+3-ngram-bin-com 49.9 18/52 50.4 5/21 62.6 4/15
+3-regr-ngram-bin-div 47.6 21/52 48.4 8/21 50.0 9/15
+3-regr-ngram-bin-com 48.8 16/52 49.8 6/21 57.4 7/15
+5-class track
+5-ngram-bin-div 27.0 4/10 24.6 5/10 34.2 1/10
+5-ngram-bin-com 29.1 1/10 28.6 1/10 28.3 7/10
+5-regr-ngram-bin-div 28.5 3/10 26.6 3/10 31.1 4/10
+5-regr-ngram-bin-com 29.1 1/10 28.6 1/10 28.3 7/10
+ROMI
+P 2011. We have tested our language independent framework for polarity classification that is based on SV
+M with the traditional n-grams model and our proposed features based on dependency parse trees. The developed system was ranked 1st in the 5-class track in all topics, 3rd in the 3-class track in movies domain, and 4th in the binary
+classification track in cameras domain according to the official evaluation metrics.

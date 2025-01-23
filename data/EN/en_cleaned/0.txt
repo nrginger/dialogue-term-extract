@@ -1,0 +1,358 @@
+Automatic text summarization is the process of creating a summary of the text containing the most important information . There are the following approaches for text summarization – extractive, abstractive and hybrid. With the extractive approach, the summary is formed from the most important sentences of the source text; with the abstractive approach, the content of the summaries is generated and differs from the sentences of the source text. The hybrid approach combines these two approaches. Automatic text summarization methods are used in search engines, to summarize blogs, scientific articles, emails, lawsuits, and medical texts, and to generate headlines for news articles . At present, the choice of the automatic summarization method for the Russian language is not obvious for the following reasons. Firstly, most research is carried out for the English language , there are few works for the Russian language . Secondly, a significant part of the works uses only the extractive approach, while abstract methods allow for a shorter and human-like presentation that differs from the sentences of the original text . Thirdly, a number of new Russian-language neural network models have recently appeared, such as ruGP
+T-3 and ru
+T5, which have not been sufficiently studied in the summarization task. Thus, the task of conducting a comparative analysis of extractive and abstractive methods of summarization on the material of the Russian language, including modern language models, is relevant. The contribution of this work is as follows: • for the first time, there has been carried a simultaneous comparison of extractive (Text
+Rank and Lex
+Rank) and abstractive (mBAR
+T, ruGP
+T-3 and ru
+T5) summarization methods using three corpora of news articles: Gazeta , MLSU
+M XL
+Sum ; • the methods under investigation have been ranked based on the ROUGE
+N, ROUGE
+L, BLE
+U, METEO
+R and BERT
+Score quality metrics; • the salient features of summaries obtained by different methods have been revealed. The paper is structured as follows. The second section provides an overview of previous work on Russian texts summarization. The third section is devoted to text corpora, models and methods used for text summarization. In the fourth section the experimental results are presented and discussed. The fifth section provides conclusions and suggests directions for further research. 2 Previous work
+Language models based on the Transformer architecture become a key technology for solving natural language processing problems, including automatic text summarization . Such models as mBAR
+T , ruGP
+T3 , and m
+T5 been used for summarizing Russian-language texts. Gusev the multilingual mBAR
+T model for text summarization on the Russian-language Gazeta dataset. The model showed the best results among abstractive models in ROUG
+E and BLE
+U metrics. In addition to mBAR
+T, Gusev used Pointer-generator, Copy
+Net models and extractive methods Text
+Rank, Lex
+Rank and LS
+A. Nikolich et al. the ruGPT3
+Small model, fine-tuned on Gazeta corpus, for text summarization in Russian. ruGPT3
+Small outperformed mBAR
+T in BERT
+Score. Hasan et al. the m
+T5 model for summarization in 44 languages, including Russian, using the XL
+Sum corpus. The results of m
+T5 are close to the current level of summarization in English . ROUG
+E-2 scores for other languages are comparable to results in English. Polyakova and Pogoreltsev a new method of extractive summarization that reduces the problem to selecting the most probable sequence of sentences. The method outperforms the SummaRuN
+Ner and mBAR
+T models in ROUG
+E-1 and ROUGE
+L on the Gazeta dataset. In our paper, in contrast to , besides mBAR
+T, we fine-tuned ruGPT3
+Small, ruGPT3
+Large , ru
+T5-base and ru
+T5-large In contrast to , we used not only ruGPT3
+Small, but also the ruGPT3
+Large model. In contrast to , instead of multilingual m
+T5 model, we applied the Russianlanguage ru
+T5-large model. In contrast to , abstractive models are studied. Besides, it is the first time that all these methods and models are simultaneously analyzed using the three corpora: Gazeta, MLSU
+M, and XL
+Sum. Goloviznina V. S., Kotelnikov E. V.3 Materials and Methods 3.1 Text Corpora
+Corpora for text summarization are sets of texts and summaries to them. Our study uses the Russianlanguage corpus of news articles Gazeta and the Russian-language parts of the MLSU
+M and XL
+Sum corpora. The Gazeta corpus consists of 63,435 articles from the news source Gazeta.ru 1 . The MLSU
+M corpus contains 1,259,096 articles in five languages (
+German, Spanish, French, Russian, Turkish), of which 27,063 articles are in Russian from “
+Moskovsky Komsomolets”2 . XL
+Sum consists of BB
+C3 news articles in 45 languages and contains about 1,350,000 articles, of which 77,803 are in Russian . Characteristics of the corpora are shown in (source) Dataset Size Data Length in tokens min max mean Gazeta (
+Gazeta.ru) train 52,400 (82.6%) text 28 1,500 766.5 summary 15 85 48.8 validation 5,265 (8.3%) text 191 1,500 772.4 summary 18 85 54.5 test 5,770 (9.1%) text 357 1,498 750.3 summary 18 85 53.2 MLSU
+M4 (“
+Moskovsky Komsomolets”) train 25,556 (94.4%) text 55 11,689 949.9 summary 10 65 14.7 validation 750 (2.8%) text 118 5,842 1,156.7 summary 10 30 13.4 test 757 (2.8%) text 69 26,794 1,214.4 summary 10 35 13.4 XL
+Sum5 (BB
+C News) train 62,243 (80%) text 19 22,274 682.1 summary 1 246 29.4 validation 7,780 (10%) text 62 1,583 556.9 summary 8 60 27.9 test 7,780 (10%) text 54 1,745 555.8 summary 8 60 27.9 The length in tokens is specified for the razdel6 tokenizer. 3.2 Extractive methods
+For extractive summarization, we used Text
+Rank method from the summa library7 Lex
+Rank from the lexrank library8. https://www.gazeta.ru.
+2 https://www.mk.ru/news.
+3 https://www.bbc.com.
+4 MLSU
+M corpus has a very large max length of the texts (26,794 tokens) but it contains only 54 texts (0.2%) with
+a length of more than 5,000 tokens. 5 The training part of XL
+Sum has a very large max length of the texts (22,274 tokens) and very salient min and
+max lengths for train summaries (min=1 and max=246). But it contains only 96 texts (0.15%) with a length exceeding 5,000 tokens and only 5 summaries with a length of less than 3 tokens, and 23 summaries with a length of more than 100 tokens. 6 https://natasha.github.io/razdel.
+7 https://pypi.org/project/summa.
+8 https://github.com/crabcamp/lexrank. Automatic Summarization of Russian Texts: Comparison of Extractive and Abstractive Methods
+Text
+Rank a method used for keyword extraction and extractive summarization. In the method, the text is divided into sentences, between which the similarity is calculated, and the Page
+Rank algorithm used to obtain sentence scores. The sentences with the highest scores are included in the summary. A measure of the sentence similarity is the number of common words in these sentences. In the Lex
+Rank method , the similarity measure of sentences is the cosine similarity of the TF-ID
+F vectors of these sentences. The method uses the following idea: if a sentence is similar to other sentences, then it is the central sentence of this text, that is, it contains the necessary and sufficient information about the entire text. 3.3 Abstractive methods
+For abstractive summarization, we applied mBAR
+T, ruGPT3
+Small, ruGPT3
+Large, ru
+T5-base and ru
+T5large models. The BAR
+T (
+Bidirectional and Auto
+Regressive Transformer) model is based on the Transformer architecture and includes a bidirectional encoder (like BER
+T) and an autoregressive decoder (like GP
+T) . Two model versions are available: BARTBAS
+E and BARTLARG
+E. The multilingual version mBAR
+T was trained on the Common Crawl corpus9 for 25 languages. We used the multilingual mBARTLARG
+E, fine-tuned for text summarization on the Gazeta dataset . Models of the GP
+T (
+Generative Pre-trained Transformer) family consist of a Transformer decoder with a different number of layers . The family includes three main models: GP
+T , GP
+T-2 , and GP
+T-3 . The ruGP
+T-3 model is a Russian-language model from Sber based on GP
+T-2 . The model was trained on 80 billion tokens. There are five versions of different sizes: ruGPT3
+Small, ruGPT3
+Medium, ruGPT2
+Large, ruGPT3
+Large, and ruGPT3X
+L. In our experiments, we used the ruGPT3
+Small and ruGPT3
+Large model. The T5 (Text-to
+Text Transfer Transformer) model was trained on 24 tasks for the English language . The multilingual version m
+T5 was trained for 101 languages, but on one task – text filling. The ru
+T5 model is a Russian-language T5 model from Sber, available in two versions: ru
+T5-base and ru
+T5-large . The model was trained on the same corpus as ruGP
+T-3. We used both versions: ru
+T5base and ru
+T5-large. 4 Experiments
+4.1 Experimental Setup
+The Text
+Rank method was applied with compression ratio = 0.2 (default value). For the Lex
+Rank method, the length of the summary was limited to three sentences (summary_size = 3). The rest of the methods parameters assumed default values. During the experiments with each corpus, mBARTLARG
+E, ruGPT3
+Small, ruGPT3
+Large, ru
+T5-base and ru
+T5-large models were fine-tuned on the training part of the given corpus. The validation part of the corpus was used to select the number of training epochs. For the mBARTLARG
+E, ru
+T5-base and ru
+T5large models, the length of the input text was 1,024 tokens, the length of the output data (the length of the generated summary) was limited by the length of the reference summary. The desired size of the summary is often a requirement in real-world problems. Given the availability of reference summary in our experiments, it is logical to use their size as a limitation. For the ruGPT3
+Small and ruGPT3
+Large models, the length of the output data was regulated in the same way, the length of the input data was 2,048 tokens. When fine-tuning, the input of the ruGPT3
+Small and ruGPT3
+Large models was given sequences of the form: “Text:text
+Summary:summary”, where text is the input text, summary is the reference summary for this text. When testing, the model generated a summary for the following input: “Text:text
+Summary:”. We also tested Lead-3 – it is a strong baseline, where summary is the first three sentences of every text. We used five automatic metrics: ROUGE
+N , ROUGE
+L , BLE
+U , METEO
+R , and BERT
+Score evaluate the results. To calculate the ROUGE
+N and ROUGE
+L metrics, we applied https://commoncrawl.org.
+Goloviznina V. S., Kotelnikov E. V.the rouge library10 , for BLE
+U and METEO
+R – the NLT
+K library11 , Snowball Stemmer12 , and the wiki_ru_wordnet semantic network13. BERT
+Score uses embeddings from BER
+T and matches words in generated summaries and reference summaries by cosine similarity. We calculated BERT
+Score using the bert-score library14 and the Russian-language RuBER
+T model . 4.2 Results and Discussion
+Table 2 shows the results of experiments for the three corpora, as well as the average values. According to the results of experiments (see Table 2), models and methods can be ranked as follows: 1. ru
+T5-large,
+2. mBAR
+T,
+3. ru
+T5-base,
+4. Lex
+Rank,
+5. ruGPT3
+Large,
+6. Text
+Rank,
+7. ruGPT3
+Small.
+The ru
+T5-large and mBAR
+T models showed the best results, but mBAR
+T tends to repeat parts of the source text sentences. summaries of abstractive models. A novel n-gram is an n-gram of the summary that is not contained in the source text. The proportion of novel n-grams is the number of novel n-grams divided by all n-grams of the summary. mBAR
+T summaries have the smallest proportion of novel n-grams. The proportion of novel n-gram summaries of ru
+T5-base and ru
+T5-large is greater than the proportion of n-grams of mBAR
+T summaries, but never more than the proportion of novel n-grams of reference summaries, which is surpassed by ruGPT3
+Small and ruGPT3
+Large. The ruGPT3
+Small and ruGPT3
+Large summaries contain the largest proportion of novel n-grams, but there are often errors – mismatches between the summary and the source text. Despite the large proportion of novel n-grams, ru
+T5-large summaries have significantly fewer errors than ruGPT-3
+Large summaries. Method ROUG
+E-1 ROUG
+E-2 ROUGE
+L BLE
+U METEO
+R BERT
+Score Gazeta Lead-3 31.02 13.44 27.69 10.80 34.44 56.49 Text
+Rank 21.44 6.27 18.56 3.92 26.31 49.90 Lex
+Rank 23.93 8.00 20.96 5.64 28.17 51.49 mBAR
+T 31.55 13.54 28.22 11.19 34.09 56.56 ru
+T5-base 30.45 12.63 27.41 9.54 28.69 56.35 ru
+T5-large 32.45 13.97 29.24 10.88 31.21 57.73 ruGPT3
+Small 18.84 4.06 16.68 3.13 18.70 44.06 ruGPT3
+Large 23.45 6.45 20.73 4.93 23.77 47.76 MLSU
+M Lead-3 9.42 1.55 8.47 0.86 12.98 32.15 Text
+Rank 4.76 0.55 4.39 0.13 7.51 29.22 Lex
+Rank 10.22 1.42 7.36 0.90 11.28 31.83 mBAR
+T 11.48 1.95 10.26 1.49 10.52 37.89 ru
+T5-base 12.35 1.86 11.22 1.58 9.68 38.67 ru
+T5-large 14.06 2.86 12.69 2.81 11.84 39.92 ruGPT3
+Small 9.14 0.60 8.13 0.40 6.66 34.27 ruGPT3
+Large 9.36 0.99 8.17 0.73 7.44 35.00 XL
+Sum Lead-3 16.14 3.38 13.57 1.63 22.70 46.29 Text
+Rank 14.04 3.14 11.81 1.05 21.45 45.80 Lex
+Rank 16.22 3.16 12.69 2.14 17.20 43.83 mBAR
+T 26.47 10.95 22.67 7.51 27.16 54.24 ru
+T5-base 26.52 10.67 22.79 6.58 25.35 52.89 ru
+T5-large 28.42 11.98 24.41 7.93 28.31 56.06 https://pypi.org/project/rouge.
+11 https://www.nltk.org.
+12 https://snowballstem.org.
+13 https://wiki-ru-wordnet.readthedocs.io/en/latest.
+14 https://github.com/
+Tiiiger/bert_score. Automatic Summarization of Russian Texts: Comparison of Extractive and Abstractive Methods
+Corpus Method ROUG
+E-1 ROUG
+E-2 ROUGE
+L BLE
+U METEO
+R BERT
+Score XL
+Sum ruGPT3
+Small 16.19 3.28 13.68 2.25 15.94 40.12 ruGPT3
+Large 19.37 5.17 16.48 3.74 19.63 42.74 Average Lead-3 18.86 6.12 16.58 4.43 23.37 44.98 Text
+Rank 13.41 3.32 11.59 1.70 18.42 41.64 Lex
+Rank 16.79 4.19 13.67 2.89 18.88 42.38 mBAR
+T 23.17 8.81 20.38 6.73 23.92 49.56 ru
+T5-base 23.11 8.39 20.47 5.90 21.24 49.30 ru
+T5-large 24.98 9.60 22.11 7.21 23.79 51.24 ruGPT3
+Small 14.72 2.65 12.83 1.93 13.77 39.48 ruGPT3
+Large 17.39 4.20 15.13 3.13 16.95 41.83 conclusions on the proportion of novel n-grams in summaries are confirmed by the extraction score in is inversely proportional to the degree of abstractiveness of the constructed summary. The lowest level of abstractiveness is shown by the mBAR
+T model, the highest – by ruGPT3
+Small. Characteristic Reference summary mBAR
+T ruGP
+T3 Small ruGP
+T3 Large ru
+T5base ru
+T5large Gazeta Average length of summaries in tokens 53.2 59.8 54.0 54.8 42.3 44.5 Extraction score 0.06 0.39 0.03 0.05 0.24 0.26 MLSU
+M Average length of summaries in tokens 13.4 18.8 13.2 13.5 12.4 15.0 Extraction score 0.09 0.39 0.05 0.06 0.16 0.17 XL
+Sum Average length of summaries in tokens 27.9 22.2 29.0 28.9 19.8 21.5 Extraction score 0.04 0.10 0.03 0.04 0.08 0.07 Average Average length of summaries in tokens 31.5 33.6 32.1 32.4 24.8 27.0 Extraction score 0.06 0.29 0.04 0.05 0.16 0.17 specified for the razdel tokenizer. Smaller values of extraction score correspond to a greater degree of abstractiveness of summaries Goloviznina V. S., Kotelnikov E. V.
+Another problem with abstractive methods is the incompleteness of the generated summaries. The ruGPT3
+Small and ruGPT3
+Large generate summaries that are closest in length to the reference ones (
+Table 3), but often does not complete them, while ru
+T5-base and ru
+T5-large, as a rule, complete sentences. Table 4 shows the proportion of summaries that do not end in end-of-sentence punctuation marks: “.”, “!”, “?”. For MLSU
+M, this value was not calculated, since the reference summaries from which the models were trained do not have punctuation marks at the end of the last sentence. mBAR
+T ruGPT3
+Small ruGPT3
+Large ru
+T5-base ru
+T5-large Gazeta 0.10 0.86 0.96 0.09 0.14 XL
+Sum 0.42 0.90 0.95 0.19 0.02 With regard to extractive methods, Lex
+Rank performed better than Text
+Rank (see Table 2). extractive methods shows the proportion of extracted sentences according to their position in the source text. Text
+Rank selects sentences from the text more evenly, Lex
+Rank tends to select sentences from the beginning of the text. Both methods include the first sentence of the text in summaries more often than others. This is due to the structure of the news article – the main information is contained at the beginning of the text, and then the clarifying facts are indicated. text Automatic Summarization of Russian Texts: Comparison of Extractive and Abstractive Methods
+The comparison between Lex
+Rank and ruGPT3
+Large is ambiguous (see Table 2). For the Gazeta corpus, the Lex
+Rank method outperforms ruGPT3
+Large in all metrics, for the MLSU
+M corpus it outperforms in 4 out of 6 metrics, for the XL-SU
+M corpus it is inferior in all metrics, except for BERT
+Score. On average, Lex
+Rank is ahead of ruGPT3
+Large in terms of METEO
+R and BERT
+Score, and for the ROUG
+E-2 metric the results differ by 0.01. However, we have decided to rank Lex
+Rank higher than ruGPT3
+Large due to the large number of factual errors of the latter, which cannot be in the extractive method. For the same reason, we put Text
+Rank higher than ruGPT3
+Small. Figures 3 (
+Russian version) and 4 (
+English version) show examples of summaries created by all eight methods. In the reference summary for the text from the Gazeta, two ideas stand out – a description of the new method and its criticism. It is only in the summary obtained by Lex
+Rank that there is an attempt to retain both ideas. The remaining methods pay attention to the first idea, while most of the mBAR
+T summary repeats the source text, the ruGPT3
+Large summary is not completed and contains errors. From Table 2 it can be seen that for MLSU
+M the metrics are low compared to the other two corpora. This can be explained by the fact that MLSU
+M is different from the other two datasets: a) MLSU
+M is 2.3 times smaller than Gazeta and 2.9 times smaller than XLSU
+M; b) the average length of a summary
+in MLSU
+M is much shorter, it is 13.8 tokens, while the average length in Gazeta is 52.2 tokens, in XLSU
+M it is 28.4 tokens. We tried to evaluate the adequacy of the automatic metrics. We used four criteria proposed by Fabbri et al. : coherence, consistency, fluency and relevance. We also added included two additional criteria: no excess information (absence of redundancy in the summary) and abstractiveness (absence of sentences from the source text). We randomly selected five texts for each of the corpora and evaluated summaries generated using all eight methods, that is, a total of 5*3*8=120 examples. During the evaluation, text, title, reference summary and generated summary were available to annotators. The annotator for each generated summary gave a score on a scale from 1 to 5 for each of the 6 criteria. We computed Kendall’s tau rank correlations between average manual scores and all the automatic metrics. The correlation values turned out quite high – from 0.7143 (ROUG
+E-3) to 0.9286 (BERT
+Score). This confirms the adequacy of using automatic evaluation metrics. V. S., Kotelnikov E. V.
+Text / summary Gazeta_59415 text16 Для поимки преступника хватит и пары волосков, заявляют специалисты из Национального института стандартов и технологий в США. Разработанный ими метод идентификации способен выделить специфические для конкретного человека белки из пряди волос длиной всего сантиметр. Для других аналогичных подходов требуется в восемь раз большая длина. О новом способе исследователи рассказали в статье в журнале Journal of Forensic Scienses. … Поскольку последовательности аминокислот в белках различаются от человека к человеку, такой подход позволит с высокой степенью точности идентифицировать людей и без выделения ДНК… reference summary Установить личность преступника можно всего по паре волосков, утверждают американские ученые — это можно сделать даже не выделяя ДНК, а лишь по ряду белковых последовательностей. Однако метод занимает слишком много времени, поэтому неизвестно, найдет ли он применение в криминалистике. Lead-3 Для поимки преступника хватит и пары волосков, заявляют специалисты из Национального института стандартов и технологий в США. Разработанный ими метод идентификации способен выделить специфические для конкретного человека белки из пряди волос длиной всего сантиметр. Для других аналогичных подходов требуется в восемь раз большая длина. Text
+Rank Однако большинство методов исследования белков в волосах подразумевают многократное измельчение и нагрев волос, в результате чего большая часть белков разрушается, а оставшихся может не хватить для получения необходимых данных. Точнее такую возможность просчитать пока сложно — в этом исследовании использовались образцы волос из биобанка и авторы не ставили перед собой цель найти их обладателя. В связи с этим возникает ряд вопросов — как краска для волос и другие косметические продукты влияют на эти белки? Lex
+Rank Однако большинство методов исследования белков в волосах подразумевают многократное измельчение и нагрев волос, в результате чего большая часть белков разрушается, а оставшихся может не хватить для получения необходимых данных. Разработанный ими метод идентификации способен выделить специфические для конкретного человека белки из пряди волос длиной всего сантиметр. Метод идентификации личности по полученным из волос GV
+P ранее не применялся в судебной практике, подчеркивает судмедэксперт Монти Миллер. mBAR
+T В США разработали новый способ идентификации личности по волосам — он позволяет выделить специфические для конкретного человека белки из пряди волос длиной всего сантиметр. Такой подход позволит с высокой степенью точности идентифицировать людей и без выделения ДНК. ruGPT3
+Small Исследование позволяет выявить особенности внешности преступника с помощью двух методов, направленных на выявление возможных причин, вызвавших задержку ДНК в ДНК. Миллионы людей в мире смогут идентифицировать себя по ДНК и другим типам волос_ ruGPT3
+Large Проверить человека по волосатой персоне в настоящее время можно достаточно просто. Теперь ученые разработали новый метод, позволяющий выявить человека по его волосяным фолликулам. Ранее для установления личности по образцам волос нужно было идентифицировать ДНК из кожи, с которой был ru
+T5-base Ученые выяснили, как определить личность человека по волосам. Для этого им достаточно выделить несколько волосков, чтобы поимка преступника была более точной. ru
+T5-large Американские ученые разработали новый способ идентификации личности по волосам. Для этого достаточно выделить белки из пряди волос длиной всего сантиметр. Yellow – repeated text. Blue – the second idea of the reference summary, which is not reflected in any summary of abstractive models. Red – the summary is not completed. Green – the most important and correct information in the summary. Red – errors. Orange – defect (pronouns in summaries of extractive methods) https://www.gazeta.ru/science/2019/11/24_a_12829868.shtml.
+16 The text is not given in full: its main sentences are included in the example. Automatic Summarization of Russian Texts: Comparison of Extractive and Abstractive Methods
+Text / summary Gazeta_594117 text18 A couple of hairs is enough to catch a criminal, say experts from the National Institute of Standards and Technology in the United States. The identification method they developed is capable of isolating human-specific proteins from a strand of hair just a centimeter long. Other similar approaches require eight times the length. The researchers described the new method in an article in the Journal of Forensic Sciences. … Since the sequences of amino acids in proteins differ from person to person, this approach will allow people to be identified with a high degree of accuracy without DN
+A isolation… reference summary It is possible to establish the identity of a criminal with just a couple of hairs, according to American scientists — this can be done even without isolating DN
+A, but only by a number of protein sequences. However, the method takes too much time, so it is not known whether it will find application in forensic science. Lead-3 A couple of hairs is enough to catch a criminal, say experts from the National Institute of Standards and Technology in the United States. The identification method they developed is capable of isolating human-specific proteins from a strand of hair just a centimeter long. Other similar approaches require eight times the length. Text
+Rank However, most methods for studying hair proteins involve repeated grinding and heating of the hair, as a result of which most of the proteins are destroyed, and the remaining ones may not be enough to obtain the necessary data. It is still difficult to calculate this possibility more precisely in this study, hair samples from the biobank were used and the authors did not set themselves the goal of finding their owner. In this regard, a number of questions arise how do hair dye and other cosmetic products affect these proteins? Lex
+Rank However, most methods for studying hair proteins involve repeated grinding and heating of the hair, as a result of which most of the proteins are destroyed, and the remaining ones may not be enough to obtain the necessary data. The identification method they developed is capable of isolating human-specific proteins from a strand of hair just a centimeter long. The method of identifying a person using GV
+P obtained from hair has not previously been used in judicial practice, emphasizes forensic scientist Monty Miller. mBAR
+T In the United States, a new method of identifying a person by hair has been developed — it allows to isolate human-specific proteins from a strand of hair just a centimeter long. This approach will allow people to be identified with a high degree of accuracy without DN
+A isolation. ruGPT3
+Small The study allows you to identify the features of the criminal's appearance using two methods aimed at identifying possible causes that caused the DN
+A to be retained in DN
+A. Millions of people in the world will be able to identify themselves by DN
+A and other types of hair_ ruGPT3
+Large Checking a person by a hairy person is currently quite simple. Now scientists have developed a new method to identify a person by their hair follicles. Previously, in order to establish an identity from hair samples, it was necessary to identify DN
+A from the skin with which ru
+T5-base Scientists have figured out how to determine the personality of a person by hair. To do this, it is enough for them to select a few hairs so that the capture of the criminal is more accurate. ru
+T5-large American scientists have developed a new method of identifying a person by hair. To do this, it is enough to isolate proteins from a strand of hair just a centimeter long. Yellow – repeated text. Blue – the second idea of the reference summary, which is not reflected in any summary of abstractive models. Red – the summary is not completed. Green – the most important and correct information in the summary. Red – errors. Orange – defect (pronouns in summaries of extractive methods) https://www.gazeta.ru/science/2019/11/24_a_12829868.shtml.
+18 The text is not given in full: its main sentences are included in the example.
+Goloviznina V. S., Kotelnikov E. V.4.3 Comparison with other works Comparison of our results with the results of difficult. Hasan et al. the values of their own modified ROUG
+E metric, which considers the language – multilingual rouge scoring19, while we calculate the standard ROUG
+E metric . Also, as a metric that takes into account the language, we use METEO
+R with Russian-language Snowball Stemmer and the wiki_ru_wordnet semantic network. Gusev a different METEO
+R library. In addition, in input length was limited to 600 tokens, in our work – to 1024. Nikolich et al. BERT
+Score using the multilingual BER
+T model , we use RuBER
+T . The values of the parameters for language models are different in our work and, for example, in . In this regard, we show our results along with the results of on ROUG
+E and BLE
+U metrics (
+Table 5). The Gazeta is the only corpus, which these works investigate. To emphasize the difficulty of direct comparison, we did not highlight the best results in ROUG
+E-1 ROUG
+E-2 ROUGE
+L BLE
+U ru
+T5-large (our work, Table 2) 32.45 13.97 29.24 10.88 mBAR
+T 14.2 27.9 12.420 ruGPT3
+Large (our work, Table 2) 23.45 6.45 20.73 4.93 ruGPT3
+Small (our work, Table 2) 18.84 4.06 16.68 3.13 ruGPT3
+Small 1.4 10.0 23.121 14.2 32.4 – 5 Conclusion
+In the study, we compared several models and methods within the framework of abstractive and extractive approaches on the corpora of news articles Gazeta, MLSU
+M and XL
+Sum. Based on the experimental results, we ranked the methods (from best to worst) as follows: ru
+T5large, mBAR
+T, ru
+T5-base, Lex
+Rank, ruGPT3
+Large, Text
+Rank, ruGPT3
+Small. During the analysis of summaries obtained by different methods, we identified several features: • mBAR
+T has the lowest level of abstractiveness compared to ruGPT3
+Large and ru
+T5-large; • ruGPT3
+Small and ruGPT3
+Large generate summaries that are closest in length to the reference ones, but often does not complete them and makes errors; • ru
+T5-base and ru
+T5-large summaries are also close to the reference length, rather abstract and contain fewer errors than summaries of ruGPT3
+Small and ruGPT3
+Large; • Text
+Rank more evenly selects sentences from the text; • Lex
+Rank tends to select sentences from the beginning of the text. In further research, we intend to compare the considered methods on the Russian-language part of the Wiki
+Lingva corpus , formed on Wiki
+How articles, which differ in their structure from news articles. Acknowledgements This work was supported by Russian Science Foundation, project № 22-21-00885, https://rscf.ru/en/project/22-21-00885. https://github.com/csebuetnlp/xl-sum/tree/master/multilingual_rouge_scoring.
+20 Gusev a mistake in calculating BLE
+U. Updated scores: https://arxiv.org/pdf/2006.11063.pdf
+21 In , the BLE
+U value is compared with the erroneous results of , it is probably also incorrect. Automatic Summarization of Russian Texts: Comparison of Extractive and Abstractive Methods

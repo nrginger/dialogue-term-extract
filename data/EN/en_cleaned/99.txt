@@ -1,0 +1,213 @@
+Majority of open-domain dialog systems use hand-crafted finite state machines for response generation(
+Larsson and Traum, 2000), (
+Bocklisch et al., 2017), (
+Finch and Choi, 2020). For every expected userutterance these systems define a state with pre-defined output response and transition to the next state ofthe dialog, but user input can mismatch a condition for transition in the current state. As well, the userinput can mismatch all possible states defined by the finite state machine. Here, neural generative modelsare able to help with producing natural like responses. Unfortunately, generative models demonstratevery unreliable coherence with existing dialog context (
+Abhishek et al., 2021). One of the possiblesolution is to use controllable attributes such as dialog act or sentiment to guide generation of responsesand return the dialog flow back to the domain of pre-defined script. If the script is defined as pairs ofadjacent dialog acts, or in goal-oriented dialog, the attributes of the system response (intent, slot values)are extracted (
+Wu et al., 2019), for known attributes of the response a generative model conditioned ongrounding knowledge about entities found in the dialog context or slot values, is able to generate all thebot utterances in the script without retrieval of hand-written responses. Also the right level of control canimprove dialog quality in different aspects (
+See et al., 2019). Social bots like Gunrock (
+Yu et al., 2019)and Xiao
+Ice (
+Zhou et al., 2019) are actively using dialog acts, sentiment and other attributes for dialogmanagement.
+Controllable generative models have been an active area of research over last years. Models (
+Zhaoet al., 2017), (
+Zhang et al., 2018) control one attribute of the generated response (dialog act, responserelatedness or specificity). The need to control different attributes simultaneously is present in (
+See etal., 2019). General approaches to control multiple attributes simultaneously were presented for differentmodel architectures in (
+Hu et al., 2021b), (
+Xu et al., 2019), (
+Yu et al., 2021), (
+Du and Ji, 2021), (
+Yanget al., 2021). In this paper we propose and study a technique for multi-attribute generation control whichis suitable for the both pre-training as well as fine-tuning. We use PA
+Ls (
+Stickland and Murray, 2019)with transformer architectures, consequently parameters of the main pre-trained model provide constantbackground knowledge and PA
+L layers are trained to control generation in respect with specific attribute.
+Informativeness and meaningfulness is another important aspect of generated responses. Blenderbot(
+Roller et al., 2020), CoL
+V (
+Zhan et al., 2021) and CGR
+G (
+Wu et al., 2021) use grounding knowledge(retrieved paragraphs) to control the content of output utterances. But these models are not able to becontrolled to produce the response with required attributes, such as dialog act or sentiment.
+Trained models for English language, training and inference code and data to test the quality of modelsare published in Open Source under the Apache 2.0 license1. The main contributions of this work are thefollowing:• we develop the method of controllable generation for several simultaneous attributes such as dialogacts and sentiment with no changes in weights of the original model;• we study simultaneous control of knowledge grounding as well as dialog act and sentiment of aresponse, and find that our model outperforms existing approaches in terms of dialog act and sentiment control accuracy and is competitive in terms of perplexity of knowledge grounded generation.
+2 Related Work
+There are many different approaches to control generation process with or without changing the architecture or retraining the initial language model. PPL
+M (
+Dathathri et al., 2019) updates latent represent1https://github.com/deepmipt/controllable-generation
+Evseev D. A., Nagovitsin M. S., Kuznetsov D. P.ations of model during decoding with help of pre-trained discriminator, GeD
+I (
+Krause et al., 2020) usesclass-conditional distributions to achieve control for both desired and undesired attributes (for example,generate less toxic answers). Both PPL
+M and GeD
+I work without changing the initial model.
+Another way of control is to add special control tokens as an input for model. It can be done byfine-tuning (or full training) of model, as proposed in CTR
+L (
+Keskar et al., 2019), or by keeping theinitial model as is and training a special alignment function which will generate proper key and valuerepresentations for control tokens on each level of pre-trained Transformer model, as proposed in Attribute Alignment (
+Yu et al., 2021). Those methods are capable of controlling multiple attributes by addingtokens for each one.
+For larger models prefix tuning (
+Li and Liang, 2021) can be applied. Prompts also can be used for afew shot learning (
+Zheng and Huang, 2021).
+Some methods work with a latent space, for example CRAYO
+N (
+Hu et al., 2021b), which is based onLST
+M, or PHE
+D (
+Yang et al., 2021), which uses Transformer combined with CVA
+E to add a latent spaceto the Transformer architecture. Model GTMES2
+S, proposed in (
+Xu et al., 2019) uses additional modulesto control current level of all attributes and guide further generation to reach desired values. Each ofCRAYO
+N, PHE
+D and GTMES2
+S are working with multiple attributes. In Xiao
+Ice dialog assistant (
+Zhouet al., 2019) GR
+U is used to generate responses, conditioned on query and response empathy vectors.
+The other method is to add special modules to shift embeddings (and maybe hidden states) from initialmodel, same as with PPL
+M (
+Dathathri et al., 2019), but to learn a proper transformations in advanceand not to tune them on inference. Side
+Control (
+Du and Ji, 2021) propose a way to perturb embeddingsof any language model by training additional module, which will take class embedding or groundingknowledge into account. Another way is to treat control as a special task and add adapters (
+Houlsby etal., 2019) for different attributes we want to control. One of such models is Adapter
+Bot (
+Madotto etal., 2020) which has an option of switch between different attributes without changes in initial model.
+Hyperformer (
+Mahabadi et al., 2021) utilizes a shared PA
+L parameters for all tasks and Transformerlayers, these parameters are generated by a hypernetwork. The model (
+Xie and Pu, 2021) is an encoderdecoder Transformer, where emotions in response are controlled with emotion embeddings, fed intothe model. But models with adapters are not able to control multiple attributes simultaneously withoutadditional work. Task-specific parts to the model can also be efficiently added with help of low-rankdecomposition, as proposed in LoR
+A (
+Hu et al., 2021a).
+The key points in which our model differs from the others are following:• Ability to control of multiple attributes simultaneously (dialog act and sentiment in our study);• Preserving the weights of initial model in original state;• Ability to pre-train all adapters independently on different datasets;• Scalability in terms of number of controllable attributes and number of their values;
+Most of generative models, which do not use external knowledge, are capable of producing grammatically correct and natural responses given the dialog history, but have a limited ability to generateinteresting responses based on facts. On the other hand, knowledge-grounded generative models have anoption of controlling content of generated responses with sentences with facts or keywords. CGR
+G (
+Wuet al., 2021) model uses lexical control phrases to control the generated response. The approach of (
+Xuet al., 2021b) is based on PA
+Ls for different topics which are used for retrieval-free knowledge groundedgeneration. The model (
+Zhan et al., 2021) uses latent variables for relevant knowledge selection and response generation. The models (
+Xu et al., 2021a), (
+Kumar et al., 2021) and (
+Gupta et al., 2020) controlsthe generated response by adding as input of the transformer the sequence of keywords before the dialog history. Our approach is inspired with Blenderbot (
+Roller et al., 2020) which is an encoder-decodertransformer pretrained on Reddit and finetuned on Wizard of Wikipedia (
+Dinan et al., 2018), but ourmodel controls not only the content of the response and moreover dialog act and sentiment.
+3 Methods
+In this paper, our goal is to find a method to control different response attributes without losing muchtoken prediction quality (perplexity) and other abilities of the base pre-trained model (e.g., using ground3
+Controllable Multi-attribute Dialog Generation with PA
+Ls and Grounding Knowledgeing knowledge). We did most of our experiments with DialoGP
+T-small architecture (
+Zhang et al., 2020b),because of the affordable time to fine tune and the good quality of the pre-trained model. Additional experiments with simultaneous control of content, dialog acts and sentiment we performed with Blenderbotarchitecture (
+Roller et al., 2020). Furthermore, we chose dialog acts (inform, question, directive, commissive) and sentiment (negative, neutral, positive) as controlled attributes. For evaluation of controlaccuracy we used Daily
+Dialogs (
+Li et al., 2017), sentiment labelling was made separately by classifier. For evaluation of knowledge-grounded dialog generation quality (perplexity) we used Wizard of
+Wikipedia dataset (
+Dinan et al., 2018).
+Control Blend Train dataset Dialog act acc. Sentiment acc. Perplexity Opt. steps Trainable par.
+No control Daily
+Dialogs 25.20 ±0.21 33.41 ±0.15 15.19 ±1.58 2000 117M
+Dialog acts average Daily
+Dialogs 63.74 ±0.32 42.83 ±0.27 15.93 ±0.12 10000 36M
+Dialog acts dense Daily
+Dialogs 45.27 ±5.26 40.15 ±1.22 22.36 ±0.85 5000 49M
+Sentiment average ScenarioS
+A 33.40 ±0.16 72.09 ±4.06 92.98 ±14.74 5000 28M
+Dialog.
+Blend Transfer Dialog act acc. Sentiment acc. Perplexity Opt. steps Trainable par.
+average no 63.09 ±2.22 69.19 ±1.10 17.12 ±0.40 5000 63
+Mdense no 61.65 ±1.02 67.10 ±1.38 22.07 ±0.39 5000 84
+Mdense & average no 61.36 ±1.40 68.12 ±0.69 15.51 ±0.13 5000 77
+Maverage yes 65.62 ±2.04 66.04 ±0.25 17.74 ±0.75 5000 63
+Mweighted average yes 63.20 ±1.09 69.05 ±0.42 15.65 ±0.09 5000 63
+Mdense yes 60.83 ±1.35 67.80 ±3.37 21.34 ±0.40 5000 84
+Mdense & average yes 62.76 ±0.70 70.03 ±2.04 15.69 ±0.19 5000 77
+Mdense & average, only blend yes 60.19 ±0.76 67.47 ±0.90 15.30 ±0.05 10000 14
+Minitialized with weights from model for single attribute control.
+3.1 Projected Attention Layers as Multitask Adapters
+One of the approaches to control object attributes is to learn proper shifts in latent space (
+Hu et al., 2021b). One way to modify latent representations for every token is to use Projected Attention Layers
+(PA
+Ls) (
+Stickland and Murray, 2019) as adapters for every controllable attribute. In our case, each PA
+L will learn to correct hidden states of the main model to generate a response with the desired attribute (
+Figure 1).
+3.2 Blend layer
+To control several attributes simultaneously, we decided to add a PA
+L for each attribute and run them in parallel (
+Figure 1). We chose average blending as our baseline for blending of hidden representations. It allows us to control easily the contribution of each PA
+L to the resulting hidden states by weighting them. Then we try a trainable way of blending outputs of PA
+L branches: dense blending — concatenation of PA
+Ls outputs and the main branch and feeding into the dense layer; combination of dense and average blending — concatenation of PA
+Ls outputs, feeding into the dense layer and averaging the output with the base model. The loss function stays unchanged from the task of the next token prediction. For every labeled sample from training data we chose only corresponding PA
+Ls and train them, the base model is frozen.
+3.3 Default branch
+We added the "default" branch for each attribute for default selection values for attributes. Default branch is turned on for training on every sample instead of specialized PA
+L with probability 𝑝𝑝 = 0.2. Thus default branch will be trained on all dataset and will not be bound to one attribute value.
+Evseev D. A., Nagovitsin M. S., Kuznetsov D. P.token.
+3.4 Independent PA
+Ls pre-training
+We independently trained models for dialog act and sentiment control and transferred these pre-trainedbranches into one model. Even without any further training resulting model demonstrated a noticeablygood attribute control without huge degradation of perplexity, even though PA
+Ls for the sentiment weretrained on a different dataset (more details in Appendix A.4). After transfer, the model with the blendinglayer can be finetuned on the target dataset.
+3.5 Control of attributes and context of responses
+One of our goals is to develop a model which could generate responses for a given grounding knowledgeand global attributes, such as dialog act and sentiment. We modified Blenderbot Transformer architecturefor control of global attributes of the response by adding PA
+Ls in parallel with the self-attention layerof the decoder layers. The decoder layer in our modification has 5 branches for dialog acts and 4 forsentiment. The attibute branches were blended with the dense layer and then added to the main branchof the base model.
+4 Experiments and results
+4.1 Evaluation
+We used two metrics to estimate the quality of our models: perplexity to test that model is able to producerelevant and natural like responses and ability to control attributes. We generate responses for every turnon a validation part of Daily
+Dialog and use attribute classifiers (see Appendix A.2) to check if theresponse of the model is correct and calculate balanced accuracy for each attribute. For example, for thedialog act attribute, we estimate the dialog act of each generated response and compare it with the goldlabel. Every model was trained for the same amount of steps, and then the best by perplexity checkpointwas scored. Blending experiments were performed with DialoGP
+T-small (117
+M) as a pre-trained basemodel. All parameters of PA
+Ls were taken from the original paper (
+Stickland and Murray, 2019), thusthe PA
+L embedding dimension was 204. Training setup is the same as reported for original DialoGPT(
+Zhang et al., 2020b).
+4.1.1 One attribute
+When only one attribute is controlled there are no conflicts between PA
+Ls, because only one attributeshift is learned. We tried averaging and dense layer to blend the output of PA
+L and the layer of themain model (
+Table 1). The averaging is better in both perplexity and accuracy and is much easier for
+Controllable Multi-attribute Dialog Generation with PA
+Ls and Grounding Knowledgefurther transfer because there is no need to add the blending layer to the target base model. Resourcesconsumption is shown in Appendix A.1.
+4.1.2 Two attributes
+In the case of controlling multiple attributes simultaneously every PA
+L should adapt to its neighbors andlearn to change only the corresponding attribute. Experiments (
+Table 2) have shown that the control abilities or perplexity are slightly better in the case of PA
+Ls pre-training and transfer compared to trainingadded multi-attribute PA
+Ls from scratch. Average blending gives the best control for the similar perplexity. Dense layer blending results in perplexity drop. The model with a combination of dense and averageblending shows the best perplexity and great control abilities. For other blending option perplexity isalso on the same level, and control is better for one attribute and worse for another. Since each PA
+L waspre-trained with average blending, a more natural way to blend them is weighted average (see Appendix
+A.4), this gives better perplexity. With weighted average as a blending layer, it is possible to control thecontribution of each PA
+L to every attribute. If the weights are transferred, another alternative to finetunethe model is to train only blending layer. We choose combination of dense and average blending to finetune, and it results in the best perplexity and good control abilities (last row in the Table 2). Resourcesconsumption is shown in Appendix A.1. Examples of dialogs can be found in Appendix A.9. Morediscussion on perplexity-accuracy tradeoff can be found in Appendix A.7.
+Model D.
+A. acc. Sent. acc. PPL
+Bl. bot, cont., 199
+M 77.01 84.90 28.42
+Bl. bot 400
+M 38.10 28.43 18.24
+Bl. bot 90
+M 38.18 27.96 76.10
+Huggingface (balanced accuracy and perplexity) with grounding knowledge.
+Model Q/no
+Q acc. Sent. acc.
+Bl. bot, cont., d&avg 99.45 85.87CRAYO
+N 98.17 82.17question asking and sentiment control accuracy.
+4.2 Blenderbot results
+The next series of experiments was performed with Blenderbot for dialog acts and sentiment control(4 layers in encoder, 8 layers in decoder, embedding dimension of 576, 119
+M parameters). We pretrain
+Blenderbot on Reddit and finetuned on Daily Dialog, ConvA
+I2 (
+Dinan et al., 2020), Emphatetic Dialogueand Wizard of Wikipedia.
+We compared Blenderbot with PA
+Ls and baseline Blenderbot on Dialy Dialog dataset (
+Table 3). It wasfound that extended Blenderbot outperforms Blenderbot 400
+M and Blenderbot 90
+M from Huggingfacelibrary in dialog acts and sentiment control accuracy and is comparable with the baseline in perplexity ofdialog generation given grounding knowledge (G
+K) on Wizard of Wikipedia dataset.
+We compared controllable Blenderbot with CRAYO
+N (
+Hu et al., 2021b) in question asking and sentiment control accuracy on Daily Dialog dataset. Our model controls 4 types of dialog acts, therefore weused PA
+L for "question" dialog act to generate a question and PA
+L for "inform" otherwise. Blenderbotwith PA
+Ls outperforms CRAYO
+N in question asking and sentiment control accuracy (
+Table 4).
+5 Conclusion
+In this paper with presented the study of techniques for multi-attribute control of neural response generation in the dialog with and without grounding knowledge. Our methodology employs extension of
+Evseev D. A., Nagovitsin M. S., Kuznetsov D. P.pre-trained generative base model with attribute specific projected attention layers (PA
+Ls). Results ofour experiments allow to draw the following conclusions.
+If the base model is already trained and the quality of the responses is a first priority, then the best wayis to pre-train PA
+Ls for each attribute separately (maybe on different datasets) with the average blending.
+Then transfer pre-trained PA
+Ls to the base model and finetune with weighted average or combinationof average and dense blending. If a degradation of perplexity is not noticeably harmful then averageblending without transfer is also an option due to ability to control the contribution of each attribute.
+Our results demonstrate that proposed approach can be successfully applied to controllable generationof responses in the dialog conditioned on multiple attributes for less numbers of trainable parameters perattribute. The method can be also combined with grounding knowledge. Compared to the baseline oursolution shows better accuracy of dialog acts and sentiment control with similar perplexity.

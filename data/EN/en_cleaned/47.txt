@@ -1,0 +1,185 @@
+There were many novel applications of Natural Language Processing (NL
+P) to biomedical information in recent years. Most of researchers’ attention attracts task of Named Entity Recognition (NE
+R). Many applications of NE
+R have been applied to scientific literature and electronic health records. And comparatively little work was carried out on social media texts of individuals undergoing medical treatment.
+Social media in recent years had become a virtually inexhaustible source of people’s opinions on the wide variety of topics. In this work, our focus is patients’ opinions on drug effects, i.e. patients’ reports. Progressive improvement of text mining approaches applied to patient reports in social media by the terms of accuracy and recall has multiplicative effect on several areas including pharmacovigilance (especially, for new drugs), drug repurposing, and understanding drug effects in the context of important and yet not well studied other factors such as concurrent use of other drugs, diet, and lifestyle.
+We study the patients’ comments on social media in an aspect of discovering disease-related medical concepts from. In the context of this problem, we map a text written in the informal language of social media (e.g. “
+I can’t fall asleep all night” or “head spinning a little”) to formal medical language (e.g. “insomnia” and “dizziness” respectively).
+This goes beyond simple straightforward matching of natural language expressions with vocabulary elements: string matching approaches may not be able to link the social media language to the medical concepts due to few or an absence of overlapping words. We call the task of mapping everyday life language to medical terminology medical concept normalization (or medical concept mapping). The main benefit of solving this task is bridging the gap between the language of lay public and medical professionals.
+The described task seems to be uneasy since patients post in social media texts on different illness concepts (a wide variety of one’s from conditions like major depressive disorder to informal phrases describing specific symptoms such as “woke up too early” or “mucus building up in my lungs”) and a wide diversity of drug reactions (e.g., “excessive sweating at night”, “slept like a baby”, or “clearing up an infection”). Also, we should mention that the data from social networks typically contain a lot of noise such as typos, misspellings, incorrect grammar, hashtags, abbreviations, and different variations of the same word.
+Formally speaking, this task is related to several well-known NL
+P challenges including paraphrase detection, word sense disambiguation, and entity linking where an entity mention is mapped to a unique concept in an ontology after solving the disambiguation problem . In recent studies, there were proposed some approaches to this challenge treating the task of linking a oneor multi-word expression to a knowledge base as a supervised sequence labeling problem. Miftahutdinov and Tutubalina an encoder-decoder model based on bidirectional recurrent neural networks (RN
+Ns) to translate a sequence of words from a death certificate into a sequence of medical codes. Two recent works present similar approaches utilize RN
+Ns for normalization of tweets’ phrases at the AMI
+A 2017 Social Media Mining for Health Applications workshop, while Limsopatham and Collier with convolutional neural networks (CN
+Ns) on social media data. These works demonstrated usage of deep learning techniques for medical concept normalization. In this paper, we experimented with more complex RN
+N architectures with Leveraging Deep Neural Networks and Semantic Similarity Measuresan attention mechanism and additional linguistic knowledge. Moreover, we study the impact of different word embeddings. We conduct extensive experiments on a reallife dataset from Askapatient.com and demonstrate the effectiveness of the proposed method for medical concept mapping.
+2. Background
+The most popular knowledge-based system for mapping texts from scientific literature and clinical records to medical identifiers are Meta
+Map D
+Norm . Meta
+Map was developed by the National Library of Medicine (NL
+M) in 2001 and has become a de-facto baseline method for many recent studies. This system is based on UML
+S and a linguistic approach using lexical lookup and variants by associating a score with phrases in a sentence. Leaman et al. introduced a D
+Norm system for assigning disease mentions from Pub
+Med abstracts a unique identifier from a MEDI
+C vocabulary, which combines terminology from Medical Subject Headings (MeS
+H) and Online Mendelian Inheritance in Man (OMI
+M) . D
+Norm consists of a text processing pipeline, including the named entity recognizer to locate diseases in the text, and a normalisation method. The normalisation method is based on a pairwise learning-to-rank technique using the tokens from all mentions as features. D
+Norm outperformed Meta
+Map as the baseline.
+While there has been a lot of work on named entity recognition from social media posts that has been done over the past 7 years , relatively few researchers have looked at assigning social media phrases to medical identifiers. First Social Media Mining shared task workshop (organized as part of the Pacific Symp. on Biocomputing 2016) was designed to mining pharmacological and medical information from social media, with a competition based on a published dataset . Task 3 is devoted to medical concept normalisation, where participants were required to identify the UML
+S concept for a given AD
+R. The evaluation set consisted of 476 AD
+R instances. Sarker et al. that there had been no prior work on normalisation of concepts expressed in social media texts, and task 3 did not attract much attention from the researchers.
+Recently, two teams namely UKNL
+P gn
+Team in the Second Social Media Mining for Health (SMM4
+H) Shared Task and submitted their systems for automatic normalisation of AD
+R mentions to MedDR
+A concepts. For the task 3, Sarker et al. a new dataset of tweets’ phrases. The training set for this task contains 6,650 phrases mapped to 472 concepts, while the testing set consisted of 2,500 phrases mapped to 254 classes. We also note that organizers of this task did not describe the corpus creation in details as well as not providing corpus statistics, e.g., the overlap percentage between training and testing sets. Teams’ systems showed similar results. The gn
+Team’s approach contained three components for preprocessing and classification. The first two components corrected spelling mistakes and converted sentences into vector-space representation, respectively. For the third step, Gn
+Team adopted multinomial logistic regression model which achieved the accuracy of 0.877, while the bidirectional GR
+U achieved the accuracy of 0.855. As input, the network adopted the Google
+News embeddings trained on a Google News corpus Miftahutdinov Z., Tutubalina E.due to higher results the highest performance over embeddings trained on tweets. The ensemble of both classifiers showed slightly better performance and achieved the accuracy of 0.885. The UKNL
+P’s system adopted hierarchical LST
+M in which a phrase is segmented into words and each word is segmented into characters. Word embeddings were trained on a Twitter corpus. Hierarchical Char-LST
+M achieved the accuracy of 0.872, while hierarchical Char-CN
+N performed slightly better and achieved the accuracy of 0.877. We note this corpus of tweets for future work since the official test data is available for the shared task participants only by the time of publication.
+Recently, Limsopatham and Collier with Convolutional Neural Networks (CN
+N) and pre-trained word embeddings for mapping social media texts to medical concepts. For evaluation, three different datasets were used. The authors created two datasets with 201 and 1,436 Twitter phrases which mapped to concepts from a SIDE
+R database. The third dataset is the CSIR
+O Adverse Drug Event Corpus (CADE
+C) consists of user reviews from askapatient.com. The authors observed that training can be effectively achieved at 40–70 epochs. As input, the network concatenated embeddings of words. The Google
+News embeddings improved results significantly over embeddings on medical articles. Experiments showed that CN
+N (accuracy 81%) outperformed D
+Norm (accuracy 73%), RN
+N (accuracy 80%) and a multi-class logistic regression (accuracy 77%) on the AskA
+Patient corpus (as well as corpora of tweets). This work is the closest to ours in the use of deep learning technology and semantic representation of words. However, we found that only approximately 40% of expressions in the test data are unique, while the rest of expressions occur in the training data. Therefore, the presented accuracy may be too optimistic. We believe that future research should focus on developing extrinsic test sets for medical concept normalisation.
+3. Methods
+In this section, we will discuss major challenges in this task and applied neural architectures.
+3.1. Recognition of Different Word Variances
+The task of medical concept normalisation is closely related to the problem of word sense disambiguation and terminological variance. There are major challenges which disease mention recognition methods as well as term extraction methods face: (i) exical, morphological, and syntactic variants;(ii) paraphrases, synonyms;(iii) abbreviations;(iv) ambiguity;(v) misspellings.
+The examples of three-form phrases from the CADE
+C corpus are presented in Leveraging Deep Neural Networks and Semantic Similarity Measurescorresponding medical concepts
+Free-form Phrases Medical concept SNOME
+D I
+Dlower pelvic pain Pain in pelvis 30473006uterus contractions Uterine spasm 29542008something wrong with my uterus Uterus problem 289621007stomach issues Stomach problem 300306001slightly heavier menstrual cycle Menorrhagia 386692008inflammation in my back muscles Muscle cramp 55300003inflammation in my neck Cervical arthritis 387801000heavy menstrual bleeding Menorrhagia 386692008acidic bile in my mouth Acid reflux 698065002could only walk less than 100 meters Reduced mobility 8510008very painful joints Arthralgia 57676002starting to upset my stomach Stomach ache 271681002can't sleep Insomnia 193462001high B
+P Increased venous pressure 69791001pulse is still extremely high Pulse fast 866510023.2. Proposed Model for Concept Mapping
+We propose a deep approach for mapping entity mentions to medical codes. We first convert each mention into a semantic representative vector using bidirectional LST
+M or GR
+U attention mechanism on top of the embedding layer. We use the hyperbolic tangent as activation function. Then, a set of features are extracted using the cosine similarity between mentions and medical concepts from the UML
+S Metathesaurus. For model training, we use the cross-entropy error between gold distribution and predicted distribution as the loss function. The model is depicted in figure 1: Proposed architecture for medical concept normalization
+Miftahutdinov Z., Tutubalina E.3.3. Semantic Similarity Features
+We extract a set of features to enhance the representation of the phrases. These features consist of cosine similarity between the vectors of the input phrase and a concept in a medical terminology dictionary. This dictionary includes medical codes and synonyms from the UML
+S Metathesaurus (version 2017 A
+A), where codes are presented in the CADE
+C corpus. We apply the following strategy to create representations of a concept and a mention and compute cosine similarity between the representations of each pair: present a medical code as a single document by concatenating synonymous terms. Then, we apply the TF-ID
+F transformation on the code and the entity mention and compute the cosine similarity.
+Neural networks require word representations as inputs. We investigate the use of several different pre-trained word embeddings. Recent advances have made distributed word representations into a method of choice for modern NL
+P . We utilize word embeddings named Health
+Vec, which are publicly available 200-dimensional embeddings that were trained on 2,607,505 unlabeled user comments (93,526 terms) from health information websites using the CBO
+W model in . We also experimented with another published 200-dimensional embeddings named PubMed
+Vec (2,351,706 terms) trained on biomedical literature indexed in Pub
+Med .
+4. Experimental Evaluation
+The purpose of our evaluation is to determine how well recurrent neural networks can identify the corresponding medical concepts based on informal language from patients’ texts.
+4.1. Data Set
+We conducted experiments on a collection of user reviews obtained from the CADE
+C corpus . This corpus contains 1,250 reviews and consists of four predefined disease-related types: AD
+R (6,318 entities), Disease (283 entities), Symptom (275 entities), and Clinical Finding (435 entities). Authors reported that only 39.4% of the annotations (including drugs) were unique; people generally discussed similar reactions. Disease and Symptom specify the reason for taking the drug. Patients may mention the name of a disease or the symptoms that led to them taking a drug. Findings are any adverse side effects, diseases, or symptoms that were not directly experienced by the reporting patient. We did not distinguish between these types and join them into one class of annotations named Disease.
+All entities in the CADE
+C corpus were mapped to SNOME
+D CT-A
+U (SCT-A
+U) by a clinical terminologist. SNOME
+D C
+T is a clinical terminology that provides codes, synonyms, and definitions of clinical terms, and can be accessed through the UML
+S Metathesaurus. Additionally, concepts identified in the SNOME
+D C
+T were associated with MedDR
+A identifiers. In this work, we adopted only SNOME
+D C
+T identifiers and removed ‘concept less’ or ambiguous mentions for evaluation purpose. Table 2 shows final statistics for the CADE
+C corpus. The total number of unique codes was 1,029.
+Leveraging Deep Neural Networks and Semantic Similarity Measures
+Entity type Total Unique phrases Unique SNOME
+D codesAD
+R 5,838 3,241 788
+Disease 266 165 108
+Drug 1,657 290 124
+Finding 399 270 180
+Symptom 251 128 784.2. Preprocessing and Experiment Settings
+Preprocessing includes spelling correction and lemmatization using the Natural Language Toolkit (NLT
+K). We performed a 5-fold cross-validation to evaluate the methods. We found that a standard cross-validation method creates a high overlap of expressions in an exact matching between training and testing parts. Therefore, the split procedure has a specific feature in our setup. First, we removed all duplicates in each dataset. Second, we grouped medical records into sets which are related to a specific medical code. Every such set was split independently into k folds, and all these folds were merged into final k folds. The created folds are publicly available1.
+4.3. Baseline System
+For comparison, we applied state-of-the-art baselines based on convolutional neural networks. In , experiments showed that CN
+N outperformed existing strong baselines such as D
+Norm and Logistic Regression. In order to obtain local features from a text with CN
+Ns, we used multiple filters of different lengths .
+4.4. Model Configuration and Training
+Since neural networks, especially deep neural networks, have a very large number of free parameters, problems with overfitting are inevitable, and some form of regularization is required. We used a dropout rate 0.5 after the embedding layer (before networks’ layers).
+Another standard technique in modern deep learning, batch normalisation , was designed to cope with a problem known as covariate shift. For all networks, we set the mini-batch size to 128 to minimize the negative log-likelihood of correct predictions.
+The last important set of advances deal with actually training the model. We used a popular adaptive gradient descent variations, Adam . Embedding layers are trainable for all networks. The number of outputs of the layer with the softmax activation equals to the number of unique concept codes. Additionally, we separated out 10% of the training set to form the validation set which was used to evaluate different model parameters. The number of epochs is determined by early stopping on the
+1 https://yadi.sk/d/oLBTUpXg3Rt
+Czd
+Miftahutdinov Z., Tutubalina E.validation set. We employed early stopping after two epochs with no improvement on the validation set. The final number of epochs is 15.
+For RN
+N, we utilized either a 100or 200-dimensional hidden layer for each RN
+N chain. For CN
+N, we adopted effective parameters from . We used the filter w with the window size h of , each of which had 100 feature maps. Pooled features were fed to a fully connected feed-forward neural network (with dimension 100) to make an inference, using rectified linear units as output activation.
+We found 91% and 88% of words from the CADE
+C corpus vocabulary in the word embeddings Health
+Vec and PubMed
+Vec, respectively. For other words, their representations were uniformly sampled from the range of embedding weights .
+4.5. Results
+The standard technique for evaluating concept normalisation is to compare correctly normalised disorder mentions against the gold standard entities . Accuracy which is defined as follows:𝐴𝑐𝑐𝑢𝑟𝑎𝑐𝑦 = 𝑁𝑐𝑜𝑟𝑟𝑒𝑐𝑡𝑇𝑔, (1)where 𝑁𝑐𝑜𝑟𝑟𝑒𝑐𝑡 is the number of correctly normalised disorder mentions and 𝑇𝑔 is the total number of disorder mentions in the gold standard.
+We present the experimental results of neural networks in Model Parameters AccuracyCN
+N Health
+Vec, 100 feature maps 46.19CN
+N PubMed
+Vec, 100 feature maps 45.79LST
+M Health
+Vec, 200 hidden units 64.51LST
+M PubMed
+Vec, 200 hidden units 64.24GR
+U Health
+Vec, 200 hidden units 63.05GR
+U PubMed
+Vec, 200 hidden units 62.73LSTM+
+Attention Health
+Vec, 200 hidden units 65.73LSTM+
+Attention Health
+Vec, 100 hidden units 64.83GRU+
+Attention Health
+Vec, 200 hidden units 67.08with semantic similarity featuresLSTM+
+Attention Health
+Vec, 100 units, similarity TF-ID
+F 67.63LSTM+
+Attention Health
+Vec, 200 units, similarity TF-ID
+F 66.83GRU+
+Attention Health
+Vec, 100 units, similarity TF-ID
+F (AL
+L) 69.92GRU+
+Attention Health
+Vec, 200 units, similarity TF-ID
+F (AL
+L) 69.42
+The best results were obtained while using vectors trained on social media posts. GR
+U consistently outperformed CN
+Ns and LST
+M in terms of accuracy. Attention mechanism and prior knowledge from the UML
+S Metathesaurus indeed led to quality improvements for both GR
+U and LST
+M.
+Leveraging Deep Neural Networks and Semantic Similarity Measures5. Conclusion
+In this work, we have demonstrated that RN
+N-based architectures, LST
+Mand GR
+Ubased in particular, have promising performance on the task of medical concept normalization of free text mentions in social media. The experiments have shown qualitative and quantitative improvement over a strong baseline. We see three possible ways to next research to improve and expand the achieved results. The natural way to extend our models is to integrate a linguistic knowledge into them. We plan to concatenate RN
+N’s output with a semantic similarity vector. We might focus on the development of extrinsic test sets for medical concept normalization. This future work looks promising also in consideration of paraphrase generation and other encoder-decoder applicable tasks.
+Acknowledgements
+This work was supported by the Russian Science Foundation grant no. 18-11-00284. The authors thank Valentin Malykh for useful discussions during writing this paper.

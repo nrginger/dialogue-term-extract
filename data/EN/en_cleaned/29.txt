@@ -1,0 +1,188 @@
+Sentiment classification is an important part of chat-bots, from question answering helper on web-site to personal assistant that should track owner’s mood and desires. The reason of the statement is that conversation with chat-bot should gratify a user but strongly in accordance to a situation.
+There are three basic approaches to sentiment classification task: rule-based solution, machine learning (M
+L) models and neural networks (N
+N). Rule-based approach is the most popular because it does not require labelled datasets but only sentiment dictionaries. However, rule-based models often do not take into account context wider than two or three tokens. If it is possible to collect and annotate a domain-specific Language Model Embeddings Improve Sentiment Analysis in Russiandataset, one can use supervised M
+L or N
+N models. While M
+L models are usually build upon embeddings of full text sample obtained from TF-ID
+F or count vectorizers, N
+N models assume character or token vector representations. Token embeddings could be obtained via many different methods including bag-of-words, Glo
+Ve , fast
+Text . However, token embeddings extracted from language models are becoming more and more popular. Language model embeddings allow to perform better even on small task-specific datasets which are often encountered in production.
+Embeddings from Language Models (EL
+Mo) vectors derived from bidirectional LST
+M trained to solve the task of language modelling on a large text corpus. EL
+Mo representations are deep and context-dependent. Internal states of the model can be combined and used similarly to other token embeddings like fast
+Text but representation of each word is being formed by left and right context of this word. Language models require large text corpora and significant computational resources to be trained.
+We have explored several discussions in Russian NL
+P community about actual performance of EL
+Mo, and faced a lot of negative responses about accuracy of neural models based on EL
+Mo. Therefore, the paper has two main goals: first of all, we introduce three Russian language models pre-trained on Wikipedia articles, news and twits, and the second one is to compare performance of fast
+Text and EL
+Mo embeddings trained on corpora with different language styles. We demonstrate how the domain of language model influences on the accuracy of a classifier trained over obtained embeddings. Also we introduce the source code which allows to simply finetune EL
+Mo on the domain specific data.
+2. Related Work
+A lack of studies on Russian sentiment analysis is caused by a lack of appropriate datasets. First of all, the largest sentiment lexicon is RuSenti
+Lex latest version is dated by 2017 although neologisms appear regularly by borrowing from other languages or from positive and negative happenings in political, social and cultural life of Russia.
+There are three common datasets for Russian sentiment analysis in academic research: aspect-oriented SentiRu
+Eval 2015 , SentiRu
+Eval 2016 Ru
+Sentiment . In this paper we focus only on the second dataset, its description is set out in section 3.2.
+All the word representations before EL
+Mo were context-independent. Although some of them take into account sub-word information learn sense-depended word vectors to solve lexical ambiguity problem, none of the approaches consider context for word representation. Announced in performance of embeddings from language models applied to most of NL
+P tasks, specifically text classification, textual entailment, named entity recognition, question answering, coreference resolution and semantic role labelling opened a new room for research. In recently published paper achieve state-of-the-art results on named entity recognition built upon Russian EL
+Mo.
+EL
+Mo’s achievements induced popularity of transfer learning approach when complex architecture pre-trained on language modelling task should be fine-tuned for solution of some other supervised problem .
+Baymurzina D. R., Kuznetsov D. P., Burtsev M. S. 3. Data3.1. Language modelling data
+The Russian language models corresponding to official language style were trained on Wikipedia1 and Russian WM
+T News2 while the Russian conversational language model was trained on Russian twits3. Clue characteristics of the datasets are presented in Dataset
+Number of words
+Vocabulary size
+Average number of words per sentence File Size
+Wiki 472 M 5.6 M 19.4 4.8 GbWM
+T News 1,133 M 4.1 M 19.6 12.0 Gb
+Twitter 887 M 11.3 M 8.7 7.9 Gb
+Preprocessed and cleaned WM
+T News sets are available for downloading, Wikipedia was spared from html-markup, and all hashtags and user logins were replaced by special tokens in Twitter. The vocabulary size for each dataset was set to 1 million frequency tokens. Finally, every dataset was splitted on training (98%) and validation (2%) samples.
+3.2. Classification data
+Ru
+Sentiment was published in 2018 with baseline results. The full dataset contains more than 30 thousands social media posts of average length 17 tokens, each post is related to one of five classes: positive, negative, neutral, speech and skip. Currently this is the largest publicly available dataset on Russian sentiment analysis. Around 21 thousands posts were randomly selected, and almost 7 thousands were pre-selected with an active learning-style strategy in order to diversify the data. We divide “random posts” subset on train and validation sets in a ratio of 9/1. The “pre-selected posts” set is not used in this paper. The test set is the same as in the original paper.
+Linguists emit five Russian language styles: scientific, official, journalistic, artistic and colloquial. The first four styles and the last one differ a lot in terms of vocabulary and morphology. Therefore, we chose Ru
+Sentiment as the target dataset in this paper because the content relates to conversational style which often is not included to language modelling data while it is of current interest due to increasing popularity of chat-bots.
+1 https://ru.wikipedia.org/
+2 http://www.statmt.org/
+3 https://twitter.com/
+Language Model Embeddings Improve Sentiment Analysis in Russian4. Experiments and Results
+In this paper we explore the following token embeddings to cover different language styles:• fast
+Text embeddings trained on Russian Wiki and News corpora,• fast
+Text embeddings trained on Russian Twitter corpus,• EL
+Mo trained on Russian WM
+T News dataset,• EL
+Mo trained on Russian Wikipedia dataset,• EL
+Mo trained on Russian Twitter dataset,• EL
+Mo trained on Russian Twitter dataset and fine-tuned on Ru
+Sentiment.
+300-dimensional fast
+Text embeddings were trained with default parameters for
+skipgram model taking into account character n-grams from 3 to 6 characters.
+4.1. Training and fine-tuning of language models
+Language model consists of two main components: convolutional layers and 2 blocks of two recurrent layers. In the original implementation model receives as input indices of symbols in utf-8 encoding (from 0 to 255 plus three special symbols for
+padding, start and end of word). LST
+M blocks pass forth and back over representations from convolutional layers, each block in its own direction similarly to bidirectional LST
+M.
+Training is being done in the similar to An additional feedforward layer followed by softmax is used to train language model. The model predicts words in direct and reverse orders for each LST
+M blocks separately. The feed-forward layer is not used anymore after language model was fitted. To obtain context-dependent word representation weighted sum of word representations from all layers is used. Coefficients of this sum can be trained, and then can be different for all tasks. The upper layer also can be used similarly to TagL
+M Co
+Ve . Sentence representation is often formed as average or TF-ID
+F weighted sum word vectors.
+This paper used model 4096/512 with 93.6 million of parameters4. The results of training language models on Wikipedia, WM
+T News, Twitter and fine-tuning of Twitter language model on Ru
+Sentiment data are presented in conducted up to validation perplexity increase. The resulting perplexity of language model on “random posts” set of Ru
+Sentiment is 159.2 which was achieved after 4 epochs before overfitting began. The pre-trained language models were tested on full “random posts” set of Ru
+Sentiment. The resulting perplexity values are presented in Table 2 in the last column. The language model trained on Twitter corpus performs best on Ru
+Sentiment dataset that was expected as language styles of corpora coincide.
+4 https://allennlp.org/elmo, https://s3-us-west-2.amazonaws.com/allennlp/models/elmo/2
+x4096_512_2048cnn_2xhighway/elmo_2x4096_512_2048cnn_2xhighway_options.json
+Baymurzina D. R., Kuznetsov D. P., Burtsev M. S. Data
+Training time Epochs
+Perplexity on valid
+Perplexity on RuSentiment
+Wiki 6 days 10 43.692 17,364.89WM
+T News 14 days 10 49.876 360.97
+Twitter 10 days 10 94.145 172.25
+Fine-tuning of Twitter on Ru
+Sentiment15 min 4 159.2 —
+Table 3 is presented for rough and fast estimation of the selected datasets similarity. As a metric of comparison, a perplexity of a bi-gram language model was chosen. The bi-gram model is to predict the conditional probability P(wn|wn − 1) of a word wn given the preceding word wn − 1. A KenL
+M used as an implementation of the fast N-gram language model. The resulting perplexity values of bi-gram models trained on a corresponding dataset are diagonal elements of elements show how accurately a bi-gram model from one specific domain (rows) predicts words of test set from another specific domain (columns). As shown in Table 3 the Twitter bi-gram language model predicts words of Ru
+Sentiment significantly
+better than those trained on WM
+T News and Wiki. Simultaneously, Ru
+Sentiment bi-gram model predicts words of Twitter dataset with quality comparable to model trained on Twitter.
+Bi-gram model\
+Data Ru
+Sentiment WM
+T News Twitter WikiRu
+Sentiment 116.67 4,847.68 9,094.83 7,151.52WM
+T News 369,864.24 640.55 434,928.31 10,381.87
+Twitter 46,657.95 1,740.06 6,762.07 8,330.85
+Wiki 189,929.95 1,583.86 197,762.66 1,586.134.2. Training classifiers
+There are two main approaches for text classification: convolutional and recurrent networks. Therefore, consider SWCN
+N BiGR
+U , architectures of this paper.
+The first model, shallow-and-wide convolutional neural network (SWCN
+N) illustrated in Fig. 1, sends non-trainable token embeddings to three convolutions with the same number of filters and different kernel sizes, each of which is followed by batch normalization layer , ReL
+U activation and global max pooling to reduce dimensionality. Pooled outputs are concatenated along the last dimension, and given to dense layer followed by batch normalization and ReL
+U activation. The output is given to classification dense layer also followed by batch normalization and softmax activation. Two dropout layers are placed directly before dense layers, and kernels are L2-regularized .
+Language Model Embeddings Improve Sentiment Analysis in Russian
+Bidirectional GR
+U (BiGR
+U) is demonstrated in sent to dense layer followed by ReL
+U activation. Then output is given to the last classification dense layer followed by softmax activation. Two dropout layers are placed directly before dense layers, and kernels are also L2-regularized.
+Baseline models are two networks of the above described architectures trained upon pre-trained fast
+Text embeddings of dimensionality 300. The fast
+Text skipgram model of official language style was trained on Russian Wikipedia and news corpora, fast
+Text skpigram conversational style model was trained on Twitter dataset, both fast
+Text models are available for downloading5. To explore domain-dependency of language models we also consider neural networks receiving token EL
+Mo representations of dimensionality 1,024. The target metric is weighted F1-score, training is due to excess of patience limit.
+All the experiments were conducted with the same parameters. Convolutional layers had 256 filters and kernels of sizes 3, 5, 7 while BiGR
+U layer had 256 units. The first dense layer had 100 units for both networks. Patience limit was set to 2, and maximum number of epochs was equal to 10. SWCN
+N models were strongly regularized with dropout rate of 0.5 and L2-coefficients 10−3 and 10−2 for convolutional and dense kernels. BiGR
+U model had dropout rate of 0.2, and L2-coefficient 10−6 for both recurrent and dense kernels.
+5 http://docs.deeppavlov.ai/en/latest/intro/pretrained_vectors.html
+Baymurzina D. R., Kuznetsov D. P., Burtsev M. S. Model Embeddings
+Validation F1-weighted
+Test F1-weighted
+Rogers et al.
+Text V
+K — 72.80SWCN
+N fast
+Text Wiki+
+News 67.84 70.27BiGR
+U fast
+Text Wiki+
+News 69.54 71.74SWCN
+N fast
+Text Twitter 70.91 73.03BiGR
+U fast
+Text Twitter 72.62 74.45SWCN
+N EL
+Mo WM
+T News 70.27 72.42BiGR
+U EL
+Mo WM
+T News 70.15 71.37SWCN
+N EL
+Mo Wiki 68.11 71.28BiGR
+U EL
+Mo Wiki 66.55 69.47SWCN
+N EL
+Mo Twitter 75.40 78.50BiGR
+U EL
+Mo Twitter 75.89 77.62SWCN
+N EL
+Mo Fine-tuned 74.74 77.98BiGR
+U EL
+Mo Fine-tuned 75.75 77.19
+Each experiment was run for 4 times, the resulting averaged weighted F1-scores are presented in results while for EL
+Mo convolutional models outperform recurrent. Embedding models corresponding to official and journalistic language styles have almost the same scores with original paper weighted F1-scores when “pre-selected posts” were not used). Although fast
+Text embeddings trained on Twitter dataset for both architectures beat not only baseline from all the models trained on domains of official (
+Wiki) and journalistic (
+News) styles, they are significantly transcended by conversational (
+Twitter) embeddings from language models. The best results (almost 6 points higher than previous state-of-the-art) are enriched by shallow-and-wide convolutional network trained on top of embeddings from Twitter language model.
+5. Discussion
+We have trained two popular architectures on 6 different embeddings of official, journalistic and conversational language styles. As the domain of target sentiment classification dataset is related to conversational language it was expected to obtain better results for conversational embeddings but the rate of the increase of scores is dramatic. Embeddings from language models not only appropriate but obligatory to be used in classification tasks if the domain of language model and target problem are close. Let us demonstrate several examples which support the statement in domain of language embeddings is closer than others.
+Language Model Embeddings Improve Sentiment Analysis in Russianon top of different embeddings
+Text sample
+True EL
+Mo EL
+Mo EL
+Molabel News Wiki Twitterвасилий зе бест! positive skip skip positiveвкусняшка, омном-ном positive neutral skip positiveполнейший зашквар назначать некогда хорошего футболиста сразу главным тренером «реала»negative neutral neutral negativeя променяла вас на диплом! а еще на министерское тестирование и гос экзамены!!я 0 числа уже с дипломом в зубах буду!!positive positive skip negativeвсе! завтра улетаю на евро0 в польшу болеть за сборную россии!positive positive neutral neutralну кто еще теперь задаст вопросы «зачем нами эта олимпиада?»«зачем нам спорт высоких достижений?». ведь можем же, когда захотим...
+neutral negative neutral negative
+To summarize, we have introduced pre-trained Russian language models which allow to perform better, and to be evidential we have demonstrated how embeddings from language model outperform common fast
+Text embeddings in Russian sentiment analysis task. Simultaneously, we have shown how significant the dependency of quality on the language model’s domain is.
+Acknowledgements
+This work was supported by National Technology Initiative, and PA
+O Sberbank project I
+D 0000000007417
+F630002.

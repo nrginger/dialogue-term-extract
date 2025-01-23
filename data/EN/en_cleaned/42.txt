@@ -1,0 +1,15 @@
+Text simplification consists of modifying the content and structure of a text in order to make it easier toread and understand, while preserving its main idea and approximating its original meaning.
+In the RuSimpleSent
+Eval task simplification was performed at the sentence level. In this formulation,the goal is to obtain a simplified sentence from a complex one. The criteria for sentence complexityinclude presence of complex grammatical constructions, subordinate clauses, the presence of rare andambiguous words, etc.
+Our goal was to evaluate how well the finetuned autoregressive ruGP
+T3 model would handle the task.
+We approach the problem in three steps. At first, we use only Russian sentences from provided trans­lated Wiki
+Large corpus and filter it by cosine similarity and ROUGE­
+L (Recall­
+Oriented Understudyfor Gisting Evaluation for Longest Common Subsequence) between complex and simplifiedsentences. We keep pairs with high cosine similarity and medium ROUGE­
+L values.
+Further, we finetune pretrained ruGP
+T3 on the filtered dataset similarly to finetuning for paraphrasing.
+And finally, we use the finetuned model to generate simplified candidates using the complex sentenceas a prompt. To choose from several generated candidates a random forest model is used. It is trainedto predict SAR
+I (
+System output Against

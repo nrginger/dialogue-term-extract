@@ -1,0 +1,146 @@
+The present contribution aims to provide a cross-linguistic analysis of the pronominal adverbs in German (dabei, darauf, damit etc.) and their equivalents in English, Czech and Russian. These constructions contribute to the overall textual coherence that is achieved through various types of cohesive devices in a text. These devices exist in all languages (see e. g. the complex descriptions in de Beaugrande & Dressler (1981), Halliday & Hasan (1976)), but their linguistic realizations depend on the different preferences that languages have. It implies that the distribution of cohesive types may be different across languages, e. g. relations that are typically expressed by connectives in one language may be realized with anaphoric reference in another.
+We analyze German pronominal adverbs as they represent multifunctional cohesive devices. For instance, the German (D
+E) pronominal adverb dabei (which is a fusion of the preposition bei ‘at’ and the demonstrative pronoun in Dative dem)1 in Example (1) may function at the same time as (i) a referring expression, i. e. dabei refers anaphorically to the prepositional phrase beim Betrügen ‘while cheating‘, and as (ii) a discourse connective expressing a temporal meaning. Moreover, another possible reading of dabei in this example is the meaning of contrast and concession. English (E
+N) does not have a direct equivalent for this form. The corresponding example from our parallel dataset contains neither connective, nor anaphoric reference; the discourse relation between the sentences is implicit. The Czech translation (C
+Z) contains the connective ale ‘but’ which has the meaning of contrast and in this case also concession. In Russian (R
+U), the sentence is slightly reformulated and two cohesive devices are used: a conjunction no ‘but’ connecting the clauses in the second sentence and a discourse anaphora eto ‘it’ referring to the event (обманывать ‘cheat’) expressed in the previous clause and in the preceding sentence.
+(1) E
+N (source): We’ve learned that a lot of people can cheat. They cheat just a little bit. D
+E: Wir haben gelernt, daß viele Leute betrügen können. Der Einzelne dabei nur ein bißchen. C
+Z: jsme, že hodně lidí je ochotno podvádět. Podvádějí ale pouze troškách. R
+U: ...люди обманывают. Они обманывают лишь немного, но это же обман.
+We are interested in discovering various means that correspond to German pronominal adverbs in English, Czech and Russian. Being very frequent in German, pronominal adverbs (such as thereby, thereafter, therewith, etc.) sound rather archaic and are generally avoided in English. In translations from German into English, either multiword expressions consisting of a corresponding preposition and pronoun is used, 1 There is no clear account on building pronominal adverbs in the grammar studies. In some
+cases, they are considered to be a fusion of a preposition and pronoun, and a fusion of a preposition and an adverb in the others (see Negele, 2012; DUDEN
+Grammatik, 2009).
+Pronominal Adverbs in German and their Equivalents in English, Czech and Russianor this element is dropped. In Slavic languages, prepositional phrases with pronouns are most frequently used, being occasionally lexicalized to the form of pronominal adverbs, similar to the German ones, e. g. Czech and Russian zato ‘on the other hand’.2
+Our pilot comparison of the German sentences with pronominal adverbs and their equivalents in English, Czech and Russian suggests the following: (i) Pronominal adverbs are frequent in German and rarely occur in the other languages under analysis; (ii) German pronominal adverbs are ambiguous in their meaning, and therefore, we expect a great variation in their equivalents in the corresponding languages under analysis.
+Following these observations, we analyse the usage of the German pronominal adverbs and their equivalents in a multilingual dataset. Our main aim is to analyse the variation in the equivalents, and to describe their functions and usage preferences, trying to find systematicity in their usage.
+The usage of such equivalents is constrained by several factors. First of all, these include existing asymmetries in the language systems. Besides that, at least in the observed data (that contain translations), translation process is expected to have an impact on the choice of such equivalents. For instance, in Example (1), the Czech translator decided to add the contrastive marker ale ‘but’ to explicate the implicit contrastive meaning of the clause, while the German translator prefers to use the pronominal adverb dabei which is ambiguous and has both contrastive and temporal readings. We do not know if the usage of this pronominal adverb was triggered by the adverbial just in the English original sentence (and transferred into German as dabei nur to express contrastive meaning), or just corresponds to nur, so dabei is coreferential, and it was inserted by the translator to create a link between the two sentences for a stylistic purpose. Since the information on the translation process is missing, we are not able to find out translator‘s motivation.
+In this study, we restrict ourselves to the analysis of possible signals in the English sources that trigger the usage of German pronominal adverbs in translations along with their equivalents in the corresponding translations in Czech and Russian. Our observations show that the usage of these constructions in translations may be induced by different constraints. We attempt to explain these constraints with the notion of explicitation borrowed from translation studies.3
+We believe that our findings will be useful in both theoretical and computational perspectives. The information on the cross-lingual distribution of cohesive means in parallel texts provides the background knowledge for the improvement of multilingual tools for computational discourse analysis. Besides that, the area of machine translation may profit from the information on discourse-aware translation patterns. The knowledge of preferences in the choice of cohesive devices is also important for contrastive linguistics, language learning and translation studies. Moreover, this kind of comparative analysis also provides typologically relevant information on discourserelated phenomena and beyond for each language under analyses.
+2 zato ‘on the other hand’ = preposition za ‘for’ + pronoun to ‘this’
+3 The basis of this notion lies in the explicitation hypothesis formulated by Blum
+Kulka (1986).
+Nedoluzhko, A., Lapshinova
+Koltunski, E.2. Related Work
+Our interest lies on pronominal adverbs classified by Negele (2012:18–20) into conjunctional and phorish (or deictic) ones. To our knowledge, there exist just a few studies that compare several cohesive devices cross-lingually. The only studies known to us include Kunz et al. (2017) on English and German and Lapshinova et al. (2015) on English, German and Czech. If we consider empirical studies on German pronominal adverbs, we find just a few example-based ones that address these structures or analyse some cases of their usage. For instance, Dipper & Zinsmeister (2012) mention pronominal adverbs as an interesting task within their coreference analysis of German. Stede & Grishina (2016) consider the anaphoric connective demzufolge within the study of discourse relations. Further studies on coreference or discourse connectives in German (e. g. Hinrichs et al., 2005; Krasavina & Chiarcos, 2007; Kunz, 2010) ignore pronominal adverbs, although they constitute around 8% of all referring expressions in German (Lapshinova
+Koltunski et al. 2018) and are especially frequent in spoken and spoken-like language. The reason for such a modest attention to this topic in coreference-oriented research can be the fact that pronominal adverbs often (more than 90% in our data) refer to events, whereas coreference research focuses mostly on the entity coreference.
+Comparative grammars describe equivalents of German pronominal adverbs in other languages, however, never concerning more than two languages. Some examples of such grammars include Konig & Gast (2012) for English and German, Štícha (2003) for German and Czech, Filippova (2012) for German and Russian, Nelubin (2012) for English and Russian and some others. Another constraint of comparative grammars is that although delivering important knowledge on language contrasts, they are in most cases descriptive and hypothetical. Besides, comparative grammars do not take into account all possible contexts of language use (e. g. spoken vs. written register, formal vs. informal, etc.). Therefore, there is a need in empirical analysis of such phenomena on the basis of multilingual corpora, which is aimed in this paper.
+Explicitation (and also implicitation) phenomena have been analysed in a number of corpus-based analyses. However, most of them focus on connectives, e. g. addition (or omission) of (causal) connectives in translations (see Zufferey & Cartoni, 2014, Liu, 2008 or Degand, 2004). For our needs, we adopt Klaudy’s definition of explicitation who claims that there are several types of this phenomenon—obligatory,
+optional, pragmatic and translation-inheritant (see Klaudy, 2008: 106–107). Obligatory and optional explicitation seem to explain the cases that we observe in our data: (1) obligatory explicitation occurs due to existing language contrasts—languagespecific constructions do not have direct equivalents in a target language, and an element (in our case a pronominal adverb or its equivalent) is added in translation because the target sentence would be ungrammatical without it; (2) optional explicitation—the languages under analysis reveal registerial or stylistic differences, the explicitation is optional in the sense that grammatically correct sentences can be constructed also without it, but the text (or a sentence) as a whole will be clumsy and unnatural.
+Pronominal Adverbs in German and their Equivalents in English, Czech and Russian3. Data and Methods
+Our approach is data-driven, as we use a parallel corpus to automatically collect the relevant data. Then, the data is manually analysed for transformation patterns that reflect language differences and the impact of translation process (explicitation/implicitation). The findings are then further interpreted from the point of view of theories, expanding in this way the existing knowledge on the phenomena under analysis.
+Unfortunately, there are no corpus resources known to us that would contain German original texts and their translations into English, Czech and Russian. Compilation of such a resource is time-consuming and costly. For this reason, we decide to take an advantage of existing parallel resources, i. e. the translations from English into German, Czech and Russian.
+The analysis described in the present paper is based on the preliminary observations that we performed on a different data type, parallel TE
+D talks containing English originals and their translations into German and Czech (
+Lapshinova et al. 2017). For this paper, we extract news data from the test sets of the translation shared task at the Second Conference on Machine Translation (WM
+T17, Bojar et al., 2017). We selected 37 English original texts along with their translations into German, Czech and Russian. Both datasets are provided with sentence alignment, so that we do need additional steps to pre-process the corpus. As our primary interest is in German pronominal adverbs, we extract the parallel sentences with these adverbs only. First, we compile a list of such adverbs (daran, darauf daraus, dabei, dadurch, dafür, dagegen, dahinter, darin, etc.) using a grammar of German (
+Duden Online Wörterbuch). Then, we randomly extract 100 corresponding parallel sentences where the aligned German sentence contains one of the pronominal adverbs from the list. After that, we perform a manual alignment of the discourse phenomena in the parallel segments, e. g. connecting dabei with corresponding cohesive devices in the other languages, such as ale and no ‘but’ in Example (1) above. The procedure of manual alignment is one of most important steps of analysis, as it reveals many tiny distinctions and combinations of meanings. The created dataset is then analysed following the questions: What discourse phenomena do pronominal adverbs represent? How are they represented in the source and translations? What are the most frequent transformation patterns and what are the reasons for these particular realizations and transformations?4. Analysis
+4.1. Observations on functions of pronominal adverbs
+Pronominal adverbs in German have multiple cohesive functions, as they may refer to either entities or events, or serve as a cohesive conjunction (see Example (1) and the clarification in Section 1 above). In Example (2), the pronominal adverb damit may function as a discourse connective expressing causal relations between two propositions. At the same time, it may express an anaphoric reference to the previous context as in Example (3). In this case, damit is not a lexicalized connective, but Nedoluzhko, A., Lapshinova
+Koltunski, E.represents a fusion of the preposition mit ‘with’ and the demonstrative pronoun dem ‘this’ referring to the noun der Gewinn ‘the win’. Pronominal adverbs can be also used in correlative constructions, in which they serve as a sentential proform, as illustrated for an infinitive clause in Example (4).
+(2) Ich besitze keinen Plattenspieler, aber ich würde gerne eine Radiohead Schallplatte kaufen, damit ich sie ins Regal stellen kann (“
+I don’t have a record player, but I want to buy a Radiohead record so we can put it on our shelf”).
+(3) Ein brilliantes spätes Tackling von Marcus Watson den Gewinn—und damit die Silbermedaille (“
+A brilliant late tackle from Marcus Watson the win—and ultimately the silver medal”).
+(4) “ die Bedeutung des Wortes „
+Patient“ habe nichts damit zu tun, Ratschläge zu geben (“ the word „patient“ doesn’t mean to make suggestions”).
+In other words, various functions of pronominal adverbs, as well as the necessity of an explicit form in the analysed constructions, depends on a number of factors that may have morpho-syntactic or pragmatic character. The differences between the corresponding devices may also be induced by systemic language differences, i. e. syntactic or morphosyntactic features of one language that do not have direct correspondences in the other languages we are dealing with. For example, some German predicates (verbal, nominal or adjectival) require a prepositional object where English, Czech and Russian predicated do not do so (cf. the German verb aufhören ‘to stop’ in Example (5) below requires an explicit preposition object expressed with the pronominal adverb damit ‘with this’, whereas it can be omitted (although presupposed) in English.
+(5) E
+N: As soon as you win, suddenly stop. D
+E: Sobald Sie gewonnen haben, hören Sie plötzlich
+4.2. Quantitative and qualitative analysis
+Table 1 illustrates the quantitative comparison on 100 sentences with pronominal adverbs in German and their equivalents in English, Czech and Russian. The analysis shows that German sentences show more explicitation than their equivalents in Czech and Russian. In 70% of the observed German translations containing pronominal adverbs, their English sources do not contain any corresponding structure.
+The data also show a prevalence of correlative uses (53 vs. 33) for German pronominal adverbs, which gives a significant difference to the observations for the TE
+D talks (
+Lapshinova et al. 2017)4. Correlative use is not triggered by any element in the English source. In Czech and Russian corresponding translations, pronominal proforms are used in 21% and 13% cases respectively. Interestingly, pronominal proforms in both Slavic languages are often optional. A closer look at such cases shows 4 In Lapshinova et al. (2017), the relation for 98 sentences was 26 correlative to 63 anaphoric
+uses, which makes significant difference with χ² = 18.96; df = 2; p < 0.001.
+Pronominal Adverbs in German and their Equivalents in English, Czech and Russianthat they are represented by German predicates requiring a prepositional object, i. e. verbs (or nouns and adjectives) whose valency frames contain a preposition. However, this prepositional object is not obligatory in all cases. Therefore, we cannot claim that this is an obligatory explicitation (see Section 2 above).
+Type and # in D
+E mapped toE
+N abs.
+E
+N in %C
+Z abs.
+C
+Z in %R
+U abs.
+R
+Uin %anaphoric (33)zeropreposition + pronounadverbconnectiveother (phases, rewordings)17
+7
+1
+2
+6
+51.52
+21.21
+03.03
+06.06
+18.18
+18
+9
+2
+3
+1
+54.55
+27.27
+06.06
+09.09
+03.03
+17
+11
+1
+2
+2
+51.52
+33.33
+03.03
+06.06
+06.06
+correlative (53)zeropreposition + pronoun53
+0
+100.00
+00.00
+42
+11
+79.25
+20.75
+46
+7
+86.79
+13.21
+connective (4) connective rewording 4 100.00 3 75.00 3 75.00other meanings (10)not analysed
+The qualitative analysis of the data shows that we do observe some cases of obligatory explicitation in our data: The usage of a correlative pronominal adverb or a pronoun in the target languages can be induced by some elements in the source, as illustrated by Example (6). Here, the noun consensus is used with a preposition (on) in the English source. However, the English language system does not require a proform to add a sentential prepositional phrase, whereas German and Russian do (i. e. the pronominal proforms darüber and в том ‘in that’ are obligatory).
+(6) E
+N: There is no clear consensus on where they can seek common ground on Syria. D
+E: Es liegt kein eindeutiger Konsens darüber vor, wo ein gemeinsamer Nenner Syrien gefunden werden kann. R
+U: Нет четкого согласия в том, как они могут найти общий язык Сирии.
+For the anaphoric function, we observe that 21% of all occurrences of pronominal adverbs in German were induced by the usage of preposition + pronoun phrases in the English sources. Similarly as for the correlative use, this fact demonstrates the opposite tendency to the one described by Lapshinova et al. (2017) for the TE
+D talks. Ca. 52% of pronominal adverbs do not have any explicit triggers in the English sources (i. e. we observe explicitation in the German translations). The Russian translations seem to reproduce the English sources (no explicitation observed), whereas translations into Czech have even more ‘zero’ cases—ca. 55% (which maybe an indicator of implicitation). At the same time, Russian and Czech parallel data contain more preposition-pronoun phrases corresponding to the German pronominal adverbs than the English sources do (33% and 27% vs. 21%), which we interpret as an indicator of explicitation in all translations at hand.
+Nedoluzhko, A., Lapshinova
+Koltunski, E.
+The usage of alternative constructions (adverbs, connectives, rewordings) is not considered to be an explicitation, because this is another relation type. However, other interesting observations are possible here. For example, we can find the use of connectives in the source that triggers an anaphoric construction in the German translation. A closer look at the data reveals the reason—in the English source, there is an elliptical construction regardless instead of regardless of this, see Example (7). The German translator decides to explicate this ellipsis adding the pronominal adverb davon ‘of this’.
+(7) E
+N: But, regardless, Fiji on this form would have beaten a fit as a fiddle 15-man team. D
+E: Aber unabhängig davon hätte Fiji bei dieser Form ein 15-Mann
+Team Bestform geschlagen.
+Another example of a transformation from a conjunctional into deictic use is illustrated in Example (8). In this case, the German translator prefers not to use a corresponding connective (e. g. letztendlich), and uses the pronominal adverb damit ‘with this’ explicating the meaning that the medal was won with what is described in the preceding clause.
+(8) E
+N: A brilliant late tackle from Marcus Watson... secured the win—and ultimately silver medal. D
+E: Ein brilliantes spätes Tackling von Marcus Watson… sicherte den Gewinn—und die Silbermedaille.
+If we look at the data from the translatological point of view, we see that Czech and Russian translators keep closer to the English original texts than the German translators do, see Example (9). The German translator added the pronominal adverb davon that refers to the nominal phrase the number of people in the previous sentence, making the meaning of the interrogative and ambiguous who (someone in general or someone out of the stated people who exercise 30 minutes a day) more explicit. The Czech and Russian translators decide to keep this meaning ambiguous.
+(9) E
+N: Cardiogram… told the Washington Post recently that … the number of people tracked who did 30 minutes of exercise each day jumped from 45 per cent 53 per cent. The company does not know who is playing Pokémon Go... D
+E: Das Unternehmen weiß nicht, wer davon Pokémon Go spielt... C
+Z: Společnost nemá informace o tom, kdo Pokémon Go hraje... R
+U: Компания не знает, кто играет в Pokémon Go...
+5. Conclusion
+The present paper provided a contrastive study of discourse-related phenomena in four languages on the basis of translation corpora. We selected a set of parallel data consisting of translations into German, Czech and Russian from English, where the German part contains pronominal adverbs that often represent an interplay between different cohesive devices: They are used in multiple functions as anaphoric reference, connectives and correlatives in prepositional sentential clauses. Our study was motivated by the fact that none of the existing studies (both comparative and Pronominal Adverbs in German and their Equivalents in English, Czech and Russianmonolingual grammars) provides information about the contextual and functional preferences of such constructions. However, we were also aware of the specificity of the dataset at hand—translations with only one translation direction—and therefore, we also take into account translation factors influencing such preferences. The analyses show that German pronominal adverbs are frequently added into translations, when no explicit triggers are present in the English source. Czech and Russian translations seem to be closer to the English sources preserving the source structures. Our qualitative analysis shows that an addition of pronominal adverbs (in both correlative and anaphoric function) is sometimes triggered by the source, e. g. specific constructions in English that are not discourse related (specific phrases, etc.). Besides that, both obligatory and optional explicitation are observed in our data, especially in the German translations. However, we need to treat the result on German with caution, as the data selection was performed on the basis of German pronominal adverbs which are in their nature explicit devices of cohesion.
+Nevertheless, we made some interesting observation about genre differences based on our previous analyses. Anaphoric function of pronominal adverbs occurs significantly more frequently in spoken registers. In news, correlative function was predominating, which means that functional preferences of the German pronominal adverbs are context-dependent.
+As mentioned above, we are aware of all limitations of our method and data. We know that description of contrastive patterns requires comparative data. At the same time, it is difficult to find multilingual comparative data required for such an analysis (with aligned discourse structures).
+Another shortback of our approach is the usage of one translation direction which can, again, be explained by practical reasons—it is difficult to find multilingual translation data with sources and translations available for all the four texts. However, we consider our study to be innovative, as there are no further studies on the interplay between different kinds of discourse phenomena across languages known to us. Besides, we apply a bottom-up approach instead of a top-down one—having corpus data at hand, we analyse different structures trying to understand and explain the observations with the help of existing theories and frameworks. We also make a contribution to these theories and frameworks, as we deliver empirical evidence for the described cases and enhance them with some new phenomena that haven’t been yet covered. The results of these analyses are valuable for contrastive linguistics, language learning, translation, and can be applied in the area of multilingual NL
+P.
+Our future work will include a more detailed description of the observed cases, as well as extension of the analysed data. Besides, we plan to have a look at texts translated from German into English, Czech and Russian to be able to make claims about equivalents of pronominal adverbs in these languages. We will also extend our analysis on the two explicitation types and will define a scale for cohesive explicitness as it was done by Zufferey & Cartoni (2014) who defined three degrees of explicitation (no explicitation, light explicitation, strong explicitation). Our scale will be adopted for the cohesive phenomena under analysis that involve not only connectives (as in the study by Zufferey & Cartoni, 2014) but also referential links.
+Nedoluzhko, A., Lapshinova
+Koltunski, E.6. Acknowledgements
+The authors gratefully acknowledge support from the Grant Agency of the Czech Republic (project GA16-05394
+S).

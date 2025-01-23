@@ -1,0 +1,241 @@
+Traditional Information Extraction (I
+E) is focused on detection of precise, prespecified type of information that would satisfy requests narrowed to a certain domain or area of activity. For example, an I
+E system could be trained for extraction of information of some certain classes, e.g. ACQUIR
+E(argument1, argument2, …, argumentn) with a fixed number of arguments n. Normally, an I
+E system would learn an extractor from a large tagged corpus for a specific relation marked up by human annotators or in a semi-supervised manner . Although this approach might be efficient for a certain target relation or classes (e.g., people or cities as in ), it requires very expensive resources for training and, more importantly, this approach does not scale to large corpora such as the Web, where the number of possible relations is very large or where the target relations cannot be specified beforehand.
+Open information extraction (
+Open I
+E) was introduced by Banko et al. 2007 as a new extraction paradigm that facilitates domain independent discovery of relations in text and can be readily scaled to a large and versatile corpus such as the Web. An Open I
+E system extracts all possible relations and assertions without requiring any prior specification of relations, manually tagged training corpora, example seeds tailored for the target relations, or any other relation-specific input. This Comparison of open information extraction for English and Spanish scalability, and the system can satisfy unanticipated user needs. Open I
+E is necessary when the number of relations is large and the relations are not prespecified . Consequently, it can serve purposes distinct from the traditional I
+E: fact extraction at sentence level (e.g. <
+Mozart, was born in, Salzburg>), new perspective on search as question answering (e.g. “
+Where was Mozart born?”) in an unrestricted form , or assessment of the quality of text documents at the Web scale .
+Independency from relation pre-specification is achieved through the implementation of a compact set of relation-independent lexico-syntactic patterns that allow identification of arbitrary relations . However, the patterns are language dependent. All previous work in this field has been done for English ; no language-related issues not specific for English have been addressed.
+We present an Open I
+E for Spanish Extr
+Hech, compare its performance with that of a similar Open I
+E system for English Re
+Verb a parallel dataset, and perform analysis of errors for both languages.
+The paper is organized as follows. Related work is reviewed in Section 2. Section 3 presents the Open I
+E approach for Spanish and describes the Extr
+Hech system. Section 4 describes the experimental results for two datasets in Spanish and a parallel English
+Spanish dataset. In section 5, the analysis of errors is presented. Section 6 draws the conclusions and outlines future work.
+2. Related Work
+Open I
+E is the task of extracting arbitrary relations with their corresponding arguments from text without pre-specification of relations or manually tagged training corpora. The first step of any Open I
+E system is extraction of relations from a sentence. For example, in a sentence “
+The policeman saw a boy who was crossing the street”, two assertions can be identified: <the policeman, saw, a boy> and <a boy, was crossing, the street>. A large corpus of text such as the Web is highly redundant, and many assertions are expressed repeatedly in different forms. After being encountered many times in various sources, an assertion has a significantly higher probability to be true.
+The basic idea is that most sentences contain highly reliable syntactic clues to their structure . There are three major approaches to relation identification in Open I
+E.
+1. Self-supervised learning involves three steps: automatic labeling of relations using
+heuristics and distant supervision; learning of a relation phrase extractor; and extraction, for which a candidate pair of arguments is detected and then a relation extractor is applied to detect a relation between these arguments. Examples of such systems are Text
+Runner , WO
+Epos, and WO
+Eparse . One of its shortcomings is that potential arguments are detected before the relation is defined and cannot be backtracked. Therefore, a noun that actually belongs to a relation phrase can be marked as an argument. For example, in the relation “to make a deal with”, deal can be incorrectly recognized as an argument. Consequently, the output of such systems contains many incoherent or uninformative extractions.
+2. Context analysis, implemented in OLLI
+E system . This approach overcomes
+various limitations of the other approaches. First, it extracts not only relations Zhila A., Gelbukh A.
+via verb phrases, but also relations mediated by adjectives, nouns, etc. Second, it is not limited to binary relations and can detect more than two arguments of a relation. Yet deeper context analysis requires syntactic parsing, which is timeand resource-consuming and makes real-time processing at Web scale impractical. Syntactic parsing analysis using heuristic rules is also implemented in the Open I
+E for Spanish FE
+S .
+3. Syntactic and lexical constraints implemented in the form of rules, as in Re
+Verb
+. In contrast to the first approach, it initially detects a verb phrase, and then searches for its possible arguments, which reduces incoherent and uninformative extractions. It also has more light-weight implementation and faster execution time than context-analysis systems because it is based on part-of-speech analysis.
+These approaches have been evaluated only for English. However, their relation extraction algorithms are language dependent: they use either part-of-speech or syntactic dependency information. It is not known how language affects implementation and output of Open I
+E.
+We present a relation extraction algorithm for Open I
+E in Spanish, following the third approach. Since the datasets used for evaluation of the Open I
+E systems in to 500 sentences) are not available, we have created two comparable datasets for evaluation of our system.
+3. Extr
+Hech, an Open I
+E system for Spanish
+Extr
+Hech, an Open I
+E system for Spanish, is a PO
+S-tag based system using syntactic and lexical constraints; see Figure 1. InputPO
+S-tagged text→ExtrHech
+Syntactic constraints
+Lexical constraints→Output
+List of relational tuples <
+Arg1; Rel; Arg2>
+The system takes a PO
+S-tagged text as an input. For PO
+S-tagging we used Freeling-2.2 uses EAGLE
+S PO
+S-tagset for Spanish.
+Extr
+Hech performs sentence-by-sentence processing. First, it looks for a verb phrase that is limited to be either a single verb or a verb immediately followed by dependent words till a preposition (nació en) or a preposition followed immediately by an infinitive (sirven para acentuar). The expression for a verb phrase is:VRE
+L → (
+V W*P)|(
+V),where V stands for a single verb possibly preceded by a reflexive pronoun (se caracterizaron), or a participle (relacionadas); V W*
+P stands for a verb with dependent words, where W can be a noun, an adjective, an adverb, a pronoun, or an article, and P stands for a preposition possibly immediately followed by an infinitive. Here * stands for zero or more occurrences, | stands for choice of a variant; ? (see below) stands for zero or one occurrence.
+Comparison of open information extraction for English and Spanish the system looks to the left of the verb phrase for a noun phrase that could be a first argument in a relation. Then it searches to the right from the verb phrase for a second argument. The following expression describes noun phrases in Extr
+Hech: N
+P → N (PRE
+P N)?,where N stands for a noun optionally preceded by an article (los gobernantes), an adjective or ordinal number (los primeros homínidos), a number (3.5 millones), or their combination, optionally followed by a single adjective (el epíteto heroico), a single participle (las fuentes consultadas), or both (los documentos escritos antiguos). PRE
+P stands for a single preposition. In our system a noun phrase can be either a single noun with optional modifiers or a noun with optional modifiers followed by a dependent prepositional phrase, consisting of a preposition and another noun with its optional modifiers (la historia de la civilización romana).
+If a noun is followed by a participle clause terminating with another noun, then the participle phrase is resolved into a separate relational tuple. For an example,(1) Los egipcios se caracterizaron por sus creencias relacionadas con la muerte. “
+The Egyptians were characterized by their beliefs related with death.”gives two relational tuples:(2) <
+Arg1 = Los egipcios; Rel = se caracterizaron por; Arg2 = sus creencias>(3) <
+Arg1 = sus creencias; Rel = relacionadas con; Arg2 = la muerte>,with (2) corresponding to the main verb of sentence (1) and (3) corresponding to the participle clause.
+Extr
+Hech also resolves coordinating conjunctions for verbal and noun phrases into independent relations or arguments correspondingly. Relative clauses are also resolved into independent assertions. Lexical constraints currently limit the length of relational phrases to prevent over-specifying of a relation. We use EAGLE
+S PO
+Stag set and properly treat reflexive pronouns for verbal phrases. Currently we do not tackle anaphora, zero subject construction, and free word order. Still Extr
+Hech’s precision is comparable with that of other Open I
+E systems (see Section 4.1).
+4. Experimental Results
+4.1. Experiments on Different Spanish Datasets
+We analyzed Extr
+Hech’s performance on two datasets.1 The first one, FactSpCI
+C , contains 68 grammatically and orthographically correct and consistent 1 Both datasets are available on www.gelbukh.com/resources/spanish-open-fact-extraction.
+Zhila A., Gelbukh A.
+manually selected from school textbooks. The second one contains 159 sentences randomly extracted from Common
+Crawl 2012 corpus , which is a corpus of web crawl texts from over 5 billion web pages. It contains the sentences in their original form as they were crawled from the Internet. As evaluated by a human judge, 36 sentences (22% of the corpus) were either grammatically incorrect or incoherent.
+Two human judges independently evaluated each extraction as correct or incorrect. For FactSpCI
+C dataset, they agreed on 89% of extractions (
+Cohen’s kappa k = 0.52), which is considered to be moderate agreement . For the raw Web text dataset of 159 sentences, they agreed on 70% of extractions (
+Cohen’s kappa k = 0.40),
+which is considered the lower bound of moderate agreement. The number of correct extraction was calculated as an average for the two judges.
+Precision of the system is the fraction of returned extractions that are correct. Recall is the fraction of correct extractions in the number of all possible correct extractions. To estimate the latter, we made a list of all extractions that the system is expected to return. Then, this set was extended by the extractions returned by the system that both annotators considered correct. This gives a lower bound estimation of all possible extractions that could be detected in the datasets, which gives the upper bound for recall; see a grammatically correct and on a noisy datasets
+Dataset Precision RecallFactSpCI
+C (grammatically correct) 87% 70%
+Raw Web text (noisy) 55% 49%4.2. Experiments on Parallel Spanish and English Dataset
+To analyze differences in performance between systems for Spanish and English, we formed a parallel Spanish
+English dataset. The original Spanish FactSpCI
+C dataset was manually translated into English by a professional human translator. Then, the fact extractor for Spanish Extr
+Hech was run on the 68 sentences in Spanish, and Re
+Verb was run on the English translation.
+The evaluation of extraction for Spanish is presented in Section 4.1. The output in English was also evaluated by two human judges. The judges agreed on 85% of extractions (
+Cohen’s kappa k = 0.60), similar to 89% agreement for Spanish, which is the upper bound for the moderate agreement range and is slightly higher than k = 0.52 for Spanish.
+Precision and recall for the extraction in English were calculated as described in Section 4.1.1; see Table 2, where the number of correct extractions is averaged by the two human judges.
+Comparison of open information extraction for English and Spanish and English on a parallel dataset
+System Precision Recallcorrect extractionsfound extractionsexpected extractionsExtr
+Hech (
+Spanish) 87% 70% 99.5 115 137Re
+Verb (
+Englist) 76% 50% 71 93 139
+For the parallel dataset, precision and recall for the English Re
+Verb system are lower than those for the Spanish Extr
+Hech. Yet this might be due to overadjustment of Extr
+Hech to the dataset, which was also used during development of the system (note that no learning was involved). However, the total number of assertions extracted by Re
+Verb is lower than the amount of extractions by Extr
+Hech. Thus the Spanish extractor is more robust than the English one. Higher number of expected extractions for the English dataset (139) is due to the absence of the zero-subject phenomenon in English.
+To show that Extr
+Hech performs at the level comparable with the state-of-the-art Open I
+E systems, we provide the comparative data on performance of the Open I
+E systems described in Section 2 based on the data provided in Extr
+Hech for different datasets; see System Approach
+Dataset (# of sentences) Precision Recall
+Running TimeExtr
+Hech (
+Spanish)syntactic and lexical constr. over PO
+S-tagged textFactSpaCI
+C (68)0.87 0.73 < 5 min
+raw Web text (159)0.55 0.49
+Re
+Verb (
+English)syntactic and lexical constr. over PO
+S-tagged textFactSpaCI
+C (68), translated0.76 0.50 < 5 min
+Yahoo (500)0.87
+0.60
+at 0.20at 0.50Text
+Runner (
+English)self-learning on PO
+S-tagged text
+Yahoo (500)< 0.64 at >0 < 5 minWO
+Eparse (
+English)self-learning on parsed text
+Yahoo (500)0.87 at 0.15 hours
+OLLI
+E (
+English)context analysis of parsed textnews, Wikipedia, biology textbooks (300)0.66–0.85 N/
+A (various yield
+levels from )N/
+A, probably hoursFE
+S (
+Spanish)heuristic rules on parsed textFactSpaCI
+C (68)0.87 0.91 hours
+Table 3 shows that for the dataset of raw Web sentences, Extr
+Hech’s 0.55 precision and 0.49 recall are slightly lower than those of Re
+Verb system for the Yahoo Zhila A., Gelbukh A.
+(0.60 and 0.50 correspondingly). However, the Yahoo dataset is not available, so we do not know whether it is raw Web text including incorrect and incoherent sentences common for texts on the Internet that hinder fact extraction.
+Extr
+Hech speed is at the same level as that of other PO
+S-tag based systems. It is much faster than syntactic parsing based systems, which perform significantly slower although with better precision.
+5. Error Analysis
+To analyze errors in assertion extraction for Re
+Verb and Extr
+Hech for the parallel English
+Spanish dataset FactSpaCI
+C, first, we compared the distributions of the types of errors found in extractions. The type classification was modified from clearly distinguish between error types and their reasons. Table 4 shows the fractions of each type of errors in the total number of extractions for both systems.
+System and total number of extractions
+Incorrect relation phrase
+Incorrect arguments
+Correct relation phrase, incorrect arguments
+Incorrect argument orderExtr
+Hech (
+Spanish), 115 0.09 0.22 0.16 0.04Re
+Verb (
+English), 93 0.12 0.26 0.13 −
+Very similar distributions can be seen for the first 3 types of errors for both languages. Incorrect argument order was not observed for English because of highly dominant direct word order.
+Causes of errors in assertion extractions from the parallel FactSpaCI
+C dataset are shown in from parallel FactSpaCI
+C, percent of all errorsExtr
+Hech ReVerb
+N-ary relation 24% 41%
+Underspecified noun phrase 10% 9%
+Incorrect PO
+S-tagging 10% 5%
+Incorrect coordinative conjunction 43% 14%
+Incorrect relative clause 19% 9%
+Non-contiguous relation 5% –
+Over-specified relation phrase 5% –
+Inverse word order 14% –
+Infinitive – 9%
+Underspecified relation phrase – 5%
+Over-specified noun phrase – 5%
+No extraction – 23%
+Comparison of open information extraction for English and Spanish of the main issues for both languages is N-ary relations, i.e. relations requiring more than two arguments (e.g. “
+The boy gave a book to the girl”). Other issues frequent for both languages are incorrect relative clause resolution and incorrect coordinating conjunction resolution; however, both are more typical for Extr
+Hech system. Relative clauses can be more common and complicated for Spanish language because relative pronouns readily take prepositions (e.g. en el cual vs. less common in which), although this needs linguistic proof. Resolution of coordinating conjunction is implemented differently in each system. The English-language system would sometimes either leave out all but the first of coordinated elements or consider all coordinated elements as one argument. Consequently, they were either not counted as extracted assertions at all or considered as one correct extraction.
+Interestingly, for neither of the systems incorrect PO
+S-tagging is among top causes of errors, due to the high precision of the modern PO
+S-taggers.
+Several issues are encountered only for one language. Non-contiguous relation phrases, although present in English too, are more common in Spanish since they can be caused by free word order. Over-specification vs. under-specification of relational phrases is causes by differences in system implementation. Another observation is that Re
+Verb does not attempt detecting facts in 5 sentences from the dataset. In this experiment, Extr
+Hech showed more robust behavior.
+6. Conclusions and Future Work
+We have presented the Open I
+E system for Spanish language, Extr
+Hech, based on syntactic and lexical constraints. It takes a PO
+S-tagged text as an input and outputs a list of extracted binary relations per sentence.
+It Extr
+Hech performs at the precision and recall levels comparable with the stateof-the-art systems for English based on similar approach, i.e. syntactic and lexical constraints and PO
+S-tagging. 87% precision and 70% recall were obtained for the dataset with grammatically correct sentences, and 55% precision and 49% recall were observed on the raw Web text dataset, which included incorrect or incoherent sentences. Although the recall of Extr
+Hech is lower than that of the syntactic parsing based systems, the precision is at the same level, and the speed is much higher.
+We also performed the analysis of errors in extractions made by Re
+Verb and Extr
+Hech system from the parallel English
+Spanish dataset of 68 grammatically correct sentences. It shows that the major error causes are common for both languages. Interestingly, incorrect PO
+S-tagging is not among the major issues for extraction errors. There are sets of issues that are typical either for one language. Some of them are related to the language properties, others are caused by systems’ implementation differences. However, Extr
+Hech was more robust on the dataset used in the experiment.
+Future work includes detailed analysis on how PO
+S-tagger accuracy affects PO
+Stag based Open I
+E. We also plan to conduct a comparative experiment for an English
+Spanish parallel or comparable dataset containing incoherent or incorrect sentences to better understand the robustness in different languages. Additionally, we will Zhila A., Gelbukh A.
+improving Extr
+Hech’s handling of the inverse word order, relative clauses, and coordinating conjunctions.
+Acknowledgements. The work was partially supported by European Union via 7th FW
+P (
+Web Information Quality Evaluation Initiative, WIQ-E
+I, project 269180), Government of Mexico via CONACY
+T (50206
+H), IP
+N (SI
+P 20131702), and Mexico City Government (ICY
+T PICC
+O10-120).

@@ -1,0 +1,317 @@
+The semantic text analyzer SemETA
+P, under development in the Laboratory of Computational Linguistics of IIT
+P RA
+S, is aiming at modelling deep understanding of natural language texts (in Russian). The analyzer includes a powerful linguistic processor and various linguistic and extra-linguistic resources—a combinatorial dictionary, an ontology, a repository of individuals, a set of inference rules and an inference engine ; . One of the applications of SemETA
+P is a question-answering system able to answer questions for which there is no direct answer in the original text ; . For example, given the sentence:(1) Зенит не смог спасти матч Zenit could not save the match
+The system can answer:(2) Кто проиграл? Who has lost the match?
+In order to get the answer the following steps are performed:1. A language-independent basic semantic structure (BSem
+S) of the first sen
+tence is built. BSem
+S consists of a set of binary predicates (RD
+F triples) and can be seen as a semantic graph where nodes correspond to individuals mentioned in the sentence (including event individuals) and arcs correspond to relations between the individuals.
+2. Inference rules are applied to extend BSem
+S adding new individuals and relations and thus forming an enhanced semantic structure (EnSem
+S). In our
+example this step (among other things) adds the knowledge that Zenit has lost the match.
+3. BSem
+S of the question is build. It is similar to that of the affirmative sentence
+but wh-words are marked in a special way.
+4. The question BSem
+S is used as a pattern to search within the semantic graph
+of the text. The search returns individuals (graph nodes) corresponding to the wh-words in the question.
+Referring Expression Generation for Question Answering and Graph Visualization 5. Along with the node I
+D certain meaningful information is returned such as the type of the found individual and its name (if exists).
+6. Based on this information a linguistic representation of the answer is build
+and inserted into the text of the question instead of the wh-word, thus generating the answer sentence. Then the answer sentence undergoes some slight modifications (such as agreement and word order change) and is presented to the user. In our example the resulting sentence would be:(3) Проиграл футбольный клуб «Зенит» Football club Zenit has lost the match
+As mentioned in p. 5 only a few relations (mainly type and name) are currently used to generate the referring expression for the answer. In case the text does not contain the name of the team we are left only with its type (football club) which is not distinguishing enough as can be seen in (4):(4) Аршавин не смог спасти матч. Кто проиграл? Arshavin could not save the match. Who has lost the match?
+In this case we would like to have the answer Ashavin’s team or Arshavin’s football club3. The answer The football club will not be distinguishing as there are two football clubs in the match. Moreover the type of the potential candidates for the answer is already presupposed by the question (assuming we are talking about a football match). So such an answer does not provide any new information.
+The goal of this paper is to present a solution for the general content selection task for referring expression generation (RE
+G). The algorithm should find a minimal distinguishing description of a node in a graph taking into account all existing relations. The second stage (linguistic realization) is beyond the scope of this paper though a sketch of how the problem can be attacked will be outlined.
+The paper is organized as follows: Section 2 poses a problem of referring expression generation for question answering, Section 3 presents the graph visualization problem as another task which would benefit from the RE
+G solution, Section 4 discusses related work and existing algorithms for RE
+G including a graph-based approach, Section 5 describes our practical improvements to the graph-based algorithm, Section 6 discusses the evaluation of the new algorithm, Section 7 outlines a sketch of how linguistic realization of the referring expression can be generated, and Section 8 concludes the paper.
+2. Referring expressions for answers
+Referential choice is known to be a multi-factor probabilistic process . An individual can be referred in discourse by a pronoun, a proper name 3 Of course we can look up in the repository of individuals, find out the name of Arshavin’s team
+and use it for the answer. But let’s assume the repository of individuals is not available or the team is not there. Anyway, the task of extending the knowledge graph from R
+I is independent of the task of referring expression generation which is the aim of this paper.
+Rygaev I. P.or a common name potentially modified by an adjective, prepositional phrase or relative clause. Reference also can be of different types such as specific/generic, singular/plural, definite/indefinite and so on.
+In what follows we limit ourselves only to specific singular reference. This follows from the nature of the question-answering system. An answer to a question that the system is able to produce is always a specific individual from the knowledge base. In case there are many answers the system will just list them all one by one. Also the usage of pronouns is not an option because the system currently does not take into account the preceding discourse (each question-answer pair is considered to be a separate conversation). Hence ultimately a noun phrase must be generated. But the aim of this paper is limited only to selection of the content for the noun phrase generation.
+The problem can be stated as follows:(5) Given a target node in a semantic graph (called scene graph) find a minimal subgraph (called description graph) which uniquely distinguishes the target node from any other nodes in the graph.
+We assume that the information from the description graph will be enough to generate linguistic realization of the referring expression.
+Statement (5) covers all our limitations and is generic enough to capture also referring expressions in graph visualization (see the next section). But for question answering certain additional considerations should be taken into account. The content selected for the answer should not include the information which was used to find the node itself. In other word it should not include the presuppositions of the question. Consider the following question-answer pair:(6) Who won? The winner
+This answer is obvious and useless since it is already presupposed by the question itself. To avoid such answers we need to exclude question presuppositions from the scope of search for a description graph. By doing so we need to take into account not only the basic semantic structure of the question but also all the inferences which can be made out of it. Consider the next example:(7) Who bought the car? a. The buyer b. The one who paid c. The one who received the car
+All three answers are useless though only (7a) is contained within the basic semantic representation of the question, and (7b-c) are not contained but rather entailed by it.
+So when generating referring expressions for answers we need first to produce an EnSem
+S of the question (applying inferences to BSem
+S) and remove the resulting EnSem
+S from the scene graph before searching for a description graph. In addition to solving the problem with useless answers this scene graph reduction will help with the performance of the RE
+G algorithm.
+Referring Expression Generation for Question Answering and Graph Visualization 3. Referring expressions in graph visualization
+Another task where short unique referring expressions would be useful is the visualization of a complex semantic graph. In the graphs which are built by SemETA
+P each node has a unique I
+D which contains a type of the individual and a certain number postfix. When there are multiple nodes of the same type it is hard to follow which particular individual a node represents.
+This is especially problematic for auxiliary nodes such as Complete or Epist
+Modality. Complete nodes are usually generated from perfective aspect of a verb and represent the completion of an event. Epist
+Modality nodes represent the degree of confidence in a proposition and are attached to any event which is stated or inferred to be a true fact. There can be a lot of auxiliary nodes in the graph and in order to distinguish between them a user needs to check adjacent nodes, sometimes several spans in different directions, which is cumbersome and time-consuming. A unique descriptive expression as a node I
+D would be really helpful.
+See below a graph for a sentence:(8) Иван купил зонтик у Петра Ivan bought an umbrella from Peter‘
+Ivan bought an umbrella from Peter’
+This graph is fairly clear since it is rather small. But when we add inferences to it, the graph becomes unreadable. Instead of providing a picture of it we will list statistics of its node types.
+Rygaev I. P.for the sentence ‘
+Ivan bought an umbrella from Peter’
+Grouping Node type
+Number of nodes Explanation
+Objects (4)
+Human 2 Two persons—
+Ivan and Peter
+Umbrella 1 An umbrella
+Currency Measure1 Money
+Events (13)
+Buying 1 Ivan bought the umbrella from Peter
+Selling 1 Peter sold the umbrella to Ivan
+Payment 1 Ivan paid for the umbrella to Peter
+Exchange 2 Ivan exchanged the money for the umbrella Peter exchanged the umbrella for the money
+Giving 2 Ivan gave the money to Peter Peter gave the umbrella to Ivan
+Getting 2 Ivan got the umbrella from Peter Peter got the money from Ivan
+Own 4 Ivan owned the money before the purchase Peter owned the umbrella before the purchase Ivan owns the umbrella after the purchase Peter owns the money after the purchaseAuxiliary(42)
+Complete 9 Completion for each event except ownershipEpist
+Modality 22 Facticity of each event and each completionTime
+Interval 8 Time positions of the events. For some events they coincide.Time
+Point 3
+For certain nodes (
+Umbrella, Buying, etc.) their class is distinguishing enough, other nodes (people) can be identified by proper names. But when we come to nonunique event types, some descriptive content (such as event arguments) is required to distinguish between them4. And for auxiliary nodes we need to include arguments of their arguments as well.
+Similar problems arise when one tries to browse open knowledge bases in Semantic Web. If D
+Bpedia (dbpedia.org, ) uses descriptive UR
+Is inherited from Wikipedia article names, Wikidata (www.wikidata.org, ) abandons this notation for the sake of multilingualism and uses numeric object I
+Ds such as Q175117. Especially cumbersome is the data structure in Babel
+Net (babelnet.org, ). The picture below shows how a semantic concept of Apple (fruit) is presented in their linked data interface:4 As one may notice node naming is not the only problem in the complex graph visualization.
+Other issues include proper arrangement of the nodes and the ability for a user to interact with the graph. But even if those two issues are resolved poor node naming will prevent the user from reading and understanding the graph quickly. So we will concentrate on the node naming as this is the only linguistic task in graph visualization.
+http://dbpedia.orghttp://www.wikidata.orghttp://babelnet.org/
+Referring Expression Generation for Question Answering and Graph Visualization If one wants to understand what the broader concepts are, they have to navigate to a particular concept, look at the definition attribute which is also not descriptive but refers to an object named something like s00005054n_Gloss1_E
+N. And only after navigating to this Babel
+Gloss object one can find a definition of the concept. Adding automatically generated meaningful descriptions instead of numeric concept I
+Ds (or in addition to them) would make the property sheet much clearer.
+SPARQ
+L5 specification a DESCRIB
+E query which should return an RD
+F graph which describes a particular resource (or resources) in an RD
+F storage, but it is left up to the server to decide which triples to include into the description. This would be another good application for referring expression generation in the context similar to the graph visualization.
+4. Existing algorithms for RE
+G
+The history of research on the referring expression generation back to , who first presented a primitive algorithm for naming objects and events. Since then a number of algorithms have been suggested and evaluated. We briefly discuss the major ones:5 A query language for RD
+F knowledge bases in Semantic Web.
+Rygaev I. P.1. Full Brevity algorithm to generate the shortest possible distinguishing description. First it tries every single property of the target and checks if it alone rules out all the distractors. If that fails it then tries all possible combinations of two properties, then three properties and so on until a distinguishing description is found or all the properties are exhausted. This algorithm is computationally expensive and surprisingly of low human-likeness. It was shown that human speakers often produce non-minimal descriptions ; .
+2. Greedy Heuristics algorithm more efficient then Full
+Brevity. It incrementally adds one property to the description—the one which rules out most of the current distractors. Because of its incremental nature (once the property is added it is never removed) it does not always produce the shortest descriptions.
+3. The Incremental Algorithm probably the most influential algorithm in RE
+G. It is similar to Greedy Heuristics but instead of selecting properties based on their discriminating power it uses predefined
+preference order of the properties. It was shown that speakers prefer certain properties over others when referring to objects . This algorithm is of polynomial complexity and produces the most natural humanlike descriptions. But it requires a preference order to be carefully specified upfront.
+It needs to be pointed out that these algorithms originally were tested in a simplified set-up where objects are characterized by their properties only, but not by relations between them . In our model where almost all properties are in fact relational (even object type is a relation between an individual and a class) this limitation needs to be lifted6.
+There were a number of attempts to adapt the Incremental Algorithm for relational properties ; ; unlike simple properties relations do not fit very well into an incremental paradigm. No one would produce a description ‘the dog next to the tree in front of the garage’ when ‘the dog in front of the garage’ would suffice .
+a graph-based approach for RE
+G which covers the case of relational properties and fits very well in our knowledge representation framework (since it is already graph-based). They present a branch and bound algorithm finding a relevant subgraph with a cost function to guide the search. Roughly at each step this algorithm enumerates the neighbor edges of the current candidate description graph, checks whether adding an edge will result in a subgraph cost not exceeding the cost of the current best subgraph (if it exists) and if it so checks whether the new candidate rules out all the distractors. If the check is successful then the current best subgraph is updated and the algorithm backtracks, otherwise the same steps are performed on the new candidate.
+6 Other limitations such as singular references only, crisp and not vague properties only, ignoring salience in context, etc. apply to our work
+as well. Lifting them is the topic of future research.
+Referring Expression Generation for Question Answering and Graph Visualization Authors argue that their approach (with certain modifications) can mimic the results of all the three algorithms described above. If the cost of adding each edge and each node is the same the algorithm will produce a minimal description as Full Brevity does. If the enumeration of the neighbor edges are performed in a certain order (either based on discriminating power or predefined preference) and the first found description is returned then the results of Greedy Heuristics or the Incremental Algorithm are obtained.
+We tried to apply the graph-based algorithm to our tasks. The next section describes some improvements that we had to introduce to it to make the algorithm more practical.
+5. Our method
+The graph-based algorithm as presented in Krahmer et al 2003:62 is recursive, i.e. it realizes a depth-first search. Starting from one relation the algorithm first explores the whole branch associated with it as far as possible before even trying another single relation. This is not an optimal strategy since we expect a useful referring expression to be relatively short.
+Searching for long description (before trying all the shorter ones) can dramatically increase the time required to find a solution if the algorithm happens to take at first the wrong path. Firstly the longer the description (up to a certain threshold) the more its potential for branching, the more new candidates it produces on the next step. And secondly finding distractors for longer descriptions is also more time-consuming. Much more descriptions multiplied by much more time for checking each description makes the algorithm impractical. In our tests the depth-first algorithm could go as far as several dozen relations (still not finding a solution) when a unique description to be found was only several relations long.
+To solve this problem we propose a breadth-first modification of the graph-based algorithm which (like Full Brevity) first tries every single relation as a full description then every combination of two relations and so on. If there is a relatively short description to be found then the breadth-first search usually finds it much faster than the depth-first search. But if there is no unique description available then the breadth-first algorithm is slower in arriving at this conclusion. However, to confirm that there is no unique description an algorithm anyway would need to test the longest possible description graph. If the scene graph is connected (and it is usually the case) then the longest possible subgraph would be the whole scene graph. As we mentioned above exploring up to this point is not a practically available option. Also taking into account the following:1. Long descriptions are not only time-consuming but also not very useful for
+a user to identify the object.
+2. If a unique description does not exist the algorithm still has to return something at least partially useful. It cannot just fail or return an empty string.
+We decided to introduce the length limit (in a number of edges) for a description graph. Potential descriptions of the length above the limit are not considered at all. Rygaev I. P.
+And when all candidates of maximal length are explored and rejected then the algorithm returns a simple subgraph containing just one edge—a type of the target node. Thus we get acceptable performance for the cost of not always finding unique descriptions (when they are sufficiently long). In addition to that we realized that forced addition of node types to the description graph is not only beneficial for a user (it produces much more natural descriptions) but also makes the algorithm faster. This is probably due to the fact that our graphs usually contain many edges with the same relation. So a node type plus a relation is much more distinguishing then just a relation. Hence we introduced a rule: whenever a node is added to the description graph its type edge is added automatically as well.
+Also we found useful to define a cost function and enumerate neighbors based on the predefined preference order of relations (similar to the Incremental Algorithm). On the top of the preference list we have proper name relations (has
+Name, hasGiven
+Name, etc.) followed by argument relations (has
+Object, has
+Agent, etc.) and so on. This also increases the performance of the algorithm.
+6. Evaluation
+There are two types of evaluation that can be performed against a RE
+G algorithm—human evaluation of the generated expressions and performance evaluation.
+Human evaluation concerns how natural a referring expression is and how helpful it is to identify the target object. Without linguistic realization this type of evaluation cannot be fully performed. But some preliminary validation tests can be made. While surface realization is in progress the resulting expression is presented in a formal language called Etalog which is the language of SemETA
+P inference rules. It was designed in such a way as to be understandable for linguists without special mathematical or computer-science training. The full description of Etalog is out of scope of this paper. In Fig. 3 we present some examples of Etalog referring expressions in the tree view graph visualization for sentence (4). We hope that they are rather clear and self-explaining.
+For evaluation we selected 51 sentences from the corpus of the football high spots (those which were not previously used to developed and test the generation of referring expressions), manually created meaningful questions to these sentences and presented the Etalog answers to four linguists familiar with Etalog asking them to evaluate informativeness and naturalness (human-likeness) of the generated referring expressions. A total of 287 question-answer pairs were evaluated.
+Both characteristics were evaluated using a binary scale (yes/no). The informants were instructed to regard an answer as informative if they can unambiguously identify the referred individual within the context of the sentence based on the Etalog expression provided, and the referring expression contains new information (other than what is presupposed by the question itself). And they were instructed to regard the answer as natural if they can imagine someone using such an expression to answer this particular question within the context of this particular sentence.
+There were 7 types of referred individuals in the answers. The statistics for each type (as well as the totals) is presented in Referring Expression Generation for Question Answering and Graph Visualization sentence ‘
+Ivan bought an umbrella from Peter’
+Rygaev I. P.answers by the referred individual type
+Referred individual type
+Number of answers Informativeness Naturalness
+Person (identified by name) 81 100.00% 98.42%
+Person (identified by other means) 28 36.04% 18.02%
+Football team 75 28.16% 17.20%
+Place (penalty area, goal area, etc.) 41 62.73% 41.61%
+Event (football pass or shot) 32 58.59% 47.66%
+Time 22 19.32% 3.41%
+Ball 7 100.00% 42.86%
+Body part 1 100.00% 50.00%
+Total 287 59.27% 47.04%
+Table 3 below displays the informative natural, informative unnatural and uninformative examples for each type of referred individuals (where applicable):# Context sentence Question Answer
+Informative and natural answers:(9) Все тот же Аппаев не попадает даже в створ ворот.
+All the same Appayev does not even hit the target.
+Кто бьёт? Who shoots?(
+Human hasFamily
+Name “Аппаев”)
+Appayev(10) Думбия и Хонда выводят Мусу к воротам Малафеева, и нигерийцу оставалось лишь не промахнуться.
+Doumbia and Honda lead Musa to Malafeev’s goal, and the Nigerian had only not to miss.
+Кому оставалось лишь не промахнуться?
+Who had only not to miss?(
+Human lives
+In Nigeria)
+The Nigerian(11) После навеса в штрафную в исполнении Кержакова Аршавин блестящим ударом в падении вколачивает мяч в сетку.
+After a pass by Kerzhakov into the penalty area Arshavin with a brilliant shot in the fall hammers the ball into the net.
+За какую команду играет Аршавин? Which team does Arshavin play for?(Football
+Team isObject
+Of (Plays
+For has
+Agent (
+Human has
+Name “Кержаков”)))
+The team which Kerzhakov plays for(12) А уже на последней минуте первого тайма Дзагоев не попал в створ ворот из выгодной позиции, пробив рядом со штангой.
+And in the final minute of the first half Dzagoev missed the target from a vantage point, shooting near the post.
+Куда пробил Дзагоев? Where did Dzagoev shoot?(
+Region different
+From (GoalArea))
+Off the goal
+Referring Expression Generation for Question Answering and Graph Visualization # Context sentence Question Answer(13) Подача в штрафную Шунина завершается опасным ударом головой Натхо, но голкипер на месте.
+The feed into Shunin’s penalty area ends with a dangerous header by Natkho, but the goalkeeper is at the spot.
+Каким ударом завершается подача?
+Which shot ends the feed?(Football
+Shot has
+Agent (
+Human has
+Name “НАТХО”))
+Natkho’s shot (
+The shot that Natkho made)(14) На исходе часа игры, Думбия, замкнув прострел Мусы, отправляет второй мяч в сетку ворот Диканя.
+At the end of an hour of play Doumbia, closing the pass of Musa, sends the second ball into Dikan’s goal net.
+Когда Думбия отправляет мяч в сетку?
+When does Doumbia send the ball into the net?(Time
+Interval finishes (Hour))
+At the end of an hour(15) Но удар Джуджака оказывается неточным, мяч проходит рядом со штангой.
+But Dzsudzsak’s shot is inaccurate, the ball passes next to the post.
+Что проходит рядом со штангой?
+What passes next to the post?(Ball)
+The ball
+Informative but unnatural answers:(16) Муса навесил в штрафную на Хонду, тот скинул мяч Дзагоеву, который со второй попытки отправляет мяч в сетку ворот Малафеева.
+Musa lobbed to the penalty area for Honda, who threw the ball to Dzagoev, who at the second attempt sends the ball into Malafeev’s goal net.
+Кто навесил? lobbed (the ball)?(
+Human hasFamily
+Name “Хонда”)
+Honda (incorrect answer)(17) В следующей атаке хавбек исправился, замкнув в касание передачу Губочана.
+In the next attack the midfielder corrected himself closing in touch Gubochan’s pass.
+Кто исправился? Who corrected himself?(
+Human isAgent
+Of (Attack))
+The one who attacked(18) Думбия вновь рвется к воротам, но вместо того, чтобы пробить самому, отдает пас на Мусу, которого опережает голкипер.
+Doumbia runs forth to the goal again, but instead of shooting himself, he passes the ball to Musa, which is left behind by the goalkeeper.
+За какую команду играет Муса? Which team does Musa play for?(Football
+Team isObject
+Of (Plays
+For hasSync
+Event (Plays
+For) has
+Agent (
+Human hasFamily
+Name “Думбия”)))
+The team which Doumbia plays for at the same time when someone else plays for another team
+Rygaev I. P.# Context sentence Question Answer(19) В концовке первого тайма Карсела-Гонсалес упускает очередной шанс своей команды открыть счет в матче, не попав даже в створ ворот.
+At the end of the first half, Carcela
+Gonzalez misses his team’s next chance to open the scoring in the match, not even hitting the target.
+Куда не попали? was not hit?(Goal
+Area isTerminalPoint
+Of (GoalEvent))
+The goal area where the goal is scored(20) Карим Бензема получил пас от Матьё Вальбуена и пробил по воротам, только вот в створ он не попал.
+Karim Benzema received a pass from Mathieu Valbuena and shot on goal, but he did not hit the target.
+Какой сделали удар? Which shot was made?(Football
+Shot hasTerminal
+Point (Goal
+Area isLocation
+Of (Arriving)))
+The shot on the goal where something arrived(21) Валладарес переправил мяч в перекладину, от которой тот покинул пределы поля!
+Valladares repelled the ball into the crossbar, from which it left the field!Что Валладарес переправил в перекладину?
+What did Valladares repel into the crossbar?(
+Ball isAgent
+Of (Leaving))
+The leaving ball(22) Тем временем Думбия бил головой после навеса Щенникова—неточно.
+Meanwhile Doumbia shot with his head after Shchennikov’s lob—inaccurate.
+Чем бил Думбия? With what did Doumbia shoot?(
+Head isInstrument
+Of (FootballShot))
+The head with which the shot was made
+Uninformative answers:(23) Ари выполнял проникающую передачу на Эменике, тот отдал мяч дальше на ход Билялетдинову, и лишь Игнашевич успевает подстраховать голкипера.
+Ari performed a penetrating pass to Emenike, who gave the ball further to the course of Bilyaletdinov, and only Ignashevich manages to help the goalkeeper.
+Кто получил передачу? received the pass?(
+Human isAgent
+Of (Translocation))
+Someone who was moving(24) В течение минуты Жусилей дважды пытался пробить по воротам Беленова, но оба удара пришлись в защитника.
+Within a minute, Jucilei twice tried to shot on Belenov’s goal, but both shots hit the defender.
+По воротам какой команды пытался пробить Жусилей?
+On which team’s goal did Jucilei try to shoot?(Football
+Team has
+Coach (Human))
+The team with a coach
+Referring Expression Generation for Question Answering and Graph Visualization # Context sentence Question Answer(25) Ревякин спасает свою команду (сначала) после удара Кержакова, вытащив мяч из-под перекладины, (а затем и Семака).
+Revyakin saves his team (first) after Kerzhakov’s shot, pulling the ball from under the crossbar, (and then after Semak’s one).
+Откуда вытаскивают мяч? Where the ball is pulled from?(
+Region isObject
+Of (Below))
+Below something(26) Полузащитник “ПСЖ” получил мяч в центре штрафной площади и вторым касанием пульнул по воротам.
+The midfielder of PS
+G received the ball in the center of the penalty area and shot on goal with the second touch.
+Какой сделали пас? Which pass was made?(Football
+Pass has
+Location (Region))
+The pass which is somewhere(27) И почти тут же Думбия имел возможность оформить “дубль”, но удар у форварда явно не получился.
+And almost immediately Doumbia had the opportunity to make a double, but the forward’s shot was obviously not good enough.
+Когда Думбия имел возможность оформить “дубль”?
+When did Doumbia have the opportunity to make a double?(Time
+Interval meets
+Temporally (TimePoint))
+The time right before some point in time
+The evaluation shows that the system should be improved in a number of ways. The main problems would be the following:1. The cost function for the algorithm needs to be configured more carefully.
+Often the system generated an expression which is formally distinguishing but useless from the human point of view (see examples (17), (25), (27) and others). Probably a more complex cost function is required which takes into account not only the predefined relation order but other things such as types of nodes, population of the required arguments, etc.
+2. Duplicated individuals created by different rules are not always combined
+together by the equality (coreference) rules. This increases the number of distractors and leads to longer unnatural descriptions (see examples (18), (19), (20) and others). The logic to identify and join duplicated individuals should be improved.
+3. Concept definitions do not always contain all the necessary information. For
+example, the definition of the football team should contain the information that it has a coach. If this was included then each football team in EnSem
+S would have that property and the answer in (24) would not be considered distinguishing.
+It should be noted that pp. 2 and 3 above are not related directly to the referring expression generation algorithm but rather to the construction of the scene graph (EnSem
+S).
+Rygaev I. P.
+For performance evaluation we also present some preliminary figures. They are not final and there is still a potential for optimization. But the tendency is clear—time grows exponentially with the length of the expression. This is the reason we introduced a hard length limit to make the algorithm practically applicable.
+iterations for different description lengths
+Description length
+Average generation time, ms
+Average number of iterations per target
+Average time per iteration, ms1 9.80 1.00 9.80
+3 37.40 14.93 2.50
+5 369.35 113.96 3.24
+7 2,565.00 772.85 3.32
+The first column in the table shows the length of the generated referring expression (in the number of edges of the description subgraph). In the majority of cases it is an odd number because edges are usually added in pairs—once a new node is added to the description its type is also added which creates an additional edge in the subgraph. Descriptions of even lengths are generated sometimes too but they do not have enough statistics, so they are omitted from the table.
+The second column shows the average time (in milliseconds) required to generate an expression of the given length. The third columns displays the average number of iterations needed, i.e. the number of different descriptions tried before arriving at the solution. And the forth column shows the average time (in milliseconds) of one iteration.
+It is clear from the table that the generation time growth mostly comes from the increase of the number of iterations while the average iteration time growth is rather moderate.
+7. Linguistic realization
+Although a full-fledged linguistic realization or referring expressions is beyond the scope of this paper we briefly present a sketch of how it could be realized.
+As mentioned in the previous section we are able to generate referring expressions in Etalog formalism. An Etalog expression can serve as a template for surface realization in a natural language. Consider an example:(28) (
+Own has
+Object (Currency
+Measure) isResult
+Of (Giving))
+This can be realized in English as follows: ‘
+The ownership of money as a result of a transfer’. Parallels are straightforward. Roughly what needs to be done is to replace ontological concepts with corresponding words and semantic relations with syntactic ones. This process is exactly opposite to the semantic analysis which SemETA
+P is already capable of.
+One important aspect of an Etalog expression is that it presents a description graph in a tree-like form. This tree can be used as a template for a syntactic tree of the Referring Expression Generation for Question Answering and Graph Visualization corresponding linguistic expression. In order to convert an arbitrary connected graph to a tree with a given head the following two steps are performed:1. Direction of certain edges of the graph is reversed so all edges point from the
+head to the leaves and not vice versa. This is done through the use of inverse relations. For example, isResult
+Of is an inverse relation of has
+Result. Whenever an unwanted incoming relation is found it can be replaced with an outgoing inverse relation.
+2. Loops are eliminated. This is done by splitting a node and marking the resulting split nodes with an explicit variable. The second appearance of the variable
+in the expression lacks any descriptive content and can be realized as a pronoun:(29) (
+Human ?x isAgent
+Of (
+Shaving has
+Object ?x)) ‘
+A person who shaved (himself)’8. Conclusion
+In this paper we presented a practical realization of a graph-based algorithm for the content selection task in the referring expression generation (RE
+G). Starting from the two needful applications of referring expressions—in the question answering and in the node naming for graph visualization, a number of practical improvements for the algorithm were suggested such as breadth-first search (instead of depth-first) and a hard limit for the description length. A preliminary evaluation for the new algorithm was provided and a sketch of the process of generating linguistic expressions based on the formal Etalog expressions was outlined.

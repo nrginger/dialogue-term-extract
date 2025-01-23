@@ -1,0 +1,321 @@
+The linguistic program Noo
+J (
+Silberztein 2003) contains numerous dictionaries, grammars and processed corpuses. The internal linguistic algorithms in Noo
+J permit the processing of separate files and also collections of files (corpora). For text processing, the following basic operations are developed: selection of tokens, bigrams, and unknown words, unambiguous and ambiguous words.
+Noo
+J helps to create large lexical, morphological and syntactic grammars, which can be written both in text view and through an easy-to-use visual editor, greatly simplifying the process. Dictionaries and grammars can be applied to texts to find complex lexical, morphological and syntactic expressions. Noo
+J users are able to develop grammars for identifying semantic units such as proper names, dates, time, financial expressions1, etc., in a large text.
+In 2011 the authors had the opportunity to develop the first version of Belarusian and Russian Noo
+J modules. The discussion about the results took place at the international conference of the Noo
+J community in Dubrovnik, Croatia (
+Hetsevich 2012; Hetsevich 2012). This article will present an improved way of building Belarusian and Russian dictionaries for Noo
+J. Particularly for use in text-to-speech synthesis, more accentual information for words will be added from the basic electronic dictionaries. Grammars important for linguistic text processing in text-to-speech synthesis will also be examined.
+2. Basic Belarusian and Russian electronic dictionaries for textto-speech synthesis system Multiphone
+The bilingual text-to-speech synthesis system Multiphone uses specially-prepared electronic dictionaries for Belarusian and Russian languages (
+Lobanov 2008). For the basic electronic dictionaries, a system of codifying lexical and grammatical categories was developed. The initial Belarusian electronic dictionary (BE
+D) was based on the printed dictionary Biryla (
+Biryla 1987, Sovpel 2006). The Russian electronic dictionary (RE
+D) was built in SSR
+L using the printed Zaliznyak dictionary (
+Zaliznyak 1980).
+New words from modern texts on literature, science and technology were added to the basic electronic dictionaries. To further facilitate the process, one of the authors has developed an application program, Expert Dictionary Editor (ED
+E) (
+Hetsevich 2011). ED
+E makes it possible to process texts, find new words for the dictionary, and
+allows the user to mark syllabic accents, lexical and grammatical categories (LG
+C) and priorities therein. Saved words (including their homographs) can be displayed together with all of the selected information (
+Fig. 1).
+1 http://www.nooj4nlp.net/pages/introduction.html
+Belarusian and Russian linguistic processing modules for the system Noo
+J add and delete words in electronic dictionaries
+Quantitative characteristics of the dictionaries (table 1) show that each dictionary has 14 lexical categories (or simply categories) of words. Category refers to part of speech (noun, verb, etc.), as well as several word groups (for instance, parenthesis, predicate). Each category is marked with the amount of corresponding word forms and tags.
+CategoriesBE
+D RED
+Word forms Tags Word forms Tags
+Adjective 872 943 85 504 728 31
+Adverb 6524 8 1366 33
+Conjunction 45 2 563 49
+Gerund 32 278 4 70 215 8
+Interjection 8 1 184 1
+Noun 592 245 244 540 684 168
+Numeral 3571 96 1473 92
+Parenthesis 45 1 65 1
+Participle 189 609 116 1 897 033 246
+Particle 57 3 348 75
+Predicate 60 1 266 1
+Preposition 121 15 277 32
+Pronoun 1214 270 1064 307
+Verb 419 734 68 429 587 78
+Sum 2.118.454 914 3.447.853 1122Sum(K
+B) 41 267,2 50,5 92 774,4 80,6
+The total number of entries in the Belarusian electronic dictionary is more than 2,1 million word forms, and in Russian 3,4 million word forms. The total number of tags in each of the dictionaries is 914 and 1122 respectively. The total size of the files with word forms and tags for BE
+D is 40,4 M
+B, and for RE
+D 90,7 M
+B.
+Hetsevich Yu. S. et al.
+dictionaries effectively manage the problem of identifying syllabic accent and LG
+C in a wide range of thematic texts for text-to-speech synthesis. Further, we shall try to realize the conversion of the aforementioned electronic dictionaries into Noo
+J so that they can be used by linguists more in processing texts in Belarusian and Russian.
+3. Building Belarusian and Russian dictionaries for Noo
+J
+For converting Belarusian and Russian electronic dictionaries into Noo
+J, various algorithms of conversion have been developed in Perl (
+Fig. 2) . The algorithms receive BE
+D and RE
+D in input, process them and put out dictionary files in Noo
+J according to the rules of its construction (
+Silberztein 2003). In place of X
+X is a language identifier: “be” for Belarusian and “ru” for Russian.
+adjective.radverb.rconjunction.rmodal.rnoun.rnumeral.rothers.rparenthesis.rparticiple.rparticle.rpreposition.rpronoun.rproper.rverb.rtagset_adjective.r.txttagset_adverb.r.txttagset_conjunction.r.txttagset_gerund.r.txttagset_interjection.r.txttagset_modal.r.txttagset_noun.r.txttagset_numeral.r.txttagset_parenthesis.r.txttagset_participle.r.txttagset_particle.r.txttagset_preposition.r.txttagset_pronoun.r.txttagset_verb.r.txt
+Word forms Tags+_properties.defgeneral_XX.dicgeneral_XX.nofLemmas
+Properties definitionsInflexionclasses
+Algorithms of conversionX
+X – language identifier (B
+E or RU)
+Files of Noo
+J dictionary
+Let us examine the steps of processing electronic dictionaries with developed algorithms.
+Firstly the file with lexical property definitions entitled _properties.def is formed. For this all the tags and their decodings from the tag sets (tagset_*.r.txt) are read, but the only ones kept are those which are really used for marking LG
+C of words in the word file of a specific category (*.r). For each property of the category all possible variants of their values are collected from the respective columns with tag decoding. They are written with “+” sign in the following format:CATEGORY_property
+Name = propertyVALUE1+propertyVALU
+E2 +…;
+For example, fig. 4 presents excerpts of obtained files with property values for the category Noun.
+Belarusian and Russian linguistic processing modules for the system Noo
+J Obtained from BED…NOUN_
+Animation = Animate + Inanimate;NOUN_
+Case = Accusative + Dative + Genitive + Instrumental + Nominative + Prepositional; NOUN_
+Form = SubstanceAdjective;NOUN_
+Gender = Feminine + Masculine + Neuter;NOUN_
+Meaning = Common + Proper;NOUN_
+Flexion = ю + яў_аў;NOUN_
+Number = Plural;…
+Obtained from RED…NOUN_
+Animation = Animate + Inanimate;NOUN_
+Case = Accusative + Dative + Genitive + Instrumental + Nominative + Prepositional;NOUN_
+Gender = Feminine + Masculine + Neuter;NOUN_
+Number = Plural + Singular;NOUN_Proper
+Common = Common;… Then the algorithm forms a file with word lemmas entitled general_X
+X.dic. For each paradigm of a specific category, lemma and inflection class with tags are formed. A lemma is defined as the initial form of a word. The inflection class for each lemma is of the form “inflection1_tag1, inflection2_tag2, …, inflectionN_tag
+N”. Each inflection is obtained by deleting the minimal part of a word that remains invariable in all word forms of a word paradigm from the word form. Every obtained inflection class is checked according to the following rule:
+Is there already such an inflection class with tags in the file general_X
+X.nof or not?1. If not, the inflection class is registered in the file general_ X
+X.nof with
+the resulting title being identical to the lemma. If there is such a class title, it is completed with a unique number. Couples of flexions and tags alternate with the sign “+”. Commands to delete part of a lemma (number of characters) are inserted before the flexions, after which the Noo
+J parser adds flexions of its inflection class to the lemma. Decoding is taken from the file with decoding for each tag, the category title is deleted and the sign “+” is added between property values. The end of the inflection class is denoted by the sign “;”.
+2. If there is such an inflection class, it is already being used for some word, and
+a name has already been created for it.
+Noun.
+Hetsevich Yu. S. et al.
+from BE
+DАБАВЯЗАК =<B2>ак/Accusative+Common+Inanimate+
+Masculine+ <B2>ак/Common+Inanimate+Masculine+
+Nominative+ <B2>кі/Accusative+Common+Inanimate+Masculine+
+Plural+ <B2>кі/Common+Inanimate+Masculine+Nominative+Plural...;…
+Obtained from RE
+DАБСОЛЮТНОСТЬ = <B1>ей/Common+Feminine+Genitive+Inanimate+
+Plural+ <B1>и/Accusative+Common+Feminine+Inanimate+
+Plural+ <B1>и/Common+Feminine+Inanimate+Nominative+
+Plural+ <B1>и/Common+Dative+Feminine+Inanimate+
+Singular+ <B1>и/Common+Feminine+Genitive+Inanimate+
+Singular...; …
+In order to mark accent, the algorithm collects all accent positions from each word worm of a lemma. If all accent positions are equal to the number A, a marker with the constant “+s
+A” is formed. If there is even one different accent position in any word worm of lemma, the marker of various accent in the paradigm is formed — “+s
+N”.
+The lemma is registered in the file general_X
+X.dic with the mark of the category, plus the command “+FL
+X=” and then the title of the corresponding inflection class in the following format:LEMM
+A, CATEGOR
+Y + FL
+X = TITLE_OF_INFLECTION_CLAS
+S + ACCENT_MARKE
+R.
+classes and accents for BE
+D and RE
+D.
+Obtained from BED…абавязак,NOUN+FLX=АБАВЯЗАК+s5адгалосак,NOUN+FLX=АБАВЯЗАК+s6мама,NOUN+FLX=АБАТЫСА+s2манастыр,NOUN+FLX=АБРУЧ+sN…
+Obtained from RED…абстрактность,NOUN+FLX=АБСОЛЮТНОСТЬ+s6аварийность,NOUN+FLX=АБСОЛЮТНОСТЬ+s5адоптировать,VERB+FLX=АБЛАКТИРОВАТЬ+s6быстр,ADJECTIVE+FLX=БОДР+sN…
+Belarusian and Russian linguistic processing modules for the system Noo
+J In the beginning of every resulting file of the Noo
+J dictionary, a corresponding heading with the mark of the Noo
+J version (
+V3), authors and other necessary information is added to save the correct format of the dictionary files.
+Thereby, the resulting files _properties.def, general_X
+X.diс and general_X
+X.nof correspond to the rules of construction for files in the Noo
+J dictionaries.
+Quantitative characteristics of the resulting Belarusian (B
+N) and Russian (R
+N) Noo
+J dictionaries are presented in in B
+N 123 565 (88 %) of which are lemmas with precise accent position. There are nearly 214 thousand lemmas in R
+N, 199 638 (94 %) of which are lemmas with precise accent position. The total number of inflection classes in B
+N is 3137 and 1851 in R
+N. The number of property values in B
+N and in R
+N is 61 and 56 respectively. These numbers of property values are almost identical. This can be explained by the fact that Belarusian and Russian are kindred languages, having similar grammatical and categorical structure.
+dictionaries for NooJCategories
+Lemmas Inflection classes Property valuesB
+E R
+U B
+E R
+U B
+E RU
+Adjective 32 350 31 583 33 61 8 5
+Adverb 6524 1366 8 30 2 4
+Conjunction 45 563 2 49 1 4
+Gerund 1836 32 977 282 160 2 4
+Interjection 8 184 1 1 0 0
+Noun 53 054 44 396 1427 309 8 5
+Numeral 169 99 38 27 8 5
+Parenthesis 45 65 1 1 1 0
+Participle 12 293 68 006 13 57 8 9
+Particle 57 348 3 73 2 5
+Predicate 60 266 1 1 1 0
+Preposition 105 277 17 27 2 4
+Pronoun 66 1064 56 307 9 5
+Verb 30 718 33 127 1255 748 9 6
+Sum 137 330 214 321 3137 1851 61 56
+Sum (K
+B) 6064 10 446 1809 1113 5 5
+The total size of B
+N (the file with lemmas, inflection classes and property values) is 7,7 M
+B, and that of R
+N is 11,3 M
+B. If these files are processed with the Noo
+J parser to create a dictionary in one file, the result will be a file of the type general_X
+X.nod. For Belarusian it will take up 8,2 M
+B, and for Russian 5 M
+B.
+Hetsevich Yu. S. et al.
+Linguistic processing of Belarusian and Russian texts with
+developed dictionaries for text-to-speech synthesis
+When Belarusian and Russian dictionaries for modules of the program Noo
+J are developed, they can be used for text annotating. For instance, for each known word, all variants of accents and grammatical categories present in the dictionary are marked (
+Fig. 7).
+(b)categories for Belarusian (a) and Russian (b) languages
+It is possible to receive an XM
+L-export of the annotated sentence (
+Figure 8). For each word, the export contains its lemma, category, inflection class name, expanded grammatical marks and accent marker. As such, this information can be processed further using the linguistic processor of the text-to-speech synthesizer.
+BN<L
+U LEMM
+A="песня" CAT="NOU
+N" FL
+X="ПЕСНЯ" Meaning="
+Common" Gender="
+Feminine" Animation="
+Inanimate" Case="
+Nominative" TYPE="s2">Песня</LU><L
+U LEMM
+A="раптам" CAT="ADVER
+B" FL
+X="АБАВЯЗАЦЕЛЬНА" Type="Quality_
+Manner" TYPE="s2"><L
+U LEMM
+A="раптам" CAT="ADVER
+B" FL
+X="АДВЕКУ" Type="
+Time" TYPE="s2">раптам</LU></LU><L
+U LEMM
+A="абарвацца" CAT="VER
+B" FL
+X="АБАРВАЦЦА" Aspect="
+Perfective" TYPE="sN">абарвалася</L
+U>.
+Belarusian and Russian linguistic processing modules for the system Noo
+J RN<L
+U LEMM
+A="мальчик" CAT="NOU
+N" FL
+X="АБРЕК" TYPE="
+Animate" TYPE="
+Common" TYPE="
+Masculine" TYPE="
+Nominative" TYPE="
+Singular" TYPE="s2">Мальчик</LU><L
+U LEMM
+A="увидеть" CAT="VER
+B" FL
+X="ВОЗНЕНАВИДЕТЬ" TYPE="
+Active" TYPE="
+Masculine" TYPE="
+Past" TYPE="
+Perfective" TYPE="
+Singular" TYPE="
+Transitive" TYPE="s3">увидел</LU><L
+U LEMM
+A="папа" CAT="NOU
+N" FL
+X="БОНЗА" TYPE="
+Accusative" TYPE="
+Animate" TYPE="
+Common" TYPE="
+Masculine" TYPE="
+Singular" TYPE="s2">папу</L
+U>.
+The resulting dictionaries have been tested in Noo
+J using two types of queries for Belarusian and Russian texts:•	 To find words and their contexts so that they correspond to the given categories with indicated property values (
+Figure 6);•	 To find words and their contexts so that they correspond to word forms of the given paradigm (
+Figure 7).
+(
+The paradigm is set through any word form of this paradigm).
+query for B
+N: <NOUN><NOUN+
+Genetive>query for RN:<VERB><ADVER
+B>and property valuesquery for B
+N: <горкі> query for R
+N: <жить>fig. 10. Locating words and their contexts, where words correspond to word forms of the given paradigm
+As a result, it is possible to study the forming correlations between words in sentences according to grammatical features of words.
+In summary, the Belarusian and Russian dictionaries for Noo
+J help to solve basic problems with the linguistic aspect of the text-to-speech synthesizer and to study the Hetsevich Yu. S. et al.
+between words in texts for the building of syntactical grammars in order to define phonetic words and accentual units in text.
+5. Linguistic processing of Belarusian and Russian texts with
+morphological and syntactical grammars for text-to-speech synthesisNoo
+J makes it possible to develop graphic grammars for solving common problems with processing specific words and their sequences in text-to-speech synthesis. This program does not require knowledge of a programming language; it has a special visual editor for building grammars.
+Input texts can contain many words unknown to dictionaries, which causes the words to be read incorrectly in the text-to-speech synthesis system. This can be the case with words formed from mixed alphabets (
+Cyrillic and Roman, for example). And the most difficult is the case when two similar symbols have different codes for Belarusian/
+Russian and English languages (/i/, /і/), (/c/, /с/). For the localization of such words, a special morphological grammar has been developed with the visual editor Noo
+J (
+Figure 11). This grammar performs the following actions:•	 marks foreign words with the category E
+N (searches words containing all letters from the set ENGLISH_LETTER
+S and marks them);•	 marks words with mixed alphabets with the category MIXE
+D and marks Roman symbols with brackets (
+Figure 12);fig. 11. Example of building morphological grammar for finding words written in mixed alphabets
+For convenience we shall understand complex phonetic words as words formed from two or more words, and phonetic words as those formed from only one word. Belarusian and Russian linguistic processing modules for the system Noo
+J In order to mark complex phonetic words, a syntactical grammar has been developed (
+Figure 13). The grammar works in a way that left and right context of a word is checked, and according to its meaning, the word sequence can be marked as a complex phonetic word in the following ways (
+Figure 14). If there are prepositions (one or more) to the right of the word, such a word sequence is marked as a complex phonetic word (PHONETIC_WOR
+D) formed with prepositions (+PR
+E), for example, /у кавалкі/, /на куски/. If there are particles (one or more) to the left of the word, such a word sequence is marked as a complex phonetic word (PHONETIC_WOR
+D) formed with particles (+PA
+R), for example, /што ж/, /что же/. If the word has both prepositions (one or more) and particles (one or more) as right and left context, such a word sequence is marked as a complex phonetic word (PHONETIC_WOR
+D) formed both with prepositions and particles (+PRE+PA
+R), for example, /за што ж/, /за что же/.
+(a) (b)fig. 12. Examples of work of the morpholgical grammar for finding words written in Roman (a) and mixed (b) alphabetsNoo
+J makes it possible to import a grammar into another one and to use subgrammars in grammar. In order to define possible syntagmas containing four phonetic words, a corresponding grammar has been developed (
+Figure 15). It marks word sequence with the category SYNTAGM
+A+4, if four phonetic words follow each other (
+Figure 15, a). In order to identify four phonetic words (including complex words), a sub-grammar WF_or_PH
+W is invoked. This sub-grammar is employed if a simple word is found (W
+F) or if a complex phonetic word is found (phonetic_word) according to the sub-grammar on the Figure 15, b. An example of work of the grammar on a specific text is shown in Figure 16.
+Hetsevich Yu. S. et al.
+13. Syntactical grammar for defining complex phonetic words(a) (b)fig. 14. Results of work of the syntactical grammar for defining phonetic words in texts in Belarusian (a) and Russian (b) languages
+Belarusian and Russian linguistic processing modules for the system Noo
+J (a) (b)fig. 15. Syntactical grammar (a) for separating possible syntagmas into four phonetic words according to the sub-grammar (b) (a) (b)fig. 16. Examples of work of the syntactical grammar for separating possible syntagmas into four phonetic words for Belarusian (a) and Russian (b) texts
+It should be noted that a grammar for separating syntagmas into four phonetic words can be extended to any number of phonetic words. This research gives an example of building grammars according the most frequent number of phonetic words in a syntagma (
+Lobanov, 2011).
+Hetsevich Yu. S. et al.
+of the work of the syntactical grammar on a text can be exported into a text file marked by the beginning of the given syntagma and its length. Such results can be processed with another grammar in order to form accentual units.
+Conclusion
+This article presents qualitative features of Belarusian and Russian electronic dictionaries which are used in the text-to-speech synthesis system Multiphone. Algorithms for converting basic dictionaries for Belarusian and Russian modules of linguistic resources of the program Noo
+J have been developed.
+The total number of lemmas for the Belarusian dictionary is nearly 137 thousand, and for the Russian approximately 214 thousand. Information about precise accent position in lemmas’ paradigms has been transferred to the Belarusian dictionary at 88 % and to the Russian — at 94 %. The resulting dictionaries are able to annotate words with lexical and grammatical categories and accents and also to help with studying the syntax of sentences.
+Noo
+J tools for building visual morphological and syntactical grammars allow linguists to structure quickly and graphically important linguistic algorithms for text-to-speech synthesis: searching for words written in Cyrillic and Roman letters, searching for phonetic words, searching for syntagmas with a specific number of phonetic words.
+The developed Belarusian and Russian Noo
+J modules will be improved. In addition, all accentual information will be transferred to dictionaries; syntactical grammars for defining accentual units in syntagmas will be developed; and the problems of learning rhythmic structure of texts will be solved.
+The modules for dictionaries in Noo
+J can be also used by linguists and philologists in order to learn Belarusian or Russian languages.
+Acknowledgments
+Many thanks to the linguist from US
+A Adam Morrison for his help in revising this paper.

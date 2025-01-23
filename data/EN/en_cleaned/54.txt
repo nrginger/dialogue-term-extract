@@ -1,0 +1,543 @@
+and transitive impersonals
+Transitive impersonals of the type Russ. ulicuACC.SG.
+F. zasypaloPRT.3SG.
+N. p eskomINSTR.S
+G ‘
+The street was shuttered with sand’, Icel. BátinnACC.SG.M.DE
+T rakPRT.3S
+G að landiDAT.S
+G ‘
+The boat drifted ashore’ which are attested in a number of languages with accusative alignment2 challenge a controversial statement known as Burzio’s generalization (B
+G). In its original form B
+G claims that only verbs that can assign (structural) accusative to some object, can assign an external theta-role (
+Agent) to its subject . B
+G makes two wrong predictions that: a) verbs without an Agent subject cannot assign accusative, b) any verb with an agent subject can assign accusative. Obvious counterexamples to both predictions exist, cf. Russ. egoACC.SG.
+M etoNOM.S
+G ochenj tjagotitPRS.3S
+G where tjagotit’ ‘be a burden to someone’ is a psych verb — according to standard assumptions, psych verbs lack an Agent argument and have a valency grid <
+Expericiencer, Stimulus>3. Further counterexamples to B
+G are impersonal passives from transitive verbs as Ukr. bulo vidhyleno in (1) since passive participles in the Minimalist program do not assign case4.
+(1) Ukr. Statt’u ACC.SG.
+F. bulo PRT.3SG.
+N. vidhyleno PRT.3SG.
+N.. ‘
+The paper has been declined’
+A revised form of B
+G tries to predict Nominative case marking on the object. Nominative objects (internal arguments of verbs from different classes) are attested in Old Russian, Modern and Old Icelandic, North Russian dialects.
+(2) O.
+Russ. Ontan-eNOM.SG.
+M prislal-ePRT.3SG.
+M, Ovdokim-uDAT.S
+G . ‘
+Ontane has sent two breams and a pike to Ovdokime’.
+(3) Icel. Jón-iDAT.S
+G líkaPRS.3S
+G / líka-r PRS.3P
+L . ‘
+John likes these girls.’
+Nominative case marking on the object is also attested in embedded clauses where the subject may preserve idiosyncratic marking with Dative case, cf. (4a). In (4b) the subject of the embedded I
+P gets Accusative case from the matrix verb telja ‘to think’.52 Mostly — in languages with a standard nominative-accusative sentence pattern, without ergative case-marking on the subject argument, cf. Hindi.
+3 In terms of ‘theta-roles’ and ‘internal/external arguments’ this statement means that psych
+verbs lack an external subject argument and have two internal arguments.
+4 This is a framework-internal issue since in a different framework one can stipulate that assignment of Case (at least in some languages) does not depend on the Voice value — Active
+vs passive.
+5 Both (4a) and (4b) can be analyzed as instances with Exceptional case marking (EC
+M), while
+the older term ‘subject-to-object raising’ fits only (4b), where the subject of the embedded clause, D
+P Jón gets accusative case as predicted by the valency grid of the matrix verb telja.
+Transitive impersonals in Slavic and Germanic: zero subjects and thematic relations (4) a. Icel. Sigg-aNOM.S
+G tal-d-iPRT.3S
+G . ‘
+Sigga thought that John liked these girls.’ b. Icel. Sigg-aNOM.S
+G tal-d-iPRT.3S
+G . ‘
+The same’.
+A revised form of B
+G stipulates that an object only gets Nominative case when there is no Nominative subject. It is falsifiable too, as shown by Woolford (2003) who gives up the idea of rigid conditions linking argument structure with case marking and explains the competition of structural Acc and Nom by preferences of less marked case forms6. Woolford’s O
+T-driven description of Nom/
+Acc case marking of internal arguments in Icelandic and Faroese overlaps with Zimmerling’s (2002: 755–775) analysis of the same data in terms of parametric typology.
+1.1. Phrase-structural accounts of B
+G and defective v
+P
+Although there is general consensus that B
+G is a simplistic observation that even in the framework of the Minimalist Program is considered an epiphenomenon, cf. Reuland (2000), there is a bulk of recent attempts to save B
+G in its original form. These attempts restate B
+G in phrase-structural terms and are based on Chomsky’s (1995) idea of little v as a phrasal category responsible both for the projection of an external argument and structural accusative assignment. This gives a chance to account for cross-linguistic variation since one can add projections for different types of impersonal constructions ad libitum. A sketch incorporating earlier proposals is given in reproduced below as (i); the upper shell of v
+P is identified as Voice Phrase while the lowest shell immediately above big V7 is tagged ‘v-TelicP/Quant
+P’ and treated as a projection headed by some aspectual head , cf. .
+(i) ]]]]].
+Some authors claim that transitive impersonals are compatible with B
+G since little v containing a verb assigning Accusative and the theta-role of Theme (
+Patient) to its object also projects a silent argument which on some reasons is not spelledout. Sigurðsson (2011) adds a projection called FAT
+E for Icelandic verbs like reka ‘drive’ in sentences like (5) where they denote elemental processes. He claims that FAT
+E is a special uncontrolled process feature blocking or turning off the usual Voice 6 Woolford postulates a markedness scale ‘nominative is a less marked case than accusative,
+accusative is a less marked case than dative’ and derives her O
+T-constraints *accusative and *dative from it.
+7 The category hosting an object D
+P in the accusative case.
+Zimmerling A. V.
+that otherwise introduces AGEN
+T. In plain words, we are told that if an Icelandic sentence is about uncontrolled events the Agent argument is not projected since the v
+P in a ‘
+Fate’ context is defective but a transitive verb still assigns Accusative case.
+(5) Icel. Bát-innACC.SG.M.DE
+T rakPRT.3S
+G að landiDAT.S
+G ‘
+The boat drifted ashore.’
+It is unclear what is specific for Icelandic compared to Russian examples like (6) for which a zero subject argument has been postulated in .
+(6) Russ. Lodk-uACC.SG.
+F prigna-l-oPRT.3SG.
+N obratno k bereguDAT.S
+G. ‘
+The boat drifted back ashore’.
+The absence of a Nominative subject in (5) and (6) due to a presumably defective v or the presence of a zero subject responsible for controlling φ-features of the verb forms rakPRT.3S
+G or prignal-oPRT.3SG.
+N are not observable things. Indeed, neither Russian nor Icelandic require that every sentence has a Nominative D
+P so the idea that transitive verbs like Icel. reka og Russ. prignat’ are defective in ‘fate’ contexts has poor motivation except for the wish to save B
+G. The Zero-subject-theory has more motivation since it explains agreement features. If one after Mel’čuk (1995) assumes that φ-features of the verb form in 3
+Sg in (5) and (6) are controlled by a zero lexeme, then it is natural to assume that the subject in (5) and (6) is a zero pronoun ∅3
+Sg in the nominative case, 3Sg.
+N., cf. Zimmerling (2007). Along the same lines, the plural form of the Russian verb prignat’ prompts that its controller is a zero pronoun ∅3
+Pl in the Nominative case, 3
+Pl, cf. (7).
+(7) Russ. Lodk-uACC.SG.
+F prignal-iPRT.3P
+L obratno k bereguDAT.S
+G. ‘
+One drove the boat back ashore’.
+In Modern Russian, zero subjects of the 3rd p. are distributed complimentary in situations denoting processes controlled by a human Agent (∅3
+Pl) and processes not involving any human Agent (∅3
+Sg). The participant triggering uncontrolled processes is called Elements in Causer in . I define it as non-animated Agent since all Russian and Icelandic transitive impersonals have a thematic argument (
+Patient).
+(ii) Transitive impersonals in Russian, Icelandic and Ukrainian have event structure with an overt Patient argument expressed by an accusative D
+P and a covert argument with the value ‘non-animated, non human Agent with a generic reference’.
+2. Zero subjects and φ-features
+Unless a syntactic theory stipulates that case is only assigned to spelled-out elements (Ns/NPs/D
+Ps) or that zero subjects of finite clauses cannot not have role semantics, one must postulate nominative case to all zero subjects of transitive impersonals Transitive impersonals in Slavic and Germanic: zero subjects and thematic relations since overt subjects of the same transitive verbs, cf. reka and prignat’ both of which mean ‘to drive’ are invariably marked with Nominative. There is no hint that their lexical semantics is changed when they shift from overt subject to zero. Pereltsvaig (2000), Svenonius (2002) and Richardson (2007: 102–107) argue that transitive impersonals arise due to some modification of grammar e.g. only if some aspectual feature like +TELIC/QUAN
+T is realized i.e. in the presence of some telic marker or in a quantity reading. Unfortunately, such a feature was not found, as Lavine (2012) points out, and the assignment of Accusative in Slavic impersonals is independent from their aspectual characteristics — Perfective vs Imperfective Aspect, ± telicizing prefix, ± quantity reading8. I conclude that ‘
+Fate accusative’ and ‘Telic
+Quant’ shells of v
+P are fake notions postulated ad hoc for Germanic and Slavic impersonals respectively, in order to save an even more dubious requirement, B
+G. Modern Russian zero subjects ∅3
+Pl and ∅3
+Sg have following φand role-and-reference features.
+(iii) Russ. ∅3
+Sg: Zero pronoun, Nominative case, 3rd person singular, neuter, non−
+Human, non-animated generic Agent triggering a non-controlled process.
+(iv) (iv) Russ. ∅3
+Pl: Zero pronoun, Nominative case, 3rd person plural, generic animated9 Agent triggering a controlled process.
+Modern Icelandic does not have zero subjects associated with 3
+Pl while generic human subject is expressed by an overt indefinite pronoun maðr ‘one’ in Nom.
+Sg. The 3
+Sg form is linked both with generic non−
+Human Agents, cf. (5) above, and with
+generic human Agents. The latter is possible in two types of passives — impersonal passives from verbs taking dative and genitive objects10, cf. hvelfa ‘to turn down’ in (8) and impersonal passives from transitive and ditransitive verbs, cf. skamma ‘to scold’ in (9). The construction in (8) is standard, while (9), so called ‘new passive’ occurs in sub-standard Icelandic only.
+(8) Icel. Bátu-numDAT.PL.DE
+T varPRT.3S
+G hvolf-tPARTII.SG.
+N viljandiPART
+I. ‘
+The boats have been turned down <by some people> on purpose’.
+(9) Colloq. Icel. VarPRT.3S
+G skamma-ðPARTII.SG.
+N þig2ACC.S
+G? ‘
+Were you scolded?’8 Notably, transitive impersonals occur in Russian in the imperfective aspect, also in generic
+and habitual contexts, cf. Pri takom vetre ulicuACC.SG.
+F zameta-e-tPRS.3S
+G snegomINSTR.S
+G za chas ‘
+With such a wind, the street gets covered with snow in a hour’.
+9 The requirement {+
+Human} Agent is too strong for ∅3
+Pl given the possibility of such sentences as Russ. ∅3
+Pl pokusaliPRT.3P
+L men’a1ACC.S
+G sil’no ‘ <they, i.e. some living beings, probably — insects> bit me terribly’.
+10 Icelandic has a large class of verbs taking dative and genitive objects. In most cases verbs
+from these classes do not license standard passives with an agreeing participle.
+Zimmerling A. V.
+that (5), (8) and (9) exemplify one and the same type of zero subjects, the specification of Icelandic zero subjects is following:(v) Icel. ∅3
+Sg: Zero pronoun, nominative case, 3rd person singular, neuter11 generic Agent.
+The φ-feature ‘3Sg.
+N’ may be too strong for Icelandic and other Germanic languages since the participle I
+I form used in the perfect tenses and passives like (8) and (9) is morphologically neuter but can be interpreted as a non-agreeing form in syntax. Anyway, this is not a problem for our analysis: if we deny agreement features of the neuter form of participle I
+I in (8) and (9), then this φ-feature of the zero subjects should be recast simply as ‘3
+Sg’. Ukrainian shares with Russian both types of zero subjects ∅3
+Pl and ∅3
+Sg distributed complementary in active sentences, and adds one more type — impersonal transitive passive. The pattern (9) with a passive voice and a generic human Agent remains marginal in Icelandic but is grammaticalized in Ukrainian, cf. (10b). Since Ukrainian also retains generic human Agents associated with 3
+Pl, this may lead to contextual synonymy of active and passive structures without
+an overt subject, cf. (10a)(10) Ukr. a. TyremnyjACC.SG.
+M terminACC.SG.
+M Berlusconi ∅3
+Pl skoroty-l-yRT.3P
+L do odnogo roku. ‘
+The prison sentence of Berlusconi was abridged up to one year.’ b. TyremnyjACC.SG.
+M terminACC.SG.
+M Berlusconi (buloPRT.3SG.
+N) skoroche-n-oPARTII.SG.
+N. ‘
+The prison sentence of Berlusconi has been abridged’.
+Mel’čuk’s approach to transitive impersonals is similar to the phrase-structural account of Lavine & Freidin (2002) who stipulate for them a φ-complete v and a probehead relation (abstract object agreement). Russian, Ukrainian and Icelandic show rich agreement morphology which prompts that the inflectional features of an impersonal verb are controlled by some syntactic category. A radical form of Lavine & Freidin’s idea is that only languages with a φ-complete v can be accounted for in terms of zero subject categories serving as agreement triggers. It is probable, since no zero subjects have been found in languages with poor verbal agreement. Later, Lavine (2012) revised his account since it failed to predict the ungrammaticality formed by the basic, so called monadic unaccusatives as Russ. zamerznut’ ‘to be frozen (over)’, lopnut’ ‘to burst’, vylinjat’ ‘to molt’ which do not assign accusative while so called dyadic unaccusatives asserting ‘a causative sub-event’, as Russ. zamorozit’ ‘to freeze smth’, zamesti snegom ‘to cover smth with snow’ still can.
+11 As in Modern Russian and Ukrainian, the neuter form is overtly marked in the perfect tenses
+which is historically due to the fact that Germanic and Slavic participle I
+I has nominal morphology. The Slavic verbal ending Nom/Acc.Sg.
+N. -o as an impersonal marker (cf. Russ. svetal-o, ego stošnil-o, lodku prignal-o k beregu) is a late borrowing of a nominal ending into verbal morphology.
+Transitive impersonals in Slavic and Germanic: zero subjects and thematic relations (11) Russ. a. *Rek-uACC.SG.
+F zamerz-l-oPRT.3SG.
+N b.
+F zamerz-l-aPRT.3SG.
+F ‘the river froze up’.
+(12) Russ. a. *Utk-uACC.SG.
+F polin’a-l-oPRT.3SG.
+N b. Utk-aNOM.SG.
+F polin’a-l-aPRT.3SG.
+N ‘the duck molted’.
+(13) Russ. VesjACC.SG.
+M gorodACC.SG.
+M zamorozi-l-oPRT.3SG.
+N. ‘
+The whole city was frozen over’.
+(14) Russ. StolbikiACC.Pl.
+M, zame-l-oPRT.3SG.
+N snegomINSTR.
+Sg. ‘
+The stakes got covered by snow’.
+3. Semantic roles and verb classes
+The distribution of (11)–(14) is easily explained without recourse to syntax since zamerznut’ ‘to be/get frozen’ or ‘to be/get frozen up/over’, polin’at’ ‘to molt’, ‘to shed hair’ are Statives12 but not Activities or Actions. Statives do not occur in transitive impersonals in Russian, since they do not project an Agent event role, as required by (iii) above, while verbs denoting processes and projecting an Agent event role can occur in transitive impersonals, although this is not a sufficient condition13. It is bizarre that the class of unaccusatives hosts both Statives like zamerznut’ ‘to be/get frozen’ and transitives/causatives like zamesti ‘to cover smth with snow’ and zamorozit’ ‘to freeze smth’, since zamorozit’ ‘
+X freezes Y’ is just a semantic causative to zamerznut’ ‘
+X makes Y zamerznut’ ’. The origin of unaccusative theory, cf. Perlmutter (1978) was that intransitives split into verbs with an Agent-like argument (unergatives) and verbs with a Patient-like argument (unaccusatives). Initially, ‘unaccusative’ was a cover term for inactive intransitives, their only argument being Patient-like but lacking the canonic marking of Patient with the Accusative case, hence the ill-formedness of (11a) and (12a). The next сlaim was that unaccusatives make up a semantic class in U
+G, their sole argument being straightforwardly identified as Patient. A further stipulation was that unaccusatives get uniform syntactic diagnostics across languages, such as distribution of B
+Eand HAV
+Eauxiliaries in perfect tenses in Dutch or Danish, possibility of transitive impersonals or distributive poconstructions in Russian etc. Both claims are controversial, cf. Plungian (2011: 117–121). Even if uniform diagnostics of verb classes exists, it does not prove that there is a general meaning behind them. The final claim was that the notion of grammatical subject has different value for transitives, 12 I.e. verbs denoting static situations or transitions from one state to another.
+13 The sufficient conditions are that a) a Russian verb does not select for +
+Animate subjects
+only, b) the state of affairs can be described as resulting from a non-controlled activity.
+Zimmerling A. V.
+and unaccusatives: since these allegedly are semantic classes, their subjects originate in different positions in U
+G, as prescribed by a universal hierarchy of thematic roles and show different movement patterns (subject raising)14. If we first stipulate that Icel. reka, Russ. prignat’, zamorozit’, Ukr. skorotyty are unaccusatives we do not need to project a subject position for them since we already know that such verbs produce a defective v.
+In Russian and Ukrainian transitive impersonals are not licensed by a single semantic feature. The necessary condition is that a verb is not a Stative and can take an Agent subject. The sufficient conditions for Russian are that A) the verb does not select for +
+Animate subjects only, B) the resulting event can be interpreted as an outcome of some non-controlled activity. The condition A) is illustrated by the transitive proexat’ ostanovku
+Acc ‘to miss one’s stop’ that has an Agent subject but invariably selects {+
+Animate; +
+Referential} subjects. Such verbs do not license transitive impersonals with ∅3
+Sg. Suppose that a train has been set in motion due to mechanical failure15 and drives past a stop. Even then, it is still impossible to use (15) in standard Russian.
+(15) Russ. *etu ACC.Sg.
+F ostanovkuACC.SG.
+F proexa-l-oPRT.3SG.
+N. Intended: ‘
+The vehicle missed a stop as a result of an uncontrolled motion.’
+The condition B) is illustrated by the pair of transitive verbs kol’nut’ ‘to sting’ and ukusit’ ‘to bite’, ‘to sting’. Both can denote a situation like ‘
+A mosquito stang/bit a man’. But ukusit’ invariably selects {+ Animate; + Referential} subjects, while kol’nut’ does not show this condition: accordingly, *ego ukusilo would mean that X has been bit by a non-referential subject, while ego kol’nulo entails that X felt consequences of a sting or was able to detect it. Therefore, (16a) is grammatical, while (16b) is not.
+(16) Russ. a. Ego3SG.ACC.
+M kol’nu-l-oPRT.3SG.
+N v ščekuACC.PRE
+P KomarNOM.SG.
+M?16
+He felt a sting in the cheek. A mosquito?’ b. *Ego3SG.ACC.
+M ukusi-l-oPRT.3SG.
+N v ščekuACC.PRE
+P KomarNOM.SG.
+M?3.1. Causatives and psych verbs
+Lavine (2012: 10) argues that Russian and Ukrainian psych verbs do not license transitive impersonals. Transitive psych verbs have a grid <
+Experiencer, Stimulus>. The absence of an Agent argument could account for the ungrammaticality of (17a) 14 Cf. claims that postverbal subjects in SVO/SO
+V languages and narrative …S
+V → V
+S or locative inversion are primarily or exclusively characteristic of unaccusative subjects .
+15 Events of this type have been attested, cf. http://lenta.ru/articles/2013/01/30/train/
+16 From the viewpoint of Russian grammar komar ‘mosquito’ behaves as an {+
+Animate} subject. It takes the standard endings of the animated declension.
+Transitive impersonals in Slavic and Germanic: zero subjects and thematic relations where Causer/
+Stimulus is expressed by a D
+P igruškoj ‘by a toy’ in the instrumental case but a similar example (17b) where Causer/
+Stimulus argument is expressed by a D
+P vspyškami molnii ‘by flashes of lightning’ in the same instrumental case is acceptable. The ill-formedness of (17a) is due to the lexical filling, not to general semantic characteristics of the verbs like Russ. napugat’ ‘frighten smb’.
+(17) Russ. a. *Mal’čikaACC.SG.
+M napuga-l-oPRT.3SG.
+N igruškojINSTR.SG.
+F. ‘
+The boy was frightened by a toy’. b. ?Mal’čikaACC.SG.
+M napuga-l-oPRT.3SG.
+N vspyškami INSTR.P
+L molniiGEN.SG.
+F
+The boy was frightened by flashes of lightning’.
+Russ. napugat’ and its Ukrainian counterpart nalyakaty both have active uses with a Agent subject, cf. (18a) and semi-active uses with a Stimulus subject, cf. (18b–c). (18a) denotes a controlled process the result of which is triggered by the subject’s intentional activity. (18b) denotes a process controlled by the subject but its effect on another participant is not directly related to the subject’s intentional activity. (18c) denotes an uncontrolled process triggered by a non
+Human Causer. The label ‘psych verb’ is applicable to (18c) and, with some reservations, to (18b), but not to (18a) where napugat’ behaves as standard causative verb linked to an intransitive middle verb napugat’sa ‘to be frightened’17, cf. (18d). The middle verb napugat’s’a has a reflexive marker -s’a/s’: its subject is marked with Nominative too but does not get the roles of either Agent or Patient.
+(18) Russ. a. DirektorNOM.SG.
+M umyšlenno napuga-lPRT.3SG.
+M. sekretaršuACC.SG.
+F.
+The director intentionally frightened the lady receptionist.’ b. PrixodNOM.SG.
+M direktoraGEN.S
+G sil’no napuga-lPRT.3SG.
+M sekretaršuACC.SG.
+F
+The arrival of the director frightened the lady receptionist terribly necessarily because the director wished to).’ c. VspyškiNOM.P
+L molniiGEN.SG.
+F napuga-l-iPRT.3P
+L mal’čikaACC.SG.
+M
+The flashes of lightning frightened the boy.’ d. SekretaršaNOM.SG.
+F sil’no napuga-l-a-s’PRT.REFL.3SG.
+F iz-za prixodaGEN.S
+G direktoraGEN.S
+G
+The lady receptionist was terribly frightened because of the director’s arrival.’
+In (18a–c) the active argument is marked with Nominative and the other participant is marked with Accusative. This allows to describe napugat’ as a standard 17 Lavine (2012: 7) argues that dyadic unaccusatives specify a causative sub-event. I would
+restate this by claiming that dyadic verbs conforming to a formula ‘
+X causes Y do Vintrans’, like zamorozit’ = ‘
+X makes Y zamërznut’, napugat’ =‘
+X makes Y napugat’sa’ are not unaccusatives but causatives with an Agent argument in the subject position. Morphological causatives from intransitives are typical for Russian (and Ukrainian and Icelandic as well). Morphological causatives from transitive verbs are rare in Russian, cf. poit ’ ‘to give smb to drink smth’, ‘to water cattle’ and pit’ ‘to drink’. A similar pair is attested in Icelandic, cf. drekkja which is a causative to a transitive verb drekka ‘to drink’.
+Zimmerling A. V.
+causative conforming to a formula ‘
+X causes Y to make Z’ and including a component ‘to be frightened’ normally expressed in Russian by a middle (stative) verb napugat’sya having a reflexive marker.
+(vi) Russ. ‘
+X napugal Y-a’ = ‘
+X caused Y to make Z’, ‘
+Z = napugat’sa’.
+Given that Russ. napugat’ both denotes processes controlled by a referential human Agent, cf. (18a) and uncontrolled processes not involving human Agents, cf. (18c), it is puzzling that it blocks a transitive impersonal in (17a). I offer a multifactor explanation: a) an impersonal form of a causative verb is blocked or hampered in Russian, if there is a middle form i.e. a verbal form with a reflexive marker and an inactive meaning, cf. napugat’sa derived from the same stem18 b) the sub-event associated with the second overt participant expressed by an Instrumental D
+P can be interpreted as part of a major event caused by a non
+Human Agent triggering a non-controlled process, taking effect over the first overt participant expressed by an Accusative D
+P. The contrast of (17a) and (17b) can be explained in this way:(17a) a. *Mal’čikaACC.SG.
+M napuga-l-oPRT.3SG.
+N igruškojINSTR.SG.
+F.
+(17a’) ‘
+The sub-event associated with the second participant expressed by an Instrumental D
+P igruškoj cannot be interpreted as part of the effect of an uncontrolled process triggered by a covert argument and taking over the first participant expressed by an Accusative D
+P mal’čika‘.
+(17b) ?Mal’čikaACC.SG.
+M napuga-l-oPRT.3SG.
+N vspyškamiINSTR.P
+L molniiGEN.SG.
+F(17b’) ‘
+The sub-event associated with the second participant expressed by an Instrumental D
+P vspyškami molnii can be interpreted as part of the effect of an uncontrolled process triggered by a covert argument and taking over the first participant expressed by an Accusative D
+P mal’čika‘.
+In short, an event like ‘
+A toy frightened a boy’ cannot be interpreted in Russian as contributing to an event ‘
+A boy was frightened by an uncontrolled process’, while an event ‘
+Flashes of lightning frightened a boy’ marginally can. This has nothing to do with either the conjecture that napugat’ is an unaccusative or to the conjecture that it is a psych verb.
+Our next claim is that the label ‘psych verb’ does not correspond to any semantic class. The background idea was that these verbs denote states of mind that typically lack a Nominative subject or, at least, an external argument with the role of Agent. If one turns to Russian verbs denoting uncontrolled reactions of a human subject, one can find some 10-20 transitive verbs selecting a {+
+Human} argument in the Accusative 18 This condition is though neither necessary nor sufficient in Russian. Cf. ego3Sg.
+M udari-l-oPrt.3Sg.
+N
+(tokomInstr.
+Sg., kuskomInstr.
+Sg armatury) ‘
+X has been hit by a discharge of current/by a rod fragment) and On3Nom.Sg.
+M udari-l-s’aPret.Refl.3Sg.
+M ‘
+X bumped (against something)’.
+Transitive impersonals in Slavic and Germanic: zero subjects and thematic relations case and licensing transitive impersonals19. None of these denotes a specific mental state — they rather describe uncontrolled reactions, including pathogen or symptomatic states (typically, bouts of illness and remission). Cf. Russ. Men’a1SG.AC
+C tošnitPRS.3S
+G, znobitPRS.3S
+G, lixoraditPRS.3S
+G, mutitPRS.3S
+G, rvetPRS.3
+Sg, pučitPRS.3S
+G, raspiraetPRS.3S
+G ot gazov/lyubopytstvawhich are possible in an actual-durative context, and men’a1SG.AC
+C raznesloPRT.3SG.
+N, razvezloPRT.3SG.
+N, skryučiloPRT.3SG.
+N, prixvatiloPRT.3SG.
+N, otpustiloPRT.3SG.
+N, pronesloPRT.3SG.
+N, proskvoziloPRT.3SG.
+N, probraloPRT.3SG.
+N, razobraloPRT.3SG.
+N which are mostly used in the past tense in a perfective context. Some of them, as tošnit’, znobit’, lixoradit’, pučit’, do not take overt nominative subjects in Russian and are true impersonal verbs but this fact, contrary to Babby (2002) does not prove that they do not project zero subject ∅3
+Sg specified as {−
+Human} non-referential Agent of an uncontrolled process. I claim that the Accusative argument of all Russian verbs selecting an overt {+
+Human} object is Patient (
+Theme), not Stimulus, and they select an overt or covert Agent argument in the Nominative case.
+(vii) So called psych verbs licensing transitive impersonals in Russian are transitive agentive verbs, typically with a grid <{−
+Human Agent}, {+
+Human Patient}>.
+The absence of an overt nominative subject by tošnit’ in (18) is an idiosyncratic feature, while the ability of the verb rvat’ in (19) to take an overt nominative subject is a default option. Both (18) and (19) signal the same meaning ‘
+X felt sick and vomited (due to the impact of an outer uncontrolled process)’. The main difference is that tošnit’ is a transitive agentive verb with a narrow meaning that can only denote a class of situations ‘
+Y makes X feel sick’ and invariably selects a {−
+Human, −
+Animate} Agent, while rvat’ is a transitive agentive verb with a broad meaning ‘to tear’, ‘to rend’, ‘to pull out’ which can denote a broader class of situations, both with a {+
+Human} and {−
+Human} Agent.
+(18) Russ. Ego3SG.ACC.
+M ∅3
+Sg stošni-l-oPRT.3SG.
+N. ‘
+He nauseated’, ‘he vomited’.
+(19) Russ. Ego3SG.ACC.
+M ∅3
+Sg vyrva-l-oPRT.3SG.
+N. ‘
+He vomited’, ‘he threw up’.
+It is essentially redundant to postulate additional types of zero subjects for Russian impersonals with a {+
+Human} argument in Dative and Accusative case as Mel’čuk’s initial analysis seems to hint (1995, 188) or to treat transitive 19 The exact number is unclear since it is difficult to separate uses subcategorizing for a {+
+Human} argument in the Accusative and uses subcategorizing for a {−
+Human} argument in the
+same case if both of them license transitive impersonals. Cf. Russ. MashinuAcc.Sg.
+F {−
+Human} pripodn’-a-l-oPrt.3Sg.
+N i pones-l-oPrt.3Sg.
+N vetromInstr.Sg.
+M ‘
+The car got lifted and carried away by the wind’ and Russ. EgoAcc.Sg.F{+
+Human} pone-s-l-oPrt.3Sg.
+N ‘
+He started talking / expressing his emotions unrestrained’, both of which seem to instantiate one and the same underlying meaning of the agentive verb ponesti, lit. ‘to start to carry smth’. A similar picture is with Russ. perekosit’ ‘to warp’ or ‘to twist’, skosobočit’ ‘to make smth get lop-sided’.
+Zimmerling A. V.
+from the unaccusative and psych groups differently. The φ-features and role-and-references properties of the Russian zero subject pronoun ∅3
+Sg {−
+Human, −
+Animate Agent of an uncontrolled process} apparently do not depend on either the fact whether the Patient (
+Theme) argument is specified as {+
+Human} or {−
+Human} or on the fact whether a sentence is about non-controlled physiological reactions or about other non-controlled processes. The last point can be demonstrated on impersonal uses of the transitive verbs pronesti and vyrvat’. In (20a–b) the event structure is identical.
+(20) Russ. a. PacientaACC.S
+G ∅3
+Sg vyrva-l-oPRT.3SG.
+N i ∅3
+Sg prones-l-oPRT.3SG.
+N.
+The patient vomited and his bowels moved (due to the impact of an outer process).’ b. UragannymINSTR.SG.
+M vetromINSTR.SG.
+M pacientaACC.SG.
+M ∅3
+Sg vyrva-l-oPRT.3SG.
+N iz gamakaPREP.GE
+N i ∅3
+Sg pronesloPRT.3SG.
+N des’at’ metrov po vozduxu. ‘
+The patient has been pulled out from a hammock by a hurricane (due to the impact of an outer uncontrolled process) and got carried away ten meters through the air.’
+The proposed generalized account arguably extends to Russian ditransitive impersonals i.e. constructions with <∅3
+Sg, an overt Patient argument in the Accusative case, specified as {−
+Human} and an overt Experiencer/
+External Possessor argument in the Dative case specified as {+
+Human}>, cf. (21) and (22).
+(21) Russ. Emu3SG.Dat.
+M {+
+Human} noguACC.SG.
+F {−
+Human} ∅3
+Sg sve-l-oPRT.3SG.
+N. ‘
+He got a cramp in his leg’.
+(22) Russ. Emu3SG.DAT.
+M {+
+Human} pam’at’ACC.SG.
+F {−
+Human} ∅3
+Sg otšib-l-oPRT.3SG.
+N. ‘
+He had a lapse of memory.’
+A formal analysis of (21) and (22) depends on the treatment of the Dative argument as a subject-like element20, or as an indirect object. For the reasons of space I assume that ∅3
+Sg can be recognized as subject of (21) and (22).
+4. Zero subjects in Ukrainian transitive impersonals
+The final section of the paper briefly discusses transitive impersonals in Ukrainian. Here an equivalent of (17b) with nalyakaty ‘to frighten’ and ∅3
+Sg {−
+Human} is ill-formed, cf. (23). A passive with nalyakaty ‘to frighten’ and ∅3
+Sg {+
+Human} is, as expected, ill-formed too since this peculiar combination of arguments and verb forms would mean that a frightening effect of the flashes of lightning results from some controlled process triggered by a {+
+Human} Agent.
+20 Cf. Zimmerling (2009, 2012) for the analysis of two other Dative structures in Russian.
+Transitive impersonals in Slavic and Germanic: zero subjects and thematic relations (23) Ukr.*XlopčykaACC.SG.
+M nalyaka-l-oPRT.3SG.
+N ∅3
+Sg {−
+Human} spoloxamyINSTR.P
+L blyskavkyGEN.SG.
+F. Intended: ‘
+The boy was frightened by flashes of lightning.’(24) Ukr. *XlopčykaACC.SG.
+M bu-l-oPRT.3SG.
+N nalyaka-n-oPARTII.SG.
+N ∅3
+Sg {+
+Human} spoloxamy INSTR.P
+L blyskavkyGEN.SG.
+F.
+An overly similar verb zalyakati ‘to bully’, ‘to frighten’ licenses impersonal passive.
+(25) Ukr. їх3.ACC.P
+L ∅3
+Sg {+
+Human} zalyaka-n-oPARTII.SG.
+N і ∅3
+Sg {+
+Human} zmuše-n-oPARTII.SG.
+N movčatyIN
+F. ‘
+They were bullied and forced to keep silent.’
+The contrast of (24) vs (25) may be explained by a filter on middle verb formation, proposed above for Russian pairs Causative : Morphological decausative like napugat’ : napugat’sa. Indeed, there is a decausative nalyakatys’a, but not *zalyakatys’a (|| Russ. *zapugat’sa). Zalyakaty ‘to bully’ only selects {+
+Human} Agentive subjects while nalyakaty also takes {
+Human} subjects in the active voice21. Consequently, an elimination of a referential {+
+Human} subject leads to a well-formed passive structure with ∅3
+Sg {+
+Human}. Amazingly, zalyakaty also licenses active transitive impersonal construction, cf. (26).
+(26) Ukr. ZgadajteIMP.2P
+L, jak VarkuACC.SG.
+F peklomINSTR.SG.
+N zalyaka-l-oPRT.3SG.
+N. ‘
+Remember, how Barbara was frightened by hell/by stories about hell.’
+The well-formedness of (26) indicates that ∅3
+Sg in Ukrainian active sentences is not associated with the value {−
+Human}. The context of (26) is unclear — either the woman was frightened by Hell as an imagined reality — {−
+Human Agent} or by stories about Hell told by some people — {+
+Human Agent}. I prefer to analyze the meaning of (26) as vague, not two-way ambiguous. Ukrainian passive construction with ∅3
+Sg and Ukrainian active construction with ∅3
+Pl are both unambiguous. Their zero subjects have different φ-features but the same role semantics {+
+Human Agent}, so the two constructions compete, cf. (27) vs (28).
+(27) Ukr. OficerivACC.P
+L ∅3
+Sg zalyaka-n-oPARTII.3SG.
+N ∅3
+Sg zaturka-n-oPART.3SG.
+N, ∅3
+Sg zaklьova-n-oPART.3SG.
+N, usiNOM.P
+L robl’at’ PRS.3P
+L use i vodnočas ne robl’at’ PRS.3P
+L ničogo. ‘
+The officers are bullied, scared and cowed, all of them do everything and at the same time do nothing’.
+(28) Ukr. OficerivACC.P
+L ∅3Plzalyaka-l-iPRT.3P
+L ∅3Plzaturka-l-iPRT.3P
+L, ∅3
+Sg zaklьova-l-iPRT.3SG.
+N. ‘
+The officers are bullied, scared and cowed’.
+21 A sentence like *
+Dark forests bullied the boy is impossible in English, while a sentence like Dark
+forests frightened the boy is O
+K. The same holds for Ukr. zalyakaty and nalyakaty, respectively.
+Zimmerling A. V.
+Ukrainian participle ending 3Sg.
+N.-o used in impersonal passives like (1), (10b) and (27) is morphologically different from the agreeing participle ending 3Sg.
+N.-e. This parameter has a typological dimension22: overt and covert controllers
+of Ukrainian subject agreement seem to have different properties. However, since Ukrainian impersonal passives are copular structures with a slot for an overt copula bu-l-o 3Sg.
+N. in the past tense, one can give a uniform description of Ukrainian, Russian and, probably, Icelandic passives with participle I
+I and a zero subject.
+5. Preliminary conclusions
+1. Transitive impersonals in Russian, Ukrainian, Icelandic and typologically
+similar languages can be explained in terms of zero subject pronouns controlling φ-features of the verb and showing role-and-reference properties of non-referential Agents.
+2. Burzio’s generalization (B
+G) does not predict the distribution of transitive
+impersonals. Phrase-structural accounts of B
+G add problems rather than solve them by stipulating fake categories as ‘Accusative-of-fate
+P’, *‘Accusative-of-nausea
+P’ etc. Licensing of transitive impersonals or, in other terms, merging of zero subjects, is conditioned by grammar principles, not in the lexicon.
+3. Unaccusative verbs are at best a syntactic group, not a semantic class.
+So called psych verbs are a loosely related group of verbs selecting a {+
+Human} argument. Many verbs analyzed as belonging to the ‘psych’ group in Russian actually are agentive verbs with an external argument and valency grid <
+Agent, Patient>.
+4. B
+G, the unaccusative and psych hypotheses do not make accurate predictions and have little value for computational linguistics. The relevant parameters can be predicted by implementing tags for thematic roles (
+Agent,
+Patient, etc), subcategorization options {±
+Refererential}, {±
+Animate}, {±
+Human}, {±controlled process}, derivational verb types — Stative, Causative, Decausative etc.
+22 An exact parallel is known from Modern Swedish.
+Transitive impersonals in Slavic and Germanic: zero subjects and thematic relations

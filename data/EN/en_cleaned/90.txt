@@ -1,0 +1,236 @@
+Various algorithms in natural language processing use vector representations of words, so the quality ofthe corresponding vectors is essential. There are many different word embeddings, which performancevary for various tasks. Different methods for constructing vectors capture the context in different ways,and can be trained on different datasets, resulting in a wide variety of vector models available. It hasbeen shown that combining word embeddings can improve the accuracy of dependency parsing ,classification in healthcare , named-entity recognition , sentiment analysis .
+Among lexical semantics settings, meta-embeddings were tested in word analoqy and similarity tasks but they were not applied to hypernym detection and taxonomy enrichment tasks, to the bestof our knowledge.
+Hyponym-hypernym relations ("is_a relations") constitute the backbone structure of many differentontological and lexical-semantic resources. Therefore numerous studies are devoted to the task of extracting hypernym relations from text collections. Hypernyms can be extracted from scratch, withoutany target resource or taxonomy. But also the hypernym extraction task can be set as a task of searchinghypernyms for new words in an existing taxonomy, that is as a taxonomy enrichment task.
+I
+N 2016, the taxonomy enrichment task was organized as a shared task at Sem
+Eval workshop (task14) . At this task, the participants should to attach words with definitions to correct hypernyms in
+Word
+Net . However, in real applications definitions of novel words and their senses are most likelyabsent. In 2020, a new open evaluation on taxonomy enrichment of the Russian wordnet RuWord
+Net RUSS
+E’2020 was organized . The task was to find correct hypernyms from an older RuWord
+Netversion for words described in a newer RuWord
+Net version. The work new datasets called
+Diachronic wordnets1 created on the basis of English and Russian wordnets. These datasets contain newwords added to later versions of wordnets in comparison to earlier version together with their hypernymsin older versions. In such a way it is possible to use different versions of wordnets in their historicaldevelopment to evaluate methods for the taxonomy enrichment task.
+In this paper we show that meta-embedding approaches obtain the best results for the taxonomy enrichment task on the Diachronic-wordnets dataset if compared to other methods based on different principles.
+When combining with automatically extracted features from the Wiktionary online dictionary, the jointapproach improves the results.
+2 Related Work
+2.1 Hypernym Detection Approaches
+Traditional methods for hypernym detection include pattern-based methods, searching for specific hypernym patterns in sentences , methods based on similarity of word vector representations, and also combined approaches integrating various context and similarity features of words.
+In the RUSS
+E-2020 evaluation , in which the task was to predict RuWord
+Net hypernym synsetsfor new words, the participants used various word embeddings (static – fast
+Text , word2vec , andcontextualized BER
+T ), the available RuWord
+Net taxonomy structure, hypernym and co-hyponympatterns, definitions of words from Wiktionary, and global search engines results .
+Recent methods to hypernym extraction exploit graph-based representations of taxonomy structure.
+Liu et al. node2vec embeddings of graph structures taxonomy induction. Aly et al. use hyperbolic Poincare embeddings automatic generation of taxonomies. In , the authorsstudy graph-based representation methods on the Diachronic-wordnets dataset.
+2.2 Meta
+Embeddings
+The most simple vector combining approaches are concatenation or averaging of some source embeddings. The authors of that even such simple combined embeddings could significantlyimprove the overall performance for several tasks. It has been shown using singular value decomposition (SV
+D) can also show good results with the ability to control the final dimension of vectors.
+Autoencoders , called Autoencoded Meta
+Embeddings (AEM
+E), became a further development of theidea of creating meta-embeddings. The authors of several different algorithms (CAEME,AAEM
+E and etc) for combination various word vectors in one vector by encoding initial vectors in somemeta-embedding space and then decoding backward.
+At the first step in the CAEM
+E approach, all word vectors are encoded into meta-vectors and then concatenated. Each vector is encoded into a vector of the same size, and the overall shape of the meta-vectoris the sum of the original vector dimensions. Then, the decoding step uses a concatenated representation to predict the original vector representations. The AAEM
+E approach is very similar to CAEM
+E,except that each vector is mapped to a fixed-size vector and all encoded representations are averaged, but1https://github.com/skoltech-nlp/diachronic-wordnets
+Tikhomirov M. M., Loukachevitch N. V.not concatenated. An obvious advantage of this approach is the ability to control the meta-embeddingdimension.
+For any AEM
+E approach, different loss functions can be used at the decoding stage: MS
+E loss, K
+Ldivergence loss, cosine distance loss and also their combinations. In authors investigated theperformance of the autoencoders depending on the loss function. They found that there is no evidentwinner across tasks and that different loss functions should be chosen for different applications.
+3 Datasets and Evaluation Measure
+The Diacronic wordnets collection consists of two diachronic datasets: one for English, another one for
+Russian based respectively on Princeton Word
+Net RuWord
+Net taxonomies . Each datasetcontains a taxonomy and a set of novel words to be added to this resource. The statistics are provided in
+Dataset Nouns VerbsWord
+Net1.6 Word
+Net3.0 17 043 755Word
+Net1.7 Word
+Net3.0 6 161 362Word
+Net2.0 Word
+Net3.0 2 620 193RuWord
+Net1.0 RuWord
+Net2.0 14 660 2 154RUSS
+E’2020 2 288 525
+To compile the English dataset, two versions of Word
+Net were chosen and then words, which appearonly in a newer version, were selected. For each novel word, its hypernyms from the newer Word
+Netversion were extracted and considered as gold standard hypernyms. Novel words were added to thedataset if only their hypernyms appear in both versions. Only nouns and verbs were considered. Severaldatasets by skipping one or more Word
+Net versions were created (
+Table 1).
+As gold standard hypernyms, not only the immediate hypernyms of each lemma were considered butalso the second-order hypernyms: hypernyms of the hypernyms. The aim was to make the evaluationless restricted but to keep it quite precise.
+In order to create an analogous version to English dataset for Russian, a Russian Word
+Net counterpart,the RuWord
+Net taxonomy used. The current version of RuWord
+Net and also the extendedversion of RuWord
+Net, which has not been published yet, were taken to compile the dataset (cf. Table 1).
+Another variant of the Russian dataset includes the dataset created for RUSS
+E’2020 Dialog evaluation. The RUSS
+E’2020 can be viewed as a restricted subset of the Russian dataset, because of exclusionfrom it several word categories (short words, diminutive forms, geographic and personal names, andothers).
+The task of thesaurus enrichment is treated as a ranking task where the correct answers should be in thetop of a candidate list. For evaluation, a traditional measure for ranking tasks Mean Average Precisionmeasure is used.
+𝑀𝑀𝑀𝑀𝑀𝑀 = 1𝑁𝑁∑︀𝑁𝑁𝑖𝑖=1𝑀𝑀𝑀𝑀𝑖𝑖;𝑀𝑀𝑀𝑀𝑖𝑖 =1
+𝑀𝑀∑︀𝑛𝑛𝑖𝑖 𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑖𝑖 × 𝐼𝐼,(1)where 𝑁𝑁 and 𝑀𝑀 are the number of predicted and ground truth values, respectively, 𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑖𝑖 is the fractionof ground truth values in the predictions from 1 to 𝑖𝑖, 𝑦𝑦𝑖𝑖 is the label of the 𝑖𝑖-th answer in the ranked list ofpredictions, and 𝐼𝐼 is the indicator function.
+To account for second-order hypernyms, the modified MA
+P measure is used. It transforms a listof gold standard hypernyms into a list of connected components. Each of these components includeshypernyms (both direct and second-order) which form a connected component in a taxonomy graph. Toobtain the highest score, the model should guess a hypernym from each connectivity component .Meta
+Embeddings in Taxonomy Enrichment Task4 Creating Meta
+Embeddings
+In our work we compare simple meta-embeddings such as concatenation of source embeddings and SV
+Dover the concatenation and two varians of autoencoders generating meta-embeddings: Concatenated
+Autoencoded Meta
+Embeddings (CAEM
+E) and Averaged Autoencoded Meta
+Embeddings (AAEM
+E),which have shown good results in previous works .
+Suppose we have two source embeddings 𝑠𝑠1(𝑤𝑤) and 𝑠𝑠2(𝑤𝑤), their encoders 𝐸𝐸1(𝑤𝑤) and 𝐸𝐸2(𝑤𝑤) and theirdecoders 𝐷𝐷1(𝑤𝑤) and 𝐷𝐷2(𝑤𝑤). Meta-embedding 𝑚𝑚(𝑤𝑤) in CAEM
+E is constructed as the 𝐿𝐿2-normalisedconcatenation of two encoded source embeddings 𝐸𝐸1(𝑠𝑠1(𝑤𝑤)) and 𝐸𝐸2(𝑠𝑠2(𝑤𝑤)):𝑚𝑚(𝑤𝑤) =𝐸𝐸1(𝑠𝑠1(𝑤𝑤))⊕ 𝐸𝐸2(𝑠𝑠2(𝑤𝑤))||𝐸𝐸1(𝑠𝑠1(𝑤𝑤))⊕ 𝐸𝐸2(𝑠𝑠2(𝑤𝑤)||2(2)where ⊕ is the concatenation operation.
+In CAEM
+E, the dimensionality of the meta-embedding space is the sum of the dimensions of thesource embeddings. The AAEM
+E encoder can be seen as a special case of the CAEM
+E encoder, wherethe meta-embedding is computed by averaging the two encoded sources in (2) instead of their concatenation. Averaging gives the possibility to avoid increasing the dimensionality of the meta-embedding.
+The AAEM
+E encoder computes the meta-embedding of a word 𝑤𝑤 from its two source embeddings 𝑠𝑠1(𝑤𝑤) and 𝑠𝑠2(𝑤𝑤) as the 𝐿𝐿2-normalised sum of two encoded versions of the source embeddings𝐸𝐸1(𝑠𝑠1(𝑤𝑤)) and 𝐸𝐸2(𝑠𝑠2(𝑤𝑤)).
+𝑚𝑚(𝑤𝑤) =𝐸𝐸1(𝑠𝑠1(𝑤𝑤)) + 𝐸𝐸2(𝑠𝑠2(𝑤𝑤))||𝐸𝐸1(𝑠𝑠1(𝑤𝑤)) + 𝐸𝐸2(𝑠𝑠2(𝑤𝑤))||2(3)
+The CAEM
+E and AAEM
+E decoders reconstruct the source embeddings from the same metaembedding 𝑚𝑚(𝑤𝑤), thereby implicitly using both common and complementary information in the sourceembeddings. The constructed source embeddings look as follows:𝑠𝑠1(𝑤𝑤) = 𝐷𝐷1(𝑚𝑚(𝑤𝑤))𝑠𝑠2(𝑤𝑤) = 𝐷𝐷2(𝑚𝑚(𝑤𝑤))(4)
+The overall objective of autoencoder training is given below. Function 𝑓𝑓 can be any distance orsimilarity measure as MS
+E, K
+L-divergence, or cosine distance.
+The coefficients 𝜆𝜆1 and 𝜆𝜆2 can be used togive different emphasis to the reconstruction of the two sources.
+𝐿𝐿𝐿𝐿𝑠𝑠𝑠𝑠𝑤𝑤(𝐸𝐸1, 𝐸𝐸2, 𝐷𝐷1, 𝐷𝐷2) =∑︁𝑤𝑤(𝜆𝜆1𝑓𝑓(𝑠𝑠1(𝑤𝑤), 𝑠𝑠1(𝑤𝑤)) + 𝜆𝜆2𝑓𝑓(𝑠𝑠2(𝑤𝑤), 𝑠𝑠2(𝑤𝑤))) (5)
+Jointly learning of 𝐸𝐸1, 𝐸𝐸2, 𝐷𝐷1, 𝐷𝐷2 minimises the total reconstruction error given by Equation 5.
+To obtain meta-embedding representations after training, only the encoders are applied, which convertthe input source embeddings into a meta representation. Further, these meta-embedding vectors are usedas vector representations of words.
+5 Meta
+Embeddings in Taxonomy Enrichment Task
+In our approach, we use embeddings (source embeddings or meta-embeddings) to generate a list of mostsimilar taxonomy entries (words or phrases from the taxonomy) to the target word according to cosinesimilarity. For each target word, the top 20 taxonomy entries are considered. The number of elementsfor consideration was chosen experimentally. For each entry in the similarity list, all correspondingssynsets, their direct and second-order hypernyms are extracted from the taxonomy. They are consideredas candidate synsets to be hypernyms of the target word.
+For candidate hypernyms synsets, several features are calculated. Logistic regression is used to predictthe probability of a candidate to be a hypernym of the target word. The calculated features are as follows:• maximal, minimal and average similarity between the target word and synonyms in a candidatesynset;
+Tikhomirov M. M., Loukachevitch N. V.• similarity values between the the target word and synonyms in hyponym synsets of the candidatesynset. At first, maximal, minimal and average similarity values are calculated for the target andsynonyms in each hyponym synset. Then maximal, minimal and average similarity values arecalculated over all hyponym synsets for a given candidate synset;• positional feature (0, 1, 2): if a candidate is one of the synset of a taxonomy entry or it is its director second-order hypernym.
+• the number of occurrences of the synset in the candidate list.
+In total, 17 features were calculated.
+Training data were generated randomly and automatically from the published RuWord
+Net version andWord
+Net-1.6 (thus, the data do not contain test data).
+Language Part of speech
+Nouns Verbs
+English 2931 1532
+Russian 2990 814method nouns verbs vector1.6-3.0 1.7-3.0 2.0-3.0 1.6-3.0 1.7-3.0 2.0-3.0 dim
+fast
+Text 0.300 0.346 0.396 0.290 0.224 0.280 300word2vec 0.226 0.242 0.265 0.091 0.114 0.150 300Glo
+Ve 0.261 0.290 0.326 0.182 0.145 0.175 300concat 0.308 0.344 0.387 0.273 0.206 0.247 900SV
+D 0.308 0.358 0.406 0.286 0.222 0.271 600CAEM
+E 0.309 0.347 0.395 0.252 0.189 0.260 900CAEM
+E triplet loss 0.322 0.367 0.416 0.287 0.218 0.270 900AAEM
+E 0.318 0.354 0.401 0.283 0.218 0.254 600AAEM
+E triplet loss 0.333 0.373 0.416 0.289 0.227 0.274 600
+Previous results based on embeddings:fast
+Text – 0.339 – – 0.213 –
+Poincaré embeddings 0.059 0.066 0.101 0.126 0.066 0.109 –node2vec 0.219 0.155 0.151 0.109 0.147 –GC
+N autoencoder 0.175 0.168 0.109 0.094 0.117 –
+The quality of the approach was evaluated using different source vector representations: fast
+Text2,word2vec3, Glo
+Ve4. Also different meta-embedding approaches were investigated: concatenation, SV
+Dover concatenation, CAEM
+E, AAEM
+E. The standard loss function for AEM
+E approaches we used wascosine distance loss. We have tried variations and combinations between MS
+E loss, K
+L divergence lossand cosine distance loss, and last one works best in our case.
+A specific feature of the English datasets is the presence of a significant number of multi-word expressions. In order to obtain vectors for such cases, the following procedures were carried out:• For Fast
+Text, embeddings if not in the vocabulary, were obtained in a natural way, by calculatingvectors by the model itself,• For Word2
+Vec and Glo
+Ve, embeddings were calculated by averaging the vectors of maximum prefixes for the constituent words of a multi-word expressions. There is a limitation on the minimumlength of a prefix word, which is 4 characters,2
+Common Crawl English and Russian versions from https://fast
+Text.cc/docs/en/crawl-vectors.html
+3
+Araneum for Russian and Gigaword for English from http://vectors.nlpl.eu/repository/
+4
+Common Crawl 840b tokens from https://nlp.stanford.edu/projects/GloVe/Meta
+Embeddings in Taxonomy Enrichment Task
+• For meta-embeddings approaches, if there is no vector for a word in any model, the correspondingsource vector was initialized with zeros.
+Another direction of experiments relates to the additional restrictions to the generated metaembeddings in the AEM
+E algorithms such as the triplet loss. We suppose that the word should becloser to its semantically related words according to the taxonomy than to a randomly chosen word. Thealgorithm of calculating the triplet loss is as follows:1. For each word that is present in the taxonomy, a list of semantically related words is compiled from
+synonyms, hyponyms and hypernyms,2. In each epoch, we randomly select K positive words from this related set and K negative words from
+the vocabulary,3. If the word is not presented in the taxonomy, then the noisy variations of the original vector are
+positive vectors,4. Next, triplet margin loss is calculated: the triplet loss is combined with the original loss as 𝛼𝛼*𝑙𝑙𝑙𝑙𝑙𝑙𝑙𝑙+
+(1− 𝛼𝛼) * 𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑡𝑙𝑙𝑡𝑡𝑡𝑡_𝑙𝑙𝑙𝑙𝑙𝑙𝑙𝑙, we used 𝛼𝛼 = 0.5,
+The results of the experiments are given in Table 3 and prediction for verbs is much worse than for nouns in all datasets. SV
+D applied to the concatenation ofinitial embeddings always improves the results compared to the concatenation. It obtains better results ifcompared to source embeddings in most datasets, except English verbs. SV
+D achieves the best qualityof hypernym prediction among all considered meta-embeddings on the Russian verb datasets.
+method nouns verbs vectornon-restricted restricted non-restricted restricted dimfast
+Text 0.416 0.537 0.318 0.418 300word2vec 0.276 0.526 0.231 0.272 600concat 0.401 0.563 0.337 0.423 900SV
+D 0.435 0.579 0.382 0.442 600CAEM
+E 0.468 0.579 0.352 0.433 900CAEM
+E triplet loss 0.470 0.580 0.350 0.420 900AAEM
+E 0.466 0.577 0.350 0.432 600AAEM
+E triplet loss 0.474 0.581 0.375 0.439 600
+Previous results based on embeddings:RUSS
+E Top-1 for verbs: 0.418 0.340 0.448 –
+Poincaré embeddings 0.252 0.105 0.140 –node2vec 0.366 0.168 0.252 –GC
+N autoencoder 0.261 0.095 0.141 –
+The AAEM
+E autoencoder with the cosine loss is comparable to the CAEM
+E autoencoder in the Russian data, and better on the English datasets. Among meta-embeddings based on autoencoders, thebest results of hypernym prediction are obtained with the AAEM
+E autoencoder with triplet loss. Thisapproach improves the results of hypernym prediction in almost all cases compared to initial fast
+Textembeddings, except English verbs. Triplet loss autoencoders in most cases achieve better results thancorresponding cosine loss autoencoders.
+If compared to other approaches based only on various vector representations, our applied methodsobtained the best results on all datasets, except Russian restricted verbs where the results are slightlyworse.
+6 Improving Meta
+Embeddings Results Using Wiktionary
+Some previous approaches tested in hypernym prediction combining embeddings withautomatic Wiktionary analysis.
+Each Wiktionary page usually comprises a definition and lists of hypernyms, hyponyms and synonyms,which could be useful for our task. Similar to other approaches, we implement the following Wiktionary
+Tikhomirov M. M., Loukachevitch N. V.features:• the candidate is present in the Wiktionary hypernyms list for the input word (binary feature),• the candidate is present in the Wiktionary synonyms list (binary feature),• the candidate is present in the Wiktionary definition (binary feature),
+We do not use the definitions directly, as their texts are too noisy. They often include example usagesof words, which cannot be separated from the definitions and can distort their vector representations.
+This processing generate additional above-mentioned features, which are added to the described logisticregression classifier.
+Tables 5 and 6 shows the results of combined approaches. Adding Wiktionary features improved theachieved results on all datasets. If compared to previous approaches used Wiktionary, we obtained thebest results on the Diachronic wordnet datasets.
+features.
+method nouns verbs1.6-3.0 1.7-3.0 2.0-3.0 1.6-3.0 1.7-3.0 2.0-3.0
+fast
+Text 0.319 0.373 0.424 0.296 0.231 0.288word2vec 0.236 0.259 0.288 0.090 0.12 0.149Glo
+Ve 0.277 0.315 0.357 0.189 0.153 0.190concat 0.326 0.370 0.425 0.275 0.213 0.259SV
+D 0.324 0.380 0.437 0.289 0.228 0.276CAEM
+E 0.327 0.373 0.430 0.262 0.205 0.264CAEM
+E triplet loss 0.339 0.39 0.44 0.292 0.225 0.277AAEM
+E 0.334 0.379 0.432 0.286 0.225 0.267AAEM
+E triplet loss 0.345 0.394 0.445 0.289 0.239 0.272
+Previous results with wiki:fast
+Text 0.337 0.380 0.344 0.267 0.200 0.237fast
+Text + node2vec 0.380 0.340 0.259 0.195 0.200fast
+Text+node2vec + Poincaré 0.350 0.300 0.251 0.177 0.248features (wiki).
+method nouns verbsnon-restricted restricted non-restricted restrictedfast
+Text 0.436 0.579 0.366 0.445word2vec 0.292 0.574 0.258 0.295concat 0.421 0.598 0.388 0.474SV
+D 0.452 0.612 0.423 0.458CAEM
+E 0.485 0.614 0.400 0.472CAEM
+E triplet loss 0.486 0.607 0.402 0.463AAEM
+E 0.484 0.611 0.403 0.486AAEM
+E triplet loss 0.490 0.611 0.427 0.471
+Previous results with wiki:RUSS
+E Top-1 for nouns 0.552 0.293 0.436fast
+Text+wiki 0.551 0.297 0.389fast
+Text + node2vec + Poincaré+wiki 0.560 0.306 0.391Meta
+Embeddings in Taxonomy Enrichment Task7 Analysis of Results
+It can be seen from the achieved results that having a large taxonomy, automatic methods are able topredict correct taxonomy hypernyms for novel words within three first positions of the ranked list ofcandidates on average. For the Russian dataset, the correct predictions could be found among the top-2candidates on average. For the majority of novel words, the correct hypernyms appear within the top-10candidates.
+To analyze the usefulness of the obtained hypernym predictions, we calculated the proportions ofwords having at least one correct hypernym withing N first positions of the candidate list. Table 7 showsthe obtained proportions of words with the first correct answer at Top
+N positions.
+It can be seen that current results do not allow using for fully automatic taxonomy enrichment becausethe predictions of correct answers on the first position are still quite low. But the predicted results cansignificantly facilitate the work of lexicograhers or knowledge engineers.
+We analysed hypernym predictions for words not included in the Top-10 of correct answers and foundthe following cases:• Predicted hypernyms correspond to senses missed in the taxonomy. For example, word vechernitsais described in RuWord
+Net only in the sense of ’student of evening education’, but also this word canmean ’bat’ (noctule bat) or ’flowering plant’. Predicted hypernyms include synset corresponding tothe flower synset at the 3d position of the candidate list;• in many cases predictions are very semantically close but not correct. For example, for word ’gugl’(
+Google) the correct answers are synsets ’search engine’ and ’global search engine’. The predictedhypernyms are ’computer program’, ’internet-technology’, ’internet-site’, ’I
+T-technology’, etc. Forword "datacentr" (data-center), which is a specialized building, the prediction at the first position isthe ’computer" synset.
+• there are also numerous examples when too general hypernyms are predicted;• in some cases predicted hypernyms are very far from reasonable answers and are difficult for explanation.
+triplet-loss embeddings with Wiktionary.
+English % Russian %1.6-3.0 1.7-3.0 2.0-3.0 non-restricted restricted
+Top-1 28 32 38 42 52
+Top-3 41 45 51 57 75
+Top-5 47 52 56 64 81
+Top-10 54 59 63 70 878 Conclusion
+In this paper we considered methods for combining different word embeddings in a single metaembedding. We studied the meta-embedding approach in the taxonomy enrichment task based on severalversions of English and Russian wordnets. The meta-embedding methods included concatenation of initial embeddings, SV
+D over the concatenation, two variants of autoencoders aimed to learn better wordembeddings from initial vectors.
+We showed that the use of meta-embeddings improves the performance of the system for almostall datasets, except English verbs. SV
+D always improves the results compared to concatenation.
+Autoencoder-based meta-embeddings achieve the best results in most cases. It can also be seen thatadding the triplet loss improves the results.
+We also experimented with a method of joint using meta-embeddings and information about worddescribed in the Wiktionary electronic dictionary, which improved the results.
+Tikhomirov M. M., Loukachevitch N. V.Acknowledgements
+The participation of M. Tikhomirov in the reported study was funded by RFB
+R, project number 19-3790119. The work of Natalia Loukachevitch in the current study (preparation of data for the experiments)is supported by the Russian Science Foundation (project 20-11-20166).

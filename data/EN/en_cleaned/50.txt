@@ -1,0 +1,70 @@
+The task of text simplification (T
+S) aims to reduce its linguistic complexity in order to improve readability and understanding. Text complexity criteria include the presence of complex grammatical structures,participial and adverbial constructions, subordinate sentences, the presence of infrequent and ambiguouswords. Recent research on T
+S has been of keen interest, especially after the development of automaticapproaches which have led to the transition from manually defined rules to automatic simplificationusing neural networks. Simplification has a variety of important applications. For example, in sociopsychological respect, it increases the information accessibility for those with cognitive disorders such asaphasia, dyslexia, and autism, as well as for non-native speakers. Furthermore, automatic text simplification could improve performance on other NL
+P tasks, such as paraphrasing, summarization, informationextraction, semantic role labeling, and machine translation.
+Existing methods have been predominantly designed for English due to the availability of high-qualitytext corpora which contain aligned complex and simplified sentences such as Newsela1 Turk
+Corpus . Wiki
+Large constructed from Wikipedia and Simple Wikipedia is a very common datasetfor English as well. However, the construction of such datasets for new language is expensive, andno attempts have been made to create a T
+S dataset for the Russian language. To this end, the sharedtask RuSimpleSent
+Eval-2021 to fill this gap and facilitate the development of automatic T
+Smethods for Russian. This paper describes the submission to the shared task and proposes the T
+S methodbased on RuGP
+T3, and details the experiments with the autoregressive models for Russian. We explorethe RuGP
+T32 models capabilities in a full compliance with the competition rules, study the effect ofthe size of the training dataset on the model performance, combine different inference strategies andpost-processing techniques. The method has achieved the second place on the RuSimpleSent
+Eval publicleaderboard and the fifth place on the private leaderboard.
+The remainder is organized as follows: Section 2 briefly describes the prior research in the field;
+Section 3 outlines the data used in the experiments; Section 4 provides the description of the experiments;we discuss the results and provide the analysis of the proposed method and generated abilities of the bestmodel in Section 5, section 6 concludes the paper.
+2 Related Work
+The task of T
+S is similar in nature to other sequence-to-sequence NL
+P tasks such as machine translation,paraphrase generation most to text summarization. It can be considered as text summarization which can involve selecting sentences from the input text (extractive) or re-writing the input text(abstractive) in order to preserve most of the meaning . In contrast to text summarization, simplification methods do not necessarily “compress” the input text and thus can produce longer texts, e.g.
+when generating term explanations. Whereas text summarization predominantly aims at filtering out theredundant text segments, T
+S approaches preserve the structure of the text. Despite this, a number ofstudies have explored the combinations of the approaches by integrating T
+S methods into summarizationsystems .
+The survey a comprehensive overview of T
+S approaches, including a brief description ofthe earlier attempts to solve the task, discussion of various aspects of simplification (lexical, semantic,and syntactic), and the latest techniques being utilized in the field. Recent research in the field has clearlyshifted towards utilizing deep learning techniques to perform T
+S, with a specific focus on developingsolutions to combat the lack of data available for simplification. another review of the mostsignificant studies in T
+S. It highlights more than 300 studies of the last three decades in the field ofT
+S. The paper covers the corpora and evaluation metrics, for example, BLE
+U the most reliablemetric for the sentence simplification task SAR
+I .
+The state-of-the-art results on T
+S task for English on a Turk Corpus are demonstrated by the followingmodels:1. DMAS
+S & DCS
+S a combination of Deep Memory Augmented Sentence Simplification
+(DMAS
+S) model and Deep Critic Sentence Simplification (DCS
+S) that has achieved 40.45 SAR
+I.
+2. ACCES
+S Facebook has obtained 72.54 BLE
+U and 41.87 SAR
+I. The method shows that
+explicitly conditioning the sequence-to-sequence models on control tokens such as length, amountof paraphrasing, lexical complexity and syntactic complexity, increases the results of generation.
+3. MUS
+S received the highest scores 78.17 (BLE
+U) and 42.53 (SAR
+I). The method incorporates leveraging unsupervised data to train T
+S systems in multiple languages using the controllable
+1https://newsela.com/data
+2https://github.com/sberbank-ai/ru-gpts
+Fenogenova A.generation mechanisms and pre-training.
+Another line of research is focused on approaches based on reinforcement learning . Transformerbased language models been applied to the sequence-to-sequence tasks for Russian, rangingfrom text summarization news generation. The large scale pre-trained transformers representa promising direction in the field of T
+S and comparable to the state-of-the-art methods. GP
+T-3 hasachieved competitive performance on text summarization and simplification tasks . In linewith these works, we focus on the applicability of the autoregressive models, namely RuGP
+T3, for T
+S.
+3 Data
+The T
+S datasets contain parallel pairs of complex sentences (source) and their corresponding simplifiedversions (source).
+The organizers of the RuSimpleSent
+Eval-2021 shared task have introduced a T
+S dataset constructedby automatic translation and post-processed Wiki
+Large corpus . The resulting dataset was split intotrain, dev and test sets. The additional dev, public and private test sets were created via crowd-sourcingusing Yandex.
+Toloka3. The training set contains inappropriate examples due to being automaticallyconstructed. Consider an example, where the sentences are likely to refer to the same town but thetarget sentence contains extra information which can not be derived from the source sentence: Городтакже является центром производства сахара и промышленности. => В 2002 году общаячисленность населения муниципалитета составляла 77 698 человек: 38 093 мужчины и 39605 женщин. There are also some cases where the translation is only partially done: Belleview
+находится по адресу. ==> Бельвью город во Флориде в США. Another problem is sentenceswhere the target sentence contains more information, which is a crucial case because it contradicts thedefinition of simplification. The sentence is not simplified, instead it is complicated: Некоторые могутпроявлять миксотроию. ==> Некоторые могут проявлять миксотрофию при использованиисмешанных источников энергии. As we see further the data for training is a primary issue for theprominent performance of the T
+S methods. Thus, we make an attempt to overcome these issues andconduct the experiments in the following data settings: 1) all the data provided by the organizers (furtherin the text “𝑑𝑑𝑑𝑑𝑑𝑑𝑑𝑑_𝑑𝑑𝑎𝑎𝑎𝑎” ) 2) all cleaned data (“𝑐𝑐𝑎𝑎𝑐𝑐𝑑𝑑𝑐𝑐_𝑑𝑑𝑎𝑎𝑎𝑎”) 3) a 10000 examples subset of cleaned data(‘’𝑐𝑐𝑎𝑎𝑐𝑐𝑑𝑑𝑐𝑐_𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑐𝑐𝑑𝑑”). The cleaning procedure of proposed data contains the following filtration steps:• Discarding examples with less than two lemmas in the intersection between the lemmatized sourceand target sentences. We removed the stopwords during this step and lemmatize the sentences withpymorphy2 tagger4;• Discarding examples where the source sentence is a substring of the target one and the length isgreater than of the source one.
+4 Experimental Setup
+The shared task is evaluated with SAR
+I (
+System output Against

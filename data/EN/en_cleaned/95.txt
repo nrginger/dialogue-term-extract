@@ -1,0 +1,108 @@
+Topic modeling is a text analysis method which aims to discover hidden thematic structure in large collections of texts. Topic models are used in information retrieval , documents’ categorization , social networks’ data analysis, , recommendation systems , exploratory search other areas. After the processing of documents’ collection, a topic model gives a set of topics covered in the documents, the distribution of these topics in the documents, and words that characterize each topic .
+The interpretability is a desirable property of a good topic model . A topic is said to be well interpreted, if it corresponds to real-world concept of interest. However, the topics derived by topic models may not be clear and understandable, they may include words from different weakly related areas. Recently, an automated procedure estimating the interpretability was introduced. This method evaluates the list of the most frequent topic words and favorably compares to the human experts’ judgements of the same list.
+However, we believe that this approach suffers from several fundamental limitations. We argue that these limitations bring into question the common practice of treating coherence and interpretability as equivalent.
+The aim of this paper is twofold. The first is to outline a class of issues inherent in a traditional notions of coherence. A key problem with this approach is that reducing the topic model to a short list of words loses too much precision. Previous studies linking coherence and interpretability failed to take this into account.
+However, the proportion of text covered by these top frequent words is not controlled in any way. We show that in practice this proportion is too small to justify treating coherence and interpretability as equivalent.
+The second purpose is to demonstrate the feasibility of the alternative approach which we call the intra-text coherence, defined as an average thematic similarity of terms, closely located in the text. To justify this new measure, we will adapt the procedure used in , .
+2. Related work
+For the topic modeling purposes, the topic is defined as a probability distribution over words. For example, the topic named “theatre” could be a probability distribution concen-trated on a words such as “actor”, “play”, “premiere”, “parterre” and “spectator” (on the contrary, the probability of words such as “loan” and “vertebrates” would be extremely low or even zero).
+The topic model can be described by two distributions: 𝜙𝑤𝑡=(𝑤∣𝑡), the probability to draw a word 𝑤 from the topic 𝑡 and 𝛳𝑡𝑑 =𝑝(𝑡∣𝑑), the probability to find a topic 𝑡 within the document 𝑑.
+Early work on topic modeling conceptualized it as an intermediate stage of information retrieval pipeline. The possibility of meaningful interpretation was an afterthought. For measuring the quality of topics when evaluated against human judgments, several metrics were proposed.
+Intra
+Text Coherence as a Measure of Topic Models’ Interpretability
+Currently, there is a consensus among researchers that the evaluation of human interpretability should conform to the following framework:1) Picking some small set of words for each topic (typically, a list of ten most
+frequent words, but the more sophisticated approaches are possible ). The term top tokens has come to be used to refer to this set.
+2) a. Presenting this set to a human expert to obtain a human judgment of a set
+quality.
+or Gathering an array of co-occurrence statistics associated with members of this set and performing a series of calculations involving these numbers.
+This framework was introduced in seminal works of Blei Mimno then greatly developed by the topic modeling community. We will call this extensive category of metrics top-tokens based.
+The main attraction of top-token based measures is their simplicity. Instead of evaluating the whole probability distribution, the researcher only has to look at the short list of the most “representative” words.
+However, their inherent limitation is deeply rooted in the same thing. The list of top five to ten words reflects only part of the whole probability distribution, and poorly (if at all) characterizes how good topic model does represent the particular corpus.
+We argue that the list of the most frequent words is inadequate in justifying the quality of topic model regardless of the method of its analysis. This applies equally to the human experts’ ratings and the automated procedures based on the word cooccurrence counts.
+3. Towards a better interpretability metric
+As was previously noted, traditional coherence metrics consist of two steps: first, they use information from (𝑤∣𝑡) distribution; secondly, they retrieve the co-occurrence statistics.
+The idea behind automated coherence measures is to find out how often do certain words appear together within the sliding context window and compare that number to the frequency predicted by pure coincidence. The topic is said to be coherent if the positions of its words tend to cluster, do not appear to be random.
+This is reminiscent of the linguistic phenomenon of textual cohesion : the sentences of natural language texts are connected to each other via syntactic and lexical devices such as word repetition, synonyms/near-synonyms, hyponyms and so on.
+We conjecture that the natural language texts are divided into coherent spans which contain only small number of latent topics. According to this assumption, the purpose of topic modeling should be understood as an adequate segmentation of the initial text into thematically homogeneous fragments consisting of a handful of topics.
+Note that frequent top-words co-occurrences is an indirect sign that the topic is represented in the text collection as a coherent text fragment.
+Alekseev V. A., Bulatov V. G., Vorontsov K. V. Therefore, we argue that interpretability of a topic should be evaluated not only by the consistency of top-words use, but also by the consistency of all topic words use within text segments. We could obtain an automated measure of the model interpretability by examining the degree the topic model violates this consistency.
+Instead of drawing inferences about the whole topic based on behaviour of the short list of ten most frequent words, one should start by examining words appearing together in a text and then proceed by comparing their (𝑡∣𝑤,𝑑).
+This procedure will be dealt with in more detail in the following section.
+4. Coherences
+In this paper, we present several automatic measures distinct from traditional top-token based approaches.
+The first method—Semanti
+C (
+Semantic Closeness)—estimates semantic proximity of closely located in the text words as vectors with components (𝑡∣𝑤). To estimate the proximity between words one can calculate l2 distance between the corresponding vectors ∣𝑡 = −〈∥𝒘𝑖−𝒘𝑗∥2〉where 𝜌(𝒘𝑖, 𝒘𝑗)—text-distance between words (number of other words between them), window—window of words, in which 𝒘𝑖 and 𝒘𝑗 are considered to be close in text-distance. Minus sign makes coherence higher if words’ vectors are close. In addition to the Euclidean distance, Cosine Similarity measure can be used: ∣𝑡 = +〈𝑐𝑜𝑠(𝒘𝑖, 𝒘𝑗)〉
+The third proposed way to estimate semantic closeness by topic is to calculate variance between components corresponding to this topic: ∣𝑡 = 𝑉𝑎𝑟𝑖𝑎𝑛𝑐(𝒘𝑖(𝑡), 𝒘𝑖+1(𝑡), …, 𝒘𝑖+𝑤𝑖𝑛𝑑𝑜𝑤+(𝑡))
+Before computing, all vectors were multiplied by 1000, so as to increase the result value for the coherence.
+Figure 1. An example illustrating the idea of Top
+Len coherence
+As long as words of a topic under interest are observed, they are counted. If some unrelated word is encountered it is also counted but gives a negative penalty. When the absolute value of total penalty appears to be quite big, the process stops, and the number of counted words gives one value of topic length.
+Intra
+Text Coherence as a Measure of Topic Models’ Interpretability
+Another method—Top
+Len (
+Topic Length)—calculates the average duration of the topic in text. The auxiliary function score (𝑤𝑗 ,𝑡) returns the difference between the component of the vector corresponding to the topic and the maximal component among the other topics. Non-negative parameter threshold smooths the effect when Top
+Len encounter words not from the topic while counting topic length, the process of counting continues as long as threshold (chosen to be 0.01) plus sum of scores is non-negative (see The last proposed method—Fo
+Con (
+Focus Consistency)—evaluates how much differ adjacent words throughout the whole text, summing the pairs of differences between corresponding components of (𝑡∣𝑤) vectors (components, by means of which the differences are calculated, are the maximal components of the adjacent words vectors). Minus sign serves the same role as in case of Semanti
+C—coherence rises when words differ less.
+𝐹𝐹𝐹𝐹𝐹𝐹𝐹𝐹𝐹𝐹|𝑡𝑡 = −� � �𝑤𝑤𝑖𝑖 − 𝑤𝑤𝑗𝑗� + �𝑤𝑤𝑖𝑖 − 𝑤𝑤𝑗𝑗�𝑤𝑤𝑖𝑖,𝑤𝑤𝑗𝑗∈𝑊𝑊𝑑𝑑𝑗𝑗−𝑖𝑖=1𝑑𝑑∈𝐷𝐷 5. Experiments
+5.1. Interpretation and representation
+Automated coherence measures rest on the word co-occurrence counts. If top tokens often appear together within the context window, this set of words is said to be coherent, i.e. these words fit together in a natural or reasonable way.
+It is implicitly assumed that if set of top tokens is coherent, then the whole topic is coherent as well. Such arguments were criticized before , but we wish to understand the issue quantitatively. What fraction of collection is represented in the cooccurrence counts related to the given top token set?
+Let 𝑄 be a set of words. We will call the position of word 𝑤 ∈ 𝑄 represented if it has a non-zero contribution to the 𝑄 co-occurrence counts (see Figure 2). We will measure the representational frequency of two topic models.
+Our primary dataset is a corpus consisting of articles published in “Post
+Nauka”, a popular Russian online magazine about science. We investigate a topic model consisting of 19 subject-related topics and a single background topic (see Figure 3).
+Alekseev V. A., Bulatov V. G., Vorontsov K. V. token (“частиц”) and a wide range of weakly topical words, which are ignored while calculating coherence by the traditional methods.
+Next, we will focus on the topic model presented in , which uses a sample of Wikipedia articles. This model was identified as best based on assessment of top 10 tokens by human experts. This model consists of 50 topics.
+As can be seen from the table 1, top-tokens cover a vanishing fraction of corpus. Informally speaking, top token-based measures ignore more than 98% of the collection!Intra
+Text Coherence as a Measure of Topic Models’ Interpretabilitycounts of top 10 most frequent words for each topicPost
+Nauka Wikipedia
+Minimum 0.000159 0.000065
+Median 0.000483 0.000293
+Mean 0.000619 0.000356
+Maximum 0.002764 0.001149
+Total 0.012027 0.0165855.2. Ground truth
+The evaluation of interpretability is extremely labor-intensive. The strength of top token-based measures is their ability to reduce topics of the topic model to the accessible list of words. Even then, gathering human judgments about a large number of topics is a daunting task.
+This leaves us with a difficult problem. On one hand, we try to construct a measure taking into account the whole 𝛷 and 𝛩 matrices and the whole corpus. On the other hand, validating such measure requires comparing them to the human judgment. Therefore, one needs to somehow obtain human ratings about the whole corpus and the whole probability distribution.
+We propose a way to circumvent this infeasible procedure: instead of asking human experts to produce a number of labels, we generate a semi-synthetic dataset with known labels. In this enterprise, the structure of Post
+Nauka dataset is of a tremendous help. The topics of articles are general and diverse enough to make the majority of documents monotopical: i.e. every word of such document could be attributed either to a single specific topic or to background topic.
+We use these monotopical documents to produce a semi-synthetic dataset. The idea is to “cut” the monotopical documents into smaller monotopical segments and then “sew” them together in random order. The intent of this semi-synthetic dataset is to serve as a ground truth by which topic models can be evaluated
+The generation procedure ensures that we know true topic labels for every word. Given this information, it is possible to define segm to be the segmentation quality of any topic model. There are two natural ways to do this:• soft: for each topic 𝑡 the sum of 𝑝(𝑡 ∣ 𝑑, 𝑤) on all pairs (𝑑, 𝑤), 𝑑 ∈ 𝐷, 𝑤 ∈ 𝑊𝑑 is calculated, with total result equals to the sum of these sums for all topics• strict: for each topic 𝑡 for all segments of topic 𝑡 the number of coincidences of topic, predicted by the model for a word in a document, with the topic 𝑡 of the segment to which this word belongs .
+Alekseev V. A., Bulatov V. G., Vorontsov K. V. Figure 4. The relationship between segmentation quality and perplexity of topic model
+On the X axis is the proportion of good Phi matrix: one minus 𝛼 (degree of Phi degradation). The fact that segmentation quality monotonically increases when perplexity decreases implies that the proposed segmentation quality may be used as a measure of quality of topic models.
+Having established the ground truth, we are able to evaluate different coherence measures. The quality of each candidate measure coh is defined to be a Spearman correlation coefficient between the function value and the segmentation quality.
+For this purpose, we generated a number of different 𝛷 matrices as a weighted combination of 𝛷𝑔𝑜𝑜𝑑 (the topic model of Post
+Nauka dataset, discussed above) and 𝛷𝑏𝑎𝑑 (a set of random columns taken from Dirichlet (0.01∣𝑊∣) distribution):
+For each 𝛼, the segmentation quality and all the investigated coherence metrics were calculated. Thus, a sample {⟨soft(𝑚), strict(𝑚), 𝑐1(𝑚), 𝑐2(𝑚), … 𝑐𝑛(𝑚)⟩ ∣ 𝑚 ∈ 𝑀, 𝑐𝑖 ∈ Coh, 1 ≤ 𝑖 ≤ |
+Coh|} was obtained. Four series of experiments were conducted, with different 𝛷𝑏𝑎𝑑 matrices.
+Intra
+Text Coherence as a Measure of Topic Models’ Interpretability Figure 5. Illustration of a model segmentating semisynthetic text
+The figure shows two segments of size 50 words from different topics after being processed by Bad Topic Model or Good Topic Model (discussed above). These segments were extracted from one of the generated documents, in which they were adjacent. Words that are not labeled were assigned topics different from the two of represented segments. Below the segments are coherence values. S
+Q (
+S)—stands for soft segmentation quality, S
+Q (
+H)—strict segmentation quality, N—
+Newman, M—
+Mimno, SC—Semanti
+C, TL—Top
+Len, FC—Fo
+Con. Values in bold indicate that coherence function rises as model’s quality increases.
+Alekseev V. A., Bulatov V. G., Vorontsov K. V. qualities (soft) for datasets with different sizes of segments: 50, 100, 200 and 400 words and with 5 topics in each document
+6. The comparison of different coherence measures with segmentation quality as a function of 𝛼, the topic model degradation parameter. Coherence values drawn on the plots are averaged values from 4 series (𝛼) which differ in 𝛷𝑏𝑎𝑑 matrixIntra
+Text Coherence as a Measure of Topic Models’ Interpretability6. Results
+Three new methods for estimating topic model’s interpretability are presented: Semanti
+C, Top
+Len and Fo
+Con,—which try to take into account all words of the text when evaluating coherence. The new methods show that this is possible to develop an indicator of interpretability able to overcome the shortfalls of top token-based measures.
+Experiments on semisynthetic dataset, consisting of segments of different topics, were conducted in order to analyze some properties of new coherences and existing ones.
+Proposed methods demonstrate high correlations with the quality of semisynthetic dataset segmentation. SemantiC
+Var and Top
+Len appear to perform best.
+Acknowledgments
+The work was supported by Government of the Russian Federation (agreement 05.
+Y09.21.0018) and the Russian Foundation for Basic Research grant 17-07-01536.
+We thank Alexander Romanenko and Irina Efimova for their assistance in data collection.
+All experiments with the data were carried out with the use of the BigART
+M library .

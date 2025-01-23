@@ -1,0 +1,202 @@
+evaluation, word2vec interpretationВЕКТОРНЫЕ МОДЕЛИ КАК ОБЪЕКТ ЛИНГВИСТИЧЕСКОГО ИССЛЕДОВАНИЯШаврина Т. О. (rybolos@gmail.com)НИУ ВШЭ, Москва, Россия; Сбербанк, Москва, РоссияВ данной статье начата серия исследований, в которых популярные векторные модели word2vec рассматриваются не как элемент архитектуры NL
+P-приложения, а как самостоятельный объект лингвистического исследования. Взгляд лингвиста на суррогат контекстов, коим можно назвать такие модели, позволяет выявить новую информацию о распределении отдельных семантических групп лексики и о корпусах, на которых эти модели получены. В частности, показывается, что такие пласты английской и русской лексики, как названия профессий, национальностей, Shavrina T. O. качества личности, временные сроки, обладают наибольшей независимостью от смены модели и сохраняют свое положение относительно соседей — то есть имеют наиболее устойчивые контексты независимо от корпуса; показывается, что лексика из списка Сводеша в среднем более устойчива к смене модели, чем частотная лексика; показывается, какие модели word2vec для русского языка наилучшим образом сохраняют онтологические структуры в лексике.
+Ключевые слова: word2vec, векторные модели, word vectors, evaluation1. About word vector models
+Vector word models are currently one of the main elements in architectures for language modelling and processing, showing themselves to be an effective way to convey information about the meaning and generalized contexts of individual words. From the point of view of mathematics, modern vector skip-gram and CBO
+W models have an indisputable advantage over other ways of vectorizing words—they simultaneously describe the distribution of words relative to each other and also take into account their sequential order.
+However, the assessment of such vector models like word2vec , GloV
+E , fasttext currently hampered by the “black box” of the algorithm for obtaining them—and the quality of the models is estimated very indirectly. This study is devoted to the development of a linguistic apparatus for assessing the quality of vector models based on linguistic knowledge.
+The main hypothesis on which the training word2vec models is based is “the words having the same contexts mean the same”. Both Skip-gram and CBO
+W models provide high-quality word embeddings with this hypothesis, however, any linguist will call the resulting problems:• there are words with similar contexts meaning the opposite—antonyms;• there are words with different contexts meaning the same—historical synonyms, multi-word expressions, etc;• also, well-known problems are polysemy, morphological derivatives, misprints.
+These problems lead to the attention shift in the human evaluation of vector models: the vocabulary of the medium frequency, non-homonymous, unambiguous gives those beautiful examples of vector calculations (“king”—‘man’ = ‘queen’, etc. by ). What happens on the other groups of lexis?
+For a linguistic point of view, the word vector model is a linguistic surrogate all the contexts in a corpus from which it is derived. Thus it can be considered interesting as an independent object of study, object situated in the middle of the usual division synchronic and diachronic approaches: cumulative information about word behaviour in the language, obtained on the basis of all contexts over a certain (usually broad) time period, can be surprisingly accurate—examples (1) and (2) show that such a model can even accumulate extralinguistic knowledge if trained on the billionth volume of words.
+Word vector models as an object of linguistic research(1) 5 closest words to the word ‘otradnoye’ (adj, name of a Moscow metro station) on word2vec model are 5 geographically adjacent Metro stations (model trained on Russian National Corpus).
+Semantic associates for отрадное1 (computed on Ruscorpora and Wikipedia)лобаново 0.585романово 10 closest words to the word ‘shabolovskaya’ (adj, name of a station on crossing Metro lines) on word2vec model are geographically adjacent Metro stations, street names and names of crossing metro lines (model trained on news corpus).
+Semantic associates for шаболовская2 (AD
+J) computed on news corpusшаболовскийAD
+J
+J
+J
+J 0.49таганскоAD
+J
+J
+добрынинскаяAD
+J
+J
+J 0.47калужско-рижскийAD
+J 0.47
+Hereinafter, all results will be presented on Rus
+Vectores project , skip-gram, with lemmatization and pos-tagging, trained on 1) news corpus3, 2) Russian National Corpus4 and Wikipedia, 3) Taiga corpus5 and 4) Aranea corpus6. Results in English are computed on a sister project—Web
+Vectors71 https://rusvectores.org/en/ruwikiruscorpora_upos_skipgram_300_2_2019/отрадное_AD
+J/
+2 https://rusvectores.org/en/news_upos_skipgram_300_5_2019/шаболовская_AD
+J/
+3 News: news stream from 1500 primarily Russian-language news sites, model:
+http://vectors.nlpl.eu/repository/11/184.zip4 Full Russian National Corpus http://ruscorpora.ru/en/, model https://rusvectores.org/
+static/models/rusvectores4/RN
+C/ruscorpora_upos_skipgram_300_5_2018.vec.gz5 Taiga: open and structured Russian web corpus https://tatianashavrina.github.io/taiga_site/,
+model https://rusvectores.org/static/models/rusvectores4/taiga/taiga_upos_skipgram_ 300_2_2018.vec.gz
+6 Araneum Russicum Maximum: large web corpus of Russian http://ella.juls.savba.sk/aranea_
+about, model https://rusvectores.org/static/models/rusvectores4/araneum/araneum_upos_skipgram_300_2_2018.vec.gz7 http://vectors.nlpl.eu/explore/embeddings/en/about/
+https://rusvectores.org/en/ruwikiruscorpora_upos_skipgram_300_2_2019/отрадное_ADJ/https://rusvectores.org/en/ruwikiruscorpora_upos_skipgram_300_2_2019/отрадное_ADJ/https://rusvectores.org/en/ruwikiruscorpora_upos_skipgram_300_2_2019/лобаново_ADJ/https://rusvectores.org/en/ruwikiruscorpora_upos_skipgram_300_2_2019/петровско-разумовское_ADJ/https://rusvectores.org/en/ruwikiruscorpora_upos_skipgram_300_2_2019/романово_ADJ/https://rusvectores.org/en/ruwikiruscorpora_upos_skipgram_300_2_2019/глухово_ADJ/https://rusvectores.org/en/ruwikiruscorpora_upos_skipgram_300_2_2019/лукино_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/шаболовская_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/шаболовский_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/щёлковская_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/серпуховской_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/-радиальный_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/таганско_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/198-ть_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/добрынинская_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/филетовый_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/подбельский_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/калужско-рижский_ADJ/https://rusvectores.org/en/news_upos_skipgram_300_5_2019/шаболовская_ADJ/http://vectors.nlpl.eu/repository/11/184.ziphttp://ruscorpora.ru/en/https://rusvectores.org/static/models/rusvectores4/RNC/ruscorpora_upos_skipgram_300_5_2018.vec.gzhttps://rusvectores.org/static/models/rusvectores4/RN
+C/ruscorpora_upos_skipgram_300_5_2018.vec.gzhttps://tatianashavrina.github.io/taiga_site/https://rusvectores.org/static/models/rusvectores4/taiga/taiga_upos_skipgram_ 300_2_2018.vec.gzhttps://rusvectores.org/static/models/rusvectores4/taiga/taiga_upos_skipgram_ 300_2_2018.vec.gzhttp://vectors.nlpl.eu/explore/embeddings/en/about/
+Shavrina T. O. Word vector model evaluation
+Vector models are of great interest in connection with the mediated material they represent—for the needs of corpora comparison and assessment, for analyzing the nature of lexis. Knowledge of the “normal” and “anomalous” behaviour of lexis on the corpora would allow a much more accurate assessment of the quality of the obtained model vectors.
+However, the quality assessment of vector models is still fairly superficial—this is either enumerating all possible models and choosing one that showed the best result in a particular architecture and specific task , or an assessment on a small set of individual pairs of words with human assessment of their distance (completely subjective)—Sim
+Lex999 Google Analogy . Several significant studies , already shown that the quality of vector models for the English language is unstable and depends on many factors, and for an independent assessment of models, a new methodological apparatus is needed.
+The evaluation problem grows like a snowball—in 2018, the first studies devoted to obtaining the best vector models were published, claiming universality for all words and sentences in a language—BER
+T , EL
+Mo , and OpenA
+I architecture . The main trend in NL
+P remains—we search for an effective way to vectorize words and whole texts, but to evaluate model effectiveness, a new approach and a new level of understanding of the resulting models despite the corpus features is missing. Next, we consider a series of experiments devoted to the study of the lexis behaviour in word2vec models and the linguistic interpretation of the quality of word vectors—the preservation of known ontological relationships, most stable vocabulary groups, and so on.
+3. The behaviour of lexis in word vector models
+In accordance with the first hypothesis about the lexis behaviour in word2vec models, it was decided to check the Swadesh list —words from a manually compiled list that are considered chronologically the most stable in the language. Words from the Swadesh list do have interesting characteristics from the point of view of vector models—they denote the basic concept—relatives, animals, main action verbs, colorus, numbers, etc., and have a frequency above the average, that is, have enough contexts in any corpus. Hypothetically, on vector models, such vocabulary should be stable relative to its neighbours.
+3.1. Experiment 1
+Swadesh list was obtained for Russian and English in its fullest form (200 words), then only those words that were found on all models in concern were left—these are 173 words for Russian and 160 words for English since stop words are removed from the models before training8.
+8 The full list can be found in the repository https://github.com/Tatiana
+Shavrina/wordvector_metrics.
+https://github.com/TatianaShavrina/wordvector_metrics
+Word vector models as an object of linguistic research
+Then, for each of the words in the list, the share of the word neighbours always presented regardless of the model was calculated—in the window of the 10 closest ones, as well as the 20, 50, 100, 200 and 300 nearest neighbours. For the Russian language, the models RN
+C + wiki, Taiga, Aranea were used, and for English—BN
+C, Wiki, Gigaword.
+For comparison, random words of a general dictionary of models were also taken, and, separately, random words with a high frequency (top 2000). For the Russian language, frequencies were taken from , for English as material.
+Thus, it was obtained 15 samples for each language (3 types of words—
+Swadesh, frequent and random x 5 amounts of the nearest neighbours)—words and corresponding numbers from 0 to 1, denoting % of the stable neighbours. A statistical Mann—
+Whitney U-test used to evaluate the differences between two independent samples based on the level of any trait measured quantitatively (simple non-parametric criterion).
+On each triple of samples (
+Swadesh, frequent words, random words), a test was conducted with an alternative hypothesis that the values in the second sample were larger. The obtained result for each window of the nearest neighbours is the same:1. words from Swadesh’s list have a higher percentage of stored neighbours
+than random frequency words from the top 2000;2. words from Swadesh’s list have a higher percentage of saved neighbours
+than random words of a language;3. frequency words from the top 2000 have a greater percentage of saved
+neighbours than just random words of the language9.
+The p-value for all such tests clearly shows that the values in Swadesh's samples are significantly larger than values in frequency word lists; frequency word values are in turn larger than values in random word lists.
+(3) for 100 nearest word neighbours for English: fr = frequent, sv = svodesh, rn = random rn ≤ sw annwhitneyu
+Result(statistic = 8932.0, pvalue = 4.4298335409745345e − 11) fr ≤ sw Mannwhitneyu
+Result(statistic = 13363.0, pvalue = 0.04262714406973201) rn ≤ fr Mannwhitneyu
+Result(statistic = 9962.0, pvalue = 3.771709496130687e − 08)(4) for 100 nearest word neighbours for Russian: fr = frequent, sv = svodesh, rn = random rn ≤ sw Mannwhitneyu
+Result(statistic = 8931.0, pvalue = 2.4298335409745345e − 11) fr ≤ sw Mannwhitneyu
+Result(statistic = 13363.0, pvalue = 0.05262714406973201) rn ≤ fr Mannwhitneyu
+Result(statistic = 7344.0, pvalue = 1.6367105050242702e − 11)9 More complete numbers can be found https://github.com/Tatiana
+Shavrina/wordvector_metrics.
+Shavrina T. O. Experiment 2
+Further, it was decided to scale up the previous experiment for the entire vocabulary of the existing models and conduct a test on the most stable words model, sorting them all one by one.
+The intersection of dictionaries of all models was obtained, then for each word from the list, the number of stable neighbours was calculatedin the window of the 100 nearest neighbours. The list has been sorted by percentage of saved neighbours,
+remaining the same regardless of model—to measure that the intersection of the list of N nearest neighbours of the word was used on the entire list of models.
+Thus, 2 interesting results were obtained at once—at the top of the list, we get the most stable words, which, regardless of the corpus source, keep their neighbours, and at the bottom—the most unstable ones. It is curious that the semantically given top of the list is grouped into distinct semantic groups:• nouns denoting the personal qualities of a person,(5) Russian: находчивость_NOU
+N (resourcefulness_NOU
+N) 0.2781 neighbours saved радушие_NOU
+N (welcome_NOU
+N) 0.2670 аккуратность_NOU
+N (accuracy_NOU
+N) 0.2626 идеализм_NOU
+N (idealism_NOU
+N) 0.2542• emotions,(6) Russian: неприязнь_NOU
+N (hostility_NOU
+N) 0.3059 neighbours saved недоверие_NOU
+N (distrust_NOU
+N) 0.2832 восхищение_NOU
+N (admiration_NOU
+N) 0.2528 негодование_NOU
+N (resentment_NOU
+N) 0.2473• nationalities,(7) Russian: итальянец_NOU
+N Italian_NOU
+N 0.2558 ирландец_NOU
+N Irish_NOU
+N 0.2690 узбек_NOU
+N Uzbek_NOU
+N 0.2389• professions,(8) Russian: скрипач_NOU
+N violinist_NOU
+N 0.2193 палеонтолог_NOU
+N paleontologist_NOU
+N 0.2179 филолог_NOU
+N philologist_NOU
+N 0.2391 географ_NOU
+N geographer_NOU
+N 0.2320• toponyms,(9) Russian: казах_NOU
+N Kazakh_NOU
+N 0.2444 нижегородский_AD
+J Nizhny Novgorod_AD
+J 0.2432 бразилия_PROP
+N Brazil_PROP
+N 0.2350 испанский_AD
+J spanish_AD
+J 0.2337
+Word vector models as an object of linguistic research• term adjectives.
+(10) Russian: двухлетний_AD
+J two-year_AD
+J 0.2428 четырехмесячный_AD
+J four month_AD
+J 0.2278 трехдневный_AD
+J three-day_AD
+J 0.2240 шестимесячный_AD
+J six month_AD
+J 0.2198
+Results are stable for Russian and English (see appendix 1 and appendix 2 correspondingly). Only a few words they are knocked out of a list and can not be assigned to any group: these are ‘pregnancy’ (0.1386), ‘whale’ (0.1268), ‘intercourse’ (0.1226), ‘waste’ (0.1208) for English, ‘неразбериха’ (‘confusion’, 0.2431) ‘материализм’ (‘materialism’, 0.2228), ‘коррупция’ (‘corruption’, 0.2193) for Russian. There are practically no verbs in the top of the list, for both Russian and English they have too diverse contexts. All the above-mentioned semantic categories were postulated while analyzing the list, the reverse statement that all the words of these categories on average have more stable contexts is not proven because of the difficulty of demarcating these categories.
+The most unstable group of words is:• proper names(11) Russian: Неклюдов_PROP
+N Neklyudov PROP
+N 0 Свинцов_PROP
+N Svintsov_PROP
+N 0 Софронов_PROP
+N Sofronov_PROP
+N 0 Робсон_PROP
+N Robson_PROP
+N 0
+Having the most inconsistent contexts and low frequency, the proper names—surnames, full names occupy the bottom of the list for both Russian and English.10
+It is noteworthy that these results partially reproduce the results of clustering in the work , where groups of proper names, toponyms and other semantic categories are also distinguished.
+4. First steps to a linguistic assessment of models
+Learning more about the standard properties of a wide list of lexemes in a language, we can more accurately assess both the adequacy of specific models for applied problems and the perspective of their potential improvement.
+In the next experiment, we will show how the most popular models for the Russian language retain ontological relations in the vector space. The ontology of RuWord
+Net , containing more than 300 thousand pairs of words connected by relationships, was taken as a bank of such relations:PO
+S-synonymy, antonym, cause, domain, entailment, hypernym, hyponym, instance hypernym and instance hyponym, part holonym, part meronym.
+10 See full lists at https://github.com/Tatiana
+Shavrina/wordvector_metrics.
+Shavrina T. O. popular word2vec models for Russian—based on News, Aranea, RN
+C+wiki, Taiga—were studied on the subject of 1) the presence of words in the dictionary, 2) % of the preservation of connections between words—the “presence of a word in the list of N closest neighbours”. N is 10, 20, 50, 100. Multi-word expressions are also included in the test—see child_wordparent_word relationhas_in_10has_in_20has_in_50has_in_100рабочий, работник физического труда (worker)каменщик (mason)hypernym FALS
+E FALS
+E TRU
+E TRU
+Eпромышленность (industry)каменщик (mason)domain FALS
+E FALS
+E FALS
+E FALSE
+We have 3 values for each word2vec model—“
+False”—both words presented in a model, but no relation found, ‘OO
+V’—out of vocabulary, one of the words is not presented in a model, ‘
+True’—both words presented in a model, relation established through N nearest words.
+The results are surprising in some ways: first, all the metrics turned out to be quite low. Synonymy and antonymy, so beautifully illustrated with examples of original articles, generally stop reproducing for most of the vocabulary. Secondly, the best quality is shown by the model obtained on the largest corpus, Aranea (internet-crawled data), while the model of the Russian National Corpus and Wikipedia shows results below average. The results are also reproduced for the 100 nearest neighbour words (table 2). However, a model trained on the Russian National Corpus and Wikipedia has one of the most comprehensive dictionaries—the number ‘not in vocabulary’ in it is the smallest in almost all relationships (shown in bold).
+word2vec models, Russian. 100 nearest neighboursrelation value taiga me news aranea meanantonymy FALS
+E 73.05 57.47 75.65 45.56 62.93antonymy TRU
+E 25.11 37.77 16.78 48.70 32.09antonymy OO
+V 1.84 4.76 7.58 5.74 4.98cause FALS
+E 68.44 55.15 78.24 31.23 58.26cause TRU
+E 19.44 41.03 10.13 15.28 21.47cause OO
+V 12.13 3.82 11.63 53.49 20.27domain FALS
+E 96.91 92.73 96.41 90.00 94.01domain TRU
+E 1.75 5.80 3.19 8.13 4.72domain OO
+V 1.34 1.47 0.41 1.87 1.27entailment FALS
+E 91.92 80.13 89.32 64.44 81.45entailment TRU
+E 4.46 17.73 6.78 12.81 10.45entailment OO
+V 3.62 2.14 3.90 22.75 8.10
+Word vector models as an object of linguistic researchrelation value taiga me news aranea meanhypemym FALS
+E 88.95 82.18 87.64 61.34 80.03hypemym TRU
+E 6.81 14.33 7.73 19.71 12.15hypemym OO
+V 4.24 3.49 4.63 18.95 7.83hyponym FALS
+E 81.57 76.49 79.87 63.20 75.28hyponym TRU
+E 7.87 13.40 7.18 17.75 11.55hyponym OO
+V 10.57 10.11 12.95 19.06 13.17
+The lowest quality is shown by popular vector models when conveying relationships like instance hyponymy and domain—it is possible that low quality, among other factors, can be explained by a low frequency of individual occurrences and their absence in the model dictionary. Also, the hypothesis that such relations as hyponymy, hypernymy and domain should be expressed by nearest neighbours can be too simplifiying, as they are hierarchical relations that cannot be extracted from embeddings directly by cosine similarity, unlike pairwise-equivalent synonymy relations.
+Relationships of antonymy are fairly well preserved (48% on the best model, Aranea), cause (41% on a best model, Aranea), hypernym, part holonym и part meronym (20% each on Aranea)—but such quality can be considered rather low. Nonetheless, in a similar experiment for the English language models show lower quality—synonyms—0.447, antonyms—0.144, hyponyms—0.038, other relations—0.013 of ontological relations.
+1) a modern amount of data is still not enough—we need at least an order of magnitude more data to get a large number of contexts for low-frequency words
+and multi-word expressions, which can be distinguished in a large number in any language;2) the efficiency of the vectors obtained is far from ideal—between words that are obviously close to the claimed hypothesis: synonyms and antonyms, as well as partwhole and class-subclass relations—the proportion of the saved relations is low.
+5. Further work and discussion
+Within the framework of the initiated methodology, it is planned to further study the distributional lexis behaviour, and based on the results obtained, it is planned to develop metrics that allow obtaining a more complete interpretation of vector models.
+The author would like to start a discussion on whether vector models can be used as a tool for a full-fledged linguistic lexical study on big corpora: potentially, such areas of study could be:• assessment of corporal context biases, corpus thematic focus• assessment of the sufficiency of the presented contexts of basic vocabulary in the corpus• search for the most universal vocabulary groups that preserve the structure of relations among themselves regardless of the corpus and model• the formation of a clearer picture of the set of mandatory properties that characterize a representative corpus of a language.
+Shavrina T. O. Conclusion
+In this paper, as a result of experiments conducted on popular word2vec models for Russian and English, it was shown that the most stable lexical groups, having most uniform contexts, independent from the corpus, are:• adjectives denoting the personal qualities of a person,• nationalities,• professions,• toponyms,• term adjectives.
+At the same time, the most unstable group are proper names—as the rarest and context-dependent.
+It has been established that words from Swadesh list (for English and Russian) are more resistant to a change of model and retain their closest neighbours regardless of the model much more often than words from the frequency vocabulary, as well as more often than random words.
+For the Russian language, an experiment was conducted to assess the residual number of semantic and ontological links between known pairs of words and the quality of models was estimated on the basis of this number of relations remaining in the model.
+All the data and code for this paper are available on github11—we welcome other authors to contribute word2vec metrics and evaluate their models.
+7. Acknowledgement
+The author is sincerely grateful to Olga Lyashevskaya and Serge Sharoff who prompted the author to think about the need for a different methodology for evaluating vector models, to Andrei Kutuzov for providing additional information about Rus
+Vectores models, and to Natalia Lukashevich for providing materials from the RuWord
+Net project.

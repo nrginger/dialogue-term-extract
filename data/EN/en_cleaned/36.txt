@@ -1,0 +1,121 @@
+Sentiment analysis (S
+A) in Russia has so far been focused on polarity detection in customer reviews: this, for instance, can be clearly seen from the content of the Russian Information Retrieval Seminar (ROMI
+P) competition on S
+A (
+Chetviorkin et al, 2012; Chetviorkin, Loukachevitch, 2013; Loukachevitch et al, 2015). However, marketing professionals are not the only potential “consumers” of automatic sentiment analysis techniques. Social scientists get increasingly interested in “online public opinion” on various social and political issues or events, as well as in predicting public reaction to those events with online sentiment data. At the moment, no Russian language sentiment lexicons or machine learning instruments are publicly available (exception: Chetviorkin
+Loukashevich dictionary of sentiment-bearing words with undefined polarity for consumer reviews in three domains). As a result, researchers in Russia can only rely on commercial services whose methodologies are never completely disclosed. This is often unacceptable for academic users.
+This work seeks to make a first step in the development of freely available resources for the Russian language S
+A We develop a domain-specific sentiment lexicon and check its quality against the marked-up collection of political and social post fragments written by top bloggers at the most popular Russian blog platform Live
+Journal. Our sentiment analysis task here is reduced to a relatively simple classification of texts into those with prevailing negative emotions and those with prevailing positive emotions, irrespectively of the object of these sentiments—that is, we do not solve a political support/oppose classification task.
+The rest of the paper is organized as follows. We first take a visit on the previous literature. Next, we explain our data collection, sentiment lexicon formation, and the markup procedure. Then, we report word and text assessment results and analyze the quality of the lexicon. Finally, we close the paper with a conclusion.
+An Opinion Word Lexicon and a Training Dataset for Russian Sentiment Analysis of Social Media 2. Related work
+S
+A can be conventionally divided into two main approaches (
+Pang, Lee, 2008; Medhat et al, 2014):(1) Lexicon-based approach (
+Taboada et al, 2011). It browses texts for certain words or phrases whose polarity has been predefined, often in relation to the domain of interest. Such thesauri are often supplemented with a set of rules, concerning the use of negation or booster words. Some of the well-known limitations of this approach are domain sensitivity and initial lexical insufficiency while its simplicity is one of its main advantages. (2) Machine learning approach. It uses marked-up text collections (training datasets), as well as feature lists, as information which a mathematical algorithm relies on while classifying other marked-up collections (test sets). Most of such algorithms optimize until the best possible fit with the test set markup is reached. After that, these algorithms are applied to non-marked-up (real world) collections. This more sophisticated approach most often yields better results, however, it is vulnerable for overfitting and requires large markedup corpora to produce high quality. In addition, these two approaches work differently for different tasks. For instance, SV
+M method for the task of binary classification of English-language movie reviews has yielded precision of 86.4% (
+Pang, Lee 2004), which is particularly high. At the same time, a lexicon-based approach has been successfully used for sentiment analysis of English language social media with Senti
+Strength system (
+Thelwall et al, 2010) (for more details see section 4). For the Russian language, during the ROMI
+P
+S
+A competition in 2012, the best results in consumer review classification tasks were obtained by machine learning approaches, however, in political news classification, lexicon-based approaches took the lead (
+Chetviorkin, Loukachevitch, 2013). The competition organizers attribute this latter success to the great diversity of topics (subdomains) occurring in the news and to the absence of a sufficient training set. These two conditions are met by user-generated social and political content from blogs and social media, the object of our interest, which is why we have chosen the lexicon-based approach as a first step. Two main methods of sentiment lexicon generation—manual and semi-automatic—are usually described in literature (
+Mohammad, Turney, 2013; Taboada et al, 2011). The manual method is a human markup of words into sentiment classes, which
+can be very reliable when qualified experts are used. Among limitations of this approach are its labor-intensive character (although not more intensive than in the creation of marked-up text collections) and the mentioned above initial insufficiency. The latter means that initially it is hard to think of all potentially sentiment-bearing words without additional methods of their extraction. This problem is addressed by semi-automatic methods of lexicon generation, notably by bootstrapping techniques (
+Thelen, Riloff, 2002; Godbole et al, 2007). They start with small lists of words with pre-defined polarity (seed words) and automatically extend them with a number of linguistic instruments. Those include measurement Koltsova O. Yu., Alexeeva S. V., Kolcov S. N.
+sematic association between words (
+Turney, 2002), synonym/antonym dictionaries (
+Hu, Liu, 2004) or general dictionaries or various pre-existing taxonomies (
+Esuli, Sebastiani, 2005). Sentiment lexicons developed for other languages are also applied (
+Mihalcea et al, 2007), although in our experience their usefulness is limited. Sentiment-bearing adverbs may be automatically derived from the respective seed adjectives (
+Taboada et al, 2011), which is a technique we have borrowed. Chetviorkin and Loukashevitch (2012) offer a methodology of detecting sentiment-bearing words (but not their polarity) for Russian language customer reviews: having manually annotated 18,362 words, they then train a classifier to detect more sentiment-bearing words and show a good quality.
+Thus, semi-automatic approaches may solve the problem of labor-intensiveness in manual lexicon construction only partially, while marked-up collections can be a solution only when they emerge without researchers’ effort (e.g. consumer reviews). Classification of other types of content in resource-scarce languages faces a cold start problem. In recent years, it is increasingly often addressed with crowdsourcing, both in S
+A (
+Hong et al, 2013) and other linguistic tasks (
+Mohammad, Turney, 2011). Crowdsourcing, as a technique relying on cheap or free labor of a large number of lay persons, brings about its own problems, notably the issue of insufficient quality resulting from the lack of qualification or motivation. Approaches to coping with this are still in their cradle. While Hong et al (2013) suggest to motivate volunteers through gamification, Hsueh et al (2009) develop a number of methods to detect and discard low-quality assessments. The gold standard in both cases is, however, expert opinion, which itself is prone to individual biases when it comes to the polarity of political texts. In addition, resource-scarce languages may be resource-scarce precisely because crowdsourcing services are unavailable either for technical or financial reasons. We address some of these problems further below.
+3. Data collection and markup
+3.1. Generating relevant text collection
+We extract our collection from our database that includes all posts by top 2,000 Live
+Journal bloggers for the period of one year (from March 2013 to March 2014). Earlier we found out that only about a third of those texts may be classified as political or social (
+Koltsova et al, 2014), hence, we face a problem of retrieving relevant texts. While Hsueh et al (2009) employ manual annotation, this is unfeasible for our collection of around 1.5 million texts, so we adopt a different approach (
+Koltsova, Shcherbak, 2015). We perform topic modeling, namely Latent Dirichlet Allocation with Gibbs sampling (
+Steyvers, Griffiths, 2004). It yields results akin to fuzzy clustering, by ascribing each text to each topic out of a predefined number, with a varying probability, based on word co-occurrence. All words are also ascribed to all topics with varying probabilities. When sorted by this probability they form lists that allow An Opinion Word Lexicon and a Training Dataset for Russian Sentiment Analysis of Social Media fast topic interpretation and labeling by humans. Our Topic
+Miner software (http://linis.hse.ru/soft-linis) was used for all topic modeling procedures.
+Our prior experience shows that the optimal number of topics depends most of all on the “size” of topics to be detected (smaller topics demand a larger number). A series of experiments (
+Bodrunova et al, 2013; Nikolenko et al, 2015) has lead us to choose the number of 300 for the task of retrieving social and political topics. 100 most relevant texts and 200 words of each topic were read by three annotators who have identified 104 social or political topics. The topic was considered relevant if two of the three annotators had chosen it. Intercoder agreement, as expressed by Krippendorf’s alpha, is 0.578. Texts with the probability higher than 0.1 in these 104 topics (mean probability = 0.3) were considered relevant and were included into the final working collection which comprised 70,710 posts.
+3.2. Selection of potentially sentiment-bearing words
+Based on the aforementioned literature, we employed a complex approach to the generation of a proto-lexicon for manual annotation (all details on this approach can be found in Alexeeva et al, 2015) comprising the following elements:•	 the list of high-frequency adjectives created by the Digital Society Lab (http://digsolab.ru) based on a large collection of Russian language texts from social media, and the list of adverbs automatically derived from the former list;•	 Chetviorkin
+Loukashevitch lexicon (
+Chetviorkin, Loukachevitch, 2012) (most of it later discarded);•	 Explanatory Dictionary of the Russian Language (
+Morkovkin, 2003);•	 Translation of the free English-language lexicon accompanying Senti
+Strength software (
+Thelwall et al, 2010);•	 200 most probable words for each of the relevant topics identified by annotators, which was aimed at detecting domain-specific words.
+We formed a lexicon of potentially sentiment-bearing words accepting only those that occurred in at least two of the listed sources. The lexicon comprised 9,539 units. However, only 7,546 of them occurred in the texts identified as social or political, and only they were later manually annotated.
+3.3. Data markup and evaluation of crowdsourcing results
+To avoid some pitfalls of crowdsourcing we have adopted, so to say, a sociological vision of it: our volunteers were not supposed to imitate experts; rather, their contribution was seen as similar to that of respondents in an opinion poll which cannot produce “wrong” answers. For that, we tried to make our sample of assessors as diverse as possible in terms of region, gender, and education. In total, 87 people from 16 cities took part in the assessment.
+Koltsova O. Yu., Alexeeva S. V., Kolcov S. N.
+worked with our website linis-crowd.org and assessed words’ sentiment as expressed in the texts in which they occurred, as well as the prevailing sentiment of the texts themselves, with a five-point scale, from -2 (strong negative), to +2 (strong positive). The texts were to help detect domain-specific word polarity.
+Each word was shown with three different texts, one at a time. Each post was cut down to one paragraph since long texts are more likely to include different sentiments. Once each word received three annotations, we went on with further annotation to get more than one assessment for each text. By the time of data analysis, we received 32,437 word annotations and the same number of text annotations (of them, 14 word annotations and 18 text annotations were discarded due to technical errors).
+In total, the assessors annotated 19,831 texts. Annotated word and text collections are available at http://linis-crowd.org/.
+Intercoder agreement in word assessment task (five-class), as expressed by Krippendorf’s α, has turned out to be 0.541. To compare, Hong et al (2013) report α as low as 0.11–0.19 for a three-class word sentiment annotation task. Taboada et al (2011: 289) obtain mean pairwise agreement (MP
+A) of 67.7% in a three-class task of word assessment in customer reviews (N
+B: α and MP
+A are not directly comparable). In text annotation task we obtained α=0.278 for all texts and 0.312 for the texts that got non-zero scores (five-class). Hsueh et al (2009) report MP
+A among Amazon Mechanical Turk annotators to be 35.3% for a four-class task of political blog posts annotation. Ku et al (2006) claim to reach a much higher agreement of 64.7% for four-class blog annotation and 41.2% for news annotation by specially selected assessors. Nevertheless, none of these levels is impressively high. In relation to this, Hsueh and colleagues (2009) point at the problem of political blogs’ ambiguity. We tend to agree that this ambiguity and general lack of societal consensus on the polarity of political issues, not (or at least not only) the lack of quality, cause the low agreement. Therefore, disagreeing individuals cannot be filtered out because they may reflect an important part of the public opinion spectrum. A milder measure of divergence of an annotator’s mean score from the global mean allows for a lot of disagreement on individual items. It shows that in our case only 0.5% of all annotations were made by individuals strongly deviating from the global mean.
+4. Results
+4.1. Word and text assessment results
+The majority of words (4,753) were annotated as neutral and therefore excluded from the lexicon. Table 1 shows that although negatively assessed words prevail, positive words have been also detected. At the same time, highly emotional words are quite a few.
+An Opinion Word Lexicon and a Training Dataset for Russian Sentiment Analysis of Social Media Mean score (rounded)
+Number of words with such score
+Share of words with such score, %−2 225 3−1 1,666 220 4,753 63
+1 853 11
+2 49 0.6
+We have also calculated the variance of scores for each word. Although, as mentioned above, disagreement not necessarily indicates low quality, the usefulness of highly disputable words for sentiment classification of texts is doubtful. Since distance between two neighboring values of scores is one, we have regarded all words with variance =>1 as candidates for being discarded. However, we have found only 153 such words, and most of them looked like sentiment-bearing. In some cases
+their polarity seemed quite obvious: e.g. gorgeous (сногсшибательный), filth (мерзость), long-suffering (многострадальный), first-class (первосортный), while others looked ambiguous: e.g. endless (бесконечный), quality (качество), and tolerance (терпимость). At this stage of the research they have been included in the lexicon with their mean scores (since their number is anyway negligibly small).
+The distribution of scores over texts is similar to that of words (see Table 2). Most texts were marked as neutral. Positive class size is obviously insufficient (it relates to the negative class as 1:4.6). The same unbalanced class structure in political blogs is also pointed at by Hsueh et al (2009).
+Mean score (rounded)
+Number of texts with such score
+Share of texts with such score−2 75 0.4−1 6,546 340 11,760 61
+1 1,427 7
+2 23 23
+4.2. Lexicon quality evaluation
+After neutral word filtering and leaving out the words that did not occur in the relevant texts, our lexicon comprised 2,753 items. We installed this lexicon into Senti
+Strength freeware for quality evaluation (
+Thelwall et al, 2010). All texts were lemmatized with My
+Stem2 (
+Segalovich, 2003) prior to S
+A. In the default mode, Senti
+Strength ascribes two sentiment scores to each text: one corresponds to the maximal negative Koltsova O. Yu., Alexeeva S. V., Kolcov S. N.
+score in the text, and the other—to the maximal positive score. If booster words occur before a given word, the absolute value of its score is increased. If negation is used, the sign of the score is reversed. The integrated text score was then calculated as the mean of the two Senti
+Strength scores.
+We defined lexicon quality as the share of correctly detected cases. We first calculated the absolute difference between the rounded mean assessors’ score of a given text and the rounded integrated score based on Senti
+Strength results. Then we obtained the share of the exact matches, as well as the share of ±1 class matches, as offered by Senti
+Strength developer (
+Thelwall et al, 2010). A ±1 class match means that if a text is ascribed to one of the two neighboring classes, the class is considered correctly predicted. In our case the share of ±1 class matches comprises 93.0% which is comparable to Thelwall’s results—96.9% (
+Thelwall et al, 2010). Prediction of the negative classes is better than that of the positive ones
+(95% and 59% for ‘−1’ and ‘−2’ classes vs. 82% and 19% for ‘+1’ and ‘+2’ classes). As it can also be seen, moderate classes are predicted much better than extreme classes, which are very small, while the dominant ‘0’ class yields 99.6% of ±1 class matches.
+S
+A systems for Russian use different evaluation techniques. The closest to our case was the ROMI
+P S
+A competition held on texts from political news and from blogs containing customer opinions (
+Chetviorkin, Loukachevitch, 2013). As sentiment lexicons are domain sensitive, it would be unfair to directly test our lexicon on the texts of a different type and to compare it to the approaches that were developed specially for this type. It would be equally unfair to apply the ROMI
+P methods to our collection. We therefore performed an indirect comparison of the results, using the same methodology of quality evaluation as ROMI
+P. Its best participants in a three-class blog classification task exceeded their baseline by 12–27% in terms of recall and by 5–29% in terms of precision. In news classification task the respective values were 23–28% and 43–49%. Having converted our data into three classes (positive, negative and neutral), we calculated our baseline, precision and recall (see Table 3).
+Recall (macro) Precision (macro)
+Our lexicon 0.43 0.44
+Baseline 0.33 0.18
+Difference 0.10 0.26
+The quality of our lexicon is comparable to that of the ROMI
+P approaches used in the blog classification task and is lower than the quality reached for news. It should be noted that class distribution of the ROMI
+P news collection was much more balanced (
+Panicheva, 2013) than that of both its blog collection and of our sample. This has made the task of exceeding the baseline more difficult in blog S
+A. In contrast to most ROMI
+P methods, our lexicon is publicly available and may be improved by the research community.
+An Opinion Word Lexicon and a Training Dataset for Russian Sentiment Analysis of Social Media 5. Conclusion and future research
+We have presented a lexicon for sentiment analysis of political and social Russian-language blogs. Its quality is comparable to the results obtained for Englishlanguage Twitter and for Russian-language blogs with customer opinions. We have also described the results of words and texts annotation based on a crowdsourcing approach. The lexicon and the annotated collection are publicly available at our website linis-crowd.org that allows further crowdsourcing of sentiment markup. This web resource is aimed at the widest research community. While the lexicon can be already used by social scientists, the collection may serve as a benchmark for testing new sentiment instruments. In particular, we are now using it for training machine learning S
+A algorithms that should help increase the quality of S
+A. We also plan to improve the lexicon by replicating our research on a collection of blog comments that are potentially much more emotional.
+6. Acknowledgements
+This work was supported by the Russian Foundation for Humanities, project ‘
+Development of a publicly available database and a crowdsourcing website for testing sentiment analysis instruments’, Grant No 14-04-1203.

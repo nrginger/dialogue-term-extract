@@ -1,0 +1,120 @@
+In recent years, there appeared a number of multi-lingual parallel corpora annotated with referential relations. One of such corpora is the PAW
+S treebank, which stands for Parallel Anaphoric Wall Street Journal. PAW
+S is a multi-lingual parallel treebank annotated with coreference relations , it is freely available for non-commercial research and educational purposes1. Its current release consists of texts in four languages: English (original) and translations into Czech, Russian and Polish.
+The aim of this paper is a contrastive analysis of how coreference relations are expressed in particular languages, based on the data from this treebank. The analysis is approached directly by contrasting aligned coreferential expressions in the languages, as it was already done for various expressions in English and Czech reflexive possessives in English, Czech and Russian .
+As the proposed treebank currently consists of three Slavic languages, it may serve as a valuable source for linguistic research on this language family. However, the translation factor should be taken into account. We deal with the translations from English into Slavic languages, so the direct calques between closely related Czech, Polish and Russian are not possible. On the other hand, translators treat the texts differently: Some of them stay closer to the texts, others try to primarily transfer the meaning, applying the mechanisms of explicitation and implicitation . Taking into account the relatively small dataset, the comparison of the resulting structures does not give statistically valuable results, although it gives a number of interesting observations.
+The main feature of PAW
+S is its manual annotation of coreferential relations in all included languages. As two of the languages (
+Czech and Polish) extensively use zero subjects, we could miss a lot of valuable information if we annotated coreference only 1 It can be downloaded from the Lindat/
+Clarin repository (http://hdl.handle.net/11234/ 1-2683).
+Analysis of coreferential expressions in PAW
+Son surface. Therefore, we adopted the style based on the theory of Functional Generative Description , first used for Czech in the Prague Dependency Treebank 2.0 for Czech and English in the Prague Czech
+English Dependency Treebank 2.0 . In this style, coreference and other anaphoric relations are annotated on the layer of deep syntax called tectogrammatical layer which consists of dependency trees containing both explicitly expressed as well as important elided content words. Presence of elided words makes it possible to represent coreferential relations for dropped pronouns as well as for elided noun phrases in some specific syntactic constructions.
+To facilitate the cross-lingual analysis, we equip the treebank with word alignment links between all nodes in all languages under analysis, including the reconstructed zeros. in all four languages, as visualized by the Tr
+Ed tool . Every sentence is represented as a dependency tree, with squared nodes representing the expressions elided on surface (cf. #
+Cor in the English sentence, #Pers
+Pron in the Czech and Polish sentences, etc.). The solid blue and red arrows correspond to coreferential links, word alignment is marked by dashed lines between the nodes in the trees (for clarity, the figure shows only alignment of coreferential expressions).
+2. Related work
+Our work relates to all multilingual parallel corpora with linguistic annotation, especially those for Slavic languages. Para
+Sol: A Parallel Corpus of Slavic and other languages an aligned corpus of translated and original belletristic texts featuring automatic morphosyntactic annotations. The latest version comprises more than 30 languages. Inter
+Corp another large multi-lingual parallel synchronic corpus with Czech as a pivot language, i.e. every text has its Czech version. It features part-of-speech tagging and lemmatization. The Polish
+Russian Parallel Corpus morphosyntactic description yet both sides differ as far as disambiguation is concerned (present in Polish, absent in Russian part). Paralela a translation-based Polish
+English corpus based on publicly available multilingual text collections and open-source parallel corpora featuring morphosyntactic annotation.
+PAW
+S is also one of a few corpora annotated with coreference relations. Its English and Czech part directly corresponds to a subset of the Prague Czech
+English Dependency Treebank 2.0 its coreferential extension the Russian part corresponds to the PCEDT
+R corpus , where the texts had been translated into Russian and aligned to Czech and English but they had not been annotated with coreferential relations there. Par
+Cor 1.0 belongs to this category. It is a German
+English parallel corpus consisting of more than 8,000 sentences. Unlike PAW
+S, which has annotation of full corerence chains, only pronominal coreference is annotated in Par
+Cor. On the other hand, texts in the corpus come from different genres, which is not the case in PAW
+S.
+Nedoluzhko A., Novák M., Ogrodniczuk M.3. Data and Basic Statistics
+The English texts originally come from the Wall Street Journal section of the Penn Treebank PT
+B. Czech, Russian and Polish texts have been translated by native speakers of the corresponding languages. English texts with their Czech translations have been extracted from Prague Czech
+English Dependency Treebank 2.0 . The data consist of documents located in the first half of the PCED
+T section 19 (wsj_1900 to wsj_1949). The basic statistics is shown in English Czech Russian Polish
+Documents 50
+Sentences 1,078
+Tokens 26,149 25,697 25,704 25,763
+All texts have been annotated with rich linguistic information on dependency trees. For Czech and English, the annotation was copied from the PCED
+T without any change. For Russian and Polish, the final tectogrammatical trees are slightly simplified and not always guaranteed to be correct, especially as concerns obligatory valency positions of predicates, semantic roles and some types of ellipses.24. Annotation of Coreference in PAW
+S
+The coreference relations in PAW
+S have been annotated manually according to the Prague coreference annotation style . The annotation covers the cases of grammatical (syntactic) and textual coreference.
+The grammatical coreference typically occurs within a single sentence: These are the cases of relative and reflexive pronouns, verbs of control etc. By textual coreference, arguments are not realized by grammatical means alone, but also via context. Within this type, pronominal coreference of personal, possessive and demonstrative pronouns is annotated, as well as coreference with textual ellipsis, nominal textual coreference in case when the anaphoric expression is a full nominal group, anaphoric reference of local and temporal adverbs (there, then etc.) and textual reference to multiple antecedents (so-called split antecedent).
+In case when an anaphoric expression refers endophorically to a discourse segment of more than one sentence, including the cases where the antecedent is understood by inference from a broader co-text, the special relation (reference to a segment) is annotated. This kind of relation has no explicitly marked antecedent.
+We also have a specifically marked link for exophora, which denotes that the referent is “out” of the co-text, i.e. it is only known from the actual situation. Exophoric reference is annotated in case of temporal and local deixis (this year, this country), deixis with pronominal adverbs (here), as well as exophoric reference to the whole text.
+2 See more details.
+Analysis of coreferential expressions in PAWS
+Table 2 shows the statistics of coreference-related annotation in PAW
+S.
+English Czech Russian Polish
+Tectogrammatical nodes 18,611 20,696 18,874 18,541
+Coreferring nodes 4,210 4,403 4,254 3,371grammatical coreference 729 528 749 294textual pron. coref. expressed 544 213 493 206textual pron. coref. elided 76 643 32 243textual nominal coreference 1,361 1,496 1,610 1,568first mentions 1,277 1,330 1,243 979reference to split antecedents 149 149 91 65reference to a segment 28 23 16 12exophora 46 21 20 45. Contrastive analysis of coreference relations statistics
+The brief inspection of Table 2 shows that there are significant differences in the numbers of relations between the languages under analysis. Some of these differences may be caused by the simplification of the tectogrammatical annotation for Polish, and partly also for Russian. For example, we observe that the number of coreferring nodes in Polish is smaller than in the three remaining languages. The reason is that we did not reconstruct all unexpressed valency positions for Polish (e.g. we didn’t insert elided Addressee for the verbs of speech (such as say, claim, contend, etc.) which may be connected by coreference relations. Such relations are rather formal, but technically they are missing in Polish, thus reducing the total of coreferring nodes.
+Other differences may reflect the varieties in the grammatical structures or different grammatical tendencies in the languages.
+For example, in Table 2, we observe that the number of tectogrammatical nodes in Czech is larger than in the three remaining languages. This could be caused by the translator’s style, in this case it would be the tendency of the Czech translator to larger explicitation . However, the manual analysis of the texts shows a strong tendency of Czech to use finite subordinated clauses instead of non-finite infinitive or gerundial clauses in English, Polish and Russian. Finite constructions are natually longer than infinite ones, so the larger number of tectogrammatiacl nodes in Czech could be also explained by this reason. Consider Example 1, where, the gerundial clause in English (continuing a rebound from steep year-ago losses) is naturally translated into infinite clauses in Polish and Russian, but it is transferred to a finite subordinate clause (čímž pokračuje v zotavení z velkých loňských ztrát) in Czech. Both in Polish and Russian, the translation with a finite subordinate clause is also possible, but, as the data show, this is not often the case: On the one hand, infinite constructions are fully acceptable in these two languages, on the other hand, gerundial constructions in English naturally trigger the similar ones in the target language. As for Czech, an infinite clause is not acceptable in this case.
+Nedoluzhko A., Novák M., Ogrodniczuk M.
+Example 1:E
+N: Morrison Knudsen Corp. posted third-quarter net income of $7.9 million, continuing a rebound from steep year-ago losses.
+P
+L: Morrison Knudsen Corp. zaksięgował dochód netto za trzeci kwartał równy 7,9 milionom dolarów, kontynuując odbicie po znacznych zeszłorocznych
+stratach.
+C
+Z: Společnost Morrison Knudsen Corp. vykázala čistý zisk za třetí čtvrtletí ve výši 7.9 miliónu dolarů, čímž pokračuje v zotavení z velkých loňských ztrát.
+R
+U: Корпорация Morrison Knudsen опубликовала данные о чистых доходах, составивших $7,9 млн или 69 центов за акцию, в третьем квартале, продолжая восстанавливаться после больших прошлогодних убытков.
+The prevailing personal subordinate clauses in polypredicative constructions with (both expressed and unexpressed) pronouns in Czech also correlates with the biggest number of coreferring nodes in Czech, as follows from the statistics of the PAW
+S coreference-related annotation in The tendency to impersonal constructions in Polish and Russian is very strong. In some cases, they even tend to be grammaticalized, as in Example 2, where the impersonal gerundial constructions based / bazując / исходя из function more like secondary prepositions3. In this example, the grammatical coreference of the first argument of the gerundial form is problematic, and both in Polish and Russian the use of a gerundial form conflicts grammatical rules of these languages, saying that, e.g. for Russian, an animate subject should be the prototypical coreferential antecedent for the gerund. This conflict is one of the arguments of grammaticalization.
+Example 2:E
+N: Based on the number of Mesa shares , the proposed takeover would have a value of about $15.3 million.
+P
+L: Bazując na pozostałej liczbie akcji Mesy przejęcie osiągnęłoby wartość około 15,3 milionów dolarów.
+R
+U: Запланированное поглощение, исходя из количества акций Mesa бы стоимость почти $15,3 млн.
+Another interesting fact following from the coreference annotation statistics in Table 2 is the highest number of grammatical coreference relations in Russian4, which can be partially explained by a large number of infinitive constructions, where unexpressed subjects are controlled by the actants of their governing control verbs 3 In the given example, the gerundial forms in Polish (bazując) and Russian (исходя из) are
+very close to the English one (based). However, the syntactic construction is slightly different, so it should not be considered as a calcue.
+4 In Polish, on the contrary, it is very small. The reason for the small number in Polish is the
+missing annotation of the control verbs coreference.
+Analysis of coreferential expressions in PAW
+Sby means of grammatical coreference. In Example 3, the infinitive clause to employ a financial consultant to advise them is translated with an infinitive clause into Russian, as a deverbative construction into Polish and as a subordinate clause into Czech:
+Example 3:E
+N: In response to the specific offer, Gary Risley, Mesa vice president, said management will ask directors to employ a financial consultant to advise them.
+P
+L: W odpowiedzi na szczegółową ofertę, Gary Risley, zastępca prezesa Mesy, powiedział, że zarząd poprosi dyrektorów o zatrudnienie konsultanta finansowego w celach doradczych.
+C
+Z: Gary Risley, vicepresident společnosti Mesa, uvedl, že jako odpověď na konkrétní nabídku požádá vedení společnosti představenstvo, aby použilo služeb finančního poradce.
+R
+U: В ответ на конкретное предложение Гэри Рисли, вице-президент Mesa, сказал, что руководство попросит директоров нанять финансового советника для получения консультации.
+Interestingly, in Example 3, the infinitive construction is the only possible one in the Russian translation. In Polish, the deverbative construction (o zatrudnienie) can be changed to the infinitive one or to a finite subordinate clause. In Czech, the finite subordinate clause (aby použilo služeb finančního poradce) can be changed to either an infinitive or a deverbative clause.
+The difference in corresponding numbers of coreferential nodes in Table 2 is also influenced by the frequent use of deverbatives in translations in all three Slavic languages. See Example 4, where the original finite clause is translated to deverbative clauses into Polish, Czech and Russian.5
+Example 4:E
+N: Last week, Mesa rejected a general proposal from States
+West that the two carriers combine.
+C
+Z: Minulý týden společnost Mesa odmítla základní nabídku společnosti States
+West na sloučení obou přepravců.
+P
+L: W zeszłym tygodniu Mesa odrzuciła ogólną propozycję States
+West dotyczącą połączenia obu przewoźników.
+R
+U: На прошлой неделе Mesa отклонила общее предложение от States
+West об объединении двух перевозчиков.
+5 In this case, this is rather a technical issue pointing on the fact that coreference annotation
+of the arguments of deverbatives is a very complicated task which was not completed consistently for none of the languages under analysis.
+Nedoluzhko A., Novák M., Ogrodniczuk M.
+Finally, the point of explicitly expressed textual pronominal coreference is expecially interesting, as it shows the different degree of pro-drop quialities of English, Czech, Polish and Russian. As observed from Table 2, explicitly expressed textual pronominal coreference is most frequent in English (544 cases). Indeed, in English, there is no possibility for subject omission, whereas for Slavic languages this often happens. However, the subject can be omitted in the analysed languages to a different degree. Czech is a highly pro-drop language, where anaphoric use of personal pronouns in the subject position is untypical. On the other hand, Polish and Russian show substantially lower degree of pro-drop qualities, Polish being less pro-drop than Czech, but significantly more pro-drop than Russian. Our numbers here correspond to the analysis in , where the distribution of pro-drop qualities in these languages is the same. The big number of elided coreferential nodes in Czech (643 relations) also supports this statement.
+6. Translation factor
+The comparison of the parallel sentences in the languages under analysis shows that in many cases the choice of a language expression is not given by the grammatical structure of the corresponding language, but it is triggered by the syntactic structure of the original English sentence. This factor is very important when analysing translated texts and it may potentially explain many statistical differencies. For example, Table 2 gives evidence that coreference is more frequently realized by nominal groups in Russian than in the other languages (1,610 cases). This could be a translation effect that should be however proved by comparison with other translations. The same is true about the difference in the number of tectogrammatical nodes between the languages.
+Moreover, the specifity of the texts (mostly business-focused news) causes a number of calcues which make the analysis on the textual level rather problematic.
+7. Conclusion
+In this work, we presented the basic statistics of coreference-related annotation in the PAW
+S treebank, a multi-lingual parallel treebank with manual annotation of coreferential relations in English, Czech, Russian and Polish. We proposed explanations to some differences between the languages under analysis, as concerns the number of tectogrammatical nodes, coreferring expressions, grammatical coreference or pronouns. The basic reasons for these differences are (i) in the preferrable use of finite constructions in Czech and infinite constructions in English, Russian and Polish; (ii) in the different pro-drop qualities of the languages. Furthermore, the translation factor is crusial, especially given the relatively small number of the annotated sentences.
+8. Acknowledgements
+The authors gratefully acknowledge support from the Grant Agency of the Czech Republic (project GA16-05394
+S) and the Polish National Science Centre (contract number 2014/15/B/H
+S2/03435). The research reported in the present contribution Analysis of coreferential expressions in PAW
+Shas been using language resources developed, stored and distributed by the LINDAT/CLARI
+N project of the Ministry of Education, Youth and Sports of the Czech Republic (project L
+M2015071).

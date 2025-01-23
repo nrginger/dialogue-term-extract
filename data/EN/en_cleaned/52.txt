@@ -1,0 +1,127 @@
+Knowing relationships between words such as a hypernym (more general word) or hyponym (more specific word) can be useful in various tasks of natural language processing such as question answering, sentiment analysis, textual entailment, etc. Lexical relationships can be found in lexical-semantic resources such as Word
+Net , Babel
+Net others. However, development and maintenance of large semantic resources is a very difficult, time-consuming activity. Besides, such resources are never comprehensive: some relations significant for a specific domain or a task can be absent in the used resource. Numerous studies have been devoted to the problem of hypernym detection from text collections or definitions in conventional vocabularies , , , . The researchers utilized such methods as the use of linguistic patterns, unsupervised distributional approaches, machine learning, and combinations of several methods.
+Combined Approach to Hypernym Detection for Thesaurus Enrichment
+For evaluation, the task of hypernym detection can be formulated as a two-class classification of relations. Some approaches attempted to evaluate the whole structure of the taxonomy created on the basis of extracted hypenyms , . The organizers of the Sem
+Eval 2018 hypernym detection task the task of hypernym detection as a ranking problem when correct hypernyms had to be located closer to the top of the hypernym candidate list.
+In 2020, the first evaluation for extracting hypernyms for Russian RUSS
+E-2020 Taxonomy Enrichment was organized . The task was to provide the most appropriate hypernym synsets from the published version of RuWord
+Net new words. Previously, a new, extended version of RuWord
+Net had been prepared manually but not published. It was proposed to use extended RuWord
+Net as a gold standard in evaluation of hypernym extraction.
+The organizers provided a news collection to participants ensuring that the practically all novel words under consideration occurred in the collection with frequency more than 50, but no restrictions were placed on the use of additional resources. Solving such a task, the participants could consider two possible approaches in utilizing data. The first approach is to use various available resources (text collections, vocabulary definitions, pre-trained embeddings) to detect hypernym synsets for a give word. The second approach can be to use mainly the provided corpus trying to extract all possible relations from it. In the current paper, we consider the second approach: in our experiments we used only the given text collection. We supposed the following practical scenario: for tuning a general resource to a specific domain, only a specialized text collection can be given, other types of available data can be too general or irrelevant to the domain.
+We consider a combined approach to hypernym extraction from a given text collection including distributional representation of words and phrases, patterns, accounting named entities, which have to be distinguished from ordinary words, and the BER
+T model for hypernym prediction.
+2. Related Work
+Approaches for hypernym extraction from texts can be subdivided into: patternbased (linguistic) approaches, unsupervised distributional approaches, machine learning methods, and combined approaches.
+Linguistic approaches are based on obtaining relations between words revealing their joint occurrences in a certain set of patterns . The use of these methods presupposes that if some specified context is detected between entities X and Y, then, there is a given relationship between these entities. For the taxonomic relationship, such a context can be the context “
+X is a kind of Y”. The pattern-based approach is highly accurate and simple, and can be applied to various types of relationships. Later pattern approaches exploited syntactic structures , . In , the authors trained the LST
+M neural network to generate embeddings for syntactic paths for hypernym extraction. In Russian, Sabirova and Lukanin patterns for hypernym extraction from Russian texts.
+Distributional approaches are based on vector representations of words. Several methods were used to represent term relationships as a combination of each Tikhomirov M. M., Loukachevitch N. V., Parkhomenko E. A. term’s embedding vector: concatenation , difference , and dot-product. The best results using distributional methods were achieved with supervised approaches. Supervised projection learning models are trained to project the embedding of the target word such that its projection is close to that of its hypernym , . Fu et al. also to learn multiple projection matrices representing different kinds of hypernymy relationships. Using this approach, Yamane et al. a model that jointly learns word clusters and corresponding projection matrices.
+However, Levy et al. that the results achieved by supervised distributional models are mainly due to so-called “lexical memorization phenomenon”, that is the models learn that y is a prototypical hypernym regardless of x. For example, if a classifier obtains many positive examples with the word y = animal, it may learn that anything that appears with y = animal should generate the positive answer. Based on these results, Camacho
+Collados et al. to change the evaluation scheme of hypernym extraction from two-class classification to the ranking scheme.
+The advantages of different methods are combined in incremental taxonomy generation , , in which all of the above characteristics (occurrence in templates, similarities in different types of contexts (linear and syntactic, local and global), joint occurrence) serve as features for a classifier that decides to join the next word to the created taxonomy.
+The CRI
+M system, the winner of the Sem
+Eval 2018 Hypernym Discovery task, exploited the combined approach to hypernym recognition . Their approach comprised hypernym patterns, co-hyponym patterns, and supervised projection learning. Held and Habash repeated and partially improved the results of the CRI
+M system using a significantly simpler combined method based on hypernym patterns and distributional similarity of a term from the test collection to the most similar term from the training collection.
+3. Data and Task
+The task of RUSS
+E-2020 taxonomy enrichment is to find the closest synset from the published RuWord
+Net version for a novel word. The gold standard data are taken from prepared but not currently published extended RuWord
+Net version. Only the closest hypernym from RuWord
+Net for a given word or its direct hypernyms are considered as correct answers.
+The task comprises nouns and verbs. There were 762 nouns and 175 verbs in the public set for developing and tuning algorithms, and 1525 nouns and 350 verbs in the private (test) data. The evaluation was organized in the Coda
+Lab evaluation system1. Besides, the organizers provided the training dataset constructed on published RuWord
+Net, a news collection of 2017 (further, News2017 corpus) gathered from more than 1000 news sources, in which new words under evaluation mainly occurred at least 50 times, and some other resources.
+This news text collection consists of 8 million articles, a total of 2.2 billion tokens. Statistics of the target words can be seen in 1 https://competitions.codalab.org/competitions/22168
+https://competitions.codalab.org/competitions/22168
+Combined Approach to Hypernym Detection for Thesaurus Enrichmentcorpus provides more than 50 occurrence for almost all words in the datasets. Therefore it is possible to attempt to obtain hypernyms for words in the current task from this specific corpus without using additional sources of candidates.
+median max freq < 50public nouns 188.5 133,683 10public verbs 128.5 16,657 7private nouns 183.0 140,173 28private verbs 140.5 45,807 14
+Participating system have to generate a list of the most relevant hypernym synsets for novel words. The top 10 synsets are considered as answers. The main measure is mean average precision MA
+P, which is equal to 1 as maximum when all the correct answers are at the top of the candidate list. The second used measure is MR
+R, which is calculated on the basis of the first correct answer.
+4. Method for Hypernym Extraction
+Our method of hypernym extraction is intended to extract maximum information from a given text collection, in the current case from the News2017 text collection provided by the organizers. The method comprises the following components:• distributional (vector) representation of words and phrases under analysis,• linguistic patterns for hypernyms and co-hyponyms,• special processing of named entities to remove their contexts from consideration,• application of BER
+T in a supervised manner to approve hypernym candidates.
+4.1. Word embeddings
+In this study word embeddings were trained only on the News2017 corpus. As a training method we used not word2vec, but the traditional approach in distributional semantics, which includes the following steps:1. The matrix of co-occurrence frequencies of words in the corpus is calculated,
+2. Scores of word co-occurrences are recalculated using the positive point-wise
+mutual information (PPM
+I) measure ,3. SV
+D method over PPM
+I matrix is applied, which allows reducing the dimen
+sion of the matrix from the vocabulary size to a chosen smaller value,4. When processing the corpus, phrases from the thesaurus were merged into
+united tokens, for example rice_grain. The models were calculated with 600 vector size and different window sizes: 1, 3, 5.
+The PPM
+I + SV
+D approach demonstrated comparable quality with word2vec in a number of experiments showed better results in our internal studies.
+Tikhomirov M. M., Loukachevitch N. V., Parkhomenko E. A. For all target words, top 100 word candidates from each model were considered, based on cosine similarity. Also, words must be present in the thesaurus. Then, the list of candidate synsets was formed by extracting hypernyms for synsets and hypernyms of hypernyms (with penalty weight) corresponding to candidate words. For each candidate synset, the average cosine similarity of the initial words (cos_sim_list) and the number of times the algorithm returned this synset (count) were calculated; the candidates were ranked by the following formula: = mean(cos_sim_list) ⋅ log2(1 + count) ⋅ α, (1)where α is equal to 0.3, if estimated synset is hypernym of hypernym.
+4.2. Excluding Named Entity Contexts
+It was found in previous works that named entities can include general words and in such a way to distort the contexts of ordinary words , . For example, Loukachevitch that Russian word mistral, which means “a strong, cold, northwesterly wind. in the northern Mediterranean” and is linked to hypernym wind in RuWord
+Net, but in current news articles in Russian, this word mainly means the class of French helicopter carriers. We assumed that the RUSS
+E evaluation dataset contains mainly ordinary words and decided to train word embeddings excluding named entity contexts from consideration. Examples of entries in the RUSS
+E dataset that coincide with named entities are as follows: trepak (dance vs. family name), chub (strand of hair vs. family name), ryabinovka (alcoholic beverage vs. names of villages), and others.
+Currently, we applied the following simple preprocessing procedure: if a word occurrence is capitalized and it is not the first word in a sentence then such an occurrence obtains a special prefix, which means that the occurrence and its contexts are excluded from calculating embeddings.
+4.3. Use of Patterns
+In addition to the basic method, two kinds of patterns were extracted and used. All patterns were applied to the pairs of the target word and all similar words extracted by a distributional model. The appearance of candidates in the patterns increases the similarity weight of the candidate words to the target word, because pattern matching is an additional evidence of semantic similarity. For example, it is examined whether pattern matching exist for the target word peony and the candidate word rose. If it exists, then it is evidence, that rose and peony can be synonyms or co-hyponyms.
+All patterns were automatically extracted using regular expressions on the News2017 corpus. Two types of patterns were considered:1. co-hyponym patterns, whose successful matching leads to an increase in the
+weight of hypernym synsets for words from top most similar words,2. synonym-hypernym patterns, whose successful matching leads to both:
+an increase in the weight of hypernym synset and an additional inclusion in the candidate list of a direct synset of a candidate word, but not just its hypernym as in the base model.
+Combined Approach to Hypernym Detection for Thesaurus Enrichment
+The following are sample patterns (splitted by ; character), where X is a target word, Y is a candidate word, and W is any word.
+• Examples of co-hyponym patterns: X , W , Y; Y, W, X; Y , X; X, Y; Y and X; X and Y; Y or X; X or Y;• Examples of synonym—hypernym patterns: X ( Y; Y ( X; Y—
+X; X—
+Y; X—is Y; Y—is X; X , W and another Y; X and W—is type of Y.
+Examples of co-hyponyms extracted with the described patterns for word icecream (with frequencies in the corpus) are as follows: chocolate (145), sweets (106), candy (93), cookie (69), yogurt (61), .. Examples of pattern-based hypernyms for icecream include the following words: delicacy (70), dessert (21), cake (13), sweets (10), ...
+When applying a co-hyponym pattern, the frequency of being in one sentence for target and candidate words, is calculated. The modified formula is as follows: upd_pattern_score = base_score · (1 + shp_hit) · (1 + 2 · chp_countos_count+ 2) (2)where shp_hit is equal to 1 if the synonym-hypernym pattern was matched, chp_count is a count of times when co-hyponym pattern was matched, and os_count is a count when words were in one sentence.
+In addition to modifying the formula, direct synsets (synsets of the most similar words) were also added as candidates, when the synonym-hypernym pattern was matched.
+4.4. Use of BER
+T to Assess Hypernym Candidate
+A neural network architecture such as BER
+T be used for the hypernym prediction task . BER
+T is a transformer encoder , and one of its key features is that it is trained on a large amount of unlabeled data. Аfter this procedure, the model shows strong results on a wide range of specific tasks.
+For the hypernym prediction task, the following approach was implemented:1. The binary classification problem was considered;
+2. The BER
+T input was a pair of words with special characters:
+; word2 can be a multi-word expression. If word2 is a hypernym of word1, then the label is 1, and 0 otherwise;3. The training data was created from RuWord
+Net. For each positive example,
+three negative examples were added. The negative examples were uniformly sampled from: random synsets, hypernyms of hypernyms, hyponyms and hyponyms of hypernyms of word1.
+The model was fine-tuned on 5 epochs with 2e-4 learning rate for the classification layer and 2e-5 for the BER
+T layers. The training dataset consisted of 1.5 million examples.
+Further, for each candidate synset, its probability of being a hypernym and the maximum probability of its hyponyms to be a hypernym to the target word were calculated. When calculating the probability of synset, the probabilities of all synset entries were calculated, and then averaged. The resulting BER
+T probability is: bert_prob = 0.6 ⋅ syn_bert_prob + 0.4 ⋅ max_hyp_syn_bert_prob (3)
+Tikhomirov M. M., Loukachevitch N. V., Parkhomenko E. A. And then, the final modified formula for ranking is as follows: = upd_pattern_score ⋅ (1 + bert_prob) (4)
+For example, for the word agnostic there is a hypernym synset with name follower. In this case, BER
+T probability will be 0.99, model predicts such a probability directly for a given synset.
+5. Results
+In this competition, for each target word, it was necessary to provide a list of 10 candidate hypernym synsets, ranked from more probable to less probable. To assess the quality of the models, the mean average precision (MA
+P) and mean reciprocal rank (MR
+R) metrics were used.
+public privateMA
+P MR
+R MA
+P MR
+Rbase 0.446 0.478 0.440 0.474base-ne 0.449 0.482 0.444 0.478base-ne, co-hyponym patterns 0.473 0.509 0.467 0.502base-ne, hypernym patterns 0.467 0.505 0.456 0.494base-ne, both patterns 0.482 0.522 0.481 0.520base-ne, bert 0.471 0.507 0.455 0.490base-ne, bert, co-hyponym patterns 0.494 0.533 0.475 0.509base-ne, bert, hypernym patterns 0.484 0.524 0.470 0.508base-ne, bert, both patterns 0.509 0.550 0.493 0.531public privateMA
+P MR
+R MA
+P MR
+Rbase 0.254 0.295 0.255 0.291base, co-hyponym patterns 0.285 0.327 0.246 0.286base, hypernym patterns 0.260 0.303 0.254 0.290base, both patterns 0.288 0.332 0.244 0.284base, bert 0.277 0.322 0.265 0.305base, bert, co-hyponym patterns 0.314 0.358 0.259 0.302base, bert, hypernym patterns 0.288 0.334 0.264 0.304base, bert, both patterns 0.324 0.371 0.254 0.296
+For verbs and nouns, slightly different parameters were applied. For nouns, embeddings with only window 1 were considered; for verbs, embeddings with windows 1, 3, and 5 were combined. In case when named entity contexts were excluded, the
+Combined Approach to Hypernym Detection for Thesaurus Enrichmentresults of the models with and without this preprocessing were also combined by averaging of similarities. The configuration called base refers to the basic approach described in section 4.1, and the base-ne configuration refers to base configuration with names excluding, described in section 4.2. Table 2 describes the results of the proposed methods for nouns, and Table 3 contains the results for verbs.
+The following conclusions can be drawn from the results:• Exclusion of named entity contexts slightly improves the results;• In all cases, except for private verbs, matching patterns significantly improves the results. The problem with private verbs will be investigated later;• Using BER
+T in the described way always improves the results.
+The described approach obtained the fourth result on the noun private set without any additional vocabulary definitions, used by the first two approaches (according to the provided descriptions) and is very close to the results of the third place approach. In practice, in specific domains external vocabularies can be irrelevant to the domain and provided text collection. The use of the combined method improved the hypernym predictions for nouns by more than 10% in the public and private sets if compared to the basic model.
+For verbs, the improvement on the public set was also significant (more than 25%) but in the private dataset the improvement was not reproduced.
+6. Conclusion
+The paper describes a combined approach to the hypernym detection task. The approach combines the following techniques: distributional semantics, rule-based patterns, and modern neural. Hypernyms are extracted only from the text collection provided by the organizers. This reflects the real situation when it is necessary to expand the existing thesaurus to a new specific domain.
+The described approach obtained the fourth result on the private nouns track, with 0.493 MA
+P and 0.531 MR
+R. It was found that the use of the described patterns can significantly improve the results. Also, using the BER
+T model as an additional factor always helps to improve the results. The exclusion of name contexts for target words also helps to improve the results of the system, by improving the results on specific words.
+As further research, it is necessary to more deeply explore the possibilities of using BER
+T for this task. In addition, it is planned to investigate the unstable behavior of patterns on verbs. Also, the behavior of the system strongly depends on the algorithm for obtaining candidates, so it is planned to explore various ways of doing this.
+7. Acknowledgements
+The research is carried out using the equipment of the shared research facilities of HP
+C computing resources at Lomonosov Moscow State University. The participation of M. Tikhomirov in the reported study was funded by RFB
+R, project number 19-37-90119. The work of N. Loukachevitch concerning formulation of main principles of work with Tikhomirov M. M., Loukachevitch N. V., Parkhomenko E. A. a text collection, accounting named entities, and patterns is funded by Russian Science Foundation, research project № 19-71-10056, financed through Kazan Federal University.

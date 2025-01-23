@@ -1,0 +1,245 @@
+A machine learning model, which just learns by heart the train examples, is hardly adequate for most purposes. Good model should rather generalize across these examples. Regularization is one of the most useful tricks, which forces models to generalize better. However, simple regularization of the model’s weights usually just reduces overfitting on the train data.
+In the last few years, multi-task learning with auxiliary losses became increasingly popular as a method to improve generalization achieved by the model. In this scenario, additional objectives are used during the model training. Consequently, the model’s parameters are shared between different tasks and the model learns more general representations from the train dataset.
+Good features are even more important for the machine learning models. In NL
+P tasks meaningful word representations can become such features. In most cases, we have an access to the vast unlabelled data (mostly crawled from the Internet) and by several orders smaller amount of labelled data, specific to our task. The word2vec and similar frameworks give an opportunity to pretrain word vectors on the unlabelled data. Such pretrained vectors usually improve the performance of most NL
+P models.
+Another way to obtain the words’ vectors is to use their character-level representations. Such models are usually smaller than the models with word embeddings and they do not suffer from an inability to build vector for an out-of-vocabulary word.
+In this work, we discuss the ways to improve the quality of part-of-speech tagging using the auxiliary losses and propose a new variant of character-level word representations.
+Improving Part-of-speech Tagging Via Multi-task Learning and Character-level Word Representations2. Baseline Model
+Part-of-speech (PO
+S) tagging is the task of assigning each word in the given text an appropriate grammatical value. Various tasks in the field of natural language processing are using the results of PO
+S tagging. Practically all modern PO
+S-taggers are based on recurrent neural networks (RN
+N). The main reason is the ability of RN
+Ns to handle long context dependencies. It means that in contrast to more classic models where the prediction is conditioned on the narrow context window the prediction made by the RN
+Ns is based on the whole sentence.
+In case of sequence labelling problems, even more useful is the usage of Bidirectional LST
+M (BiLST
+M): it outputs just a concatenation of forward and backward passes of ordinary LST
+Ms. BiLST
+Ms help to use both left and right contexts information, which is usually essential for the correct analysis.
+Many works showed the superiority of BiLST
+Ms for sequence labelling tasks. Therefore, we considered the architecture of neural network with BiLST
+M in the core as our baseline. The purpose of our work was to build the best possible set of features (words’ representations) for the BiLST
+M and to design better objective to improve the learning process.
+3. Word Representations
+3.1. Word
+Level Representation
+Frameworks like Glo
+Ve or word2vec can build an embedding matrix with meaningful word vectors in each row. Therefore, we can map a word to the corresponding one-hot-encoding vector in very high dimensional space and multiple the embedding matrix by this vector to obtain a low-dimensional dense representation of the word.
+However, the embedding matrices are typically very big: for example, the 300-dimensional embeddings of 100 thousand words have 30 million parameters. Thus, the model’s whole size becomes sometimes inappropriately large.
+Another problem with the word-level representations is the fixed dictionary. We are able to deal only with the words from the embeddings’ vocabulary while all other words are mapped into a single unknown word vector. Apparently, we cannot store vectors for every single word: besides some rare and novel words, there always can be found some misspelt words in most texts.
+3.2. Character
+Level Representation
+In order to achieve an open vocabulary and have an ability to process misspellings, one can represent word not as a single number (or one-hot-encoding vector) but as a sequence of its letters. Then some character-level function should be applied to the sequence. This function has to map an arbitrary-length sequence to a fixed dimensional vector, which can be treated as the word’s representation.
+Anastasyev D. G., Gusev I. O., Indenbom E. M. The most common way to deal with such sequences of letters is to use BiLST
+M. In this case, we need only the last states from both forward and backward LST
+Ms (
+Fig. 1). Such method was proven to be useful for PO
+S-tagging by Ling (
+Ling, 2015).
+We propose our own variant of leveraging the letters’ sequence information. BiLST
+M works much slower than a simple lookup in the embedding matrix. In order to increase the speed of computation, we are using a feedforward model (
+Char F
+F): two dense layers are applied over the concatenation of character embeddings (
+Fig. 3). Such representation can be computed much faster than the previous variant, though obviously slower than word embeddings. Moreover, the experiments showed that this representation can be trained much faster (in terms of the number of epochs) and with a smaller amount of the training data.
+character-level word representation
+Improving Part-of-speech Tagging Via Multi-task Learning and Character-level Word Representations
+The apparent disadvantage of such layer is the necessity to represent a word as a fixed length sequence. However, in our experiments, we found out that 98% of all words in the train set have a length less or equal to 11. Therefore, we added zeropadding in front of all words that are shorter than 11 symbols and cut the head of all words which are longer. Such trade-off between the speed and quality of the model and the loss of information encoded in the longer words seems reasonable to us.
+3.3. Word Representations Pretraining
+The character-level representations have much fewer parameters than the word embeddings matrices so they can be trained from scratch with the whole model. However, in this case, we are likely to suffer from overfitting. To improve the representations and utilise more unlabelled data it is possible to train such representations in the same way as the embeddings in word2vec. The disadvantage of such approach is considerably slower training process.
+In order to achieve a better speed of training, we propose the following method. We are aiming to predict the word index by its representation obtained by the described variants of the character-level function. Therefore, the network consists of two parts: some character-level function, e.g. BiLST
+M or the feedforward model, and the output layer with softmax activation, which predicts the word index. To ensure that the word vector predicted by such layer is meaningful we initialize the output layer by pretrained word embeddings. We used 300-dimensional Glo
+Ve vectors for this task so we added an additional dense layer, which mapped the word vector from the character-level function space to the 300-dimensional space (
+Fig. 3).
+Anastasyev D. G., Gusev I. O., Indenbom E. M. Mathematically the process can be seen as an optimization of the function 𝐹 from word characters 𝑤𝑤� = 𝑤𝑤1𝑤𝑤2 …𝑤𝑤𝑛𝑛 exp (𝑤𝑤𝑖𝑖𝑇𝑇𝐹𝐹(𝑤𝑤�𝑗𝑗))∑ exp (𝑤𝑤𝑘𝑘𝑇𝑇𝐹𝐹(𝑤𝑤�𝑗𝑗))𝑘𝑘→ �1, 𝑖𝑖 = 𝑗𝑗0, 𝑖𝑖 ≠ 𝑗𝑗
+∙ 10−5
+2.84 ∙ 10−5 + 8.75 ∙ 10−5
+≈ 0.26 300-dimensional space:𝑤𝑤� = 𝑤𝑤1𝑤𝑤2 …𝑤𝑤𝑛𝑛 exp (𝑤𝑤𝑖𝑖𝑇𝑇𝐹𝐹(𝑤𝑤�𝑗𝑗))∑ exp (𝑤𝑤𝑘𝑘𝑇𝑇𝐹𝐹(𝑤𝑤�𝑗𝑗))𝑘𝑘→ �1, 𝑖𝑖 = 𝑗𝑗0, 𝑖𝑖 ≠ 𝑗𝑗
+∙ 10−5
+2.84 ∙ 10−5 + 8.75 ∙ 10−5
+≈ 0.26 As a result, the representation of the word obtained by the function 𝐹 should be similar by cosine distance to the appropriate Glo
+Ve-vector and less similar to all other vectors.
+During the designed pretraining process, we have to iterate through all words in the embeddings’ vocabulary and try to minimize cross-entropy loss. To speed up this process, we used only the words from the train set. However, it is likely that optimization over all words in the pretrained word embeddings should make the obtained representation even more robust.
+It is also possible to add such auxiliary loss to the model optimization process. In this case, the character-level function is optimized using two objectives: the main, task-specific objective and our auxiliary objective. The main objective forces the character-level function to produce words’ representations that are suitable to the task. The auxiliary objective makes model learn representations similar to pretrained word embeddings. This should reduce model’s overfitting and improve the quality of obtained representations.
+Still, our experiments showed that the pretraining works better. We expect that in the case of auxiliary loss the model pays too much attention to the frequent words and ignores the infrequent ones.
+3.4. Grammemes Embeddings
+Apparently, solitary word form cannot be a good evidence for word’s semantic or syntactic value: small orthographic differences may lead to completely different meanings, such as “land” vs “laud” or “taxes” vs “takes”. To enhance the word’s representation we propose to use grammemes embeddings.
+We can represent every word with a vector where each position relates to one specific grammeme. We fill it with the estimated probability of the word to have the corresponding grammeme. For instance, the frequency of the verb “cut” is about 8.75 · 10−5 its noun form has frequency 2.84 · 10−5. Then we estimate the probability
+of the grammeme NOU
+N by the frequency of the noun form divided by the sum frequency of all forms of this word:𝑤𝑤� = 𝑤𝑤1𝑤𝑤2 …𝑤𝑤𝑛𝑛 exp (𝑤𝑤𝑖𝑖𝑇𝑇𝐹𝐹(𝑤𝑤�𝑗𝑗))∑ exp (𝑤𝑤𝑘𝑘𝑇𝑇𝐹𝐹(𝑤𝑤�𝑗𝑗))𝑘𝑘→ �1, 𝑖𝑖 = 𝑗𝑗0, 𝑖𝑖 ≠ 𝑗𝑗
+∙ 10−5
+2.84 ∙ 10−5 + 8.75 ∙ 10−5
+≈ 0.26 in this particular case.
+We apply an additional linear layer with a non-linear activation on top of this vector in order to obtain not just a set of grammemes’ probabilities but some interactions between them (
+Fig. 4). The result is similar to the feature set defined for the common linear classifiers: features as “verb + past tense” or “noun + plural” can easily be encoded by the matrix of the linear transformation. Our approach, on the other hand, gives an ability to learn some less obvious interactions between the grammemes.
+Improving Part-of-speech Tagging Via Multi-task Learning and Character-level Word Representations
+We used ABBY
+Y Compreno Morphology module to obtain the morphological analysis. It contains comprehensive dictionaries with grammatical value information and frequencies of words calculated on a large corpus.
+4. Part-of
+Speech Tagging Model Enhancements
+4.1. Auxiliary Word Language Model
+To make the training process more robust Rei (
+Rei, 2017) proposed to use the language modelling objective. The BiLST
+M in his setup outputted hidden representations for each word, which were used not only to predict the word’s tag but also its neighbours—the previous and the next words in the sentence.
+However, a direct application of the sequence labelling model is prohibited because it would have an access to the full context in this case. The ordinary language model predicts the word using its left (or right) context only. To obtain similar behaviour of the sequence labelling model it’s possible to use the forward LST
+M only to predict the next word and backward LST
+M to predict the previous one. Their hidden states then have to be concatenated to receive the whole information about both contexts, which would be used to predict the PO
+S tag.
+Such design helps to handle more general syntactic and semantic patterns in the data. Another advantage of this approach is in the clear ability to pretrain the model on a large number of unlabelled data. However, to our best knowledge, there was not any successful attempt to improve quality of any model using such pretraining process.
+Anastasyev D. G., Gusev I. O., Indenbom E. M. 4.2. Auxiliary PO
+S Language Model
+As an alternative to the word language model, we propose to use part-of-speech language model. In our variant, we are aiming to predict the previous and the next tags using the LST
+Ms as well as the tag of the word.
+This approach is better than the previous one in terms of training speed and required memory, because the output layer for such language model contains only tens or hundreds of elements, while in case of word language model we should consider at least ten thousand different words.
+Moreover, prediction of the labels in the surrounding context forces the model to be more aware of the connections between the labels. For example, the model should learn the connection between tags “
+Noun” and “
+Adjective” or “
+Adverb” and “
+Verb”.
+This idea seems to be a simpler variant of structured prediction models, however, the experiments showed that its application makes a model overfit less than the model with a CR
+F output layer.
+Nevertheless, it should be noted that it is not possible to use an unlabelled data in such variant.
+4.3. Part-of
+Speech Tagging with Transfer Learning
+One of the most common ways to improve quality in the computer vision tasks is to adapt a model trained on a large dataset (usually, Image
+Net) for classification task with a much smaller number of available data. Usually, the first layers of a pretrained model are frozen and only new output dense layers are trained on the taskspecific data. It was shown that the first (frozen) layers are used mostly to extract useful features from the image, so they can be seen as invariant to the task.
+We propose a similar idea for the PO
+S-tagging. There are many datasets for English and Russian with different tagsets. Due to the differences in tagsets, we cannot apply a model trained on one dataset to another. Therefore, we should train a new model on the new dataset. However, we can just change the output layer and keep all other layers and their weights. Therefore, we obtain a pretrained model with meaningful weights.
+To train this new model, we propose to freeze old layers during the first 5 epochs of training on the new dataset and tune only output layer. After we obtain good weights for the output layer, we can fine-tune all layers to get a better representation of the specific new corpus.
+5. Comparison of the methods
+We applied the same configuration for all the tested models and for all datasets. We used 2-layer BiLST
+M with 128 units and 0.3 dropout rate. The input features were passed through the projection layer, which outputted 200-dimensional vector. As a result, all presented models had fixed size of BiLST
+M layers despite the differences in the input features size. The output of the BiLST
+M was projected on a lower-dimensional Improving Part-of-speech Tagging Via Multi-task Learning and Character-level Word Representationsspace using a linear layer with Batch Normalization (
+Ioffe, 2015) followed by the output layer with the number of units equals to the number of predicted classes.
+Fig. 5 shows the final variant of the model. This variant has grammemes and character-level embeddings, CR
+F output layer and it was trained using PO
+S language model auxiliary loss. The parameters of layers are specified in parentheses.
+In the next sections we are going to explore the contribution of each distinct component of the final model. We checked the quality on the Penn Treebank dataset for English language and Syntagrus (from Universal dependences 2.2) and Gikrya (from MorphoRu
+Eval-2017) datasets for Russian. Their number of tokens are presented in Anastasyev D. G., Gusev I. O., Indenbom E. M. Dataset Train Development TestPT
+B 912,344 131,768 129,654
+Syntagrus 871,082 118,630 117,470
+Gikrya 977,567 108,581 19,560
+Penn Treebank tagset contains just 45 different tags (including punctuation tags). This corpus is somewhat standard for PO
+S taggers evaluation—most of the well-known models were trained on it.
+The Gikrya dataset has 304 grammatical values. However, during MorphoRu
+Eval-2017 the quality of the models was evaluated on the subset of these grammatical values (e.g., animacy category was not included into this subset). We trained our model to predict the whole set of tags but the evaluation on the test set was performed only for the specified subset (about 250 distinct grammatical values).
+The Syntagrus contains 908 different grammatical values. This corpus seems better than Gikrya in terms of test set size, but we do not know any clearly state-ofthe-art result shown on this corpus—which is why we evaluated our models on both corpora.
+5.1. Word Representations
+5.1.1. Different Character
+Level Functions
+Firstly, we compared the quality of the proposed feedforward character-level function (
+Char F
+F) with more classic BiLST
+M one (
+Char BiLST
+M).
+In our experiments, the Char F
+F model consisted of two linear layers with ReL
+U activations and small dropouts. The linear layers contained 500 and 200 units respectively, the dropout rate was equal to 0.15. The BiLST
+M model contained 150 units. The size of character embeddings was 24.
+Dataset Char BiLST
+M Char FF
+Syntagrus 95.23% / 95.39% 94.98% / 95.16%
+Gikrya 96.48% / 94.69% 96.68% / 94.63%PT
+B 97.02% / 96.98% 97.32% / 97.26%
+These two variants of the character-level function performed roughly similar (
+Table 2) but the proposed feedforward model converged in a smaller number of epochs and worked much faster than BiLST
+M.
+5.1.2. Effect of Pretraining
+It seems quite reasonable to expect that the pretraining of character-level representation using the word vectors should increase the performance of the model. The Improving Part-of-speech Tagging Via Multi-task Learning and Character-level Word Representationsexperiments showed that the model with pretrained character-level function (
+Char F
+F Pretrained) has higher quality during the first few epochs and achieves accuracy about 0.1–0.2% greater than the model without pretraining (
+Table 3).
+pretrained character-level representations
+Dataset Char F
+F Char F
+F (Pretrained)
+Syntagrus 94.98% / 95.16% 95.22% / 95.36%
+Gikrya 96.68% / 94.63% 96.88% / 94.63%PT
+B 97.32% / 97.26% 97.40% / 97.31%
+Such improvement leads to 4–5% error rate reduction (ER
+R) on Russian datasets and 2–3% ER
+R on PT
+B, which seems significant enough given the simplicity and cheapness of the pretraining process.
+5.1.3. Grammemes Embeddings
+The models with grammemes embeddings converge much faster. Grammemes embeddings seriously improved the models’ performance on both Russian datasets. However, the English model without them achieved approximately the same quality after a large number of epochs (on the other hand, the model with grammemes embeddings needed roughly twice as lesser epochs to converge).
+Dataset Char F
+F (
+Pretrained) + Grammemes
+Syntagrus 95.22% / 95.36% 96.77% / 97.00%
+Gikrya 96.88% / 94.63% 98.07% / 95.36%PT
+B 97.40% / 97.31% 97.43% / 97.30%
+Obtained results may be explained by the differences in Russian and English morphologies. Russian language has considerably more complicated morphological system. As a result, Russian grammemes embeddings are far more informative. Moreover, it is usually harder to predict morphological tag for Russian words using merely word’s form.
+5.2. Language Model Auxiliary Objectives
+Both word and PO
+S auxiliary objectives effectively work as regularizer: a model with them overfits considerably slower and achieves better results. Slower overfitting in our case means that the difference between train and development accuracies remained insignificant even after 200 epochs, while without such auxiliary objective this difference became more than 1% after the first 100 epochs on all datasets.
+The achieved results are presented in similar results on the Penn Treebank. However, PO
+S L
+M has shown clearly better performance on the Russian datasets.
+Anastasyev D. G., Gusev I. O., Indenbom E. M. Dataset
+Char F
+F (
+Pretrained) + Grammemes + Word L
+M + PO
+S LM
+Syntagrus 96.77% / 97.00% 96.69% / 96.96% 96.97% / 97.24%
+Gikrya 98.07% / 94.85% 97.91% / 96.30% 98.12% / 96.72%PT
+B 97.43% / 97.30% 97.57% / 97.49% 97.57% / 97.49%
+The most significant improvement was achieved on the Gikrya test set. Yet, the 7% ER
+R on the PT
+B test set and 8% ER
+R on Syntagrus test seem good enough to consider the proposed auxiliary objective successful.
+5.3. CR
+F Layer
+Usage of CR
+F output layer usually leads to noticeable improvement in the model’s quality. However, we could not achieve better results with the CR
+F layer. We expect that the main reason is our PO
+S L
+M objective: it forces models to learn the same connections between the tags as CR
+F layer does.
+Dataset
+Char F
+F (
+Pretrained) + Grammemes + PO
+S L
+M + CRF
+Syntagrus 96.97% / 97.24% 96.72% / 96.97%
+Gikrya 98.12% / 96.72% 98.07% / 96.65%PT
+B 97.57% / 97.49% 97.60% / 97.51%5.4. Transfer Learning
+Finally, we applied the proposed transfer learning process. We pretrained two models. The first one was trained on Compreno corpus with about 10 million tokens. The tagset contains 1040 different grammatical values. The second one was trained on the Gikrya corpus. The results are presented in Model Accuracy
+Base 96.97% / 97.24%
+Compreno pretrained 98.18% / 98.29%
+Gikrya pretrained 98.21% / 98.33%
+Gikrya and Syntagrus have similar tagset (based on Universal Dependencies standard) while Compreno’s tagset and applied conventions are very different from Syntagrus corpus. Therefore, it is understandable that Gikrya pretrained model achieved better quality.
+As a result, we achieved very significant improvement using quite a simple process.
+Improving Part-of-speech Tagging Via Multi-task Learning and Character-level Word Representations5.5. Summary
+To conclude, we applied few tricks to achieve results that are on par with stateof-the-art results on considered datasets. We did not try to optimize the hyper-parameters of the models so the work should be seen mostly as a proof-of-concept.
+Tagger Test Acc
+Manning (2011) 97,32%
+Søgaard (2011) 97,50%
+Santos (2014) 97,32%
+Ling (2015) 97,78%
+Ma (2016) 97,55%
+Choi (2016) 97,64%
+Rei (2017) 97,43%
+This work 97,51%
+Modern literature News VKontakte
+Best closed track model 94.16% 93.71% 92.29%
+Best open track model 97.45% 97.37% 96.52%
+Our model 96.46% 97.97% 95.64%
+The final model is worse than the best PT
+B models. On the other hand, it does not use word embeddings. That means that our model is much smaller. To our best knowledge, the achieved result is the best for models without word embeddings.
+The model also shows poorer performance than the best model on MorphoRu
+Eval-2017. However, the best model was trained using additional data and it used word embeddings too.
+6. Conclusions
+We proposed a new method of word’s representation using character-level feedforward neural network and a way to pretrain such representations with existing word embeddings. This variant of words representations seems to perform better than the previous ones. Moreover, the pretraining process helps to use the information encoded in the word embeddings implicitly. That means we can expect syntactic and semantic meaningfulness of the representations, which can be found in the word2vec vectors.
+We described a way to encode an additional information about the grammatical value of the word in the grammemes embedding. Such embeddings are useful as a way to regularise the word representation and provide it with an additional morphological information.
+Anastasyev D. G., Gusev I. O., Indenbom E. M. We also proposed a novel approach to multi-task learning for sequence labelling tasks and tested it on PO
+S tagging problem. The achieved results a comparable to the state-of-the-art in this area.
+Finally, we proved the possibility of transfer learning for the PO
+S tagging task. We achieved almost 40% ER
+R on Syntagrus dataset by applying this process.
+Summing up, the proposed tricks are aimed to improve the quality of input features and to regularize the learned objective. We consider them simple enough to be applicable for most of NL
+P tasks and the achieved results seem reasonably good.

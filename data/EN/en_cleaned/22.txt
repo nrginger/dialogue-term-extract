@@ -1,0 +1,87 @@
+Computation of text similarity is a common, yet challenging task that plays an important role in a variety of Natural Language Processing (NL
+P) applications, such as search engines, plagiarism detectors, question answering systems, etc. The main difficulty stems from the variability of human language, as the same meaning can be conveyed with different language units. As a result, we cannot rely on superficial resemblance of texts, such as sharing common words or expressions. Instead, we need to go beyond individual words, capture the semantic meaning of the texts and then evaluate this semantic similarity with some measurable score. One method to create such a semantic similarity score between texts is based on weighted relations between words in linguistic resources, such as Word
+Net and Semantic nets (see , ). This approach has its constraints in the limited size and rigidity of manually constructed thesauri and ontologies. Another approach is to create special vector representations, or embeddings, that can capture the semantics of a text. One of the successful solutions for creating such vectors for individual words was word2vec, introduced in 2013 . The idea behind it is based on the famous assumption “you shall know a word by the company it keeps”. Thus, the initial values of the embeddings are replaced during training in such a way that the words used in the same contexts (and hence similar) are located closer in the vector space. As an extension of this idea, the doc2vec algorithm was developed in 2014 , which added a vector with the document (e.g., text) I
+D to the word2vec model. This made it possible to obtain embeddings of sentences and texts, which inherit the main feature of word2vec: similar texts are located closer in the vector space. Thus, the similarity between texts can be calculated as the distance between their embeddings (for example, cosine, Euclidean, Manhattan distance, etc.). Recent advances in deep learning have allowed for the creation of text embeddings that are more powerful in representing the semantics. The Skip
+Thought method a model to predict surrounding sentences based on the encoder-decoder architecture. Infer
+Sent a bi-directional Long
+Short Term Memory (LST
+M) model on the labelled Natural Language Inference (NL
+I) data, achieving better performance. EL
+Mo contextualized word embeddings, created by training a bidirectional LST
+M. Taking the weighted mean of EL
+Mo word embeddings to get a text embedding results in great performance on sentence similarity benchmarks as shown in . Finally, the current state-of-the-art method is to pre-train Transformer models on language modelling (L
+M) and then fine-tune it for downstream tasks. The best results are achieved by Universal Sentence Encoder models , fine-tuned on the NL
+I task, and Sentence Transformers , fine-tuned on the NL
+I and Semantic text similarity (ST
+S) benchmarks. There are several pre-trained Sentence Transformer models, as well as the RuBER
+T model by Deep
+Pavlov, that can be exploited for calculating similarity of texts in Russian. However, to obtain the best results it is necessary to pre-train the transformer model on the in-domain data and then fine-tune the model for a specific task. 2 Shared task description
+This paper is the result of the research done for the first track of the Dialogue-2021 shared task ‘
+Russian News Clustering and Headline Generation’ . The main purpose of this track is to investigate different approaches to clustering similar news texts in Russian. Data for this competition was sourced from the Telegram Data Clustering Contest and annotated via Yandex.
+Toloka. The main dataset represents couples of sentences marked according to whether they are related to the same story (O
+K) or not (BA
+D). The same story is considered to be a text in different media aka newspapers, web sources, etc. about a certain event that happened with certain people and at a certain time. Such dataset design essentially turns the clustering task into paraphrase detection. Though a common solution would be to build a classifier on top of BER
+T model (see Cross
+Encoder in ), methods such as Bi
+Encoders that produce text embeddings instead of classification label were considered more preferable (but not required) by the contest organizers as they are more consistent with the initial idea of the clustering task. The participants’ results were evaluated using f1-score, calculated for positive (O
+K) class. Vatolin A. S., Smirnova E. Y., Shkarin S. S.3 System description Transformer-based models, such as BER
+T, show start-of-the-art performance on most NL
+P tasks. In the original paper , the BER
+T model uses the cross-encoder approach: two texts are fed to the input and the target value is predicted from them. However, this approach is not optimal when predicting the target value for all text pairs from a large dataset. The complexity can be estimated as 𝑂𝑂𝑂𝑂(𝑛𝑛𝑛𝑛(𝑛𝑛𝑛𝑛 − 1)/2). Another approach is bi-encoder: the model projects the text into a dense vector space and then uses similarity metrics such as cosine similarity or Manhattan/
+Euclidean distance to calculate the semantic similarity between the two texts. What is more, the latter approach is more consistent with the clustering task of the D
+E 2021 competition. Thus, the simplest way to undertaking the D
+E2021 shared task is to use multi-language pre-trained bi-encoder model, fine-tuned for paraphrase identification or semantic similarity. The advantage of this method is the speed of work, there is no need to train the model, all it takes to make inference. The disadvantage of this approach is low quality. The model can be improved in 4 ways: data preparation, base transformer model, pooling method, and loss function. 3.1 ML
+M pretrain
+The improvement over a base BER
+T model was a pre-training model with masked language modelling (ML
+M). This is a common way of improving these models for specific tasks. Generally, many researches found that ML
+M pre-training models are more stable, train faster, and more often reach higher scores than training from the original pretrained model. You can also use other transformer model architectures, such as RoBER
+Ta or XLM
+R, but not all models have Russian language support. As a pooling method, the authors of the SBER
+T model using averaging over the token vectors of the last layer of the model. They also suggest taking the CL
+S token vector and max-over-time for output vectors. 3.2 Weighted Layer Pooling
+In the article , the authors claim that the information useful for solving the problem is contained not only in the last layer, but also in the middle layers. To leverage this information the following operation can be performed: taking mean, max, CL
+S pooling for the outputs of each layer (output), and then averaging the resulting vectors with the trainable weights w. 𝑢𝑢𝑢𝑢 = 𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠(𝑤𝑤𝑤𝑤) ∗ 𝑠𝑠𝑠𝑠𝑢𝑢𝑢𝑢𝑠𝑠𝑠𝑠𝑜𝑜𝑜𝑜𝑢𝑢𝑢𝑢𝑠𝑠𝑠𝑠 3.3 Global Multihead Pooling
+In the article , to convert token vectors to a fixed-length vector, it is proposed to use the sum of the vectors weighted with attention weights. The authors use this method to aggregate the outputs of the BiLST
+M model. In our article, we propose to adapt this method to transformers. = 𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠(𝑊𝑊𝑊𝑊2𝑅𝑅𝑅𝑅𝑅𝑅𝑅𝑅𝑅𝑅𝑅𝑅𝑅𝑅𝑅𝑅(𝑊𝑊𝑊𝑊1𝑠𝑠𝑠𝑠𝑢𝑢𝑢𝑢𝑠𝑠𝑠𝑠𝑜𝑜𝑜𝑜𝑢𝑢𝑢𝑢𝑠𝑠𝑠𝑠𝑇𝑇𝑇𝑇 + 𝑏𝑏𝑏𝑏1)𝑇𝑇𝑇𝑇 + 𝑏𝑏𝑏𝑏2), where output is a matrix of token vectors, the output of the last layer of the BER
+T model, 𝑊𝑊𝑊𝑊1,𝑊𝑊𝑊𝑊2 are trainable weight matrices, 𝑏𝑏𝑏𝑏1,𝑏𝑏𝑏𝑏2 are bias vectors, and A is a vector of word weights. Because of softmax function, the weights are always non-negative and sum up to 1. The text vector can be calculated using the following formula: 𝑢𝑢𝑢𝑢 = 𝐴𝐴𝐴𝐴⊙ 𝑠𝑠𝑠𝑠𝑢𝑢𝑢𝑢𝑠𝑠𝑠𝑠𝑜𝑜𝑜𝑜𝑢𝑢𝑢𝑢𝑠𝑠𝑠𝑠 Usually, the attention weights focus on a specific part of the text, so we can extend the pooling method to a multi-head way: 𝑢𝑢𝑢𝑢𝑖𝑖𝑖𝑖 = 𝐴𝐴𝐴𝐴𝑖𝑖𝑖𝑖 ⊙ 𝑠𝑠𝑠𝑠𝑢𝑢𝑢𝑢𝑠𝑠𝑠𝑠𝑜𝑜𝑜𝑜𝑢𝑢𝑢𝑢𝑠𝑠𝑠𝑠 𝑢𝑢𝑢𝑢 = , where n is the number of heads. Since the text vectors from each head are concatenated, the dimension of the output vector increases significantly with a larger n. So, we used 𝑛𝑛𝑛𝑛 ≤ 5. Russian News Similarity Detection with SBER
+T: pre-training and fine-tuning3.4 Contrastive loss
+Contrastive loss takes the output of the network for a positive example and calculates its distance to an example of the same class and contrasts that with the distance to negative examples. To put it another way, the loss is low if positive samples are encoded to similar representations and negative examples are encoded to different representations. 𝑙𝑙𝑙𝑙𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠 = 𝑦𝑦𝑦𝑦 𝑑𝑑𝑑𝑑2 + (1 − 𝑦𝑦𝑦𝑦)(𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑚𝑛𝑛𝑛𝑛 − 𝑑𝑑𝑑𝑑, 0) 2 3.5 Online contrastive loss
+Contrastive loss modification, where loss computed only for hard positive and hard negative pairs. 4 Experimental setup
+4.1 Data
+The initial data for the competition were presented in the format of HTM
+L files containing articles in various languages. Each article consists of a title, text, and additional metadata. After preprocessing, including the removal of non-news and non
+Russian texts, three datasets were generated 20,000 labeled news pairs in one day for training, 40,000 unlabeled news pairs in 2 days for testing, and about 1,200,000 raw news texts for pre-training. The average text length is about 1500 characters, including spaces. 4.2 Experiments
+Multilingual transfer learning As a base model, we used distiluse-base-multilingual-cased-v2 from the sentence transformers library. Transformer model We used the Deeppavlov RuBER
+T base cased model as the optimal model by quality and training speed . We also used the sbert_large_nlu_ru model , based on the Russian BER
+T Large model, but it showed worse quality compared to RuBER
+T. When training, the length of the texts was limited to 250 tokens, increasing the maximum length reduced the quality of the model. We think that this is due
+to a decrease in the size of the batch with a longer sequence length, and therefore a decrease in the stability of the gradients. To optimize the parameters, we used Adam
+W with learning rate 2e-5 and 10% warmup steps. Pooling method To aggregate token vectors into a text vector, we tried averaging word vectors, and also used Weighted Layer pooling and Global Multihead attention approaches. The Global Multihead attention layer is best in terms of quality, as it allows to increase the weight of important words and not take into account the words of the general vocabulary. Loss function For our better model, we used Online contrastive loss with cosine proximity functions and margin 0.5. On the final epochs, for most batches, the loss was 0. To avoid this problem, we tried to increase
+the margin to 0.8, but this did not lead to an improvement in quality. 5 Results
+We present the results of model evaluation in the train dataset in 70%, 15% and 15% for train, validation and test set accordingly. A. S., Smirnova E. Y., Shkarin S. S.
+Model val f1 test f1 public f1 private f1 Distiluse v1* 0.8955 0.8846 0.8733 0.8816 Distiluse v2* 0.8974 0.8845 0.8840 0.8763 Deeppavlov RuBER
+T 0.9538 0.9455 0.9331 0.9343
+Deeppavlov RuBER
+T, Global Multihead pooling 0.9619 0.9601 0.9467 0.9438
+sbert_large_nlu_ru 0.9498 0.9415 0.9108 Deeppavlov RuBER
+T pretrained 0.9556 0.9511 0.9435 0.9387
+Deeppavlov RuBER
+T pretrained, cross-encoder 0.9668 0.9656 0.9516 0.9545
+Deeppavlov RuBER
+T pretrained, Global Multihead pooling 0.9631 0.9617 0.9547 0.9548
+scores without fine-tuning on news dataset. All models are trained with mean pooling, unless Global
+Multihead pooling is specified in the name. Our target approach reaches the results of cross-encoder. Conclusion and future work
+Sentence similarity calculation is a common task, crucial for many NL
+P applications. Models based on one of the most cutting-edge architectures Transformer show state-of-the-art results in many downstream tasks, including paraphrase detection. Pretrained multilingual Transformer models show decent quality without any additional training. However, the best scores are achieved by pre-training on indomain data and follow-up fine-tuning for a specific task (paraphrase detection). Another improvement suggested in this article is the use of Global
+Multihead pooling. As for future work, we should try SBERT-W
+K and in particular W
+K Pooling. The SBERTW
+K model shows a higher quality compared to the SBER
+T model. The SBERT-W
+K model uses qr matrix decomposition, which in the Pytorch implementation is very slow on the GP
+U at the moment. Because of this, model training takes a significant amount of time. News Similarity Detection with SBER
+T: pre-training and fine-tuning
+Acknowledgements We thank the organizers of Shared Task Ilya Gusev and Ivan Smurov for providing the data and holding the competition. We are also grateful to members of the Deep
+Pavlov team for their pretrained BER
+T models. We thank the anonymous reviewers whose valuable comments helped to improve the paper.

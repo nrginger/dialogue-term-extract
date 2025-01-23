@@ -1,0 +1,279 @@
+В статье обсуждается доказательность лингвистических исследований, опирающихся на исторически корпуса текстов? и проверяются две формальные модели, предсказывающие распределение показателей согласования в древнерусском языке. Формальные лингвистические модели проверяемы в той степени, в которой они имплицитно опираются на скрытые характеристики корпусов, в том числе на профили жанров текста. Модельное представление о наличии в древнерусском языке нулевой связки 3 л. подтвердилось, однако тезис о том, что употребление ненулевых связок перфекта 3л. в XI
+I в. всегда отражает влияние второго языка автора, опровергается на выборке текстов, представляющих разные древнерусские диалекты. Ключевые слова: исторические корпуса текстов; доказательность; предиктивные лингвистические модели; древнерусский язык Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2022”
+Moscow, June 15–18, 20221 Variation in Historical Text Corpora
+Variation of grammatical parameters is a normal state for all natural languages, including old languages as they are reflected in historical text corpora. Linguistic models aim at predicting the distribution of language features in corpora and text collections. Parametric models generally have a greater predictive force, since they explain a visible diversity of features by different settings of the same constraint. E.g., predicative instrumental case (InstrPRE
+D) in Modern Russian is a case form assigned to predicative nominals or adjectives by the clausal subject. Standard accounts of Russian grammar, cf. to explain sentences like ?мнеDA
+T сталоPAST.3SG.
+N известнымINSTR.PRE
+D, , ‘
+I got to know that you are in the city,’ lit. ‘to-me became known, that…’ accepted by a minor part of Russian speakers. Such sentences are puzzling, since they lack any nominative subject. A parametric approach еxplains this variation and helps to find the invariant. Both groups of Russian speakers have the subject control parameter. The feature that varies across speakers is not the correlation between InstrPRE
+D and subjects, but the status of sentential arguments like : the minority of speakers licenses them as assigners of InstrPRE
+D, while the majority does not . An extreme case of language-internal variation can be described in terms of dialectal divergences, if a split in parameter values between different groups of speakers is consistent . corpora pose an extra problem: it is not always clear how to classify the author’s idiom in a situation of language-internal variation. Assume that there are two expressions α and β that can be used in the same context, but only part of the speakers licenses them both. Let us also assume that the corpus has a system of genre tags and all texts representing genre G1, T∈{T
+G1} only display the option α, while all texts representing genre G2, T ∈{T
+G2} display both α and β. This is exactly what one finds in Old Russian and historical corpora like RN
+C Old Russian corpus https://ruscorpora.ru/new/searchold_rus.html. The options α and β are values of the parameter that licensed either a zero form of the 3rd person B
+E-auxiliary in the Old Russian perfect construction (α = ∅3
+P), or a non-zero form (β = есть3S
+G, суть3P
+L, еста3D
+U) in this construction. G1 can be identified with Old Russian birch bark letters, graffiti and other non-bookish texts. At present moment, only birch bark letters are included in RN
+C and placed in a separate section of RN
+C Old Russian corpus https://ruscorpora.ru/new/search-birchbark.html, so that G1 can be associated in RN
+C with a single text genre. G2 are Old Russian bookish texts of the X
+I —XII
+I centuries. The texts from the RN
+C Old Russian corpus largely overlap with G2, with one exception: “
+Russkaja Pravda” has a characteristic G1 grammar and is a non-bookish text that should be classified with birch bark letters, if the demarcation of sub-corpora were solely based on the G1 vs G2 distinction. The prediction is that texts from G1 only have the option пришелъSG.
+M ∅3
+P ‘<he> has come’ with the zero copula, while the texts from G2 use both the zero copula and the overt 3rd person copulas
+M ∅3
+P ~ пришелъSG.
+M есть3S
+G. It is tempting to assume that the actual Old Russian usage was associated with G1, while overt 3rd person copulas in the perfect construction one finds in G2 were a tribute to the written tradition . The idea that the speakers modified their grammar and added an extra option <α> ⇒ <α, β>, when they switched from colloquial speech (
+G1) to bookish texts (
+G2) is natural and almost trivial. A question however arises, whether this intuition can be checked empirically on corpora, since the absence of β is a definitional property of G1 and T
+G1 and the presence of β is a definitional property of G2 and T
+G2. option β is not the only characteristics of G2. Semi-formally, G2 contains hybrid Old Russian texts, heavily influenced by a different, though closely related language, Old Church Slavonic. The notion of hybrid text can be formalized. The basic hypothesis is that the first language, L1 (= Old Russian, as reflected in G1) is suppressed in G2 by the second language, L2 (= Old Church Slavonic), while the texts from G1 are monolingual. Again, there is a methodological question, how one can prove that all speakers of Old Russian invariably switched to L2, when they used the option β and wrote down the 3rd person perfect form with overt copulas as пришелъ есть, пришли суть. A related methodological issue is whether the negative evidence from G1, where the option β is not displayed is conclusive and one can establish for sure that L1 Old Russian lacked any overt copulas in the 3rd person perfect form. For the sake of simplicity one can assume that the sets {T
+G1} and {T
+G2} are closed, since the possibilities of adding new texts to historical corpora are limited. The actual situation is different: recently discovered Zimmerling A. V.birch bark letters are added to T
+G1, while T
+G2 can be expanded by other bookish texts or alternative versions of the texts already included in Old Russian corpora. Regarding the illustration provided, the discovery of overt 3rd person perfect auxiliaries and sentences like пришелъ есть in a recently added birch bark letter will falsify the initial hypothesis that G1 completely lacks the option β, while the discovery of a bookish text, whose author generalized the use of zero copula in sentences like ∅3
+P пришелъSG.
+M will challenge the initial hypothesis that the option β is visible in all texts from G2. The chosen model can rule out these exceptions as insignificant by claiming that the author of that birch letter reverted to G2/
+L2 grammar, while the author of that bookish text reverted to G1/
+L1 grammar, but such explanations are apparently circular and not conclusive. argue that historical corpus linguistics still has some tools to check similar hypotheses concerning the variation in a dead language, but one has to narrow the search and first establish a group of texts relevant for checking each grammatical feature. Old Russian Grammar and Two Linguistic Models
+Old Russian perfect is an analytical construction consisting of an active l-participle discriminating number and gender, and an auxiliary/copula (inflected present tense indicative B
+E-form) expressing the person-and-number agreement with a subject controller, if any. The grammar of Old Russian perfect is described by two linguistic models proposed by Andrej A. Zaliznjak (1993, 2008) and developed by other scholars. Zaliznjak’s Model A
+The first hypothesis of Zaliznjak, henceforth — ‘Zaliznjak
+A’ claims that the agreement markers used in the perfect construction were clitics. The 1st -2nd person perfect auxiliaries were clausal-second enclitics, i.e. enclitics taking the second position in clause, while Old Russian lacked overt 3rd person perfect clitics and replaced them with a zero 3rd person auxiliary . <Zaliznjak
+A> Old Russian agreement markers in the perfect construction were clitics with a fixed distribution. Such markers developed only in the 1st -2nd persons, but not in the 3rd person, where a zero auxiliary (copula) with feature ‘3rd person’ was used instead. Therefore overt agreement markers in the 3rd person were redundant. Zaliznjak himself did not postulate a zero 3rd person B
+E-copula for Old Russian, this step made in inevitable, since the conclusion that colloquial Old Russian completely lacked overt 3rd person perfect auxiliaries is based on the assumption that the absence of an overt agreement marker signals the agreement feature ‘3rd person’1. The tag ‘colloquial Old Russian’ used by Zaliznjak or its synonym ‘
+Old Russian 1, O
+R-1’ introduced in the tag ‘
+G1’ used in this paper, refer to the same thing — the Old Russian idiom without overt 3rd person perfect auxiliaries. The difference is that O
+R-1 is an aprioristic model notion that is abstracted
+from with any collections of real texts, while G1 is a set of texts representing some specific genres, where (i) holds true. Zaliznjak’s Model B
+The second hypothesis of Zaliznjak, henceforth — ‘Zaliznjak
+B’ predicts the syntax of overt 3rd person B
+E-copulas, including 3rd person perfect auxiliaries in G2, i.e. hybrid bookish Old Russian texts. The A descriptive alternative — to postulate a defective morphological present tense paradigm for the Old Russian
+copula B
+E instead of recognizing the zero copula ∅BE.PRES.3
+P is not satisfactory, since Old Russian retained overt forms of the full verb B
+E. Historical Text Corpora and the Conclusiveness of Linguistic Analysisprediction is that 3rd person B
+E-copulas form in G2 a complementary distribution with clausal subjects . <Zaliznjak
+B> Old Russian agreement markers including 3rd person B
+E-auxiliaries tend to form a complementary distribution with the agreement controllers (grammatical subjects). henceforth call the idiom associated with G2 ‘
+Old Russian-2’, or ‘O
+R-2’. Past Tenses in O
+R-1 and O
+R-2
+There is a sharp split between O
+R-1 and O
+R-2 regarding the use of past tenses. Hybrid texts from G2 have the O
+R-2 grammar and use simple past forms (aorist and imperfect) along with perfect. The texts from G1 that have the O
+R-1 grammar either generalize the use of perfect as the only extant past tense form or use aorist and imperfect in insignificant quantities, cf. . Thus, O
+R-2 is an idiom which 1) has aorist and imperfect, 2) licenses overt 3rd person perfect auxiliaries. Old Russian Dialects
+There are four major groups of Old Russian dialects: a) Southern; b) North
+Western (
+Novgorod and Pskov), c) Western (
+Smolensk and Polotsk), d) Great Eastern (e.g., Suzdal). Dialectal markers can found both in texts from G1 and in texts from G2, though in the latter group they are often undesirable. That means that the presence/absence of overt 3rd person auxiliaries can also depend on the dialect, although this scenario has not been proven so far. Analysis
+I check models A and B on a sample of five non-anonymous G2 Old Russian texts of the XI
+I century representing three dialects and measure three features: 1) the ratio of perfect and simple past tenses; 2) the presence of overt 3rd person perfect auxiliaries; 3) the correlation between overt 3rd person perfect
+auxiliaries and overt clausal subjects2. The control group of texts includes four G2 XIV-X
+V century texts of comparable genre. The Main Group
+The main group includes five non-anonymous author texts representing three dialects and seven idioms. “
+Daniil’s Pilgrimage” and “
+Vladimir Monomakh’s Edification” are South Russian texts dated by the first quarter of the XI
+I century. Three texts come from Novgorod: “
+Kirik’s Inquiries” are dated by ca. 1132-1156 A.
+D., “
+The Edification of Elija
+John” is dated by 1166 A.
+D., while “
+Antonius’ Pilgrimage”
+is dated with ca. 1200. Two texts represent the genre of khozhenie, i.e. pilgrimage, two texts — the genre of pouchenie, i.e. edification. “
+Kirik’s Inquiries” are written in form a dialogue between church hierarchs and ordinary clerics who ask them concerning various issues in canonic law. Its main part is written by Kirik, while two supplements are written by Savva and Elija. of these texts are currently added to RN
+C Old Russian corpus as separate entries, the data from “
+Monomakh’s Edification” was in March 2022 only available as part of the larger compilation An anonymous reviewer argues that from the corpus linguistics perspective, modeling based on one parameter
+may lead to overgeneralization. In this paper we however used three parameters — 1) ± overt 3rd person perfect auxiliaries, 2) ± complementary distribution of auxiliaries and agreement controllers, 3) ratio of the perfect clauses from the total amount of three past tense forms — for measuring the variation in XI
+I century Old Russian grammar. The analysis confirmed that these three parameters are independent. Zimmerling A. V.(“
+Laurentius’ Chronicle”)3. For the remaining four texts, RN
+C tells the number of words and sentences, but not the number of clauses, which is the relevant parameter for the processing of perfect clauses. The texts from RN
+C Old Russian corpus are not annotated syntactically. “
+Monomakh’s Edification” consists of several parts. I ignored the last one — “
+The Lenten Prayer”, since it does not contain any perfect constructions. Other four texts from main group were processed and annotated in their entirety. I also checked an extra version of “
+Kirik’s Inquiries”, which differs from the version included in RN
+C. The Control Group
+The control group includes two Novgorod texts from the mid XI
+V century — “
+Stefan’s Pilgrimage” and “
+The Discourse about Paradise” by Vasiliy Kalika — and two Suzdal texts from the mid X
+V century — “
+The Pilgrimage to the Florence Council” and “
+A Note about Rome”. Three of them represent the genre of khozhenie, while Vasiliy Kalika’s text is comparable to Elijah
+John’s “
+Edification”. Syntactic Annotation
+The text fragments containing the perfect construction in the 3rd person were extracted and parsed in order to check model B. 3rd person perfect clauses were assigned the value ‘+SUB
+J’ if they contained an overt subject expressed by the accented noun/pronoun or N
+P, otherwise they were assigned the value ‘-SUB
+J’, even if the subject position is reconstructed in a larger syntactic context.4 Disambiaguation of Contexts and Semantic Annotation
+In order to check model A, all contexts containing overt 3rd person perfect auxiliaries were annotated semantically. Standard perfect auxiliaries, including 3rd person auxiliaries есть1, суть1, еста1 are forms lacking the phrasal accent: they are placed clause-internally and do not bring about existential or verificational meanings. Existential /verificational 3rd person auxiliaries есть2, суть2, еста3 are accented words with a free linear distribution. They can take clause-initial position, adjoin to initial proclitics и, а, нъ or stand clause-internally. Sentences with standard non-existential & non-verificational forms есть1, суть1, еста1 assigned the value ‘PERFEC
+T I’, sentences with existential or verificational есть2, суть2, еста2 were assigned the value ‘PERFEC
+T I
+I’. Some contexts with clause-internal 3rd person perfect auxiliaries are two-way ambiguous between PERFEC
+T I and PERFEC
+T I
+I. PERFEC
+T I is a standard construction with person-and-number agreement, where the alternation ∅3
+P ~ есть1, суть1, еста1 is not semantically-driven. PERFEC
+T I
+I is possible only in the 3rd person and shows number, but not person agreement: есть2, суть2, еста2 bring about the diagnostic existential or verificational semantics and do not alternate with ∅3
+P. The Ratio of Perfect vs Simple Past
+All perfect clauses in 1-3 persons and all clauses containing aorist and imperfect forms were counted. The analytic plus perfect forms and other copular constructions with l-participles were not considered. The ratio of perfect clauses (
+P) from the total amount of three past tense forms (
+A & I & P), kPER
+F = P/
+A + I +
+P was measured in order to estimate, whether P had a prominent status in the idiom of each author. By May 2022, the situation has changed: Monomakh’s “
+Edification” and his “
+Lenten Prayer” were added to
+RN
+C Old Russian corpus as separate entries, while the entire “
+Laurentius’ Chronicle” is no longer indexed as a part of RN
+C. 4 At this stage, syntactic annotation was done manually. The assignment of the values ‘+SUB
+J’ and ‘-SUB
+J’ according to the principle outlined in the section 3.3. requires a modification of the existing parsers. Historical Text Corpora and the Conclusiveness of Linguistic Analysis
+3.6 Direct Quotations
+The texts included several direct quotations from the Bible. In case these quotations included overt 3rd person perfect auxiliaries, the corresponding examples were considered borrowings from Old Church Slavonic and excluded from the sample. Results and Discussion
+4.1 Model A and Overt 3rd Person Auxiliaries
+The results of this study partly falsify Zaliznjak’s Model A. The zero B
+E-form ∅3
+P is the main option for all authors, but two South Russian authors use overt 3rd person perfect auxiliaries in non-existential and non-verificational contexts in the beginning of the XI
+I century. Daniil and Monomakh have 21 unambiguous examples of PERFEC
+T I with есть1, суть1, еста1 in clause-internal positions. Three Novgorod authors from the second half of the XI
+I century have only 9 examples with overt 3rd person auxiliaries: the contexts are ambiguous between PERFEC
+T I and PERFEC
+T I
+I readings. In the body of “
+Kirik’s Inquiries”, overt 3rd person perfect auxiliaries are found only in the main part written by Kirik himself: his followers Savva and Elija do not use them in their supplements. XIV-X
+V century authors lack overt 3rd person perfect auxiliaries completely. The overall ratio of perfect clauses (kPER
+F) in a text plays no role for the choice of overt 3rd person auxiliary. The figures are shown in tab. 15.
+N MO
+N KIRK
+O KIRA
+U S & EK
+O S & EA
+U EL-J
+O AN
+T STE
+F VA
+S FLO
+R ROM
+E Date ca. 1104 – 1106 ca. 1097 – 1117
+ca. 1132 – 1156 1166 ca. 1200
+13471349
+1347 14381439
+1438
+kPER
+F 20. 3% 20.3% 13.2% 11.4% 17.4% 16.9 % 67.4 % 56.9 % 4.4% 22.6% 26.5% 71.4% Dialect Chernigov Perejaslavl Novgorod Suzdal Overt 3rd person marker 18 3 5 3 0 0 2 2 0 0 0 0
+∅3
+P 72 17 12 9 13 11 13 80 6 15 45 7 % 22.5% 15% 41.4 % 25% 0% 0% 13.3% 2.4% 0% 0% 0% 0% 1. 3rd person perfect auxiliaries by XI
+I century authors compared to XIV–X
+V century texts. figures suggest that overt 3rd person auxiliaries in PERFEC
+T I were initially an optional feature of early South Russian dialects, i.e. an inherited feature by the G1 / O
+R-1 grammar of some XI
+I century authors and not only a learned feature of G2/
+L2 grammar. In the beginning of the XI
+I century Daniil still could select overt 3rd person auxiliaries in 22, 5% of PERFEC
+T I clauses, but this variant of PERFEC
+T I was rapidly declining. PERFEC
+T I
+I as an L1 FEATUR
+E
+
+T I
+I was a construction, where accented auxiliaries есть2, суть2, еста2 did not alternate with ∅3
+P. Daniil regularly used it in existential contexts and combined есть2, суть2 with the l-participle of the verb быти ‘be’ 31 times in sentences like (1): this peculiar combination of present and past B
+Eforms indicates a change of state and/or a canceled result. The abbreviations read: DA
+N = Daniil, MO
+N = Monomakh, KI
+R = Kirik, S & I = Savva and Elija, EL-J
+O =
+Elija
+John, AN
+T = Antonius, STE
+F = Stefan, VA
+S = Vasiliy Kalika, FLO
+R = “
+Pilgrimage to the Florence Council”, ROM
+E = “
+A Note about Rome”, K
+O = “
+Novgorodskaja Kormchaja 1282 A.
+D.”, A
+U = “
+Autonomous version of ‘
+Kirik’s Inquiries’”. A. V.(1) И есть23S
+G былAUX.PAST.SG.
+M градNOM.SG.
+M Тивириада великъ велми (
+Daniil, LXXXI
+I).
+‘
+And the city of T. was once very big <but deteriorated since that.>’
+I century Novgorod authors have 9 ambivalent sentences with overt 3rd person perfect auxiliaries in clause-internal positions: they should be rather interpreted as PERFEC
+T I
+I, than as PERFEC
+T I. None of the Novgorod examples shows the combination есть2 + былъ, which is another relic preserved in the dialect of Daniil. Model B and Clausal Subjects
+The retrieved data does not fully support Zaliznjak’s Model B. South Russian authors of the XI
+I century (
+Daniil, Monomakh) do not have complementary distribution of overt 3rd person PERFEC
+T I auxiliaries and grammatical subjects. A vast majority of PERFEC
+T I clauses has the + SUB
+J feature. In Daniil’s text, a filled subject slot has no impact on the choice of the non-zero 3rd person marker: the expectancy is 20% both for + SUB
+J and for SUB
+J clauses. The data from XI
+I century Novgorod is scanty, but compatible with the prediction of Model B that the expectancy of overt 3rd person marker increases in – SUB
+J perfect clauses.
+L MONOMAK
+H KIRIKK
+O KIRIKA
+O ELIJA-JOH
+N ANTONIU
+S DAT
+E ca. 1104 – 1106 ca. 1097 – 1117 ca. 1132 – 1156 ca. 1132 – 1156 1166 ca. 1200 DIALEC
+T Chernigov Perejaslavl Novgorod SUB
+J -SUB
+J + SUB
+J -SUB
+J + SUB
+J -SUB
+J + SUB
+J -SUB
+J + SUB
+J -SUB
+J + SUB
+J -SUB
+J OVER
+T 3rd PERSO
+N MARKE
+R 15 3 2 1 1 4 0 3 0 2 1 1
+∅3
+P 60 12 15 2 7 5 6 3 4 9 50 30 % 20% 20% 11.8 % 33.3% 12.5% 44.4% 0% 50% 0% 18.8% 2% 3.2% 2. Grammatical subjects and overt 3rd person perfect auxiliaries in the XI
+I century Russian contrast between South Russian and Novgorod authors of the XI
+I century captured by tab. 2 can be explained by two factors. One of them is geographical. Different Old Russian dialects could have different settings of the parameter (ii) predicting the distribution of grammatical subjects in Old Russian idioms with overt 3rd person perfect auxiliaries. Another one is chronological. During the XI
+I century some Russian dialects lost overt 3rd markers in PERFEC
+T I. In both cases, Zaliznjak’s Model B must be adjusted to specific data. PERFEC
+T I as an L1 FEATUR
+E
+Two relevant characteristics of G2/ O
+R-2 — the use of the simple past and overt 3rd person perfect auxiliaries — are displayed differently in the sample. Aorist and imperfect are chronologically stable and displayed uniformly in all dialects, since it is a learned L2 feature imported by all XI
+I — X
+V centuries O
+R-2 texts. Meanwhile, PERFEC
+T I with overt 3rd person perfect auxiliaries is a feature that was adapted only by those XI
+I authors who had in their L1 grammar. Conclusions
+We discussed two linguistic models predicting language-internal variation in Old Russian syntax and checked them in a historical corpus consisting of several XI
+I century author texts representing three dialects and seven different idioms. Linguistic models claiming a rigid distribution of language features or clustering of linguistic parameters activate many hidden text/corpus characteristics such as profiles of text genres, chronology and vector of change, ± impact of L2, ± presence of supra-dialect features, Historical Text Corpora and the Conclusiveness of Linguistic Analysisetc. In this case they can be valued and checked on text samples, where the genre features are relatively stable, while location and time vary. Acknowledgements I am grateful to the anonymous reviewers for the valuable comments. The sole responsibility for the shortcomings is mine. This paper has been written with support from the project "
+Parametric description of the languages of Russian Federation" realized at Pushkin State Russian Language Institute.

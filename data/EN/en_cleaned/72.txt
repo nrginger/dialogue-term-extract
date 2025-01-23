@@ -1,0 +1,225 @@
+The research on discourse coherence and on how this coherence is achieved has experienced a revival in the last few years. The core questions are how the discourse relations are established and what are signals of these relations. In order to answer these questions, corpora supplied with discourse annotation have been constructed for English and many other languages ; ; ; . Besides serving as a source for theoretical studies, these corpora are used as datasets for building discourse parsers.
+The structure of texts from different registers (e.g. written vs. spoken texts) and genres varies in a number of parameters, such as typical discourse relations, sentence length, verb forms, conjunctions usage etc. . This variation should be considered in discourse research and in building the applications. In recent decades, new genres have emerged, pertaining to online social media and blogs communication. Its discourse characteristics are widely discussed (e.g. ; ; It is generally assumed that it combines properties of written and spoken modes and, besides, manifests its own features. Thus, the investigation of the discourse parameters of social media as compared to other genres and registers is of great importance.
+The present work deals with the analysis of discourse features of blogs. The data is taken from Ru-RS
+Treebank corpora ; within the RS
+T framework (
+Rhetorical Structure theory) . The new release of this corpus in 2019 includes 104 texts of blogs. The main research questions are: (a) whether there is a significant difference in rhetoric relations distribution among genres; (b) what other characteristics of discourse units distinguish blogs from other genres; (c) whether there is a difference in discourse connectives usage among the three genres represented in Ru-RS
+Treebank; (d) what other discourse-oriented devices let blogs differ from written texts. Our aim is to check the claim, articulated in the literature (e.g. ), that blogs carry some of the features of spoken discourse. One can find the correlates of specific types of features pertaining to spoken discourse, such as short subclausal discourse units (elaborations, parcellations etc.), markers of interaction or regulatory markers and some others. We enhanced the corpus with additional annotation for these features. In this work, we provide the corpus-based analysis of blogs with respect to spoken discourse features.
+The paper is structured as follows. We start with a brief description of theoretical assumptions (2.1) and short overview of discussions, devoted to the written vs. spoken discourse opposition (2.2), and blogs discourse (2.3). Next, we describe the Discourse Features of Blogs in Subcorpus of Russian Ru-RS
+Treebankcorpus data and its preparation for the analysis (3.1–3.3). After that, we turn to quantitative (4.1–4.3) and qualitative analysis of various discourse features (5.1–5.2).
+2. Background
+2.1. Discourse structure
+Our study is based on the corpus analysis of Ru-RS
+Treebank (https://rstreebank.
+ru/dataset), the first discourse-annotated corpus for Russian . According to RS
+T, the discourse is a hierarchical structure. A text can be successively split into spans (discourse units, D
+Us, up to elementary discourse units, ED
+Us) based on the rhetorical relations between them (e.g. Сause
+Effect, Concession, Joint etc.). The relations between D
+Us are somehow parallel to the relations between clauses in complex sentences. They can be asymmetrical (cf. subordinate vs. main clause) or symmetrical ones. The ‘canonical’ ED
+Us usually describe events or states and, hence, syntactically, the typical ED
+Us are simple clauses . However, there are different types of ED
+Us smaller than a clause (subclausal) in spoken discourse (ibid.).
+2.2. Difference in register for spoken and written discourse
+There is a claim in the literature that microblogs and blogs are similar to spoken conversations (e.g. , According to also ), spoken vs. written discourse are opposed with respect to two basic dimensions. The first one is ‘integration/fragmentation’. Written texts contain more complex sentences: nonfinite clauses (nominalizations, relative clauses, infinitives). In speaking, units are shorter; the relations between them are often expressed covertly without special conjunctions. Consequently, sentences and clauses are longer in a written discourse. The second opposition is ‘detachment/involvement’. Passive voice is more common for written texts. Spoken discourse contains frequent reference to the speaker, more indexicals (you, me, here, now) and more particles.
+According to , spoken conversation has a verbal style (more verbs and verbal complements); more reduced phrases and clauses, flexible structures and more repetition as well as profuse use of discourse markers. Spoken genres use a reduced variety of connectives, they are polyfunctional.
+Other important features are fragmentation and special discourse particles. Thus, speech is discontinuous, its production is a sequence of segments, and the standard concept of a sentence is inapplicable to it (cf. ).
+In relations for RS
+T-style annotation of spontaneous speech are suggested, i.e. unfinished utterance relations, discourse particle relations (as you know, or right, Okey, which are satellites of adjacent spans). There are spoken discourse corpora annotated according to PDT
+B (
+Penn Discourse Treebank), the annotation was discussed in ; . According to the study , based on this type https://rstreebank.ru/datasethttps://rstreebank.ru/dataset
+Toldova S., Davydova T., Kobozeva M., Pisarevskaya D. of annotation, the structures containing discourse markers in unplanned speech are often truncated (the second argument is missing/not complete). The clusters of discourse markers are also quite frequent in spoken discourse (cf. and so, because if).
+To sum up, according to the literature, clauses in spoken discourse are simpler and shorter as compared to the written one. Moreover, there are a number of incomplete subclausal units in the former. The spoken discourse is characterized by high frequency of particles. A high percentage of complex sentences with non-finite forms is a written text feature.
+2.3. Spoken discourse features in blogs
+There is a considerable number of blog corpora (, , , , primarily designed to model topic classification or opinion mining tasks. The annotation of blog subcorpus of Ru-RS
+Treebank focuses on discourse structure.
+Many studies deal with the features that blogs share with spoken conversations (, Fragmented or incomplete clauses, dialogic interaction expressions are among them. According to , blog texts look more personal and diary-like than regular news. There are in-depth studies of blogs in Russian (e.g. , , ). The researches point out the high frequency of ‘dialogical’ features in blogs, including interaction markers, questioning particles (da? ‘yes’, а?, pravilno? ‘right?’), the high frequency of second person verb forms, imperatives, politeness formulas, questions, and others. Another bulk of features mentioned in studies deals with intentional simulating spoken discourse, its spontaneity and disfluency: ellipsis, a ‘but’ for a topic shift and regulatory particle nu for summarization; attitude expressions; ellipses marks that simulate slowed-down speech under the effect of emotional states etc. Other spoken discourse features are nouns in nominative case, incomplete phrases, self-corrections, high frequency of simple sentences, parcellations, colloquialisms and usage of highly expressive lexis.
+Therefore, many features differentiating the spoken and written discourse are relevant to blogs characterization. We focus on the ones that are related to discourse structure and discourse properties. These are segmentation into D
+Us and their structural properties (e.g. part of speech proportions), distribution of rhetoric relations and some properties of discourse markers (e.g. interaction and regulatory markers).
+3. Data
+3.1. The corpus
+The data for our analysis consists of three subcorpora of Ru-RS
+Treebank: (1) news and popular science texts (129 texts); (2) scientific papers (100 texts); (3) blog subcorpus. Discourse Features of Blogs in Subcorpus of Russian Ru-RS
+Treebank(1) and (2) have 279,426 tokens in total. (3) contains 104 blog texts, 128,917 tokens. Their topics are traveling, cosmetics, sports and health, everyday life, psychology, I
+T and tech, politics, social aspects (13 texts per a topic). Three main types of blogs—news, commentary, journal (diaries) are presented.
+3.2. Blogs segmentation
+Though typical elementary discourse units (ED
+Us) are clauses, according to RuRS
+Treebank annotation rules, certain types of subclausal ED
+Us are possible in all genres and registers. These are prepositional phrases for cause, purpose etc.: e.g. из-за переездов ‘due to relocation’.
+Besides, blogs authors sometimes separate text fragments lacking overt predicates by sentence punctuation marks (e.g. Зря. ‘
+In vain’ or Конечно. ‘
+Of course’). Some of these fragments are similar to subclausual ED
+Us, used in spoken discourse, e.g. parcellation or increments. These segments are considered as ED
+Us according to annotation rules. Moreover, there are many borderline cases when an ED
+U consists of a noun phrase in Nominative. These ED
+Us are treated as full clausal units with a zero copula: Остановка автобуса. 5 утра. Ни одного человека на улице. ‘
+A bus stop. 5 o’clock in the morning. Nobody on the street.’
+For experiments, we excluded headlines, bibliography and other metainformation from texts, as well as vocatives and politeness formulas (e.g. ‘
+Thank you all! Good night’, ‘
+And how are you doing?’). We also excluded markers for images (IM
+G) in blogs. This is a controversial issue since some pictures in blogs can be considered as ED
+Us participating in meaningful discourse relations (e.g. Evidence). IM
+G can be a part of an ED
+U, where gestures or deictic indication would be used in speaking, so eliminating IM
+Gs in this case would result in the incoherent text. We keep this type of references to images as part of ED
+Us.
+3.3. Data preprocessing
+For our research, we enhance the annotation of Ru-RS
+Treebank by adding syntactic and morphological layers (
+Universal dependencies standards). We used Deep
+Pavlov library (http://deeppavlov.ai/) for this task (a pretrained model for Russian—ru_syntagrus_joint_parsing). General statistics, involving morphological and syntactic properties of discourse units, is based on the automatic annotation (accuracy reported for Deep
+Pavlov morphological tagging 96.23). We assume that parsing errors do not affect the differences in relative frequencies of parameters among genres.
+Besides, we added four other discourse-related layers:1) morphological type of ED
+U (finite or non-finite ED
+Us dependent on gram
+matical form of the predicate);2) syntactic type of ED
+U: prepositional phrase, subordinate clause, coordinate
+clause, etc.;3) the type of subclausal ED
+Us (parcellation, external topics, splits etc. ac
+cording to parenthetical and other types of intervening constructions.
+http://deeppavlov.ai/
+Toldova S., Davydova T., Kobozeva M., Pisarevskaya D. 4. ED
+U structural properties4.1. Rhetoric relations in blogs as compared to other genres
+We examine the frequency distribution of different rhetoric relations among genres, taking into account the relations between all level discourse units (not only ED
+Us). The Elaboration relation is the most frequent one for all three genres—scientific articles, news and blogs (more than 30% of all the segments). General statistics for relations is given in 0.0% 5.0% 10.0% 15.0% 20.0% 25.0%
+attributionbackgroundcause-effectcomparisonconcessionconditioncontrastelaborationevaluationevidencejointpreparationpurposerestatementsequencescinewsblog
+Fig. 1 shows that for all genres the Joint and Elaboration relations are the most frequent ones. While Attribution is a specific relation for news, and Elaboration is more frequent in scientific texts, blogs are characterized by higher proportion of Sequence, Evaluation and Contrast as compared to other genres. In order to find out the impact of particular relations for genre differentiation, we built a Random
+Forest classifier with rhetorical relations as features (f1—82%). The relations with the highest impact are Contrast (0.15), Attribution (0.14), Evaluation (0.12) and Elaboration (0.8).
+The high proportion of relations with no overt marking (
+Contrast and Sequence) reflects the tendency for fragmentation. The large number of Evaluation is an evidence of high degree of ‘involvement’. Thus, both tendencies for spoken discourse, named by W. Chafe (, see also 2.3) are supported by the rhetoric relations distribution in blogs.
+Discourse Features of Blogs in Subcorpus of Russian Ru-RS
+Treebank4.2. ED
+U length
+Taking into consideration the tendency for fragmentation in spoken discourse, one would expect a smaller number of complex sentences in blogs, fewer ED
+Us per sentence. However, the data in Table 1 shows that there is no statistically significant difference in the number of ED
+Us per sentence among genres.
+Text Genre
+Average of sentence segments numberStd
+Dev of sentence segments numberblog 2.12 0.47news 2.19 0.47science 2.18 0.44
+Grand Total 2.16 0.46
+The difference lies in the length of the ED
+Us (
+Table 2):
+Text Genre Average of tokens/segment Std
+Dev of tokens/segmentblog 8.59 1.50news 11.08 1.93science 14.75 2.77
+Grand Total 11.02 3.03
+While the longest ED
+Us are in scientific texts, the ED
+Us in blogs are significantly shorter.
+4.3. Morphological and syntactic features of ED
+Us
+Other features referring to the ‘fragmentation/integration’ opposition are sentence complexity, PO
+S (part-of-speech) distribution and subordinate vs. coordinate conjunctions usage.
+4.3.1. Verb and noun forms distribution
+Table 3 presents the distribution of finite/non-finite verb forms in ED
+Us among genres (verbless ED
+Us are not included into the table):
+Text Genre Finite Participle Infinitive Converbblog 63% 4% 22% 2%news 67% 7% 22% 2%science 58% 12% 19% 2%
+Toldova S., Davydova T., Kobozeva M., Pisarevskaya D. In general, the distribution of verb forms looks similar. For all text genres, the most widely used grammatical type is a finite verb ED
+U, while converbs are rarely used in all genres. There is a slight difference in ED
+Us headed by participles. They are more frequent in scientific texts.
+As for nouns, the distribution of nouns per ED
+U is shown in Text Genre Nouns average per ED
+Ublog 1.92news 2.90science 4.13
+This data agrees with the expectations that written discourse is characterized by a high proportion of nouns. The rate of nouns in blogs is lower than in news or scientific texts (cf. the opposition of written vs. spoken discourse).
+4.3.2. Verbless ED
+Us
+According to 4.1, there is no big difference in verb forms distribution across genres. The main difference is in ED
+Us without verbs, see Table 5 (we do not include sentences, erroneously parsed as rootless, though many of them are also clauses with no overt copula):
+Text Genre Average of root sentences without verbs per ED
+Ublog 18.01%news 8.96%science 10.98%
+Grand Total 12.55%
+There are verbless ED
+Us in news and science subcorpora. These ED
+Us are often prepositional phrases signaling purpose or cause relations. Another type of verbless ED
+Us are clauses with no overt copula. In scientific texts, these are primarily definitions or characterizations:(1) Аргументация это универсальный феномен. Argumentation is a universal phenomenon.
+However, the highest proportion of verbless sentences is in blogs. Indeed, there are a lot of sentences with zero copula (see also 5.2):(2) Кухня одна на всех. lit. Kitchen one for all.
+(3) Медынь, автостанция. lit. Medyn, a bus-station.
+Discourse Features of Blogs in Subcorpus of Russian Ru-RSTreebank
+The high proportion of ED
+Us consisting of noun phrases only is also an evidence for high degree of fragmentation in blogs.
+4.3.3. Subjectless ED
+Us
+Based on general assumption that scientific writers often try to avoid the use of personal expressions and to demote human subjects, we expected the high proportion of subjectless clauses in the scientific subcorpus. However, our research has shown that in the blogs subcorpus the proportion of subjectless clauses is the highest one (
+Table 6):
+Text Genre No subject + rootblog 17.12%news 7.27%science 9.92%
+Grand Total 4341
+While the subjectless clauses in scientific texts or news are often impersonal clauses (e.g. было показано ‘(it) was shown’), in blogs the majority of the clauses of this type are clauses with an anaphoric or a personal zero pronoun (pro) as Subject (or with pronominal ellipsis), as in Встала рано. Вышла ровно в 6 ‘(
+I/she) got up early in the morning. (
+I/she) went out at 6 a.m.’4.3.4. Impact of PO
+S and dependency relations
+distribution on genre differentiation
+In order to check features impact on genre differentiation, we built a Random
+Forest classifier based only on PO
+S and some syntactic relations features (
+Accuracy: 0.84 (± 0.02)). The top 11 features (out of 25) are presented in
+Feature Impactnumber of nouns per ED
+U 0.14number of tokens per ED
+U 0.10relative frequency of adverbs 0.07number of parataxis relations per ED
+U 0.07relative frequency of pronouns 0.07relative frequency of verbless ED
+U 0.05relative frequency of particles 0.05relative frequency of ED
+Us started with a coordinative conjunction 0.05relative frequency of prepositional phrases (CAS
+E syntactic relation) 0.04relative frequency of subjectless clauses 0.04relative frequency of nouns 0.04
+Toldova S., Davydova T., Kobozeva M., Pisarevskaya D. Table 7 shows that ranking of features goes hand in hand with the analysis of features suggested above. The most important features are number of tokens per ED
+U, number of nouns per ED
+U (these are highly correlated features), the proportion of verbless and subjectless per text.
+Another significant difference between blogs as opposed to news and scientific texts is the distribution of subordinate vs. coordinate conjunctions. While there is no significant difference in subordinate conjunctions distribution, the number of ED
+Us started with coordinate conjunctions is a quite important feature (20% ED
+Us in blogs, 12% in news and 8% in scientific texts), as well as number of particles per token (4% of tokens in blogs, 2% in news, and only 1% in scientific texts). The high proportion of coordinative conjunctions and particles in blogs agrees with the high number of Contrast relations in blogs.
+5. Parallels between blog and spoken ED
+Us features
+5.1. Non-canonical ED
+Us in blogs
+5.1.1. Speech disfluency and prosodic features
+Some of the prosodic features of spoken discourse can be mapped into special cases of punctuation in blogs. While incomplete ED
+U boundaries in speech are usually detected via pauses and prosodic contour, the speaker in blogs often uses punctuation marks for separating the parts of a clause (a phenomenon similar to parcellation or incrementation):(4) Вот, встретили по пути борзую. В махровых тапочках. Here, we met a greyhound along the way. In terry slippers.
+Besides, speakers use ellipses marks in blogs as an alternative of hesitation markers.
+5.1.2. “
+Quasi-echo” ED
+Us
+One of the constructions imitating spoken phenomena in blogs is a sequence of incomplete clauses (with an ellipses mark) with the repetition of the same idea:(5) a) Знаете, такое ощущение... b) вот мне почему-то кажется, что это... c) нет, ну я могу ошибаться... А что если это связано с новым президентом? a) You know, I have such a feeling... b) for some reason, it seems to me that... c) no, well, I could be wrong... What if this could be related to the new president?
+This construction can imitate false start (cf. (a) and (b) in (5)).
+The ED
+Us in this construction can contain regulatory markers and markers of interaction (e.g. вот (interaction marker), ну ‘well’, просто ‘just’, знаете ‘you know’, etc.). Their function is to express uncertainty or to focus the attention on a particular D
+U.
+Discourse Features of Blogs in Subcorpus of Russian Ru-RS
+Treebank5.1.3. Focus/topic extraction
+An isolated noun phrase can precede a clause where the same noun phrase is an argument (10 examples in blog subcorpus). It can be either in focus or in topic in this clause. Author uses topic repetition to highlight the main topic.
+(6) Факты. Всегда смотрите на факты. Facts. Always look at the facts.
+Another case is topic extraction with corresponding noun phrase ellipsis:(7) Внутренние монголы. Путешествуют всегда организованными группами. Inner Mongols. Travel always in organized groups.
+5.1.4. Retrospective subclausal ED
+Us
+Blog-writers use retrospective subclausal ED
+Us mostly as “adjuncts or attributes that semantically belong to a clause but constitute a separate short ED
+U” . There are 101 examples of retrospective ED
+Us in blog subcorpus (cf. 12 cases in news, five are in reported speech):(8) И каждый менеджер уникален. Как снежинки. Уникальные люди-снежинки. And every manager is unique. Like snowflakes. Unique snowflake people.
+5.1.5. Noun phrase chaining
+Another construction, simulating spoken discourse features, is nominal clause chaining or chaining of noun phrases with no overt copula (their exact syntactic status is often unclear):(9) Отель-чемодан-метро. Тайм-чек. Hotel-suitcase-metro. Time check.
+(10) Моя кожа: 29 лет, комбинированный тип, чувствительная, акне в ремиссии, пост-акне, быстро забиваются поры. lit. My skin: 29 years old, mixed type, sensitive, acne in remission, post-acne, pores are quickly logged.
+5.1.6. Mixture of predicate types in coordinate constructions
+One more construction of special interest is a multinuclear relation where syntactically heterogeneous phrases (noun phrases, finite clauses, etc.) form a coordinating construction.
+(11) Электричка "Стандарт-плюс". Цивильная и комфортная, с мягким ходом, есть вай-фай. Два часа блаженства и резкий контраст с тем, что будет дальше. Electric train Standard plus. Civil and comfortable, with a smooth ride, there is Wi
+Fi. Two hours of bliss and a sharp contrast with what will happen next.
+5.1.7. Splits
+There are special types of splits in blogs that are marked with three dots or exclamation marks, interjections or emoticons (77 cases)
+Toldova S., Davydova T., Kobozeva M., Pisarevskaya D. (12) А ты мама… вот тогда злилась на меня, когда мы опаздывали на электричку! And you mom... then got mad at me when we were late for the train!(13) Ой:) сейчас же в моде такие словечки… Oh:) these words are now in fashion ....
+5.2. Embedded parataxis constructions
+The parenthetical phrases intervening into ED
+Us occur in all three genres (blogs—528 (3.7% of ED
+Us), news 482 (3.9% ), scientific texts—592 (6.8%)). Table 8 presents the distribution of factual vs. evaluative ED
+Us occurring in parenthesis:
+parenthetical constructions among genres
+Parameter / text genre blogs news scientific textsfactual information: elaboration / disclosure 266 513 580evaluation / interpretation 189 43 12
+Total 455 546 592
+In news, the function of phrases in parenthesis is to enforce author’s interpretation of facts. Among the three genres, the parenthetical constructions most often occur in scientific texts. Interactive communication with the audience in scientific texts is represented only by reduced scientific abbreviation-clichés: ср. ‘cf.’, см. ‘see’, etc.
+In blogs, parenthetical constructions are used as blog-writer “protocols”. They often include evaluative expressions:(14) Сладости я оставила только без сахара и органический шоколад в очень умеренных дозах (чтоб не так хотелось убивать людей))). I kept only sweets without sugar and organic chocolate in very moderate doses (not to want to kill people))).
+Many of them contain irony:(15) Газовщица заполнила договор (один экземпляр), теща подписала и спрашивает (все-таки бывший директор школы), а ей экземпляр? The gas worker filled out the contract (one copy), the mother-in-law signed and asked (after all, the former principal), but what about her copy?
+Moreover, sometimes they are markers of interaction:(16) Сегодня будем размышлять над следующим изречением (тем, кто не знает иностранных языков — Google в помощь). Today we will reflect on the following saying (for those who do not know foreign languages—
+Google can help (you)).
+Discourse Features of Blogs in Subcorpus of Russian Ru-RS
+Treebank6. Conclusion
+To sum up, our research shows the difference in discourse properties of the three subcorpora in Ru-RS
+Treebank. The distribution of rhetoric relations differs among genres.
+Our corpus study provides an additional evidence for the claim that blogs have spoken discourse features. The rhetoric relations distribution, the occurrence of subclausual ED
+Us of certain types, the part of speech distribution differ blogs from the other two genres, science articles and news. There are special devices that are used by blog authors to imitate the spontaneous speech.

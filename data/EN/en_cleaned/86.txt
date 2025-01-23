@@ -1,0 +1,178 @@
+Words have a history; that is, they change and evolve over time. Types of changes include: orthographic,or changes in spelling or capitalization; register changes, in which a word becomes more respectable orless; and the semantic changes discussed in this paper, in which the word changes its relationships withother words in the vocabulary, perhaps by losing or gaining a sense or just changing the frequency of usefor a sense.
+The task of finding word sense changes over time belongs to the field of natural language processing.
+It is called diachronic Lexical Semantic Change (LS
+C) and in recent years, it is getting more attention. There is also the synchronic LS
+C task, which aims to identify domain-specific changesof word senses compared to general-language usage .
+1.1 The RuShift
+Eval Task
+The goal of the RuShift
+Eval task1 to rank a set of target words according to their degree oflexical semantic similarity between two corpora 𝐶𝐶𝑖𝑖 and 𝐶𝐶𝑗𝑗 , each from a different time period 𝑡𝑡𝑖𝑖 and 𝑡𝑡𝑗𝑗 ,respectively. A lower rank (score) for the test word means stronger semantic change. The organizers*
+Equal contribution.
+1
+It is almost the same task as the Sem
+Eval-2020 Task 1, sub-task 2, see Section 2.provided three corpora for different time periods 𝐶𝐶1 pre
+Soviet (1700-1916), 𝐶𝐶2 Soviet (1918-1990) and
+𝐶𝐶3 post
+Soviet (1991-2016), see Section 3 for details. They also provided annotated training data (ranksfor list of words) for two corpora pairs 𝐶𝐶1/𝐶𝐶2 (pre-Soviet/
+Soviet) and 𝐶𝐶2/𝐶𝐶3 (Soviet/post
+Soviet) fromthe RuSem
+Shift test set . In the test phase, the participants were asked to produce outputs for a list oftest words2 for all three pairs of the corpora, i.e., 𝐶𝐶1/𝐶𝐶2 (pre-Soviet/
+Soviet), 𝐶𝐶2/𝐶𝐶3 (Soviet/post
+Soviet)and 𝐶𝐶1/𝐶𝐶3 (pre-Soviet/post
+Soviet). In evaluation, a Spearman correlation coefficient with gold rankingsbased on human annotation is computed for each pair of corpora and subsequently all three coefficientsare averaged. The average is used as a final score for one submission.
+Even though the organizers provided some annotated training data, we did not use the data and we relyon a completely unsupervised solution. We use a very similar approach to . The general idea ofour solution is that we consider each pair of different corpora 𝐶𝐶𝑖𝑖 and 𝐶𝐶𝑗𝑗 as separate languages 𝐿𝐿1 and𝐿𝐿2 despite the fact that both of them are written in Russian. We assume that both of these languages aredeeply similar in all aspects, including semantic. We train a semantic space (word embedding) for eachcorpus and for each pair of corpora, we perform a cross-lingual mapping (i.e., we transform the spacesinto one common space) of their corresponding word embeddings. For the cross-lingual transformation,we use the Orthogonal transformation Canonical Correlation Analysis (CC
+A) . Afterthe transformation for one corpora pair, we can measure cosine similarity for one target word between itstwo vectors because they are in the same space. The cosine similarity denotes their semantic similarity,all the target words are then ranked according to the cosine similarity.
+2 Related Work
+Word embeddings are vector spaces in which the location in the space reveals some relationships withnearby words. For example, the nearest-neighbor set of a word generally includes words which havesome semantic or syntactic relationship with it. The embedding is thus a concrete demonstration of
+Harris’ remark difference of meaning correlates with difference of distribution .
+Alignment transformations or cross-lingual transformations are techniques for aligning two word embedding spaces, first described in Mikolov et al. translating single words from one language toanother. For example, to find English equivalents of Russian words, semantic word embedding vectorspaces 𝑋𝑋𝐸𝐸 and 𝑋𝑋𝑅𝑅 with vector length 𝑘𝑘 for each language are built from monolingual corpora 𝐶𝐶𝐸𝐸 , 𝐶𝐶𝑅𝑅. Asmall dictionary of cross-language synonyms, with 𝑛𝑛 pairs like e.g. (
+Please, Просим) is provided. Thesesynonyms are used to create two 𝑛𝑛 by 𝑘𝑘 matrices 𝐷𝐷𝐸𝐸 and 𝐷𝐷𝑅𝑅, with rows in the 𝐷𝐷𝐸𝐸 matrix consistingof semantic vectors from the English embedding, and corresponding rows in the 𝐷𝐷𝑅𝑅 matrix consistingof semantic vectors from the Russian embedding. Finally a linear transformation 𝑊𝑊𝐸𝐸→𝑅𝑅 is trained tochange the vectors for the English vectors to the Russian ones, by finding the following minimum:𝑊𝑊𝐸𝐸→𝑅𝑅 = argmin𝑊𝑊||𝐷𝐷𝑅𝑅 −𝑊𝑊𝐷𝐷𝑅𝑅||2
+Then we hope to find that vector 𝑣𝑣𝐸𝐸𝑞𝑞 for an English word 𝑞𝑞 not in our dictionary will be mapped with𝑊𝑊𝐸𝐸→𝑅𝑅𝑣𝑣𝐸𝐸𝑞𝑞 to be in the near neighborhood of vectors 𝑣𝑣𝑅𝑅𝑤𝑤𝑗𝑗, good Russian translations of 𝑞𝑞.
+Kulkarni et al. have been the first to use the displacement of a word mapped by a linear transformation from one word-embedding semantic space to another as a measurement of semanticchange. Their transformations, between word embeddings for corpora 𝐶𝐶𝑠𝑠 and 𝐶𝐶𝑡𝑡 with large vocabularyintersections, were created based on nearest neighbors. For each test word 𝑞𝑞, if 𝑣𝑣𝑠𝑠𝑤𝑤𝑖𝑖is the vector forthe 𝑖𝑖-th nearest neighbor to 𝑣𝑣𝑠𝑠𝑞𝑞 in one space, and 𝑣𝑣𝑡𝑡𝑤𝑤𝑖𝑖is the vector for the same word in the other space,and each such vector is 𝑘𝑘 elements long, then a 𝑘𝑘 × 𝑘𝑘 matrix 𝑊𝑊 𝑠𝑠→𝑡𝑡 such that 𝑣𝑣𝑡𝑡𝑤𝑤𝑖𝑖= 𝑊𝑊 𝑠𝑠→𝑡𝑡𝑣𝑣𝑠𝑠𝑤𝑤𝑖𝑖is completely determined whenever we consider at least 𝑘𝑘 nearest neighbors, that is |𝑣𝑣𝑠𝑠𝑤𝑤𝑖𝑖| > 𝑘𝑘. Thus, they builda piece-wise linear transformation from one space to another around each test word, and compare themapped position of the test word to the actual position for the same word in the second space.
+Hamilton et al. the term orthogonal Procrustes3 to describe their method of building an2
+The list was same for all three pairs.
+3
+Procrustes was a figure in Greek mythology who forced passing travellers to fit into his bed, either stretching them longer
+or cutting them shorter if necessary.
+Přibáň P., Pražák O., Taylor S. E.orthogonal linear mapping to align embeddings for two time periods. Like Mikolov unlike
+Kulkarni, they use one transformation for all words in the vocabulary. Unlike Mikolov, they add theadditional constraint that the transformation be orthogonal, so that angles and thus cosine similaritiesbetween words are preserved by the transformation. With this added condition, the problem has a closedform using Singular Value Decomposition. Their experiments showed that the combination of wordembeddings and orthogonal Procrustes give excellent results when there is sufficient data to build goodword embeddings.
+Tahmasebi et al. a comprehensive survey of techniques for the LS
+C task. Schlechtweg etal. available approaches for LS
+C detection using the DU
+Rel dataset .
+According to , there are three main types of approaches. (1) Semantic vector spaces approaches represent each word with two vectors for two different time periods. Thechange of meaning is then measured by some distance (usually by the cosine distance) between the twovectors. (2) Topic modeling approaches a probability distribution of wordsover their different senses, i.e., topics and (3) Clustering models .
+The recent competitions focused on LS
+C: Sem
+Eval-2020 Task 1 DIACR
+Ita onunsupervised approaches and did not provide any annotated training data. The goal of the SemEval-2020
+Task 1 was to measure the binary (changed or not) and continuous change in words between two timeperiods in English, German, Latin and Swedish corpora. In the DIACR
+Ita the participants were askedonly to measure the binary changes for a set of target words between two time periods in Italian.
+3 Data
+The data for the RuShift
+Eval task is drawn from the Russian National Corpus4. Like the data for theother tasks shown below, each corpus consists of random sentences chosen from the literature of itstime-period. Thus, neighboring sentences provide no additional context for words in short sentences.
+Task:
+Language Period 1 Period 2 Period 3 # test wordsSem
+Eval T1:
+English 6.5
+M 6.7
+M – 37Sem
+Eval T1:
+German 70.2
+M 72.3
+M – 48Sem
+Eval T1:
+Latin 1.7
+M 9.4
+M – 40Sem
+Eval T1:
+Swedish 71
+M 110.7
+M – 31DIACR-Ita:
+Italian 156.8
+M 589.6
+M – 18RuShiftEval:
+Russian 75.1
+M 97.2
+M 85.3
+M 99
+The RuShift
+Eval corpora are not lemmatized; the tokens in the corpora are inflected wordforms usedcorrectly in the sentence context. The test words, however, are lemmas. Some of them may appear in thecorpora when an inflected word is the same as the lemma, but in general, many of the uses of a lemmaare different than the lemma itself.
+For the Sem
+Eval-2020 Task 1, the corpora were provided only in lemmatized form, in part becauseof copyright issues. Reading them, it is clear that some information has been lost, including numberand case for nouns and person and tense for verbs. These might not be important to the task, but thereis no choice to make; all the evaluations must use the lemmatized forms (which are not always theactual lemmas; the text processing has a few errors). For DIACR
+Ita, the corpus was provided in verticalform, with the original token, the lemma, and the part of speech available for each token. Prazak etal. four of the seven possible choices: tokens; token_PO
+S (Part-of
+Speech); lemmas;and lemma_PO
+S. The change measurements were most consistent for lemmas, and least consistent fortoken_PO
+S, with the other two choices in the middle. For most of our RuShift
+Eval submissions, wechose to use lemmas instead of raw tokens.
+We use U
+Dpipe the russian-syntagrus-ud-2.5-191206.udpipe model to lemmatize the corpora, that is, to convert every token to its lemma.
+4https://rusvectores.org/static/corpora/UWB@RuShift
+Eval Measuring Semantic Difference as per-word Variation in Aligned Semantic Spaces
+4 System Description
+Our method5 is fully unsupervised and language-independent. It consists of preparing a semantic vectorspace for each corpus, earlier and later; computing a linear transformation between earlier and laterspaces, using Canonical Correlation Analysis and Orthogonal Transformation; and measuring the cosinesbetween the transformed vector for the target word from the earlier corpus and the vector for the targetword in the later corpus.
+First, we train semantic spaces from each corpus 𝐶𝐶1, 𝐶𝐶2 and 𝐶𝐶3. We represent the semantic spacesby a matrix X𝑠𝑠 (i.e., a source space 𝑠𝑠) and a matrix X𝑡𝑡 (i.e, a target space 𝑡𝑡) using fast
+Text with negative sampling. We perform a cross-lingual mapping of the two vectorspaces, getting two matrices X̂𝑠𝑠 and X̂𝑡𝑡 projected into a shared space. We select two methods forthe cross-lingual mapping Canonical Correlation Analysis (CC
+A) using our own implementation anda modification of the Orthogonal Transformation from Vec
+Map . Both of these methods are lineartransformations. In our case, the transformation can be written as follows:
+X̂𝑠𝑠 = W𝑠𝑠→𝑡𝑡
+X𝑠𝑠 (1)where W𝑠𝑠→𝑡𝑡 is a matrix that performs linear transformation from the source space 𝑠𝑠 (matrix X𝑠𝑠) into atarget space 𝑡𝑡 and X̂𝑠𝑠 is the source space transformed into the target space 𝑡𝑡 (the matrix X𝑡𝑡 does not haveto be transformed because X𝑡𝑡 is already in the target space 𝑡𝑡 and X𝑡𝑡 = X̂𝑡𝑡).
+Generally, the CC
+A transformation transforms both spaces X𝑠𝑠 and X𝑡𝑡 into a third shared space 𝑜𝑜(where X𝑠𝑠 ̸= X̂𝑠𝑠 and X𝑡𝑡 ̸= X̂𝑡𝑡). Thus, CC
+A computes two transformation matrices W𝑠𝑠→𝑜𝑜 for thesource space and W𝑡𝑡→𝑜𝑜 for the target space. The transformation matrices are computed by minimizingthe negative correlation between the vectors x𝑠𝑠𝑖𝑖 ∈ X𝑠𝑠 and x𝑡𝑡𝑖𝑖 ∈ X𝑡𝑡 that are projected into the sharedspace 𝑜𝑜. The negative correlation 𝜌𝜌 is defined as follows:argminW𝑠𝑠→𝑜𝑜,W𝑡𝑡→𝑜𝑜−𝑛𝑛∑︁𝑖𝑖=1𝜌𝜌(
+W𝑠𝑠→𝑜𝑜x𝑠𝑠𝑖𝑖 ,
+W𝑡𝑡→𝑜𝑜x𝑡𝑡𝑖𝑖) = −𝑛𝑛∑︁𝑖𝑖=1𝑐𝑐𝑜𝑜𝑐𝑐(
+W𝑠𝑠→𝑜𝑜x𝑠𝑠𝑖𝑖 ,W𝑡𝑡→𝑜𝑜x𝑡𝑡𝑖𝑖)√︀𝑐𝑐𝑣𝑣𝑣𝑣(
+W𝑠𝑠→𝑜𝑜x𝑠𝑠𝑖𝑖 )× 𝑐𝑐𝑣𝑣𝑣𝑣(
+W𝑡𝑡→𝑜𝑜x𝑡𝑡𝑖𝑖)(2)where 𝑐𝑐𝑜𝑜𝑐𝑐 the covariance, 𝑐𝑐𝑣𝑣𝑣𝑣 is the variance and 𝑛𝑛 is a number of vectors. In our implementation ofCC
+A, the matrix X̂𝑡𝑡 is equal to the matrix X𝑡𝑡 because it transforms only the source space 𝑠𝑠 (matrix X𝑠𝑠)into the target space 𝑡𝑡 from the common shared space with a pseudo-inversion, and the target space doesnot change. The matrix W𝑠𝑠→𝑡𝑡 for this transformation is then given by:
+W𝑠𝑠→𝑡𝑡 = W𝑠𝑠→𝑜𝑜(
+W𝑡𝑡→𝑜𝑜)−1 (3)
+In the case of the Orthogonal Transformation, the submission is referred to as ort-200-O
+T, see to both semantic spaces. The transformation matrix W𝑠𝑠→𝑡𝑡 is given by:argmin
+W𝑠𝑠→𝑡𝑡|𝑉𝑉 |∑︁𝑖𝑖(
+W𝑠𝑠→𝑡𝑡x𝑠𝑠𝑖𝑖 − x𝑡𝑡𝑖𝑖)2 (4)
+under the hard condition that W𝑠𝑠→𝑡𝑡 needs to be orthogonal, where V is the vocabulary of correct wordtranslations from source to target space. The reason for the orthogonality constraint is that linear transformation with the orthogonal matrix does not squeeze or re-scale the transformed space. It only rotatesthe space, thus it preserves most of the relationships of its elements (in our case, it is important thatorthogonal transformation preserves angles between the words, so it preserves the cosine similarity).
+Finally, in all transformation methods, for each word 𝑤𝑤𝑖𝑖 from the set of target words 𝑇𝑇 , we select itscorresponding vectors v𝑠𝑠𝑤𝑤𝑖𝑖and v𝑡𝑡𝑤𝑤𝑖𝑖from matrices X̂𝑠𝑠 and X̂𝑡𝑡, respectively (v𝑠𝑠𝑤𝑤𝑖𝑖∈ X̂𝑠𝑠 and v𝑡𝑡𝑤𝑤𝑖𝑖∈ X̂𝑡𝑡),and we compute the cosine similarity between these two vectors. The cosine similarity is then used togenerate an output, i.e., the ranking.
+5
+The source code is available at https://github.com/pauli31/Sem
+Eval2020-task1
+Přibáň P., Pražák O., Taylor S. E.
+Rank C1/
+C2 C2/
+C3 𝐶𝐶1/𝐶𝐶3 Avg. Description27 .367 .354 .533 .417 cca-150-O
+T
+49 .277 .273 .464 .338 cca-100to220-agg
+50 .239 .307 .450 .332 ort-200-O
+T
+57 .220 .255 .446 .307 cca-100to500-agg
+71 .096 .155 .317 .190 cca-300-pre-/post-trained
+Aggregating runs (submissions ranked 49 and 57) were performed by giving each test word the average of its rank in the individual runs. Our best aggregating run is cca-100to220-agg, aggregating runsfrom 29 embeddings with vector lengths from 100 to 220. Cca-100to500-agg aggregates runs on 119embeddings with vector lengths from 100 to 500. It has a smaller Standard Error of the Mean, but worsescores.
+Pre-training (submission ranked 71 in Table 2) was performed for one epoch on the entire vocabularyfor all corpora, and then for five epochs in one corpus. The pre-training was supposed to start all threeembeddings from the same random beginning. For training our embeddings, including pre-training weused the gensim module, which re-implements both the word2vec Skip-gram and the fast
+Texttraining algorithms. Both aggregation and pre-training submissions use the CC
+A transformation.
+For the experiments with the orthogonal transformation, we use the Vec
+Map tool . We use embeddings with the size of 200 and 300. We performed two versions of the experiments, the first withlemmatized text and the other with only the target word lemmatized and the rest of the text only lowercased (O
+T in the name of the submissions).
+The cca-150-O
+T submission used the CC
+A transformation with fast
+Text embeddings with dimension150. We build the translation dictionary for the transformation of the two spaces by removing the target
+words from the intersection of their vocabularies (we use all other words from the intersection). Theembeddings are trained on the same preprocessed text as the orthogonal submission.
+4.1 Results
+We made ten submissions. The most interesting submissions are shown in table 2, which is excerptedfrom the full leaderboard. Our team ranked near the median, with absolute correlations less than weexpected based on our scores with RuSem
+Shift data.
+As described above, we experimented with several different details within the broad strategy of aligning embeddings. Although single runs on each sub-strategy are not necessarily statistically significant,table 2 shows that the O
+T (only targets lemmatized) sub-strategy and CC
+A transformations were relatively successful, and that embeddings with more than 220-dimensional vectors were less successful,perhaps because more training should have been used for the extra parameters.
+5 Conclusion
+In the two earlier recent semantic change workshops , strategies like ours did very well .
+In contrast, at RuShift
+Eval, other strategies (probably supervised) have dramatically taken over the topspots. You will have to read those papers to find out how they did it. However, we can speculate on somedifferences peculiar to this situation.
+Our approach is unsupervised. We did a couple of sanity runs using the RuSem
+Shift data , butmade no effort to exploit it. So systems which found ways to incorporate supervision should do better.
+It is possible that the human annotation of the gold data is capturing only a part of the total semanticchange in test words, and thus supervised systems which attempt to match those annotations fare betterthan those like ours which look at global usage. Against this theory, the annotation technique appears tobe very similar to that of Schlechtweg et al. , used in the other recent workshops.
+None of the languages for the other workshops in Table 1 is from the Slavic language group. Slaviclanguages have more cases for nouns, and perhaps more tokens/lemma than other languages. They haveUWB@RuShift
+Eval Measuring Semantic Difference as per-word Variation in Aligned Semantic Spacesa generally freer word-order, which may have an effect on a five-word context window. Latin has someof the same problems as the Slavic languages, and Latin results for the Sem
+Eval task were generallymuch worse – but the small corpora sizes for Latin could have aggravated those problems (see Table 1),and were certainly easy to blame. In contrast, the RuShift
+Eval corpora are completely adequate.
+Further, because it is easier to get a good Spearman correlation for a shorter sequence, our ’sanity’runs on the RuSem
+Shift data may have misled us about our likely scores on the final evaluation. Theexpected absolute value of the Spearman correlation of two lists of random numbers is 0.27 for lists oflength 10, 0.11 for lists of length 50, and 0.08 for lists of length 100. The shorter lists also have largerstandard deviation. The lists of test words for previous workshops ranged from 18 to 48 words long, andthe two RuSem
+Shift lists are 49 and 50 words. So higher scores are easier to achieve for those shorterlists. The highest score of ten submissions is most likely to be 1.3𝜎𝜎 above the mean. (
+Another factoris averaging the three inter-corpora scores. Assuming that the standard deviation of each score is 𝑠𝑠, thestandard deviation of the average is 𝑠𝑠√3
+.) Everyone had this problem; but it may partly account for ourconfusion about how well we expected to do.
+Finally, of course, we may have made a silly implementation error. If so, we were in good company.
+6 Acknowledgements
+This work has been partly supported by ERD
+F ”
+Research and Development of Intelligent Componentsof Advanced Technologies for the Pilsen Metropolitan Area (Inte
+Com)” (no.: C
+Z.02.1.01/0.0/0.0/17048/0007267); by the project L
+O1506 of the Czech Ministry of Education, Youth and Sports; and by
+Grant No. SG
+S-2019-018 Processing of heterogeneous data and its specialized applications. Access tocomputing and storage facilities owned by parties and projects contributing to the National Grid Infrastructure Meta
+Centrum provided under the programme "
+Projects of Large Research, Development, and
+Innovations Infrastructures" (CESNE
+T L
+M2015042), is greatly appreciated.

@@ -1,0 +1,190 @@
+The fast evolution of computers and the rapid growth of the Internet since the late 1990s made it easier for people to upload, store and share information on the web. Forums, chats and other web-based informational resources led to the emergence of large amounts of the so called ‘user-generated content’. User generated content (UG
+C) is material on websites, and occasionally other media sources, that is produced by users of websites (who are generally amateurs as opposed to professional editors, copywriters etc). In our case the content consists of tourist reviews produced by the users of the tripadvisor.com website.
+Trip
+Advisor is world’s largest travel web-based resource. The content is available in 21 languages for 30 countries. Most reviews are presented in English. At the same time, millions of users want to read the reviews in their native language. Human translation cannot be efficient for processing large amounts of UG
+C. Taking into account the fast growth of Russian travel market, Trip
+Advisor wanted an efficient automated translation solution for processing UG
+C.
+2. Related Work
+Regardless of the growing demand for automated translation of UG
+C little attention is paid to this topic in the field of machine translation research.
+the possibility of creating a highquality commercially successful application for real-time automated translation of chat content. The authors note that UG
+C is characterized by specific repeated colloquial words and phrases and lots of grammar errors. The main task of an M
+T system is to convey the meaning of the source text, whereas the translation quality is of secondary importance.
+the development of an automated translation system for Adobe. The authors define three types of UG
+C:•	 user e-mails;•	 bug reports and product reviews;•	 messages from user forums.
+Creating an automated system for translation of user-generated content According to the authors, an efficient M
+T system for processing UG
+C should have the following features:•	 ability to translate large amounts of texts in real time;•	 ability to convey source text meaning;•	 reliability and robustness (taking into account large volumes and low quality of input data).
+the case-studies of customization of an automated M
+T system for processing UG
+C from the Symantec company forum. Authors observe a lot of grammar mistakes and a large number of colloquial words and phrases in the analyzed texts.
+on the customization of an automated translation system for user messages in a multilingual social network. The authors face the following problems:•	 a lot of the content is produced by non-native speakers, therefore this content contains many grammatical and syntactic errors;•	 the content produced by native speakers contains grammatical and syntactic errors because 1) either the author enters the text too fast and so makes typographical errors, or 2) the author deliberately departs from spelling norms to bring about some linguistic effect.
+The reliability and robustness are basic requirements for an automated machine translation system for processing UG
+C. An M
+T system for processing UG
+C should be 1) thoroughly customized for this specific type of content and 2) be able to translate large amounts of text in real time.
+3. Aim and Objectives
+The main challenge was to achieve high quality of translation. Since manual editing of each review was impossible, the website functionality required a high quality automated translation system that does not require human post-editing. About 80,000 reviews are added to the website weekly, so Trip
+Advisor required a technically accurate solution for processing large volumes of text. Another client’s requirement was to translate the existing content (over 10 million reviews) within a short period. Due to the huge amount of data human post-editing of every single review was impossible. At the same time, UG
+C is a challenge for M
+T, since such texts are highly informal and typically contain a significant number of spelling, stylistic and punctuation errors that affect the M
+T results.
+Another important client’s requirement was an efficient quality estimation system integrated into the final M
+T solution. As Trip
+Advisor wanted to publish high-quality translations only, PROM
+T had to design an automated quality estimation system with a quality threshold.
+The translation results had to contain clear and understandable content. Translation had to meet certain quality criteria, and as manual evaluation of the whole translation volume was impossible, the M
+T solution had to provide an automatic scoring mechanism for the evaluation of the translated texts.
+Evdokimov L. V., Molchanov A. P.
+tight deadline for developing M
+T system was another crucial demand made by Trip
+Advisor.
+Website developers wanted a cloud-based server M
+T solution, that’s why we decided to develop a hybrid translation solution based on the PROM
+T Deep
+Hybrid system (see ).
+4. Statistical and Linguistic Analysis of the
+Data provided by Trip
+Advisor4.1. Initial Data
+Trip
+Advisor provided PROM
+T with the following data for engine customization:•	 Trip
+Advisor English
+Russian glossary (505 entries);•	 English
+Russian Trip
+Advisor T
+Ms (~100,000 entries);•	 English monolingual text corpus of hotel reviews (~1.2 billion words).
+4.2. Domain
+Specific Dictionaries
+The Trip
+Advisor English
+Russian glossary was converted into a dictionary of the PROM
+T internal format. We also extracted the most frequent terms and phrases from the English hotel review corpus. We analyzed the translations of these entries and made the necessary corrections and additions to the Trip
+Advisor dictionary and the baseline PROM
+T Travel dictionary.
+Due to the large amount of misspellings and typos in the text of reviews we decided to create a dictionary with incorrect spelling of frequent English words, e.g.
+(1) couldnt, did’nt, experieince,so that the translation system could treat them as known words.
+We also created the PROM
+T Trip
+Advisor Backgroud dictionary containing frequent travel-related phrases. The dictionaries were then icorporated into the translation system according to their priority: 1) Trip
+Advisor dictionary (highest priority); 2) Trip
+Advisor Backgroud dictionary; 3) Travel dictionary; 4) PROM
+T General dictionary (lowest priority). The priority works as follows: if the word or phrase is missing in the dictionary with the highest priority, the system tracks it in the dictionary with next priority etc.
+4.3. Translation Memory
+We made a thorough analysis of the English
+Russian translation memory provided by Trip
+Advisor. We decided not to use it for three main reasons: 1) many segments were not domain-relevant; 2) many of them contained lots of different errors Creating an automated system for translation of user-generated content (untranslated and incorrectly translated sentences, segments containing no alphabetic characters etc.); 3) many segments were of adequate quality but not informative for the baseline PROM
+T system, for example, named entities and geographic names:(2) Reno-PropertyOpen-No
+Dates Salute the white baroque towers of St. Fernando de Noronha and Atol das Rocas Reserves
+Due to the tight schedule we selected a random development set (approximately 10 percent) from the English hotel review corpus provided by Trip
+Advisor. We used this
+development set to build a list containing the most frequent in-domain sentences, e.g.
+(3) Highly recommended! The staff was very friendly and helpful.
+etc. These sentences (15
+K) were processed the following way: 1) the sentences were translated with the baseline PROM
+T system; 2) the translations were analyzed by our linguists. According to linguistic expertise only 8 % (1200 sentences) contained major syntactic and stylistic errors. These sentences were manually post-edited and integrated into the translation system as a translation memory.
+4.4. Target Language Model
+A target language model is normally built on the in-domain target texts. In our case, there was no in-domain text corpus in Russian, so we had to create it. We crawled and processed about 27,000 user reviews (80 million words) from different Russian websites dedicated to travelling. These texts were used to build the target language model. The model was integrated into the translation system.
+A language model is a set of n-grams (word sequences of n-length) and their statistical characteristics. The rule-based system may have several translation options for some words and phrases. The language model is a component of the PROM
+T Deep
+Hybrid system. It is used to score the translation candidates generated by the rule-based component and select the best one according to perplexity score. Perplexity (PP
+L) is inversely proportional to probability and is calculated for every translation candidate. The lower the PP
+L is, the better the translation candidate fits the language model.
+We called the language model built on the Russian reviews corpus the BigTrip
+Advisor Language Model. It was integrated into the translation system for Trip
+Advisor.
+4.5. Quality Estimation System
+According to the client’s requirements, our automated translation system had to be equipped with a quality estimation component. Quality estimation (Q
+E) systems are used to estimate machine translation output quality at run-time. In our case, we had to select the high-quality translated reviews suitable for publishing on the website without human post-editing and reject the low quality ones.
+Evdokimov L. V., Molchanov A. P.
+of all, we had to choose a confidence metric which would be the basic element of our Q
+E system. Due to the tight schedule, we decided to create a simple metric based on PP
+L. Our experts performed the quality evaluation of 1000 sentences with different PP
+L scores. The results of this experiment showed that there is a sufficient correlation between the translation quality and the PP
+L scores (see Figure 1).
+Q
+E systems normally operate on the sentence level. According to the client’s request, our Q
+E system had to estimate the entire text of the reviews. The average review length for the Trip
+Advisor website is approximately 100 words or three to five sentences. We decided to use the arithmetic mean of the PP
+L scores for separate sentences of reviews.
+According to another request from Trip
+Advisor, the Q
+E system had to be scaled from 1 to 5 with the accuracy of 0.1. Low-quality translations with PP
+L over 10,000 received the score equal to 1, high quality translations with PP
+L under 10 received the score equal to 5. The scaling formula is presented in We scored the translations of all reviews from the English monolingual corpus provided by Trip
+Advisor. The number of translations with scores 1 and 5 was less than 0.1 %. The distribution of the Q
+E metric scores is presented in Figure 3.
+Creating an automated system for translation of user-generated content 4.6. Deliverables
+We developed a reliable, robust, scalable server-based translation solution. The solution was based on the PROM
+T Deep
+Hybrid translation engine and included the following components:•	 English
+Russian Dictionaries: 1) PROM
+T Trip
+Advisor dictionary containing client-specific terms (approximately 5,600 entries); 2) PROM
+T Trip
+Advisor Background dictionary containing domain-relevant terminology (approximately 27,600 entries); PROM
+T Trip
+Advisor Geography background dictionary containing geographic names (approximately 48,200 entries).
+•	 Target language model built on the text corpus of reviews in Russian.
+•	 Q
+E system.
+5. Translation Quality Evaluation
+Tripadvisor provided a parallel corpus (approximately 70
+K words) of the English reviews and their translations with human post-editing. We used this corpus to evaluate the translation quality. The English revews were translated with: 1) PROM
+T baseline system; 2) PROM
+T baseline system with the Trip
+Advisor dictionaries; 3) fully customized PROM
+T Deep
+Hybrid system with all components. The BLE
+U scores are presented in Evdokimov L. V., Molchanov A. P.
+
+T translation system configurations
+System BLE
+U scorepercentage of unknown wordsPROM
+T baseline system 17.12 2.56 %PROM
+T baseline system + Trip
+Advisor dictionaries 19.42 2.19 %PROM
+T Deep
+Hybrid system (PROM
+T baseline system + Trip
+Advisor dictionaries + Language model)20.13 2.16 %
+Our experts performed lingustic analysis of the PROM
+T baseline system and the PROM
+T Deep
+Hybrid system output. 3,291 sentences (78 % of the test set) of the PROM
+T Deep
+Hybrid system output contained changes compared to the PROM
+T baseline system output. Our experts compared 100 random RBM
+T and Deep
+Hybrid translations in terms of improvements and degradations. The results showed that the Deep
+Hybrid engine outperforms the RBM
+T engine according to human evaluation. The experts observed 49 improvements and 9 degradations for the Deep
+Hybrid system output compared to the baseline system output. 42 translations were classified as equivalent.
+Examples of translation quality improvements are presented in № Source sentencePROM
+T Baseline SystemPROM
+T Deep
+Hybrid systemgoogle.translate1 A big thumbs
+up to the Kiydan familyБольшие большие пальцы до семьи KiydanОценка «отлично» семье КиидэнБольшие пальцы в семье Kiydan2 Can’t wait
+to go back!!Не может ждать, чтобы возвратиться!!Не терпится вернуться снова!!Не может ждать, чтобы вернуться!3 The brakfast was
+awsome.
+brakfast был awsome.
+Завтрак был потрясающим.
+Завтраком было потрясающим.
+4 The food and resturant was very good
+Еда и resturant были очень хорошиЕда и ресторан были очень хорошиЕда и ресторан был очень хорош5 At least the staff
+were pleasent!По крайней мере, сотрудники были pleasent!По крайней мере, персонал был приятным!По крайней мере, сотрудники были приятно!6 Dinner at the hotel
+was quite expensive and we preferred to eat out, however we ate at the hotel one day when the menue included lobster.
+Обед в отеле был довольно дорог, и мы предпочли идти куда-нибудь поесть, однако мы поели в отеле однажды, когда menue включал омара.
+Ужин в отеле был довольно дорогим, и мы предпочли идти куда-нибудь поесть, однако мы поели в отеле однажды, когда меню включало омара.
+Ужин в отеле был довольно дорогим, и мы предпочли пойти куданибудь поесть, но мы поели в отеле однажды, когда МЕНЮ включены омаров.
+Creating an automated system for translation of user-generated content 6. Conclusions
+We created an automated translation solution that fully answered the project objectives and the client’s requirements. The entire process of system development and customization took about a month. The solution we created has the following features:•	 Fast and efficient translation of large volumes of texts.
+•	 High quality translation.
+•	 Low costs for development and customization of the M
+T system (compared to the manual translation costs).
+•	 Accurate and efficient quality estimation system.
+•	 The solution was integrated into the Trip
+Advisor workflow with minimal costs for development and support on the client’s side.
+We managed to show how an efficient M
+T solution for translating user-generated content can be developed and customized within a short period and with no parallel in-domain data.

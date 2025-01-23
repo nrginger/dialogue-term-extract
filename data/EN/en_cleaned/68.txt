@@ -1,0 +1,148 @@
+Actually, users can fi nd any type of information in the Internet. Tentatively, it can be divided into two classes: factual information and user opinions. Most of current information processing techniques (e. g., search engines) work with facts and have satisfactory quality. Processing of user’s opinions is a more complicated problem. Ranking of the reviews according to their sentiment is a very diffi cult and urgent task.
+The easiest subtask is to classify reviews into two classes: positive and negative. Quality of two-way classifi cation using topic-based categorization approach for reviews exceeds 80 % . In quality of review classifi cation, based on the socalled appraisal taxonomy, was described as 90.2 %.
+However, when we turn to the problem of review division into three classes («thumbs up», «thumbs down», «so-so»), the quality of automatic classifi cation decreases signifi cantly . This is partly due to the subjectivity of human evaluation. In authors conducted a study on the possibility of a human to distinguish reviews rated on a ten-point scale. They describe that if the difference between review scores is more than three points, the accuracy is 100 %, two — 83 %, one point — 69 % and zero points, correspondingly, 55 %. Thus, if to classify reviews into a large number of classes, even a human will show low classifi cation accuracy.
+In addition, in that paper the difference between evaluation styles of various people was indicated: a review estimated in 5 points (on a ten-point scale) by one person, may express the same opinion and be estimated as 7 points by the other . It was shown that after adjustment to an individual author's style, the quality of the classifi cation increased signifi cantly and reached 75 %. But in the classifi cation of 5394 reviews from a large number of authors (494), the achieved accuracy was 66.3 %.
+In this paper, we analyze various features to improve three-way classifi cation of movie reviews in Russian. For Russian language, studies of this task practically do not exist.
+We used the following classifi cation features:• word weights based on different sources,• single word polarity,• use of polarity infl uencers: they may reverse or enhance (not, very) polarity of other words,• length and structure of reviews,• usage of punctuation marks — as for example in used punctuation to reveal sarcastic sentences.
+2. Features for review classifi cation
+For our experiments, we chose movies’ domain. We collected 28 773 fi lm reviews of various genres from online recommendation service www.imhonet.ru. For each review, we extracted user’s score on a ten-point scale.
+Example of the review:
+Nice and light comedy. There is something to laugh — exactly over the humor, rather than over the stupidity... Allows you to relax and gives rest to your head.
+Three-way movie review classifi cation 1792.1. Word weights
+As the main elements of a feature set we used lemmas (words in the normal form) mentioned in the reviews. Word weights can be binary and refl ect only word presence in a review or TFID
+F formula can be used.
+TFID
+F is the most popular method of word weighting in information retrieval . For each term in a text, its TFID
+F weight can be represented by multiplication of two factors: T
+F that defi nes the frequency of this term in the text and ID
+F specifying occurrence of the term in documents of a text collection. The more frequently such occurrences are, the smaller resulting ID
+F will be . T
+F and ID
+F factors can be defi ned by various formulas. We used two variants of TFID
+F for calculation.
+First, we used the simplest form of TFID
+F : (1)• ni is the number of occurrences of a term in a document, and the denominator is the sum of occurrence number of all terms in the document,• |
+D| — total number of documents in a collection,• |(di  ti)|— number of documents where term ti appears (that is ni ≠ 0).
+In addition, we used TFID
+F variant described in on B
+M25 function ):TFID
+F (l) =  + (1 − )·tf(l)·idf(l) (2)• freq(l) — number of occurrences of l in a document,• dl(l) — length measure of a document, in our case, it is number of terms in a review,• avg_dl — average length of a document,• df(l) — number of documents in a collection (e. g. movie descriptions, news collection) where term l appears,•  = 0.4 by default, in our case  = 0,• |c| — total number of documents in a collection.
+2.2. Opinion words
+We considered opinion words as an important type of features for review classifi cation.
+I. I. Chetverkin, N. V. Loukachevitch
+We use the automatically extracted list of opinion words . To generate this list, we exploited four text collections: a movie review collection (review corpus), a collection of fi lm descriptions (description corpus), a special small corpus and a collection of general news. On the basis of these collections we calculated a set of statistical features for words mentioned in reviews. All features were calculated separately for adjectives and not adjectives (verbs, adverbs, nouns). At the next step, we used machine learning to classify terms’ feature vectors. As a result we obtained term lists (adjectives and not adjectives), ordered by predicted probability of their opinion orientation.
+Let us look at some examples of opinion words with high probability value:• adjectives: dobryj (kind), zamechatel'nyj (wonderful), velikolepnyj (gorgeous), potrjasajushĳ (stunning), krasivyj (beautiful), smeshnoj (funny), ljubimyj (love) etc.,• not adjectives: fufl o (trash), naigranno (unnaturally), fi gnja (junk), fi l'm-shedevr (masterpiece fi lm), tufta (rubbish) etc.
+In our study of three-way review classifi cation, we used the most probable opinion words and automatically obtained opinion probability weights. In addition, we manually labeled a set of opinion words .
+2.3. Polarity infl uencers
+Intuitive is the fact that there are some words, which can affect polarity of other words — polarity infl uencers. To fi nd them the manually compiled set of opinion words (3200 units) was used . From the review corpus (see section 2.2), we automatically extracted words directly preceding the manually labeled opinion words and ordered them by decreasing frequency of their occurrence.
+Then from the fi rst thousand of words from this list, potential polarity infl uencers were manually chosen (74 words). To assess how signifi cant the effect of these polarity infl uencers can be, the following procedure was made: we calculated the average score of opinion words in two cases, when they follow the potential polarity infl uencers and when they occur without them. The average score of a word is the average value of numerical scores of reviews where this word occurs.
+After comparison of these average scores, two signifi cant groups of polarity infl uencers were discriminated. If an opinion word had the high average score (>8) and changed it to the lower when used after a given polarity infl uencer, and an opinion word with the low average score (<6.7) changed it to the higher one, it means that this polarity infl uencer reverses word polarity (operator –).
+If after a polarity infl uencer, an opinion word with the high score increased its average score, and an opinion word with the low average score decreased its score, it means that this polarity infl uencer magnifi es polarity of other words (operator +).
+In our review corpus, we found the following polarity infl uencers:• operator (–): net (no), ne (not);• operator (+): polnyj (full), ochen' (very), sil'no (strongly), takoj (such), prosto (simply), absoljutno (absolutely), nastol'ko (so), samyj (the most).
+Three-way movie review classifi cation 181
+On the basis of this list of polarity infl uencers we substituted sequences "polarity infl uencer_word" using special operator symbols («+» or «–») depending on an infl uencer, for example:N
+E HOROS
+HĲ (NO
+T GOO
+D)  –HOROS
+HĲ ( — GOOD)SAMY
+J KRASIVY
+J (TH
+E MOS
+T BEAUTIFU
+L)  + KRASIVY
+J (+ BEAUTIFUL)NASTOL'K
+O KRASIVY
+J (S
+O BEAUTIFU
+L)  + KRASIVY
+J (+ BEAUTIFUL)
+Modifi ed lemmas were added to the feature set. Now if in a text a word with a polarity infl uencer occurs, then only the corresponding modifi ed lemma would be added to the review’s vector representation, but not both words. This allows us to take into account the impact of polarity infl uencers.
+2.4. Review length and structural features
+Movie reviews can be long or short. We chose a threshold on the review length to be 50 words. If a review is long, it often contains overall assessment for a movie at the beginning or at the end. This was the basis for separate consideration of short and long reviews and dividing long reviews into three parts: the beginning (fi rst sentences of a review with total length less than 25 words), the end (last sentences of a review with total length less than 25 words) and the middle (all that is left). We classifi ed each part separately and then aggregated obtained scores in various ways (voting, average).
+2.5. Punctuation marks
+In addition we included punctuation marks «!», «?», «…» as elements of the feature set.
+3. Experiments
+Reviews in the working dataset are provided with authors’ scores from 1 to 10 points. To map from the ten-point scale to the three-point scale we used the
+following function: {1–6}  «1» (thumbs down), {7–8}  «2» (so-so), {9–10}  «3» (thumbs up). The resulting distribution of reviews by grade is shown on Picture 1. Thus, the number of reviews belongs to class «3» is approximately 45 % of the total.
+All reviews from the collection were preprocessed by a morphological analyzer and lemmas with part of speech tagging were extracted.
+Authors of previous studies almost unanimously agreed that Support Vector Machine (SV
+M) algorithm works better for text classifi cation tasks (and review classifi cation task in particular). We also decided to use this algorithm. In view of the fact that we had a large amount of data and features, library LIBLINEA
+R was chosen . This I. I. Chetverkin, N. V. Loukachevitch
+library had suffi cient performance for our experiments. To obtain statistically signifi cant results fi ve fold cross-validation was used. All other parameters of the algorithm were left in accordance with their default values.
+Pic. 1. The distribution of reviews into three groups by sentiment: “thumbs down”(1),”so-so” (2),”thumbs up”(3)
+We used the following word sets in our classifi cation experiments:• Finding an optimal set of opinion words produced by the method described in Section 2.2. From the list of adjectives and not adjectives (ordered by the probability of their opinion orientation — opinweight) we selected the optimal opinion word combination. We iterated over words in these lists and compared quality of classification. We denote this experiment set Opin
+Cycle,• set of words, which was used in achieve the best results (Opin
+Contrast). This set contains near 500 the most frequent words with high opinion probability weight 400 words with the highest TFID
+F score calculated using review and news collections (see Section 2.2),• set of opinion words (3200 units), obtained by manual labeling by two experts (see Section 2.2) (Opin
+Ideal),• set of all words occurring in the review corpus four or more times (Bo
+W). The set includes prepositions, conjunctions and particles as well.
+From all these word sets, we chose one set, which yields the best classifi cation accuracy, and analyzed the effect of other features: word weights (tfi df), opinion weights (opinweight), punctuation marks (punctuation), polarity infl uencers (operators), review length (long and short).
+Three-way movie review classifi cation 183TFID
+F word weights were calculated relying on two formulas: the most well known formula (1) (tfi df simple) and formula (2) (tfi df) (see Section 2.1). ID
+F factor was calculated on the basis not only the review corpus, but also two other collections: the news corpus (tfi df news) and the description corpus (tfi df descr).
+To assess the quality of classification we used Accuracy measure. It is calculated as the ratio of correct decisions taken by the system to the total number of decisions .
+The results of algorithms using different sets of words and features are listed in All reviews without any features from the set were considered as strongly positive (“thumbs up”) in accordance with review distribution between classes. The basic weight of each word is its presence in a review.
+The results obtained by using Bo
+W + tfi df simple were taken as a basic line. The best results were obtained using bag of words (Bo
+W) with TFID
+F, opinion weights and polarity infl uencers. This is clear improvement over 62.52 where Bo
+W + tfi df simple is applied; indeed the difference is highly statistical signifi cant (p < 0.001,  = 0.05, Wilcoxon signed-rank test/
+Two-tailed test). Punctuation marks did not give any
+quality improvement, although their usage gave slightly better coverage. Formula (2) usage gives slightly better quality than the fi rst one (1). The choice of the news corpus for ID
+F calculation in (2) draws better results than using the description corpus (Bo
+W + tfi df descr) and the review corpus (Bo
+W + tfi df).
+Feature set Feature number Accuracy %Opin
+Cycle 1000 adj + 1000 not adj 58.00Opin
+Contrast 884 60.33Opin
+Ideal 3 200 57.62Bo
+W 19 214 57.37Opin
+Cycle + tfi df simple 1000 adj + 1000 not adj 59.13Opin
+Contrast + tfi df simple 884 59.43Opin
+Ideal + tfi df simple 3200 59.72Bo
+W + tfi df simple 19 214 62.52Bo
+W + tfi df 19 214 61.71Bo
+W + tfi df descr 19 214 61.74Bo
+W + tfi df news 19 214 62.90Bo
+W + tfi df news + operators 22 218 63.46Bo
+W + tfi df news + punctuation + operators22 221 63.17
+Bo
+W + tfi df news + opinweight + operators22 218 64.48
+I. I. Chetverkin, N. V. Loukachevitch
+Feature set Feature number Accuracy %Bo
+W + tfi df news+ opinweight + operators + short22 218 63.56
+Bo
+W + tfi df news + opinweight + operators + long22 218 62.37
+Bo
+W + tfi df news + opinweight + operators + avg22 218 63.14
+To increase weights of opinion word in contrast with the other words we used the list of opinion words with probability weights from 0 to 1 (see Section 2.2). We took 800 the most probable adjectives and 200 not adjectives (we have tried another combinations also) as opinion words. All other words from the feature set were considered
+with opinweight 0. We modifi ed the weight of each word in the feature vectors in the following manner:wordweight(x) = TFID
+F(x)·e (opinweight(x) — 0.5)
+Thus, we want to increase weights of the words with high opinweight, and decrese for the other words.
+The classifi cation accuracy for short reviews (Bo
+W + tfi df news + opinweight + operators + short) is better than for long one (Bo
+W + tfi df news + opinweight + operators + long). Although, in average (in accordance with review number in each part) the results were not improved (Bo
+W+ tfi df news + opinweight + operators + avg).
+For the method with the best results of classifi cation Bo
+W + tfi df news + opinweight + operators, we made additional evaluation with so-called soft borders, that is if in the basic scale the author of a review puts a boundary score («8» or «6»), then classifi cation of this review as either class «3» or «2» in case of basic «8», and class «2» or «1» in case of basic «6», was not considered as an error. Such weakening of conditions was made on the assumption that even a human distinguishes boundary classes unsatisfactory. The classifi cation accuracy with soft borders reaches 76.48 %.
+4. Evaluation of reviews by assessors
+We also studied the human’s ability in three-way review classification. We wanted to know what the maximal quality of classification we could expect from automatic classification algorithms. Significance of such quality upper bound evaluation is declared, for example, in . For a benchmark, we selected one hundred short reviews (with length less than 50 words) and one hundred long reviews (with length more than 50 words) from the review corpus. Assessors did not know the initial score of a review set by its author. Reviews were extracted in such a manner, as to retain original class distribution. All explicit references to the initial score were removed.
+Three-way movie review classifi cation 185
+Two assessors evaluated the selected reviews. The results of their evaluation are given in two assessors.
+Assessor
+Assessors accuracy relative to the author of the review
+Accuracy with soft borders %
+Accuracy of the best classifi cation algorithm relative to the assessor1 72.5 86.5 69.5
+2 72.5 78.5 63.5
+1 AN
+D 2 71.5 — —
+Thus, we see that human assessors can reproduce the original scores or be consistent with each other only at the level of 71–72 %, which is the absolute upper limit to improve the quality of automatic algorithms. Note that quality of the automatic classifi cation with soft borders, taking into account the possible ambiguity of the border scores, is 76.48 %, which is very close to the classifi cation quality of the second assessor (78.5 %).
+The percentage of coincident scores between the best algorithm and assessor’s scores confi rms the results obtained by cross-validation.
+5. Conclusion
+In this paper, we investigated infl uence of various factors on the quality of threeway classifi cation of movie reviews in Russian. The most signifi cant impact on the quality of classifi cation had the choice of TFID
+F formula, polarity infl uencers accounting and opinion words information usage. We estimated the upper limit of classifi cation quality, which is very close to the results of the best automatic algorithm. This fact makes it diffi cult to reach further quality improvement of automatic three-way review classifi cation.
+Acknowledgements
+This work is partially supported by RFB
+R grant N11-07-00588-а.
+I. I. Chetverkin, N. V. Loukachevitch

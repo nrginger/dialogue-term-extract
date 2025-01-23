@@ -1,0 +1,232 @@
+Named entity recognition (NE
+R) is one of the known task in natural language processing. Traditionally,NE
+R task setting and datasets are devoted to extraction of so-called flat named entities, which presumesthat a named entity cannot contain another named entity. For example, only one external ORGANIZATIO
+N entity should be extracted in Lomonosov Moscow State University, which leads to the loss of twointernal named entity. During last years, due to the development of neural network models, the task ofextracting nested named entities became much more frequent. Nested named entities allow for enhancingthe coverage of found named entities, which is useful for such tasks as relation extraction, entity linking,knowledge graph population, etc. Specialized datasets are annotated with 2-6 levels of nestedness (
+Ringland et al., 2019; Plank et al., 2020; Loukachevitch et al., 2021). New NE
+R methods specially devoted
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2022”
+Moscow, June 15–18, 2022to extracting nested named entities have been developed and significantly improved the performance innested NE
+R tasks (
+Shibuya and Hovy, 2020; Jue et al., 2020; Yu et al., 2020).
+For Russian, two datasets annotated with nested named entity exist. The first dataset, FactRuEval(
+Starostin et al., 2016), is quite small for training machine learning models. Recently, new datasetNERE
+L (
+Loukachevitch et al., 2021) with nestedness up to 6 levels has been created. The NERE
+Ldataset became a basis for organization of RuNN
+E-2022 evaluation (
+Artemova et al., 2022), devoted torecognition of nested named entities and also few-shot setting of nested NE
+R.
+In this paper we describe an approach applied to the RuNN
+E tasks, which is based on machine readingcomprehension model (MR
+C) (
+Rajpurkar et al., 2016; Li et al., 2020). The model transforms NE
+R tasksto question-answering tasks and achieve state-of-the art results on various NE
+R datasets. We compareseveral approaches to formulating "questions” for the MR
+C model such as entity type names (keywords),entity type definitions, most frequent examples for the train set, combinations of definitions and examples. We found that using two most frequent examples from the training set is comparable in qualityof nested NE
+R with gathering of qualitative definitions from different dictionaries, which is much morecomplicated. In the RuNN
+E evaluation, the MR
+C model obtained the best results among models withoutany manual work (rules or additional manual annotation of texts).
+2 Related Work
+Early works regarding nested NE
+R involved mainly hybrid methods that combined rules with supervisedlearning algorithms (
+Shen et al., 2003; Zhang et al., 2004). Another approach to the nested NE
+R taskrelies on hand-crafted features (
+Alex et al., 2007; Muis and Lu, 2018). These methods mostly failed totake advantage of the dependencies among nested entities.
+Later, LST
+M-based models were developed to process nested named entities. LSTM-CR
+F model (
+Juet al., 2018) was already able to capture context representation of input sequences and globally decodepredicted labels for nested entities even of the same entity type. Dynamically stacked multiple layersrecognize outer entities by taking full advantage of information encoded in their corresponding innerentities. Straková et al. (
+Straková et al., 2019) identify nested named entities by a seq2seq modelexploring combinations of different context-based embeddings (EL
+Mo, BER
+T, Flair). Sohrab and Miwa(
+Sohrab and Miwa, 2018) proposed to concatenate the LST
+Ms outputs for the start and end positions ofspans and then calculate a score for each span. In Biaffine model, Yu et al. (
+Yu et al., 2020) demonstratedthat the model provides a global view on the input and performs better results – the model scores pairsof start and end tokens to form a named entity. Pyramid model (
+Jue et al., 2020) consists of a stack ofinter-connected layers. Each layer 𝑙𝑙 predicts whether a 𝑙𝑙-gram is a complete entity mention. The Secondbest Sequence Learning coupled with Decoding (
+Second Best) model (
+Shibuya and Hovy, 2020) usesthe Conditional Random Field output layer. The model treats the tag sequence for nested entities as thesecond best path within the span of their parent entity. In addition, the decoding method for inferenceextracts entities iteratively from outermost ones to inner ones in an outside-to-inside way.
+Machine Reading Comprehension (MR
+C) (
+Rajpurkar et al., 2016) treats the nested NE
+R as a questionanswering task (
+Li et al., 2020), when for each named entity type, a specialized question is created. Themodel should find answers to the questions in a sentence, which is equivalent to extracting correspondingnamed entities. In (
+Loukachevitch et al., 2021), several models (
+Biaffine, MR
+C, Pyramid) were studiedfor extracting nested named entities in Russian. The best results were obtained by the MR
+C model.
+3 Machine Reading Comprehension Model
+The MR
+C model treats the NE
+R task as extracting answer spans to specialised questions, each entitytype is associated with a specific question. The dataset sentences are converted into triples (
+Question 𝑄𝑄,
+Answer 𝐴𝐴, Context 𝐶𝐶). Question 𝑄𝑄 is either generated or selected supplementary sequence (describedbelow); the Answer 𝐴𝐴 is the annotated named entity, the subsequence of the given sentence; the Context𝐶𝐶 is the given sentence. The MR
+C model is constructed over the BER
+T (
+Devlin et al., 2018) model,which obtains the following string as an input:{, 𝑞𝑞1, 𝑞𝑞2..., 𝑞𝑞𝑚𝑚, , 𝑡𝑡1, 𝑡𝑡2, ...𝑡𝑡𝑛𝑛}
+Rozhkov I. S., Loukachevitch N. V.where 𝑞𝑞𝑖𝑖 are words of the question sequence, 𝑡𝑡𝑖𝑖 are words of the given sentence, tokens of the BER
+T model. The MR
+C model should extract a continuous span 𝐴𝐴 in the context𝐶𝐶:𝐴𝐴 = {𝑡𝑡𝑖𝑖..., 𝑡𝑡𝑖𝑖+𝑘𝑘, 1 ⩽ 𝑖𝑖 ⩽ 𝑖𝑖+ 𝑘𝑘 ⩽ 𝑛𝑛}such that 𝐴𝐴 is now a retrieved named entity.
+The model backbone is as follows. BER
+T, given aforementioned input, outputs a context representation matrix 𝑆𝑆 ∈ R𝑛𝑛×𝑑𝑑, where 𝑑𝑑 is the size of last layer dimension of BER
+T. The query part of output isdropped.
+Next, given matrix 𝑆𝑆, model first predicts the probabilities of each word to be start index, to be endindex and then probability of each start-end indices pair to be matched onto one named entity.
+In more detail: model first predicts two values, 𝑆𝑆𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠 and 𝑆𝑆𝑒𝑒𝑛𝑛𝑑𝑑 as follows:𝑆𝑆𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠 = 𝑠𝑠𝑠𝑠𝑠𝑠𝑡𝑡𝑠𝑠𝑠𝑠𝑠𝑠𝑒𝑒𝑠𝑠𝑒𝑒𝑒𝑠𝑠𝑒𝑒𝑒𝑒(𝑆𝑆 · 𝑇𝑇𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠) ∈ R𝑛𝑛×2𝑆𝑆𝑒𝑒𝑛𝑛𝑑𝑑 = 𝑠𝑠𝑠𝑠𝑠𝑠𝑡𝑡𝑠𝑠𝑠𝑠𝑠𝑠𝑒𝑒𝑠𝑠𝑒𝑒𝑒𝑠𝑠𝑒𝑒𝑒𝑒(𝑆𝑆 · 𝑇𝑇𝑒𝑒𝑛𝑛𝑑𝑑) ∈ R𝑛𝑛×2where 𝑇𝑇𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠, 𝑇𝑇𝑒𝑒𝑛𝑛𝑑𝑑 ∈ R𝑛𝑛×2 are the weights learned. Then for 𝐼𝐼𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠 and 𝐼𝐼𝑒𝑒𝑛𝑛𝑑𝑑 sets𝐼𝐼𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠 = {𝑖𝑖 | 𝑠𝑠𝑎𝑎𝑎𝑎𝑠𝑠𝑠𝑠𝑠𝑠(𝑆𝑆(𝑖𝑖)𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠) = 1, 𝑖𝑖 = 1, 𝑛𝑛}𝐼𝐼𝑒𝑒𝑛𝑛𝑑𝑑 = {𝑗𝑗 | 𝑠𝑠𝑎𝑎𝑎𝑎𝑠𝑠𝑠𝑠𝑠𝑠(𝑆𝑆(𝑗𝑗)𝑒𝑒𝑛𝑛𝑑𝑑) = 1, 𝑗𝑗 = 1, 𝑛𝑛}where superscripts (𝑖𝑖) and (𝑗𝑗) denote 𝑖𝑖-th and 𝑗𝑗-th row of a matrix respectively binary classificationmodel is trained to predict value of matching probability:𝑆𝑆𝑖𝑖𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠,𝑗𝑗𝑒𝑒𝑒𝑒𝑒𝑒= 𝑠𝑠𝑖𝑖𝑎𝑎𝑠𝑠𝑠𝑠𝑖𝑖𝑑𝑑(𝑀𝑀 · 𝑐𝑐𝑠𝑠𝑛𝑛𝑐𝑐𝑠𝑠𝑡𝑡(𝑆𝑆𝑖𝑖𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠 , 𝑆𝑆𝑗𝑗𝑒𝑒𝑒𝑒𝑒𝑒)where 𝑀𝑀 ∈ R1×2𝑑𝑑 is weights learned. Now this value predicts whether each occured span 𝑖𝑖𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠, 𝑗𝑗𝑒𝑒𝑛𝑛𝑑𝑑 inthe context 𝐶𝐶 is a desired answer 𝐴𝐴, i.e. named entity of given type.
+There are different approaches to creating questions. (
+Li et al., 2020) proposed several of them:• Position index: question is generated based on the position index of given tag, i.e. "first", "second",etc. or "one", "two", etc.
+• Keyword usage: question is given or generated keyword describing tag, e.g. "profession", "person".
+• Rule-based template filling: generates a sequence from given template, e.g. "
+Find named entitiesof type "person" in the given sentence.".
+• Wikipedia definition retrieval: question is generated with Wikipedia definition of a given tag, e.g.
+"
+An organization is an entity comprising multiple people, such as an institution or an association.".
+• Synonyms: words that have the same or close meaning to the original tag, e.g. for tag "profession"that would be "occupation", "job", etc.
+• Concatenation of keyword and synonyms: question is constructed from both keywords and synonyms, e.g. "profession, occupation, job".
+• Annotation guideline notes: the guidelines of labeled entities provided by the dataset builder, e.g.
+for location it could be "
+Find locations in the text including nongeographical locations, mountainranges and bodies of water".
+The last approach achieves best results in the original work.
+4 RuNN
+E task and data
+RuNN
+E competition (
+Artemova et al., 2022) sets the few-shot version of the nested named entity recognition task. While most of the entities have considerable number of examples in the training set, severalothers occur much less frequently: the amount of such entities is limited in the training set. Dev and test
+Machine Reading Comprehension Model in RuNN
+E CompetitionN
+E type Number of mentionstrain testPROFESSIO
+N 4566 848PERSO
+N 4517 961ORGANIZATIO
+N 4049 675EVEN
+T 2850 683COUNTR
+Y 2521 456DAT
+E 2268 523CIT
+Y 1101 239NUMBE
+R 1026 230ORDINA
+L 565 107AG
+E 554 138NATIONALIT
+Y 394 66LA
+W 389 61FACILIT
+Y 371 63STATE_OR_PROVINC
+E 343 112AWAR
+D 322 119IDEOLOG
+Y 300 43LOCATIO
+N 270 62PRODUC
+T 237 53CRIM
+E 180 35MONE
+Y 171 43TIM
+E 154 47DISTRIC
+T 98 25RELIGIO
+N 94 24PERCEN
+T 82 7LANGUAG
+E 43 8DISEAS
+E 32 57PENALT
+Y 32 17WORK_OF_AR
+T 30 88FAMIL
+Y 17 14
+Total amount 27576 5804sets both contain the usual (non-limited) amount. Therefore, the main goal of the competition is to createmodels capable of retrieving both common and uncommon named entity types.
+The dataset of RuNN
+E evaluation was created from the NERE
+L dataset (
+Loukachevitch et al., 2021).
+This data was collected from Wiki
+News texts in Russian language, manually labeled by the annotatorsof the NERE
+L dataset using the brat annotation tool (
+Stenetorp et al., 2012). After that the initial datasetwas mixed and split into train, dev and test sets. The dataset contains 29 different named entity types,with maximum nestedness of 6 levels.
+For the few-shot task formulation, three classes were chosen and decreased in the amount for thetraining set, namely disease, work_of_art and penalty. Table 1 shows the amount of each labeled entitytype both in the training and test sets.
+As a result, we can see that the classes are not balanced, and there are no more than 32 mentions ofthe aforementioned entity types in the training set. Moreover, other types have similar amount of thementions, e.g. language has 43 mentions, while family has even less 17.
+For evaluation on the RuNN
+E dataset, the macro-average precision, recall and F1 both for only new(few-shot NE
+R task) and all (general NE
+R task) entity types are used.
+Rozhkov I. S., Loukachevitch N. V.5 Approach and Results
+In this work we study what approaches to question generation help the MR
+C model in few-shot andgeneral NE
+R tasks 1.
+Though annotation guidelines allows achieving the best results in the original work, they do not always exist for some dataset. Sometimes it is quite difficult to retrieve or generate such. In our case,the RuNN
+E dataset was not provided with annotation guidelines, and thus we cannot employ this approach. Therefore, aside from previously described approaches, this work proposes few new techniquesfor question generation:• Definition selection. The questions are definitions of entity types, carefully selected from multipledictionaries.
+• 𝑁𝑁 most frequent examples. The 𝑁𝑁 most frequent examples of entities are obtained from the giventraining set and questions are generated. Number 𝑁𝑁 is pre-defined from the start.
+• 𝑁𝑁 most frequent entity components. Each entity example in the training set is split into singlewords and then lemmatized. After that the 𝑁𝑁 most frequent words are retrieved, which then compose the question.
+• Concatenation of definitions and most frequent examples.
+Examples of dictionary definitions are as follows (translated from Russian): "
+Age is the period of timewhen someone was alive or something existed."; "
+A city is a place where many people live, with manyhouses, shops, businesses, etc."
+Question examples of 𝑁𝑁 most frequent examples (here we presume 𝑁𝑁 = 5) are as follows (translatedfrom Russian): "
+Date is an entity such as in Monday, in Tuesday, today, in year 2011, in year 2004.".
+"
+Law is an entity such as Constitution, C
+C (
+Criminal Code), C
+C of R
+F, Yarovaya package, constitution."
+Question examples of 𝑁𝑁 most frequent entity components (𝑁𝑁 = 5) are as follows (translated from
+Russian): "
+Disease is an entity such as cancer, hurt, heart, heart as adjective, pain". "
+City is an entitysuch as moscow, moskovsky, london, new-york, kyiv."
+In this work, we study the results of utilizing following aforementioned approaches to question generation:• Keyword usage• Definition selection• 𝑁𝑁 most frequent examples, for 𝑁𝑁 = 2, 5, 10.
+• 𝑁𝑁 most frequent entity components, for 𝑁𝑁 = 2, 5, 10.
+• Concatenation of definitions and most frequent examples
+As baseline we use following models:• RuBER
+T (
+Kuratov and Arkhipov, 2019): Baseline model of the RuNN
+E competition.
+• 2nd-best-path-RuBER
+T (
+Shibuya and Hovy, 2020): treats the tag sequence as the second best pathwithin in the span of their parent entity based on RuBER
+T.
+We utilize RuBER
+T (
+Kuratov and Arkhipov, 2019) as a basis for MR
+C model. We use the batchsize of 32 and learn the MR
+C model for 16 epochs on the 8 GP
+Us over the RuNN
+E data. We useAdam
+W optimizer (
+Loshchilov and Hutter, 2017), with 𝛽𝛽1 = 0.9, 𝛽𝛽2 = 0.98, 𝜀𝜀 = 10−8. RuBER
+Tconfiguration was set to default values after (
+Kuratov and Arkhipov, 2019). We use OneCycleL
+R learningrate scheduler (
+Smith and Topin, 2019) with maximum learning rate of 2 * 10−5, final div factor = 104,linear anneal strategy. Weight decay was set to 0.01. Other hyperparameters were set to default values.
+Table 2 shows experimental results on the RuNN
+E dataset. We can see that using two most frequententity components from the training set is even slightly better than using well-constructed entity definitions. For few-shot setting, the results based on definitions are slightly better, but the extracting frequententity components is much simpler than gathering well-written definitions from various dictionaries. Theincrease in the number of components leads to a decrease in quality of name extraction. Furthermore, wecan see that using original entity examples and not split ones shows lower results. Though this approachis even simpler than previous one, it acts poorer. Also combinations of definitions and examples do not1https://github.com/fulstock/mrc_nested_ner_ru
+Machine Reading Comprehension Model in RuNN
+E Competition
+improve name recognition in both settings. Moreover, we indicate original results in the RuNN
+E competition, ours among the others. The resulting score is different due to the randomness of some model’sparts, which generated different score.
+Table 3 shows examples chosen as most frequent ones for each named entity type. Moreover, weprovide the amount of these examples in the test set. As we can see, for the best approach (2 entitycomponents) this amount is significantly low. Hence we can conclude that the MR
+C model does notmemorize these components during learning procedure.
+In addition, we visualize the attention layers inside RuBER
+T of the MR
+C model (
+Figure 1). The higherthe score, the more semantically similar (in terms of attention) the words are. We see that similaritiesbetween definition and context words can be captured in the attention matrices, therefore model is ableto gain knowledge of the given entity type.
+6 Conclusion
+In this paper, we studied machine reading comprehension model (MR
+C) in its application to extracting nested named entities in RuNN
+E-2022 evaluation. The model was applied in general nested NER
+Rozhkov I. S., Loukachevitch N. V.
+Model and approach General Task Few-shot Task
+Precision Recall F1 Precision Recall F1RuBERT
+Tagger - 67.44 - 44.662nd-best-path-RuBER
+T 74.83 61.78 67.68 77.61 09.77 17.36
+MRC
+Keyword 78.27 71.92 73.79 88.09 45.22 59.02
+Definitions 78.76 72.44 74.31 80.62 50.77 61.212 most frequent examples 78.59 72.19 74.17 84.32 45.03 57.98
+5 most frequent examples 79.23 71.58 73.89 84.76 47.29 58.98
+10 most frequent examples 78.13 70.64 73.09 81.60 45.56 56.96
+2 most fr. entity components 78.65 73.05 74.63 86.15 49.07 60.80
+5 most fr. entity components 78.54 72.77 74.62 83.39 48.35 60.30
+10 most fr. entity components 78.04 71.82 73.76 83.62 47.82 59.52
+Def. + 2 most frequent ex. 78.37 71.74 73.96 80.21 49.89 60.83
+Def. + 5 most frequent ex. 77.83 72.62 74.26 78.47 48.71 58.69
+Def. + 10 most frequent ex. 77.60 71.36 73.22 82.50 45.68 57.24RuNN
+Epullenti - 81.12 - 71.03MSU-RC
+C (ours) - 74.93 - 60.39SibN
+N - 74.25 - 40.37user:abrosimov_kirill - 74.08 - 64.41task and the few-shot setting. The MR
+C model transforms named entity recognition tasks to questionanswering tasks. We compared several approaches to formulating "questions” for the MR
+C model suchas entity type names (keywords), entity type definitions, most frequent entity components and most frequent examples for the training set, combinations of definitions and examples. We found that usingtwo most frequent entity components from the training set is even slightly better than using well constructed entity definitions. For few-shot setting, the results based on definitions are slightly better, butthe extracting frequent entity components is much simpler than gathering well-written definitions fromdictionaries.
+In the RuNN
+E evaluation, the MR
+C model utilizing definitions as questions obtained the best resultsamong machine learning models used without additional manual annotation of training texts.
+Acknowledgments
+The work is supported by the Russian Science Foundation, grant # 20-11-20166. The research is carriedout using the equipment of the shared research facilities of HP
+C computing resources at Lomonosov
+Moscow State University.

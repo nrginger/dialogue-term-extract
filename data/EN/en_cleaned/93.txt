@@ -1,0 +1,45 @@
+Integration process of Lithuania into the E
+U and NAT
+O stimulates development and maintaining of national culture as well as language, because documents of these organisations must be translated into all languages of its members. So, only modern and to contemporary communication needs language can survive. No small language has yet avoided influence specialists Lithuanian age globalization is to keep language as authentic as posible. Specialists interested in practical use of the language, searching for new ways to embody this purpose. April 19, 2000 the Government approved of support program for the Lithuanian language in information technology use for the years 2000-2006. It is expected that this would help the Lithuanian language to secure its position in computer software equipment. The program was prepared to help the Lithuanian language to get into the sphere of computers, otherwise it is under the threat of extinction. The absolute majority of personal computers used in Lithuania today have programs, processing problems according to the information society program and growing needs of communication beetween the E
+U countries. One of the main tasks is to investigate computer-based translation possibility from the E
+U languages back (
+English, French, Germany etc.). The government program aims at creating computer software that would automatically translate texts of special documents (economical, informatics, politic, low, business) into Lithuanian. first step of this work was made in 1997 by creating Computer Based Lithuanian Language Learning System satisfies needs of various (school-children, . Based Lithuanian Language Learning was considered a part the Intelligent which following modules: subject tutoring subject data base modules (vocabularies, subject tasks and lessons making data base modules, and knowledge based students modules. Lithuanian language processing research area consists of four main topics: speech recognition http://www.likit.lt; general and special electronic dictionaries (Lithuanian-English
+Lithuanian, Lithuanian-Germany
+Lithuanian as well as wide scale Lithuanian
+English http://www.fotonija.lt; free on-line dictionary of computing http://foldoc.doc.ic.ac.uk/foldoc/index.html); 100 million words text corpora Research on Computer
+Based Translation (CB
+T) was initiated at KT
+U two years ago. The article gives short overview of language processing technology in Lithuania and focuses on developing computer-based translation from English to Lithuanian. The conceptual hierarchical model of computer-based English
+Lithuanian translation Доклады международной конференции Диалог 2003 system is proposed. It is shown that such model and special set of knowledge sources with grammatical components may reduce the translation problem and improve its quality. 2. Computer-based translations into the Lithuanian
+Multilingual issues techniques . Analyzing and generating word forms is a very important step in the processing of natural languages. Nevertheless, translation process can be decomposed into independent parts so, that we can easily recognize multilevel structure of these parts. We suppose that general CB
+T module corresponds blackboard problem solving architecture, which arose from the Hearsay
+I speech understanding system . In this basic model blackboard (B
+B) system is composed of tree main components: the blackboard, a set of knowledge sources (K
+S) and control mechanism. case of CB
+T architecture the blackboard is a global database that contains the source and target texts or some kind of hypotheses, linguistic rules etc. It could be structured as a hierarchy of levels, or particular classes of rules. set of K
+S embodies the problem-solving knowledge, examines the state of the blackboard and modifies existing rules or content of B
+B database. In spite that, K
+S being independent and self-activating, the agenda-based control mechanism is needed to apply knowledge and to focus on the search process. Elements of control are: B
+B monitoring, the agenda, the scheduler and the focus-of-control database backward. CB
+T process consists of several independent knowledge sources, which determine content of programming components respectively : ￿ source text analyses (parsing, syntactic and semantic analyses according to grammar atributes); ￿ electronic dictionaries (general, phrase-based, multilingual text corpora...); engine (direct&transfer techniques); ￿ language analyses (syntactic, semantic, problem oriented... ); ￿ oriented knowledge extraction from special text corpora and its use for semantic space development; ￿ source and target mapping, evaluation of translation semantic adequacy. The analysis of translation process shows that translation problem is rather complicated task: plenty word and phrase translation modes, ambiguity and multimeaning, context sensitive and pragmatics, problem oriented semantic space etc. In any way, within communicative, functional and cognitive approaches it is possible to identify scope of the growing need for non-literary translation. From that point of view, proposed conceptual CB
+T model gives a chance to put into reality very important
+T performed in parallels. According to this, CB
+T model paradigm specialized English translation system into Lithuanian is created. Users or translation experts can be interpreted as knowledge sources if they take active role in the interactive CB
+T process.
+T
+B
+S feedback between database B
+B levels and K
+S as well as translation quality control and search complexity management. User or expert-translator can implement control function. CB
+T English
+Lithuanian Lithuanian word is connected with its grammar attributes as well. Direct translation strategy with some transfer elements to compile syntactic sentence groups extracting more semantic knowledge from the source text and transfer it into the target text is used. Translation process implies K
+S interface translation environment interacting with Word, Web and Outlook Express. Detailed analyses of interlingua principle show that quality of translation is not satisfactory due to many reasons . However, in general, rather universal interlingua frame is very perspective and enables to create large-scale language translation system for a small group of languages from many-to-one and back. It could be done by efforts of all these countries in the frame and support of the E
+U funding. As a partial solution, interlingua frame is very exiting to elaborate intelligent source text parsing to extract language knowledge components and apply to generate target text. 3. Conclusions
+The article gives short overview of language processing technology in Lithuania and focuses on developing the computerbased translation from English to Lithuanian. The conceptual hierarchical model for computer-based translation system is proposed. According to the CB
+T model paradigm a system for specialized English translation into Lithuanian is created. Direct translation strategy with some transfer elements of syntactic sentence groups is used. It allows implementing better translation quality for more complicated sources.
+Доклады международной конференции Диалог 2003 Acknowledgements author is thankful to graduate students A.
+Sidorov and P.
+Pacevičius for the first version of CB
+T environment and virtual translation dictionary implementations. The analysis of use interlingua posibilities and elaboration of syntactic sentence groups were done by Ph
+D student G.
+Misevičius and M.Žemaitis to whom I am grateful.

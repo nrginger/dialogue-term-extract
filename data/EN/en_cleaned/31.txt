@@ -1,0 +1,156 @@
+This work is devoted to our solution for RuRE
+Bus task held together with the conference Dialog 2020. RuRE
+Bus shared task was devoted to the problem of relation extraction and named entity recognition (NE
+R) in a specialized business domain. It consisted of three subtasks: named entity recognition, relation extraction with provided named entity labels and end-to-end relation extraction. Our first subtask solution was a BER
+T-based labelling model. For the second one we applied joint named entity and relation extraction learning. We went with a similar approach for the third subtask. However, due to having no labelled named entities, they were inferred using the model trained for the first subtask.
+RENERSA
+Ns: Relation Extraction and Named Entity Recognition as Sequence Annotation
+Our NE
+R model with the 0.561 F1-score at the test dataset took the first place in the shared task. Our second subtask model took the second place with the F1-score equal to 0.394.
+Our work shows that the sequence labelling approach is viable for relation extraction. It also demonstrates that correct named entity labels are vital for relation extraction due to the difference in scores between the second and the third subtask models.
+2. Related work
+There are many ways to extract information from text. This task is often solved by extracting named entities and classifying relations between them. One of the most popular datasets for this task is TACRE
+D semantic relations are understood as relations between two pairs of entities.
+Nowadays, state-of-the-art results for this dataset are achieved with Transformer-based models . The most advanced models (according to paperswithcode2) use extra training data or additional knowledge bases. For example, in the state-ofthe-art system the authors use Wikipedia data . However, such data is useless for domain-specific relations.
+Among the systems that do not use encyclopedias or other labeled data, the best results were achieved by Joshi et al. . They pre-trained a BER
+T-like system, but instead of predicting individual masked tokens they trained the model to infer contiguous random spans. The model was also trained to predict each token in the masked span using output representations of only span boundary tokens. This significantly improved results of their model in comparison with the vanilla BER
+T. As in both described works we also incorporated information about named entity spans.
+However, it is difficult to compare results for relation extraction systems for languages besides English (including Russian) because such annotated datasets are scarce for them. Some researchers have tried to solve this problem using unsupervised language-agnostic approaches and relying on knowledge databases such as Wikidata and various online encyclopedias such as Wikipedia . Models trained this way tend to be not specialized because the original database does not contain relations from the required domain. The results are good only for the most popular relation types such as geographical or professional ones, which frequently appear in Wikipedia.
+3. Shared task overview
+The organizers of the shared task have provided approximately 300 annotated texts in total. All texts were provided by the Ministry of Economic Development of the Russian Federation. The corpus consists of various regional and strategic plan reports. There are in total 8 named entity classes and 11 semantic relation classes (see Tables 1 and 2). The organizers have also provided a large unannotated dataset for 2 https://paperswithcode.com/sota/relation-extraction-on-tacred
+https://paperswithcode.com/sota/relation-extraction-on-tacred
+Davletov A. A., Gordeev D. I., Rey A. I., Arefyev N. V. language model fine-tuning. However, we did not use it. A named entity can consist of several words. All entities and relations do not span across sentences. There may be many-to-many, many-to-one and other types of relations (see Fig. 1).
+Named entity groups could contain rather broad types of entities, for example “SO
+C” entities contained social groups as well as various social attributes—phrases like ‘blue collar workers’ and ’housing accessibility’ corresponded to this group.
+Type Description ExamplesME
+T Some quantitative metricдоля сельского населения (rural population ratio); положение в округе (ranking in the neighbourhood)EC
+O An economy entity or facilityобрабатывающим сектором промышленности (processing industry); экономического кризиса (economic crisis)BI
+N A binary attribute входит в состав (is part of)CM
+P Comparative attribute рост (growth); увеличился (increased); в наибольшей степени (to the greatest extent)QU
+A Qualitative attribute лидирующее (leading)AC
+T Activity, actions, implemented policiesвосстановление экономики региона region economy reconstructionINS
+T Institutions and organizationsАлтайского края (
+Altai region); Сибири (Siberia)SO
+C Social groups and characteristicsнаселения края (region population); здравоохранение (health care)
+Group Type Description
+Current state of affairs NN
+G now negative
+Current state of affairs NN
+T now neutral
+Current state of affairs NP
+S now positive
+Results PN
+G past negative
+Results PN
+T past neutral
+Results PN
+S past positive
+Forecasts FN
+G future negativeRENERSA
+Ns: Relation Extraction and Named Entity Recognition as Sequence Annotation
+Group Type Description
+Forecasts FN
+T future neutral
+Forecasts FN
+S future positive
+Goals GO
+L some abstract goals
+Tasks TS
+K tasks and actions performed to achieve goals
+The organizers first held tracks 1 and 3 and after that track 2 was also run. We describe our solutions in the same order (first tracks 1 and 3, then track 2).
+4. Named entity recognition and relation
+extraction as sequence labelling
+The data for the shared task was presented in brat format texts were given as plain text files and annotations were provided in another file with mixed labels for named entities and relations between them. Thus, we first had to separate the labels and transform the data into special formats used by our models.
+We used Razdel library to split plain texts into sentences and tokens.3 It is a rulebased system that along with splitting sentences can also provide sentence and token offsets in the source text. Offset ranges provided by Razdel were used during preprocessing and postprocessing to map tags and relations to text spans which are required by the brat format (see Table 3). We had some conversion problems and the number of NE
+R tags in the brat format did not correspond to the number of tags after processing, for the training dataset the difference was minor, but for the test dataset almost 1% of named entity tags were lost during the preprocessing stage (see Table 3).
+Dataset
+Number of
+Sentences Tokens processed NE
+R tags Original NE
+R tags (brat)train 10,460 336,023 54,377 54,388test 20,483 643,668 89,006 89,8794.1. Subtask 1: Named Entity Recognition
+The first task was to annotate named entities. First we transformed the data word-wise into the BI
+O-format (beginning, inside, outside). We randomly split the data into training and validation datasets in 0.7 to 0.3 ratio. The split was performed text-wise. After hyperparameter tuning we did not retrain the model using both training and validation data. We used a BER
+T-based system Py
+Torch model code and pretrained weights provided by Hugging Face . Due to the shared task datasets being in Russian, we used the multilingual uncased base BER
+T model.
+3 https://github.com/natasha/razdel
+https://github.com/natasha/razdel
+Davletov A. A., Gordeev D. I., Rey A. I., Arefyev N. V. BER
+T is a Transformer based model . On top of BER
+T outputs we added a linear layer and dropout regularization. The cross entropy loss function was used to train the model. BER
+T outputs an embedding for each token, i.e. a word may include several BP
+E-tokens. As we had one label for a word we needed to decide how to aggregate predictions from word tokens. We went with the easiest approach and for each word in the sentence we took a BER
+T embedding only from its first BP
+E-token and fed it to the dropout layer followed by the linear layer. All non entity tokens were ignored (i.e. padding tokens and tokens with O tag).
+Model Learning rate Weight Decay Dropout testbert 1e-5 0.1 0.2 0.548bert 1e-5 1.0 0.2 0.547bert 5e-5 0.01 0.1 0.552bert 5e-5 0.01 0.2 0.555bert 5e-5 0.1 0.1 0.555bert 5e-5 0.1 0.2 0.561bert 5e-5 1.0 0.1 0.554bert 5e-5 1.0 0.2 0.56
+Our system with 0.561 micro F1-score on the public leaderboard outperformed solutions presented by other contestants. In Table 4 we provide results for the test dataset that was provided by the organizers after the shared task.
+4.2. Subtask 3: End-to-end Relation Extraction
+The second and the third subtasks were relation classification. In the second subtask the organizers provided named entity tags while in the third they did not. For both tracks we used the equivalent approach.
+Akin to BER
+T-multitask learning, in this shared task we wanted to experiment with simultaneous finetuning for separate tracks. RuRE
+Bus shared task provided an excellent framework for this idea because we had separate tracks with different target values but the same input data. Thus, we tried a multitask architecture to jointly predict tags and relations. To do so, we consider relation extraction as a sequence labeling problem (similar to how named entity recognition is usually solved). In each example we have one marked main entity and we predict all named entity tags and all relations between the main token and all other tokens in the sentence (see Fig. 2). We put an empty relation label (‘0’) if a token does not have relation to the marked entity and the relation tag otherwise. Special tokens marking the beginning and the end of the main entity are added to input to tell the system which entity it should predict relations with. Thus, for each sentence we had to make n predictions where n is the number of named entities in the sentence. We did not relabel previously inferred named entity tags with new predictions.
+Sequence labelling might be a preferable solution if we are interested in processing the whole sentence in a smaller number of batches and our algorithm runtime does not depend on the sequence length (unlike recurrent neural networks).
+RENERSA
+Ns: Relation Extraction and Named Entity Recognition as Sequence Annotationmarked with * were trained after the competitionmodel
+Learning rate
+Weight decay DropoutNE
+R loss weight
+Relation loss weight testbert 1e-5 0.1 0.1 0 1.0 0.121bert 1e-5 0.1 0.1 0.1 1.0 0.127*xlm-r 1e-5 0.1 0.1 0 1.0 0.194*xlm-r 1e-5 0.1 0.1 0.01 1.0 0.187*xlm-r 1e-5 0.1 0.1 0.05 1.0 0.193*xlm-r 1e-5 0.1 0.1 0.1 1.0 0.182*xlm-r 1e-5 0.1 0.1 0.2 1.0 0.157*xlm-r 1e-5 0.1 0.1 1.0 0 0.002*xlm-r 1e-5 0.1 0.1 1.0 1.0 0.128*xlm-r 1e-5 0.1 0.2 0.1 1.0 0.169*xlm-r 1e-5 0.2 0.1 0.1 1.0 0.173*xlm-r 2e-5 0.1 0.1 0 1.0 0.188*xlm-r 5e-5 0.1 0.2 0 1.0 0.171*xlm-r 5e-5 0.2 0.2 0 1.0 0.113
+For end-to-end relation extraction we went with a two-stage approach. At first we used the model from the first track to label named entities. After that using the provided named entity predictions we trained our model to infer semantic relations.
+In this task we used the same multilingual uncased BER
+T model as in subtask 1. However, to get simultaneous relation and named entity predictions on top of the model we added another dropout layer followed by tag and relation linear layers. We use weighted sum of cross entropy losses for tag and relation labeling as our final loss for optimization. Padding tokens do not contribute to our loss calculation.
+The system showed 0.132 micro F1-score using public test data and it would have taken the first place among the provided systems, if we had managed to submit our solution before the deadline. Joint task learning has slightly improved our results. After the shared task end we also tried RoBER
+Ta base model instead of BER
+T. It improved our results but the model did not benefit from joint task learning (see Table 5). Our local evaluation results using the test dataset are slightly worse than the results at the public leaderboard.
+Davletov A. A., Gordeev D. I., Rey A. I., Arefyev N. V. 4.3. Subtask 2: Relation Extraction for given Named Entities
+The model for this track is equivalent to the system used for end-to-end relation extraction. This track was very similar to end-to-end relation extraction. However, instead of using named entity labels predicted by our model, we could use the manual annotation provided by the organizers of the shared task.
+For subtask 2 we also tried a base XLM-RoBER
+Ta also provided by Hugging Face. RoBER
+Ta is BER
+T inspired model which optimized many hyper-parameter choices in the underlying model. RoBER
+Ta authors have replaced static masking with random masking during language training. They also removed additional sentence prediction loss, increased the batch size, trained on longer sequences and enhanced the original Wikipedia dataset with various Common Crawl datasets. All these adjustments helped RoBER
+Ta to outperform BER
+T in many benchmarks such as GLU
+E or SQuA
+D 2.0.
+relation extraction and additional named entity subtaskModel
+Learning rate
+Weight decay DropoutNE
+R loss weight
+Relation loss weight
+Relation extraction F1 NE
+R F1test dev test devbert 1e-5 0.1 0.1 0 1.0 0.25 0.784 0.002 0.001bert 1e-5 0.1 0.1 0.1 1.0 0.263 0.757 0.189 0.172xlm-r 1e-5 0.1 0.1 0 1.0 0.391 0.678 0.040 0.049xlm-r 1e-5 0.1 0.1 0.01 1.0 0.381 0.677 0.330 0.294xlm-r 1e-5 0.1 0.1 0.05 1.0 0.39 0.685 0.482 0.440xlm-r 1e-5 0.1 0.1 0.1 1.0 0.379 0.667 0.503 0.468xlm-r 1e-5 0.1 0.1 0.2 1.0 0.34 0.662 0.501 0.492xlm-r 1e-5 0.1 0.1 1.0 0 0.006 0.022 0.465 0.463xlm-r 1e-5 0.1 0.1 1.0 1.0 0.271 0.679 0.489 0.456xlm-r 1e-5 0.1 0.2 0.1 1.0 0.355 0.668 0.497 0.465xlm-r 1e-5 0.2 0.1 0.1 1.0 0.357 0.668 0.004 0.001xlm-r 2e-5 0.1 0.1 0 1.0 0.394 0.675 0.004 0.001xlm-r 5e-5 0.1 0.2 0 1.0 0.369 0.65 0.059 0.067xlm-r 5e-5 0.2 0.2 0 1.0 0.272 0.599 0.010 0.0187
+In this task our best model with the F1 score equal to 0.394 took the second place.
+RoBER
+Ta-based models outperformed BER
+T-based ones. As we did not include named entity type information in the input, but only spans, we also attempted at using the multi-task learning procedure described in the previous section. However, unlike the previous case the quality deteriorated when the model was trained to predict named entity tags. Thus, the loss coefficient for named entity recognition was set to zero in the final model. Learning rate, weight decay and other hyperparameters you may see in 5. Results
+All in all, our named entity recognition model with micro F1-score equal to 0.561 took the first place in the shared task. However, the results are lower than for other RENERSA
+Ns: Relation Extraction and Named Entity Recognition as Sequence Annotationnamed entity recognition datasets (e.g. for the Ontonotes dataset Transformer-based models usually get > 0.85 in F1-score4). It can be attributed to the small number of training examples and complexity of the domain. While training relation extraction models we also did not use information about named entity types. The authors of SpanBER
+T that it may improve model scores. It can be further investigated in future work.
+Our end-to-end relation extraction model despite being one of the best solutions at the shared task was much worse than the model trained with manual annotations provided by the organizers. In future we will try to use approaches similar to pseudo labelling where we include only those named entity predictions that have high logit scores instead of all predictions. The difference in results also demonstrates that correct named entity labels are vital for relation extraction. The results may also benefit from a larger dataset.
+Multi-task learning improved our results only in end-to-end relation extraction for BER
+T-based models. RoBER
+Ta was better than BER
+T in this shared task in both relation extraction subtasks.
+Some typical errors may be found in of false positives, e.g. for a single text we predicted 165 relations instead of 88 and 421 named entities instead of 354. This might be tweaked in future. Sometimes these mislabellings might be due to errors in the dataset. For relation extraction such mistakes tend to snowball. Another typical NE
+R mistake is span mismatch, usually it is due to the model not including the whole phrase group into the prediction.
+Task Prediction Test CommentNE
+R администрации Костромской области— Might be a labelling mistakeNE
+R производства бумаги производства бумаги и бумажных изделий, прочих готовых изделий, прочих транспортных средств и оборудования
+Only partial span overlapNE
+R — действующих производств
+Not found
+End-to-end Rel
+Exдинамика региональной экономики -> NP
+S -> Положительнаядинамика региональной экономики -> NP
+S -> ПоложительнаяCorrect
+End-to-end Rel
+Exдинамика региональной экономики -> NP
+S -> Экспорт— Relation does not exist4 see http://docs.deeppavlov.ai/en/master/features/models/ner.html
+http://docs.deeppavlov.ai/en/master/features/models/ner.html
+Davletov A. A., Gordeev D. I., Rey A. I., Arefyev N. V. 6. Conclusion
+In this work we present our system for RuRE
+Bus shared task held together with Dialog 2020 conference. The task consisted of 3 tracks: named entity recognition, relation extraction with provided named entity tags and end-to-end relation extraction. All tracks were considered as sequence labelling problems. We show that sequence labelling might be a decent approach for the relation extraction problem. We also attempted to use joint-task learning for relation extraction and named entity recognition. However, it only slightly improved our results for end-to-end relation extraction and was outperformed by single task learning in most cases. Yet it should be noted that in other unrelated domains it enhanced results of our models so joint tasks should be carefully chosen and it requires further investigation. The system took the first place in the named entity recognition track and the second place in the third track. For the second task we failed to submit the solution till the deadline but it was among the best systems. The systems for all tasks are based on Transformer models.
+7. Acknowledgments
+We would like to thank the organizers of the shared task. We believe that their work will be very helpful for the development of natural language processing for the Russian language. The contribution of Nikolay Arefyev to the paper was partially done within the framework of the HS
+E University Basic Research Program funded by the Russian Academic Excellence Project ‘5-100’.

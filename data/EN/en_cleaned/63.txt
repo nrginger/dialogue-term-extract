@@ -1,0 +1,251 @@
+Transformer-based models, such as BER
+T, are widely used for text classification. The original article (
+Devlin et al., 2019) proposed the use of a separate BER
+T model for each task in multi-task benchmarks. Therefore, if several classification tasks need to be solved in parallel, several prediction modelsshould be employed, which increases the demand for computational resources. One of the ways oftackling this problem is training one single model that can yield results for these tasks simultaneously.
+Multi-task learning (MT
+L) is one of the transfer-learning techniques. It allows training one singlemodel simultaneously for multiple related tasks so that the knowledge acquired in one task enhancesanother task’s performance.
+The real-world conditions require making a trade-off between the quality of neural models and theiruse of computational resources. Responding to this tradeoff necessitates the use of encoder-agnostic multitask transformer-based models, which allows quick replacement of the transformer backbone for different circumstances. The transformers (
+Wolf et al., 2020) library allows using different transformerbased models including distilled ones to save computational resources and speed up the inferencetime (
+Kolesnikova et al., 2022).
+Our contributions are as follows:1. We show how multi-task knowledge transfer occurs in the simple encoder-agnostic transformer
+based models during training for multiple dialogue-related tasks.
+2. We explore the effects of multi-lingual knowledge transfer in these models.
+3. We implement these models in Deep
+Pavlov framework.1
+2 Related Work
+Researchers have been conducting experiments with multi-task learning (MT
+L) for a long time (
+Caruana,1997). Since the rise of neural networks, researchers have proposed a wide range of approaches to
+MT
+L, including cross-lingual word embeddings (
+Konovalov and Tumunbayarova, 2018). However, thesemethods did not develop further, as nowadays NL
+P is based on transformer-based models. Nevertheless,as transformer architectures come out quite often, this review mostly focuses on agnostic architectures,which work with all kinds of transformers, rather than transformer-specific architectures.
+In some kinds (
+Karpov and Burtsev, 2021) of multi-task encoder-agnostic transformer-based architectures, every sample needs to be labeled or pseudo-labeled for all considered tasks. Even though thisapproach is successfully used in some dialogue systems (
+Kuratov et al., 2021), it lacks flexibility.
+One of the most frequently used encoder-agnostic transformer-based architectures is (
+Liu et al., 2019).
+However, this architecture increases computational demands due to the specific stochastic attention layersfor text classification.
+The work (
+Asa Cooper Stickland, 2019) proposed different encoder-agnostic ways to work with BER
+Toutput in a multi-task setting.2 One such way is to supplement the model with an extra BER
+T layer foreach task. However, that way increases the number of required parameters for GLU
+E (
+Wang et al., 2018)by 67%, which is computationally heavy. Other encoder-agnostic approaches proposed in the same workworked no better than the plain use of bert-base-uncased output in the linear classifier in our experimentson GLU
+E.
+Additionally, utilizing self-attention with a task-embedded module from the paper (
+Maziarka and
+Danel, 2021) instead of plain self-attention in the low-rank transformation did not yield improvementsover the plain dense task-specific layers on top of BER
+T in our experiments. The task-embedded architecture presented in the same article is still not encoder-agnostic.
+Another work (
+Huang et al., 2021) suggested a novel way to extract additional features from the BER
+Toutput – using lightweight convolutional ghost modules. Despite this approach being encoder-agnostic,utilizing attention with a ghost module in the low-rank transformation did not yield improvements overthe plain dense task-specific layers above BER
+T in our experiments. This also holds for (
+Ali et al., 2021)architecture from computer vision.
+1https://github.com/deeppavlov/Deep
+Pavlov/
+2
+Projective attention layers, presented in the same article as the superior result, are not encoder-agnostic.
+Karpov D., Konovalov V.
+At the same time, the performance of simple encoder-agnostic transformer-based models is still notfully explored. It is especially true for dialogue-specific datasets. Furthermore, the body of work lacksstudies on the Russian language multi-task learning in general, and specifically on the dialogue tasks.
+Multilingual knowledge transfer in multi-task models for such tasks also remains unexplored. Our workis aimed to bridge this gap.
+3 MT
+L Model Description
+The MT
+L architecture we explore allows using different encoder-only Transformer architectures as abackbone. For our experiments, we utilized BER
+T-based models because they allow effective transferlearning (
+Chizhikova et al., 2023; Konovalov et al., 2020). However, the same approach can be appliedto any Transformer-based model.
+1. In the same way as in the original work (
+Devlin et al., 2019), we return the final hidden states for all
+tokens and apply the BER
+T pooling layer to them. Like in this article, we apply the pooler output.
+2. Then, for every task, we apply the task-specific linear layer to the pooler output. The task-specific
+linear layer for every task type looks exactly like the linear fine-tuning layer for the single-taskBER
+T models (see original article or Transformers (
+Wolf et al., 2020) manual).
+3. Then we apply a loss function: mean squared error loss for the regression tasks, categorical crossentropy loss for single-label tasks or binary cross-entropy loss for multi-label classification task. In
+this paper, we consider only the single-label classification.
+The multi-task model in this setting requires almost no additional parameters and computational overhead, apart from the linear layers, so its simplicity singles it out. Also, the flexibility of this model allowsusing it with different kinds of backbones, which positively distinguishes it from (
+Asa Cooper Stickland,2019).
+For the distilBER
+T-like models, this multi-task model takes only 0.1% more parameters than singletask models. This computational overhead varies around this number, depending on the number of tasks,the number of classes, and the backbone model.
+The encoder-agnostic multi-task transformer-based model is integrated into Deep
+Pavlov (
+Burtsev etal., 2018). This implementation supports all Transformer backbones from the Auto
+Model class fromHugging
+Face. Our implementation is also successfully used in the Dream dialogue platform (
+Baymurzina et al., 2021).
+4 Datasets
+We explored the multi-task models’ performance on the Russian and English datasets for five tasks,i.e. emotion classification, toxicity classification, sentiment classification, intent classification, and topicclassification. For Russian and English data, the indexes of the same classes used by the models werealso the same. We chose these tasks as they are pivotal for dialog systems (
+Kuratov et al., 2020). Thedatasets contain naturally occurring data, which are useful for dialogue systems development (
+Konovalovet al., 2016b; Konovalov et al., 2016a). Therefore, we consider these tasks to be conversational tasks.
+4.1 Emotion Classification
+We used the go_emotions dataset (
+Demszky et al., 2020) for emotion classification in English. Thisdataset consists of short comments from Reddit, such as LO
+L. Super cute! or Yikes. I admire your patience. We used Ekman-grouped emotions, grouping them into seven types, i.e anger, fear, disgust, joy,surprise, sadness, and neutral. After such grouping, we selected only single-label examples. There were39,555 training examples of that kind. The train/test/validation split of this dataset was approximately
+80/10/10.
+For the same task in Russian, we used the CED
+R dataset (
+Sboev et al., 2021). The dataset containsexamples from different social sources: blogs, microblogs, and news. This dataset has five classes –anger, fear, joy, surprise, and sadness – but the samples from this dataset can belong to more than onesingle class or (unlike go_emotions) belong to no class. For example, the text Надо утопать навстречу. belongs to no class.
+Knowledge Transfer Between Tasks and Languages in the Multi-task Encoder-agnostic Transformer-based Models
+From this dataset, we selected only examples that belong to one single class or that have no class,labeling no-class examples as neutral. The class nomenclature of this dataset was almost the same as forthe English dataset, except for the disgust class. Nonetheless, as disgust examples comprised less than1.5% of the English training samples, it didn’t impact knowledge transfer much.
+The work (
+Sboev et al., 2021) provided only the train-test split of the CED
+R dataset, which is 80/20.
+We singled out 12.5% of the training examples from CED
+R as the validation set. The resulting dataset has6,557 training samples.
+4.2 Sentiment Classification
+We used the Dyna
+Sent(r1) dataset (
+Potts et al., 2020) for sentiment classification in English. It containsnaturally occurring sentences. i.e. Need a cheap spatula? We used only examples from the first roundof the collection, to match the Russian data by difficulty. This single-label dataset with 80,488 trainingsamples has three classes – positive, negative, and neutral. The dataset has 3,600 validation samples andthe same number of test samples.
+For the same task in Russian, we used the Ru
+Reviews dataset (
+Smetanin and Komarov, 2019). Thisthree-class dataset consists of 90,000 product reviews from the "
+Women’s Clothes and Accessories" category of a large Russian e-commerce website. As the considered product reviews already contain gradesfrom the user, the authors of this dataset classified sentiment according to the grades. For example, thephrase размер очень мал was considered to be negative. We have chosen this dataset because it is opensource and it has a relatively large size, even though it is domain-specific. As the train/validation/testsplit of this dataset was not provided, we used the same split as in the Dyna
+Sent(r1) dataset. After that,the training set had 82,610 training samples.
+4.3 Toxicity Classification
+For English toxic classification, we used the Wiki Talk dataset (
+Dixon et al., 2018). This Wikipediacomment dataset has two classes: toxic and not toxic. Unsurprisingly, the dataset contains vulgar slang.
+However, about 90% of examples from this dataset are not toxic, i.e. Hi! so umm i guess yer inchargehere hehehe. so wassup?. This dataset has 127,656 training samples, 93,342 validation samples, and31,915 testing samples. For Russian toxic classification, we used the Ru
+Toxic dataset (
+Dementieva et al.,
+2021). This two-class dataset was collected from Dvach, a Russian anonymous imageboard. This dataset
+originally has 163,187 samples. Among them, most of the samples are not toxic, e.g. ещё бы. какойкрасавец.. But obviously, some samples are toxic, e.g. дворника тоже надо уничтожить! . As theauthors didn’t provide the original split in their repository, we split this dataset in the same proportionsas in the Wiki Talk dataset. After that, the training set had 93,342 training samples.
+4.4 Intent Classification and Topic Classification
+We used MASSIV
+E dataset (Fitz
+Gerald et al., 2022) for the intent classification for the Russian and English languages. The MASSIV
+E dataset for the English language contains the spoken utterances, whichaim for the voice assistant, e.g. play rock playlist. All examples in this dataset were labeled and adaptedsimultaneously for 51 languages, including Russian.3 This dataset has 11,514 train samples, 2,033 validation samples, and 2,974 test samples. Every sample belongs to one of 60 intent classes. This datasetis widely used for the conversational topic classification (
+Karpov and Burtsev, 2023).
+We used the same dataset in the same way for topic classification as well, as this dataset is labeled byintent and by topic. Every sample from this dataset belongs to one of the 18 topic classes.
+5 Experimental Setup
+For all the experiments described in our work, the optimizer was Adam
+W (
+Kingma and Ba, 2015) withbetas (0.9, 0.99), and the initial learning rate was 2e-5. We used average accuracies for all tasks as anearly stop metric. The training had validation patience 3, and the learning rate was dropped by two timesif the early stopping metric did not improve for two epochs.
+3
+For example, the Russian dataset contains sample расскажи новости russia today instead of stell me b. b. c. news.
+Karpov D., Konovalov V.
+English cased models trained on English data. Mode S stands for single-task, and mode M stands formulti-task.
+Model Mode Average
+Emotions Sentiment Toxic Intents Topics Batches39.4k 80.5k 127.6k 11.5k 11.5k seen
+distilbert S 82.9/78.4 70.3/63.1 74.7/74.3 91.5/81.2 87.4/82.7 91.0/90.6 11390distilbert M 82.1/77.2 67.7/60.7 75.2/75.0 90.6/79.8 86.3/80.4 90.8/90.1 14000bert S 83.9/79.7 71.2/64.2 76.1/75.8 93.2/83.5 87.9/84.2 91.3/90.7 9470bert M 83.0/78.4 69.0/63.1 76.5/76.4 91.4/80.8 87.1/81.2 91.2/90.6 11760
+The training was usually completed in less than 10-15 epochs and never exceeded 25 epochs, eventhough the maximum number of epochs was set to 100.
+We set the batch size to 160. We have also tried batch size 32, and the metrics for batch size 160 werejust insignificantly better. However, the paper (
+Godbole et al., 2023) claims that this difference can beeliminated by better fine-tuning. Finally, we settled with batch size 160 because the computations withbatch size 160 were performed several times faster.
+In the preliminary multi-task experiments, apart from plain sampling (a sampling mode where theexample sampling probability is proportional to the task size), we also tried annealed sampling (Asa
+Cooper Stickland, 2019) and uniform sampling (the same sampling probability for all tasks). We performed such experiments for Russian and English distilbert-like models, for Russian and English tasks.
+The results for these sampling modes did not bring out a noticeable improvement, thus we used onlyplain sampling.
+We averaged all the experiment results by three runs.
+6 Results and Analysis
+We conducted experiments in mono-lingual mode with different transformer-based backbones to compare single-task and multi-task approaches. For the English-language tasks, we conducted the experiments for the backbones bert-base-cased (
+Devlin et al., 2019) (bert) and distilbert-base-cased (
+Sanh etal., 2019) (distilbert).
+For the Russian-language tasks, we made experiments for the backbones Deep
+Pavlov/rubert-basecased-conversational (
+Kuratov and Arkhipov, 2019) (rubert) and Deep
+Pavlov/distilrubert-base-casedconversational (
+Kolesnikova et al., 2022) (distilrubert).
+As distilled BER
+Ts take 40% less memory than BER
+Ts and are 60% faster, these experiments cover avariety of different model uses for different computational budgets and quality demands.
+6.1 Single-task V
+S Multi-task: Backbones From Different Languages
+In the first stage of the experiments, we compared the performance of our multi-task models to analogoussingle-task models with the same hyperparameters.
+We present the results of the first stage of experiments in Tables 1-2. For every experiment, we provideaccuracy / macro-averaged F1.
+Overall, the performance of multi-task encoder-agnostic transformer-based models closely matchesthe performance of the analogous single-task models. This effect holds for the Russian language as wellas for the English language.
+While distilbert shows slightly worse metrics than bert, distilrubert even excels rubert on all but thelargest tasks.
+In the next experiments, we put the main focus on the distilbert-like models to speed up the computations.
+Knowledge Transfer Between Tasks and Languages in the Multi-task Encoder-agnostic Transformer-based Models
+Russian cased models trained on Russian data. Mode S stands for single-task, and mode M stands formulti-task. R
+U means that models were trained and evaluated on Russian data, E
+N means that modelswere trained and evaluated on English data.
+Model Mode Average
+Emotions Sentiment Toxic Intents Topics Batches6.5k 82.6k 93.3k 11.5k 11.5k seen
+distilrubert S 86.9/84.1 82.2/76.1 77.9/78.2 97.1/95.4 86.7/81.6 90.4/89.5 8472distilrubert M 86.3/82.6 81.0/74.6 77.7/77.7 96.9/95.0 85.2/75.9 90.7/89.9 8540rubert S 86.5/83.4 80.9/75.3 78.0/78.2 97.2/95.6 86.2/79.1 90.0/89.0 7999rubert M 86.2/82.6 80.5/73.8 77.6/77.6 96.8/95.0 85.3/76.9 90.5/89.8 8113
+Multilingual cased models, batch size 160, plain sampling. Mode S stands for single-task, and mode
+M stands for multi-task. In the ’
+Training data’ column, R
+U stands for the Russian language, ’RU+E
+N’means that Russian and English data are merged by task, and ’R
+U ⊕ E
+N’ means that Russian and Englishtasks are treated as separate tasks.
+ModelTraining
+Mode Average Emotions Sentiment Toxic Intents Topics
+Batchesdata seendistilbert-mult R
+U S 84.7/81.0 77.4/69.1 77.7/77.9 96.7/94.8 83.5/76.6 88.1/86.9 10058distilbert-mult R
+U M 84.3/80.2 78.1/70.5 76.8/76.7 96.5/94.4 81.9/72.3 88.2/87.1 9821distilbert-mult RU+E
+N S 85.2/81.8 78.9/70.2 77.4/77.3 96.8/94.9 84.7/79.1 88.4/87.4 31843distilbert-mult RU+E
+N M 84.5/81.1 77.9/70.7 76.6/76.7 96.5/94.5 82.9/76.5 88.4/87.2 17790distilbert-mult R
+U ⊕ E
+N M 84.4/80.6 77.6/70.0 76.8/77.1 96.5/94.5 82.4/73.9 88.3/87.2 23688bert-mult R
+U S 84.7/80.2 76.6/64.2 77.8/78.2 96.9/95.1 83.9/76.3 88.4/87.0 10884bert-mult R
+U M 84.8/81.4 78.4/71.4 76.3/76.3 96.8/94.8 83.7/76.6 89.0/87.8 12810bert-mult RU+E
+N S 85.6/82.3 78.9/70.1 77.6/77.8 96.9/94.9 85.0/80.4 89.4/88.5 23752bert-mult RU+E
+N M 85.2/82.3 79.2/72.7 76.4/76.6 96.7/94.8 84.3/79.3 89.4/88.3 20755bert-mult R
+U ⊕ E
+N M 85.0/81.6 78.3/71.4 77.1/77.0 96.7/94.7 84.0/76.7 89.1/88.0 227016.2 Multilingual Multi-task Backbones: Cross-lingual Training Impact
+In the next stage of experiments, we have put the focus on multilingual knowledge transfer. To investigatethis transfer, we utilized only multilingual backbones. In particular, we used distilbert-base-multilingualcased and bert-base-multilingual-cased. In Table 3, we label them as distilbert-mult and bert-mult,respectively. Our main goals were:• To compare the performance of the multi-task and single-task models with the multilingual backbones for the Russian language.
+• To check how the performance of single-task models and the performance of multi-task modelsvaries if we add the English data to them, and the data are merged by task (for every task, the modelis trained on English+
+Russian training data and validated on Russian data).
+• To check whether treating English-language tasks as separate tasks yields any improvements if weperform the validation on the Russian data.
+As we see, the results of all settings are pretty similar: using Russian+
+English data puts us on theplateau, while improvements compared to using only Russian data are only moderate.
+In the same setting, we also explored whether utilizing English-language tasks as separate tasks ismore beneficial than merging Russian and English data by task. This approach did not prove to be anybetter and even brought out a small deterioration.
+The impact of adding English data in case of having limited Russian data required additional investigation. We have researched this impact in the next series of experiments. In real-world conditions, weusually have a huge body of datasets for English data, but not nearly as much for Russian data. This
+Karpov D., Konovalov V.gives additional practical value to that experiments.
+6.3 Impact of Adding the English Data
+In this experiment series, we explored multi-task and single-task settings with Russian and English datamerged by task. We studied how much the performance of distilbert-base-multilingual-cased (multi-taskor single-task) improves when it is trained on some part of Russian train data if we add English trainingdata to it and validate on the English validation data.
+Specifically, we performed experiments for the following data shares: 0%, 3%, 5%, 15 %, 20%, 25%,50%, and 100%. For 0%, we added to the table the model trained on English train data and validated on
+Russian validation data, and the model which is trained on English train data and validated on Englishvalidation data (but tested still on Russian test data). We restarted the experiments with three randomseeds. For every series of experiments, we randomly shuffled the datasets and then selected all subsets atonce, while the larger subsets contained all examples from the smaller subsets (like, 10% subset containsall examples from 5% and also from 3%)
+We present the averaged results in Table 9, in Appendix. We averaged the results by three runs. Fortraining on the 3-5% of the Russian data without the English data, we averaged the results by five runsdue to the high variability of results. Additionally, we plot the results below, in Figure 1. The task-wiseresults for the experiments with data shares are also shown in Appendix, in We also note that in all the experiments from Table 9 where 100% share of the English data was used,we performed the experiments also with validation on the Russian data instead of the English data. Thatchange did not impact the scores in any meaningful way (see Table 10).
+3 5 10 15 20 25 50 100
+507090
+Share of Russian training dataAverageaccuracy
+S accuracy (RU)
+M accuracy (RU)
+S accuracy (RU+EN)
+M accuracy (RU+EN)R
+U S M S Mshare R
+U R
+U RU+E
+N RU+E
+N3 57.0 65.9 71.8 70.7
+5 58.4 70.3 75.0 74.2
+10 75.7 75.2 77.9 77.4
+15 77.7 77.2 79.7 78.9
+20 78.4 79.0 80.6 80.1
+25 79.5 79.6 81.4 80.9
+50 82.5 82.3 83.2 82.8
+100 84.4 84.3 85.2 84.4
+plain sampling. ’
+S’ stands for single-task mode, ’
+M’ stands for multi-task mode, ’R
+U share’ meansthe share of Russian training data, ’R
+U’ means training only on the given percentage of Russian data,’RU+E
+N’ means training on the given percentage of Russian data with added full size English data. See
+Table 9 for more details.
+For the Russian-only data, starting with a small enough percentage of the training data, the singletask metrics drop and become much lower than the multitask metrics. We do not see this effect for theRussian+
+English data, as in this case, even with a low share of Russian data, even single-task modelsstill learn a much higher amount of knowledge from the English data.
+7 Discussion
+Multi-task encoder-agnostic transformer-based models almost match the single-task models by metricson the dialogue tasks. The gap in average accuracy between the multi-task and single-task monolingualmodels is about 0.8-0.9% for the English language and about 0.3-0.6% for the Russian language. For the
+Knowledge Transfer Between Tasks and Languages in the Multi-task Encoder-agnostic Transformer-based Modelsmultilingual models, the gap remains within the same limit, except for the bert-base-multilingual-casedtrained only on Russian data, for which there is no gap.
+We also show that if we train the multilingual model and have Russian and English data for the sametasks with the same classes, combining that into one task is slightly better than treating Russian and
+English tasks as separate tasks. We can explain it by the fact that while training multilingual models onmerged data (see Table 3), the knowledge is transferred by the backbone and by the class-specific linearlayers. At the same time, while training multilingual models on separate data, only knowledge transferby the backbone takes place.
+For the small-scale data, we can see that if we train the multilingual distilbert on small shares of
+Russian training data (2-5%), multi-task models outperform single-task models in the average accuracy.
+The Talbe 9 shows that this accuracy advantage increases while the dataset size decreases. For intent andtopic datasets, this advantage disappears at 1,151 training samples. For the emotion dataset, surprisingly,this advantage holds with any dataset partition, possibly due to the effect of knowledge transfer from thesentiment task.
+For experiments with adding English data, multi-task models showed no clear pattern of advantageover single-task ones. This fact also supports the hypothesis of the knowledge transfer dependency ofthe dataset size. If we added 100% of English training data, dataset sizes became too large for reachingthe advantage from the multi-task knowledge transfer.
+However, adding the English training data to the Russian training data improves the metrics on the
+Russian test set. The lower the size of the Russian training data we have, the more substantial theaccuracy increase from adding the English data to the training sample. This accuracy gain can reachseveral percent if we have a limited amount of Russian training data (3-10% R
+U share in Table 9). Thisconclusion holds for multi-task and single-task models. The language of validation data (
+English or
+Russian) did not matter in our experiments.
+The reason for metric improvement for the multilingual models by adding the English data is thatwhile being pretrained on certain languages (in our cases English and Russian), the models learn torepresent the language-independent features of the examples. Therefore, while receiving Russian and
+English examples for the same tasks, the models fine-tune to the larger number of language-independentfeatures and generalize more broadly, which helps to improve the results.
+Our work did not cover the knowledge transfer to languages other than Russian. Also, we did notconsider conditions under which multilingual models, with knowledge transferred from English data,excel analogous Russian-only models. We leave that for future work.
+8 Conclusion
+We explore the knowledge transfer in the simple multi-task encoder-agnostic transformer-based models on five dialog tasks: emotion classification, sentiment classification, toxicity classification, intentclassification, and topic classification. We show that these models’ accuracy differs from the analogoussingle-task models by ∼0.9%. These results hold for the multiple transformer backbones. At the sametime, these models have the same backbone for all tasks, which allows them to have about 0.1% moreparameters than any analogous single-task model and to support multiple tasks simultaneously. We alsofound that if we decrease the dataset size to a certain extent, multi-task models outperform single-taskones, especially on the smallest datasets. We also show that while training multilingual models on the
+Russian data, adding the English data from the same task to the training sample can improve model performance for the multi-task and single-task settings up to 4-5% if the Russian data are scarce enough.
+We also have integrated these models into the Deep
+Pavlov framework and into the DREA
+M library.

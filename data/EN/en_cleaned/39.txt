@@ -1,0 +1,318 @@
+After the Belarusian and Russian Noo
+J modules obtained, it became possible to check and update experimental solutions to different linguistic tasks in application to text-to-speech synthesis . Synthesizers which use orthographic texts cope well with voicing orthographic words , but abbreviations, acronyms, numbers, symbols, etc. demand preprocessing into real words before they can be voiced. The main purpose of this article is to describe approaches to identification and transformation of quantitative expressions (Q
+E) with measurement units (M
+Us) into correct orthographic words in hand-crafted scientific, technical and legal text corpora for Belarusian and Russian; and to prove its importance for correct intonational marking of texts. 1 http://www.nooj4nlp.net/pages/nooj.html
+mailto:skelena777@gmail.commailto:Yury.Hetsevich@gmail.commailto:Lobanov@newman.bas-net.by
+Processing of quantitative expressions with units of measurement in scientific texts To give an example, Belarusian sequences like 123 мА ‘123 m
+A’ and 120  мА ‘120 m
+A’ have to be transformed by the synthesizers into sequences of words with intricate agreement: resp. сто дваццаць тры міліамперы and сто дваццаць міліампер, because Belarusian (and Russian) numerals are declinable and can influence subsequent words (in our case measurement units), unlike English, where, e. g., a preposition before a numeral does not change anything in the voicing of M
+Us. For the present we deal with generating Q
+E in the Nominative. When dealing with Q
+E with M
+Us, many difficulties arise. First, they are conditioned by a great variety of numeral quantifiers and names of units, both in writing and formation. Creating rules of complex expressions localization for all cases is practically impossible (that is exactly the reason why regular expressions are not the best way to obtain localization rules). In order to simplify this process, it is extremely important to use tools that allow users to easily modify previously-developed rules and add new ones. The international program Noo
+J is one such tool. It allows implementing sophisticated algorithms of searching for compound text fragments in Belarusian and Russian in the form of visual executable graphs. Second, an expression with a M
+U is difficult to recognize and analyze (note a considerable number of digits, words with quantitative meaning with all their possible paradigmatic forms, names of metrological system units) without thoroughly prepared linguistic resources, i.e., dictionaries with all possible word forms, abbreviations, and rules for building derivative forms of measurement units. This is necessary, e. g., for proper treatment of expressions with units of length, written in various ways: 1 м (1 m), 31 метр (31 meters), 25 метраў (25 meters), 44 метры (44 meters) .
+Third, Q
+E with M
+Us are language-dependent: in English meter and mile are abbreviated as m, while in Belarusian and Russian as м; even within largely similar Russian and Belarusian, names of measurement units differ in spelling — гадзіна, час ‘hour’. Therefore, it is essential to make accurate provisions for each language.
+Significant results have been achieved by European researchers and developers of the Quantalyze semantic annotation and search service2, and Numeric Property Searching service in Derwent World Patents Index on ST
+N3. However, language orientation is the reason why theoretical or practical results cannot be fully reusable for Belarusian or Russian. We view Q
+E with M
+Us as combinations where each component requires a specific approach for successful identification.
+Searching for and classifying Q
+E with M
+Us according to the SI
+In order to construct and test algorithms, four text corpora were formed for two domains: scientific, technical and legal (two for each language) (
+Fig. 1) . According to the main graph (
+Fig. 2) of the obtained algorithms (for Belarusian and Russian they differ in some language-dependent subgraphs), any text fragment is initially checked in the 1st subgraph (
+Numeral Quantifier) if it has a compound numerical descriptor (
+Fig. 3).
+2 https://www.quantalyze.com/en/
+3 http://www.stn-international.com/numeric_property_searching.html
+Skopinava A. M., Hetsevich Yu. S., Lobanov B. M. Russian, and (c) translated into English
+It should be noted that this subgraph works out not only for prime, decimal and fractional numbers in various forms of writing, but also for compound numerical combinations with exponential parts and periods. Some results of its work can be observed in the form of a concordance (
+Fig. 4). It should be emphasized that this subgraph is language-independent (
+Fig. 4c). and compound numerical combinations file:///P:\~Boox\ABBYY%20head\Conferention\2013\Elina\AppData\Local\Temp\Word_0
+Processing of quantitative expressions with units of measurement in scientific texts Belarusian, (b) Russian, and (c) English texts
+After the first subgraph has been processed, the algorithm proceeds to other subgraphs, which are connected to its output by means of respective transition lines. The subgraph System International identifies units according to the S
+I, e. g., кілаграм ‘kilogram’; the subgraph Derived — S
+I derivatives (
+Fig. 5), such as герц ‘hertz’; the subgraph Other systems — frequently used, but non-systemic units, such as час ‘hour’. If any of the three subgraphs works out, the sequence of respective transition lines on the way to the main graph’s output is indicated by markers. Let us draw up a list of some possible markers: MEA
+S, MEAS+S
+I+…, MEAS+D+S
+I+… . They correspond to the above-mentioned subgraphs’ respective predestinations. Three dots in the last two markers can be replaced by special markers within a respective subgraph that works out. At the same time names of M
+Us (or their word forms) correspond to names of respective physical values (or their word forms). Take the word combination дадаць 3,3 молі ‘add 3,3 moles’ as an example. The algorithm will recognize the following expression: 3,3 молі ‘3,3 moles’. It will receive the following marker: MEAS+SI+
+Amount
+of substance. The marker enables one to identify exactly which subgraph works out and which unit of measurement is used. The code MEA
+S means that the expression 3,3 молі ‘3,3 moles’ contains a unit of measurement молі ‘moles’. The code + S
+I informs
+Skopinava A. M., Hetsevich Yu. S., Lobanov B. M. the M
+U молі ‘moles’ belongs to the S
+I units. The code + Amount of substance means that молі ‘moles’ are used for measuring amounts of substances. The component D of the marker MEAS+D+S
+I+… requires the existence of the second distinct subgraph in order to separate expressions with M
+Us derived from the S
+I basic units, i. e., degree Celsius, hertz, radian, newton, joule, pascal, watt, volt, ohm, becquerel. a) b)for (a) Belarusian and (b) Russian
+Such a flexible system of markers allows building search queries of different types: to find all expressions with M
+Us (
+Fig. 6); to find expressions without derived units (<MEAS+SI
+D>) (
+Fig. 7); etc. Table 1 contains the search results in Fig. 6 and Fig. 7 translated into English and listed from top to bottom.
+a) b)a) b)on the request <MEAS+SI
+D> in (a) Belarusian and (b) Russian
+Processing of quantitative expressions with units of measurement in scientific texts a)1m <MEAS+Length|Distance+S
+I>
+0,1
+Hz <MEAS+Frequency+D+S
+I>
+8 t <MEAS+
+Mass>
+year 2005 <MEAS+
+Time> 74 degrees <MEAS+
+Angle>
+10 m
+3600 kg
+10 kg
+1 kg
+500 metres
+b)109 K <MEAS+
+Thermodynamic temperature+S
+I>
+200 000 l <MEAS+
+Volume>
+33 years <MEAS+
+Time>
+5° <MEAS+
+Angle>
+600°
+C <MEAS+
+Temperature in Celsius scale+D+S
+I>
+0,1 K
+1m
+1904
+30 seconds
+3 seconds
+Identification of M
+Us with metrological prefixes
+First of all, the authors created necessary linguistic dictionaries S for Belarusian and Russian (
+Fig. 8). They contain some basic stems of M
+Us — complete nouns and their abbreviations. Each stem is marked by a respective attribute: either Base or Mbase. In addition, descriptions of full stems include indicators of respective inflectional classes. The dictionary S is obviously a language-dependent linguistic resource, unlike algorithms for identification of M
+Us with metrological prefixes, which are implemented as language-independent components. The next step was to develop language-dependent linguistic resources (
+Fsubmultiple, Fmultiple, Ssubmultiple, Smultiple) (
+Fig. 9). For M
+Us-formation either multiple or submultiple prefixes can be used. Besides, they can take a shortened (
+S-) or full (
+F-) form (
+Fig. 10) .
+a) b)
+Skopinava A. M., Hetsevich Yu. S., Lobanov B. M. b)c) d)fig. 10. Graphs for identification of (a) full-stem and (b) shortenedstem multiple prefixes for Belarusian, and (c) full-stem and (d) shortened-stem submultiple prefixes for Russian
+The basic principle for the components became the following word-formative classification of M
+Us:•	 M
+Us with full-form stems and without prefixes (метр ‘meter’, Герц ‘hertz’, Ом ‘ohm’);•	 M
+Us with shortened stems and without prefixes (Дж ‘
+J’, га ‘ha’);•	 M
+Us with full-form stems and full-form prefixes (нанафарады ‘nanofarads’, міліампер ‘milliampere’);•	 M
+Us with full-form stems and shortened prefixes (кБайт ‘
+Kbyte’);•	 M
+Us with shortened stems and shortened prefixes (км ‘km’, дл ‘d
+L’, гПа ‘h
+Pa’).
+Depending on word formation peculiarities, 4 morphological language-independent grammars M1
+M4 (algorithms) were obtained. They use the dictionary S and Processing of quantitative expressions with units of measurement in scientific texts linguistic resources Fsubmultiple, Fmultiple, Ssubmultiple, Smultiple. For example, the morphological grammar M2 identifies M
+Us which are formed with the help of multiple and/or submultiple full-form prefixes (
+Fig. 11). fig. 11. The morphological grammar M2 which identifies M
+Us with full-form stems and full-form multiple and/or submultiple prefixes
+As a result of its work, M
+Us may be given one of the following markers:•	 Mump means that identified M
+Us have multiple prefixes;•	 Musp implies that identified M
+Us have submultiple prefixes; •	 Muhp denotes M
+Us which have several prefixes, e. g.: мікрамегафарад ‘micromegafarad’. According to the S
+I, such a way of formation is not common among M
+Us, so such words require a specified marker, so later they can be extracted from text within a list of mistakes. Fig. 12 represents operation examples of the above-described morphological component. Note that the obtained morphological components enable the identified M
+U to inherit all grammatical and inflectional characteristics of initial words. E. g., the word дэкалітрамі ‘deciliters’ (in the Instrumental case) will remain the noun with all its inflectional endings and grammatical features, though the resource dictionary S does not contain it (
+Fig. 13).
+a) b)fig. 12. The resulting concordance of full-stem M
+Us on the request <NOUN+
+Mump> as applied to (a) Belarusian and (b) Russiana) b)fig. 13. Examples of annotated word forms for (a) Belarusian and (b) Russian
+Skopinava A. M., Hetsevich Yu. S., Lobanov B. M. the algorithm proceeds to the syntactic grammar S1 (
+Fig. 14). It accumulates all the markers from the text T, placed by means of the dictionary S and morphological grammars M1
+M4. It works out only for Q
+E with M
+Us (numerical descriptors in front of them). Numerical descriptors are identified by the inbuilt syntactic component S1. Each Q
+E with M
+Us receives the marker <MUEXP
+R>. It enables users to create concordances of Q
+E with M
+Us (
+Fig. 15).
+fig. 14. The main syntactic component S2, which identifies Q
+E with M
+Usa)b)fig. 15. Some results of identification of Q
+E with M
+Us after processing (a) Belarusian and (b) Russian texts by means of the obtained morphological M1–
+M4 and syntactic S1 grammars Processing of quantitative expressions with units of measurement in scientific texts Generation of orthographical words from Q
+E with MUs
+In text-to-speech synthesis tasks it is important to develop algorithms not only for identification of definite expressions but also for their processing and transformation into orthographical word sequences. With this aim, grammars in the form of visual finite-state automata for Belarusian and Russian were worked out. As a result, for each language a ramified algorithmic complex of 21 graphs and subgraphs was obtained. Fig. 16 represents the structure of the main graph. Since Q
+E with M
+Us consist of 2 components (numbers and nouns), it is required to work out separate graphs for their generation. This algorithm contains of graphs of 2 types. Those, which have names starting with a_, generate numbers from 0 to 999,999,999,999. All the rest, in particular the ones with b_, are intended for generation of nouns which denote M
+U.
+a) b)fig. 16. The main graph of the algorithm which generates orthographical words from Q
+E with M
+Us for (a) Belarusian and (b) RussianQ
+E with M
+Us pass from input to output by means of one of 5 ways in accordance with peculiarities of the inflection of nouns after numerals, in particular for the first 3 ways:
+1. After number 1 (including numbers with 1 as a final digit) nouns take endings of the Nominative Singular (Nom
+Sg). Q
+E will proceed to one of the top
+branches, depending on the gender of nouns, in particular Masculine (
+Masc) or Feminine (
+Fem).
+2. After numbers 2, 3, 4 (including numbers with 2, 3 or 4 as a final digit)
+nouns take the Nominative plural (Nom
+Pl) in Belarusian, whereas in the Russian these numbers require nouns in the Genetive singular (Gen
+Sg). Depending on the gender, Q
+E will move to branches 3 or 4.
+3. Numbers from 5 to 19 and round numbers (including numbers with them
+as final digits) require nouns in the Genitive plural (Gen
+Pl) in both languages. Q
+Es will follow the 5th branch.
+As an example, let us stop on the first branching of the algorithm, in particular the graph a_Gen
+Pl (
+Fig. 17). It generates any whole number from 0 to 999,999,999,999, which demands the Genitive plural form.
+Skopinava A. M., Hetsevich Yu. S., Lobanov B. M. 17. The subgraph a_Gen
+Pl for Belarusianfig. 18. The subgraph Mlr for Russian
+The structure of the algorithm for generation of numbers resembles Russian dolls. At first the graph for numbers of the first triad (from 0 to 999) was obtained. It includes the inbuilt subgraph ThMln
+Mlr for the class of thousands or numbers with 2 triads (from 1,000 to 999,999). Inside of this subgraph the other one (
+M ln
+Mlr)
+was placed for the class of millions or three-triads numbers; at last, the subgraph Mlr (
+Fig.18) for the class of billions or numbers with 4 triads (from 1,000,000,000 to 999,999,999,999) was worked out. Depending on research goals, the algorithm can be expanded by further triads. After generating numbers the algorithm proceeds to processing nouns which denote M
+Us. Concerning the last branch of the algorithm, it happens with the help of the graph b_Gen
+Pl (
+Fig. 19).
+For the present, this subgraph can generate basic S
+I units and some frequently used ones. Thanks to the visuality of finite-state automata, the algorithm can be easily and rapidly improved by adding more M
+Us. In order to add a new unit, three case endings (mind the gender and number) should be added to the respective graphs. Variations of written forms should also be taken into account. For example, for the noun градус (shortened гр, ° — three variants; in English degree, shortened deg, °), one should add 3 respective word forms (градус, градусы, градусаў for Belarusian; and градус, градусы, градусов for Russian) for each variant into the following graphs: b_NomSg
+Masc, b_NomPl
+Masc, b_Gen
+Pl for Belarusian; b_NomSg
+Masc, b_GenSg
+Masc, b_Gen
+Pl for Russian. Processing of quantitative expressions with units of measurement in scientific texts a) b)fig. 19. The subgraph b_Gen
+Pl for (a) Belarusian and (b) Russian
+Thus, language-dependent complexes of grammars for generation of orthographic words from Q
+E with M
+Us have been obtained. Fig. 20 demonstrates some results of their operation. 20. Generation of orthographic words from Q
+E with M
+U for (a) Belarusian and (b) Russian with the help of the developed algorithms
+Variety of ways to express Q
+E with M
+U in Belarusian and Russian texts
+Since the practical goal is to identify M
+Us and generate expressions with them, a question inevitably arises: which ways of written forms should be taken into consideration? Thus, it is required to make a certain sample of Q
+E in order to cover all the variety of ways of their expression in writing.
+Skopinava A. M., Hetsevich Yu. S., Lobanov B. M. order to attain this aim, a hand-crafted corpus (about 1 mln words) of Russian scientific texts (in the format Noo
+J) was used. With the help of statistical computations 8 texts with highest amounts of M
+Us were selected, in particular texts on: military equipment (M
+E), geography (
+Geo), history (
+His), space travel science (ST
+S), physics (
+Phy), mineralogy (
+Min), transportation communications (T
+C), botany (
+Bot). After that a special formula in the form of a regular expression was created (
+Fig. 21), starting with the simple (<WF><N
+B>). Further the right and left contexts were analyzed, so the formula was constantly updated. Table 2 demonstrates what happens when the formula is applied to the selected texts, whereas Table 3 contains generalized data for them. fig. 21. The regular expression for a search for Q
+E with M
+Usthe help of the obtained formula
+Formula’s constituents
+Examples of Q
+E, found with the help of a certain constituent(от <N
+B> до <N
+B>)(от <N
+B> до <NB><N
+B>)(от <NB><N
+B> до <N
+B>)(от <NB>,<N
+B> до <NB>,<N
+B>)(от <NB>,<N
+B> до <N
+B>)(от <NB>.<N
+B> до <NB>.<NB>)
+Processing of quantitative expressions with units of measurement in scientific texts Formula’s constituents
+Examples of Q
+E, found with the help of a certain constituent(от <N
+B> до <N
+B>, <N
+B>)(от <N
+B> − <N
+B> до <N
+B> − <N
+B>)(от <N
+B> ×<N
+B> − <N
+B> до <N
+B> × <N
+B> − <N
+B>)(от <N
+B> × <N
+B> − <N
+B> до <N
+B> × <N
+B> − <N
+B>)(от <N
+B> до почти <NB>)(<WF>|»~»|»=»)<NB>(<WF>|»~»|»=»)(<NB><NB>)
+Text Phy ST
+S Geo M
+E Min Bot T
+C His
+Number of variations, a 51 23 22 19 18 16 14 9
+Number of numeral expressions, b2841 2245 2765 9961 3668 1407 2066 4198
+Intonation marking in sentences which contain Q
+E with MUs
+Text-to-speech synthesis requires an automatic procedure of building current contours of melody, sound intensity, phoneme and pause duration, which is based on the analysis of certain properties of sentences according to rule-based prosodic marking. Prosodic marking of sentences implies their division into syntagmas, marking emphatically highlighted words, indicating syntagmas with accent units, and creating a melodic contour of each syntagma in accordance with certain rules. Solutions to these problems by means of in-depth syntactic analysis are thoroughly discussed in . Texts, when being synthesized, are first reduced to a normalized orthographic form. Next they undergo a complete syntactic analysis, performed by the parser ЭТАП-3 ‘ETA
+P-3’. The parser (1) divides texts into separate sentences; (2) for each sentence it builds treelike syntactic structures; (3) using special rules, which can be applied to ready syntactic structures, it sets boundaries among speech syntagmas Skopinava A. M., Hetsevich Yu. S., Lobanov B. M. emphatically highlighted components. The system Мультыфон ‘
+Multiphone’ this information and, depending on syntactic types, determines a melodic contour and duration of pauses between syntagmas. Prosodic and intonation marking of sentences which contain Q
+E with M
+Us can be carried out by the method proposed in the . However, before syntactic analysis of such sentences it is required to generate Q
+E into orthographic words. Indeed, Fig. 22 gives an example of syntactic analysis of the following sentence: Расстояние до Марса 55764878 км ‘
+The distance to Mars is 55764878 km’. As a result of processing this sentence by the system ETA
+P-3 in accordance with the rules discussed in , at the output of the system the following information for synthesis is received: Расстояние до <EM
+P t="*4">Ма`рса</EM
+P> 55764878 км. Thus, the system suggests no additional partitioning of this sentence into syntagmas. After 55764878 км ‘55764878 km’ is generated into orthographical words, we have the following result: Расстояние до Марса пятьдесят пять миллионов семьсот шестьдесят четыре тысячи восемьсот семьдесят восемь километров ‘
+The distance to Mars is fifty-five million seven hundred sixty-four thousand eight hundred seventy-eight kilometers’. The syntactic analysis of this sentence can be observed in Fig. 23.
+fig. 22. Syntactic analysis of the sentence Расстояние до Марса 55 764 878 кмfig. 23. The syntactic analysis of the sentence Расстояние до Марса пятьдесят пять миллионов семьсот шестьдесят четыре тысячи восемьсот семьдесят восемь километров
+Processing of quantitative expressions with units of measurement in scientific texts At the output of the system ETA
+P-3 the following information for the textto-speech synthesizer MULTIPHON
+E is obtained: Расстоя̀ ние <EM
+Pt=”*16”> до </EM
+P> <EM
+Pt=»*4»> Ма̀ рса</EM
+P> пятьдеся̀ т пя̀ ть <EM
+Pt=»*4»> миллио̀ нов </EM
+P> семьсо̀ т шестьдеся̀ т четы̀ ре <EM
+Pt=”*4”> ты̀ сячи </EM
+P> восемьсо̀ т сѐ мьдесят во̀ семь <EM
+Pt=»*4»> киломѐ тров </EM
+P>. According to this information the Multiphone forms 4 syntagmas with melodic contours С01, С3, С3_1, Р4 (emphatically highlighted words are indicated with the «+» sign).
+1 C01 расстоя+ние/доЪма+рса/
+2 C3 пядеся=т пя+ть/миллио+нов/
+3 C3_1 семьсо=т шездеся=т четы=ре ты+сячи/
+4 P4 восемьсо=т се=мьдесят во=семь киломе+тров/
+Fig. 24 demonstrates another example of syntactic analysis, in particular for the following sentence: Производительность компьютера 65,5 Мбит/с была достигнута “
+The computer performance 65,5 Mbit/s was achieved”. The algorithm identifies 65,5 Мбит/с ‘65,5 Mbit/s’. After processing into orthographical words it gets the following form: Производительность компьютера шестьдесят пять целых и пять десятых мегабит в секунду была достигнута ‘
+The computer performance sixty-five point five megabits per second was achieved’.
+fig. 24. The syntactic analysis of the sentence Производительность компьютера шестьдесят пять целых и пять десятых мегабит в секунду была достигнута
+According to the data obtained by the ETA
+P-3, the MULTIPHON
+E forms 4 syntagmas (
+Fig. 25):1 C4 производи+тельность
+компью+тера /
+Skopinava A. M., Hetsevich Yu. S., Lobanov B. M. C1 шестьдеся=т пя+ть/
+це+лых/3 C3 и= пя+ть/деся=тых
+мегаби+т/вЪсеку+нду/4 P4 была= дости+гнута/
+25. Syntagmas and melodic contours for «Производительность компьютера шестьдесят пять целых и пять десятых мегабит в секунду была достигнута»Conclusion
+It can be concluded that the main goal of this research — to develop appropriate algorithms which identify quantitative expressions with various M
+Us and generate orthographic texts for the Belarusian and Russian languages for scientific, technical and legal text corpora — has been achieved. The results can be applied in any branches of science connected with information retrieval systems and text-to-speech synthesis. The resulting algorithms are created in the form of finite-state automata through a set of syntactic grammars within the powerful linguistic processor Noo
+J, which helps to build up formal grammars without requirements for special knowledge of programming. The automata demonstrate how the algorithms work and indicate how they can be further updated in order to improve their accuracy. Future work includes:•	 disambiguation, e. g., in such cases when algorithms “confuse” some units (the same initial letter г for год ‘year’, грам ‘gram’, гадзін́а ‘hour’;•	 developing algorithms that will identify numeral quantifiers expressed not only by numbers (mathematical objects), but also by numerals (parts of speech).

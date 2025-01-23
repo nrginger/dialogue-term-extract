@@ -1,0 +1,548 @@
+agreement, lemmatization, copula, zero syntactic elementsDO
+I: 10.28995/2075-7182-2020-19-795-8101 This paper is written with financial support from the Russian science foundation, project
+RSC
+I 18-18-00462. I am grateful to the anonymous reviewers for the valuable comments.
+Zimmerling A. V. ФОРМЫ В МОРФОЛОГИЧЕСКИХ ПАРАДИГМАХ: ГЛАГОЛ «БЫТЬ» В РУССКОМ ЯЗЫКЕЦиммерлинг А. В. (fagraey64@hotmail.com)Государственный институт русского языка им. А. С. Пушкина; Институт языкознания РАН; Московский педагогический государственный университет, Москва, Россия1. The verb быть in Russian: grammar,
+lexicography and frequency
+The Russian verb быть ‘be’ has an abnormal present tense paradigm consisting of 3 elements not distributed according to the principle of person-and-number agreement. A salient part of its uses is realized by the zero copula ØBE.PRE
+S, which reduces the frequency of the overt present forms есть и суть. The lemma быть has a lower frequency than comparable lexemes in Standard Average European (SA
+E) languages. Есть and суть are historically linked with 3
+Sg and 3
+Pl respectively but their usage in Modern Russian does not follow these tags. It is generally acknowledged that есть spread over all persons and numbers. Basing on corpus data, I argue that суть underwent a similar development. A number of authors ; that the distribution of ØBE.PRE
+S ~ есть follows the distinction of the copular ‘be’ vs content verb ‘be’. However, the theory that copular быть and content word быть are different lemmas must be rejected, since both ØBE.PRE
+S and есть are used both as copula and content verb. I measure the ratio of copular vs content verb for each person and number form and argue that the ratio of overt copular sentences gives a key to the part covered by ØBE.PRE
+S. This study is based on Russian National Corpus (RN
+C). The method requires partial or complete syntactic analysis of contexts involving the present tense forms of быть in order to identify them as part of the existential, copular or perfect construction. Direct measurement is possible only for forms with the lowest frequency, in other cases I implement approximation samples based on the next-neighbor method: the adjacent elements often diagnose the type of быть construction without look-up of the entire syntactic structure. An advantage of the chosen approach is that it minimizes the role of the text meta-data in a balanced corpus.
+1.1. БЫТЬ vs ЕСТЬ in Russian lexicography
+Vladimir Dal’s (1880) dictionary claims that есть is the 3
+Sg form of the verb ‘be’, which is “dropped where other languages use it” . The 3
+Pl суть is not mentioned. Dmitry Ušakov’s dictionary (1935) has two entries— БЫТЬ and ЕСТЬ in the first volume. The first one claims that быть “lacks present tense except Zero forms in morphological paradigms: the verb “be” in Russianfor the 3
+Sg есть and outdated 3
+Pl суть in some meanings” . The second entry tells that есть is used in all persons “due to the loss of the old forms of the present tense of быть” . The fourth volume adds СУТЬ introduced as a “bookish and outdated 3
+Pl of быть, primarily used in contexts of enumeration” . This description hints that суть is optional but does not specify, whether it is a variant of есть.
+Ušakov’s description is influenced by Lev Ščerba’s theory that copular быть and content verb быть are different lexemes . He starts listing the uses of БЫТЬ from contexts where “the copula is dropped in the present tense” as in the “position between a subject and a nominal predicate” and in the participle passive . Ščerba’s program is implemented in the Minor Academic Dictionary (1957–1961) edited by Anastasia Jevgenjeva. Her description is close to Ušakov, but the entry БЫТЬ starts from contexts for the content verb. She claims that БЫТЬ lacks present forms “except for the 3
+Sg есть and the outdated 3
+Pl суть” . The entry ЕСТЬ however admits that есть is used in all persons and numbers “due to the loss of the present forms of быть” . The fourth volume has a short entry СУТЬ2 defined as a bookish 3
+Pl form occasionally used in 3
+Sg : this statement is based on examples like СиеS
+G не сутьBE.PRE
+S угрозаS
+G “
+This is not a threat” (
+M. Gorki, 1912), which lack an agreement controller in the plural form.
+Andrej Zaliznjak’s Grammatical Dictionary tells that есть stands for all persons and numbers of БЫТЬ, while суть is a 3
+Pl form rooted in scientific or archaic discourse . The loss of the present tense forms is not mentioned. Sergej Ožegov’s dictionary revised by Natalia Švedova is close to Ušakov but less consistent. The entry БЫТЬ states that this verb lacks present tense “except for 3
+Sg есть and outdated bookish 3
+Pl суть” . The entry ЕСТЬ tells that this form spread over all persons and numbers “due to the loss of the old present tense forms” . The entry БЫТЬ starts from content verb contexts, while the entry ЕСТЬ starts from copular contexts. The entry СУТЬ claims that this bookish form of 3
+Pl is now primarily used as a copula, if both arguments are expressed by substantives .
+The author of the most detailed lexicographical description of БЫТЬ, Ščerba’s and Jevgenjeva’s theory on two separate B
+E-lemmas and reinstates one paradigm consisting of 3 present forms: ØBE.PRE
+S, есть аnd суть. ØBE.PRE
+S and есть lack person-and-number features, while суть is an optional variant of the copular B
+E but not the content verb B
+E in 3
+Pl . Apresjan shows that both ØBE.PRE
+S and есть have parallel uses as a copula and as a content verb, so that the identification of the copular B
+E with the hypothetical lexeme selecting ØBE.PRE
+S in the present tense and the content B
+E with a different lexeme selecting есть is impossible. This description has three advantages: 1) it recognizes ØBE.PRE
+S as part of the paradigm; 2) it does not stick to historical notions; 3) it does not identify есть as a content verb in all its uses. I adopt Apresjan’s approach, but argue that his tag for суть must be fixed.
+Zimmerling A. V. The verb ‘be’ in SA
+E languages and in Russian: frequency and grammar
+The verb ‘be’ is a high frequent word in SA
+E languages, with a rank comparable to the ranks of the definite article and the conjunction ‘and’. The high rank of the SA
+E ‘B
+E’ in the top 5–10 lemmas is due to the fact that it is widely used in three types of contexts:• Type I contexts: ‘B
+E’ as a content verb expressing a variety of existential, locative and possessive meanings;• Type I
+I contexts: ‘B
+E’ as a copula with different types of nominal predicates;• Type II
+I contexts: ‘B
+E’ as an auxiliary element in analytical verb forms and constructions like Germanic, Romance or Slavic B
+E-perfect or B
+E-progressive in English etc 2
+In Slovenian , the lemma ‘B
+E’ heads the list of the most frequent lemmas. In both British English American English lemma ‘B
+E’ holds the 2nd rank after the definite article. In German it holds the 3rd rank. In Russian , the lemma ‘B
+E’ is only the 6th from above, behind и ‘and’, не ‘not’, в ‘in’, на ‘on’ and я ‘1
+Sg’ . This results from two deviant features of быть. For the first, overt present forms of быть lack person-and-number specification which is unusual for SA
+E languages: English retains full-fledged person-and-number agreement exactly where Russian gives it up— the present tense of be. For the second, the most frequent present form of быть is ØBE.PRE
+S. The status of ØBE.PRE
+S as part of the быть paradigm in Russian is acknowledged in linguistic typology ; . Frequency lists normally ignore zero forms, since taking them into account would require processing uniform syntactic annotations for a family of corpora. Overt present forms of быть do not match the frequencies of the non-present forms. Есть (393,200 raw hits in RN
+C) is almost 6 times less frequent than the past tense forms был, была, было, были (2,267,476 raw hits). This is predictable since the past tense forms of быть correspond both to Ø in Type I
+I contexts and to есть in Type I contexts.
+Tab. 1: Present vs non-present forms of быть in Russian
+Type of context Present tense of быть Past tense of быть
+Type I.
+The overt present form есть is optional or obligatory: есть/был, -а, -о, -и.
+(1) a. У Ивана есть машинаSG.
+F. ‘
+John has a car.’(2) a. У Ивана есть книгиP
+L. ‘
+John has books.’(3) a. Ты и есть доктор. ‘You2S
+G are indeed a doctor.’(1) b. У Ивана былаSG.
+F машинаSG.
+F. ‘
+John had a car.’(2) b. У Ивана былиP
+L книгиP
+L. ‘
+John had books.’(3) b. Ты и былSG.
+M доктором. ‘You2S
+G were indeed a doctor.’2 Type II
+I contexts must be kept apart from Type I
+I contexts, since Type I
+I sentences always
+refer to present events, while Type II
+I sentences with present tense B
+E-auxiliaries in such complex verbal forms as perfect and plusperfect refer to past events.
+Zero forms in morphological paradigms: the verb “be” in Russian
+Type of context Present tense of быть Past tense of быть
+Type I
+I.
+Overt present forms are excluded, the silent form ØB
+E.
+PRE
+S is obligatory: ØBE.PRE
+S/был, -а, -о, -и.
+(4) a. Иван Ø BE.PRE
+S уменSG.
+M. ‘
+John is intelligent’.
+(5) a. Ты Ø BE.PRE
+S уменSG.
+M. ‘You2S
+G are intelligent.’(6) a. Иван и Марья ØBE.PRE
+S умныP
+L. ‘
+John and Mary are intelligent.’(4) b. Иван былSG.
+M уменSG.
+M. ‘
+John was intelligent’.
+(5) b. Ты былSG.
+M уменSG.
+M. ‘You2S
+G were intelligent.’(6) b. Иван и Марья былиP
+L умныP
+L. ‘
+John and Mary were intelligent.’
+Neither Ø BE.PRE
+S nor есть discriminate number and gender, while past tense forms do. ØBE.PRE
+S and есть do not discriminate person either, cf. (3a) and (5a)3. A general prediction for SA
+E languages is that present forms of B
+E are more frequent than the non-present ones given that corpora display the same proportion of present and nonpresent events. This holds both for languages with person-and-number agreement (
+English, German, Slovenian4) and for languages with a single present form (
+Danish, Swedish). In Danish, the only present tense B
+E-form, Da. er heads the frequency list for all word forms, while in Swedish, the only present tense B
+E-form, Sw. är holds the third rank. Ru. есть with its 66th rank in the list of frequent word forms is far behind, which is due to the fact that overt present forms of B
+E are excluded from all Type I
+I and Type II
+I contexts:(7) a. Он ØBE.PRE
+S болен.
+He is ill.’ b. *Он естьBE.PRE
+S болен.
+(8) a. Он ØBE.PRE
+S арестован.
+He is arrested.’ *Он естьBE.PRE
+S арестован.
+3 This feature however does not make a contrast with the past tense.
+4 In Slovenian lemma biti ‘be’ heads the list of most frequent lemmas with
+91,522,113 uses (https://www.clarin.si/noske/run.cgi/view?corpname=gfida20_dedu
+p;usesubcorp=;q=q%5Blemma%3D%3D%22biti%22%5
+D), whereby 66,247,726 of biti sentences (72.38%) have present tense B
+E-forms, incl. perfect and plusperfect auxiliaries in Type II
+I contexts. Slovenian lacks simple past forms: therefore, the lexical form bil, bila, bilo, bili total only 7,750,160 forms (8.46%).
+https://www.clarin.si/noske/run.cgi/view?corpname=gfida20_dedup;usesubcorp=;q=q%5Blemma%3D%3D%22biti%22%5Dhttps://www.clarin.si/noske/run.cgi/view?corpname=gfida20_dedup;usesubcorp=;q=q%5Blemma%3D%3D%22biti%22%5D
+Zimmerling A. V. The present tense B
+E-paradigm in Modern Russian: grammar and corpus tags2.1. Parametric grammar and present tense agreement
+The definitional feature of the Russian present tense B
+E-paradigm is the absence of person agreement5. The key for what is recognized as the Modern Russian period is furnished by the extinct Old Russian construction of the л-perfect, which required person agreement and overt B
+E-auxiliaries in the 1–2 p.: пришелPART.SG.
+M есмь1S
+G ‘
+I (male) came’, пришлаPART.SG.
+F есмь1S
+G ‘
+I (female) came’, пришелPART.SG.
+M еси2S
+G ‘you (sg, male) came’, пришлаPART.SG.
+F еси ‘you (sg, female) came’, пришлиPART.P
+L есмъ1P
+L ‘we came’, пришлиPART.P
+L есте1P
+L ‘you (pl) came’, пришлaPART.D
+U есвѣ1P
+L ‘we two came’, пришлaPART.D
+U еста2D
+U ‘you two came’. This construction is incompatible with Russian grammar, since л-participles changed their morphological status from nominal to purely verbal forms which do not combine with B
+E-auxiliaries. Consequently, phrases like пришел есмь diagnose borrowed grammar in a language, where л-forms are verbal. The л-perfect is a Type II
+I structure i.e. an analytical verb form with an auxiliary. For Type I
+I structures with nominal predicates and copular B
+E the diagnostics is less clear, since the corresponding contexts survive in contemporary Russian.
+2.2. Borrowed agreement in the Russian National
+Corpus: the 1–2 p. of быть
+The occurrences of historical present 1–2 p. B
+E-forms in the main corpus of RN
+C must be explained as borrowings either from Old Russian or Old Church Slavonic. The form суть despite the tag ‘archaic’ assigned by Russian lexicographers is an inherited part of the paradigm. The main corpus of RN
+C (ca. 1700–) includes some historical present forms of быти, which come from dated texts, quotations, parodies or philological commentary. This is confirmed by the limited number of texts where these forms occur: the search for 1
+Sg есмь returns 442 documents and 951 hits, for 2
+Sg еси—538 documents and 1645 hits, for 1
+Pl есмы—85 documents and 129 hits, for 2
+Pl есте—92 documents and 180 hits, for 1
+Du есвѣ and есва—just 2 hits in 1 document, for 2
+Du еста—6 hits in 6 documents. These figures are low compared to 3rd p. forms: 3
+Pl суть оссurs in 6,329 documents and 3
+Sg есть—in 41,160 documents. In this
+period, the л-perfect is extinct. Russian authors which tried to emulate the Church Slavonic usage occasionally attached agreement markers not to the л-participle, which is not specified for person but to the verbal forms that already had inflexional person markers, e.g. to present tense as in (9) or the aorist6 in (10). Such fail5 The identification of Russian and Hungarian as ‘languages with a zero copula’ in not capture an essential difference between their B
+E-paradigms. Hungarian just
+as Old Russian has zero copula in the 3rd p., but overt copulas in 1–2 p. , while Modern Russian has a 1–3 p. zero present B
+E-from both in the contexts for a copula and for a content verb .
+6 The traditional estimate for the elimination of the aorist in Russian is late X
+V century
+.
+Zero forms in morphological paradigms: the verb “be” in Russianures prove that the л-перфект did not correspond to the speakers’ own idiom. They treat л-forms as verbs and combine the dated agreement forms of the auxiliary with verbs on the basis of a wrong analogy: наказалPART.SG.
+M еси2S
+G мяACC.S
+G ‘you punished me’ → *наказуешьPRES.2S
+G еси мя ‘you punish me’.
+(9) Сосет под ложечкой неимоверно. Господи, за что наказуешьPRES.2S
+G еси2S
+G мя? [Влад. Азов. Маленький фельетон. Из дневника дипломата Уступчивого (1908.10.17) // «Русское слово», 1908].
+(10) да будут Очи Твои отверсты на Дом сей день и нощь, на Место сие, о нем же глаголахAOR.1.S
+G еси2S
+G, будет Имя твое тамо, еже услышати молитву .
+Unequal distribution of the л-perfect confirms that this construction is a borrowing. I checked all forms of 1–2 p. including the dual, which died out in Old Russian ca. 1600. Sequences like былPART.SG.
+M еси2S
+G i.e. combinations of a present tense auxiliary
+with a lexical form of быть were excluded.
+Tab. 2. The л-перфект with 1–2 p. B
+E-forms in the main corpus of RN
+C from 1700 A.
+D.
+1700–1799 1800–1899 1900–1999 2000–...
+All л-perfect All л-perfect All л-perfect All л-perfect1
+Sg: есмь 69 0 202 5
+(2.5%)336 102
+(97%)56 3
+(5.35%)2
+Sg: еси 291 169
+(58%)252 103
+(40.9%)487 201
+(41.3%)98 44
+(44.9%)1
+Pl: есмы 57 2
+(0.35%)20 2
+(10%)37 2
+(0.54%)3 0
+2
+Pl: есте 57 1
+(0.18%)30 7
+(23.3%)20 1
+(5%)1 0
+1
+Du: есвѣ, -a 2 0 0 0 0 0 0 0
+2
+Du: еста 1 0 1 0 1 0 1 1
+Tab. 2 shows that the л-perfect is more or less regularly reproduced in 2
+Sg, where it makes up 47.3% of the sample. Other combinations are sporadic: 32 hits from total 995 uses (3.21%). There is no substantial increase or decline of frequency in the use
+of 1–2 p. forms. I conclude that they are lexical borrowings that do not revive the lost mechanism of the person-and-number agreement. The variety of vernacular Old Russian described in overt 3rd p. auxiliaries in the л-перфект. Phrases like пришелPART.SG.
+M есть3S
+G, пришлиPART.P
+L суть3P
+L must be extremely rare in Modern Russian, since the speakers lack inherited grammar for such combinations. This prediction is born out: we found just 4 examples with л-perfect in the sample of total 5,040 uses from 1700 A.
+D. on.
+Zimmerling A. V. 3. The л-перфект with 3
+Pl суть in the main corpus of RN
+C from 1700 A.
+D.
+1700–1799 1800–1899 1900–1999 2000–...
+All л-perfect All л-perfect All л-perfect All л-perfect3
+Pl:
+суть1.433 2 1.889 0 1.519 2 199 0
+The negligable percentage of the л-перфект (0.08%) is expected if суть and есть are part of the B
+E-paradigm both in the source language(s) and in the target language, but the л-перфект is lacking from the target language. The survived uses of есть and суть correspond not to the л-perfect but to Type I
+I contexts (copular B
+E) and Type I contexts (B
+E as a content verb).
+Tab. 4. The л-perfect in Old Russian vs past tense in Modern Russian
+Source languages
+Target language
+Old Russian
+Old Church Slavonic
+Modern Russianл-forms as past tense markerspart of the analytical constructionsingle word formB
+E-auxiliary in the past tense construction with л-formsagreement marker absent
+Combination of an л-form with a 1–2 p. B
+E-auxiliary, type пришел есмьrequired ungrammatical
+Combination of an л-form with a 3rd p. B
+E-auxiliary, type пришел есть, пришли сутьoptional required ungrammatical2.3. Modern Russian суть: residual agreement
+or a redundant present marker?
+The form суть is more than 20 times less frequent (16,088 raw hits in the main corpus of RN
+C) than есть (393,200 raw hits7). The verb form суть2 must be distinguished from the homonymic noun суть2 ‘essence’ and from the collocation не суть важн-о, -ое, -а, -ы,-ые ‘does not matter’. Preliminary observations show that суть1 and суть2 have comparable frequency, but the frequency of суть1 increases towards the end of the period, while суть2 displays the opposite tendency. As stated above, 7 The vast majority of the occurrences feature the presence B
+E-form есть2 and not the imperfective infinitive есть1 ‘to eat’. The search for the parallel perfective infinitive съесть ‘to eat
+up’ returns only 2,268 hits. There is also a third candidate for the disambiguation—the military response есть3! ‘
+I obey’, which is an infrequent word.
+Zero forms in morphological paradigms: the verb “be” in Russian
+Russian lexicographers link суть2 to scientific or archaizing discourse. This practice is confirmed by the stats: суть occurs in the main corpus of RN
+C only in 6,329 documents vs 41,160 documents for есть. The search gives back both суть1 ‘essence’ and суть2: texts containing суть1 can lack суть2 and vice versa. The majority of hits for the search < суть1 ∨ суть2 > come from non-fiction texts (5,024 documents, 12,703 hits), most of them are from the groups ‘journalism’ (3,346 documents, 6,454 hits) and ‘academic/pedagogical texts’ (718 documents, 4,522 hits). Meanwhile, the group ‘church and theology’ adds only 217 documents and 709 hits.
+суть2 as an optional form of the 3rd p. primarily used in 3
+Pl, while суть2 in 3
+Sg and treats it is an optional variant of the copular B
+E in 3
+Pl . This model is rendered in Tab. 5:
+Tab. 5. The present tense paradigm of быть in Russian, after ØBE.PRE
+S ЕСТЬ СУТЬ
+Content verb Copula Content verb Copula Content verb Copula1
+Sg. + + + + * *
+2
+Sg. + + + + * *
+3
+Sg. + + + + * *
+1
+Pl. + + + + * *
+2
+Pl. + + + + * *
+3
+Pl. + + + + * +
+I checked the main corpus of RN
+C for contact sequences of the type subject pronoun + суть in the window <−1; 1>. The search was limited by the period 1800–2015 in order to exclude doubts about the grammar of the XVII
+I century texts.
+The sample for суть2 totals 239 sentences. 3
+Pl prevail (89.1%), but all other combinations are attested. In the second group, the most frequent combination is 1
+Pl мы ‘we’ + суть (12 examples). In the first group, 26 sentences (12.2% from all 3
+Pl uses) show суть as a content verb, therefore, Apresjan’s statement that this option is out must be softened.
+Tab. 6. The distribution of суть2. The figures show the number of contact sequences with subject pronouns in the main corpus of RN
+C from 1800 A.
+D.
+S
+G PL
+Content verb Copula Content verb Copula1p. 0
+3
+(1.25%)0 12
+(5%)2p.
+1
+(0.42%)2
+(0.83%)0 4
+(1.67%)3p. 0
+4
+(1.67%)26
+(10.87%)187
+(78.24%)
+Zimmerling A. V. examination of the RN
+C examples with суть2 in 1–3
+Sg and 1–2
+Pl shows that such uses are rooted in the Russian language of 1800–1950. The list of authors includes Ivan Turgenev, Maxim Gorki, Sergei Bulgakov, Ivan Šmelev, Alexander Kuprin, Vyačeslav Šiškov, Konstantin Fedin. In 1950–2000, the list of authors who license суть2 in 1–2 p. and in 3
+Sg includes Nina Berberova, Vladimir Makanin, cf. (11), Strugacki brothers and Iosif Brodskij, cf. (12). This prompts a hypothesis that for a group of speakers суть2 survived as part of oral discourse, where it loses the person-andnumber specification and assumes the status of an emphatic copula in the meaning ‘
+X is in essence Y’.
+(11) Вроде как всеP
+L мы1P
+L сутьBE.PRE
+S брежневские инвалиды
+It looks like all of us are in essence invalids from Brežnev’s time.’(12) Ибо войнаS
+G сутьBE.PRE
+S эхоS
+G кочевого инстинкта. [И. А. Бродский. Путешествие в Стамбул // «Континент», 1985]. ‘
+Since war is in essence an echo of the nomadic instinct.’
+The spreading of the more frequent form есть2 over the plural makes a special form of the 3
+Pl redundant. That the latter survived is due to the tendency towards using есть2 and суть2 in different contexts. This tendency is captured by Apresjan’s model, but the distribution in Tab. 6 has never been achieved because of the opposite tendency towards expanding the coverage of суть. This begs an alternative model outlined in Tab. 7 below.
+Tab. 7. The present tense paradigm of быть in Russian: a corpus alternativeØBE.PRE
+S ЕСТЬ СУТЬ
+Content verb Copula Content verb Copula Content verb Copula1
+Sg.
++ + + +(*)2
+Sg.
+3
+Sg.
+1
+Pl.
+2
+Pl.
+3
+Pl. (+) +
+2.4. ØBE.PRE
+S vs есть: syntax and semantics
+There is a consensus that ØBE.PRE
+S is a separate element in syntax but not an elided form of есть ; ; . The correlations between the distribution of ØBE.PRE
+S vs есть and the taxonomic semantic type (existence, possession, location, characterization, identification etc.) are shown in . I adopt this analysis with the additions proposed in ; . that ØBE.PRE
+S and есть are always non-synonymic, so that (13a) presumably means ‘
+John’s flat is big’, while (13b) means ‘
+John has a big flat’. However, the shift from alienable possession Zero forms in morphological paradigms: the verb “be” in Russianto characterization is not induced by ØBE.PRE
+S, cf. the conjoined structure ‘
+X has Y and Z’ in (14), where the possessive reading is required.
+(13) a. У Ивана ØBE.PRE
+S большая квартира.
+John has a big flat.’ . ‘
+John’s flat is big’ У Ивана есть большая квартира.
+John has big flat.’ , # ’
+John’s flat is big’(14) У Ивана ØBE.PRE
+S большая квартира в городе и уютный дом в деревне. ‘
+John has a big flat in the downtown and a nice house in the village.’ #‘
+John’s flat in the downtown is big and his house in the village is nice.’3. The silent head: measuring the impact
+of the zero present form
+The distribution of the есть2 and суть2 is constrained by the expansion of ØB
+E.
+PRE
+S. It ousted the overt forms from a number of contexts and made them optional elsewhere. The ratio of the ØBE.PRE
+S vs есть2 uses cannot be measured directly in corpora without syntactic annotation, but there are indirect estimates. I measure the distribution of есть2 for different persons and numbers in the same context as with суть. The search was reduced to the sequences of the type subject pronoun + есть2 in the window <−1; 1>. The uses of the content verb есть2 vs copula есть2 were measured on a separate basis. The default hypothesis is that unequal distribution of есть2 reflects the impact of ØBE.PRE
+S which fills in the gap in certain persons and numbers.
+3.1. The proportion of есть & суть vs ØBE.PRE
+S
+The sample for есть2 with a contact subject pronoun totals 7,458 sentences. This is ca. 30 times larger than the sample for суть in the same context (239). Tab. 8 shows the ratio of copular uses in each combination subject pronoun + есть2. A separate line shows how this ratio changes if measured for the pair есть2 & суть2.
+Tab. 8 shows a big increase (>1%) with the adding of суть2 only in 3
+Pl and in 1
+Pl. The percentage of copular есть2 is abnormally low in 3
+Pl (4.24%), therefore adding 187 sentences with суть2 is relevant. The combined ratio for 3
+Pl (16.01%) is nevertheless low compared to other persons and numbers. This confirms that суть2, retains a systemically important status mainly as a 3
+Pl copula, where есть2 is underrepresented. Since суть2 is a low frequent word, it does not fully compensate this gap
+which must be filled by ØBE.PRE
+S. The expectancy of an overt copula is higher in 1–3 Sg. (combined ratio 32.83%) than in the 1–3 Pl. (combined ratio 20.68%). This indicates that copular ØBE.PRE
+S is especially salient in the plural. The positions of есть2 as a content verb are stable both in Sg and in Pl. The share of all uses in the 1–2 p. (both content verb and copula) is ca. 5 times less compared to the 3rd p.8: the figures are almost identical for Sg (21.03%) and Pl (20.64%). The ratio of the copular uses in 1
+Sg and 8 In a sample including non-pronominal subjects, the contrast is even sharper.
+Zimmerling A. V.
+Sg is nevertheless high. I interpret this as a proof that есть is stable in these personand-number forms.
+Tab. 8. The distribution of есть and суть. The figures show the number of contact sequences with subject pronouns in the main corpus of RN
+C from 1800 A.
+D. The percentage shows the ratio of content verb vs copular uses.
+S
+G PL
+Content verb Copula
+Content verb Copula1p. 440
+(56.85%)334
+(43.15%)191
+(84.1%)67
+(25.9%)w. суть 440(56.13%)337
+(43.77%)191
+(70.75%)79
+(29.25%)2p. 345
+(48%)375
+(52%)147
+(61%)94
+(39%)w. суть 346(47.76%)377
+(52.14%)147
+(60%)98
+(40%)3p. All gender forms:
+3,023 (72.68%)
+3Sg.
+M 1194 (79.51%)
+3Sg.
+F 1111 (75.48%)
+3Sg.
+N 718 (61.27%)
+All gender forms:1,144 (27.32%)
+3Sg.
+M 327 (21.49%)
+3Sg.
+F 363 (24.62%)
+3Sg.
+N 454 (38.73%)
+1,243
+(95.76%)55
+(4.24%)w. суть 3,023 (72.48%) 1,148 (27.52%) 1,269(83.99%)242
+(16.01%)
+Total: 7,458
+3,808
+(67.27%)1,853
+(32.73%)1,581
+(77.98%)216
+(12.02%)w. суть: 7,697
++ 13,809
+(67.17%)+ 91,862
+(32. 83%)+ 261,607
+(79.32%)+ 203419
+(20.68%)
+The approximation does not provide absolute figures for ØBE.PRE
+S, but heuristic estimates can be given. One of them is based on the next-neighbor method, which requires a lookup of the left and right context for the pivotal subject element …Х… in order to check whether the right or left neighbor of Х is its complement in the verb phrase i linked with Xi. If the search is oriented to identifying the right neighbor as complement of the silent head ØBE.PRE
+S and X is the 1
+Sg subject pronoun я1S
+G ‘
+I’, sentences like Это ØBE.PRE
+S я1S
+G, ИванNO
+M ‘
+That is me, John’ will return ‘false’, while sentences like Все-таки я1SG—ØBE.PRE
+S дурак ‘
+Still, I am a fool’ return ‘true’. If one takes the context subject pronoun + noun in the nominative case in the window <1; 1>, the expectancy that these elements are part of the structure Spron—ØBE.PRES—SNO
+M, where the pronoun is the subject and its right neigbour it is part of its nominal complement can be measured. I checked sequences of the type 1
+Sg subject personal pronoun я1S
+G + noun in the nominative case: the RN
+C search returns 78,676 raw hits. A test sample of 2,000 sentences dated with 1987–2015 was processed. The input had Zero forms in morphological paradigms: the verb “be” in Russianwrong morphological tags fixed by the annotator manually. The lexical-grammatical search in RN
+C returns all elements which can be analyzed as nouns in the nominative case, cf. the adjective рада ‘glad’ (cf. the noun рада ‘
+Ukrainian parlament’), adverb дома ‘at home’, cf. the noun дома ‘houses’, preposition перед ‘in front of’, cf. the noun перед ‘the front end’ as well all syncretic forms that can either stand for nominative or some other case. The sample also included sentences where я and its right neighbor belong to different clauses and other structures that do not match the pattern Spron—ØBE.PRES—SNO
+M. Sentences where the entire structure located to the left from я were filtered out, since the right neighbor of я is not a complement of ØBE.PRE
+S. At the same time, blind hits with expressions wrongly tagged as SNO
+M, cf. Я радаADJ.SG.
+F ‘
+I am glad’ or Я домаAD
+V ‘
+I am at home’ were rendered positive, if they matched the pattern with the proviso that the predicate complement is not a noun but an non-verbal element of different morphology. The trimmed sample returns 49.25% positive examples (985 from 2,000). If this ratio holds for the whole RN
+C collection in the searched context, it should include 38,748 sentences with the subject in 1
+Sg, zero copula ØBE.PRE
+S and the word order Я1SG—ØBE.PRE
+S … SNOM/PRE
+D.
+One more estimate is based on the proportional usage of past and present tense forms of быть. As stated in 1.2., overt past tense forms был, была, было, были partly correspond to overt present forms есть2 and суть2 (
+Type I contexts) partly—to ØB
+E.
+PRE
+S (
+Type I
+I contexts). Let us assume that RN
+C has at least as much Type I sentences in the past tense as in the present tense. Let us also assume that all uses of есть2 and суть2 pattern with Type I structures and all uses of ØBE.PRE
+S pattern with Type I
+I structures: this simplification maximizes the number of sentences with есть2 and суть2.. If there are m sentences with есть2 and суть2, and n sentences with был, была, было, были, the number of sentences with ØBE.PRE
+S is n—m = k. The 4 forms был, была, было, были return 2,267,476 raw hits. These verb forms have two homonyms—the particle было2 ‘marker for a canceled event’ and the nominal form были from the lemma быль ‘legend’. Both are low frequent words: let us assume that they take maximum 7,476 hits, which is actually above than their frequency. Then we get 2,600,000 uses of the past tense forms of быть after the disambiguation. The present form есть2 (393,200 raw hits) has homonyms есть1 ‘to eat’ and есть3 ‘
+I obey’ : the exact figures are not available, since the search returns the homonyms, but one can assume that the frequency of есть1 corresponds to the frequency of its perfective correlate съесть ‘to eat up’ (2,268 hits) and есть1 and есть3 total maximum 3,200 hits. Then есть2 gives 390,000 hits after the disambiguation. The present form суть2 (16,088 raw hits) has a homonymic noun суть1 ‘essence’, they have a comparable frequency. Let us assume that суть1 takes maximum 8,088 hits. Then we are left with 8,000 hits of суть2. With these stipulations, RN
+C should feature at least k = 1,862,000 sentences with ØBE.PRE
+S , since n = 2,260,000 and m = 398,000. With the
+stipulations made, all these RN
+C sentences with ØBE.PRE
+S will be interpreted as copular, though in reality a minor part from 1,862,000 sentences are structures with a zero content verb in contexts like У него ØBE.PRE
+S много книг ‘
+He has many books’.
+Finally, the estimates for sentences with ØBE.PRE
+S in large corpora can be derived on the basis of tree banks with syntactic annotation. Such estimates however reflect the architecture of the parser. Apresjan’s model of быть adopted in this paper Zimmerling A. V. implemented in the ETA
+P-3 parser . The present forms Ø and есть are recognized here as separate elements, but both of them belong to the lemma ЕСТЬ, while all non-present forms of B
+E are linked to a different lemma—БЫТЬ9. In a parser based on Ščerba’s model, ØBE.PRE
+S and есть will be linked to different lemmas. Since the notion of the zero element is non-neutral, any technical decision has impact on processing the coverage of ØBE.PRE
+S.
+3.2. Morphological paradigms and historical corpora
+The present tense paradigm of быть ‘be’—{ØBE.PRE
+S, есть, суть} is historically a transition from an agreement system characteristic of Old Russian to a system without overt present B
+E-forms. It is surprisingly stable: the overt forms суть and есть did not disappear during the last 300 years. The historical 1–2 p. forms of быть behave as borrowed elements already in the XVII
+I century. The loss of number agreement in the 3rd p. is not a new phenomenon either. The XVI
+I century traveler Pjotr Tolstoj (b. 1645) in his diary included in the Historical corpus of RN
+C uses суть2 4 times with plural nouns and 6 times with singular nouns, cf. (15).
+(15) ВаршаваS
+G сутьBE.PRE
+S местоS
+G великоеS
+G, на левом берегу реки Вислы положенное.
+Warsaw is big city founded on the left bank of the Wisla-river.’
+P. Tolstoy’s treatment of суть2 as an emphatic copula does not differ from the XIX–X
+X century examples (11) and (12). It is plausible that an idiom of Russian with such settings for суть2 existed during a long time but was suppressed by Church Slavonic which only approved суть2 in 3
+Pl.
+The history of Russian ‘B
+E’ can be modeled on the basis of its usage in the Modern Russian period, if one takes into account three blocks of input data for each present B
+E-form: 1) frequency and number of texts, where this B
+E-form is attested; 2) even vs uneven distribution of B
+E-forms for different persons and numbers; 3) even vs uneven distribution of the copular vs content verb uses for each B
+E-form. If one adopts the hypothesis that the Russian present tense B
+E-paradigm {ØBE.PRE
+S, есть, суть} originates from a paradigm where all elements were genuine agreement markers, its restructuring follows three steps:• I. The 1–2 p. forms disappear first;• I
+I. The uses of суть get restricted by the pair {ØBE.PRE
+S, есть};• II
+I. The uses of есть get restricted by ØBE.PRE
+S.
+This model allows making two predictions concerning the past and the future of the B
+E-paradigm:(i) ØBE.PRE
+S is historically a 3rd person form and an inherited part of the B
+E-paradigm.
+(ii) The form есть2 will disappear from the paradigm of B
+E in the future.
+9 This decision is commented in .
+Zero forms in morphological paradigms: the verb “be” in Russian
+The hypothesis (i) is in line with historical linguistics: the latter confirms that Old Russian, unlike Old Church Slavonic lacked overt copulas in the 3rd p. in Type II
+I contexts (л-перфект) partly also in the Type I
+I contexts (copular structures with nominal predicates) . The prediction (ii) is in line with Russian dictionaries, which claim that быть has no present forms except for the есть2 which probably is a separate verb. This description does not hold for the present-day Russian B
+E-paradigm but anticipates its future.
+4. Conclusions
+The undertaken study has shown that in a language where zero syntactic forms gradually replace overt forms the status of endangered forms is revealed by two measures: 1) low frequency and uneven distribution in the texts; 2) uneven distribution in different persons and numbers. The history of the Russian B
+E-paradigm requires a third one and a more specific measure—3) uneven distribution of copular vs noncopular uses in each person and number form. The coverage of the zero copula ØBE.PRE
+S in Modern Russian can be processed in corpora without syntactic annotation on the basis of systemic proportions between different types of syntactic contexts.

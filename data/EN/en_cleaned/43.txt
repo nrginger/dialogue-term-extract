@@ -1,0 +1,158 @@
+It is generally assumed that discourse is not a mere chain of sentences, it is coherent . Text coherence presupposes that there are relations between text spans. One of the theories modeling discourse as a hierarchical structure built via rhetorical relations between text spans is the Rhetorical Structure theory (RS
+T) ; . The definitions of relations within RS
+T framework are not based on the explicit linguistic features but formulated in terms of speaker’s intentions and its effect on the reader. The aim of our research is to study the contrast relation (
+Contrast) within RS
+T theory and to establish the repertoire of the linguistic devices (signals) that express it in Russian.
+Сonjunctions and other cues for Contrast are often ambiguous and unclear:
+Contrast and Comparison Relations in RS
+T framework: the case of Russian(1a) ’(1b) ’
+The connective a ‘while/but/and’ is used both in (1a) and in (1b), however (1a) is a contrast relation while (1b) is a comparison relation according to the annotation suggested in Ru-RS
+Treebank (https://linghub.ru/ru-rstreebank/, a Russian corpus annotated for rhetorical relations .
+The present research seeks to identify linguistic features that can help to differentiate the contrast and the comparison relations. The results of this study can be helpful for the relation type recognition in the discourse parsing systems.
+We use the Ru-RS
+Treebank as a source of data for Contrast and Comparison. As the data of RU-RS
+Treebank have shown, a considerable number of discourse connectives (D
+C) used for Contrast relation are ambiguous as they mark other relations as well. According to the numerous studies on the adversative conjunctions and contrast constructions in Russian ; , there is an additional set of features signalling the contrast relation. These include, among others, syntactic parallelism and additional specifiers such as particles of adverbial expressions.
+The present work offers a corpus-based analysis of Contrast and Comparison in Russian News and Scientific texts. Its main Hypothesis is that the features suggested in the works on the contrast relations between clauses in Russian are also valid for detecting Contrast within RS
+T framework. The main tasks are to establish the existence of Contrast vs. Comparison-specific connectives and to identify additional features are that are specific for these two relations.
+For this purpose, we have compiled a set of corresponding discourse units from the Ru-RS
+Treebank and annotated them manually on different features including discourse markers (D
+M), additional specifiers and lexical repetitions. In our work we describe the most prominent features that we have identified.
+The present paper is organized as follows. A brief description of the framework within which Contrast and Comparison determined is given in 2.1. In 2.2. we discuss the features of conjunctions and other markers of Contrast mentioned in the literature on Russian. The overview of theoretical works on Russian serves as the basis for the hypothesis concerning signals of Contrast and Comparison that are formulated in 2.3. Section 3 describes the data used for the corpus research. In Section 4 we present a survey of the signals enumerated in 2.3 that we have found in our corpus data. Section 5 provides the conclusions.
+https://linghub.ru/ru-rstreebank/
+Toldova S., Davydova T., Kobozeva M., Pisarevskaya D. 2. Background2.1. Contrast and Comparison rhetorical relations in RS
+T framework
+According to the RS
+T , a text is organized as a tree whose nodes are text spans (discourse units (D
+U)). D
+Us are united into the spans of a higher level if there is a rhetorical relation between them. Relations can be multinuclear or mononuclear depending on the types of the spans, e.g.: satellite vs. nucleus nucleus.
+The two relations under discussion, namely, Contrast and Comparison are multinuclear. While Contrast is the relation from the original set given in , Comparison was added later in . Below are the definitions of Contrast (a) and Comparison (b) described in :a. “
+In CONTRAS
+T, two or more nuclei come in contrast with each other along some dimension. The contrast may happen in only one or few respects, while everything else can remain the same in other respects.”b. “
+In COMPARISO
+N, two textual spans are compared along some dimension, which can be abstract. The relations can convey that some abstract entities that pertain to the comparison relation are similar, different, greater-than, less-than, etc. In the case of a comparison relation, the spans, entities, etc. are not in contrast.”
+Thus, the difference between these relations is opaque (cf. “come in contrast” for Contrast—“are different” for Comparison). Moreover, many D
+C that are used for Contrast are ambiguous between Contrast and Comparison. For example, English while is a marker for both—
+Contrast (2) and Comparison (3) :(2) indirect evidence for the fact that Contrast and Comparison are similar to some extent is the fact that for some approaches, e.g. see PDT
+B, ) Contrast is a subclass of Comparison (
+Fig. 1).
+Different types of connectives are important cues that help to recognise particular relations and to differentiate them . There are special lexicons compiled for different languages (e.g. French , Czech , DiM
+Lex for German , DiMLex
+Eng for English , PDT
+B based lexicons for French , and for Portuguese .
+In our work, we treat the relations annotated in the Ru-RS
+Treebank according to their definitions as the starting point and try to find specific connectives and other signals for Contrast and Comparison.
+Contrast and Comparison Relations in RS
+T framework: the case of Russianfor discourse relations annotation in PDT
+B2.2. Studies on Contrast and Comparison relations in Russian
+The majority of works on Contrast in Russian concerns a special subclass of the conjunctions used in coordination of two clauses. These are the so-called adversative conjunctions such as a ‘while, and, but’, no ‘but’ etc. (for the list of the conjunctions see, e.g. ; , ). These conjunctions are highly polysemous (for other languages too, cf. ). Therefore, some other supporting linguistic features are discussed in the literature. discourse particles, e.g. particle zhe translated as ‘just, but, and’ in some dictionaries. others mention grammatical parallelism and lexical oppositions. Besides, there are different additional lexical markers (referred to as ‘discourse specifiers’ further). Below we give a list of different features mentioned in the literature (
+Section 2.3).
+Many studies are devoted to the fine-grained taxonomy of various senses of the conjunctions expressing Contrast ; . There are also some general works concerning the semantics of particular conjunctions ; ; ; .
+There have been attempts to formulate the notions of Contrast or Comparison in abstract terms. Thus, O. Inkova
+Manzotti defines the relation of Contrast as a semantic configuration in which the Speaker represents two states of affairs as incompatible . In mental operation of Comparison is described: it involves a human subject and at least two objects X and Y that have a common parameter Z (often implicit). Within this approach Contrast can also be treated a subtype of Comparison. In our discussion, we will use the notions of objects and parameters of comparison for both of the relations.
+Toldova S., Davydova T., Kobozeva M., Pisarevskaya D. 2.3. Summary of the Features Associated with Contrast
+The primary cues for Contrast and Comparison are some of the coordinatives and other types of connectives, and some types of parentheticals. The following features are usually regarded as additional cues:1. “syntactic parallelism” (syntactical similarity) of the coordinate components (D
+U), e.g. ; ; ;
+2. the so called discourse specifiers—lexical items that are not generally
+recognized as D
+M but which tend to contribute to Contrast, e.g. even, still, too for English zato ‘but then’, vse zhe ‘yet’, vdrug ‘suddenly’, dazhe ‘even’ etc. . In Rus
+Gram , many of these items belong to a special part of speech—correlates. discourse specifiers used for:3. lexical expression of negation: particle ne ‘not’ , negative pronouns and some others;
+4. lexical parallelism: synonyms and word repetitions (e.g. ); antonyms, or lexical opposition; there is some theoretical description of antonyms in Contrast, e.g. 3d type of constructions in , as well as some applications of lexical oppositions to automatic Contrast detecting ; ;
+. On the other hand, , that lexical opposition is not common in cases of Contrast.
+3. Data
+3.1. The corpus
+The current study is based on the Ru-RS
+Treebank (https://linghub.ru/rurstreebank/) ; . It consists of 179 texts (203,287 tokens in total) and represents the genres of news and popular science (79 texts) and scientific papers (100 texts). The paper uses the most recent unpublished version of the corpus, available on request. The corpus was annotated by several annotators, with the last Krippendorff’s unitized alpha measurement of 81%, which is a good inter-annotator agreement level.
+3.2. The data
+For our research we use examples of Contrast and Comparison from Ru-RS
+Treebank. There are about 570 examples of Contrast and 234 examples of Сomparison. The following manual was used in the annotation of discourse relations: https://rstreebank.
+ru/assets/docs/Manual_for_ru_RSTreebank_
+Annotation.pdf. Although in the manual three D
+C examples for Contrast are suggested (a ‘but, and’, no ‘but’, nesmotrya na ‘despite of’), D
+C of this relation are much more diverse (about 50 for Contrast).
+https://linghub.ru/ru-rstreebank/https://linghub.ru/ru-rstreebank/https://rstreebank.ru/assets/docs/Manual_for_ru_RSTreebank_Annotation.pdfhttps://rstreebank.ru/assets/docs/Manual_for_ru_RSTreebank_Annotation.pdf
+Contrast and Comparison Relations in RS
+T framework: the case of Russian3.3. Annotation for discourse relation signals
+All the examples in our dataset were manually annotated for different types of linguistic signals of rhetorical relations. Firstly, the primary markers were singled out. By primary we mean those expressions that serve as overt markers for the relation between two D
+Us. Besides, the examples were annotated for supplementary signals listed in 2.3 and we marked different discourse specifiers (see 4.2). Then, we marked the presence of lexical repetitions, presence of synonyms (quasi-synonyms and semantically close expressions), hypernyms and opposite lexical expressions (e.g. antonyms, conversives, for the types of opposites see also ).
+4. Contrast and Comparison connectives in Ru-RS
+Treebank
+4.1. The general statistics for primary connectives
+and supplementary features
+As it has been reported in the literature, there might be a lot of examples where the discourse relations are expressed implicitly without an overt DС (c.f. ). In our set, 80 cases out of 569 (about 14%) have no overt primary markers for Contrast, while there are 65 examples out of 234 (about 28%) for Comparison. Thus, in news and scientific texts there is a tendency to express Contrast overtly. For Comparison some other devices are used.
+Below, we summarise the data for different combinations of signals in Contrast vs. Comparison. We treat the syntactic parallelism separately (it was manually annotated by experts). We consider the presence of different semantically related expressions or lexical repetitions in two parts of a relation as lexical parallelism. The general statistics is given in Fig. 2 ((a) for Contrast and (b) for Comparison):
+Toldova S., Davydova T., Kobozeva M., Pisarevskaya D. Contrast b. Comparison
+As our data shows, syntactic parallelism is more frequent with Contrast (11%); it is also quite frequent with Comparison (26%). The main tendencies can also be seen in (38%). It is supported by a large number of discourse specifiers (cf. the bleu contour corresponding to the overt markers + discourse specifier occupies the largest area and stretches towards ‘no syntactic or lexical parallelism’ direction). Moreover, lexical parallelism coincides with syntactic in Contrast. On the contrary, Comparison prefers lexical parallelism, it is quite frequent irrespective of the syntactic one, c.f. the orange radar for overt markers without discourse specifiers. The latter occupies the largest area on the chart for Comparison. The discourse specifiers are rare in Comparison (the blue radar occupies one of the smallest areas).
+Contrast and Comparison Relations in RS
+T framework: the case of Russian a. Contrast b. Comparisonvs. Comparison distribution (a radar chart)
+As for primary D
+Ms, Table 1 provides the statistics on the most frequent D
+C for each relation as compared to the frequency for the opposite relation:
+Discourse Connective
+Number in Contrast
+Number in Comparisonno ‘but’ 143 (28.98%) 2 (0.93%)odnako ‘however’ 133 (27.14%) 0a ‘but, and’ 49 (10%) 18 (13.02%)ne… a ‘not … but’ 30 (6.12%) 0zhe ‘‘just, but, and’’ 13 (2.45%) 13 (6.05%)tem ne meneye ‘nevertheless’ 12 (2.45%) 0yesli ... to ‘if ... then’ 10 (2.04%) 4 (0.94%)v to vremya kak ‘while’ 9 (1.84%) 9 (3.72%)(i) v to zhe vremya ‘(and) at the same time’ 6 (1.22%) 3 (1.41%)
+Toldova S., Davydova T., Kobozeva M., Pisarevskaya D. Discourse Connective
+Number in Contrast
+Number in Comparisons drugoy storony ‘on the other hand’ 6 (1.22%) 1 (0.47%)khotya ‘although’ 6 (1.22%) 0chem … tem ‘the … the’ 0 6 (2.79%)v otlichiye ot X ‘unlike X’ 4 (0.82%) 6 (2.79%)analogichnyy ‘similar’ 0 4 (0.94%)kak … tak i ‘as … so’ 0 4 (0.94%)i ‘and’ 1 (0.20%) 4 (0.94%)
+Other connectives for Contrast occur in less than 1% of cases, e.g. v protivnom sluchaye ‘otherwise’, naprotiv ‘on the contrary’, togda kak ‘whereas’, v otlichije ot X ‘in contrast to’, vmesto X ‘instead X’, nesmotrya na X ‘despite of X’, vprochem ‘however’ etc.
+There are specific D
+Ms for Сomparison in our data set that express the similarity of two entities’ properties or two states of affairs like analogichnyj ‘analogous’, pokhozhij ‘similar to’, takoj zhe ‘similar’, kak i ‘as’. Correlative constructions (D
+Cs consisting of two parts situated in different text spans) are among these markers (e.g. s odnoy storony … (a) s drugoy (storony) ‘on the one hand ... (a) on the other (hand)’). The majority of correlatives found in our data serve as D
+Ms for both relations.
+While Contrast has quite a distinct D
+M profile (the two most frequent D
+Ms cover more than 50% examples), there is no dominant specific D
+M for Comparison. The most frequent conjunction covers only 13% of examples. Moreover, it is used for Contrast in the same proportion of cases. The D
+M diversity for Contrast is 0,1 (48 markers for 464 cases with overt D
+M), and it is higher for Comparison, its value is 0,5 (90 markers
+for 169 cases).
+Another important Сontrast property is that it is often marked by a sequence of connectives. One of them is a simple conjunction, the second one can be a multiword parenthetical expression or a series of particles (e.g. no ‘but’ + tem ne meneye ‘nevertheless’):
+Although there are specific D
+Cs for each relation, there are a lot of connectives in our data that occur both with Comparison and Contrast, which means that there should be other signals that help to differentiate the two relations.
+4.2. Lexical specifiers
+others (see also 2.2) report the usage of additional expressions specifying some aspects of the opposed states of affairs. These discourse specifiers can be helpful for differentiating the two relations. The general statistics in 4.1 shows that Contrast usually has these additional expressions (about 85% of cases for Contrast, while only 7% for Comparison). Below are some examples of discourse specifiers, grouped in different classes:a) temporal words and constructions—v to zhe vremya ‘at the same time’, vse yeshche ‘still’, uzhe ‘already’; their function is to mark the unexpected simultaneous existence of two opposed states of affairs or to emphasize the opposition of the states of affairs in different time slots.
+Contrast and Comparison Relations in RS
+T framework: the case of Russianb) markers of epistemic modality—deystvitel’no ‘really’, bezuslovno ‘absolutely’, yavnyy/yavno ‘explicit’; they emphasize the reality of an unexpected state of affairs;c) anaphoric expressions, e.g. different types of pronouns and quantifiers: etot ‘this’, dannyy ‘given’, podobnyy ‘similar’, drygoj ‘other one’; one of their functions is to mark the N
+Ps whose properties are contrasted (e.g. contrastive topics); there are many examples where they go in pairs (c.f. odin/etot—drugoj ‘one of them/this—the other one’, nekotoryje ‘some of them’—drugije ‘others’)d) content words such as verbs of contradiction—vozrazhat’ ‘to object’, protivorechit’ ‘to contradict’;e) focus and topic re-activation particles—imenno ‘precisely’, zhe ‘but, as to’, dazhe ‘even’, lish’ ‘only’, tol’ko ‘only’, vse ravno ‘still’.
+A special attention should be drawn to the proportion of negative particles ne ‘not’ and other words of negation (e.g. nevozmozhno ‘impossible’), negative pronouns etc.
+4.3. Lexical parallelism
+In accordance with the definitions, relations Comparison and Contrast involve objects (
+X and Y) that are compared, and a parameter of comparison (
+Z). The implication is that some of the lexemes in the two parts of the relations are semantically related. Lexical repetitions and synonyms can specify the general grounds of comparison and the opposite notions express the difference. We treat synonymy and semantic opposition very widely here (see ). Table 2 shows the statistics on different types of lexical parallelism in our data:parallelism in Contrast vs. Comparison
+Contrast Comparison
+Semantically opposed expressions 200 (35%) 42 (18%)(
+Quasi)-synonyms, hypernyms 63 (17%) 94 (36%)
+Repeated and cognate words 142 (25%) 62 (23%)
+Total 280 108
+Synonyms and repetitions are more typical for Comparison cases against (
+X-squared = 43.595, df = 1, p-value = 4.039e-11 (
+Pearson’s Chi-squared test with Yates’ continuity correction). They can be both the objects (X/
+Y) and the parameter of comparison (
+Z) (4), while in Contrast they are used for denoting only the objects of comparison (5):(4) S., Davydova T., Kobozeva M., Pisarevskaya D. ‘
+The most characteristic features of the image of an ideal woman of the Russian-language advertising perfume discourse (
+X) are: attractiveness, sexuality, femininity <...>. (
+Za) Most of the above symptoms are characteristic of the German-language discourse (
+Y). Ideas about the ideal woman are also associated with such concepts as attractiveness,<...> uniqueness.(
+Zb)’(5)
+In French (
+X), the sounds formed in front of the voice apparatus (
+Za) prevail. In English (
+Y), on the contrary, backward vowel sounds (
+Zb) prevail.’
+On the contrary, semantically opposed expressions can denote both X and Y or Za and Zb for Contrast, while they stand for the object of comparison only in Comparison.
+Besides, Contrast can be established between the two D
+Us where the opposition is not between the two states of affairs, but between the implicit expectations of the first D
+U and the real state of affairs (stated in the second D
+U). For these cases no lexical parallelism is expected:(6)
+Vaccinations are still the most effective preventive measure for epidemiological diseases.’ ‘
+However, many parents refuse to vaccinate their children.’
+In (6) the second span is in opposition not with the first one as such, but with its implication that has no explicit expression—‘people need to be vaccinated to prevent diseases’. As the result, there are fewer repetitions of words in Contrast, since the second segment does not contrast directly with the first one.
+5. Conclusion
+In this paper, we present an analysis of different signals of the Contrast relation in Russian as compared to those used for Comparison. We examine different cues mentioned in the literature as marking the corresponding relations against our corpus data. For this purpose, we have annotated different types of signals for all the examples. As a result, we compiled a list of Contrast and Comparison D
+Ms based on RuRS
+Treebank (48 and about 90 elements respectively).
+The two relations under discussion have much in common, e.g. the D
+C used in both relations are often ambiguous or they can be expressed implicitly. In these cases, subsidiary signals are used. These are special lexical markers (particles, adverbs etc.), syntactic and lexical parallelism. Because of these similarities, it may be difficult to draw a line between the two relations. The distinction between these two relations should be presented as a scale rather than a mere dichotomy.
+However, our data confirm the role of various additional signals for detecting Contrast and differentiate it from Comparison, like discourse specifiers, markers of negation and semantically opposed expressions.
+Contrast and Comparison Relations in RS
+T framework: the case of Russian

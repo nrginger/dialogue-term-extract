@@ -1,0 +1,121 @@
+Little empirical research has been done on the distribution and form of pitch accents in regional varieties of Russian. The emergence of several online spoken corpora of Russian regional speech opens new possibilities for the study of regional Russian intonation. In the study presented here, the Russian dialect corpora available on the website of the Linguistic Convergence Laboratory (LC
+L) used to study the intonation of polar (yes/no) questions in regional rural speech. Almost all empirical intonation studies are based on laboratory speech. Spontaneous speech has the advantage of representing ecologically valid speech data , but it is notoriously difficult to study its intonation, since the pitch contour is influenced by a large number of uncontrolled parameters, not only by purely linguistic variables (e.g. sentence type, position of the accents), but also by numerous pragmatic, paralinguistic and sociolinguistic factors. The utterances from spontaneous speech represented in the corpora do therefore not allow direct comparisons of their intonation in all details, but even small corpora show general tendencies, giving evidence for the usage of certain tonal configurations. They also show which tunes are the most frequent in the dialects and even what is their usual alignment. In Central Standard Russian (CS
+R), some polar (yes/no) questions are marked lexically with the question particle li, but most are marked as questions by intonation only. In the wide definition of questions that will be used here – as all utterances marked by a question mark – polar questions cover utterances with a large variety of pragmatic functions and with a varying degree of questionhood: far from all prompt the listener to give an explicit reply. They range from neutral information-seeking questions through echo questions expressing surprise to rhetorical questions. This variety of forms and functions enables many different tonal configurations for polar questions; cf. . Nevertheless, most polar questions – 87% in the CoRuS
+S corpus of spontaneous speech 1 – are formed with the same pitch accent: a high rise on the nuclear syllable, followed by a steep fall to low level in the next syllables . After this nuclear pitch accent the pitch level remains low until the end of the utterance (cf. Fig. 1 for a typical example of a polar question in Russian). This risingfalling tonal configuration is known as (the neutral realisation of) the intonational construction I
+K-3 in Bryzgunova’s well-known model as H*
+L in the latest version of ToR
+I .2 The accent is truncated to only a rise when the nuclear stress falls on the final syllable of the utterance and no postnuclear syllables are available . 1. F0 curve, made in Praat , of the Russian polar question Ты до́ма? “
+Are you at home?” (
+Khislavichi corpus, http://lingconlab.ru/khislavichi/OU
+T/2019_stajki_nnm1955_2_3-794300-797183.wav), with the typical rising-falling accent. The acute accent on the vowel indicates the nuclear stress I counted 539 out of 623 (87%) polar questions with a rising-falling pitch accent in the data in the speech corpus
+CoRuS
+S (
+Corpus of Russian Spontaneous Speech). The corpus itself is, to my knowledge, not publicly available. CoRuS
+S consists of connected communicative speech recorded from 60 Russian male and female speakers of different age groups in St. Petersburg . The corpus is too small and too little balanced to give solid statistical information about modern CS
+R spontaneous speech, but the percentages give at least some cues as to the relative frequency of pitch accents. 2 In an earlier version of ToR
+I , the pitch accent was called LH*
+L, which captures the obligatory rise preceding the high
+peak. Notice that this tune is called L*
+H L% in , whereas ToR
+I the label L*
+H for an entirely different accent, which has a nuclear fall and a postnuclear rise (cf. Bryzgunova’s I
+K-4). To my knowledge, Rathcke did not study or label this falling-rising pitch accent. For example sound files, see the ToR
+I website . Post M.
+An alternative to the rising-falling pitch accent is a low-rising, or falling-rising accent (
+Bryzgunova’s I
+K-4; L*
+H in ToR
+I; 12% (n=73) in CoRuS
+S), which is typical for non-first elliptic questions starting with the conjunction A . Certain expectations and speaker attitudes can lead to the choice of yet other pitch accents. Kodzasov some echo questions with falling intonation in cases with a low degree of questionhood, and a few polar questions have a rise, but no fall (less than 2% (n=11) in CoRuS
+S), the exact conditions for which remain to be described.3 The pitch contour can be modified by emotions, such as surprise, doubt, distrust and irony , affecting timing (alignment of the rise, the pitch peak and/or fall), duration of the stressed syllable and pitch levels (excursion size and/or pitch register); cf. . The scarce literature on intonation in regional varieties of Russian suggests that rising-falling pitch accents are predominant in polar questions elsewhere in Russia as well, but with possible variation in, among others, scaling (excursion size), timing of the pitch peak and association and alignment4 of the fall; cf. . Alternatives to the rise-fall are attested. In Southwestern Russian dialects, polar questions can be formed with a nuclear rise continuing on the postnuclear syllables , a pattern that is also observed in Polish , in Ukrainian in Odessa Russian . Absence of a fall has also been recorded in the north . Dialects bordering to Belarus and Ukraine use the question particle ti or či5 (DAR
+Ja II
+I , map 11, available online at https://da.ruslang.ru/). The standard Russian particle li is an enclitic, but ti and či
+can take the first position in the utterance. The dialect atlas no information about their intonation. The main goal of the study was to find out whether the rise-fall predominates in the dialect corpora as well, and which alternatives they contain to express polar questions. 2 Data and methodology
+2.1 The Russian dialect corpora of the Linguistic Convergence Laboratory
+The 10 Russian dialect corpora that are currently6 available on the website of the Linguistic Convergence Laboratory (LC
+L) represent various regions of European Russia .7 They contain biographical dialectological and folkloristic interviews that have been transcribed in Standard Russian, lemmatized and grammatically annotated. The Laboratory’s spoken corpora also contain sociolinguistic metadata about the speakers, including information about their age, sex, education level and place of residency. The corpora can be queried via a web-based interface that provides the user with access to the original sound recordings on a per-utterance level . The grammatical and sociolinguistic annotation of the corpus data enables variationist studies of linguistic features; e.g. . Most speakers are typical participants in Russian dialectological fieldwork: the best available representatives of the traditional local dialect (elderly, mainly female speakers with little education who have not lived outside the region), but men have been interviewed as well, and some corpora also include younger speakers with a higher education level, especially the Zvenigorod corpus, which is said to represent Standard Russian . , , rising accents in various meanings, among them in self-reminders, in emotional questions expressing disbelief or perplexity and in a subtype of echo questions. Neither of these usages of rising accents appear to
+be frequent. 4 Association relates to which word or syllable the pitch movements are associated to on a structural level; alignment is the
+phonetic property of the relative timing of events in the F0 contour and events in the segmental string . 5 Russian words are transliterated following .
+6 In February 2022. In April, an 11th corpus was added.
+7 The LC
+L contains not only dialect corpora, but also corpora of bilingual speakers and dictionaries of languages spoken in the
+Russian Federation. Other online Russian dialect corpora – were not used in the current study. The former is much smaller (as of February 2022), the latter is currently less suited to do quick analyses of larger data sets. Spoken corpora of spontaneous speech as a source to study polar question intonation in Russian dialects Figure 2. Map of the 10 Russian dialect corpora of the Linguistic Convergence Laboratory8 The LC
+L corpora are not directly comparable to the CoRuS
+S corpus . One can expect a different distribution of question types, due to the nature of the dialect corpus data, which stem from dialectological interviews. The local speakers answer questions rather than pose them themselves. A majority of the utterances ending in a question mark in the corpora are not pragmatically neutral, information-seeking questions to which an answer is expected, but utterances with a lowered degree of questionhood. Their main pragmatic function may be to express speaker attitudes (uncertainty, surprise etc.) or to engage the interlocutors in a narrative; cf. . The interviewees often use confirmation-seeking echo questions – repeating an earlier question or other discourse from the interlocutor(s), but very few nonfirst elliptic questions with A. 2.2 Methodology
+Interrogative utterances by dialect speakers were found by searching for question marks. The 10 corpora, which contain from 68324 (
+Zvenigorod corpus, ) up to 959782 (
+Ustja corpus, ) tokens,9 contain between 381 and 12333 tokens of question marks. Since in some corpora, question marks were used to mark unintelligible speech or uncertain transcriptions, the number of questions is lower, ranging between 377 to 5728 (see Table 1 in section 3.3).
+More specific results were obtained by combined queries, e.g. for li + question mark. The query results – the utterance transcriptions and their annotations – were downloaded as csvor tsv-files and further annotated in Excel for features relevant for their intonation. The intonation of relevant utterances was studied by a combination of auditory analysis and visual inspection and annotation of the pitch contours in Praat . Queries for question words in one of the corpora, the Rogovatka corpus , suggest that approx. half of the utterances ending in a question mark are polar questions, the other half being wh-questions.10 I added the names of the corpora to the map published on the LC
+L website (http://lingconlab.ru), which was made by Timofej
+Muxin, using Leaflet, Map tiles by Stamen Design (C
+C B
+Y 3.0) and Map data © OpenStreet
+Map contributors. 9 As of February 2022.
+10 The exclusion of most question words left max. 393 out of 814 question utterances being polar questions in the Rogovatka
+corpus . This includes those with a low degree of questionhood. Post M.3 Results 3.1 The predominance of the rising-falling accent
+The corpus data confirm that the rise-fall is predominant in polar questions in regional Russian as well, at least in the corpora studied.11 It is found in utterances with different pragmatic functions, even in most questions with reduced questionhood, such as in echo questions and in rhetorical questions. The risefall is even predominant in tag questions, which are abundant (see section 3.2). This does by no means imply that other tonal configurations are not possible, since the interviews in the corpora probably reflect a limited variety of pragmatic functions, but we can conclude that they are infrequent.12 As expected, contours with a rise continuing after the nuclear syllable (
+Fig. 3) are attested in the southwestern corpora, but they appear to be rare. 3. F0 curve of the echo question Сва́дьбы? “
+Weddings?” (
+Khislavichi corpus, http://lingconlab.ru/khislavichi/OU
+T/2019_stajki_vnz1948_2-445849-446685.wav) The form of the rise-fall shows regional variation, but mainly in details. The high turning point is typically aligned to the nuclear syllable, unlike in the speech of young Petersburg speakers, where alignment to the first postnuclear syllable has become common , and the fall tends to start shortly after, except in the Northern Russian dialect that is represented in the LC
+L corpora. Here, the fall in the rising-falling pattern is more often than not situated close to the end of the utterance, either on a late postnuclear word, or, in the absence of postnuclear words, on a late postnuclear syllable (
+Fig. 4; ). Further studies are needed to reveal the phonological association and status of these late falls. 4. F0 curve of the question Он там-то жёлтую-ту? “
+Is it the yellow one over there?” (
+Ustja corpus, http://www.parasolcorpus.org/Pushkino/OU
+T/20140625b-gvp-1-943325-948162.wav) with a typical Northern Russian late fall, here on the final syllable -tu, long after the nuclear syllable žël žëltuju “yellow” This conclusion was drawn after listening through a large number of utterances from each corpus. I did not study the considerable amount of single syllable-questions (“
+A?”; “
+Da?” etc.) and other utterances with the nuclear accent on the final syllable,
+because they cannot show whether the pitch accent is rising-falling or only rising, due to the truncation of accents in (
+Standard) Russian. The absence or presence of truncation in regional varieties of Russian is a topic for future studies. 12 No accurate numbers are given, since I did not consider it meaningful to actually count occurrences of pitch accents. The
+corpora data are far from representative for speech in general and they probably reflect only a subset of pragmatic contexts. Spoken corpora of spontaneous speech as a source to study polar question intonation in Russian dialects3.2 Tag questions with “da?”
+Many utterances in the corpora contain question tags. The tags consist of a particle, such as da? “yes?” (see Table 1), or of another, often idiomatic, expression, such as čto li “isn’t it” (see Table 2), predstavljaeš’? “do you imagine?” or ponjatno? “understood?”. Some speakers use the same tag many times.13 These tag questions are mainly, though not exclusively, used in utterances with a low degree of questionhood. Nevertheless, they usually contain a rise-fall. The tag da normally has a nuclear rise, added to intonational phrases (I
+Ps) with a falling nuclear accent, but they are also added to I
+Ps that already have a rising-falling accent. Most multi-syllable tags carry a rise-fall, and when not in final position, the rise on da is followed by a fall as well. The tag čto li typically has falling intonation, but added to an I
+P that itself has an ‘interrogative’ rising-falling accent. Lapteva that the tag da, with rising intonation standing out on the background of a falling pitch contour, is frequent in utterance-internal position in Central Standard Russian colloquial speech, but not in dialects.14 The corpus data indeed suggest that this tag particle is most common in Central Russia: although da was attested as question tag in all dialects, 6 of the 9 speakers in central Zvenigorod use it very often (79+4=83 out of a total of 377 tokens of question utterances, of which half are whquestions; see Table 1). name15 region tokens16 questions17 .., da?18 .., da,..?19 čto li...?20 1 Ustja Arkhangelsk 959782 5728 217 21 101
+2 Lukh and Teza Vladimir 146350 877 14 27
+3 Zvenigorod Moscow 68324 377 79 4 3
+4 Luzhnikovo Tver’ 68666 570 17 3 2
+5 Opochetsky Pskov 68741 580 39 8 2
+6 Khislavichi Smolensk 296327 1694 67 4 7
+7 Spiridonova Buda Brjansk 70565 636 7 1
+9 Nekhochi Kaluga 138943 777 27 7
+10 Rogovatka Belgorod 100048 815 30 14
+utterance-internally) and čto li However, Lapteva’s non-final use is rare, with only 4 out of 83 tokens of the tag “da?” in Zvenigorod (
+Table 2). Non-final “da?” is more frequent in the Western Russian Opochka corpus, relative to the corpus’ size. The few examples of non-final da are found in five different corpora from North and Central Russia. It is not alien to the Northern Russian speakers of today (cf. the Ustja corpus), with 21 tokens by 10 different speakers, all born after 1945.21 One of them is (2): To give an extreme example, one of the Rogovatka speakers uses the phrase “ponjatno?” 71 times!
+14 Lapteva’s examples from the north suggest she had mainly Northern Russian dialects in mind.
+15 The Malinino corpus was temporarily not available when this research was carried out.
+16 The column tokens gives the total number of tokens in each corpus (informants only). Note than the Ustja corpus is much
+larger than the other corpora. 17 Utterances ending in a question mark, including all wh-questions.
+18 The tag “da?” in utterance-final position. The numbers include a few cases where the tag “da?” is added to a wh-question.
+19 The question tag “da” in non-final position.
+20 The tag čto li...? in utterances ending in a question mark; their total number is higher.
+21 Although 217+21 tokens of “da?” is a much higher number than in the other corpora, it is not high relative to the large size
+of the Ustja corpus. Post M.(2) В общем они соседи, да, Индия с Пакистаном? V obščem oni sosedi, da, Indija s Pakistanom? “
+Anyway, they are neighbours, aren’t they, India and Pakistan?” (
+Ustja, http://www.parasolcorpus.org/Pushkino/OU
+T/20140703b-mgb-2-1172152-1178079.wav) The intonation of utterances with non-final “da?” that caught Lapteva’s attention is worth mentioning. In the Central
+Russian tokens, the pitch level drops to low level immediately after the rise on da, but in several Northern Russian examples, including (2) above, there is no pitch reset to low level after the tag: the fall on Indija s Pakistanom is delayed, like in most other questions in the north. However, the preceding accent on sosedi “neighbours”, the nuclear word preceding the tag da itself, does carry a risingfalling pitch accent with a steep fall. This tonal configuration obviously ask for further research. 3.3 The question particles li, ti and či
+In search for alternative constructions, I performed queries for the interrogative particles li, ti and či used before a question mark. The particle li is part of standard Russian, the other two are recorded in the border area with Belarus (mainly ti) and Ukraine (mainly či; see , map 11). The dialects of Khislavichi, Spiridonova Buda and Rogovatka are inside this area; the Opochka dialects are situated just north of it. This distribution is corroborated in the corpora data (
+Table 2). Even Standard Russian li shows varying geographical distribution: It is almost exclusively used in the north and east. name region questions (total) ti...? či...? li...? 1 Ustja Arkhangelsk 5728 (87)
+2 Lukh and Teza Vladimir 877 0 (1) 13
+3 Zvenigorod Moscow 377
+4 Luzhnikovo Tver’ 570
+5 Opochetsky Pskov 580
+6 Khislavichi Smolensk 1694 18 (21) 5 (9)
+7 Spiridonova Buda Brjansk 636 3 1 (2)
+8 Nekhochi Kaluga 777
+9 Malinino Lipetsk 1202
+10 Rogovatka Belgorod 815 4 1
+Table 2 shows that in the corpora, all three question particles are rare, though one should consider that some tokens of the inconspicuous, non-standard particles ti and či might have been overlooked. The particles are much more frequent in other functions.23 They are also used in declaratives, often in the meaning ‘or’, even in some of the questions (cf. the numbers in brackets in Table 2), and many tokens of li are usages in the idiomatic expression čto li.24 This tag is far more frequent in questions than li in all corpora (cf. Table 1, last column). The questions with ti and či tend to have falling pitch accents, which otherwise are rare, but their number is too low to draw conclusions about a possible link between particle use and intonation. The higher numbers in brackets include questions with ti, či or li in the meaning ‘or’. Empty fields indicate zero tokens. The
+column li...? gives only tokens other than čto li. 23 The Khislavichi corpus has 383 tokens of ti and 111 tokens of či; in Spiridonova Buda, they are used (at least) 33 resp. 45
+times. 24 The Ustja corpus has 1260 tokens of li, of which 260 are occurrences of čto li. Spoken corpora of spontaneous speech as a source to study polar question intonation in Russian dialects
+3.4 Linguistic convergence?
+Alternative tonal configurations to the rise-fall, and questions with question particles are rare in all of the corpora. The low frequency of the dialect question particles and of the dialectal rising accent might well be a consequence of linguistic convergence (dialect levelling and influence from Standard Russian on the dialects). Their distribution over speakers – most are used by the oldest speakers in the corpora – points partly in this direction.25 Accommodation of the speakers to the interview situation might also play a role . 4 Conclusion
+The present study shows that spoken dialect corpora can give valuable information on regional intonation. The polar questions represented in the Russian dialect corpora of LC
+L corroborate earlier observations that rising-falling pitch accents are predominant in polar questions not only in Central Standard Russian, but in Russian regional speech as well, at least in the regions of Russia that are represented in the LC
+L corpora. Similar to earlier studied northern dialects, but unlike the dialects further south, the fall is often situated very late in the Northern Russian dialect, close to the end of the utterance, irrespective of the presence or absence of postnuclear words. Questions with a continuous rise, typical for southwestern dialects, are, at most, rare in the corpora, and so are the question particles ti and či in the southwestern dialects that have them. Not only these dialectal particles, but also the Standard Russian question particle li shows a varying regional distribution. It is almost exclusively found in the two dialect corpora in the north and east. It is far more frequent, however, in the idiomatic expression čto li. In these biographical interviews, most question utterances have a lowered degree of questionhood, and tag questions are frequent. Tag questions with the particle da are most frequent in the corpus with the language that is closest to CS
+R Russian. These data call for more research. More detailed studies of the intonation contours and their prosodic and pragmatic conditions will be able to reveal, among others, regional differences in the phonetic implementation of the rising-falling accent that appear to be present (e.g., in timing and slope of the fall; cf. earlier findings on regional differences in rising-falling accents in continuation contexts in .) Although the online queries in the LC
+L dialect corpora only perform searches in the speech of the local speakers, the databases are also a rich source for the study of question intonation in Standard Russian, since in interviews, most questions are uttered by dialectologists and their students. Acknowledgements Funding for this research was provided by a grant from Meltzerfondet. In Khislavichi, či is exclusively used by speakers born before W
+W I
+I; ti, however, is also attested among younger speakers.
+Unfortunately, the corpus has no speakers born after 1961. Post M.

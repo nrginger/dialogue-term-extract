@@ -1,0 +1,242 @@
+The paper describes participation in SentiRu
+Eval-2016 competition. The task of the competition focuses on object-oriented sentiment analysis of Russian messages posted by Twitter users. The messages are about banks and telecommunication companies.
+The goal of the task is detection of sentiment (negative, neutral or positive) with respect to organizations (banks or telecommunication companies) mentioned in Twitter message. Thus it can be viewed as three-class classification task. The organizers of the evaluation provided labeled training datasets along with unlabeled test datasets for both banks and telecommunication companies. Training datasets contain about 9,000 Twitter messages each, while test datasets contain about 19,000 messages each.
+In this paper, we focus on detection of overall sentiment of messages. Objectoriented sentiment classification with algorithms used in this paper is a part of our further research.
+All variants of our sentiment analysis system use supervised machine learning algorithms. One of our main goals is evaluation of artificial neural networks (AN
+Ns) for sentiment analysis task. In this paper, we evaluate algorithms based on recurrent neural network (RN
+N) and convolutional neural network (CN
+N) along with shallow Comparison of Neural Network Architectures for Sentiment Analysis of Russian Tweets machine learning approach—SV
+M with domain adaptation. In each of these three cases we use word2vec (
+Mikolov et al., 2013a) vectors as features for the algorithms.
+We have submitted three solutions to SentiRu
+Eval-2016. The first two are based on recurrent neural network and convolutional neural network, respectively. The last solution is an ensemble solution consisting of three classifiers. It uses SV
+M with domain adaptation along with RN
+N and CN
+N.
+The paper is organized as follows: Section 1 provides overview of the related work; Section 2 presents full description of our methods and features that we used; Section 3 provides evaluation results for different methods; in the final section we make conclusion for this work.
+1. Related work
+Artificial neural networks have become very popular in recent years. They have been shown to achieve state-of-the-art results in various NL
+P tasks, outperforming shallow machine learning algorithms like support vector machines (SV
+Ms), hidden Markov models and conditional random fields (CR
+Fs).
+Recurrent neural networks (RN
+Ns) are considered to be one of the most powerful models for sequence modeling. The success of RN
+Ns in the area of sentence classification was reported by many researchers (
+Irsoy & Cardie, 2014) (
+Adamson & Turan, 2015) (
+Tang et al., 2015).
+Convolutional neural networks (CN
+Ns) are another class of neural networks initially designed for image processing. However, CN
+Ns have been shown in recent years to perform very well in NL
+P tasks, including sentiment analysis and sentence modeling tasks (
+Kalchbrenner et al., 2014) (
+Kim, 2014) (dos Santos et al., 2014).
+It has been shown that neural network based models for NL
+P become especially powerful when they are pre-trained with some vector space model (
+Collobert et al., 2011). The most common way to do this is to use distributed representations of words.
+The most popular such model now is word2vec (
+Mikolov et al., 2013a), which improves many NL
+P tasks.
+2. Method description
+2.1. Word2vec
+Word2vec (
+Mikolov et al., 2013a) (
+Mikolov et al., 2013b) is a popular model for computationally efficient learning vector representations of words. Vectors learned using word2vec have been shown to capture semantic information between words (
+Mikolov et al., 2013c), and pre-training using word2vec leads to major improvements in many NL
+P tasks.
+Архипенко К. et al.
+used original word2vec toolkit1 for obtaining vector representations of Russian words. The model was trained on 3.3 G
+B of user-submitted posts from V
+K, Live
+Journal, echo.msk.ru and svpressa.ru. All the text was lowercased, and punctuation was removed. The following parameters were used for learning:1. Continuous Bag-of
+Words (CBO
+W) architecture with negative sampling
+(10 negative samples for every prediction);2. vector size of 200;
+3. maximum context window size of 5;
+4. 5 training iterations over corpus;
+5. words occurring in the corpus less than 25 times were discarded from the
+vocabulary; the resulting vocabulary size was 249,014.
+2.2. Recurrent neural network
+Recurrent neural networks (RN
+Ns) are a class of neural networks that have recurrent connections between units. This makes RN
+Ns well-suited to classify and predict sequence data, inсluding short documents.
+Long Short
+Term Memory (LST
+M) (
+Hochreiter & Schmidhuber, 1997) is a popular RN
+N architecture designed to cope with long-term dependency problem. LST
+M has been shown to achieve state-of-the-art or comparable to state-of-the-art results in many text sequence processing tasks (
+Sutskever et al., 2014) (
+Palangi et al., 2015).
+Gated Recurrent Unit (GR
+U) (
+Cho et al., 2014) is a simplified version of LST
+M that has been shown to outperform LST
+M in some tasks (
+Chung et al., 2014), although according to (
+Jozefowicz et al., 2015) the gap between LST
+M and GR
+U can often be closed by changing initialization of LST
+M cells.
+Our RN
+N-based model is composed of LSTM/GR
+U network regularized by dropout with probability of 0.5 and succeeded by fully connected layer with 3 neurons that predict probabilities of each class—negative, neutral and positive. The input sample is lowercased and converted to sequence of corresponding word2vec vectors described in section 2.1. Punctuation and words that are not in word2vec vocabulary are discarded. The resulting sequence of vectors is input to the network. Like word2vec vectors, the size of input and output of LSTM/GR
+U cells is 200.
+We tried several variations of recurrent networks: shallow LSTM/GR
+U, bidirectional GR
+U and two-layer GR
+U. We also tried to revert the order of input vector sequences.
+We used Keras library2 to implement the model3. In case of LST
+M initialization of cells recommended in (
+Jozefowicz et al., 2015) was used. Sigmoid and hard sigmoid were used for recurrent network as output activation and hidden activation, respectively; softmax was used as activation of fully connected layer.
+1 https://code.google.com/archive/p/word2vec/
+2 https://github.com/fchollet/keras
+3 Source code is available on https://github.com/arkhipenko-ispras/SentiRuEval-2016-RN
+N
+Comparison of Neural Network Architectures for Sentiment Analysis of Russian Tweets Adam optimizer (
+Kingma & Ba, 2014) and batch size of 8 were used for training; the number of training epochs was set to 20.
+2.3. Convolutional neural network
+Due to widely reported success of CN
+Ns (convolutional neural networks) (
+Kalchbrenner et al., 2014) (
+Kim, 2014) (dos Santos et al., 2014) in the area of sentiment analysis we have conducted some experiments with CN
+N as well.
+We used word2vec word vectors described in section 2.1 as features. For each tweet the matrix S is constructed where si (i-th row) is a word vector for the i-th word in tweet. Then we calculate two vectors tavg and tmax as follows:𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) (1)𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) (2)
+Concatenation of these two vectors is input to our CN
+N. The network is composed of convolutional layer with 8 kernels of width 10 which is succeeded by dense layer with 3 neurons (with softmax activation) that predict probabilities of each class. scikit-neuralnetwork library4 was used for implementing the network. The number of training epochs was set to 10.
+The roadmap for further survey includes experiments not only with different kinds of features but also with architecture of the CN
+N as well. Feature extraction with word2vec seems to be the most promising one. Since CN
+Ns are not as powerful in sequence processing as RN
+Ns the technique of Dynamic k
+Max Pooling (
+Kalchbrenner et al., 2014) can be used to address the problem of variable sentence length.
+2.4. Domain adaptation and ensemble solution
+2.4.1. Domain adaptation
+In most cases we assume that source domain (train data) and target domain (test data) are driven from the same probability distribution:𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) (3)
+Consequently this means that it is impossible to build classifier that would be able to distinguish target domain sample from source domain sample. But in many real world problems assumption (3) does not hold and4 https://github.com/aigamedev/scikit-neuralnetwork
+Архипенко К. et al.
+=1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) (4)
+How one can detect that 𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) ?1. Quality of the model, measured on source domain (e.g. with cross-validation)
+is much higher than on the target domain. Some participants of SentiRu
+Eval-2015 faced this problem.
+2. Consequence of assumption (3) is impossibility to build classifier which can
+distinguish target domain from source domain. The ability to build such classifier indicates that assumption (3) does not hold. We were able to achieve F1-score on source vs target domain classification above 0.85.
+One can improve quality of algorithm in target domain with different method of domain adaptation. Some methods can be found in (
+Jiang, 2008).
+In this work we use a simple method of domain adaptation—sample reweighting. Let 𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) a loss function. In order to obtain 𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) want to minimize following function:𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) (5)
+We can write function L in the equivalent form:𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) (6)
+Now replace true loss function with empirical estimation:𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) (7)
+As one can see that algorithm leads as to the feature reweighting with 𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) . Finally we assume that 𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) , thus weight wi can be found as 𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) . With Bayes’ theorem one can estimate weight as:𝑡𝑡𝑗𝑗𝑎𝑎𝑎𝑎𝑎𝑎 =1
+𝑚𝑚� 𝑠𝑠𝑖𝑖𝑗𝑗1≤𝑖𝑖≤𝑚𝑚
+= 𝑚𝑚𝑚𝑚𝑚𝑚1≤𝑖𝑖≤𝑚𝑚
+𝑠𝑠𝑖𝑖𝑗𝑗 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≡ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑋𝑋,𝑦𝑦) ≠ 𝑃𝑃𝑡𝑡(𝑋𝑋, 𝑦𝑦) 𝑙𝑙(𝑚𝑚,𝑦𝑦,𝜃𝜃)𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦, 𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚,𝑦𝑦) → 𝑚𝑚𝑚𝑚𝑚𝑚𝜃𝜃𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) = � (𝑚𝑚,𝑦𝑦,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚, 𝑦𝑦)𝑃𝑃𝑠𝑠(𝑚𝑚,𝑦𝑦) 𝑃𝑃𝑠𝑠(𝑚𝑚, 𝑦𝑦)𝑚𝑚,𝑦𝑦∈𝑋𝑋×𝑌𝑌 𝐿𝐿(𝜃𝜃) =1
+𝑙𝑙�(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖 ,𝜃𝜃)𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖 ,𝑦𝑦𝑖𝑖)𝑙𝑙𝑖𝑖=1 𝑤𝑤𝑖𝑖 = 𝑃𝑃𝑡𝑡(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑠𝑠(𝑚𝑚𝑖𝑖,𝑦𝑦𝑖𝑖)𝑃𝑃𝑡𝑡(𝑦𝑦|𝑚𝑚) ≡ 𝑃𝑃𝑠𝑠(𝑦𝑦|𝑚𝑚)𝑤𝑤𝑖𝑖 = 𝑃𝑃(𝑚𝑚𝑖𝑖|𝑡𝑡)𝑃𝑃(𝑚𝑚𝑖𝑖|𝑠𝑠)𝑤𝑤𝑖𝑖 =𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑡𝑡)= 𝐶𝐶 ×𝑃𝑃(𝑡𝑡|𝑚𝑚𝑖𝑖)𝑃𝑃(𝑠𝑠|𝑚𝑚𝑖𝑖) (8)
+We estimate weight with the logistic regression, and it slightly increases the quality.
+Comparison of Neural Network Architectures for Sentiment Analysis of Russian Tweets 2.4.2. Our ensemble solution
+Our ensemble classifier consists of three classifiers; each of them votes with equal weight. The first two are GR
+U neural network and convolutional neural network described in sections 2.2 and 2.3, respectively.
+The third classifier is SV
+M with sample reweighting described in 2.4.1. We used polynomial kernel with degree of 3. For every tweet, the average of word2vec vectors (described in section 2.1) of all words in the tweet is used as features for the SV
+M classifier.
+3. Evaluation
+Tables 1–2 present results of the evalution on sentiment classification. Both tables show macro-averaged F1-score of negative and positive classes, used as quality measure on SentiRu
+Eval-2016 competition.
+For recurrent neural network based model, we performed 5-fold cross-validation on training data provided by organizers of SentiRu
+Eval. The results are showed in reversing the order of words in tweets improves the quality. Adding an extra recurrent layer also slightly increases the quality.
+In addition, we found that using word2vec vectors as features for recurrent network is crucial. Using randomly initialized embedding layer and one-hot features instead of word2vec features gives macro-averaged F1-score of only 0.45 for banks and 0.47 for telecommunication companies.
+Table 2 shows results on SentiRu
+Eval test datasets for solutions described in sections 2.2–2.4. It also shows micro-averaged version of F1-score and includes solutions’ ranks among all 58 solutions submitted to SentiRu
+Eval by 10 teams. For test data classification with GR
+U network, the model was trained on whole train data 5 times and correspondingly gave 5 predictions for test data. Then the leading class over all predictions was chosen for each sample. Other models were trained and predicted once.
+The Gated Recurrent Unit based solution got the best macro-averaged score on both domains, significantly outperforming solutions from other teams on banks domain, and also has the best micro-averaged F1-score on banks domain.
+using 5-fold cross-validation on SentiRu
+Eval training dataRN
+N ArchitectureDomainBanks
+Telecommunication companiesLST
+M 0.6026 0.6410GR
+U 0.6129 0.6428GR
+U, reversed sequences 0.6211 0.6570
+Bidirectional GR
+U 0.6207 0.6521
+Two-layer GR
+U, reversed sequences 0.6243 0.6597Архипенко К. et al.
+
+Eval test data (according to SentiRu
+Eval results)ClassifierDomainBanks
+Telecommunication companies
+Macro (score/rank)
+Micro (score/rank)
+Macro (score/rank)
+Micro (score/rank)CN
+N 0.4832 / 21 0.5253 / 21 0.4704 / 41 0.6060 / 36
+Two-layer GR
+U, reversed sequences0.5517 / 1 0.5881 / 1 0.5594 / 1 0.6569 / 21
+Ensemble classifier 0.5352 / 2 0.5749 / 2 0.5403 / 9 0.6525 / 23
+Best solution not from our team0.5252 / 3 0.5653 / 3 0.5493 / 2 0.6822 / 1
+Conclusion
+We have described all variants of our sentiment analysis system. The GR
+U network based solution performed well and won the SentiRu
+Eval-2016 competition on both domains (banks and telecommunication companies).
+Using word2vec vectors as features has made a major contribution to the result. However, we believe that parameters of our classifiers were not optimal, even for GR
+U network. After publication of labeled test data by organizers of the competition, we were able to achieve macro-averaged F1-score above 0.6 on test data for both domains using GR
+U network. One of the parts of our future work is to find optimal architectures and learning parameters for RN
+N and CN
+N. It is also possible to combine RN
+N and CN
+N into one compound network.
+In addition, our future research includes adapting our neural network based approaches to object-oriented sentiment analysis, as well as developing methods of domain adaptation within these approaches.
+Acknowledgements
+This work was supported by the Russian Foundation for Basic Research grant 15-37-20375.
+Comparison of Neural Network Architectures for Sentiment Analysis of Russian Tweets

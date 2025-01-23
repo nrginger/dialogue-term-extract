@@ -1,0 +1,193 @@
+In this article, the problem of everyday dialogue via instant message clients is investigated. This type of dialogue is often referred to as “chat”, however, I will not use this term due to its homonymous nature. First, the relevant features of oral dialogues will be discussed; then, a comparison of oral and virtual dialogues will be made.
+2. Oral dialogue
+Not so long ago, everyday dialogue was possible only via oral communication (tête-a-tête or by phone), but in the last two decades it has increasingly occupied virtual space. Nevertheless, we cannot affirm that this is still the same dialogue, although coded in a different way. As we will see further, the communication channel influences the dialogue structure enormously, converting instant message conversations into a whole new type of communication.
+Most researchers of oral dialogue focus on its outer characteristics, pointing out that dialogue represents a collaboration of communicants ; others, on the other hand, investigate remarks in dialogue as a realization of various speech acts . In , an attempt was made to reveal inner mechanisms of dialogue by showing the relations between remarks that constitute it without any linkage to concrete speech acts.
+The authors construct a definition of a minimal dialogic unit (henceforth MD
+U) on the basis of the notion of illocutionary force. According to them, MD
+U is a text that•	 starts with an absolutely free remark (that is not forced by any other remark);•	 ends with an absolutely bounded remark (that doesn’t force any other remark);•	 has only one subject matter;•	 satisfies all the conditions of illocutionary force.
+Moreover, it is said that an MD
+U cannot include another MD
+U.
+In oral speech, the last criterion is not obligatory. For example, in coexistence of several themes is regarded as a particular characteristic of oral speech. As an example, the following dialogue is given:(1) A. Podlej nemnogo// I on mne govorit// B. (l’et moloko v kastrjul’ku) А. Hvatithvatit// Ja skoro opjat’ priedu. B. A ne malo budet? A. Net-net// B. Kogda zhe/ skoro? V budushchem godu? А. Da net! V ètom eshche//‘
+A: Pour a little more// And he is saying to me// B. (is pouring milk in a pot) A. That’s enough// I will come again soon. B. Won’t it be not enough? A. No, no// B. So when/ will it be soon? Next year? A. Oh, no! This year//’
+In this case, two MD
+U can be distinguished. The free remark of A is forcing B to act; this action can be regarded as a forcing remark, as it produces A’s next remark Hvatit-hvatit. Let us note that this non-verbal component literally “interrupts” Oral speech and instant messaging: the impact of the communication channel A, forcing her to pause in her remark. Later, B returns to the first subject of the conversation by asking A ne malo budet?, and a goes back to the second subject only after satisfying B’s illocutionary intentions.
+Thus, both dialogues start with absolutely free remarks and end with absolutely bounded remarks; they satisfy the illocutionary force conditions and both are devoted to one and only one particular subject. That is, both are undoubtfully MD
+U. However, one dialogue is incorporated into the other, which means that the last MD
+U criterion is not satisfied.
+This is quite understandable, as in fiction dialogues are investigated. It has to be noted that dialogues similar to the abovementioned occur only if one subject of the conversation is more “intentional”, and another is more “pass-through”. That is, the communicants have an intention to talk only on one subject, but if they are talking while doing something simultaneously, their actions sometimes need a commentary. In this case, a parallel dialogue “in parenthesis” occurs. In such a dialogue we expect a number of non-verbal remarks, and normally a non-verbal remark plays a forcing role in respect to the verbal ones. Consider the following example:(2) А: I tut ja emu govorju// Peredaj, pozhalujsta, sol’.// A pochemu by vam ne pogovorit’ s nej samomu?// Net-net, druguju, èto perets. Spasibo.// B: I on chto? А. Obidelsja, konechno.
+‘
+A: And then I tell him // Pass the salt, please. // Maybe you should talk to her yourself? // No, the other one, that’s the pepper. Thank you. // B: And what about him? // A: He was offended, of course.’
+We have here two interlaced MD
+U, the principal “intentional” one refers to some events that happened to A in the past, the one “in parentheses” is dedicated to the actual “here-and-now” needs of A. Although in the “salt MD
+U” only A’s remarks are verbalized, we can postulate two zero lexemes that represent non-verbal remarks of B:(3) А: I tut ja emu govorju// Peredaj, pozhalujsta, sol’. — B: Ø.// A pochemu by vam ne pogovorit’ s nej samomu?// Net-net, druguju, èto perets. — B: Ø. — Spasibo.//
+Let us go back to (1). Intuitively, we can say that A:a) was expecting a non-verbal answer to the firs remark and therefore introduced a new subject right away;b) was expecting B to finish pouring milk without any additional remarks; since this did not happened, A was forced to interrupt herself;c) was not expecting B to ask any additional questions on the “milk topic”.
+Same thing can be noted about (2): A wasn’t intending to extend the “salt topic”, but B’s mistake forced her to do so.
+Liusina V. S.
+sum up, an MD
+U represents an exchange of remarks, of which every remark is connected to the previous one, the next one or both. Normally, an MD
+U doesn’t include another MD
+U. If this happens, the incorporated MD
+U demonstrates the following characteristics:1) The initiating remark is a request or an order.
+2) The second communicant’s replies are non-verbalized.
+3) There is no intention to extend or develop this dialogue (normally on both
+sides).
+4) If the number of remarks is more than three, this means that one communi
+cant doesn’t satisfy the other.
+In section 4, we will see if these rules work for virtual communication.
+3. Instant messaging
+In the last decade, many works on internet communication and its connection to oral communication have been published. One of the most relevant to our study is , where incoherence of Internet communication is investigated. Herring points out two problems of instant messaging that are not characteristic for verbal communication: lack of simultaneous feedback and disrupted turn adjacency. This means that in a conversation via oral communication the production of a remark and the perceiving of it are simultaneous, while in instant messaging the addressee starts perceiving the remark only after the speaker has finished it. Because of this, one communicant may introduce another topic and then get an answer to the previous one, which leads to disrupted turn adjacency, that is, to the remoteness between remarks that are connected to each other.
+Although it contains a number of valuable observations, now out-of-date. The facilities of Internet communications have grown enormously since 1999; moreover, Herring analyzed the data of group chats which don’t play an important role nowadays.
+In the next few years the problem of coherence in instant messaging has been extensively discussed in such works as , , , It has been noted that instant messaging creates problems because of its intermediate status between oral and written speech . It has been pointed out that besides the lack of simultaneous feedback and disrupted turn adjacency, the lack of constant attention creates an important problem for conversational coherence. The constant record of a conversation has been acknowledged as an advantage . Moreover, techniques that are used to maintain conversational coherence have been investigated. The most important one is maybe the dividing of a remark into several parts which Baron to the “intonation units” of oral speech. Moreover, topicalization and performative verbs are widely used . In is shown that, although 144 of 1689 remarks are characterized by disrupted turn adjacency, only 18 of them
+Oral speech and instant messaging: the impact of the communication channel cause communication problems. The reported techniques are substitution, repetition and conjunction.
+The results of these investigations are quite valuable, but the data used may not be totally appropriate. Firstly, the subjects were aware of the fact that their conversations will be investigated, which might have influenced their manner of constructing a dialogue. Secondly, in some cases English was not a native language for the subject, which might have made the conversations too short and primitive. Finally, the subjects were often not so familiar with each other, and didn’t have an experience of oral dialogue; therefore, it could be not quite accurate to compare these conversations to oral dialogues.
+In the next section, I offer my own investigation of Internet dialogues.
+4. Structure of Internet dialogues
+For this study, 60 Google Talk dialogues in Russian were analyzed. The data was provided by five communicants. For all of them, Russian is their native language. After my request, the subjects have chosen several dialogues that they could let analyze and publish. The records are ordinary dialogues between friends that communicate orally on a regular basis. There are 25 short dialogues (less than 50 lines), 15 medium dialogues (between 50 and 150 lines) and 20 long dialogues
+(more than 150 lines).
+If we want our comparison of oral and Internet dialogues to be accurate, we have to exclude all Internet conversations that differ from oral conversations not only in the channel of communication, but also in some other ways. That is, we have to disregard Internet dialogues that were accompanied by reading, writing or talking to other people via Internet. However, this task is too difficult. If we want the dialogues to be spontaneous and natural, we shouldn't tell anything to the subjects before the conversations; it is therefore impossible to create “similar-to-oral-conversation” conditions that we need. When we collect the data post factum, we cannot find out if the subjects were doing anything else while talking, because they don’t remember. Moreover, it is very rare that the communicant isn’t involved in some other activity while talking. Normally, instant messaging is parallel to some other activities, as some investigators point out as our own experience suggests. However, some dialogue sections in our data are clearly of the “similar-to-oral-conversation” nature. In these sections, there is no noticeable pause between remarks, and frequency is nearly 10 lines in a minute. Moreover, it can be noted (although we don’t have a formal instrument to prove it) that the topic of the conversation is too interesting for the subjects to switch to some other activities. It is in such dialogues that the interlacing of two MD
+U occurs.
+In our data, there are 29 dialogues that demonstrate interlacing of two MD
+U. The analysis has shown that there are five steps that lead to the interlacing and, finally, to the communicative failure. These steps are described below.
+Liusina V. S.
+Overlooking of a remark
+In a fast dialogue without pauses, it is common that one communicant misses a remark of the other. As it is a frequent technique to divide remarks into several parts, a reply of the second communicant may be wedged between the parts of a remark of the first communicant. Moreover, a reply of the second communicant may appear after the whole remark of the first one, introducing a topic that has already been introduced. This is illustrated in (4) and (5).
+(4) A: chto ni ja ni ty ne v detskom sadu chtoby rasfrenzhivat’ i ne v 5 klasse chtoby posylat’
+B: da, tak, pozhaluj, luchshe)i teper’ ty budesh’ dal’she stradat’ iz-za K?
+A: koroche govorya kakoj-to tresh polnyj‘
+A: I wrote that neither me nor you are in kindergarten anymore to be unfriending or in fifth grade to be telling eachother to leave alone
+B: yeah, it’s probably better this way
+So now you’re going to continue being miserable about K.?
+A: in short, it’s all completely crazy’(5) А: ucheba? zdes’ prekrasny frantsuzkie distsipliny i otvratitel’ny ispansistskieaudiovizual’nyi perevod otlichnyiu vas Bea vela?
+B: a na perevod ty hodish’?‘
+A: School? The French subjects are wonderful here, the hispanist subjects are horriblethe audiovisual translation is great
+Did you have Bea?
+B: Do you take translation?’
+In (4), what is supposed to be a monologue of A is interrupted by B’s remark. A doesn’t notice it and keeps talking. Let us note that this situation would never occur in oral speech, where B’s remark would be noticed immediately.
+(5) is even more striking. A introduces a new topic and adds one more remark (a question u vas Bea vela?), but B overlooks both and asks a question on the same topic (a na perevod ty hodish’?).
+2. Delayed response
+After some delay, the first communicant notices the overlooked remark and goes back to it, as illustrated in (6) and (7).
+(6) A: i teper’ ty budesh’ dal’she stradat’ iz-za K?
+B: koroche govorya kakoj-to tresh polnyjneee, chto ty. sovershenno ne budu bol’she stradat’. <...>А: da uzh, tresh tak tresh‘
+So now you’re going to continue being miserable about K.?
+Oral speech and instant messaging: the impact of the communication channel B: in short, it’s all completely crazy
+Noooo, I’m not going to continue being miserable at all
+A: yeah, crazy it is’(7) А: kak vy vstretili Anyu?
+B: horoshoА: mnogo kto byl?А:u menya zavtra ocherednaya popytka sdat’ drevneshvedskij, poètomu ja reshila ne idti(
+B: a pochemu ty ne mogla?aaaa chto, èto tak slozhno?‘
+A: how’s you meet Anya?
+B: OK
+A: were there many people?
+A: I’m having another try at passing old Swedish, so I decided not to go
+B: why couldn’t you?Ooh
+It’s that hard?’
+If the overlooked remark is close to the main topic of conversation, right turn adjacency is soon restored. However, if a whole new topic is introduced, it may lead to recursion.
+3. Recursion
+On this stage, the first communicant is replying to the second communicant’s remark, while the latter is replying to the overlooked remark of the former. This is illustrated in (8). In line 5, B introduces a new topic, while line 6 continues A’s monologue. In line 7, A is going back to the overlooked remark (line 5), while B is replying to the remark introduced in line 6. In line 9, B continues the new topic, and so does A in line 10. The last flash of the “problem topic” is an emoticon introduced by A in line 11.
+Then the conversation switches to the “cardigan topic”.
+(8) 1 А: a ja proverjaju zadachku2 (ne sejchas)
+3 B: ty kruta kak ja ne znaju chto
+4 А: ja byl b kruta, esli by sama sochinila chto-nibud'!
+5 B: ty mne luchshe skaji, s chem ty nosish’ svoj seryj kardigan iz frantsii?
+6 А: a poka ja sochinila tol’ko 1 zadachku dlja medvezhonka
+7 vot èto slozhnyi vopros na samom dele
+8 B: i tri zadachi dlja treh medvedej
+9 ja kupila sebe pohozhego tipa
+10 A: s uzkimi dzhinsami i majkoj, kazhetsja, adekvatnee vsego
+11 ))
+Liusina V. S.
+B: s majkoi moj ne smotritsja
+13 А: u tebja tozhe seryj?
+14 B: on trehtsvetnyj
+15 2 ottenka serogo i chernyj
+16 ochen’ krasivyj
+17 A: ja tak schitaju, chto ego nado nosit’ s plat’ami
+‘1 A: I’m checking a problem2 (not at the moment)
+3 B: you’re awesome like I don’t know what
+4 A: I would’ve been awesome, if I wrote something myself!
+5 B: tell me, what do you wear with your gray cardigan from France?
+6 A: I only wrote one problem for the “
+Bear cub”
+7 That’s a hard question really
+8 B: and three problems for three “bears”
+9 I bought one sort of like it
+10 A: tight jeans and a shirt I guess are most appropriate
+11 ))
+12 B: mine doesn’t look good with a shirt
+13 A: yours is gray too?
+14 B: it’s tricolor
+15 2 shades of gray and black
+16 Very pretty
+17 A: I think it should be worn with dresses’
+4. Parallelism
+When both topics are relevant and important for the communicants, this may result in two parallel dialogues. In (9), remarks of the second topic are less frequent than the first one. However, there are no signs of declension; both topics are developing symmetrically.
+(9) 1 А: a na dushe-to kak? kakie vetry duyut?2 B: tak, vpolne snosno
+3 tol’ko s N
+G vse kak-to grustno
+4 А: a na kursy po ital’janskomu ty eshche ne zapisyvalas’?
+5 a chego s N
+G?
+6 B: n, mozhet, vsplyvet chto-nibud’ v poslednij moment
+7 А: v smysle net planov?
+8 B: tak tam zhe vrode v janvare novyj nabor
+9 da
+10 А: a my vot dom sobiraemsja snjat’ v Podmoskov’je, ajda?
+11 ne na sam N
+G, pravda
+12 B: vy?
+13 A: tipa s 3 po 9, esli poluchitsja konechno
+14 nu tam kompanija narodu
+15 a ja nashel dom, tak chto mogu zvat’ kogo hochu)
+Oral speech and instant messaging: the impact of the communication channel 16 B: bylo by ochen’ zdorovo, no ne budet nemnogo ne v kassu?
+17 pokazhi!
+18 А: am dejstvitel’no, v janvare navernoe, prosto ty ugrozhala pomnju, chto votvot zapisyvaesh’sja)
+19 ty tam polovinu lyudej znaesh’, ja dumaju
+20 B: ne, ja ugrozhala, chto vot-vot nachnu uchit’ ital’janskij))
+(10) ‘1 A: what’s on your mind? Where’s the wind blowing?2 B: it’s ok really
+3 Except it’s kind of sad about New Year’s
+4 A: Have you registered for the Italian course yet?
+5 What about new year’s?
+6 B: but maybe something will come up at the last second
+7 A: you mean you don’t have plans?
+8 B: the new admissions are in January, aren’t they?
+9 Yeah
+10 A: we’re going to rent a house in the Moscow area, wanna come with us?
+11 Not New Year’s Eve itself though
+12 B: who’s we?
+13 A: like from the 3rd to the 9th if it works out of course
+14 It’s a group of people
+15 I found the house, so I can invite whoever I want
+16 B: it would be great, but won’t it be a little awkward?
+17 Show me!
+18 A: oh yeah, it probably is in January. It’s just that you threatened me you were
+about to register19 You know half the people there I’m sure
+20 B: No, I threatened that I was about to start studying Italian.’
+5. Communicative failure
+The situation presented in (9) is a dangerous one. Sooner or later, there comes a moment when one or both of the communicants fail to identify which topic the remark belongs to. This leads, then, to the communicative failure, as in (10). In line 19, A refers to the main topic of the conversation. This is accompanied by a delay from A: in line 20, she replies to the remark presented in the line 18; only then she notices line 19 and by mistake attributes it to the “
+Italian topic”, which is clear from line 21. This is quite understandable, as the remarks before and after presented in line 19 are devoted to this topic. Therefore, a communicative failure occurs. Again, there is a delay: A replies to the remark presented in line 20 and misses line 21. It is in line 23 that he reacts to the question, but his reply doesn’t resolve the failure; on the contrary, A doesn’t understand B’s question, so he replies with another question. The answer of B is also a question, which shows that the communicative failure is still not resolved. Let us note that B doesn’t reply to A’s question presented in line 22.
+Liusina V. S.
+B:ne, ja ugrozhala, chto vot-vot nachnu uchit' ital'janskij))
+21 ljudej na ital’janskom?
+22 А: nu i kak, udalos’?
+23 chto ljudej na ital’janskom?
+24 B: chto udalos’? ja chto-to terjaju nit’
+‘20 B: No, I threatened that I was about to start studying Italian.
+21 People in Italian?
+22 A: so did it work?
+23 What about people and Italian?
+24 B: what worked? I’m losing the thread’
+In (8), lines 1–4, 6, 8 and 11 present an MD
+U. It starts with an absolutely free remark that introduces a new topic (a ja proverjaju zadachku) and ends with an absolutely bounded remark (an emoticon). However, this MD
+U is interrupted by another one in the middle (ty mhe luchshe skazhi, s chem ty nosish’ svoj seryj kardigan iz frantsii?). The “cardigan topic” is presented in lines 5, 7, 9–10, 12–17. In (8), we haven’t provided all the lines of the second MD
+U, as it is quite long; nevertheless, it can be noted that line 5 introduces an absolutely free remark and that all conditions of illocutionary force are satisfied. We can state, therefore, that in (8), two MD
+U are interlaced, both of them being important and “intentional”. Same can be said about (9). Here, lines 4, 8, 18, 20 present an incorporated MD
+U that both communicants are eager to develop.
+In our data, all long dialogues and 9 medium dialogues present interlaced MD
+U. However, only in two cases it leads to communicative failure. Characteristics of these dialogues suggest the hypothesis (11).
+(11) If an Internet dialogue has all the characteristics of an oral dialogue except the communication channel (both communicants have one and only one interlocutor; they are not involved in any other mental activities; they talk without pauses in a “close-to-oral-speech” rhythm), an overlooking of remarks and recursion obligatorily occur.
+The reason for that, as was indicated earlier, is lack of simultaneity between producing and perceiving of a remark. A communicant, eager to develop a conversation or to introduce a new topic, is unable to register all the remarks of his interlocutor as soon as they appear on the screen. As we have seen earlier, the result of such overlooking are two interlaced intentional MD
+U, a phenomenon that is not possible in oral speech.
+Nevertheless, the situation described above is not so frequent and almost never leads to a communicative failure. That is because instant messaging is very rarely used as an exact analog of oral commination. Rather, it is a completely different type of communication, where multitasking is a fundamental principle. Normally, when people talk via Internet, they introduce a remark and turn to some other activities, thus providing a pause needed for the response.
+Oral speech and instant messaging: the impact of the communication channel Conclusion
+In this article, a correlation between oral and Internet dialogue have been analyzed. It has been noted that comparison of these two types of dialogue is rarely appropriate, because they differ not only in the communication channel, but also in some other ways. In spite of that, some Internet dialogues that seem to satisfy “close-tooral-conversation” conditions have been analyzed. These dialogues demonstrate a feature that is impossible in oral communication, that is, an interlacing of two intentional MD
+U. If the communicants maintain a “close-to-oral-conversation” rhythm, the interlacing results in communicative failure. This fact demonstrates that instant messaging doesn’t work as an analogue of oral communication, but rather as a new medium that favors multitasking.

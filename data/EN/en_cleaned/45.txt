@@ -1,0 +1,172 @@
+The main point of this paper is to exemplify a method of exploration of covert noun classes, and to justify its applicability to applied linguistic technologies and its signifi cance for the study of linguistic categorization, metaphor, and lexical systems in typological perspective. The method exploits the term cryptotype introduced by B. Lee Whorf (1956), and develops his idea of phenotype (overt word class) vs. cryptotype (covert word class) distinction.
+“
+I call a cryptotype a linguistic classifi cation like English gender, which has no overt mark actualized along with the words of the class but which operates through an invisible “central exchange” of linkage bonds in such a way as to determine certain other words which mark the class, in contrast to the phenotype, such as gender in Latin” (
+Whorf, 1956, p. 72)
+Throughout this study the Whorfi an understanding of a noun cryptotype (largely confi ned to “
+English gender”) has been “reincarnated” and advanced. Cryptotype is widely understood as an implicit rule of language use which can be extended to noun categorization. As V. A. Vinogradov (1991) and A. A. Kretov (2010) have argued, noun classes in world languages vary in degree of grammatical representation. One can think of grammar structure as a kind of scale. At the one end of the scale is the most grammaticalized type of a noun class that of gender in European languages. At the other end is the least grammaticalized class of so called numeratives (e.g., lexical count words in Asian languages). A variety of noun classifi cations in world languages is in between. This is why, a noun class (N
+C) is approached in this research as a class of Lexical Grammar. Such approach to noun classes evoked in different types (cryptotype vs. phenotype) allows for a more holistic view of language. The reconstruction of cryptotypes of English nouns is meant to offer the paleo-semantic interpretation of noun classes’ formation.
+The main challenge of pursuing the common grounds for the classifi cation of nouns in typological perspective is that, presumably, there should be a universal set of noun properties refl ected in grammatical meanings of some languages (morphologically tagged) vs. lexical meanings of others (marked by lexical selection, e.g., in a verb stem in syntactical constructions)1.
+A cryptotype is regarded as a covert noun class of Lexical Grammar, where the class membership is marked by lexical selection in the construction rather than a morphemic tag. A cryptotype can be identifi ed owing to the “typological principle of contrastive grammar”. The principle is as follows: if a N
+C is grammatically mapped (represented) in a language (
+L1), and is NO
+T represented in the Grammar of L2, it is viewed as a grammatical lacuna of L2 and studied in latent Grammar or Lexical Grammar of L2.
+In this research of cryptotypes we have adopted the practice of describing noun classes in the world languages (
+Dixon 1968, Rosch 1973, Givon 1996, Vinogradov et al, 1996, 2000, Gillon 2005, just to name a few); the main achievements in the investigation
+1 About the universal menu of grammatical signs (cf., e. g. Chvany 1995, Itkonen 1994). The
+problem of discovering lexical universals is under consideration in, e. g., “
+Aquamotion” (2007).
+О. О. Boriskina
+of metaphoric representation of concepts (
+Arutjunova 1976, Uspenskĳ 1979, Johnson 1980, Lakoff 1986, Lakoff & Johnson 1987, Kövecses 2002, 2005) and the primary metaphors theory (
+Grady 1997); the implications of Covert Grammar (
+Katsnelson 1972);
+the basic assumptions of construction grammar (
+Fillmore 1985, Kay & Fillmore 1999), specifi cally, (
+Lakoff 1987, Goldberg 1996), Pattern Grammar (
+Hunston & Francis 2000) and the concept of collostruction (
+Gries & Stefanowitsch, 2003, 2004).
+The paper is structured as follows: Section 2 deals with the main criteria for identifying a noun class proposed by the Russian Typological School. In Section 3 we will focus on the semantic and syntactic criteria for recognizing the English cryptotype ‘
+Res Longa’. Section 4 will conclude the paper.
+2. The main criteria for identifying a noun class
+According to the Russian Typological School, there are three aspects of noun classes’ exploration: semantic, morphologic and syntactic (
+Toporova 1996, 25). Since a cryptotype lacks morphological marking, it is meant to be identifi ed via the syntactic and the semantic criteria.
+2.1. Semantic criterion for identifying a noun cryptotype
+Like many overt noun classes of African languages (see Vinogradov 1996, Toporova 1996, Koval’ 1996 & others) a cryptotype is semantically heterogeneous. It means that the nouns a class incorporates bear diverse lexical meanings but they are united owing to the “prototypical categorical attribute or feature” (PC
+A) which underlies the noun class. While the PC
+A is indeed part of the core meaning of the nouns that are called class prototypes, there are nouns that are only associated with the class because the PC
+A is the element of their metaphorical meaning, i.e. they are conventionally attributed to this class of nouns.
+To illustrate, let us take the PC
+A ‘being liquid’. It underlies the overt noun class DA
+M (so called class of liquids) in the Pular-fulfulde language (
+Koval’ 1996) and languages of Bantu family (
+Toporova 1996). With reference to the “typological principle of contrastive grammar” we can identify the cryptotype “
+Liquidus” in English which incorporates class prototypes (water, blood, milk) as well as class metaphor-types, i.e. metaphor-driven members of the class (life, color, truth, information, etc.). The latter are attributed to the class in accordance with their metaphorical meaning that bears the traces of the nouns’ former occurrences, which in their turn refl ect the cognitive associations of these abstract entities with the properties of liquids.
+This semantic diversity of the class can be accounted for by the analogy principle of human cognition as well as the “law of metaphor”, both of which would regulate the linguistic categorization of human experience at the early stages of mind and language development. Since analogical mapping is a key cognitive operation (
+Fauconnier 1997), it can be assumed that such concepts as ‘life’, ‘time’, ‘truth’, and ‘color’ were cognitively associated with the properties of liquids and categorized as liquid, so that the lexemes A corpus-based study of noun cryptotypes in English 145for these concepts were attributed to the class of nouns which share such properties. The consensus view emerging from a large body of synchronic and diachronic research acknowledges abstract concepts being largely metaphorical which means that most of our nonphysical reality is conceptualized via physical reality, that is, in terms of physical domains of experience. This approach to categorization and embodiment of immaterial, incorporeal, intangible, insubstan tial, impalpable concepts of abstract dimension was independently introduced in the works of Arutunova 1976, Uspenskiy 1979, Lakoff & Johnson 1980, 1987, and further refi ned in the framework of cognitive linguistics.
+Similarly, the restoration of another four cryptotypes for English has been attempted so far:• Round objects (prototypes: sun, egg)• Solid, long, pointed objects (prototypes: stick, rod, spear, arrow)• Containers (prototypes: container)• Hand-fi t objects (prototypes: stone, fruit, seed).
+In return to the semantic issues of the problem, most scholars state that the semantic foundations of noun classes in African languages have been fading; so, the semantic principle of class formation is losing its validity for the study of language systems (
+Vinogradov et al 1996). Hence the tradition in Africanistics to code noun classes in numerals to lessen the value of vague and obscure lexical semantics of the class. Curiously enough, infants start out with semantic categorization criteria, but at some point they abandon them (
+Gillon 2005: 447).
+By contrast, the morphological principle of class formation remains strict enough: all nouns of the class are marked in themselves by a morphemic tag. For example, the class DA
+M and class 6 in Bantu languages include names of liquids and names of abstract entities, the latter (e.g. life or truth) are marked by a morphemic tag. However, the loanwords that enter African languages do not necessarily receive the morphemic tag of the class but are colligated in syntax. (e.g. Lutskov, 1996). Thus, the semantic and morphemic criteria for N
+C identifi cation are fairly relative while the syntactic criterion appears to be the most relevant one to N
+C identifi cation.
+2.2. Syntactic criterion for identifying a noun cryptotype
+V. A. Vinogradov (1996, 9) shows that when the semantic criterion is ambiguous, and the morphemic tag of the class has been obliterated, the syntactic agreement, even though implicit, becomes the only reliable warrant of a noun classifi cation. Schematically, the cryptotype recognition procedure is as follows: class prototypes  classifi ers  class metaphor-types. Identifi cation of noun cryptotypes in English starts from the contextual analysis of the class prototypes in corpora. The detailed investigation of the prototype occurrences in corpora allows recognizing the constructions, or rather collostructions, which can be further used for the purposes of classifi cation recognition. Collostruction is understood as the pattern of co-occurrence between the collocating items (collexemes) which occur preferably in certain constructions (cf. Gries and Stefanowitsch 2003, 2004). The prototypical nouns of a cryptotype О. О. Boriskina
+and the words which assign the meaning to the construction, are called collexemes. It should be noted, that this research is not concerned with measuring collostructional strengths between collexemes; collostructions are treated as classifi ers of noun classes, or a means of lexico-syntactic recognition of the class. The main focus of the study is collostructional patterning observable within the argument structures associated with predicating words. Additionally, N of N constructions are taken into account. Then we undertake a corpus analysis of abstract nouns’ aptitude for fi lling the syntactical slots of classifi ers. The class membership of a noun is diagnosed when it occurs in the collostruction(s) associated with a particular cryptotype.
+All things considered, a cryptotype can be defi ned as the principle of distribution of nouns among classes in accordance with a certain semantic feature (PC
+A) and with reference to the typological principle of contrastive grammar, evidentially revealed in syntax, particularly in classifying collostructions of the noun class.
+Let us consider an example of cryptotype identifi cation.
+3. Case study
+A corpus-based study of the English cryptotype “
+Res Longa” relied primarily on Corpus of Contemporary American (COC
+A2). The work started with corpora data retrieval and manual sorting out relevant results from the accidental ones, received from List display of collexemes (e.g. <stick> + <prick>) as well as KWI
+C concordances for “
+Res Longa” prototypes. A series of informal experiments (in the shape of questionnaires for native speakers of American English) have been designed in order to gather data unavailable in the corpus that might have tested the hypotheses of the research.
+3.1. Classifi ers of the cryptotype RE
+S LONG
+A
+The cryptotype “
+Res Longa” is a lacuna in the Grammar of English, which we attempted to approach with the help of the principles described in Section 2.
+Most languages of Bantu family, Fula family and languages of South-eastern Asia (
+Vietnamese, Japanese, dialects of Chinese, Burmese) have an overt grammatical N
+C with the PC
+A ‘inanimate, hand-fi t, long object of fi xed pointed shape’. Furthermore, Burmese differentiates ‘long objects’ and ‘pointed instruments’ (cf. Hla Pe 1965). Clearly, the shape and size of inanimate objects as features, deeply entrenched in the human bodily experience and cognition, tend to emerge in language systems in either way: phenotype or cryptotype. According to the contrastive principle this fact can be regarded as a basis for the identifi cation of the cryptotype “
+Res Longa” in English.
+Among the class prototypes are such nouns as stick, rod, prickle, arrow, etc. All of them are polysemantic with all their meanings related to the solid long pointed shape (SLP
+Sh) that fi ts the hand. Noun stick (O
+E *sticca) is derived form the verb 2 Davies, Mark. (2008-) The Corpus of Contemporary American English (COC
+A): 410+ million
+words, 1990-present. Available online at http://www.americancorpus.org.
+A corpus-based study of noun cryptotypes in English 147(O
+E stician  Teut. Root *stik — ‘pierce, be sharp’). Apparently, the entities that the prototypes named were strongly associated with the main functions of the pointed shape: its penetrating capacity. Hence the cultural value of (SLP
+Sh) that of weapon, tools, symbols of power including religious ones.
+Let us consider the classifi ers of the cryptotype “
+Res Longa”.
+• Subject transitive classifi ers , , , , , , .
+The collostruction special attention. The question arises if it is apt to diagnose the class membership of a noun? The argumentation for its status as a classifi er of the cryptotype Res Longa is as follows. The OE
+D defi nes to sting as ‘to stick, stab, pierce with a sharp-pointed weapon, to prick with a small point’; in O.
+E. stingan “to prick with a small point” (of weapons, insects, plants, etc.). This verb is used in different senses in Contemporary American, but the primary (or the core) meaning, which contributed to metophorization of abstract entities, remains and regulates the abstract nouns usage. Most native speakers would agree that this verb is associated not only with insects and jellyfi sh, but also with the long-pointed form as in Example 1.
+(1) A sharp object stung me as I passed through the meadow.
+A pointed object stung me as I backed into a cactus.
+A tip from the broken glass shards stung me.
+The needle stung me. A prickle stung me.
+• Subject intransitive classifi ers , , , , , .
+• Object transitive classifi ers , , , . . .
+• Instrumental classifi ers , , , , , , , , .
+• Predicative classifi ers , .
+• Attributive classifi ers , , .
+The attributive collostruction its own discussion, as neither the corpus data nor the native speakers associate its meaning with SLP
+Sh О. О. Boriskina
+of an entity. According to the OE
+D pungent in the meaning ‘pricking, piercing, sharppointed’ substituted poignant in many of its senses in the 17th century (
+Example 2). This meaning of the adjective has been specifi ed in the course of time as ‘the effect on the organs of smell or taste resembling that produced by pricking’ or ‘of the penetrating nature of smell, taste and sensation’. The direction of the broadening of its core meaning3 can be presented as follows: from SLP
+Sh entities (
+Example 2) to substances with ‘smell or taste resembling that produced by pricking’ (
+Example 3) and then further to abstract entities such as speech acts (word, advice, language), emotions (shock, grief) and memories (
+Example 4). Apparently, both senses of the word are metaphorical extensions of the core meaning. This argument could be in favor of the classifying status of the collostruction .
+(2) Between three thornes pungent (1601) (OE
+D);was whilome used for a pungent spear (1606) (OE
+D);< ...> сutting or pungent instruments (1750) (OE
+D).
+(3) A strong, sharp taste of pepper greets my tongue, along with something creamy. Risotto, I guess.
+The mild fl avor of the beans plays off the pesto’s pungent taste and adds a delicious creaminess.
+it had <…> sharp bitter fl avour;
+You can also coat wiring with a spray that deters biters with its pungent fl avor, such as Grannick’s Bitter Apple;
+The fl ower gave off a sharp scent at night;<..> a small creeping plant of a pungent scent;
+The sharp smell of her perfume made me dizzy;
+Beau recognized the sweet, pungent smell of something stronger than tobacco.
+(4) <…> perform oral sex. But U. S. District Judge Susan Webber Wright, in unusually sharp language, ruled Jones, “ has fi led to demonstrate that she has a case;<…> little they know or have guessed about sex. Ma doesn’t use such pungent language with her daughters. They might remember her by those words alone;
+Removed from the transcript, these sources say, were Ambassador Glaspie’s sharp advice to Saddam not to use force in his dispute with Kuwait <…>;
+Congressman James Trafi cant of Ohio offered some of the most pungent advice imaginable, and believe me you don’t want to imagine it;
+I lost two very close friends of mine, and that was a real sharp shock because I realized if I carried on, I’d be next;and we followed, holding our noses. The bathroom was a pungent shock of Lysol;
+That was four years ago, but the memory was as sharp as ever;treated and painted their curved inner walls until the gas stink was just a pungent memory. In an instant, memory pierced him.
+3 I thank an anonymous review for pointing out this issue.
+A corpus-based study of noun cryptotypes in English 149• Substantive classifi ers , , , .
+The collocation look reliable for diagnosing purposes as it has dubious acceptability. The noun point refers to the end of a pointed object as well as to a trace (a wound or a sign or a series of signs) a pointed object leaves on/in another object. Such signs tend to be used for measuring something that is viewed as a continuum (emotions, conditions, progress in studies, efficiency, etc.). However, it can be a feasible classifier in a wider context. In example 5, point being the collexeme of the noun pain, is described as thin, capable of sliding, and penetrating. Hence, pain is categorized as a pointed object. Conversely, in Example 6, the N slot of the construction associated with the limit or a level of a continuum. Thus, depression is categorized as a (relatively high) level of an unpleasant state of being, rather than a pointed entity. Example 7 demonstrates constructions in which the noun point is assigned the meaning ‘the sense of smth.’. Neither (6) nor (7) can be treated as classifiers of the cryptotype.
+(5) the thin point of pain slid around her throat. It <pain> penetrated.
+A sudden sharp point of pain at the back of her head <…>.
+(6) Last year, frustrated to the point of depression, he secretly recorded a pop album.
+(7) <…> this was the point of the dream;
+What was the point of the reputation economy?3.2. Core-periphery structure of RE
+S LONG
+A
+In languages with scarce morphology and lack of overt noun classes, nouns of abstract semantics in order to be communicated are likely to be attributed to one of the covert noun classes. Thus, cryptotype categorization is of non-taxonomic nature, which means that a noun tends to belong to more than one cryptotype but its proximity to the core of different classes is different. The cryptotype is structured on coreperiphery basis in accordance with the CR
+I of nouns4.
+The cryptotype “
+Res Longa” incorporates nouns of abstract semantics, whose class membership is evidentially revealed in communication when these nouns “choose” the classifying collostruction(s) of the class.
+4 Cryptotype Radius Index (CR
+I) indicates the proximity of a noun to the Core of Cryptotype
+in terms of core–periphery proximity. In a model a cryptotype on core-periphery basis, the formula to calculate the CR
+I is the following: . V
+Cor is the number of cryptotype classifi ers the noun has co-occurred with in the corpus, and ∑cl-s stands for all classifi ers of a certain cryptotype. The algorism calculating the proximity of a noun to the core of cryptotype is described in (
+Boriskina 2010).
+О. О. Boriskina
+The restoration of “
+Res Longa” in English shows that out of 500 nouns of abstract dimension 124 nouns are attributed to this cryptotype. Below is the wordlist of some class members in decreasing sequence5:• light• memory pain• word question fear• guilt image music reality• anger attack force hope image reality relief sense sight song advice answer case change criticism disappointment evidence experience infl uence loss opposition problem voice work• act awareness belief challenge comment condition contrast defense description desire dream equipment idea industry issue joy language love method mind pleasure pride quality recession style terror thought truth view etc.
+These nouns demonstrate different degree of linkage with the classifying collostructions. According to the COC
+A data there are nouns with strong ties (
+Example 8), such as pain (433 occurrences), evidence (413), contrast (622), voice (182), light (277), criticism (122), relief (116), mind (107). The nouns which occur in the cryptotype collostructions less than three times are those of with weak ties (
+Example 9).
+(8) A piercing stab of bright yellow pain;after the murder of his sister, pain punched him in the gut;
+The fi gure’s deep voice pierces the darkness;
+He wants you, said Tony, his voice piercing Pat’s thoughts like a spear;“
+Jerry” she said, her voice sticking in her throat <…>;
+Whose voice and judgment penetrates to the depths of a person’s soul;“
+Step away from the dead” said Maggot, his voice as sharp as his weapon;
+As light pierced the dust he found himself inside the fort;the ferocious light stabbed her eyes;this exaggeration was deliberate, but <…> evidence points in that direction;
+Hard evidence that sticks out like rock, evidence that can break bones;
+Frequently good arguments and good evidence will puncture them, <…>;as if those extra few inches of elevation could help his sight pierce the fog;more he believed it, until it seemed to him like a sharp point of truth;
+And I was left alone with truth too poignant to deny;
+In Alice’s case the truth had penetrated farther and revealed to her that;
+A sharp thought scratched his cheek;
+I experienced a stab of doubt and thought;
+Since pure thought can penetrate the universe’s mysteries;5 The decreasing sequence shows the proximity of a noun to the core of cryptotype. The whole
+wordlist is not included due to the limits on the paper format.
+A corpus-based study of noun cryptotypes in English 151(9) She remembered the stab of terror she had felt when Chase came <…>;
+I only remember the sudden and sharp terror of that moment;
+With its mixture of idealism and limited but sharp violence, this latest uprising was more like the Ukrainian Orange Revolution than the Castro-style putsch.
+4. Conclusion
+The courpus-based study of cryptotypes of English nouns is aimed at systematization and formalization of separate ancient relicts of the naïve mapping of the world in language. RE
+S LONG
+A is one of fi ve cryptotypes reconstructed in English so far. The method demonstrated in the paper has several advantages. First, it can be applied to the study of covert noun classes in other languages and thus contribute to pursuing common grounds for the classifi cation of nouns in typological perspective. Second, the results of the exploration of noun cryptotypes of English can have some implications for the theory of metaphor and Lexical Grammar of English. The data base of English cryptotypes (http://ling.dentry.ru) can be used in lexicography, for educational purposes, and in formulating and testing the hypotheses, related to a noun’s potential collocability. Finally, studying cryptotypes can advance our understanding of the criteria necessary to computational representation of lexicon. We believe, that the adequately formalized description of cryptotypes can fi nd application in computational modeling and text processing issues.

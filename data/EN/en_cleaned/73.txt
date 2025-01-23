@@ -1,0 +1,260 @@
+The role of deep learning language models has been increasing in the field of methodology for linguisticresearch, providing new methods for both diachronic and synchronic studies . In particular, transformer-based language modeling research has produced a variety of tools that may discoverregularities and structures in data, many of which have resulted in practical applications.
+In this study, we search for a match between the language competencies of popular language models and compare their results with the levels of a first language learner. As the transformer models areexpected to acquire a language during the training process, the probing methodology has shed light onmodel training success. Probing tasks are usually classification tasks where classes represent differentvalues of a linguistic features, such as a subject number, tree depth, and a connector type. Theoretical representation of language often inquires about the levels of phonetics, morphology, syntax, anddiscourse/pragmatics to be involved in a probing study 1.
+The main focus of this work is to explore how language models acquire measurable linguistic structures during training. The contributions of our work are the following:• We propose a methodology for chronological probing, based on checkpoint-wise result comparisonduring model training2. We denote chronological probing as any probing technique that refers tothe training history/iterations of the same model.
+• We test two models (MultiBER
+T T5 ) on existing 12different probing tasks in morphology, syntax, and discourse and present an analysis of the models’ gradual learning of language phenomena, in comparison with the well-known facts about theacquisition of the first language by a child.
+• We present the evaluation results for the named models and state that the models tend to learn thelinguistic phenomena in a specific order, and some parts of grammar are “acquired” first.
+The presented framework and methodology are available open-source under Apache 2.0 license.
+2 Related work
+Until recent years, the task of learning syntax, which every five-year-old child performs effortlessly,has eluded brute language modeling force. This makes the language models a particular object ofstudy, considered both from the interpretability and modeling language acquisition. As “computational models of language acquisition must begin and end asan integral part of the empirical study of child language.”
+Following this thesis, we turn our attention to the probing methodology and comparable case studiesin the field of language acquisition, focusing on the transformer architectures.
+2.1 Probing and approaches to the black box of language modeling
+An increasing number of works are devoted to interpreting language models from a linguistic point ofview. The quickly advancing field of probing received lots of researchers’ attention when the hegemonyof the large black-box models was set up. Researchers question the extent of the models’ “understanding” of the language in probing. They inspect if, and to what limits, the language models’ behavioragrees with the insights of the theory of language. Following the hierarchy of language levels (morphology, syntax, discourse) , the probing studies often suppose the experiments related tomodels’ proficiency on a certain level of language.
+This line of research typically comes down to analyzing how linguistic structures are represented ina model’s knowledge. Such structures represent syntagmatic/paradigmatic mechanisms (how languageunits combine and alternate, respectively) of language. It is believed , that rediscovering these structures would help models to get closer to human performance on a variety of tasks.
+1
+However, some researchers that a language functions as a level system. They
+suggest that morphology and syntax operate at the same time. Other researchers argue that morphology and syntax are differentlayers of a language.
+2https://github.com/Ekaterina
+Voloshina/chronological_probing
+al.
+Probing, in general, considers how interpretable the behavior of the language model wrt the linguisticproperties of the data. A huge body of probing studies rely on linear models (e.g., external classifiers ) that try to establish the relationship between internal representations from the language model and the desired linguistic phenomena. Thus, the linear correlation is measured between themodel’s forward pass embeddings and the linguistic properties of the passed data. A sample study measure the strength of correlation between a model’s particular layer activationson some word and word’s part-of-speech.
+Strong correlations have been recorded when comparing the models’ forward pass activations with thepassed data underlying linguistic structure probing methods.
+Such a high performance could be misleading. The properties of the model and the properties of theused data impact the resulting score of the correlation probing study. Thus, given only a correlationscore, one does not know if it reflects the model’s (but not the corpus itself) linguistic informativeness.
+As a result, several approaches to conducting more reliable studies have been proposed. .
+The probing methodology combining various annotated data is commonly used as the benchmark forlanguage model comparison and evaluation of their generalizing ability. The Sent
+Eval toolkit led to the popularization of the 10 tasks used to distinguish between random andjustified, brittle, and robust results of model training, including different types of architectures. However, analogous research on the same architecture or even the same model is in its early developmentstage. The first work on probing of neural networks across time was carried by .
+The authors showed that first, LST
+M acquires syntactic and semantic features and later informationstructure. at the training process of ALBER
+T and concluded that semanticand syntactic information is acquired during the early steps while world knowledge fluctuates during thetraining. similar results on RoBER
+Ta: the model shows good results on linguisticprobing tasks starting from early stages, and later it learns factual and commonsense knowledge.
+Chronological probing could enrich the interpretable documentation of model training in time and thusexplore the new aspects of model training and more clearly expose its problems.
+2.2 Language acquisition and language models
+Language learning is one of the quintessential human traits. First language acquisition(L
+A), unites bothneurocognitive research, psycholinguistics, and computational approaches, focusing on the ability toacquire the capacity to perceive and comprehend language.
+Statistical language acquisition Language modeling has formed a branch in language acquisitionstudies named statistical language acquisition. Various aspects of language, including phonological,syntactic, lexical, morphological, and semantic features, were investigated in terms of statistical patternschildren receive with the linguistic input. Recent studies postulating qualitative and quantitative measuresof L
+A include:• Morphology and Syntax Morphology and syntax studies across language acquisition studies aredefinitely those explored the most. Starting with the poverty of stimulus problem and the argumentbetween innateness and learning of grammar, it has led to typologically various sets of descriptiveworks and even computational models of the acquisition process. Thus, train a simple RN
+N to discriminate between grammatical strings that follow the inversion rule andthose that do not (e.g., moving the first auxiliary verb such as “
+Is the man that tall is nice?”). Thetraining data for the study is generated artificially and fails to prove that such a network generalizeson a mixture of diverse syntactic constructions. bigram modelsto capture the patterns of auxiliary inversion based on lifelike data from child-directed speech.
+The model can consistently assign higher probabilities to grammatical strings than ungrammaticalstrings, which was interpreted as having successfully learned the correct inversion rule. However,as this result is because bigrams such as “who are” are much more frequentthan the ungrammatical strings. the structure dependency problem
+Is neural language acquisition similar to natural? A chronological probing studywith Bayesian learning and attempts to learn a grammar that could generate additional sentences.
+The model evaluates and selects between two grammars, a finite state grammar and a context-freegrammar constructed by the authors based on a simplified subset of child-directed English.
+It is worth noting how similar all the problem formulations are to the modern formulations of probing classification problems described below. They are also far from a complete description of theprocess of mastering grammar.
+• Discourse The creation of texts, not sentences, with various discourse features, such as competencein speech acts, conversations, speech registers, and extended speaking turns, is more often considered a later stage of speech development. There are no computer models for the assimilation ofdiscursive properties comparable to models for morphology and syntax. However, research in thisdirection is underway.
+In , authors examine whether neural language models acquire language better whentrained in a multi-modal setting (namely, accompanied with visual contexts) compared to traditionalpurely textual pre-training. They show that indeed providing models with perceptual context is beneficialfor training language models. Authors claim this evidence to correspond with the theory of situatedcognition introduced in .
+In this work, we propose the first methodological step for chronological interpretation of traditionaltransformer language models in the framework of L
+A.
+3 Experimental setup
+3.1 Models
+We calculated the accuracy of two transformer models on 12 probing tasks. As we want to know howuniversal patterns of language acquisition in models are, we experiment with two different transformerarchitectures: BER
+T and T5. While BER
+T has only encoder layers, T5 includes both encoder anddecoder layers. Therefore, embeddings from BER
+T come from the encoder, and T5 embeddings arecalculated after going through decoder after encoder.
+For this work, we use already published models with available checkpoints. It means that they weretrained on different data and computational powers. Moreover, they were trained with different batchsizes (256 for MultiBER
+T and 32 for T5). However, we follow the training progress in iterations. The further comparison of the two models is indicative only.
+MultiBER
+T based on BER
+T-base-uncased architecture, and it is the model ofthe same size (12 layers and embedding size 768). Unlike the original BER
+T , it wastrained with 25 different seeds. The authors also released checkpoints of the first five models. We use themodel with seed 0 in our experiments. MultiBER
+T was trained on both literary and non-fiction texts. Theformer comes from Book
+Corpus , which includes 11,038 books of 16 different genres.
+The non-fiction texts are taken from English Wikipedia collected by .
+T5-small model is trained within the t5-experiments framework.3 and follows the Hugging Faceimplementation of T5 . It consists of 6 layers with 512 embedding size.
+Following the previous language, modeling works we use the
+Wikipedia data to train the model. The raw Wikipedia data is provided by The Pile project , contains ≈ 19𝐺𝐺𝐺𝐺 of expository prose texts of various domains, and is treated as a languagemodeling dataset of reasonably well quality.
+Baseline As a baseline, we use the method described in . We train logisticregression on top of embeddings of models mentioned above with shuffled class labels.
+3.2 Probing tasks
+Probing tasks come from several datasets published earlier: Sent
+Eval , Morph
+Call , Dis
+Sent , Disco
+Eval , and BLiM
+P . The class balance of first eight tasks is illustrated with these tasks to make our results comparable to other works on probing.
+3https://github.com/yurakuratov/t5-experiments
+al.
+Task Sentence examples Labels
+Subject number Her employer had escaped with his wife for several afternoonsthis summer.
+NN
+Your Mackenzie in-laws have sordid reputations few decent families wish to be connected with .
+NNS
+Person So I still can recomend them but prepare pay twice as much asthey tell you initially .
+has a person marker
+The service was friendly and fast , but this just does nt make upfor the lack luster product .
+does not have a person marker
+Tree depth We have done everything we can for her . 11
+Alvin Yeung of Civic Party 3
+Top constituents Did it belong to the owner of the house ? VBD_NP_V
+P_.
+How long before you leave us again ? WHNP_S
+Q_.
+Connectors He ’d almost forgotten about that man . Sarah had somehowbrought him back , just as she had his nightmares .
+but
+I let out a slow , careful breath . Felt tears sting my eyes . and
+Sentence position Quneitra Governorate ( / ALA-L
+C : “ Muh. āfaat Al
+Qunayt.rah “) is one of the fourteen governorates ( provinces ) of Syria . Thegovernorate had a population of 87,000 at the 2010 estimate .
+Its area varies , according to different sources , from 685 km ²to 1,861 km ² . It is situated in southern Syria , notable for thelocation of the Golan Heights . The governorate borders Lebanon, Jordan and Israel .
+The bossom and the part of the xhubleta covered by the apronare made out of crocheted black wool . The bell shape is accentuated in the back part . The xhubleta is an undulating , bellshaped folk skirt , worn by Albanian women . It usually is hungon the shoulders using two straps . Part of the Albanian traditional clothing it has 13 to 17 strips and 5 pieces of felt .
+Penn Discourse Treebank Solo woodwind players have to be creative,they want to work alot
+Pragmatic Cause
+The U.
+S. , along with Britain and Singapore , left the agencyl, itsanti
+Western ideology , financial corruption and top leadershipgot out of handList
+Discourse Coherence Within the fan inlet case , there are anti-icing air bosses andprobes to sense the inlet pressure and temperature .’, ’
+High speedcenter of pressure shifts along with fin aeroelasticity were majorfactors . At the 13th ( i.e .’, ’the final ) compressor stage , air isbled out and used for anti-icing . The amount is controlled bythe Pressure Ratio Bleed Control sense signal ( PRB
+C ) . The “diffuser case “ at the aft end of the compressor houses the 13thstage .
+a text is not coherent
+This experience of digital circuitry and assembly language programming formed the basis of his book “ Code : The Hidden
+Language of Computer Hardware and Software ” . Petzold purchased a two-diskette IB
+M P
+C in 1984 for $ 5,000 . This debtencouraged him to use the P
+C to earn some revenue so he wrotean article about ANSI.SY
+S and the PROMP
+T command . This wassubmitted to P
+C Magazine for which they paid $ 800 . This wasthe beginning of Petzold ’s career as a paid writer . In 1984 , PC
+Magazine decided to do a review of printers .
+a text is coherent
+Is neural language acquisition similar to natural? A chronological probing study
+Task Acceptable sentence Unacceptable sentence
+Transitive The pedestrians question some people. The pedestrians wave some people.
+Passive Tracy isn’t fired by Jodi’s daughter. Tracy isn’t muttered by Jodi’s daughter.
+Principle A c command This lady who is healing Charles wasn’t hiding herself. This lady who is healing Charles wasn’t hiding himself.
+Adjunct Island Who does John leave while alarming Beverly? Who does John leave Beverly while alarming?
+As we want to show another perspective on language acquisition, we balance classifier probing taskswith BLiM
+P tasks. As BLim
+P only covers morphology and syntax, all discourse-based tasks are evaluated with a classifier.
+The datasets from Benchmark of minimal linguistic pairs (BLiM
+P) have a structure different fromother tasks: every task includes pairs with minimal differences to illustrate one of the grammatical features of English. One sentence of the pair is grammatical, whereas another one is unacceptable. Wechose four BLiM
+P tasks for our experiments: transitive and passive verbs, Principle A of C command,and Island effects. For the first two tasks, pairs have different verbs, where only one verb is transitive orcan be used in a passive form. These tasks are categorized as morphological (see Table 2).
+The second two tasks reflect syntactic effects on English. The Principle A task shows the use ofreflexives. According to , a reflexive should have a local antecedent.
+The task on Island effects tests a model’s sensibility to syntactic order. Island is a structure from whicha word can not be moved . The sentence is unacceptable if a word is moved out of an island.
+The tasks from other datasets are summarized below:• Subject number (Sent
+Eval): this task is supposed to show how models acquire morphology. It is abinary classification task with labels NN
+S and N
+N (plural and singular number, respectively). Theclassifier should decide on a sentence class based on the number of sentence subjects.
+• Person (
+Morph Call): this task is also morphological. It is a binary classification with labels 0 and1, which signifies if a subject has a person marker or not.
+• Tree depth (Sent
+Eval): this task contains six classes, which stands for the depth of the syntactictree of a given sentence. Hence, this task is meant to show the level of syntax acquisition.
+• Top constituents (Sent
+Eval): this multiclass task belongs to the group of syntactic tasks. The aimis to choose a class that includes constituents located right below the sentence (
+S) node.
+• Connectors (Dis
+Sent): this dataset includes pairs of sentences originally connected with one of 5prepositions, and the task is to choose the omitted preposition. It is supposed to show how modelscatch discourse relations.
+• Sentence position (Disco
+Eval): this dataset contains sequences of 5 sentences, and the first sentenceis placed in the wrong place. Therefore, the aim is to detect the original position of these sentences.
+This task is also meant to show models’ accuracy in discourse.
+• Penn Discourse Treebank (Disco
+Eval): the task is based on Penn Discourse Treebank annotation.
+The aim is to choose the right discourse relation between two discourse items from Penn Treebank.
+• Discourse coherence (Disco
+Eval): this task is a binary classification with classes 1 and 0. Class1 means that the given paragraph is coherent, and class 0 should be assigned to paragraphs with
+shuffled sentences.
+3.3 Probing Methods
+Sentence embedding classification: Token embeddings from transformer models are turned into sentence embedding via mean pooling. Then logistic regression classifies embeddings’ sentences. Thismethod is used with tasks from Sent
+Eval and Morph Call.
+Positional sentence classification: For the Sentence Position task, we used the following method.
+First, we count sentence embeddings as described above. Then the difference between the first embedding and the other is calculated pair-wisely. The first embedding and its differences with others areconcatenated and put as input to logistic regression.
+al.
+Sentence embedding concatenation classification: We concatenated sentence embeddings for otherdiscourse tasks, which were calculated as the mean of token embeddings. The concatenated sentenceembeddings served as inputs for logistic regression.
+Masking tasks: The probing task is based on the idea of masking language modeling. In a sentence,each word is masked, and then its probability is summed with other words’ probabilities. The probabilityof an acceptable sentence should be higher than the probability of an unacceptable sentence. This methodis for use for all tasks from BLiM
+P.
+4 Results
+4.1 Results of MultiBER
+T
+The results of the experiments with the MultiBER
+T-base model are summarized in Figure 1. The modelshows the best results on Subject Number and Person tasks. The classification of PDT
+B relations, Treedepth, and Principle A acceptability are performed with the worst accuracy.
+���������	�����������������������	����������������������������	�������������������������������%�#�%�! $�����������	��������&#��(�	��������! ��%!#$��$�!&#$���!��#� �������� %� ����!$�%�! �������#�����"%��!"��! $%�%&� %$���!��� ���& �%��$�� �����������#$! �&����%� &���#�#� $�%�'���$$�'�right, on the X axis, we see results of intermediate evaluation on the task during model pre-training.
+Each iteration is equal to 25,600,000 sentences for MultiBER
+T and 3,200,000 sentences for T5. The
+Y-axis shows the accuracy metric on the tasks. Tasks are shown in the legend in different colors. Aswe can see, in the process of model pre-training, there already is a gradual increase in accuracy in tasksrelated to morphology (shown in orange) in the early stages. The information in the model embeddingsstabilizes fairly quickly and remains stable from the 20,000th training step. The same can not be saidfor tasks related to syntax (shown in purple): their quality remains unstable and fluctuates quite a lotduring pre-training. Discourse tasks (green) remain stable at a low-quality level from the start and tendto improve the metrics very slowly.
+As seen from Figure 1, accuracy of models stop changing after 600,000 iterations. However, there isa significant difference between tasks from BLiM
+P and other datasets. For example, the performance
+Is neural language acquisition similar to natural? A chronological probing studyon the Adjunct Island task remains unstable during the whole period of iterations. Another differencebetween these tasks lies in the quality of the models. It is illustrated with tasks grouped as “morphological”: Subject Number and Person tasks, which use logistic regression on MultiBER
+T embeddings, aresolved much better than Transitive and Passive verbs. However, as follows from the plot, it is hard togroup tasks based on the absolute value of accuracy.
+The changing dynamics provide another perspective. From this point of view, all tasks grouped as“discourse” show a similar feature: unlike others, their quality does not fluctuate but rather slightlygrows across the training time. On other tasks, models increase the quality during the first iterations.
+“
+Syntactic” tasks tend to change even during later iterations. However, it is not a strict rule, and sometasks show similar behavior to “morphological” ones.
+4.2 Results of T5
+���������	��������������������������������	�������������������������������%�#�%�! $�����������	��������&#��(�	��������! ��%!#$��$�!&#$���!��#� �������� %� ����!$�%�! �������#�����"%��!"��! $%�%&� %$���!��� ���& �%��$�� �����������#$! �&����%� &���#�#� $�%�'���$$�'�
+X axis, we see results of intermediate evaluation on the task during model pre-training. Each iterationis equal to 25,600,000 sentences for MultiBER
+T and 3,200,000 sentences for T5. The Y-axis shows theaccuracy metric on the tasks. Tasks are shown in the legend in different colors. As we can see, in thecase of the T5 model, the task quality seems to be more stable from the beginning, with a few exceptionslike subject number classification. Most of the tasks show the slow yet gradual growth of the metrics, butsomehow not the verb transitivity classification.
+Due to the architecture, the significant difference in T5 results is the zero-close quality on BLiM
+Pdatasets. Except for these tasks, the quality of T5 is similar to MultiBER
+T. The best performance is onthe Person task, and the worst quality is shown on PDT
+B relation classification and Tree depth.
+Unlike MultiBER
+T, we first used the available checkpoints of T5 with a step of 100,000 iterations.
+Then we trained a new model on the same resources and texts, but it might have a better initialization,which affected the final results.
+al.
+Similar to MultiBER
+T, discourse tasks show almost no significant change and slow growth, whereasthe model increases its results on syntactic and morphological tasks during the first 100,000 iterations.
+4.3 Comparison of models
+We described the surface results of models’ performance and now can deep into more detailed results.
+The results described above should be considered relative. To illustrate how much information modelsacquire during these iterations, we compare them to final models. As the process of training T5 wasnot finished, we compared this model with the original T5. As seen from Figure 3, MultiBER
+T scoresare close to the results of the final checkpoint. Hence, there is no need to look at later iterations. Thecomparison with the original T5 shows that the model we use performs worse due to the smaller resourcesit was trained on. Therefore, the difference in quality should not be explained by the difference inarchitecture.
+However, we should consider that some tasks are performed with the same quality as embeddings withshuffled labels (
+Discourse coherence and Person). Moreover, T5 does not perform much better than the
+Penn Discourse Treebank relations baseline. Consequently, models encounter difficulty with discoursetasks.
+Furthermore, MultiBER
+T and T5 show similar learning trajectories on several tasks, such as Connectors and Sentence Position tasks. Another key feature shared by the two models is the termination ofincreases between 500,000 and 600,000 iterations. Despite the fact that models vary in size and trainingprocess, they show some similarities in probing tasks. Hence, the acquisition generally does not dependon the model architecture.
+5 Discussion
+Our results show that linguistic information is acquired fast, before 600,000 training iterations. It corresponds to results of other researchers independently showedsimilar results on a fast acquisition of linguistic features. However, discourse is not fully acquired by theend of the observed training period compared to the baseline results. The difference between syntacticand morphological tasks is insignificant. It correlates with ideas in morphosyntax. Although we can notprove that morphology and syntax are regarded as the same layer in models, we can make a less strictstatement that models acquire all grammatical units simultaneously.
+BLiM
+P gives another perspective on the process of acquisition. MultiBER
+T results remain unstablefor a longer period than similar tasks with classifiers. It might indicate the difference between twodifferent approaches to probing. However, from the linguistic point of view, BLiM
+P includes moredifficult linguistic feature cases, while Sent
+Eval tasks test more basic knowledge. Hence, it could explainworse results.
+T5 architecture does not allow to use of this dataset in the same way as for MultiBER
+T since Masking
+Language Modeling and T5 generation are different tasks. We leave for further research an adaptation ofthis dataset for T5.
+5.1 Human language acquisition results
+Many of the linguistic features used in probing tasks have been well studied in terms of their promptnessand ease of acquisition by English speakers. First of all, it concerns morphology and syntax. Markerssuch as a person, number, and gender are acquired very early by children: before age two .
+Of course, in languages besides English, the acquisition of these features varies: if the feature is markedconsistently with one affix and no morphonological alternation, children seem to find it easier to acquire.
+It is shown that the earlier mastery of case marking is present in languages like Hungarian and Turkishbut not in German or Serbo
+Croatian .
+Discursive features are acquired by children much later. Studies like that child’stexts become more complex and decontextualized with age. Also, texts produced by children graduallyprogress in achieving more cohesion through “referential and semantic links that bridge across sentences;they achieve coherence through a global hierarchical structure”. The discourse in these conversations
+Is neural language acquisition similar to natural? A chronological probing study0.00
+0.25
+0.50
+0.75
+Tree depth Connectors Adjunct Island0.00
+0.25
+0.50
+0.75
+Person Discourse Coherence Passive0.00
+0.25
+0.50
+0.75
+Top constituents Penn Discourse Treebank Transitive6 k0 k0 k0 k0 k00 k10 k0.00
+0.25
+0.50
+0.75
+Subject number6 k0 k0 k0 k0 k00 k10 k
+Sentence Position6 k0 k0 k0 k0 k00 k10 k
+Principle A c commandT5BERT
+Random T5
+Random BERT
+Original T5
+Final BER
+Tof the models (
+Original T5, Final BER
+T) and with the random baseline.
+between toddlers is tentative when neither side can be reliably significant. A longitudinal study of dialogues between two little girls aged 4 to 6, the emergence of more and greaterthematic continuity in their conversation as utterances began to play the dual role of responding to thepreceding utterance as well as enabling further conversation. However, thatsecond-graders (eight-year-olds) were almost as likely to give unconditioned responses as conditionals,with no significant improvement seen until fifth grade.
+Regarding the requirements that the sphere of language acquisition imposes on children, one can verycarefully assess the limit in which the language models under consideration lie in terms of their abilities:their embeddings correspond to the level of language proficiency in a child under 11 years old.
+al.6 Conclusion
+Encoder and encoder-decoder language models have increased importance in tasks requiring understanding the natural language. The probing methodology we presented allows analyzing the changes withinthe language model during training, from epoch to epoch. The overall results of the work show that:• T5 does not give any results on BLiM
+P due to the generation algorithm. Most tasks show that T5acquires basic morphological and syntactic features and some discourse features.
+• MultiBER
+T shows results close to the trained model starting from 100,000 iterations. MultiBER
+Tdoes not improve its quality on some discourse tasks compared to randomly labeled embeddings.
+However, it could be said that MultiBER
+T acquires each level to some extent.
+• Both T5 and MultiBER
+T demonstrate comparable results regarding the quality of the language levelacquisition. As we can not distinguish the factors between these results (whether this is the model’sarchitecture, the training corpora, or both), we present these results ’as is’ for the researchers thatuse them in the downstream tasks.
+• Recording such results during training could save a lot of computational resources and time forinterpreting the results, including downstream tasks. There are understandable context length limitations that prevent, for example, learning the discourse tasks. However, the results of the T5 modelcompared to the random embeddings on some tasks were unexpected or lower than expected.
+• As the results show, the easiest tasks for the models tend to be morphology and syntax-related.
+These language level results are correlated and show a similar learning trajectory. Unlike morphology and syntax tasks, results on discourse-based tasks tend to be low, therefore, there is not enoughevidence to claim that discourse has been learned.
+• Using language acquisition as a trace can benefit in comparing general human language ability andmodern language modeling methods. Drawing a border from above on the results on discursivetasks, we can say that in the current realities, the models do not pass the bar that 8-year-old childrenpass.
+We welcome both NL
+P and language acquisition research communities to reproduce the experimentalsetup and use the presented approach while training other architectures and contribute to formulating thebetter and more complex tasks correlated with language learning.

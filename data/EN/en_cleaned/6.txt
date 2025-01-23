@@ -1,0 +1,220 @@
+We discuss the results of a two-year (2010–2011) project1 to develop bilingual Russian
+English thesaurus on Computational Linguistics (C
+L). The project presents high interest in practical (lexicographic) and theoretical aspects taking into consideration the absence of more or less representative descriptions of Russian C
+L terminology. The closest to the topic works available to date are thesaurus by Nikitina (
+Nikitina, 1978) that is small and out of date and recent thesaurus INIO
+N (
+Smirenskii, 2007). They describe a small number of C
+L terms and a lot of purely linguistic terms
+which have no relation to information and text processing. Other limitations of both thesauri are the lack of definitions of terms and monolinguality. Russian term definitions are given, for example, in the Glossary on Artificial Intelligence (A
+I) (
+Averkin, 1992), this field being considered as subordinating or intersecting with C
+L, but common terms often differ in semantics, for example, syntactic analysis in C
+L and in A
+I.
+C
+L, and especially Russian C
+L, is not mostly methodological science, as opposed to A
+I2.
+1 The research was supported by Russian Foundation for Humanities, project No 10-04-12108в.
+2 This also explains the fact that we include subarea of theoretical C
+L — Generative Grammar — which is related to syntactic analysis task, syntactic annotation task, the task of modelling word order in NL
+G, etc., and don’t include “formal semantics” which corresponds
+rather to methodological means. See also sec. 2 below.
+Sokolova E. G., Kononenko I. S.
+L as a research area came into being after the appearance of computers and immediately began reconsidering current descriptions of natural languages (N
+L) for the purpose of creation of machine translation (M
+T) systems. Since then C
+L has extended to other applied areas — Information Retrieval (I
+R), Information Extraction (I
+E), etc., and now it remains a new research field whose changes accompany the development of technical devices (computers, global network), scientific progress (linguistics, mathematics) and social advance that affects information technologies. C
+L is an open area whose theoretical field intersects with linguistics and psychology.
+Bilinguality in our thesaurus is symmetric in the sense that every Russian term is provided with English equivalent and vice versa. But the meanings of Russian and English terms often diverge or no equivalence is at hand so that we have to resort to translation. Really, Russian and English states of the art in C
+L are different. The methodological and technological lagging of Russian C
+L with regard to the world level is observed on the site of the annual “
+Dialogue” conference which is the only one in Russia to represent the field of C
+L in more or less full extent. Also, in Russian there are no textbooks or manuals on C
+L that would present the area in full enough details, without them being too subjective or compiled from English sources.
+Our primary task was to represent the original Russian C
+L terminology and map it into the English one. The goal was not to “translate” Russian C
+L terminology, but to show it and then merge it with the worldwide state-of-the-art C
+L. Accordingly, for the Russian part of the thesaurus the collection of proceedings presented at the “
+Dialogue” Conference in 2000–20103 was created and analyzed, it being a helpful source of Russian terms in real use. Proceedings of the International conference “
+Corpus linguistics” and the manual on corpus linguistics (
+Zakharov, 2005) served as another source of Russian terms in this one of the most significant subareas of C
+L. But some empirical and technologically advanced subfields such as Speech Technologies were analyzed mainly in the reverse direction because a lot of terms are lacking in Russian, so the English-language terminological sources have been used and their terms and definitions translated into Russian. As for the English part, dictionaries as well as indices and glossaries of textbooks and manuals have been looked for English terms and definitions.
+In (
+Sokolova et al., 2011) we described the initial phase of the development of Russian
+English thesaurus on C
+L and discussed such questions as the choice of candidate sources of terms, the techniques of machine-aided terminology extraction and selection of basic term list.
+In this paper we present the result of the project — bilingual Russian
+English thesaurus on C
+L — section 1; in section 2 the scopes of C
+L subareas are analyzed in the dynamic perspective; section 3 outlines the types of information given in the thesaurus term entry; in section 4 terminological problems are observed in connection with specific features of the thesaurus and their analysis is given in terms of classification parameters.
+3 Proceedings of the International Conference “
+Dialogue” are available at: http://www.dialog-21.ru/
+Russian
+English thesaurus on computational linguistics 1. Results of the project
+Results of the project are twofold: a) a list of terms and their descriptions that are usually given in thesauri to represent research area terminology, for example in the above A
+I thesaurus; b) structuring of C
+L into subfields and relating terms to subareas or adjacent areas. So the main results of the project are:•	 Russian
+English Thesaurus on C
+L (REThes-C
+L) exists and is available at: http://uniserv.iis.nsk.su/thes/; its content — the list of terms, their definitions, and relations — is open to discussion;•	 the content presenting 1671 terms (1031descriptors) on different directions of C
+L is representative enough to be the base for the thesaurus technology;•	 description of C
+L area organization in the context of adjacent sciences that is not usual in standard thesauri;•	 instruction for the term description presenting the specific technology of REThes-C
+L;•	 experience drawn while constructing the thesaurus on C
+L, which can be characterized as a “scientific — practical area”4 rather than a “science”.
+In the next sections we consider the last three points in more details.
+2. C
+L area, its subareas and adjacent sciences
+At the initial stage of the project an important problem was missed that is rooted in the abundance of research directions and interdisciplinary nature of C
+L.
+We see that definitions of C
+L are very vague and in a sense “negative” since they describe C
+L as “something existing BETWEE
+N or INTERSECTIO
+N of Linguistics, Computer Science and A
+I (see the term computational linguistics in REThes-C
+L).
+They don’t show the C
+L true object — processing information presented via N
+L. Text and speech forms of N
+L communication plus diversity of directions of text processing divide the C
+L area into subareas. On the other hand, we can’t ignore the adjacent sciences which intersect with the C
+L proper and form the context for the entire area of C
+L. The resultant hierarchy of C
+L subareas and adjacent sciences together with terms for them (top terms) are presented on the website of REThes-C
+L.
+The extensiveness of C
+L and diversity of its subareas lead to incomprehensibility of certain terms for the users. The parenthetical qualifier is sometimes used to give reference to a subarea, e. g. pattern (in information extraction). But the qualifier’s main function is to remove the ambiguity of terms, so it should be used only in case of homonyms. The problem of homonymy existing between terms from different subareas of C
+L (or from C
+L and adjacent areas) is resolved by introduction of explicit relationship between a term and subarea(s). This ensures for a fully coherent picture of the subarea terminology, which becomes easily accessible for the interested user, on the 4 Term of O. F. Krivnova
+Sokolova E. G., Kononenko I. S. hand, and could be useful in the indexing purposes to allow for a more precise/accurate search, on the other.
+Multiple relationship to subarea or adjacent science is also important due to the fact that subareas are changing over time, so new relations of a term can be added. There are two opposite tendencies of change: generalization — when a separate science forms, and derivation — for child subarea. Both tendencies are observed in I
+R subarea of C
+L, historically second after M
+T. I
+R is specified in the following core definition: “as an academic field of study, I
+R … is finding material (usually documents) of an unstructured nature (usually text) that satisfies an information need from within large collections” (
+Manning et al., 2008). Now I
+R acquires features of separate science: there appear manuals, courses in the universities, terminological dictionaries, e. g. “SE/SE
+O glossary”5.
+On the other hand, the traditional subtasks of I
+R involve structuring and rearrangement of selective information, be it explicit or implicit in the documents: classification/clustering, summarization, I
+E. In the course of time, however, the development of techniques and tools has led to the establishment of separate applications in this area, independent on the I
+R task proper. This illustrates the second tendency which leads to coexistence of broad and narrow interpretations of these subareas and their top terms. Thus, in (
+Grishman, 1997) two definitions of I
+E subarea are given: 1) a broad view of I
+E: any method of filtering information from large volumes of text. This includes the retrieval of documents from collections and the tagging of particular terms in text; 2) a narrower definition: the identification of instances of a particular class of events or relationships in a N
+L text, and the extraction of the relevant arguments of the event or relationship. But in the modern documentation for Gate (
+Cunningham et al., 2011) this subarea is interpreted as strictly separate from I
+R: I
+E differs from I
+R and traditional techniques in that it does not recover from a collection a subset of documents. Instead, the goal is to extract from the documents salient facts about prespecified types of events, entities or relationships.
+An interesting result of the progress over time is the division of C
+L, which used to be a purely applied science, into Theoretical C
+L and Applied C
+L that is made by Hans Uszkoreit (
+Uszkoreit, 2000). This division is absolutely necessary to differentiate between Applications and models imitating elements of processing speech/texts in human mind (functions of “black box” in cybernetics). Division into subareas in Theoretical C
+L follows the principle used in Applied C
+L — we define subarea when there are technologies to resolve a task, not following any level-based “theories” of N
+L in C
+L, which are very different. We declare the subarea of Syntactic Analysis because there are technologies for the task including dependency filtering method, unification based syntactic-semantic approaches, and others, but there are only experimental attempts in Semantic Analysis. In spite of many experimental or theoretical attempts in this area, especially in the 70–90-es, including R. Shank and many others, to-day the only type of “purely” semantic representations available in the Internet (at least in Russian C
+L) are “graph structures” in terms of semantic analysis of N. N. Leont’eva (
+Leont’eva, 2006) available at www.aot.ru. And this approach is close to the tasks of I
+E.
+5 available at: http://www.infonew.ru/seo_glossary.php#39
+Russian
+English thesaurus on computational linguistics 3. Representation of terms in the thesaurus entry
+The main information items of REThes-C
+L are domain terms. They are represented by two types of lexical units: single words (mainly nouns) and nominal phrases. The variety of terms is broken down into descriptors (preferred terms) and non-descriptors (variant terms that include synonyms, lexical variants, quasi-synonyms, and abbreviations). The descriptor is chosen as a representative of equivalence class of terms that refer to the same concept and thus exhibit an equivalence relationship.
+Terms of any type are provided with term name, language, author, and comments.
+The relevance of any term is evidenced by relating it to terminological source (documents or text collections), this being an additional authority information concerning terms. Where terms or definitions have been extracted from specific available references (glossary, subject matter index, or text), the reference name(s) are given within the term entry. For the collection type sources the frequency of occurrence is specified.
+For the descriptor terms additional attributes are as follows: term definition, subarea, and qualifier (which is a part of descriptor). The qualifier may refer the term meaning to conceptual category or subject domain, e. g. accent (pronunciation) and accent (prosody), token (corpus linguistics) and token (informatics), разметка текста( процесс)= ‘text tagging’ and разметка текста (объект)= ‘tagged text’. Term definitions are not standard for information retrieval thesauri, but it makes the thesaurus a good source of C
+L knowledge. Definitions are mostly drawn from existing glossaries, papers and manuals, and references to the sources are given. Sometimes one term can have two or three definitions taken from different sources. The list of major sources for terms and definitions is presented in (
+Sokolova et al., 2011).
+The REThes-C
+L entry presents information concerning interrelations between terms, with following basic types: the above mentioned equivalence, hierarchical, and associative.
+Specialized equivalence relationships cover different types of correspondence between descriptors and non-descriptors. Synonymy holds if a descriptor is substituted for a non-descriptor in all contexts: e. g. valency replaces valence and subcategorization; semantic role substitutes for semantic case, thematic role, deep case, case role, theta role, etc. Alternative synonymy or combination synonymy are used to replace a non-descriptor by multiple preferred terms with a relation O
+R or AN
+D in between. For example, topic (=‘a particular subject that the text discusses’) and patient (=’the semantic role of an entity that is not the agent but is directly involved in or affected by the happening’) are alternatively used to replace the ambiguous non-descriptor term theme. The non-descriptor term statistical machine translation system is replaced by a combination of descriptors machine translation system and statistical machine translation.
+Hierarchical and associative relationships hold between the descriptors of each monolingual part of REThes-C
+L. The Hierarchical relationship is a connection between broader and narrower terms in the thesaurus. Broader and Narrower Sokolova E. G., Kononenko I. S. are further differentiated using three subtypes: Generic, Instance, and Partitive.
+A set of descriptors subordinated to the same immediate broader term may be grouped under a Hierarchy note which specifies a characteristic of hierarchical division of the broader term: machine translation is subdivided into example-based machine translation, rule-based machine translation, and statistical machine translation by ‘approach’ and into fully automatic translation and machine aided translation — by ‘degree of human involvement’.
+Associative relationship denotes any nonhierarchical semantic relationship that holds between the descriptors referring to closely related concepts (action/product of action, cause/result, concept/property, agent/counter-agent, etc.).
+Translation equivalence relationship connects the descriptors in different languages that refer to the same concepts.
+4. Terminological problems arising from immaturity of the
+Russian C
+L and bilinguality of thesaurus
+Our work to construct REThes-C
+L has highlighted the effects of immaturity of Russian C
+L and reflected the unbalanced development of Russian and English C
+Ls, which is the heritage of separateness in the past.
+The number of non-preferred terms (synonyms) is small in thesauri for established terminology systems. Our experience with REThes-C
+L shows another picture: the balance between descriptors and non-descriptors is roughly 2/1 (total descriptors — 1031 and total non-descriptors — 640). As a result of lagging of the Russian C
+L as compared to the English C
+L the ‘no equivalence’ situation, i. e. the absence of Russian terms, frequently occurs.
+To analyze and solve the problems with terms in the process of bilingual thesaurus construction the consideration of certain relevant features seems to be helpful. They are enumerated below in relation to the Russian CL:
+A. Novelty of a concept — {“+
+A”: new concept, “–
+A”: existing concept};
+B. Existence of one, several or zero term name(s) for a concept — {“+
+B”: one term, “++
+B”: several terms, “–
+B”: no term = a new concept borrowed};
+C. Existence of stable relation between a concept and a term name (in case of a new concept the relation may be unstable, that results in coexistence of several term variants none of which is preferred by the scientific community) — {“+
+C”: stable term, “–
+C”: unstable term};
+D. Potential for the hierarchical semantic change (shift) in the meaning of a term (change from the lower level of the generic or partitive hierarchy to the immediate higher level, or vice versa) — {“+
+D”: possible shift, “–
+D”: impossible shift}.
+These parameters are mutually dependent and not all the combinations of their values are real: e. g. <+
+B, –
+C> and <– A, – B > are impossible. Other important combinations are presented below.
+Russian
+English thesaurus on computational linguistics <(+A|
+A), ++
+B, +
+C, (+D|
+D)> — the descriptor choice problem. The choice is made on base of statistics: traditionally accepted term is selected for indexing purposes, e. g. актант, whose frequency of occurrence6 is 733, is preferred to аргумент (616); валентная структура (20) is preferred to variants валентная рамка (14), валентностная структура (3), схема валентностей (3).
+<+
+A, ++
+B, –
+C, (+D|
+D)> — the term for a new concept choice problem. Besides statistics, the problem solving additionally requires the linguist/expert knowledge or intuition, e. g. for the translation memory some experts would prefer архив переводов (1) in spite of the higher frequency of переводческая память (8) and broad use of the calque память переводов (0) by translators-practitioners.
+<+
+A, –
+B, –
+C, (+D|
+D)> — ‘no equivalence’ in Russian C
+L and the necessity to coin the term, e. g. the term целевой фрейм found in (
+Kormalev, 2004) as a good match for template (used in the I
+E field to denote the final, tabular output format of I
+E) and автоматический перевод устной речи as a match for spoken language machine translation. Note that a lot of terms relating to Speech Technologies have been coined by the entry authors.
+<(+A|
+A), (+B|++B|
+B), +
+C, +
+D> — the problem of semantic shift in cases of модель управления and валентная структура in their different (broad and narrow) meanings. Real use cases of the term валентная структура show the ambiguity of this term (quite similar to that of модель управления), as they have both narrow interpretation (syntactic valencies of the predicate word) and broader interpretation (correspondence between semantic valencies and syntactic valencies). The problem is solved by introduction of the qualifier in the term name: валентная структура (without qualifier) and валентная структура (синтаксис).
+We consider the numeration of possible situations to be a convenient technique to monitor and solve terminological problems in the bilingual thesaurus construction.
+Conclusion. Applicability of thesaurus
+The thesaurus is a model of the research field in progress, not a description of fixed domain. The developers of REThes-C
+L face at least two interrelated problems: the bilingual character of the study and the immaturity of the research field. The thesaurus construction helps understand the current state of the art in Russian C
+L and speed up progress in this area.
+REThes-C
+L is currently used in teaching C
+L to undergraduate students. It serves as a guide for the students to study the C
+L structure and state, to familiarize with terms actually in use in the field and to conduct real lexicographic research by describing terms.
+Thesaurus will be effective for more accurate definition of basic notions of Russian C
+L and support mutual integration of C
+L studies in Russia and abroad; also it will be a good help to the researchers and translators of the field-related literature. 6 Here the frequencies of occurrence in the Dialogue collection are given, and ‘zero’ means
+that the term variant has been found elsewhere but not in the Dialogue texts.
+Sokolova E. G., Kononenko I. S.
+L can be characterized as “monitor”, i. e. permanently enlarged under supervision. The opinion is relevant to it: “
+Like a taxonomy, a thesaurus is never "finished." New findings, and reinterpretation and restating of what is already known, require that terms be added, changed, and occasionally deleted. Continued usefulness of the thesaurus requires an ongoing commitment to updating.” (
+Milstead, 1998).
+On the other hand, we hope that our thesaurus will be useful to solve library catalogs’ problems in describing C
+L, it being a new scientific-practical area of research. Information in REThes-C
+L is organized in accordance with standards for information retrieval thesauri, so it may serve as the authority base for indexing and content retrieval of C
+L texts.

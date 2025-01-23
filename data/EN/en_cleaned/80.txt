@@ -1,0 +1,264 @@
+Quantitative assessment of language data has always been an area of great interest for linguists. And not only for them: as early as in 1913, the Russian mathematician A. A. Markov counted the frequencies of letters and their combinations in the Pushkin’s Eugene Onegin novel, and calculated the lexical probabilities in the Russian language . With the advent of first computers, the usage of quantitative methods in linguistic research has accelerated dramatically , aiding in creation of frequency dictionaries1 and in other research activities of theoretical and applied nature .
+The next step in using quantitative methods in language research has been done within an area of corpus linguistics. The results of corpus queries are usually accompanied by the respective statistical information. Advanced corpus management systems provide for obtaining all sorts of statistical data, including those of linguistic 1 It should be noted, however, that first frequency dictionaries have been compiled well in the
+pre-computer era, in the end of the19th century .
+Very Large Russian Corpora: New Opportunities and New Challenges categories and metadata. Combination of quantitative methods, distributional analysis and contrastive studies is becoming the basis of new corpus systems that could be referred to as “intellectual”. Their functionalities include automatic extraction of collocations, terms, named entities, lexico-semantic groups, etc. In fact, corpus linguistics based on formal language models and quantitative methods is “learning” to solve intellectual semantic tasks.
+Assuming that one of the main features of a representative corpus is its size, then a 100-million token corpus, considered a standard at the beginning of this century, now appears in many cases to be insufficient to receive relevant statistical data. To study and adequately describe multi-word expressions consisting of medium or lowfrequency words, it is necessary to apply large and even very large corpora. In the context of this paper, we call a corpus “very large” if its size exceeds 10 billion tokens2.
+1. Web as Corpus
+Nowadays, the “big data” paradigm became very popular. According to Wikipedia, “
+Big data is a term for data sets that are so large or complex that traditional data processing applications are inadequate”3. This “big data” now seem to have approached the corpus linguistics.
+Compilation of traditional corpora is usually a laborious and rather slow process. As soon as the need for larger corpora has been recognized, it became clear that the requirements of the linguistic community cannot be easily satisfied by the traditional resources of corpus linguistics. This is why many linguists in the process of their research turned to Internet search services. But using search engines as corpus query systems is associated with many problems (cf. )—this is where the idea of Web as Corpus (Wa
+C), i.e., creation of language corpora based on the web-derived data has been born. It was apparently for the first time explicitly articulated by Adam Kilgarriff .
+In early 2000s, a community called Wa
+Cky!4 was established by a group of linguists and I
+T specialists who were developing tools for creation of large-scale web corpora. During the period of 2006–2009, several Wa
+C corpora were created and published, including the full documentation of the respective technology, with each containing 1–2 billion tokens (deWa
+C, frWa
+C, itWa
+C, ukWa
+C) .
+In 2011, the CO
+W5 (C
+Orpora from the Web) project started at the Freie Universität in Berlin. Within its framework, English, German, French, Dutch, Spanish and Swedish corpora have been created. In the 2014 edition (CO
+W14) of the family, sizes of some corpora reached almost 10 billion tokens, while the German corpus has 20 billion tokens . These corpora are accessible (for 2 In Russian, we suggest the term “сверхбольшой корпус”.
+3 https://en.wikipedia.org/wiki/
+Big_data
+4 http://wacky.sslmit.unibo.it/
+5 http://hpsg.fu-berlin.de/cow/
+Benko V., Zakharov V. P.
+purposes) via the project web portal6. The site also provides English, German, Spanish and Swedish corpus-based frequency lists.
+Large number of Wa
+C corpora has been created and/or made available within the framework of the CLARI
+N Project in Slovenia (
+Jožef Stefan Institute). Besides the respective South Slavic languages (bsWa
+C, hrWa
+C, slWa
+C, srWa
+C) , corpora for many other languages, including Japanese, are available there. Their sizes vary between 400 million and 2 billion tokens. Most of the corpora are accessible7 under No
+Sketch Engine8 without any restrictions.
+None of the projects mentioned, however, includes the Russian language.
+The largest number of Wa
+C corpora was created by Lexical Computing Ltd. (
+Brighton, U
+K & Brno, Czech Republic) company that made them available within Sketch Engine9 environment. At the time of writing this paper (
+April 2016), these corpora covered almost 40 languages, including Russian, and their sizes varied between 2 million and 20 billion tokens. The size of the largest Russian ruTen
+Ten corpus was
+18.3 billion tokens .
+From today’s perspective, we can see that the Wa
+C technology has succeeded. Related set of application programs that represent effective implementation of this technology has been published, including tools for web crawling, data cleaning and deduplication, with many of them under free or open-source licenses (FLOS
+S) that made the technology available also for underfunded research and educational institutions in Central and Eastern Europe.
+There are, however, also other approaches to creation of very large corpora. One of them—based on massive digitization of books from public libraries—has been attempted by Google (available via Google Books Ngram Viewer10) . Another possibility is creating corpora based on the integral web collections, such as the General Internet Corpus of Russian11 (GIC
+R, 19.7 billion tokens) , that is composed of blogs, social media, and news.
+2. Wa
+C “
+How To”
+To create a web corpus, we usually have to perform (in a certain sequence) operations as follows:•	 Downloading large amounts of data from the Internet, extracting the textual information, normalizing encoding6 https://webcorpora.org/
+7 http://nl.ijs.si/noske/index-en.html
+8 https://nlp.fi.muni.cz/trac/noske
+9 http://www.sketchengine.co.uk
+10 https://books.google.com/ngrams
+11 http://www.webcorpora.ru/en
+Very Large Russian Corpora: New Opportunities and New Challenges •	 Identification the language of the downloaded texts, removing the “incorrect” documents•	 Segmenting the text into paragraphs and sentences•	 Removing duplicate content (identical or partially identical text segments)•	 Tokenization—segmenting the text into words•	 Linguistic (morphological, and possibly also syntactic) annotation—lemmatization and tagging•	 Uploading the resulting corpus into the corpus manager (i.e., generating the respective index structures) that will make the corpus accessible for the users.
+With the exception of first two, all other operations have been already included (to a certain extent) in the process of building traditional corpora. It is therefore often possible to use existing tools and methodology of corpus linguistics, most notably for morphological and syntactic annotation.
+Downloading data from the web is usually performed by one of two standard methodologies that differ in the way how the UR
+L addresses of the web pages to be downloaded are retrieved.
+(1) Within the method described in , a list of medium-frequency words is used to generate random n-tuples that are subsequently iteratively submitted to a search engine. Top UR
+L addresses delivered within each search are then used to download the data for the corpus. The process can be partially automated by the BootCa
+T12 program .
+(2) The second method is based on scanning (“crawling”) the web space by means of a special program—crawler—that uses an initial list of web addresses provided by the user and iteratively looks for new UR
+Ls by analysing the hyperlinks at the already downloaded web pages. The program usually works autonomously and may also perform encoding/language identification and/or deduplication on the fly, which makes the whole process very efficient and allows in a relatively short time (several hours or days) download textual data containing several hundreds of millions tokens. Two most popular programs used for crawling the web corpora are the general-purpose Heritrix13 and a specialized “linguistic” crawler Spider
+Ling14 .
+Each of the methods mentioned above has its pros and cons, with the former being more suitable for creation of smaller corpora (especially if the corpus is geared towards a specific domain), while the latter is usually used to create very large corpora of several billions of tokens in size.
+12 http://bootcat.sslmit.unibo.it/
+13 https://webarchive.jira.com/wiki/display/
+Heritrix
+14 http://corpus.tools/wiki/Spider
+Ling
+Benko V., Zakharov V. P.
+The Aranea Web Corpora Project: Basic
+Characteristics and Current State
+The Aranea15 family presently consists of (comparable) web corpora created by the Wa
+C technology for 14 languages in two basic sizes. The Maius (“larger”) series corpora contain 1.2 billion tokens, i.e. approximately 1 billion words (tokens starting with alphabetic characters). Each Minus (“smaller”) corpus represents a 10% random sample of the respective Maius corpus. For some languages, region-specific variants also exist that, e.g., increase the total number of Russian corpora to six. Araneum Russicum Maius & Minus include Russian texts downloaded from any internet domains, Araneum Russicum Russicum Maius & Minus contain only texts extracted from the .ru and .рф domains, and Araneum Russicum Externum Maius & Minus are based on texts from “non
+Russian” domains, such as .ua, .by, .kz, etc. For more details about the Aranea Project see .
+According to our experience, a Gigaword corpus can be created by means of FLOS
+S tools in a relatively short time, even on a not very powerful computer. After the processing pipeline had been standardized, we were able to create, annotate and publish a corpus for a new language in some 2 weeks (provided that the respective tagger was available).
+The situation, however, has changed when we wanted to increase the corpus size radically. We decided to create a corpus of a Maximum class, i.e., “as much as can get”. Our attempt to create the Slovak and Czech Maximum corpora revealed that the limiting factor was the availability of the sufficient amounts of texts for the respective languages in Internet. With standard settings for Spider
+Ling and after several months of crawling, we were able to gather only some 3 Gigawords for Slovak and approximately 5 Gigawords for Czech.
+To verify the feasibility of building very large corpora within our computing environment, we decided to create Araneum Maximum for a language, where sufficient amount of textual data in Internet is expected. The Russian language has been chosen for this experiment, and the lower size limit was set to 12 billion tokens, i.e., ten times the size of the respective Мaius corpus.
+It has to be noted that the work was not to be started from scratch, as the data of existing Russian Aranea had been utilized. After joining all available Russian texts and deduplicating them at the document level, we received approximately 6 billion tokens, i.e., seemingly half of the target corpus size. It was, however, less than that, as the data had not been dedulicated at the paragraph level yet.
+The new data was crawled by the (at that time) newest version 0.81 of Spider
+Ling, and the seed UR
+Ls were harvested by BootCa
+T as follows:(1) A list of 1,000 most frequent adverbs extracted from the existing Russian corpus was sorted in random order (adverbs have been chosen as they do not have many inflected forms and usually have rather general meaning).
+15 http://ella.juls.savba.sk/aranea_about
+Very Large Russian Corpora: New Opportunities and New Challenges (2) For each Boot
+Cat session, 20 adverbs were selected to generate 200 Bing queries (three adverbs in each), and requesting to get the maximal amount of 50 UR
+Ls from each query. This procedure has been repeated five times, totalling in 1,000 Bing queries.
+The number of UR
+Ls harvested by a single BootCa
+T session in this way was usually close to the theoretical maximum of 50,000, but it decreased to some 40,000–45,000 after filtration and deduplicaction. The resulting list was sorted in random order and iteratively used as seed for Spider
+Ling.
+To create a Maius series corpus, we always tried to gather approximately 2 billion tokens of data, so that the target 1.2 billion can be safely achieved after filtration and deduplication. For “large” languages, this could be reached during first two or three days of crawling. As it turned out later, we were quite lucky not to reach the configuration limits of our server, most notably the size of RA
+M (16 G
+B). As all data structures of Spider
+Ling are kept in main memory, when trying to prolong the crawling time for the Russian the memory limit has been reached only after approximately 80–90 hours of crawling. Though some memory savings tricks are described in the Spider
+Ling documentation, we, nonetheless, had to opt for a “brute force” method by restarting the crawling several times from scratch, knowing that lots of duplicate data would be obtained.
+In total, 12 such crawling iterations (with some of them consisting of multiple sessions) have been performed, during which we experimented with the number of seed UR
+Ls ranging from 1,000 to 40,000.
+To speed up the overall process, another available computer was used for cleaning, tokenization, partial deduplication and tagging of the already downloaded lots of data. Moreover, the most computationally-intensive operations (tokenization and tagging) have been performed in parallel, taking the advantage of the multiple-core processor of our computer. The final deduplication has been performed only after all data has been joined into one corpus.
+Our standard processing pipeline contains the steps described in Tables 1 and 2.
+Operation Output
+Processing time (hh:mm)
+Data crawling by Spider
+Ling (2 parallel processes) with integrated boilerplate removal by jus
+Text16 identification of exact duplicates2,958,522 docs
+39.68 G
+B
+cca 86 hours
+Deleting duplicate documents identified by Spider
+Ling2,058,810 docs
+18.15 G
+B
+0:27
+16 http://corpus.tools/wiki/
+Justext
+Benko V., Zakharov V. P.
+Output
+Processing time (hh:mm)
+Removing the survived HTM
+L markup and normalization of encoding (
+Unicode spaces, composite accents, soft hyphens, etc.)0:30
+Removing documents with misinterpreted utf-8 encoding2,054,827 docs 0:41
+Tokenization by Unitok17 parallel processes, custom Russian parameter file)1,611,313,889 tokens
+19.88 G
+B
+4:04
+Segmenting to sentences (rudimentary rule-based algorithm)0:29
+Deduplication of partially identical documents by Onion18 similarity threshold 0.9)1,554,837 docs
+1,288,238,029 tokens
+(20.05% removed)17.23 G
+B
+1:23
+Conversion all utf-8 punctuation characters to ASCI
+I and changing all occurrences of “ё” to “е” (to make the input more compatible with the language model used by the tagger).
+0:53
+Tagging by Tree Tagger19 language model trained by S. Sharoff20 (4 parallel processes)39.06 G
+B 8:26
+Recovering the original utf-8 punctuation and “ё” characters0:53
+Marking the out-of-vocabulary (OO
+V) tokens (ztag)82,786,567 tokens
+marked OO
+V (6.43%)1:09
+Mapping the “native” MT
+E21 tagset to “Po
+S-only” AU
+T22 tagset46.39 G
+B 1:09
+17 http://corpus.tools/wiki/
+Unitok
+18 http://corpus.tools/wiki/
+Onion
+19 http://www.cis.uni-muenchen.de/~schmid/tools/Tree
+Tagger/
+20 http://corpus.leeds.ac.uk/mocky/
+21 http://nl.ijs.si/ME/
+V4/msd/html/msd-ru.html
+22 http://ella.juls.savba.sk/aranea_about/aut.html
+Very Large Russian Corpora: New Opportunities and New Challenges Output
+Processing time (hh:mm)
+Joining all parts of data (old data + 12 new lots, some of them accessed via
+Ethernet at a different machine)37,956,781 docs
+26,720,417,271 tokens
+932.80 G
+B
+10:42
+Deduplication of partially identical documents by Onion (5-grams, similarity threshold 0.9)24,509,170 docs
+17,322,616,899 tokens
+(35.17% removed)602.33 G
+B
+19:12
+Deduplication of partially identical paragraphs by Onion (5-grams, similarity threshold 0.9)13,704,863,990 tokens
+(20.88% removed)482.04 G
+B
+27:07
+Compilation by No
+Sketch Engine 249.78 G
+B of index structures79:54
+4. Experimenting with the New Corpus
+At the end of all the processing mentioned, we indeed succeeded to create a very large Russian corpus of the expected size—its characteristics (as displayed by No
+Sketch Engine) are shown in Within the context of No
+Sketch Engine, a token is considered “word” if it begins with an alphabetic character (in any script recognized by Unicode). It must be also noted that the lemma lexicon contains large proportion of out-of-vocabulary items that could not have been lemmatized.
+In the following text, we will demonstrate the usefulness of a very large corpus for studying rare language phenomena, such as phraseology.
+Benko V., Zakharov V. P.
+Chasing Fixed Expressions
+In small corpora, many idioms often appear—if ever—in singular (“hapax”) occurrences that make it difficult to draw any relevant linguistic conclusions. Moreover, idioms and other fixed expressions are often subject to lexical and/or syntactic variation, where the individual members of the expressions change within a fixed syntactic formula, or the same set of lexical units create different syntactic structures . It is most likely without exaggeration to claim that idioms having lexical and syntactic variants represent the majority of cases. Lots of (
+Russian) examples can be shown: беречь/хранить как зеницу ока; беречь пуще глаза; мерить одной мерой/меркой, мерить на одну меру/мерку; ест за троих, есть в три горла; драть/сдирать/содрать шкуру (три/две шкуры), драть/сдирать/содрать по три (две) шкуры; хоть в землю заройся, хоть из-под земли достань; брать/взять (забирать/забрать) в прибирать/прибрать к рукам; сталкивать/столкнуться лицом к лицу, носом к носу, нос в нос, лоб в лоб.
+The description of variant multi-word expressions in dictionaries is naturally much less complete in comparison with fixed phrasemes. And, only large and very large corpora can help us to analyse and describe this sort of variability in full.
+Now we shall try to demonstrate the possibilities given by Araneum Russicum Maximum on three examples. Let us take fixed expressions described in dictionaries and show how they behave in various corpora.
+4.2. “Щёки как у хомяка”23
+The Russian National Corpus (RN
+C24, 265 M tokens25) gives 5 occurrences of “щёки как”: как у матери, как у бульдога, как у пророка, как у тяжко больного, как у меня. As it can be seen, all of them are singular occurrences (hapax legomena), and no occurrence of как у хомяка has been found.
+Let us have a look what can be found in other corpora. While the smaller Aranea provide even less information, Araneum Russicum Maximum confirms the dictionary data, and ruTen
+Ten and GIC
+R corpora make it even more convincing. Besides как у хомяка, they also add как у бульдога, как у бурундука and как у матрешки, as well as several other (less frequent) comparisons.
+23 “cheeks like a hamster”
+24 http://www.ruscorpora.ru/en/search-main.html
+25 This number is not directly comparable with other corpora, as punctuation characters are
+not considered tokens in RN
+C.
+Very Large Russian Corpora: New Opportunities and New Challenges щёки/щеки как у...
+хомяка/хoмячкабуль­догабурун­дукамат­решки
+Araneum Russicum Minus 1 – 1 – –
+Araneum Russicum Maius 1 – 1 – –
+Araneum Russicum Maximum 33 6 1 4 2ruTen
+Ten 45 24 4 – 1GIC
+R 126 84 3 5 14.3. “Щёки из-за спины видны”26
+RN
+C gives just one example of щеки из-за...: щеки из-за ушей видны.
+The other corpora give the following:щёки/щеки из за...
+спины видны/видать/торчатушей видны/видать/торчат
+Araneum Russicum Minus – – –
+Araneum Russicum Maius 6 3 –
+Araneum Russicum Maximum 27 7 5ruTen
+Ten 30 20 6GIC
+R 65 40 23
+The very large corpora not only provide much more evidence, but also add several interesting variants of “щеки из-за…”: увидеть можно, просматриваются, вылезают, сияют румянцем; щек из-за спины видно не было, etc.
+4.4. “Чистой воды...”27
+The idiomatic expression чистой or чистейшей воды is described in the dictionary as “о ком или чем-либо, полностью соответствующем свойствам, качествам, обозначенным следующим за выражением существительным” . But if we want to extract the relevant information on the most frequent noun collocates of this expression from RN
+C, we mostly get 2–3 examples for each noun: авантюрист, блеф, гипотеза, демагогия, монополизм, мошенничество, популизм, провокация, садизм, спекуляции, фантастика, хлестаковщина, etc.
+26 “cheeks visible from behind”
+27 “of the clear water”
+Benko V., Zakharov V. P.
+can be observed in larger corpora? When comparing frequency ranks of expressions with different nouns derived from large corpora, we can see that they are more or less similar, while the data received from small corpora can differ significantly. Nouns appearing at the top positions of the ranked frequency lists derived from the large corpora (выдумка, вымысел, лохотрон, обман, пиар, профанация, развод, спекуляция) are usually missing in the output from smaller corpora. On the other hand, top words obtained from Araneum Russicum Minus (чудодействие, грабеж, подстава) are ranked 50, or even 500 in large corpora. We can also see that the total weight of expressions with significant frequencies (4 or more within the framework of our experiment) is greater in large corpora (
+Table 5).
+expressions in various corporacorpus size in tokens
+Araneum Russicum Minus120 M
+Araneum Russicum Maius1.2 G
+Araneum Russicum Maximum13.7 G
+ruTen
+Ten18.3 G
+total expressions 146 1,256 10,441 15,548unique expressions 26 692 3,264 ≥ 5,00028total expressions with f >312 (8.2%) 450 (35.8%) 6,841 (65.5%) 9,370 (60.3%)
+unique expressions with f >32 (7.7%) 54 (7.8%) 449 (13.8%) 668 (13.4%)
+The corpus evidence, however, shows that the чистой воды expression is also used in its direct meaning. In fact, there are two direct meanings of “чистой воды” present there: “вода чистая, без примесей”, and “чистая, свободная ото льда или водной растительности”. The interesting fact is, that practically in all cases where чистой воды precedes the respective noun, its meaning is idiomatic (
+Fig. 2).
+In Araneum Russicum Maximum, out of 449 different analysed expressions with total count of 6,841, less than 10 contained non-idiomatic use of “чистой воды” (associated with объем/температура or озеро/море/океан). And, the majority of the respective nouns have a negative connotation: абсурд, авантюра, агрессия, алчность, бандит, блеф, богохульство, болтология, бред, брехня, бытовуха, вампиризм, вкусовщина, вранье, глупость, госдеповец, графоманство, демагог, диктатура, жульничество, заказняк, зомбирование, идеализм, извращение, издевательство, инквизиция, кальвинизм, капитализм, кидалово, копипаст, коррупция, лапша, липа, литература, популизм, порнография, пропаганда, развод, расизм, рвач, русофобия, садизм, фарисейство, фарс, фашизм, etc. Some of them are receiving this negative connotation especially within this expression (кальвинизм, капитализм, копипаст, лапша, липа, литература, пропаганда etc.)28 Only first 5,000 items of frequency distributions are shown in Sketch Engine.
+Very Large Russian Corpora: New Opportunities and New Challenges of чистой воды in Araneum Russicum Maximum
+On the other hand, if чистой воды is located after the corresponding noun, the share of its direct meaning is as much as 80% (литр чистой воды, стакан чистой воды, количество, подача, перекачивание, источник, резервуар, глоток, кран чистой воды, etc.) 5. Conclusions and Further Work
+As it can be seen, very large corpora enable much deeper analysis that is not possible with corpora of smaller size. We can also say that, starting from a certain size of corpora, the results of these studies can be seen as representative. On the other hand, we do not want to state that web corpora could fully replace the traditional ones. They can, however, be really very large and reflect the most “fresh” changes of the language.
+Our experiment has also shown that not everything is that simple. The problems encountered can be divided into three parts: problems of linguistic annotation (lemmatization and tagging), problems of metadata (tentatively referred to as “metaannotation”), and technical problems related to deduplication and cleaning. It is clear that the traditional TE
+I-compliant meta-annotation cannot be performed in web corpora, as they lack the explicit necessary bibliographic data. In practice, we can get data only with minimal bibliographic annotation in terms of web (domain name, web page publication or crawl date, document size, etc.), and traditional concepts of representativeness and/or balance are hardly applicable. What we can get is the volume, Benko V., Zakharov V. P.
+the question of “quality” remains without an answer. Both the nature of textual data and the imbalance of web corpora make the question of assessing the results of analyses based on such corpora open.
+A new methodology based on the research has to be developed yet. We believe that such methods should include both quantitative and qualitative assessments from the perspective of applicability of very large corpora in various types of linguistic research. It might also be useful to compare contents of web corpora with the existing traditional corpora, as well as with frequency dictionaries. It is also necessary to take into account the technical aspects, such as “price vs. quality” relation.
+Our experiment aimed to create the Russian Araneum Maximum has shown that though some technical problems related to the computing power of our equipment (two quad-core Linux machines witch 16 G
+B RA
+M and 2 T
+B of free disk space each, joined by a Gigabit Ethernet line, and having a 100 Mbit Internet connection), do exist, they could be eventually solved. The bottleneck of the process was the final deduplication by Onion that needed 56 G
+B of RA
+M, and had to be performed on a borrowed machine. After minor modifications of our processing pipeline, we were able to perform all other operations, including the final corpus compilation by the No
+Sketch Engine corpus manager using our own hardware.
+The first results based on our new corpus show that in comparison the RN
+C, Araneum Russicum Maximum can provide much more data on rare lexical units and fixed expressions of different kinds and allows for linguistic conclusions. On the other hand, our experience shows that lexis typical for fiction and poetry seems to be underrepresented in our corpus.
+Our next work will be targeted both at the increase of the size of our corpus, and also at improving its “quality”—by better filtration, normalization and linguistic annotation. Here we hope to apply methods of crowd-sourcing (e.g., verifying the morphological lexicons by students). The other serious task will be the classification of the texts according to web genres, so that the balance of the corpus could be—at least partially—controlled.
+Acknowledgements
+This work has been, in part, supported by the Slovak Grant Agency for Science (VEG
+A Project No. 2/0015/14), and by the Russian Foundation for the Humanities (
+Project No. 16-04-12019).

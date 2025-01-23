@@ -1,0 +1,195 @@
+3
+D lip-sync estimates lip motion corresponding to the audio recording of a person’s speech. It is a core
+problem of avatar head animation extensively studied for decades, as the realistic lip motion heavilyaffects the perception of liveliness and decreases the uncanny valley effect(
+Mori et al., 2012).
+Several approaches to 3
+D face animation have been proposed in recent years. The majority of them asin (
+Karras et al., 2017) and (
+Cudeiro et al., 2019) aim to create a sequence of entire face meshes basedon a speech recording. These models are quite large, and they require high-quality training data, whichis difficult to obtain without specialized equipment.
+In this paper, we present a simple approach for speaker-agnostic 3
+D lip-syncs through blendshapesgeneration. We use an affordable motion capture approach and a small amount of data to train ournetwork. Our system could be trained on one person’s speech and used on a different voice as it mostlyrelies on speaker-independent audio feature encoding and light audio feature to blendshape decoder. Byevaluating several audio encoders, we show that good audio features are more useful than a complexmodel in this task, and there is no need to consider the long context of the phrase.
+To sum up, our contributions are as follows:1. Lightweight speaker agnostic audio-to-blendshape model
+2. A new combined approach to evaluating synthesized blendshapes
+Our paper is organized in the following way: Section 2 describes related work, section 3 presents ourmethod, section 4 describes experiments and section 5 contains the conclusion.
+2 Related Work
+The creation of a three-dimensional facial animation based on speech could be done in several ways.
+First: direct face mesh generation. In this method, a 3
+D mesh is represented as a set of 3
+D vertices−→𝑝𝑝 ∈ 𝑅𝑅3𝑁𝑁 with fixed topology. In paper (
+Karras et al., 2017) the coordinates of the facial grid verticesare generated directly from the audio feature input window with an additional emotional state. Thus, theentire animation is generated from the sliding window frame by frame. This system has been trained on3-5 minutes of high-quality 3
+D scanning sequences of a particular person. This system could be also
+used on a different voice, but the face 3
+D model itself is fixed. At the same time, obtaining 3
+D scans forother faces is a separate challenge and imposes certain limitations on the application of this approach.
+To overcome the aforementioned problem with different faces, the parametric face models could beused, such as 3DMM(
+Blanz and Vetter, 1999), FLAME(
+Li et al., 2017) or FaceWarehouse(
+Cao et al.,2013). Parametric face models could be represented as a function ℳ(
+−→𝜃𝜃 ) = −→𝑝𝑝 ∈ 𝑅𝑅3𝑁𝑁 , where−→𝜃𝜃 setof parameters. The division of parameters may be different for different models. The FLAM
+E model, forexample, separates the parameters into three groups: one represents the face form, another its position,and the third its expression. This division may be useful, for example, for transferring animation fromone face to another, changing only face shape parameters.
+There are several facial animation models based on parametric face models. For example,VOCA(
+Cudeiro et al., 2019) uses FLAM
+E by generating 3
+D meshes in the same topology. As a result, it can be utilized to adjust numerous factors during inference, such as facial shape. Authors alsoprovided VOCASE
+T, a large dataset of 4
+D scans. Although this method can be used to create facialmotion for a variety of faces, the model itself is computationally demanding as it generates the entireface mesh.
+Another preferred representation to encode facial animations in CG
+I production are blenshapes(
+Lewiset al., 2014). Blendshapes could be used to represent any facial expression as a weighted combinationof basis vectors. As a result, any face mesh might be computed as −→𝑝𝑝 = ℬ𝑤𝑤, where ℬ ∈ 𝑅𝑅3𝑁𝑁×𝑚𝑚 basis, 𝑤𝑤 ∈ 𝑅𝑅𝑚𝑚 vector of coefficients. The term "basis" usually refers to basic facial expressions suchas an open mouth or a closed eye that are chosen to be as independent as possible. It allows 𝑤𝑤 to bemeaningful. For example, if we want a facial expression with a half-opened mouth and a closed left eyewe take 𝑤𝑤 with a coefficient of 0.5 for the opened mouth and a coefficient of 1 for the left eye. All theother coefficients are set to zero. It’s also worth noting that basis vectors usually reflect the margin fromidle faces, rather than the mesh itself, i.e. −→𝑝𝑝 = −→𝑝𝑝0 + ℬ𝑤𝑤. As a result, the facial movement could be
+Korzun V., Gadecky D., Berzin V., Ilin A.represented as a series of 𝑤𝑤𝑖𝑖, each of which has a dimension fewer than the number of vertices in the 3
+Dface model.
+It is worth noting that blendshapes have already been used as an intermediate representation for neuralface puppetry. In (
+Thies et al., 2020) authors create a latent expression vector from audio. Audio expressions could then be interpreted as blendshapes coefficients of a person-specific generic 3
+D face model.
+The mapping from audio-expressions to blendshapes coefficients is trained individually for each personby minimizing the vertex-to-vertex distance between obtained and visually tracked coefficients. Finally,the face mesh obtained from blendshapes is used to generate the final image using neural render.
+3 Method
+3.1 Problem
+In this section, we describe our method for generating facial animations based on blendshape valuesprediction. First and foremost, let us define the problem. Given a digital audio signal, 𝑤𝑤(𝑡𝑡), 𝑡𝑡 ∈ generate a sequence of corresponding blendshape vectors {𝑤𝑤𝑗𝑗}𝑗𝑗∈1,𝑀𝑀 , 𝑤𝑤𝑗𝑗 ∈ 𝑚𝑚. Audio signal couldbe represented as a sequence of audio features {𝑎𝑎𝑖𝑖}𝑖𝑖∈1,𝑁𝑁 . 𝑎𝑎𝑖𝑖 ∈ 𝑅𝑅𝑛𝑛. Here 𝑁𝑁 is not equal to 𝑀𝑀 , as theaudio features can have different frame rate from target animation.
+3.2 Data
+First of all, we require appropriate data to train our models. The most challenging part is to acquireblendshapes. A 3
+D mesh and a basis 𝐵𝐵 are required to obtain the blendshapes weights vector 𝑤𝑤. Bothare difficult to collect and necessitate the use of expensive equipment to scan a 3
+D mesh from a humanface as well as manual adjustments to fine-tune the basis. However, there is an affordable solution tocollect blendshapes directly. Using the depth sensor from the most recent i
+Phones, LiveLink
+Face canextract blendshapes from the frontal camera as well as RG
+B video with audio. We recorded a smalldataset with our team members using this application. It is worth noting that we initially attempted torecord data during zoom calls. It has the potential to make the collected facial motions more natural andexpressive, but we were unable to achieve a significant improvement in results using this source. Thenwe focused on the method used to collect the GRI
+D dataset (
+Alghamdi et al., 2018), in which participantswere asked to record 100 short phrases. Following this concept, we created a corpus of short phrasesfound on the internet. Our corpus contains 2500 uttered phrases of two different speakers (2000 and 500phrases respectfully) ranging in length from three to ten words. We also use additional 20 long phrasesfor different voices including synthesized ones to test our models.
+The input data was captured at 60 frames per second and included 61 blendshapes. We only use 33 ofthem, picking only those responsible for the lower half of the face. As a result, we do not cover blinkingand eye movements as according to recent works (
+Chen et al., 2020), movements in these areas cannotbe unambiguously determined from speech. We also downsampled our data to 30 frames per second.
+3.3 Audio processing
+For our model to be used on a different voice, the audio encoder should be able to produce speakeragnostic audio features. We discovered two major approaches to acquiring such features.
+For starters, we could use pretrarined embeddings, which are commonly used in speech recognition.
+Wav2vec 2.0 (
+Baevski et al., 2020) a framework trained to produce context representations of audiofeatures is one of them. This model consists of two major components: a multi-layer convolutionalfeature encoder and a transformer that builds contextual representations. These representations are usedto train our model as audio features.
+Wav2vec model showed state-of-the-art results on speech recognition, but its audio embeddings mayhave some drawbacks in our task. To demonstrate the possible issue we use two subsets of our data. Bothhave the same phrases recorded by two different speakers. Then, over these subsets, we construct 2
+D tSN
+E (
+Van der Maaten and Hinton, 2008) projections for audio features and corresponding blendshapes.
+Finally, we highlight points corresponding to the same phoneme of the one phrase for both speakerswith different colors. We found that audio embeddings are projected to almost the same points for both
+Speaker-agnostic mouth blendshape prediction from speech
+Orange (second speaker) colors represent small windows around the same phoneme for two speakers.
+Dark Green the intersection of windows for two speakers (orange+green), and Purple intersectionphonemes embeddings itselfspeakers while corresponding blendshape projections are far from each other (
+Figure 1). This differencein the value of the target variable could affect the convergence of our models when we use data frommore than one speaker or the same speaker but in different conditions.
+To address this issue, we should employ features that preserve the timbre of the voice while removingthe speaker’s identity. Voice conversion is one of the more straightforward approaches that could beused: given an input speech recording, convert it to sound like a different speaker. Furthermore, thesame approach was previously applied to 2
+D face animation. The authors of MakeIt
+Talk (
+Zhou et al.,2020) used AutoV
+C (
+Qian et al., 2019) to convert input speech to the fixed speaker. Following the same
+procedure, we were able to train our model on one speaker and then apply it to different voices withouthaving to retrain the entire pipeline.
+AutoV
+C is a tricky intermediate space autoencoder. In this model, the encoder encodes the input Melspectrogram and passes it along with the speaker embedding to the decoder. The main idea is to find adimension of intermediate space that allows only the content of speech to be encoded while retaining thespeaker style information from embeddings. We take a pre-trained AutoV
+C model from MakeIt
+Talk andconvert all input Mel-spectrograms, including training data, to a single voice.
+3.4 Blendshapes vector prediction
+We suggest that our problem is similar to the generation of gestures for 3
+D skeletons. Both problemscan be thought of as sequence-to-sequence problems where sequence audio features are considered asinput and a sequence of real-value vectors as output. For gesture generation, these output vectors reflectjoint rotation angles, and in our task, these vectors will contain blendshape values. As a result, we canfacilitate the approach that produced good results in gesture generation.
+First, like in (
+Kucherenko et al., 2019) we attempted to generate a blendshapes vector from a fixedlength window of audio features. We encode a window of audio features using a recurrent neural network,then pass this encoding through a simple perceptron to obtain a blendshapes vector for a single frame.
+Here we do not use additional encodings of blendshapes, such as those from autoencoder. We also usethe Savitzky–
+Golay filter (
+Savitzky and Golay, 1964) during inference to smooth predicted animation.
+Korzun V., Gadecky D., Berzin V., Ilin A.(a) Feed
+Forward model(b) Seq2seq model
+The full architecture of the Feed
+Forward model is visualized in Fig. 2 (a)
+The second model is similar to the one proposed in (
+Korzun et al., 2021). Following this work, weemploy a modified variant of sequence to sequence model. It is made up of two primary parts. First isa recurrent audio encoder which produces contextual features. Second a recurrent decoder with dotproduct encoder-decoder attention uses these features to predict final blendshapes vectors. As in theaforementioned paper, we initialize decoder states with the outputs of the previous state. depicts the entire architecture of the Seq2seq model.
+For training, we implement simple MS
+E loss with no additional continuous and variance losses as inmentioned work for several reasons. To begin with, lip motion does not need to be as varied as bodymotion. As a result, we were able to give up on variance loss. Second, our experiments revealed thatpredicted motion is already smooth enough. Although, there are jerks between sequences. To eliminatethem, we use the Savitzky–
+Golay filter.
+3.5 Training
+To train our models we use the Pytorch
+Lightning framework. We use every 10th sample of the firstspeaker data as validation data. And also every 10th sample of the second speaker as test data. Thus, wehave 1800 and 200 samples of first data as train and validation respectively along with 450 samples ofthe second speaker for additional train data. The remaining 50 samples are used as a test subset. All ourmodels were trained with Adam optimizer with a learning rate set to 1e-3. We also use the early stoppingtechnique with a focus on validation loss.
+Speaker-agnostic mouth blendshape prediction from speech4 Experiments
+In this section we first present our experimental setup, then we evaluate our models and discuss theefficacy of our approaches.
+We train our models on several subsets of data to find the dependency of generated animation qualityon data quantity. Let us define designations for our models and datasets. There are feedforward (ff)and sequence-to-sequence (s2s) models trained on audio features from Wav2vec2 (w2v) and transferred
+Mel spectrograms via AutoV
+C (avc). There are 4 different models in total: ff_avc, ff_w2v, s2s_avc ands2s_w2v. We also train our models on different breakdowns of the training dataset: subsets 1-3 consist ofvarious tracks of the first speaker with 450, 900, and 1800 samples respectively. It is worth mentioningthat subsets were recorded separately from each other in several takes with a significant time gap betweenthem. Subset 4 contains all the training data for the first speaker (like subset 3), along with 450 samplesof the second speaker’s tracks. Therefore, there are 16 experiments in total.
+Evaluation metrics For quantifying the performance of our method, we compute the following threemetrics.
+• L2 distance: We calculate simple 𝐿𝐿2 distance between each generated blendshapes vector andcorresponding target one;• Mean landmark distance (LM
+D): Following the method first described in (
+Chen et al., 2018)and utilizing the dlib model (
+King, 2009), we detect the sequences of landmark positions from the3
+D face model animation based on real blendshapes, collected from a real speaker, and separately
+detect landmark positions from animation based on the blendshapes, predicted from correspondingspeakers speech. As in (
+Zhou et al., 2020) we also normalize landmarks over mouth width. Thenwe calculate the distance between the resulting sequences.
+• Sync
+Net confidence and minimum distance: Following (
+Chung and Zisserman, 2016) we useSync
+Net model to obtain audio and video embeddings and measure synchronization between audiosequence and facial movements. To evaluate the change in behavior of this metric on the animated3
+D model as opposed to the real face we also take additional measurements of this metric on permuted audio sequences and animations, where the audio is intentionally taken from one track and
+the facial movements are from a completely different track. See section 4.2 for more details.
+4.1 LM
+D and L2
+Here we show tables with results for different experiments. Firstly, standard 𝐿𝐿2 norm and landmarkdistance metrics can be calculated between real blendshapes and predicted ones. The results are showedin tables 1 and 2. To understand the trustworthiness of LM
+D we also calculated the distance for permuted corresponding samples. This test showed an increase in the measured distance when applied toasynchronous data. Here LM
+D for permuted data was equal to 0.75.
+model subset1 subset2 subset3 subset4ff_avc 2.79 2.37 2.62 1.50ff_w2v 2.58 2.14 2.82 0.77s2s_avc 2.17 2.06 2.24 0.95s2s_w2v 2.28 1.90 2.54 0.77subset1 subset2 subset3 subset40.590 0.549 0.543 0.467
+0.453 0.450 0.460 0.356
+0.546 0.555 0.506 0.468
+0.462 0.463 0.500 0.377
+Here we can see the correlation between 𝐿𝐿2 and LM
+D. It’s also worth noting that as the amount ofdata for one speaker increases, the metrics do not improve. Adding extra data, especially for wav2vecfeatures, will only degrade the output. Only by including data from a second speaker (subset 4) are weable to enhance metrics significantly. This impact could be attributable to two factors: the test datasetand subset 4 share the same speaker, or the model’s generalization ability has improved. To prove thishypothesis, we test our models on different voices in section 4.3. It is also worth noticing that wav2vecfeatures give better results and the difference between seq2seq and feedforward models is not noticeable.
+That could mean that lip motion depends only on a short context.
+Korzun V., Gadecky D., Berzin V., Ilin A.
+In figure 3, we demonstrate how one of our models operates on a test sample. For this example, weuse a feedforward model with a wav2vec audio encoder (ff_w2v) trained only on a single speaker (subset3). There are no such phrases nor this speaker in the training dataset.
+blendshape values for real data (blue) and predicted result vakue (orange) along with several relevant 3
+Dmodel renders. Despite modest differences in blendshape value lines, the model was able to reproducethe majority of phonemes.
+Even though it has lost the second peak corresponding to the second vowel, this difference did notstrike the eye during manual viewing of the produced video, but was plainly visible upon closer study.
+4.2 Evaluation of Sync
+Net metric
+Next we consider Sync
+Net confidence and distance collected during this experiment. The results can beseen in section tables 3 and 4.
+model subset1 subset2 subset3 subset4ff_avc 10.21 9.89 9.61 9.24ff_w2v 9.17 9.25 8.89 8.39s2s_avc 10.36 10.61 9.69 9.12s2s_w2v 9.64 9.54 9.91 8.54subset1 subset2 subset3 subset43.71 3.94 4.15 4.76
+5.05 4.85 5.31 5.65
+3.37 3.23 4.25 4.54
+4.43 4.23 4.21 5.37
+The Sync
+Net confidences also show growth if we add the second speaker. It also proves the assumption that the wav2vec features are better and the seq2seq model does not outperform the more simplefeedforward model.
+To further justify the application of the Sync
+Net metric to evaluate our model, we conducted the following experiment on the test dataset. First, we used all 61 blendshapes in the model to assess confidenceand distance over the original test tracks with no alterations (
+Table 5, All B
+S column). Following that, we
+Speaker-agnostic mouth blendshape prediction from speech
+Metric All B
+S Mouth B
+S Mouth B
+S / wrong track
+Distance 8.55 8.58 11.95
+Confidence 5.69 5.66 2.34used the same tracks but limited the number of blendshapes to those corresponding to the mouth regionmotions, i.e., to 33. (
+Table 5, Mouth B
+S column). Finally, after animating the same 33 blendshapes, weswapped their respective audio tracks at random. (
+Table 5, Mouth B
+S / wrong track column). Finally,within each group, the confidence and distance values obtained during each experiment are averaged.
+As a result of these findings, limiting the number of blendshapes used in our model’s training andinference has no significant impact on the metric’s behavior. Furthermore, the metric unambiguouslyidentifies cases of audio recording substitution or divergence.
+4.3 Synthetic data
+In addition to the recordings of a real speech, artificially synthesized speech can also be fed into ourmodel. As an example, we dubbed 20 longer tracks with the voices of Alena and Dorofeev from Tinkoff’sVoice
+Kit speech synthesis service, and then added the same lines taken from a human speaker for comparison. The Sync
+Net scores can be seen in the tables 6 and 7. For each model, we use the subset withthe best score.
+model Real Alena Dorofeevff_avc (subset1) 9.50 11.44 10.85ff_w2v (subset1) 9.11 11.17 11.22s2s_avc (subset3) 9.60 12.66 12.22s2s_w2v (subset4) 8.88 10.96 11.24
+Real Alena Dorofeev3.30 3.14 4.26
+3.82 3.61 4.13
+3.06 1.83 2.67
+3.82 3.28 3.54
+When compared to samples from the test dataset, this result shows some metric degradation on thesetracks. This includes the voice of the real person. The main difference, we believe, lies in the lengthof the tracks. The test dataset is primarily comprised of short phrases, whereas these tracks are at leasttwice as long. Visual inspection does not reveal a significant reduction in motion quality.
+Despite this, synthetic voices can sometimes outperform natural voices in terms of Sync
+Net scores. Itcould be explained by the synthetic voice’s speech smoothness. Women’s synthetic voices, on the otherhand, have a significant drop in scores, possibly due to the different timbre. It’s also worth noting thatthe best results came from different subsets. It could lead to the conclusion that the best results on subset4 were obtained in section 4.1 due to the presence of the same speaker, and that these models could be
+trained on just one speaker.
+We also try to find out an explanation of Sync
+Net behavior. We manually examine the phrase wheremodels have been scored differently. In the prediction with a lower score, the mouth did not close completely, while in the other it did. Nevertheless, even the first model was relatively correct in reproducingphonemes visually.
+4.4 User study
+We also provided short blind comparison between some of the models. We record a quite long phrasewith the length of 22 seconds for synthetic Dorofeev’s synthetic voice. Then we render videos for allmodels and subjectively pick the best four of them. To compare models left we ask users to choose thebest from them in a following way. First, we pick a first pair of videos randomly and show them to the
+Korzun V., Gadecky D., Berzin V., Ilin A.user simultaneously to choose the best of two. Then, we do the same with a second pair left. Finally, weask user to pick the best video between the winners of a previous stage. The results of the user study areshown in In addition to the model’s victory in the second stage when compared to the winner of another pair(first column Abs Winner), we collect statistics on how many times the model passed to the next stageregardless of the model’s victory in the second stage (second column Pairwise winner).
+model Abs Winner Pairwise winnerff_avc (subset1) 13 39ff_w2v (subset4) 8 28ff_w2v (subset1) 14 36s2s_w2v (subset4) 8 26
+More simple models performed better in a user study on a synthetic phrase. This result is highlycorrelated with Sync
+Net scores on the same voice. This observation could provide yet another reason touse Sync
+Net as an objective metric for facial animation generation.
+5 Conclusion
+We propose a simple approach for automatic lip-sync for 3
+D face models. We show that good audiofeatures are more useful than a complex model in this task and that no lengthy context is required. Wealso make some observations about the audio encoders that are used and data dependency. Our methodhas its flaws, and generated motions aren’t perfect, but they’re good enough to avoid catching the eyeand annoying.
+We are also looking for ways to make predicted motion even better. First, we are thinking aboutconducting a more in-depth user study of our models. Second, we are looking for a way to incorporatemore data from videos with expressive facial movements.
+We believe that our work will aid in the creation of automatic character animation and will serve as asolid foundation for future research.
+6 Acknowledgements
+The reported study was funded by RFB
+R according to the research project № 20-31-90051

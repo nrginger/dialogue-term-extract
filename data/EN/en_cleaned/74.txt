@@ -1,0 +1,259 @@
+Referential choice, or the process of selecting a linguistic expression for a specific referent, is a challenging task in linguistics. Factors related to referential choice, such as discourse phenomena (linear and referential distance between the anaphor and its antecedent, the referent’s status as protagonist), grammatical categories (i.e. animacy, gender, grammatical role), as well as typological parameters of the language as a whole (i.e. pro-drop properties), have been actively explored since the last third of the 20th century ; ; ; . However, the exact list of factors determining referential choice remains open.
+In this regard, nonverbal communication holds promise of potential related phenomena. Compared with linguistic data, non-verbal factors of referential choice have been less studied аnd mostly in the context of hand gestures ; ; . This article considers the issue in a wider framework of Russian multichannel communication, namely in the context of head movements (cephalic channel) and hand gestures (manual channel). To date, referential mechanisms in the Russian speaker’s kinetic channels have been mainly studied in the limited context of manual gestures . Head movements were sometimes discussed as an additional phenomenon , but no systemic studies of both channels within the referential context were done thus far.
+The work is based on the RUPE
+X multichannel corpus (“
+Russian Pear Chats and Stories”, see the project website www.multidiscourse.ru and detail). For the pilot study, session #22 was selected with a total duration of approximately 54 minutes. The session consists of three videos recording a group of interlocutors
+with a fixed role for each (the Narrator, the Commentator and the Reteller1). It forms a part of a demo subcorpus annotated for four kinetic communication channels (vocal, oculomotor, manual and cephalic), as well as for referential units.
+The article is structured as follows. Section 2 discusses referential expressions in the RUPE
+X and what is already known about their interaction with nonverbal units of communication. Section 3 describes principles for manual and cephalic annotation. Sections 4 and 5 are devoted to the results of comparing head and hand movements with aligned referential expressions.
+2. Referential units in the context of verbal
+and non-verbal factors
+The RUPE
+X referential mark-up includes all language expressions with a specific reference. Among them, two main types of units are distinguished—anaphoric and deictic. This article is devoted to anaphoric reference. For RUPE
+X deictic expressions and their relation to the speaker’s communicative role, see .
+Anaphoric units are linguistic expressions whose interpretation depends on the previous context. Thus, the same referent can be marked by a full N
+P (mal’čik uezžaet ‘the boy leaves’), a personal pronoun (on uezžaet ‘he leaves’), a demonstrative pronoun 1 Hereinafter N, C and R, respectively.
+Referential phenomena in speaker’s kinetic channels(tot uezžaet ‘that a definite pronoun (‘vse uezžajut’ everybody leaves), a zero(Øpro uezžaet ‘ leaves’), and so forth. Pronominal and zeroexpressions are combined into a more general type of reduced reference . It is opposed to full reference which is marked by full N
+Ps acting as antecedents for subsequent anaphoric units: A i, i prodolzhaet sobirat’ gruši i i ničego ne vidit ‘
+And i above, i keeps on picking pears and does not see anything’. Both full and reduced referential expressions are marked in the RUPE
+X with ELA
+N software (https://tla.mpi.nl/tools/tla-tools/elan/), with zero units being attributed to the word explicitly expressed immediately thereafter (see more details on the referential mark-up).
+Traditionally reduced (or attenuated) anaphoric expressions code highly accessible and identifiable entities ; ; . In contrast, full N
+Ps are prototypically chosen for new and less accessible referents. Both full and reduced reference correlate with various grammatical, semantic and discourse factors, although their role varies from language to language ; . From the non-verbal perspective, full N
+Ps are more often accompanied by a gesture than reduced expressions , which holds true not only for gestures in general, but for their selected functional types as well (see, for example, pointing gestures). In this study, Sections 3 and 4 will provide data on how the direction of a gesture, the referent’s position in the
+speaker’s gestural space, and the type of referential expression interact with each other in RUPE
+X cephalic and manual channels.
+3. Methodology
+3.1. Principles of cephalic and manual annotation
+To compare verbal and non-verbal expressions, a unified method of annotating these phenomena in kinetic (cephalic and manual) channels was used. Within this method, all gestures were coded for directions and their phases.
+Cephalic movements were tagged in accordance with the direction (down-up, right-left, forward-backward) and with the type of action (tilt, turn, slide, rotation, etc.). Since head movements are often superimposed, they were marked in three layers for accuracy: Movement A, Movement B and Displacement (the latter is not covered in the article). All communication movements performed by the neck muscles independently of other kinetic channels fell into Movement A. All movements produced under the influence of one of the other channels, as well as echo movements and adaptors, were tagged under Movement B , see illustration.
+When analyzing the relationship between the direction of movements and referential phenomena, the type of referential expression was marked along with the cases when the onset of the cephalic movement was ahead or lagged behind the concomitant referential expression, as shown in Figure 2.
+https://tla.mpi.nl/tools/tla-tools/elan/
+Budennaya E. V., Evdokimova A. A., Nikolaeva Ju. V., Sukhova N. V. 010
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+170
+180
+190
+200
+210
+220
+230
+240
+Movements A aligned with referential expressions (entries)
+Full reference before
+Full reference simultaneously
+Full reference after
+Reduced reference before
+Reduced reference simultaneouslyaccording to concomitant referential units
+The principles of the RUPE
+X’s manual annotation are detailed in . In this study, we examined only the hand movements that were marked as gestures. Each movement was coded for direction (up/down, right/left, to the center/from the center). For all movements aligned with referential expressions, both reference and functional type of gesture under discussion (see Section 3.2) were specified.
+Referential phenomena in speaker’s kinetic channels3.2. Types of cephalic and manual gestures
+The functional types of hand gestures were approached as outlined in , but pragmatic gestures were defined as a separate category, as were depictive, pointing and rhythmic gestures. This classification is based on functional grounds and can thus be applied to cephalic movements with some reservations. Since the main part of our material consists of monologue fragments (narration and retelling), only rare examples of regulatory hand movements marking the participants’ interaction and conversational turn-taking were found. At the same time, head movements, if there are more than two interlocutors, often reflect how participants interact with each other and show to whom or to what the gesticulating person is paying attention. Such movements are marked with a higher amplitude and are clearly interpreted by the addressees. In this regard, the category of regulatory gestures was added for head movements . Some head gestures performed several functions, all such cases were considered separately.
+4. Types of movement and reference
+4.1. Direction of movement and type of reference
+in the cephalic channel
+In total, 942 head movements of Movement A were aligned with referential expressions. The majority of them corresponded to downward and upward movements. Out of the three participants, only C had an equal distribution of the two types of movements, while R had a clear predominance of downward movements (30% and 17% respectively). The distribution is shown in Figure 3.
+When compared with other parameters, a statistically significant relationship was found between the type of referential expression and the amplitude of the movement aligned. Thus, in about a half of full N
+Ps, the speaker’s head moved with a medium amplitude; in about a third, with a low amplitude, and only in about 17% of cases—with a high amplitude (χ-square, p-value < 0.01). On reduced expressions, the speaker produced movements of different amplitudes with an equal frequency (see Figure 4), but compared to full N
+Ps, they moved their head significantly more often with a medium amplitude and significantly less often with a high one (χ-square, p-value < 0.01).
+The above data indicate a significant correlation between downward movements and concomitant referential expressions (
+Pearson correlation coefficient = 0.979). That is, for all types of amplitude, downward movement A occurs more often on full N
+Ps, rather than on reduced expressions (χ-square, p-value < 0.01; for illustration see Figure 5). Consequently, the movement A pattern, with the amplitude taken into account, allows one to predict the concomitant referential expression.
+In Movement B type, 776 units were aligned with referential expressions. Their distribution is shown below (
+Figure 6).
+Based on these data, we can assume that movements B are not affected by the type of concomitant referential expression. This provides additional evidence for movements B to be placed in a separate category.
+Budennaya E. V., Evdokimova A. A., Nikolaeva Ju. V., Sukhova N. V. 020406080100 N full reference C full reference R full reference
+N reduced reference C reduced reference R reduced referenceamong N/C/
+R referential expressions0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+Down Up Turn
+Right
+Left Tilt
+Right TiltLeft
+Movements A aligned with referential expressions (entries)
+Full reference high amplitude
+Full reference medium amplitude
+Full reference low amplitude
+Reduced reference high amplitude
+Reduced reference medium amplitude
+Reduced reference low amplitudeto N/C/
+R referential expressions
+Referential phenomena in speaker’s kinetic channels
+Fig. 5 The realization of a depictive head gesture represented by a downward movement (
+Down) with a high amplitude on full N
+P mnogo takih ‘there are many such…’ The pictures show the head from the position forward moving down simultaneously with the hands moving up in a semicircle.
+0
+5
+10
+15
+20
+25
+30
+35
+40
+45
+50
+55
+60
+65
+70
+75
+80
+85
+Movements B aligned with referential expressions (entries)
+N full reference C full reference R full reference
+N reduced reference C reduced reference R reduced referencein relation to referential expressions
+Budennaya E. V., Evdokimova A. A., Nikolaeva Ju. V., Sukhova N. V. 4.2. Direction of movements and reference in the manual channel
+A total of 894 hand movements was aligned with referential expressions. Their relation to the hand’s direction is shown in Figure 7.50100
+150
+200
+250
+300
+Down Center Aside
+Hand gestures (entries)
+Full referenceUp
+Reduced explicit reference Zero reference2060100120
+140
+160
+Full reference Reduced explicit reference Zero reference
+Hand gestures (entries)
+Depictive Pointing Pragmatic0%
+10%
+20%
+30%
+40%
+50%
+60%
+70%
+80%
+90%
+100%
+Full reference Reduced explicitreference
+Zero reference
+Hand gestures (percentage)
+Depictive Pointing Pragmatictypes of reference (χ-square, р < 0.01)
+According to our data, downward movements were produced more often than others but differed in terms of concomitant referential expressions. On full N
+Ps, the hand was likely to go downward, as opposed to with reduced pronominal expressions, where the same direction was the least expected. In addition, zero forms were more often accompanied by movements to the center.
+5. Functional types of gestures and reference
+5.1. Cephalic gestures and reference
+The functional types of head gestures differ from hand gestures in many ways. Although head gestures’ phases can be identified similarly to their hand counterparts (i. e., preparation, stroke, retraction ), they may fall under different functional types. For ease of comparison, only those types of head gestures which could also be distinguished in the manual channel were considered, cf. Referential phenomena in speaker’s kinetic channels with the full N
+P malčikam ‘to the boys’. The narrator keeps her head in the position from which it turns right as she utters the phrase.
+zero subject expression followed by the predicate Ø vylezaet ‘ crawls out’. The gesture path illustrates how the character crawls out from the fallen bike.
+Given that, it was found that pragmatic and depictive head gestures were accompanied more frequently by full N
+Ps (χ-square, p-value = 0.002).
+0
+20
+40
+60
+80
+100
+120
+140
+160
+180
+200
+220
+240
+Head gestures aligned with referential expressions (entries)fullreduced
+Fig. 10. Distribution of head gestures among referential expressions (22N)
+Budennaya E. V., Evdokimova A. A., Nikolaeva Ju. V., Sukhova N. V. Figure 10 supports the hypothesis that a person gesticulates more often on full N
+Ps than on reduced units ; confirms it for the cephalic channel, see Figure 11 for illustration.
+11. The realization of a pragmatic head gesture (
+Down) aligned with the full N
+P pole ‘field’.
+5.2. Manual gestures and reference
+In total, 425 referential expressions were accompanied hand gestures. There were no entries in this sample where zero reference coincided with a rhythmic gesture. Since the overall number of rhythmic gestures (beats) was small (38 cases), it was decided to combine them with pragmatic gestures, based on the fact that rhythmic gestures often perform metadiscourse functions . The overall distribution of gestures, according to the functional type and to the type of concomitant referential expression, is presented in Fig. 12 (a, b).
+According to the above data, depictive gestures are more likely to occur on predicates with zero reference (χ-square, p-value < 0.005) and less likely to occur on explicit reduced referential expressions (personal, rare demonstrative and determinative pronouns). Pointing gestures, on the contrary, are less likely to be aligned with zero reference, but are often accompanied by explicit referential expressions, primarily by personal pronouns (cf. Figure 13 and 14).
+Referential phenomena in speaker’s kinetic channels0100150
+200
+250
+300
+Down Center Aside
+Hand gestures (entries)
+Full referenceUp
+Reduced explicit reference Zero reference2060100120
+140
+160
+Full reference Reduced explicit reference Zero reference
+Hand gestures (entries)
+Depictive Pointing Pragmatic0%
+10%
+20%
+30%
+40%
+50%
+60%
+70%
+80%
+90%
+100%
+Full reference Reduced explicitreference
+Zero reference
+Hand gestures (percentage)
+Depictive Pointing Pragmatic
+Fig. 12a. Functional types of hand gestures and types of reference (raw numbers)50100
+150
+200
+250
+300
+Down Center Aside
+Hand gestures (entries)
+Full referenceUp
+Reduced explicit reference Zero reference2060100120
+140
+160
+Full reference Reduced explicit reference Zero reference
+Hand gestures (entries)
+Depictive Pointing Pragmatic0%
+10%
+20%
+30%
+40%
+50%
+60%
+70%
+80%
+90%
+100%
+Full reference Reduced explicitreference
+Zero reference
+Hand gestures (percentage)
+Depictive Pointing Pragmatic
+Fig. 12b. Functional types of hand gestures and types of reference (percentage)
+Budennaya E. V., Evdokimova A. A., Nikolaeva Ju. V., Sukhova N. V. 13. The realization of a depictive hand gesture with a downward direction which accompanies zero reference. The hand gesture occurs on the phrase pomogajut emu podnyatsya ‘they help him to stand up’. The narrator moves her right hand in a semicircle and then downward, even though the semantics of the word “stand up” suggests the movement “up”.
+14. The realization of a pointing hand gesture which accompanies the personal pronoun. On the phrase čto on vot možet ne zametit’ čto-to ’that he can somehow miss something’ the narrator points to her face first, then she does several short movements with her hand away to the right.
+6. Discussion
+As the data in Section 5 show, manual and cephalic gestures are combined in different ways with referential expressions.
+There can be several explanations for the fact that zero expressions are more likely to be accompanied by depictive hand gestures. As shown in , depictive gestures more often illustrate the foreground of the discourse and are often Referential phenomena in speaker’s kinetic channelsaligned with the most dynamic events of the story’s mainline. It is expected that such a description will relate to the actions of the protagonist, who is highly activated and therefore often not explicitly expressed. In addition, depictive gestures more often align with actions, and thus correlate with predicates to which zero expressions are attributed in the corpus. The data presented in Figure 10 is consistent with the observation about the time coordination between the depictive gesture and the action performed by the protagonist . We can assume that the detected correlation between depictive gestures and reduced referential expressions is a superficial phenomenon driven by internal factors, such as the referent’s status as protagonist and topic continuity, which affect both the functional type of gesture and the type of concomitant referential expression.
+Reduced reference is more likely to occur in situations of several competing antecedents. Their distinction is associated with the referent’s position in the gestural space around the speaker, and thus the transition from one referent to another is accompanied by gestures in the horizontal plane. The least obvious is why zero referents are accompanied by movements of the hand or hands toward the center. Probably this tendency can be explained by specific stimulus material: the actions often mentioned are those that can be illustrated with upward gestures (for example, sadovnik podnimaetsya po lestnice ‘the gardener goes up the stairs’).
+In addition, it was found that full N
+Ps are more often accompanied not only by hand movements but also by cephalic gestures, compared to reduced expressions. Moreover, in the cephalic channel full N
+Ps are more likely to be aligned with downward movements A and with pragmatic gestures. For Movement B, no correlation with referential expressions was detected but two directions were most often used: forward-backward and slide to the left. This indicates the adjustment of the gestural component of the interlocutors to each other and the independence of Movement B from reference. Other features can be explained by individual gestural portraits of the participants.

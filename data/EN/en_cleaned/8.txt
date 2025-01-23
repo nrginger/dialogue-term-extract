@@ -1,0 +1,138 @@
+In the current paper, we present the pilot corpus of the English semantic sketches and compare the
+English sketches with their Russian counterparts. The semantic sketch is a lexicographical portrait of averb, which is built on a large dataset of contexts and includes the most frequent dependencies of the verb.
+The sketches consist of the semantic roles which, in turn, are filled with the most typical representativesof the roles.
+The influence of context on word recognition has been well-known for quite a time. Semantic contextallows faster word recognition and the inferring of the skipped words while reading. The research in
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2022”
+Moscow, June 15–18, 2022this area has been conducted in psycholinguistics since the 1970s, with the earliest works by (
+Tweedyet al., 1977) and (
+Becker, 1980). Here the focus is on visual word recognition while reading and wordrecognition by bilingual persons (
+Assche et al., 2012). Another aspect of the topic is the automaticinferring of the skipped words by context, widely known as a common NL
+P task today.
+The ability to represent the word by its context is the central idea of distributional semantics. Itserves as a basis for the bag-of-words task, which is a training objective for static vectors like word2vec(
+Mikolov et al., 2013) and Fast
+Text (
+Bojanowski et al., 2017). In the approach, the context has a setlength, and the words entering the fixed window are considered equally.
+The semantic sketches do not have such disadvantages, as they are based on the result of the semanticparsing and therefore take into account not all the words occurring in the context, but only the words thatsemantically depend on the given core. That is, we take not the linearly nearest tokens, but the tokensclose in the parsing graph, where the type of the links is considered as well.
+The BER
+T (
+Devlin et al., 2019) contextual embeddings, which followed the static vectors and becamea state-of-the-art solution for meaning representation, also rely on the idea of expressing word semanticsthrough its context, using the objective of masked language modeling.
+One of the main weaknesses of all vector representations is their interpretation and quality evaluation.
+The common practice is to consider the vectors as good, if they allow one to get the necessary quality forthe down-stream task.
+The advantage of the semantic sketches is in their interpretability and clear creation process. Thesketches can be regarded as human-interpretable representation of word meanings, which one gets automatically with the help of the statistical methods used on the large text datasets.
+The semantic sketches were first demonstrated in (
+Detkova et al., 2020), where we presented the ideaof the semantic sketches itself and analysed the semantic mark-up used for building the sketches. Further,the pilot corpus of the Russian sketches has been created (
+Ponomareva et al., 2021). Herein, we havecontinued the work and created the pilot corpus of the English semantic sketches. The corpus is bilingual: each English sketch is accompanied by the Russian analogue with the same semantics, so onecan compare the English sketch with the Russian one and analyse the contrastive differences between thesketches. Thereby, the contribution of the current paper is the creation of the English semantic sketches,on the one hand, and the creation of the parallel bilingual sketch corpus – on the other.
+The structure of the paper is as follows. First, we briefly characterise the semantic sketches themselves.
+Second – give a description of the suggested corpus and explain what kind of verbs it contains. Afterthat, we analyze the mistakes one faces when building the sketches, and focus on the cross-languagedifferences between the sketches with similar semantics. In conclusion, we summarize the results.
+2 Semantic Sketches
+The idea to represent word compatibility in the form of the sketch belongs to Adam Kilgarriff (
+Kilgarriffet al., 2014) and is currently realized in the Sketch Engine project1. Verbal dependencies are classifiedaccording to their syntactic roles and statistically ranged, which allows one to see all of the most frequentsyntactic dependencies of the verb at the same time.
+The problem is that the syntactic sketches do not differentiate between various meanings of the verbsand combine all possible meanings in one sketch. To overcome this problem, we suggested the semanticsketches, which take the semantic models into account and classify the dependencies by their semanticrelations with the core instead of their surface realizations (
+Detkova et al., 2020). For instance, see fig. 1with the sketch of the verb ‘to focus’ in the meaning ’to concentrate on smth., to pay special attention tosmth.’:1www.sketchengine.eu
+Petrova M., Ponomareva M., Ivoylova A.
+Such sketches are built for each meaning separately, however, it demands a significant text corpus withfull semantic mark-up. The authors settled on the Compreno mark-up built by the Compreno parser,which includes not only actant dependencies, but all possible links.
+In the Compreno model, all words are presented in the form of a thesaurus-like semantic hierarchy,which consists of the semantic classes (semantic fields), and a set of the semantic roles for the classes (fordetail, see (
+Anisimovich et al., 2012), (
+Petrova, 2014)). If a verb has several meanings, it enters severalsemantic classes with its own semantic model each. The semantic class is specified for each sketch.
+3 English Sem
+Sketches Corpus
+The Sem
+Sketches pilot corpus consists of 100 English sketches which are manually checked. It meansthat we have chosen the sketches manually according to their quality. The sketches are built on the corpusof the English texts comprising different genres, such as technical texts, news, fiction, and containing 14million syntactic verbal links, that is, links which depend on the verbal cores.
+Each English sketch is provided with the parallel Russian sketch from the same semantic class, asshown in fig. 2 and 3:
+The Pilot Corpus of the English Semantic Sketches
+For 100 English sketches, 84 Russian sketches are used: it means that some Russian sketches correspond to more than one English sketch. Totally, the corpus includes 113 English
+Russian sketch pairs.
+The choice of the English verbs is based on the Russian corpus which was built in (
+Ponomareva etal., 2021). The Russian corpus, in turn, includes only polysemantic verbs as an important point is toinvestigate how good the sketches can differentiate between various meanings of the verbs.
+To form the English sample, we have taken the verbs from the same semantic classes and set thethreshold of 200 semantic links for each English verb: it means, the verb must have at least 200 linksin the English texts corpus. (
+For comparison, the threshold for Russian verbs was 2000 links, but the
+Russian sketches were collected on the bigger dataset which includes more than 36 million links.)
+After it, 100 English sketches were chosen, which met the above mentioned criteria and seemed to beenough representative to show the ability of the sketches to deal with polysemy, word sense disambiguation (WS
+D) problem, and asymmetrical compatibility of the verbs with similar semantics in differentlanguages. Of course, the pilot corpus of 100 sketches is not enough for conducting representative contrastive research, however, certain observations seem to be of interest for comparative studies even onthe small sample, as it is demonstrated below.
+4 What the mistakes in the sketches demonstrate
+The sketches are based on (1) the semantic relations the verb has in the text collection; (2) the work ofthe parser which classifies the relations according to their semantic roles and defines the meanings of theverbs. Therefore, the view of the sketch depends on the number of links the verb has in the corpus, andon the correctness of the parser’s work. Herein the following mistakes are possible, which concern theautomatic generation of the sketches.
+4.1 ‘
+Empty’ sketches
+The insufficient number of links leads to partly ‘empty’ sketches, where the semantic roles contain veryfew fillers, up to only one. So when the semantic role column is partly empty, it can mean that thenumber of the role’s links in the corpus turned out to be poor (for instance, see the the sketch for ‘inflict’ on fig. 4]). As the number of texts grows, this problem occurs rarer.
+Another reason for the lack of fillers comes from the narrowness of the semantic role filling. That is,slots like rather wide filling, while more restricted inthis respect. In turn, the Compreno parser has a large set of characteristic slots (for size, colour, speed,modality, and so on), so some slots possess rather narrow semantics and include a small set of fillers (likethe in the same sketch on fig. 4).
+Petrova M., Ponomareva M., Ivoylova A.
+Moreover, there are verbs with narrow compatibility, such as lexical functions. For instance, see the slot in the sketch of ‘играть:TO_COMMI
+T’ (fig. 13).
+In sketches like these, empty lines in the semantic slots are correct.
+4.2 Incorrect semantic roles or incorrect fillers
+Other errors concern either the incorrect choice of the semantic slot for the given verb meaning, or thewrong fillers of the slot. As one of the key points is to examine how well the sketches solve the WS
+Dproblem, this type of mistakes is important for us.
+An illustration for the incorrect semantic slot is the Russian sketch for ‘доставлять:TO_BRING_STATE_TO_SM
+B’ (fig. 5), parallel for the above shown ‘inflict:TO_BRING_STATE_TO_SM
+B’. It contains the which must definitelybelong to another meaning of the verb – ‘bring to some place’.
+Examples of the wrong fillers have already been shown in (
+Ponomareva et al., 2021). The reasons areusually bound either with the statistics, or with the work of the parser. At the analysis stage, all possiblehypotheses are built for the sentence – with all possible homonyms that can fit. The final structure turnsout to be the one with the highest scores. In some cases, hypotheses with more frequent homonyms windue to their higher frequency, in spite of the fact that the whole structure with the wrong homonym getslower evaluations.
+As the text collections for building the sketches grow, the statistics of the proper analysis improves,therefore, we expect that most part of the errors will be corrected with enlarging the corpora. Nevertheless, in case of the improper work of the parser, the opportunity to correct the semantic models that theparser uses exists as well.
+The Pilot Corpus of the English Semantic Sketches4.3 The syntactic homonymy
+Key difference between the semantic and the syntactic sketches is that in the former 1 surface realisationcan correspond to various semantic roles. For instance, ‘for’-dependency can introduce Time, Purpose,
+Distance, Motive and a number of other relations.
+Usually, the proper semantic role is chosen according to the semantic model of the given verb in
+Compreno – namely, the set of the semantic slots with the necessary surface realisation, the fillers of thesemantic slots, and their status (which marks the role as more or less preferable).
+When the model or the statistics give improper results, the semantic role of the dependency can bedefined incorrectly. For instance, see the of the verb ‘throw:TO_THRO
+W’: the firstline contains the nominal group ‘for 408 yards’, which must evidently belong to the slot (fig. 6).
+Another example is the group ‘for this moment’ in the instead of the sketch of‘to thank’ (fig. 7). Here, on the contrary, definitely more frequent, but ‘moment’ is a verytypical therefore, high statistical evaluation of the correlation ‘moment’made theincorrect structure win.
+All the mistakes deal with different aspects of the WS
+D and homonymy problems. Their number doesnot seem significant, nevertheless, their statistical estimation must be made when creating a larger sketchcorpus.
+5 Cross-language differences between the sketches with similar semantics
+The one-language sketch corpora suggest good lexicographic portraits of the verbs, showing their mostfrequent semantic links sorted according to the semantic roles of the dependencies. Moreover, apart from
+Petrova M., Ponomareva M., Ivoylova A.purely lexicographic tasks, the sketches allow one to solve various problems bound both with the contextusage of the verbs and with their polysemy.
+Another purpose of the sketches deals with contrastive studies. Parallel sketches from different languages give perfect representation of the correlation between similar verbs, therefore, parallel sketchcorpora would be helpful in this respect.
+Evidently, each sketch can correspond to more than one sketch in another language. To get a full setof all possible counterparts, one should take the necessary sketch in one language and the sketches forall the semantic equivalents in the same semantic class in another language. After it, one can range thecounterparts according to their affinity with the primary verb. We have not made such full sets in thepilot corpus, however, adding this option is included in further plans.
+At the current stage of the project, the correlations between the English and the Russian sketches donot include all possible correlations for each verb, so the sketch pairs are just a subset of the possiblevariants.
+Some pairs look similar: both English and Russian sketches include the same set of semantic roles,and the semantic roles contain either fillers with close semantics, or just a wide range of fillers with nospecial semantic restrictions on them.
+At the same time, many sketches demonstrate significant differences between the English and Russianequivalents. Most of them concern the following situations:(a) some semantic slot is present in the sketch of one language and is absent – in the correspondingsketch in another language;(b) equivalent sketches contain the same sets of the roles in both languages, but the fillers of some rolediffer significantly;(c) the semantic field where the considered verbs belong is structured differently in different languages.
+5.1 Different semantic roles in the equivalent sketches from different languages
+Frequently, the semantic role sets in the parallel sketches do not coincide completely. It concerns boththe actant roles and the circumstantial ones. The reasons can be different. First, the semantics of one verbmay be wider than the semantics of the other, therefore, the model of the former can include additionalroles which are absent in the model of the latter. Second, the model of both verbs can include the samesets of roles, however, the frequency of some roles may differ for various verbs, which can be motivatedboth by the verb’s semantics and by the representativeness and contents of the corpora for building thesketches.
+An example of the first case is the correlation between the semantic derivates in different languages.
+For instance, Russian verb ‘трясти’ ‘to shake’ does not attach the initial point dependency in contextslike (1) and (2), while the English ‘shake’ does:(1) A sound they couldn’t shake Звук, который им никакне удавалось вытряхнуть ;(2) I saw immediately that my few belongings had been disturbed–collars not refolded, one of mychemises balled up and pushed into a corner, the tortoiseshell comb shaken . – И сразу увидела, что в моих вещах кто-то рылся —воротники были сложены неаккуратно, одна из моих рубашек скомкана и засунута вугол, черепаховый гребень вытряхнут .
+In Russian, the semantic derivate ‘вытряхнуть’ ‘shake out’ is used when the initial point role isexpressed in a sentence. Therefore, the sketches can show that ‘shake’ usually corresponds to the Russian‘трясти’ (which does not mark the ‘direction of shaking’), but can also correspond to ‘вытрясти’(which denotes the ‘from’ direction) with the dependency of the initial point.
+Nevertheless, there can be occasional variations depending on the contents of the corpora, especiallyas far as less frequent verbs are considered. The more the corpora are, the more stable are the results.
+Thus we permanently enlarge the size of the dataset for building the sketches.
+The Pilot Corpus of the English Semantic Sketches
+As an instance of such statistical oscillations, see the sketches for “find:TO_SEEK_FIN
+D” and“найти:TO_SEEK_FIN
+D”. The first five roles coincide, but the sixth one is different – it is the English ‘find’ and the Russian ‘найти’ (fig. 8, 9):
+Both roles – can be frequently used with both verbs. In thiscase, the difference does not seem meaningful.
+5.2 Different fillers of the semantic roles
+Let us consider some sketches for the descendants of the semantic class “TO_COMMI
+T”: the Englishverbs ‘do’, ‘play’ and the Russian verbs ‘делать’,‘играть’. “TO_COMMI
+T” is a kind of lexical function, where the verbs have rather narrow compatibility in the (place trust/hope vs pay a visitvs play a joke/trick vs take a look/try/walk/etc., and so on).
+As fig. 10, 11, 12 and 13 demonstrate, the compatibility of the verbs ‘do’ and ‘делать’ is rather wide,while ‘играть’ combines with only four Object fillers.
+Petrova M., Ponomareva M., Ivoylova A.
+Figure 10: The sketch for the verb ‘to do:TO_COMMIT’
+Figure 11: The sketch for the verb ‘делать:TO_COMMIT’
+Figure 12: The sketch for the verb ‘to play:TO_COMMIT’
+Figure 13: The sketch for the verb ‘играть:TO_COMMIT’
+The Pilot Corpus of the English Semantic Sketches
+Besides, the four verbs differ in the sets of the semantic roles as well. , are present in all four sketches. absent in the sketches of ‘играть’ and ‘play’ as theircompatibility does not include the corresponding fillers.
+‘
+Do’ and ‘играть/play’ include while ‘делать’ does not include it. Thereason seems to be in the semantics of the fillers of the the mostfrequent Object_
+Class fillers are ‘шаг’ ‘step’, ‘выбор’ ‘choice’, ‘операция’ ‘operation’, ‘снимок’ ‘picture’ and so on, which are more often combined with active human-like agent rather than inanimateagents like ‘economy, system, process’ and alike.
+As far as the circumstantial dependencies are concerned, both Russian sketches include the semanticroles of the English ‘do’ includes (inthe Compreno model, it characterizes objects or situations according to their similarity) and ‘play’ – and . At first sight, these differences do not seem meaningful, however, it would beinteresting to regard the sketches of the whole semantic class TO_COMMI
+T to examine how regularsuch correlations are.
+Another example concerns verbs with wider compatibility, where the restrictions on the Object role arenot purely lexicalized, but concern a wider range of fillers with common semantic features. For instance,let us take the semantic field “TO_POU
+R” (something liquid or friable). English and Russian structureit differently as far as the core verbs’ compatibility is concerned. Namely, the English verb ‘to pour’attaches objects which are liquid (water, wine), friable (sand, sugar), or consist of many small pieces(crystals, euros, diced meat, and so on). In Russian, the verb ‘лить’ is used with liquid objects only andthe verb ‘сыпать’ – only with friable objects and objects consisting of many small pieces. Therefore,the Object slot fillers differ correspondingly in the sketches (fig. 14).
+Figure 14: The fragment of the sketches for the verbs ‘to pour:TO_POU
+R’, ‘лить:TO_POU
+R, and‘сыпать:TO_POUR’
+Nonetheless, the amount of eight most frequent fillers which is usually shown in the sketches is notalways enough to demonstrate such differences, as the most frequent objects can bear the same semanticfeatures.
+As one can see, the sketches suggest a wide range of comparative data in the field of semantics anddemonstrate the semantical differences between the verbs of the same semantic class both in differentlanguages and within one language as well.
+6 Conclusion
+In the given paper, we have presented the pilot corpus of the English semantic sketches.
+As the sketches are provided with their semantic parallels in Russian, we have also illustrated whatkind of comparative studies the sketches allow to conduct, especially as far as the differences in the
+Petrova M., Ponomareva M., Ivoylova A.semantic roles and their typical fillers are concerned. An important point is the ability of the sketches todeal with polysemy and to differentiate between various homonyms.
+We have also discussed common types of mistakes occurring while building the sketches and speculated about their linguistic and technical nature.
+Our further plans are to improve the sketches by obtaining them on a bigger dataset, to enlarge thesketch corpus and build the sketches for each verb from the dataset, to provide the corpus with someadditional features, such as the opportunity to show more semantic slots and more fillers of the slotswhen necessary, and to see the correlations between all the verbs of the same semantic class. After it, thework on adding other languages to the sketch corpus will be started.
+At the same time, we work on the open corpus of the Compreno semantic mark-up which will includea detailed description of the mark-up principles and the semantic roles used in the mark-up, which willfacilitate the understanding of the roles used in the sketches.
+The current corpus is available at github2. Besides, we continue the work on integrating the semanticsketches in the General Internet
+Corpus of Russian (GIC
+R).
+We hope the corpus would contribute to different NL
+P areas, especially to solving the WS
+D problem.

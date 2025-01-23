@@ -1,0 +1,216 @@
+Research into ontologies has received much attention for the last years Due to its practical use for common tasks related to knowledge sharing and publication, it has been subject of study in most different scientifi c communities. Ontologies are often seen as enabling technology for information sharing, with their ability to be easily reused being a key factor for successful application scenarios On the web, which represents a large universe of mostly unclassifi ed semi-structured hypertexts, semantic techniques and technologies open up new strategies for information retrieval and text classifi cation .
+The Institute for German Language (ID
+S) in Mannheim is the central institution for research and documentation of the German language. It hosts several specialist resources, including the hypertextual information systems Grammis and Pro
+Gr@mm and a terminological ontology Since only less than 40 % of the hypertexts are classifi ed with manually assigned keywords, our goal is to gain insight of how ontology features can affect automatic semantic-statistical classifi cation. We introduce the resources as far as necessary to understand our test-bed, and then present a selfconducted empirical case study to verify the feasibility of our approach.
+Hypertext resources2. Grammis is a specialist hypertext resource that brings together terminological, lexicographical, and bibliographical information about German grammar. Initiated more than a decade ago, it combines traditional description of grammatical structures with the results of corpus-based studies and hypermedia design principles. Considering that the grammar of human languages is a highly complex scientifi c domain, the project authors use hypertext chunking and linking as well as multimedia extensions like spoken language excerpts and graphical explanations in order to address a broad target audience with heterogeneous foreknowledge. Their goal is to present a comprehensive overall picture of contemporary German grammar from a syntactic, semantic, and functional perspective. Today, Grammis1 is the most prominent academic information system dedicated to German Grammar, with consistently more than 50,000 page impressions per month. Pro
+Gr@mm2 is an e-learning system for schools, colleges, and uni1 Short for: Grammatical Information System (http://www.
+ids-mannheim.de/grammis/). The authors of this paper are members of the Grammis project team.
+2 Short for: Propaedeutic Grammar (http://www.ids-man
+nheim.de/progr@mm/)
+Using a domain ontology for the semanticstatistical classifi cation of specialist hypertexts Noah Bubenhofer (bubenhofer@ids-mannheim.de), Roman Schneider (schneider@ids-mannheim.de)
+Institute for German Language (ID
+S), Mannheim/Germany
+In this feasibility study we aim at contributing at the practical use of domain ontologies for hypertext classifi cation by introducing an algorithm generating potential keywords. The algorithm uses structural markup information and lemmatized word lists as well as a domain ontology on linguistics. We present the calculation and ranking of keyword candidates based on ontology relationships, word position, frequency information, and statistical signifi cance as evidenced by log-likelihood tests. Finally, the results of our machine-driven classifi cation are validated empirically against manually assigned keywords.
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010
+Using a domain ontology for the semantic-statistical classifi cation of specialist hypertexts 623versities, and didactically prepared for online learning. A special module covers selected grammatical topics from the perspective of other European languages and is well-suited for students and teachers of German as a foreign language. Functional add-ons are guided tours, personal notes, and discussion forums for the educational community.
+From a technical point of view, both Grammis and Pro
+Gr@mm can be described as XM
+Land databasedriven web information systems, whose semi-structured hypertext nodes (instances) conform to the Grammis Markup Language (GrammisM
+L). GrammisM
+L defi nes detailed constraints on the instance’s logical structure, allowing for subsequent cross-media publishing (“one source fi ts all”). It provides conventional block elements like paragraphs, lists, or tables, as well as specifi c markup structures for the coding of grammatical metadata, typed hyperlinks, etc. Using a web-based authoring frontend, arbitrary keywords and object words/phrases for retrieval operations can be assigned manually. Parsing, analysis, and transformation of the hypertext resources are conducted using established technology like X
+Path, X
+Query, XSQ
+L, and XS
+L Transformation . The domain ontology3. Not just since the proclamation of the Semantic Web , semantic resources are among the most prominent add-ons and tools for information retrieval. Domain ontologies, organizing specialist terms (concepts) and their interconnections (relationships), can make a most valuable contribution to the analysis, classifi cation, and fi nding of documents on the web — not least in the context of academic publications . This is due to the both simple and unfortunate fact that scientifi c terminology is often far from being consistent. Especially in the fi eld of linguistics, different theories, schools of thought, or even authors not only name things differently, but even assign varying meanings to identical terms. A semantically enriched retrieval application for the exploration of linguistic resources should incorporate these theory-related details so that it can offer appropriate solutions. As a consequence, we integrated a domain ontology for linguistic/grammatical terminology. The semiautomatic detection of concepts as well as the modeling of relationships has been conducted using statistical methods on large general language corpora and specialist language corpora.3 Broadly speaking, in order to bring together theoretical desiderata with practical demands and limitations, we combine well-established standards of ontological engineering — e. g., the use of ISO-2788/ANS
+I Z39.19 compliant hyponymy/meronymy relationship types like Broader Term Generic (BT
+G) or Broader Term Partitive (BT
+P) — with terminological modeling principles — e. g., termsets, expanded by theory-related attributes and explicit linking of individual concepts belonging to different Termsets .
+three termsets, indicated by dotted border lines. The bottom termset contains the two concepts Verbgruppe and Verbalphrase, recognizable by rectangles with rounded corners. Verbgruppe is characterized by a theory-related attribute named ID
+S', meaning that it is used primarily 3 See a description of the ontology building process;
+the ontology in greater detail.
+Fig. 1: XM
+L stored inside the database (left) and converted to HTM
+L (right)
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010 Noah Bubenhofer , Roman Schneider
+when referring to the ID
+S Grammar of German Language. The concept Verbalphrase consists of four lexical entries: Fig. 2: Grammis ontology modeling structure
+Verbalphrase• with a marker for Preferred Term (P
+T) and a language attribute (German)
+Verbphrase• linked to the former by a synonymy relation (SYN)V
+P• linked by a abbreviation relation (AB)
+Verb Phrase• with language attribute (
+English) and translation relation (TR)
+The termset is linked with its hyperonym by a Broader Term Generic (BT
+G) relation. In order to clarify the benefi t of linking not only termsets, but also concepts, our example illustrates the relationships between Phrase (engl. phrase) and Satz (engl. sentence). Basically, the corresponding termsets are connected with the help of a Broader Term Partitive (BT
+P) relation (meronymy). Beyond this, since generative grammars usually classify sentences as phrases (complementizer phrases), only these two concepts — singled out by a theory-related attribute — are linked by a Narrower Term Generic (NT
+G) relation (hyponymy). This should facilitate communication between people or computers using different terminological systems.
+The classifi cation process4. The goal of the classifi cation process is to fi nd terms (keywords) describing the content of a hypertext. We use the following information for our algorithm:
+The hypertexts contain XM
+L-coded markup like • paragraphs, lists, tables etc., but also specifi c grammatical metadata and links to the grammatical dictionary.
+For the classifi cation process the hypertexts were • lemmatized and part-of-speech tagged using the “Tree
+Tagger” a training fi le for German. The source for possible keywords is our ontology, • that can be accessed by functions such as „get hypernyms of a term x up to n levels“ or „get synonyms of term x“ etc.
+The ranking algorithm4.1. For the classifi cation process we stored the hypertexts as a lemmatized word list which also contains the type of the paragraph the word is used in (title, subtitle or defi nition). We omitted words that are used in examples and tables: Examples contain object language that should not be used as a source for keyword candidates. Tables also often list object language and contain word chunks or fragments, because they are used for the presentation of infl ection paradigms and the like. The basic idea of our classifi cation algorithm is the following: We select for each text all the terms that are 1. also part of the ontology.
+For each term, we assume broader terms one 2. level above as additional keyword.
+For each term, a rank is calculated that refl ects 3. its importance within the text. We use basically three factors to calculate importance:
+Frequency: More frequent terms are a. more important than rare ones.
+Position: If a term is mentioned in a title, b. subtitle or a defi nition or is used as a link to the grammatical dictionary, then it is supposed to be more important.
+Statistical signifi cance: The relative fre-c. quency compared to the mean frequency of the term in all the other texts is calculated using a log-likelihood test.
+These three factors are combined to an overall score. Frequency and position are calculated by counting the occurrences of the term in question multiplied by a weight depending on its position. In our standard procedure we used: titles = 6, subtitles = 4, defi nitions and „
+Merksätze“ = 2, all other positions = 1. The statistical signifi cance is calculated using the log-likelihood test :L
+L = 2*((a*log (a/
+E1
+)) + (b*log (b/
+E2
+)))
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010
+Using a domain ontology for the semantic-statistical classifi cation of specialist hypertexts 625
+In this formula, a and b are the raw frequencies of the term in the text and the whole corpus respectively. E1
+E2
+the expected frequencies in the text and the whole corpus. The calculated value expresses the difference of the relative frequency to the total corpus. The higher the value, the higher is the signifi cance of the term for the specifi c text. The following example demonstrates the difference between raw frequencies and relative frequency: Table 1 shows the frequencies and signifi cance values of a hypertext node on valency (“Valenz”).4
+The keywords are ordered by their signifi cance for the text (column „LL
+R“). Column „frequency“ contains the raw frequencies, and „weighted frequency“ stands for the frequencies weighted by the position in the text. The list also contains terms that are not mentioned literally, but are broader terms of a token („source term“). The most frequent term is Valenzträger, but according to the raw and the weighted frequency, Valenzträger would be on a lower rank. And vice versa: A very often used term like Adjektiv is not signifi cant enough for a text on (verb) valency to rank in a top position ordered by signifi cance.
+4 http://hypermedia.ids-mannheim.de/pls/public/sysgram.
+ansicht?v_typ=d&v_id=2871I
+D Type keyword Candidate Frequency
+Weighted frequencyLL
+R Source term2871 d Valenzträger 8 17 70,93 Valenzträger
+2871 d syntagmatische Beziehung 11 23 64,89 Valenz
+2871 d Valenz 11 23 64,89 Valenz
+2871 d Komplement 18 18 54,44 Komplement
+2871 d Leerstelle 3 3 26,21 Leerstelle
+2871 d Wortart 15 33 13,68 Verb
+2871 d Verb 15 18 13,68 Verb
+2871 d Nominalgruppe 2 2 13,33 Nominalgruppe
+2871 d Modifi kator 10 14 10,94 Adjektiv
+2871 d Adjektiv 10 13 10,94 Adjektiv
+2871 d Satzadverbial 10 13 10,94 Adjektiv
+2871 d Nomen 10 13 9,85 Nomen
+2871 d Bedeutung 6 6 9,66 Bedeutung
+2871 d Verbvalenz 1 1 6,25 Verbvalenz
+2871 d Eigenschaft 4 4 4,58 Eigenschaft
+2871 d Prädikat 4 4 4,58 Eigenschaft
+2871 d Form 6 6 3,51 Form
+2871 d Ergänzung 1 1 3,34 Ergänzung
+2871 d Infi nitivkonstruktion 1 1 3,15 Infi nitivkonstruktion
+2871 d Anhebung 1 1 3,15 Infi nitivkonstruktion
+2871 d Infi nitkonstruktion 1 1 3,15 Infi nitivkonstruktion
+2871 d Nominalphrase 4 4 2,65 Nominalphrase
+The fi nal ranking4.2. The algorithm produces two different rankings: One ranking refl ects the combination of frequency of the term and its position, the other ranking represents the signifi cance of the term. Both aspects infl uence the fi nal ranking. We combined the two rankings in the following way: The rank is transformed to a score by inverting the rank position. We then sum up the two scores and get a fi nal ranking. In addition, we omit keywords with raw frequency 1 which tend to get very high LL
+R values but are not important enough to be included into the keyword list. When applying the algorithm to the valency hypertext node (see table 1 above for the raw frequencies), we get the fi nal ranking as shown in The number of keyword candidates depends on how congruent the two lists of the highest ranked terms are. Table 2 is based upon the combination of two top 10 lists and both lists contain more or less the same terms in different order. Therefore the merged list contains only two terms more than the two source lists. Intuitively, table 2 satisfyingly refl ects the text about valency, similar to other hypertext nodes we evaluated manually. But, as described in the following section, we tried to further evaluate the lists for better results.
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010 Noah Bubenhofer , Roman Schneider
+„Verbvalenz“I
+D Type Keyword Candidate Score2871 d Valenz 17
+2871 d syntagmatische Beziehung 17
+2871 d Wortart 15
+2871 d Valenzträger 14
+2871 d Komplement 12
+2871 d Verb 10
+2871 d Leerstelle 6
+2871 d Modifi kator 5
+2871 d Nominalgruppe 3
+2871 d Satzadverbial 2
+2871 d Adjektiv 2
+Evaluation of the classifi cation results5. Evaluation results5.1. Some of the hypertext nodes are already classifi ed by manually assigned keywords, using an uncontrolled vocabulary. These keywords are a measure to evaluate our automated classifi cation and to experiment with different settings of the classifi cation algorithm. Currently, the algorithm cannot cope with multi-word units, therefore we only analyze texts with one or more single-word keywords. Table 3 shows how the change of some parameters of the classifi cation algorithm — e. g., weight of position (title, subtitle, etc.) — affects the matching of manually and automatically assigned keywords. We differentiate three matching levels: level 1 counts documents, that at minimum have one correspondence of manually and automatically assigned keywords. At level 2 at least 50 %, and at level 3 all of the manual keywords need to be matched by the auto matic ones.
+Version Parameters
+Level 1:
+Matching documents
+Min. 1 KW
+Level 2:
+Min. 50 % KW
+Level 3:
+Min. 100 % KW
+Default version
+Weight of positions: titel = 10, subtitle = 4, defi nitions and „
+Merksätze“ = 2
+Source lists: top 1079,34 %
+657/828
+37,68 %
+312/828
+22,4 %
+186/828 More keywords
+to default version, but: Source lists: top 2083,69 %
+693/828
+48,18 %
+399/828
+29,71 %
+246/828 More keywords
+to default version, but: Source lists: top 4085,02 %
+704/828
+52,29 %
+433/828
+32,97 %
+273/828 keywords
+to default version, but: Source lists: top 10085,02 %
+704/828
+52,54 %
+435/828
+33,33 %
+276/828 Titles version
+Equal to default version, but:titel = 30, subtitle = 1079,59 %
+659/828
+38,53 %
+319/828
+23,19 %
+192/828
+6 Versions with more keywords lead to the same results than versions 2–4 above
+No hypernyms
+Equal to default version, but:
+Only literally used words are keyword candidates, no hypernyms.
+79,10 %
+655/828
+37,07 %
+307/828
+22,46 %
+186/828 More hypernyms
+Equal to default version, but:
+Hypernyms up to 2 levels above in the hierarchy78,02 %
+646/828
+37,44 %
+310/828
+21,98 %
+182/828 More keywords
+to “more hypernyms” version (8), but: Source list: top 10085,51 %
+708/828
+53,5 %
+443/828
+34,54 %
+286/828
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010
+Using a domain ontology for the semantic-statistical classifi cation of specialist hypertexts 627
+The evaluation illustrates two key issues for successful keyword detection:
+Getting all possible keyword candidates out of the • text (tested with versions 1, 5, 7 and 8 in table 3).
+Putting the keyword candidates into the right • ranking order, so that the top 10 ranking refl ects the text content (tested with versions 2–4, 6 and 9 in table 3).
+The fi rst evaluation results are not too impressive: A 50 % matching of automatically and manually assigned keywords is only achieved at about 37 % of the documents (table 3, 1). About 80 % of the documents have at minimum one correspondence. Crucial seems the number of keywords that are included into the fi nal list of keyword candidates. If this number is being increased, the matching scores also get better (table 3, 2–4). But even if the source lists contain 100 keyword
+candidates, only 52 % of the documents have matches at a 50 % level (85 % at level 1). If other parameters are changed, the score does not increase signifi cantly: Neither accepting less nor more hypernyms (table 3, 7–8) has a substantial impact on the matching score. Only a higher weight of title positions (table 3, 5) slightly increases the score.
+Discussion5.2. These results interfere with our fi rst impression when we intuitively evaluated documents without any manual keywords. Therefore, the manual classifi cation process has to be examined. In 262 (32 %) of 828 documents, at minimum 80 % of all manually chosen keywords are not used at all within the hypertext nodes, even if the most narrow terms are taken into consideration. The reasons for that are manifold: Tagging issues infl uence the matching results: The • Tree
+Tagger does not lemmatize some plural forms (e. g., Pronomina) correctly. This leads to a mismatch in hypertext nodes where only the plural form is used. The fact that at the moment we cannot cope with • multi-word units also affects the evaluation of the manual classifi cation process.
+Our human classifi ers tend to choose keywords • that are neither mentioned in the hypertext node nor are close hypernyms of text words. The above mentioned hypertext node (“Relativ
+Elemente”) also shows that different keynote annotators could disagree on the best solution (bad inter-rater reliability). Pronomen and Wortart are the manually assigned keywords, but another rater perhaps would also or instead set Relativsatz, Relativ
+Element (as used in the title of the text) or something else as a keyword. Table 4 shows the automatically assigned keywords to the text.
+„Relativ-Elemente“I
+D Type Keyword Candidate Score368 d Phrase 11
+368 d grammatische Kategorie 10
+368 d Relativsatz 10
+368 d eingeleiteter Nebensatz 9
+368 d Einheitenkategorie 8
+368 d Relativ
+Element 8
+368 d nicht-verbaler Ausdruck 7
+368 d Pronominalphrase 7
+368 d Einbettung 7
+368 d Proposition 6
+368 d Verkettungsverfahren 6
+368 d restriktiv 5
+368 d Präpositionalphrase 4
+368 d semantische Relation 4
+368 d phrasale Kategorie 2
+368 d Nominalphrase 1
+Conclusion6. The discussion shows the demand for a gold standard regarding the automatic detection of keywords for specialist texts. But the establishing of such standards seems diffi cult due to the fact that different (hypertext) publications even today mostly use different microstructures. An orientation to existing guidelines like TE
+I would possibly ease the determination of default settings for position parameters like title, subtitle, paragraph types, etc. Beyond that, controlled vocabularies for the manually assigned keywords — or, alternatively, the integration of user-independent data like social bookmark tags or folksonomies — would surely affect the congruity with machine-detected terms. Nevertheless, the fi rst results of our ontology-based approach encourage for further application in the context of information retrieval and classifi cation — and for methodological comparisons with other approaches for automatic keyword extraction.
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010 Noah Bubenhofer , Roman Schneider

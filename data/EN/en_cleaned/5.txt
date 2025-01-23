@@ -1,0 +1,278 @@
+Part-of-speech (PO
+S) tagging is the task of assigning each word in the given text an appropriate grammatical value. The morphological analysis is an essential element of most NL
+P problems. It means that quality of their solutions highly depends on the quality of the PO
+S tagging.
+Most researches on PO
+S tagging have focused on English. The evaluation of these models is typically based on Penn Treebank. The latest approaches have claimed to achieve more than 97.55% accuracy. Unlike the previous methods, the newest ones are usually designed to use as few morphological features as possible. Such solutions are more likely to have stable performance on different corpora and to have the ability to be trained on various languages.
+The most well-known Russian PO
+S taggers are mystem , TnT
+Russian , Tree
+Tagger . In contrast to the modern English taggers, the mentioned algorithms mostly rely on morphological features. However, their comparison is difficult because of lack of standard morphological tagset and corpora for the Russian language for tagger evaluation.
+This work aims to combine comprehensive morphological description provided by ABBY
+Y Compreno system quite sophisticated machine learning techniques used by the novel English PO
+S taggers.
+Its evaluation was performed during the RuMorpho
+Eval-2017 competition which was designed to provide a standard tagset and corpus for taggers comparison purposes.
+2. Proposed Method
+2.1. Russian Morphological Model
+The most notable distinction of the proposed approach is the usage of the rich morphological model of the Russian language. It consists of a vast number of morphological paradigms and extensive lexicon. The dictionary consists of about 240 thousand of lexemes which provide us more than 3.5 million of words.
+Such a significant number of words could be stored quite compactly based on the information about the words’ paradigms. These paradigms contain information about the grammatical value of dictionary word and its inflexion. Therefore, we can store in the dictionary only the lexemes and the paradigms and obtain the needed word by composing this information. Overall, there were identified more than three thousand Russian paradigms.
+As a result, usually, the words in corpora can be found in the lexicon and analysed by the provided morphological model. However, this analysis is not unambiguous: most of the words are homonymous.
+This ambiguity may take place between the words of the same lexeme. For instance, “стол” (“table”) can be either nominative or accusative form. Also the ambiguity can appear between the words of different lexemes: “стекло” may be both noun (“glass”) and verb (“to flow down”).
+To deal with the ambiguity, we need to use context information. In the next sections, we are going to describe the method used to choose the correct analysis.
+Part-of-speech Tagging with Rich Language Description 2.2. Unknown Words Processing
+Despite the size of the provided lexicon, there are many out of vocabulary words in the texts. The most obvious examples of such words are named entities and neologisms.
+To lemmatize such words, we use the following technique. We are constructing a set of pseudo-forms—hypothetical analyses of the given word. Then we are sorting them by their quality—the probability that the word is in such paradigm.
+During the first step, we have to obtain all pairs of stem and paradigm conformed to our language model. As a result, we are going to receive the grammatical value of the word and its inflexion.
+The stem of the word is its part without ending. All potential endings of the word can be found in the language description. Moreover, for each ending we can collect all possible paradigms—that is all paradigms where such ending occurs. Therefore, we get few stems with a limited number of paradigms agreed with the stem according to the language model.
+Thus, we build a set of hypotheses—more than half of thousand in average. The next step is their ranking. The key element of the sorting is the usage of N-gram statistics of suffixes of word’s stems. It based on the assumption that new words should contain patterns similar to some fragments of existing ones. Then it is likely to find these patterns in the suffixes of dictionary words.
+Therefore, we should prefer forms that maximise the following function:𝑄𝑄(𝑓𝑓𝑓𝑓𝑓𝑓𝑓𝑓) = Ρ(𝑝𝑝𝑝𝑝𝑓𝑓𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑓𝑓(𝑓𝑓𝑓𝑓𝑓𝑓𝑓𝑓), 𝑠𝑠𝑠𝑠𝑓𝑓𝑓𝑓𝑝𝑝𝑠𝑠(𝑓𝑓𝑓𝑓𝑓𝑓𝑓𝑓)) 8.15 ∙ 10−7
+8.15 ∙ 10−7 + 1.03 ∙ 10−6
+≈ 0.4417 Such probability can be estimated by corpora information.
+Still, to improve the ranking, we should use the context information in a similar way as in the case of dictionary words.
+2.3. Features
+In our model following features are incorporated.
+Grammatical value. Obviously, the information about the grammatical values of context words is vital in determining the grammatical value of the analysed word. We store these grammatical values of a word in the vector of size equals to the overall number of available grammemes. It means that each component of this vector corresponds to some grammeme.
+However, as was mentioned in section 2.1, practically each morphological analysis contains some homonymy. So we write into the vector the estimated probability of each grammeme. The probability is calculated using the sum of frequencies of the morphological forms contains such grammeme.
+For instance, consider the word “стул” (“chair”). It is a nominative form with frequency equals to 1.03·10−6 or accusative form 8.15·10−7 frequency. Thi leads us to the quality of the accusative grammeme calculated as𝑄𝑄(𝑓𝑓𝑓𝑓𝑓𝑓𝑓𝑓) = Ρ(𝑝𝑝𝑝𝑝𝑓𝑓𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑝𝑓𝑓(𝑓𝑓𝑓𝑓𝑓𝑓𝑓𝑓), 𝑠𝑠𝑠𝑠𝑓𝑓𝑓𝑓𝑝𝑝𝑠𝑠(𝑓𝑓𝑓𝑓𝑓𝑓𝑓𝑓)) 8.15 ∙ 10−7
+8.15 ∙ 10−7 + 1.03 ∙ 10−6
+≈ 0.4417 Anastasyev D. G., Andrianov A. I., Indenbom E. M.
+classes’ probabilities. Another type of features is probabilities of predicted classes (i.e. word’s possible grammatical values). Such features set soft constraints on predictions. The probability is proportional to max frequency of form obtained by morphological analysis of the word.
+Punctuation. The binary feature that corresponds to whether particular punctuation mark appears in the particular position in the word’s surrounding.
+Word’s case type. The binary feature that says whether the word has proper, or upper, or lower capitalization.
+Suffixes. The binary feature: whether the word has such suffix. Suffixes with length up to 3 were used during the developing of the model. To reduce the dimensions of the feature space, suffixes with low frequency were pruned: we collected 35 one-letter suffixes, 507 two-letters suffixes and 2316 three-letters suffixes with
+considerably large frequency.
+Word Embeddings. 250-dimension dense vector corresponding to some word. The word embeddings technique has proved to be very effective in various NL
+P-tasks. There is a number of state-of-the-art English PO
+S-taggers which utilise the power of the technique.
+2.4. Learning Model
+Predicted Classes. We enumerated grammatical values encountered in the train set. It appears to be slightly less than three hundred different categories of grammatical values. Hence, we can formulate the aim of the learning algorithm as a multiclass classification between the obtained grammatical values.
+In this paper, to use a context of the analysed word, we take advantage of the Bidirectional Long
+Short Term Memory neural networks (BiLST
+M) .
+LST
+M Classifier. LST
+M is a variant of recurrent neural networks (RN
+Ns). The RN
+Ns use the information from the previous predictions to choose the label of the current input. Such architecture suits to PO
+S-tagging better than traditional neural networks. However, it was proved that RN
+Ns suffer from the gradient vanishing problem . It means that the ordinary recurrent network is aware only about the inputs from the short-period, but the information from more time steps is vanishing. LST
+Ms use gating mechanism to deal with the problem. It helps to the network to explicitly model long-term dependencies.
+Meanwhile, the LST
+M’s hidden state stores information only about the previous words. To obtain the data from both the previous and the next words, we use the Bidirectional LST
+M architecture. Its basic idea is to combine two LST
+Ms—forward and backward—and concatenate their output. Such a simple solution has been proven to be effective in the PO
+S-tagging and similar tasks.
+In this work, we decided to use a two-layer Bidirectional LST
+M. During the development of the model, the additional layer gave obvious improvements in the performance of the LST
+M on the validation set. However, it should be noted that such improvement may not be necessary for the practical usage. With the extra layer, both the train and the prediction time increases twofold. Moreover, the size of the network grows up. As a result, the usage of the second layer does not seem to be mandatory.
+Part-of-speech Tagging with Rich Language Description Additional Layers. Furthermore, we add a hidden Dense layer with ReL
+U activation on top of the LST
+Ms. This layer should help to handle the nonlinearity of the problem. The ReL
+U activation function is designed to deal with gradient vanishing problem. To connect this layer with the LST
+M, we use the Time
+Distributed wrapper from the keras library. This wrapper is used to apply the Dense layer to each word in the sentence separately.
+Output Layer. The output layer is also wrapped by the Time
+Distributed layer and it uses softmax activation function to output the probabilities for each considered grammar value.
+Input Layers. We use few distinct input layers. First of all, we have a Grammemes input layer. It receives morphological features—the grammatical value, ambiguity classes’ probabilities and the word’s case type—and information about punctuation. Overall, we collected 617 different features. It is much lesser than the number of features used in most of the state-of-the-art classifiers. The main reason to such small set is the specificity of neural networks: we hardly can train a network on a large and sparse feature set. On the other hand, the features obtained by morphological analysis seem to be strong enough to rely on them.
+As stated in section 2.3, we also utilise word embeddings technique. So we have another input layer to perform it. The model with both word embeddings and morphological features dramatically outperformed the model that uses only the morphological features.
+We have considered the usage of the suffix features. We apply them using the embedding technique: for each suffix length we create a separate input layer and pass the input to the embeddings layer.
+To reduce the dimensions of word embeddings’ and suffixes’ features, we implement a preprocessing to each analysed word. We substitute by a star (‘*’) all letters that do not belong to Russian alphabet or number, punctuation and symbols Unicode character categories. We replace each digit by zero (‘0’). Finally, we convert each word to lower case. Such normalization leads to the reduction of the number of possible different word and suffix types.
+Regularization. For the regularisation proposes we use Dropout technique . We apply dropout to the Embedding layer, to the output of the LST
+Ms and inside the LST
+M layers. Also, we utilise Batch Normalization the hidden Dense layer. This method helps to achieve faster learning speed and higher overall accuracy.
+Optimizer. As an optimisation algorithm we have chosen the Adam optimizer .
+Summary. We implemented our model using the keras library1 on theano backend .
+The Fig. 1 illustrates the basic structure of our neural network with parameters corresponded to the keras parameters.
+1 From keras library: https://github.com/fchollet/keras/
+Anastasyev D. G., Andrianov A. I., Indenbom E. M.
+InputLayerinput:output:(
+None, None, 617)(
+None, None, 617)
+Grammemes Masking(mask_value=0.)input:output:(
+None, None, 617)(
+None, None, 617)LST
+M Input: Mergeinput:output:(
+None, None, 867)
+Words: InputLayerinput:output:(
+None, None)(
+None, None)
+Embedding(input_dim=25000, output_dim=250,dropout=0.2, mask_zero=True)input:output:(
+None, None)(
+None, None, 250)
+Bidirectional LST
+M (dropout_
+W=0.2, dropout_U=0.2,merge_mode=’concat’)input:output:(
+None, None, 867)(
+None, None, 1536)
+Bidirectional LST
+M (dropout_
+W=0.2, dropout_U=0.2,merge_mode=’concat’)input:output:(
+None, None, 1536)(
+None, None, 1024)TimeDistributed(Dropout(0.2))input:output:(
+None, None, 1024)(
+None, None, 1024)TimeDistributed(Dense)input:output:(
+None, None, 1024)(
+None, None, 512)TimeDistributed(BatchNormalization)input:output:(
+None, None, 512)(
+None, None, 512)TimeDistributed(ReL
+U Activation)input:output:(
+None, None, 512)(
+None, None, 512)TimeDistributed(
+Dense (
+Softmax activation)) : Output layerinput:output:(
+None, None, 512)(
+None, None, 286)3. Model Development
+The model was trained during participation in the MorphoRu
+Eval-2017 competition2. In this competition the multiclass accuracy is used as the metric.
+3.1. Tagset
+The competition used slightly modified Universal Dependencies tagset3.
+Our morphological description is based on other tags, so we wrote a converter from our grammatical values to the required tagset. The convertor’s mapping sets the 2 https://github.com/dialogue-evaluation/morphoRu
+Eval-2017
+3 http://universaldependencies.org/ru/feat/all.html
+Part-of-speech Tagging with Rich Language Description one-to-many relationship between our grammemes and the grammemes in the Universal Dependencies. It means that in some cases we convert our grammatical value to a few Universal Dependencies grammatical values with frequencies equal to the frequency of the initial grammatical value.
+The converter is used in two ways. First of all, it is applied to obtain the set of ambiguity classes’ probabilities. It seems acceptable to have an additional ambiguity due to the conversion process. Besides, we used the converter to train our model on additional corpora that were tagged with our tagset.
+3.2. Training Data
+As an additional corpora, we used a subset of Russian Wikipedia and parallel corpus of translated English novels. The Wikipedia corpus contains more than 3 million tokens. From the corpus of novels, we extracted subcorpus with about 30 million tokens. We used ABBY
+Y Compreno system to perform tagging of the texts.
+Besides, we used GIC
+R texts with Universal Dependencies tagset4. This corpus consists of about one million tokens. It contains sentences from different social media sources.
+3.3. Sentences padding
+We use LST
+Ms to be able to deal with the whole sentence during classification stage. However, this neural network requires a three-dimensional tensor as an input. Due to inequality of the sentence lengths, we are not able to store the train data in one tensor without any changes. One of such possible changes is padding method: we choose the maximum sentence length and pad (i.e. add zeros to) all shorter sentences.
+In addition to padding, we use a masking mechanism: we restrict the network from training on the padded elements.
+The padding may drastically expand the size of the train data: with large maximum sentence length, we would usually waste memory on the zeros in the short sentences. To reduce the usage of memory, we divided all sentences into a few groups with different length: the sentences with up to 6, from 7 to 14, from 15 to 25, from 26 to 40 and more than 40 words.
+3.4. Word Embeddings
+As a baseline, we used randomly uniformly initialized embeddings for the first 5000 most frequent words with output dimension equals to 250. Surprisingly, the
+pretrained word embeddings (about 470 thousand words and 200-dimension output vector) had not given any enhancement. We decided to use randomly initialized embeddings of the 25 thousand most frequent words only.
+4 https://github.com/dialogue-evaluation/morphoRuEval-2017/blob/master/GICRY
+A_texts.zip
+Anastasyev D. G., Andrianov A. I., Indenbom E. M.
+Model Training
+To evaluate the quality of the model, we divided the GIC
+R data into train and validation set at a ratio of 2 to 1.
+The model development was performed in the following way. Firstly, we have experimented on the GIC
+R texts to obtain optimal network architecture and the best set of hyperparameters. Then we have used the additional corpora to improve the achieved results. Also, we have experimented with extra layers and increased number of neurones on the additional data.
+During the first stage, we found out the effectiveness of the network’s architecture described in Fig 1. We achieved 96.31% accuracy on the validation set.
+The additional suffixes features increased the accuracy up to 96.41%.
+The usage of the extra Wikipedia subcorpus helped to improve the classifier quality to 96.78%. At the same time, the model trained on the Wikipedia only managed to achieve only 93.24%. The reason for such poor quality seems to be the case of the known fact: the accuracy of tagger trained on one text genre drops dramatically on other genres .
+To deal with the problem, we applied the technique known as fine tuning. We used the weights of the model pretrained on the Wikipedia to initialize weights of the model and trained the model on GIC
+R. That led to 97.43% accuracy.
+We exploited this method to train the model on our novels subcorpus. The model trained on the novels subcorpus only was able to reach 95.36% accuracy. Fine tuning of this model on the GIC
+R texts gave 97.78% accuracy, which is our best result on the validation set.
+The Table 2 summarises the performance of the model achieved by usage of different train sets.
+corpora achieved on the validation set
+Model Train corpus
+Accuracy on the validation set
+Basic model GIC
+R 96.31%+ suffix features GIC
+R 96.41%+ suffix features Wiki 93.24%+ suffix features GIC
+R + Wiki 96.78%+ suffix features pretrained on Wiki, trained on GIC
+R 97.43%+ suffix features Novels 95.36%+ suffix features pretrained on Novels, trained on GIC
+R 97.78%
+Part-of-speech Tagging with Rich Language Description 4. Evaluation
+The evaluation was performed on three different genres of texts: fiction texts5, news texts6 and social networks texts7.
+4.1. Achieved Results
+Our system received the following results:genreaccuracy by tokens # tokens# correct tokensaccuracy by sentences # sentences# correct sentencesfiction 97.45% 4,042 3,939 81.98% 394 323news 97.37% 4,179 4,069 87.71% 358 314social 96.52% 3,877 3,742 81.34% 568 462
+The accuracy by sentences metric shows the fraction of sentences where each word was tagged correctly.
+The degradation of performance on the social media texts should be the case of the genre differences between the train and test sets. Besides, the design of our algorithm leads to better performance on texts with proper spelling and good grammar. Frequent misspellings in the social media text limit the ability of the method to use the lexicon.
+4.2. Errors Analysis
+Table 3 shows the most frequent mistakes that our algorithm made during the MorphoRu
+Eval-2017 competition. The “
+Number of occurrences” column shows frequency of the correct tag in the test selection, the “
+Number of error” column shows the number of cases when another tag was mistakenly predicted.
+Correct tag Number of occurrences Predicted tag Number of errors
+Nominative 2,650 Accusative 60
+Accusative 1,644 Nominative 37
+Plural 2,777 Singular 28
+Nominative 2,650 Genitive 19DE
+T 656 PRO
+N 14PRO
+N 1,133 DE
+R 115 From magazines.russ.ru
+6 From lenta.ru
+7 From vk.com
+Anastasyev D. G., Andrianov A. I., Indenbom E. M.
+30% of all mistakes are the result of the ambiguity between nominative and accusative cases. The architecture of our network was designed to deal with such ambiguity by usage of the whole context of the word. However, even LST
+M networks cannot perform well on long dependencies (which is a case of the gradient vanishing described in the 2.4 section). On the other hand, the system tends to follow the agreement between the tag of noun and its modifiers. Therefore, the incorrectly chosen tag of a noun usually leads to errors additional errors in the predicted grammatical value of the modifiers.
+The mistakes in the determination of the number of nouns are also quite frequent—around 11% of all errors. For example, word “спортсменки” may be singular and in the genitive case (“sportswoman”) or plural and in the nominative case (“sportswomen”).
+Another type of common errors is connected with distinguishing between some determiners and pronouns. Word “его” can have either “он” (“he”) or “его” (“his”) lemma and be either pronoun or determiner.
+However, the fraction of such errors seems to be insignificantly low compared to the number of occurrences of the correct tags. The resolution of the ambiguity between the nominative and accusative cases seems to be the main issue of the algorithm.
+4.3. Model Parameters Comparison
+Using the test data provided by organisers we tested our model with different parameters.
+Table 4 summarises the received results. The Accuracy columns contain the information about accuracies by tokens and by sentences.
+Model
+Fiction Accuracy
+News Accuracy
+Social AccuracyEmb(5000)-1LSTM(768)-Dropout(0.2)With
+Suffixes92.75% /
+59.90%
+94.52% /
+55.59%
+92.03% /
+60.39%
+Emb(5000)-1BiLSTM(768)-Dropout(0.2)With
+Suffixes94.95% /
+69.54%
+97.01% /
+75.70%
+94.30% /
+71.30%
+Emb(5000)-1BiLSTM(768)-Dense(768)Dropout(0.2)-With
+Suffixes95.35% /
+71.83%
+97.20% /
+76.82%
+94.66% /
+73.94%
+Emb(5000)-1BiLSTM(768)-2BiLSTM(512)Dense(768)-Dropout(0.2)-Without
+Suffixes95.62% /
+74.11%
+97.37% /
+77.65%
+94.97% /
+74.65%
+Emb(5000)-1BiLSTM(768)-2BiLSTM(512)Dense(768)-Dropout(0.2)-With
+Suffixes95.57% /
+73.10%
+97.37% /
+78.77%
+95.13% /
+74.47%
+Emb(5000)-1BiLSTM(768)-2BiLSTM(512)Dense(768)-Dropout(0.5)-With
+Suffixes95.30% /
+73.35%
+97.54% /
+79.89%
+95.15% /
+75.00%
+Emb(50000)-1BiLSTM(768)-2BiLSTM(512)Dense(768)-Dropout(0.2)-With
+Suffixes95.27% /
+71.57%
+97.03% /
+76.54%
+95.00% /
+74.65%
+Final Variant 97.45% / 81.98%
+97.37% /
+87.71%
+96.52% /
+81.34%
+Part-of-speech Tagging with Rich Language Description The names of models reflect the architecture of the used network. “
+Emb” parameter shows the number of words in the embeddings layer. The following parameters show the types of layers and numbers of neurones in them. The last parameter indicates whether the suffix features were incorporated.
+All models except the last one were trained on GIC
+R corpus only. The last (“
+Final variant”) refers to the model described in section 3.5.
+The model with single LST
+M layer shows the worst tagging quality. Obviously, the context information received from the left context only is not sufficient for proper tagging.
+Clearly, the system gains from additional layers: the next two models with a single Bidirectional LST
+M layer perform worse than more complicated models. On the other hand, larger embeddings layer (the Emb(50000)-model) also leads to poor accuracy. It can be explained by the lack of train data: we should use much bigger corpus to train such embeddings.
+The increase in the dropout values helps to achieve a little better accuracy. Besides, the suffix features give an improvement in the model’s performance.
+It should be noted that the model with single Bidirectional LST
+M layer and only 5 thousand words in embeddings achieves good enough results in comparison with
+our final model while it is 2.5 times smaller. For some applications, such model could be more plausible than large but accurate one.
+5. Conclusion
+We have developed a PO
+S-tagging model for Russian that can achieve high accuracy. Our system showed the best results on the MorphoRu
+Eval-2017 competition. The degradation of its performance on some genres seems to be reasonably insignificant. Our model takes advantage of vast morphological description and modern machine learning techniques. Such approach seems likely to bring improvements in the quality of NL
+P-analysis systems based on the morphological analysis.

@@ -1,0 +1,216 @@
+Word
+Net-like resources (
+Fellbaum, 1998) are one of the most popular resources used for natural language processing, wordnet projects have been initiated for many languages in many countries. At least four attempts to create a Russian wordnet are known. Russ
+Net (
+Azarowa, 2008) began development from scratch and at this moment appears to be quite small
+(not more than 20,000 synsets). Two other Russian wordnets were generated using automated translation (
+Gelfenbeyn et al., 2003; Balkova et al., 2008). The first one is publicly available1 but represents the direct translation from Princeton Word
+Net without any manual revision. The last Russian wordnet project YAR
+N (
+Yet Another Russian word
+Net) was initiated in 2012 and is being created using a crowdsourcing approach; it currently contains mainly synsets with small number of relations between them (
+Braslavski et al., 2014).
+For Russian, there exists the Ru
+Thes thesaurus, a linguistic ontology, which structure has differences from the Word
+Net approach. Ru
+Thes is a more ontology-oriented resource: thesaurus concepts have unique names, text entries of all parts of speech can be linked to the same concept, The Ru
+Thes relations are more formal conceptual relations. The current size of the published version of Ru
+Thes (Ru
+Thes-lite 2.0), accessible for non-commercial use, is more than 115 thousand text entries2. Ru
+Thes was specially created for information retrieval and natural language applications, it can be used in most applications where Word
+Net is usually utilized, but researchers and practitioners want to have a Russian wordnet.
+1 http://wordnet.ru/
+2 http://www.labinform.ru/pub/ruthes/index.htm
+Creating Russian Word
+Net by Conversion In this paper, we describe the transformation of Ru
+Thes data to Word
+Net-like resource, called RuWord
+Net. In this process we try to reproduce two main features of the Princeton Word
+Net structure such as the organization in the form of part-ofspeech lexical nets and the basic set of relations. The current volume of RuWord
+Net is the same as the published version of Ru
+Thes-lite 2.0 (115 thousand entries). It can be seen in Internet and can be obtained in the XM
+L format.
+The paper is organized as follows. The second section reviews the related work. The third section considers main features of the Word
+Net structure. The fourth section describes the main structure of Ru
+Thes and its differences from Word
+Net. The fifth section presents the transformation process from Ru
+Thes to RuWord
+Net and achieved results. The sixth section compares web-representations of Ru
+Thes and RuWord
+Net.
+2. Related work
+The most straightforward approach to the development of Word
+Net-like resources from scratch is a difficult task, which usually takes years of work. The approach to fasten the creation of a national wordnet is to translate Princeton Word
+Net to the target language (
+Vossen, 1998). Wordnet-like resources obtained with automatic translation can be generated fast enough but also requires a lot of efforts to be manually revised.
+An intermediate approach between the above-mentioned ultimate points, which can be considered as quite usual, is to translate the top 5,000 concepts of the Princeton Word
+Net (core Word
+Net) and then extend this hierarchy manually, using local dictionaries. This approach was accepted in the development of Euro
+Wordnet (
+Vossen, 1998) and Danish wordnet—Dan
+Net (
+Pedersen, 2010).
+Analysing previous approaches for national wordnet development, authors of FinnishWord
+Net (FiW
+N) decided to use manual translation of Princeton Word
+Net synsets by professional translators. The direct translation approach was based on the assumption that most synsets in PW
+N represent language-independent realworld concepts. Thus, the semantic relations between synsets were also assumed mostly language-independent, so the structure of PW
+N could be reused as well. In such a way, Finnish wordnet, FinnWord
+Net (FiW
+N), was created by translating more than 200,000 word senses in the English Princeton Word
+Net (PW
+N) 3.0 in 100 days. Braslavski et al (2014) suppose to create a Russian wordnet (YAR
+N) utilizing Russian Wiktionary and crowdsourcing. Wiktionary is a crowdsourced dictionary and thesaurus that exists for many languages. Wiktionary pages related to a specific word can contain a lot of useful information about word senses, including a list of lexical senses, definition and examples for a lexical sense, lexical relations (synonyms, antonyms, hyponyms, hypernyms), which are represented as links to Wiktionary pages. However, there are also some problems in word senses description, which can hamper creating a Word
+Net-like resource especially for inexperienced crowdsourcers:
+Loukachevitch N. V. et al.
+a lexical link leads not to a specific sense but to the whole word page ,•	 synonyms can be described as partial synonyms, this is a very vague notion: гейзер, фонтан .
+•	 lexical relations are not symmetrical. For example, word w1 is indicated as a synonym to word w2, but word w2, is not indicated as a synonym to word w1. In other examples, word w1 is indicated as a synonym to word w2, but word w2 is indicated as a hypernym to word w1.
+3. Basic Structure of Princeton Word
+Net
+The structure of Princeton University’s Word
+Net (and other wordnets) is based on sets of partial synonyms—synsets, organized in hierarchical part-of-speech-based lexical nets for nouns, adjectives, verbs, and adverbs. Each part-of-speech net has its own system of relations between synsets.
+The most frequent relation between noun synsets is the hyponym-hypernym relation. Also since 2006 in Princeton Word
+Net class-instance relations denoted as Instance Hypernym and Instance Hyponym (
+Miller, Hristea, 2006) were introduced. Such relations substituted hyponym-hypernym relations for synsets of proper nouns designating unique entities such as cities, countries, concrete persons, etc. This work was made under the influence of the ontologists’ point of view on “confusion between individuals and concepts” (
+Gangemi et al., 2001). The noun relationships also include part-whole relations, which are subdivided into proper part-whole relations (wing is a part of bird), member parts (tree is a member of forest), and material (snow is a substance of snowball). Parts can have several wholes (wing is a part of bird, bat, insect, or angel).
+For all parts of speech, the lexical relation of antonymy can be established. Lexical relations link lexemes, not whole synsets.
+In Princeton Wordnet, the antonymy relation is the main type of relations for descriptive adjectives (
+Gross, Miller, 1990), which were described only with the relations of antonymy and similarity. For example, for the word heavy, the word light is indicated as an antonym, such words as hefty, ponderous, massive are linked to heavy with the relation “similar to”. Other wordnets, such as Germa
+Net (
+Kunze, Lemnitzer, 2010) or Polish Word
+Net (PlWord
+Net) (
+Derwojedowa et al., 2008), changed this approach and introduced taxonomic relations (hyponymy-hyperonymy) for adjectives.
+Verbs in Word
+Net are mainly linked with hyponym-hypernym relations. Besides, they have their own unique relations not described for nouns or adjectives: entailment (buy—pay) and causation (give—have, kill—die). The Word
+Net entailment relation is a relation between two verbs V1 and V2 that holds when the sentence “Someone 
+V1” logically entails “
+Someone V2” and there is the temporal inclusion of event V1 into V2 or vice versa (
+Fellbaum, 1998). The causation relation can be also considered as a subtype of a general logical entailment relation but there is not temporal inclusion between corresponding situations (
+Fellbaum, 1998).
+Creating Russian Word
+Net by Conversion 4. Ru
+Thes Structure and Relations
+Ru
+Thes and Word
+Net are both thesauri that are lexical resources where semantically related words and expressions are collected together into synsets or concepts between which formalized relations are set. When applying both thesauri to natural language processing, the same steps should be made such as matching between a text and a thesaurus and employing the described thesaurus relations if necessary. The most evident differences between the two types of resources are as follows.
+First, in Ru
+Thes there is no division into subnets according to different parts of speech that is words of any part of speech can be linked to the same concept if they mean the same (so called derivative or part-of speech synonyms).
+Therefore, second, in Ru
+Thes it is often very difficult or even impossible to apply traditional tests of synonymy detection such as substitution of synonyms in sentences (
+Cruse, 1986, Miller, 1998). Tests checking the denotational scope of lexemes are usually applied in the following way: “if entity X can be called with word W1, then we can call it also with word W2” and vice versa regardless of specific context. The second test consists in formulation of explicit differences of one concept from other concepts. These differences can be fixed in the unique concept name. Thus, abovementioned issues of Ru
+Thes such as denotational tests, denotational distinctions between concepts, and unique names of concepts make Ru
+Thes much closer to ontological resources in an imaginary scale from lexical resources to formal ontologies than Word
+Net-like thesauri. Ru
+Thes can be called a linguistic (lexical) ontology for natural language processing.
+Third, the relations in Ru
+Thes are only conceptual, not lexical (as antonyms or derivational links in wordnets). They are constructed as more formal, ontological relations of traditional information-retrieval thesauri (
+Z39.19, 2005), which were designed to describe very broad, unstructured domains. The set of conceptual relations includes:•	 the class-subclass relation;•	 the part-whole relation applied with the following restriction: the existence of the concept-part should be strictly attached to the concept-whole. For example, trees can grow in many places not only in forests therefore concept TRE
+E cannot be directly linked to concept FORES
+T with the part-whole relation, the additional concept FORES
+T TRE
+E should be introduced;•	 the external ontological dependence when the existence of a concept depends on the existence of another concept (in such a way forests depend on the existence of trees) (
+Guarino, Welty, 2002). In Ru
+Thes we denote this relation as association with indexes: asc1 is directed to the main concept, asc2—to the dependent concept;•	 In the very restricted number of cases symmetric associations between concepts can be established.
+The main idea behind this set of relations is to describe the most essential, reliable relations of concepts, which are relevant to various contexts of concept mentioning. Also this set of relations allows us to describe domain terminologies or domainspecific ontologies, combine descriptions of lexical and domain-specific knowledge in the same resource.
+Loukachevitch N. V. et al.
+relation of ontological dependence is very convenient for describing conceptual relations between concepts corresponding to multiword expressions and concepts of their component words (such as nature protection and nature), which allows easier introducing such concepts and describing useful “horizontal” relations.
+Thus, Ru
+Thes has considerable similarities with Word
+Net: the inclusion of concepts based on senses of real text units, representation of lexical senses, detailed coverage of word senses. At the same time the differences include attachment of different parts of speech to the same concepts, formulating of names of concepts, attention to multiword expressions, the set of conceptual relations, etc. The more detailed description of Ru
+Thes and Ru
+Thes-based applications can be found in (
+Loukachevitch, Dobrov, 2014) or (
+Lukashevich, 2011).
+At present Ru
+Thes includes 54 thousand concepts, 158 thousand unique text entries (75 thousand single words), 178 thousand concept-text entry relations, more than 215 thousand conceptual relations. The published version of Ru
+Thes, Ru
+Theslite 2.0, contains 115 thousand text entries. It was singled out from full Ru
+Thes on the basis of words and phrases used in current Russian news flows with exclusion several specific domains (
+Loukachevitch et al., 2014).
+5. Conversion from Ru
+Thes to RuWord
+Net
+According to the guidelines of world-known Word
+Net thesaurus, the first version of Russian wordnet (RuWord
+Net) was created.
+In our opinion, one of the most distinctive features of Word
+Net-like resources is their division into synset nets according to parts of speech. Therefore all text entries of Ru
+Thes-lite 2.0 were subdivided into three parts of speech: nouns (single nouns, noun groups, or preposition groups), verbs (single verbs and verb groups), adjectives (single adjectives and adjective groups). We have obtained 29,297 noun synsets, 12,865 adjective synsets, and 7,636 verb synsets (
+Table 1).
+This subdivision was based on the morphosyntactic representation of Ru
+Theslite 2.0 text entries, which was fulfilled semi-automatically. Therefore, a small number of mistakes because of particle treatment (verbs or adjectives) or substantivated adjectives can appear. For example, Russian phrase любитель подраться (=драчун) treated in this procedure as a verb group and currently is assigned to the verb synsets. Currently all found mistakes are corrected.
+The divided synsets were linked with the relation of part-of-speech synonymy.
+Part of speech Number of synsets
+Number of unique entries Number of senses
+Noun 29,296 68,695 77,153
+Verb 7,634 26,356 35,067
+Adjective 12,864 15,191 18,195
+Creating Russian Word
+Net by Conversion The hyponym-hypernym relations were established between synsets of the same part of speech. These relations include direct hyponym-hypernym relations from Ru
+Thes-lite 2.0. In addition, the transitivity property of hyponym-hypernym relations was employed in cases when a specific synset did not contain a specific part of speech but its parent and child had text entries of this part of speech. In such cases the hypernymyhyponymy relation was established between the child and the parent of this synset.
+Similar to the current version of Princeton Word
+Net, in RuWord
+Net class-instance relations are also established. By now, they had been generated semi-automatically for geographical objects.
+The part-whole relations from Ru
+Thes were semi-automatically transferred and corrected according to traditions of Word
+Net-like resources. Now RuWord
+Net contains 3.5 thousand part-whole relations. The part-whole relations include the following subtypes:•	 functional parts (nostrils—nose),•	 ingredients (additives—substance),•	 geographic parts (Sevilia—
+Andalusia),•	 members (monk—monastery),•	 dwellers (
+Moscow citizen—
+Moscow),•	 temporal parts (gambit—chess party)•	 inclusion of processed, activities (industrial production—industrial cycle)
+Adjectives in RuWord
+Net similarly to German or Polish wordnets are connected with hyponym-hypernym relations. For example, word цветовой linked to such hyponyms as красный , синий , зеленый , еtc. Adjectives often have PO
+S-synonymy links to nouns, but also can have PO
+S-synonyms to verb synsets. For example, word строительный has two PO
+S-synonymy relations: to the noun synset {стройка, постройка, возведение, сооружение..} and to the verb synset {строить, построить, возводить ...}.
+The specific feature of the current state of adjectives description in RuWord
+Net is the existence of part-whole relations (портовый—прибрежный) and even instance-class relations (майкопский—северо-кавказский) (see Table 2), which adjectives inherited from Ru
+Thes concepts. These relations should be renamed to hyponym-hypernym relations. Part of speech Hypernyms Instance
+Class Wholes PO
+S-synonymy Antonyms
+Noun 39,155 1,863 10,010 18,179 455
+Verb 10,440 0 117 7,451 20adjective 17,834 66 829 14,139 457
+In the current RuWord
+Net representation of Russian verbs, part-whole relations can be seen. For example, synset {видеть во сне, сниться, грезиться, присниться, привидеться во сне, пригрезиться, пригрезиться во сне»} linked to synset {спать, поспать, доспать, соснуть, досыпать, почивать, проспать, Loukachevitch N. V. et al.
+the part-whole relation. Such a relation between the translation equivalents also in Princeton Word
+Net and called ‘entailment relation’. Another example from RuWord
+Net is {оппонировать, оппонировать диссертацию}, which is described as a part for {защитить диссертацию}. Christian Fellbaum wrote in (
+Fellbaum, 1998) that «the entailment relation between verbs resembles meronymy between nouns, but meronymy is better suited to nouns than to verbs». Thus, the simple renaming of the part-whole relations between verbs in RuWord
+Net into entailment relations is possible and correct.
+Antonymy relations are conceptual relations in RuWord
+Net, that means they link synsets, not single lexemes. They are introduced for all parts of speech, mainly for synsets denoting properties and states, for example:•	 noun synset {легкость, с легкостью, без труда, без затруднений} antonymous to synset {тяжесть, трудность} ,•	 adjective synset {легкий, легкий для выполнения, легкий для осуществления, нетрудный} antonymous to synset {тяжкий, трудный, тяжелый, трудный для выполнения, нелегкий ... } ,•	 verb synset {не соответствовать действительности} antonymous to synset {соответствовать истине, соответствовать действительности} .
+The current numbers of relations described in RuWord
+Net are presented in 6. Publication of Ru
+Thes and RuWord
+Net on the Web
+Ru
+Thes-lite 2.0 and RuWord
+Net are published in form of static web-pages. Looking through Ru
+Thes3, the user should select a letter to begin, next select an initial trigram of a word, and then click on a proper word. For example, selecting word двор user can find three concepts associated with this word, relations of these concepts, and other text entries attached to the same concepts. Further, the navigation through concepts or text entries is possible (
+Fig. 1). In the similar representation of RuWord
+Net4, there is the initial division to parts of speech, which the user should select, then the user should find a word. In the RuWord
+Net representation, there are no concepts (
+Fig. 2), each synset contains text entries belonging to the same part of speech, PO
+S-synonymy links to other parts of speech are indicated. Thus, in the representation Ru
+Thes looks more as an ontology, and RuWord
+Net is presented more as a lexical net.
+3 http://www.labinform.ru/pub/ruthes/index.htm
+4 http://www.labinform.ru/pub/ruwordnet/index.htm
+Creating Russian Word
+Net by Conversion Fig. 1 Representation of three senses of the Russian word двор in RuThesRuWord
+Net: synsets contain only nouns, concept name are not presented, there are references to PO
+S synonyms (adjectives)
+Loukachevitch N. V. et al.
+
+In this paper we have described the semi-automatic process of transforming the Russian language thesaurus Ru
+Thes (in version, Ru
+Thes-lite 2.0) to Word
+Net-like thesaurus, called RuWord
+Net. In this procedure we attempted to achieve two main characteristic features of wordnet-like resources: division of data into part-of-speechoriented structures with cross-references between them and providing a set of relations similar to wordnet-like relations. Both thesauri, Ru
+Thes-lite 2.0 and RuWord
+Net, are currently published as static web-pages. Also RuWord
+Net can be seen through web interface5. Researchers can obtain both types of thesauri, compare them in applications. In future, we will continue to add new types of relations to RuWord
+Net including the domain relation, the cause relation, the entailment relation, etc.
+Acknowledgments
+This work is partially supported by Russian Foundation for Humanities grant № 15-04-12017.

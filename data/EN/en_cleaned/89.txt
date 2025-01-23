@@ -1,0 +1,129 @@
+SpellRu
+Eval is the first competition aimed to make a framework for evaluation of automatic spelling correction systems for Russian and cooperation and experience exchange of scientific groups. Today, when huge amounts of data are collected from Russian internet resources (e.g. Yandex Blogs, RuTen
+Ten Corpora, Russian Araneum Corpora and GIC
+R), automatic processing of this data is an unavoidable problem —misspells widely hinder morphological, syntactic and semantic parsing of the texts. By the estimation of , 15% of all the queries in Yandex have SpellRu
+Eval: the First Competition on Automatic Spelling Correction for Russian at least 1 error, and by the data of 8% of the out-ofvocabulary words (further “OO
+V”) are typos. Moreover, for some data sources the percentage of typos may reach 40% (
+Private communication, GIC
+R).
+Hence, there emerges a bulk of actual challenges for NL
+P-researches: which error detection model for Russian internet text is the best—dictionary look-up or rulebased? Which models are the best for isolated error-correction and which are better for context errors? How to raise the quality of real-word error detection and correction? Is there any dependency between dictionary size and recall of spelling detection? Which algorithms of machine learning give the best results for spelling correction on social media texts? All these problems we have faced during the preparation of the competition procedure and the analysis of the results.
+1.1. A brief history of automatic spelling correction
+Automatic spelling correction is one of the oldest problems of computational linguistics. The first theoretical works appeared already in the 60-s . The initial approach used edit (
+Levenshtein) distance search for potential corrections of mistyped words. With the appearance of modern spellcheckers the early 80-s, the problem of spelling correction became a highly practical one. The most important papers appeared on the dawn of modern NL
+P era include , , which is in excellent review of early approaches in automatic spelling correction. Further work in spelling correction was developed in two main directions: the works of the first category mainly addressed the problem of effective candidate search, which is a nontrivial problem for the languages with well-developed morphology , . This branch also includes the research on learning adequate distance measure between the typo and the correction , , , . Other researchers mainly addressed the problem of using context when selecting the correct candidate for spelling correction. The most important works here include , , , .
+The problem of automatic spelling correction includes several important subtasks. The first is to detect whether a word has correct spelling and provide a list of candidates. As observed by many researchers, most of the time the correction can be obtained from the mistyped word by single letter deletion, insertion or substitution or by permutation of two adjacent characters . However, in many cases this procedure yields multiple candidate words and additional features should be taken into account to select the most proper one. This is especially a problem for agglutinative languages or languages with a high number of inflected forms since a single edit operation on a word often creates another form of the same word and morphology and syntax should be used to disambiguate between them. The so-called real-word errors (when a mistyped word is again in the dictionary) constitute the most difficult problem. Several researchers addressed it , , , however, all the algorithms were tested on pre-defined confusion sets, Sorokin A. A. et al.
+as ‘adopt/adapt’ and ‘piece/peace’, which makes rather problematic the application of their methods to real-word errors outside these sets.
+Evaluation of spellchecking techniques presents another difficult challenge. Indeed, spelling correction is applied in different areas, mainly for Internet search and information retrieval , , , in text editors, but also in second language acquisition grammar error correction . The area obviously affects the character of typical spelling errors. Moreover, the effect of different features for spelling correction also highly depends from the application. Morphology and especially syntax give little advantage in case of search query correction, in this case the quality of the dictionary and gazetteer, as well as size of query collection used to train language and error models, is more important. In case of grammar error correction the situation is roughly the opposite. Most of spelling correction systems were tested on rather artificial or restricted datasets: the authors either asked the annotators to reprint the text without using ‘backspace’ and ‘delete’ keys used Wikipedia TOEF
+L essays collection . Often the authors just randomly replaced a word by a potential misspelling, using some error model ( etc.) Therefore it is not obvious that results obtained in one subarea could be successfully used in the other one.
+2. Related Work
+Most of spellchecking approaches were tested on English language, which is certainly not the most difficult for this task. First, a large collection of corpora is available for English and additional data could be easily collected from the Web. Second, English is very simple from the morphological point of view, therefore most of the problems concerning morphology or dictionary lookup even does not arise there. There are very few works for other languages with complex and diverse morphology, such as Turkish or Arabic (, , ). The studies for Russian language include only , , but all these works also address spelling correction problem in a rather restricted way.
+2.1. First automatic spelling correction contests
+In the field of automatic spell-checking for English two works can be considered as pioneer. These are Helping Our Own (HO
+O) Shared Tasks of 2011 and 2012 correspondingly . Although the theme of the competition was set broader than just spelling correction (the main goal was to map and develop tools that can assist authors in the writing task and facilitate the processing of the typed texts), these competitions obviously exhibited the main problems of stateof-art methods and led to more specified workshops, such as Microsoft Spelling Alteration Workshop . It was primarily concerned with correcting errors SpellRu
+Eval: the First Competition on Automatic Spelling Correction for Russian in search queries: participant systems were evaluated on the logs of Bing search engine. The close problem of grammatical error correction was the thematics of CoNL
+L 2013 Shared Task . However, all these competitions were held for English Language. There were no such competition for Russian and even a freely available
+dataset of spelling errors, such as Birkbeck corpus for English not exist. The primary purpose of SpellRu
+Eval-2016 was to fill this gap and evaluate different approaches to automatic spelling error correction for such morphologically and syntactically complex language as Russian.
+2.2. First and second QAL
+B Shared Task on Automatic
+Text Correction for Arabic
+The first competition to succeed on automatic text normalization and spelling correction, which was carried out on not English-based materials, was the first QAL
+B Shared Task on Automatic Text Correction for Arabic . The competition united more than 18 systems and determined a baseline of 60–70% (
+Precision), which is quite a progress for such languages as Arabic. By this time, there was already held the second QAL
+B Shared Task the improvement of the baseline up to 80% of Precision. Both of the competitions were based on the Qatar Arabic Language Bank, however, they focused on slightly different goals: if the first QAL
+B shared task was to correction of misspells, punctuation errors, extra spaces and normalization of the dialecticisms on the corpus of native speakers, the second one have added the corpora of L2-speakers in the training set, that shifted the researchers’ attention to frequent mistakes made by learners of Arabic. 3. Procedure of SpellRu
+Eval competition
+3.1. Training and test data
+In this section we describe the format of training and text data used in the competition. We used a Live Journal subcorpus of General Internet Corpora of Russia (GIC
+R) extract test sentences. We automatically selected about 10,000 sentences containing words not present in the dictionary. The sample was enriched by several hundred sentences containing real-word errors; these sentences were obtained from the same source corpus. Then we manually filtered these sentences to ensure that these sentences indeed contain typos, not rare proper names, slang or neologisms. About 5,000 remaining sentences were loaded to the annotation system. We asked the annotators to correct the typos in each sentence following a short instruction and submit the corrected sentence. If the annotator met a controversial case, supposed to be not covered by the instruction, he or she could also submit the commentary, explaining the difficulty.
+The instruction contained the following items:
+Sorokin A. A. et al.
+The annotator should correct:
+a) typos (мнея → меня), b) orthographic errors (митель → метель), c) cognitive errors (компания → кампания), d) intentional incorrect writing (хоцца → хочется, ваще → вообще), e) grammatical errors (agreement etc.) (он видят → он видит), f) errors in hyphen and space positioning (както→как-то), g) mixed usage of digits and letters in numerals (2-ух →двух), h) usage of digits instead of letters (в4ера → вчера).
+The annotator should not correct a) foreign words including cyrillic (e.g Ukrainian or Belorussian), b) informal abbreviations (прога → программа) c) punctuation errors (all punctuation is omitted during the testing more details, see chapter 3.2) d) capitalization errors (as capitalization is rather varied and informal Russian social media texts, see also 3.2) e) non-distinction of “е” and “ё” letters
+Most of the controversial moments in the annotation dealt with colloquial forms such as ваще for вообще and щас for сейчас. In most of the cases they can be freely replaced by corresponding formal forms without any change in meaning, except for the expressive sentences like «Ну ты ваще» (1) or «Да щас!» (2), so in the latter cases there is no typo to correct. But obviously the border between these cases is very subtle so we deliberately decided to correct such colloquial forms in all the sentences.
+Each of the 5,000 sentences was given to three annotators. Most of the annotators were the competition participants or students of linguistic and computer science departments. The annotation logs were automatically processed to select the sentences where all the three annotators gave the same answer and then manually filtered to avoid prevalence of several frequent typo patterns. Finally, about 2,400 mistyped sentences remained. The sample was extended by 1,600 correctly typed sentences obtained from the same corpora. The final sample of 4,000 sentences was randomly subdivided by two equal portions, each containing 2,000 sentences. The first half was given to the competitors as the development set. Such small size of the development set gave the participants no possibility to learn language model, however, they could use this sample to tune the parameters of their algorithm: e.g. the weighted Levenshtein distance used for candidate search or the weights of different features (error model, language model, morphology model etc.) in the final decision procedure. We also provided an evaluation script using which the participants could measure the performance of their systems on the development set. Since we have not provided any dictionary or corpora resources, the competitors were allowed to use arbitrary dictionary to search for candidates and arbitrary corpus, say, to fit the language model.
+Since 2,000 sentences can be manually corrected in one or two days, they were randomly inserted into the sample of 100,000 sentences taken from the same corpus. The participants had no information about this fact and were asked to send the SpellRu
+Eval: the First Competition on Automatic Spelling Correction for Russian answers for the whole test sample. However, the correctness was evaluated only on the 2,000 sentences from the test set.
+3.2. Evaluation and metrics
+The proper selection of evaluation metric for the competition was not a trivial task. A common metric for Web search spelling correction is the fraction of correctly restored queries, its direct analogue is the percentage of correct sentences. However, it is uninformative for our task: this metric cannot show the difference in performance between a system with high recall which corrects all the typos but also a lot of correctly typed words, and a system which has high precision and corrects no sentences at all. This problem could be partially remedied by calculating the number of properly and improperly corrected sentences with typos, as well as the number of “false alarms” (improperly corrected sentences without typos), but this metric is also inadequate when sentences could contain several typos. For example, consider a sentence with two typos, the described evaluation algorithm cannot distinguish a sentence with only one typo corrected from a sentence with two typos corrected and properly and one correct word changed incorrectly.
+Therefore we evaluate performance in terms of individual corrections, not the whole sentences. That raises the problem of sentence alignment: in the case of space or hyphen orthographic error one word in the source sentence may correspond to multiple words in the correction, as well as many words in the source to a single one in the corrected sentence. We aligned the sentences using the following procedure:1) First, the sentence was converted to lowercase and split by the space symbols.
+2) The isolated punctuation marks were removed.
+3) Since most of the punctuation symbols are not separated from the previous
+words, all non-alphabetic characters were deleted on both edges of each word.
+4) Then the source sentence and its correction were aligned using the following
+algorithm:1. Longest common subsequence was extracted using standard dynamic
+programming algorithm. Words on the same position in the subsequence were aligned to each other.
+2. Each of the nonidentical groups between alignment points constructed
+on the previous step was aligned separately. We constructed a Levenshtein alignment between source and correction sides of the groups using standard edit distance with permutations, separating the words in groups by spaces. If an alignment point was located between the words both on the source and correction sides, then this point was added to the alignment.
+Below we explain this algorithm on the sentence «помоему, кто то из них то же ошипся» (3) and its correction по-моему, кто-то из них тоже ошибся. After the removal of punctuation marks and first step of the alignment algorithm we obtain the following alignment groups:
+Sorokin A. A. et al.
+помоему кто то по-моему кто-то из них то же ошипся тоже ошибся
+When processing the pair (помоему кто то, по-моему кто-то), we observe that an optimal alignment matches the groups «помоему» and «по-моему» to each other. Since both these subgroups end on word edges, we obtain additional alignment pairs(5) помоему по-моему кто то кто-тоand the remaining part из из них них то же тоже ошипся ошибся.
+After constructing such alignment for all the pairs of source and correct sentences, we extracted from each sentences all the nonidentical pairs (помоему/по-моему, кто то/кто-то and то же/тоже in the example above) and use these tokens for performance evaluation. We executed the same procedure on the pairs of source and candidate sentences, where the candidate sentences are obtained from the correction sentences. We obtain two sets Scorr and Spart containing pairs of the form ((sentence number, source token), correction token) for source-correct and source-participant alignments. Then we calculated the number T
+P of true positives which is ||Scorr ∩ 
+Spart||—the number of typo tokens properly corrected by the system. To obtain the precision score we divided this quantity by |
+Spart| total number of corrections made by the system. The recall score was calculated as T
+P / |
+Spart|—the fraction of typo tokens, which were corrected properly. Note that false negatives in this case are both typos for which a wrong correction was selected and the typos left without correction.
+We calculated F1-measure as the harmonic mean between precision and recall. All the three metrics were reported by the evaluation script; however, only F1-measure was used to rank the participants. In the final version of the evaluation script we also reported the percentage of correct sentences just for comparison.
+When testing the alignment procedure, we found one subtle case not captured by the alignment algorithm. Consider the source sentence «я не сколька не ожидал его увидеть» (6) and its correction «я нисколько не ожидал его увидеть» (7). Suppose the spellchecker corrected both the mistyped words but did not manage to remove the space, yielding the sentence «Я ни сколько не ожидал его увидеть» (8). Literal application of the procedure above gives us two nontrivial alignment groups in the source-candidate pair: «не/ни» and «сколька/сколько». Both these pairs were not observed in the reference alignment, therefore we obtain two false positives. Note that leaving the mistyped word «сколька» untouched yields better score since in this case only one unobserved aligned pair «не/ни» appears.
+SpellRu
+Eval: the First Competition on Automatic Spelling Correction for Russian To improve this deficiency we made the following minor correction: we forced the alignment between source and suggestion sentences to have the same source components as in the source-correct alignment. For example, in the sentence above, the groups «не/ни» and «сколька/сколько» were joined together to obtain the pair «не сколька/ни сколько», contributing one false positive instead of two.
+3.3. Competition and participants
+Seven research groups from 4 universities (MS
+U, MIP
+T, HS
+E, IS
+P RA
+S), 3 I
+T-companies (Info
+Qubes, NLP@
+Cloud, Orfogrammatika) and 2 cities (
+Moscow, Novosibirsk) successfully participated in the competition. These groups are listed in Only best results from each group were taken into consideration and the number of attempts was not limited.
+Code of the group scientific group
+A MIPT
+B GIC
+R, MSU
+C HS
+E Comp
+Ling Spell
+D InfoQubes
+E IS
+P RAS
+F NLP@CLOU
+D G Orfogrammatika4. Results and Discussion
+All the systems presented in Table 2 used different toolkits and methods of automatic spelling correction, some of them are first time applied for Russian.
+place scientific group Precision Recall F-measure Accuracy1 B 81.98 69.25 75.07 70.32
+2 G 67.54 62.31 64.82 61.35
+3 A 71.99 52.31 60.59 58.42
+4 E 60.77 50.75 55.31 55.93
+BASELIN
+E 55.91 46.41 50.72 48.065 C 74.87 27.99 40.75 50.45
+6 D 23.50 30.00 26.36 24.95
+7 F 17.50 9.65 12.44 33.96
+Sorokin A. A. et al.
+also evaluated a baseline system. Like several participant systems, it uses edit distance for search and combination of edit distance and n-gram model probability for ranking. In takes all the candidates on the distance of at most one edit from the source word and rank the obtained sentences using the sum of logarithmic edit distance score and language model score. Trigram language model was obtained using KenL
+M toolkit on the same data that was used by team B.
+4.1. Methods and their efficiency
+We collected the information about the methods and tools used by the competitors in Table 3 in the Appendix. Competition results show that all the teams used large dictionaries with approximately the same size, however, the difference in results is substantial. It means that the algorithms used for correction are more significant than additional data. It also proves that it is more important (and more difficult) to select a correct candidate than to find it, though several types of errors cannot be captured by basic search model based on edit distance without using additional errors lists or phonetic similarity. All the three top-ranked teams used a combination of edit distance and trigram language model for candidate ranking. It is interesting that morphological and semantic information gives no or little advantage in comparison with language model. One of the teams used Word2
+Vec instead of traditional ngram model, which results in rather high precision (but not the best among all participants), though the recall was moderate in comparison with other results. It shows that Word2
+Vec is very successful in capturing frequent patterns, however, this method alone cannot detect all the errors. As expected, real-word errors were the most difficult to capture even by the top competitors, another source of difficult errors were misplaced hyphens and spaces. Probably, to correct such errors at least some rules of Russian orthography and grammar should be handcrafted, since such errors are too frequent and subtle to be captured by pure statistical methods. Last but not the least, it is interesting that the competition winner (and actually the three best teams) used a rather simple algorithm: find the candidates using Levenshtein distance and rerank them using language model. It offers much room for future improvement by careful integration morphological, grammar or semantic features; however, it is not an easy task, as direct incorporation of morphology gave no advantage in current competition.
+5. Conclusions
+SpellRu
+Eval 2016 has brought together a number of I
+T companies and academic groups that work on Russian Web text processing and normalization, so that it became possible to compare state-of-the-art methods in the field for Russian. The results have shown that the problem of automatic spelling correction for Russian social media is far from its solution. Up to now the best results are obtained using simple combination of edit distance candidate search and trigram language model, so future improvement can be achieved by adding morphological and semantic component to this basic framework.
+SpellRu
+Eval: the First Competition on Automatic Spelling Correction for Russian The competition has the following practical outcomes: •	 we have measured the current baseline of automatic spelling correction for Russian: on social media the baseline method show F1-measure of 50% and sentence accuracy of 48%. State-of-the-art methods used by the competition winner achieve F1
+Measure of 75% and sentence accuracy of 70%.
+•	 Various approaches to automatic spelling correction for Russian were tested; we have compared the role of different language models (ngram vs Word2
+Vec), different candidate search algorithms (dictionary lookup vs dictionary-free) and relative significance of different model elements (dictionary size, edit distance, language model, morphology and semantics usage). The results show that dictionary size is not the main factor, much more important is the adequacy of ranking model. Using more fine-grained features than simple edit distance score also improves the performance slightly. However, current system gain little or no advantage from morphological or semantic information which leaves much room for future improvement.
+•	 the manually tagged golden standard set was developed, consisting of nearly 2000 sentences with different types of mistakes (typos, grammatical, orthographic, cognitive errors etc.) and their corrected variants. The organizers hope
+that the training set and golden standard (available at UR
+L http://www.webcorpora.ru/wp-content/uploads/2016/01/source_sents.txt and http://www.webcorpora.ru/wp-content/uploads/2016/01/corrected_sents.txt) will help other researchers to evaluate their algorithms;
+The experience of first SpellRu
+Eval challenge could be useful for organizers and participants in future spell checking competitions. It would be interesting to test how linguistic information such as morphology, syntax or semantics could help in this task. The methods proposed could be also helpful in similar task like automatic grammar correction or social media text normalization. We hope to present one of these tasks in future Dialogue Evaluation competitions.
+Acknowledgements
+We would like to thank all colleagues who participated in the annotation of the golden standard. We also thank all the teams who took part in the competition, particularly to HS
+E and Orfogrammatika teams for their fruitful suggestions. We also would like to thank Eugeny Indenbom and Vladimir Selegey for their deep insight and helpful advice during the organization of the competition.

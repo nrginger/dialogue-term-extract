@@ -1,0 +1,301 @@
+Term extraction is a field of language technology that involves extraction of relevant terms from domain-specific language corpora. To date, the research in this field has tended to focus on extraction of multi-word terms rather than on single-word ones mainly because most terms are multi-word. At the same time it is argued that singleword terms are much more difficult to recognize (
+Sclano & Velardi, 2007).
+An important current trend in the research consists in applying machine learning methods that combine various features of words for term extraction.
+In the work (
+Vivaldi et al., 2001) for extraction of medical terms features of words are combined with Ada
+Boost algorithm. (
+Azé et al., 2005) combines 13 various statistical criteria measures via the supervised learning genetic algorithm ROGE
+R. In (
+Pecina and Schlesinger, 2006) the combination of multiple statistical characteristics of phrases is used to extract multi-word expressions from the Czech text collection. (
+Zhang et al., 2008) propose a combined method based on five term recognition algorithms that are capable of handling both single-word and multi-word terms. (
+Foo and Markel, 2010) apply the rule induction learning system Ripper to automatic term extraction from Swedish patent texts. (
+Dobrov and Loukachevitch, 2011) combine multiple features for two-word term extraction from texts of two different domains: the broad domain of natural science and technologies and the domain of banking.
+Our study continues the described works aiming to apply machine learning in order to improve automatic term extraction, but in contrast to them we deal with singleword terms.
+The overall process of extracting single-word terms consists of the following steps:1) Extraction of term candidates from domain-oriented texts. In our study
+we consider only nouns and adjectives because they cover the majority of the terms; for our machine learning experiments they are extracted from a target collection of Russian banking texts taken from various electronic magazines such as Analytical Banking Magazine and Auditor.
+2) Reordering the list of extracted candidates with the purpose to get more approved terms in the top of the list. To reorder the list, certain word features
+that measure “termhood” are used. In our study a variety of features (mainly, linguistic and statistical) is considered.
+To evaluate the results of the reordering we need a way to approve terms from the candidate list. For these purposes we use the banking thesaurus manually created for the Central Bank of the Russian Federation. It includes about 15 thousand terms and comprises the terminology of banking activity. We consider a given candidate from the list as a term if it belongs to the thesaurus.
+In the paper we first characterize the set of chosen features, and then describe experiments with machine learning.
+Nokel M. A. et al.
+Features for term candidate ranking
+2.1. Linguistic features
+We improve the results of the first step in the term extraction process via the following simple post morphology techniques:1) We apply a simple morphological disambiguation procedure to extract only
+those initial forms of the nouns and adjectives that are consistent in text with other context words. Thus, the combinations such as Preposition + Noun and Preposition + Adjective should be consistent in the case, while the combinations such as Adjective + Noun, Participle + Noun, Possessive Pronoun + Noun, Ordinal Number + Noun should be in agreement with the gender, number and case.
+2) Term candidates that had the same initial forms with the words with PO
+S
+other than nouns and adjectives were excluded from the consideration.
+For resulted set of term candidates we propose to apply four linguistic features that do not rank the term candidates and are used for the purposes of machine learning: Ambiguity, Novelty, PO
+S and Specificity. The first one determines whether the word has multiple initial forms, the second determines whether the word is known for a morphological analyser, the third determines whether the word is a noun or an adjective, and the last determines whether the word exists in the reference text collection.
+We also make an attempt to take into account the subjects in the sentences because they are more likely to represent some domain-specific information. All words in the nominative case (according to the morpohological analyzer) are considered as the subjects.
+2.2. Orthographic features
+Supporting the proposal of (
+Conrado et al., 2011) we consider the number of occurrences of words beginning with the capital letters. However, we also consider the subset of these words that did not start the sentences because such words are more likely to represent the named entities in the subject domain (they are called non-initial words further in the paper).
+2.3. Statistical features
+The most of the features of our set are statistical. They may be divided into four groups:1) Features based only on the target corpus;
+2) Features based on the target and reference corpora;
+3) Features based on the statistical and contextual information;
+Combining multiple features for single-word term extraction 4) Features for the words that stand near the most frequent ones in texts.
+2.3.1. Used notations
+While describing the statistical features, we use the following notations:– w is the word from the target corpus;– T
+Ft(w) and T
+Fr(w) are the frequencies of the word w in the target and reference corpora;– |
+Wt| and |
+Wr| are the total numbers of words in the target and reference corpora;– D
+Ft(w) and D
+Fr(w) are the numbers of documents containing the word w in the target and reference corpora;– |
+Dt| and |
+Dr| are the total numbers of documents in the target and reference corpora;2.3.2. Features based only on the target corpus
+The most basic features in the group are Term Frequency (T
+F) and Document Frequency (D
+F). The former is the number of occurrences of term candidates in the target corpus, while the latter is the number of documents where a term candidate occurs. These features reflect the assumption that the terms are much more frequent than other words in the target corpus.
+The more complex feature is Term Frequency — Inverse Document Frequency (TF-ID
+F) that was originated and is widely used in Information Retrieval. This measure encourages words that occur many times within a small number of documents. Primarily, this feature (
+Manning and Schutze, 1999) was calculated via the general collection. Later, it was adapted to use only the target corpus. Therefore, we consider these two versions of TF-ID
+F measure:TF-ID
+Freference(w) ;)(log)(wDFDwT
+Frrt ×=
+Fttt ×=
+We also use an important extension of TF-ID
+F measure called Term Frequency — Residual Inverse Document Frequency (TF-RID
+F) proposed by (
+Church and Gale, 1995):TF-RIDF(w)−−−×=−ttDwT
+Fttt ewDFDwT
+F)(1log
+)(log)( TF-RID
+F is based on the observation that the Poisson model can only fairly predict the distribution of non-content words. Therefore, the deviation from Poisson can be used to predict term informativeness.
+The last feature in the group is Domain Consensus (D
+C) (
+Navigli and Velardi, 2002). This measure simulates the consensus that a term must gain in a community
+before considered a relevant domain term. It is an entropy-related feature:
+Nokel M. A. et al.
+) ( )( )( )∑∈×−=tk Ddkk dwfreqdwfreqwD
+C ,log,)(where dk is a document from the target corpus Dt and freq(w, dk) is the frequency of the word w in a document dk divided by the total number of the words in dk.
+All these features were calculated four times: for all term candidates, only for subjects, only for words beginning with capital words and only for non-initial words.
+2.3.3. Features based on the target and reference corpora
+The first feature in this group is Weirdness (
+Ahmad et al., 2007). It compares term frequencies in the target and reference corpora and reflects the basic idea for all measures in the group that these frequencies significantly differ:rrttWwTFWwTFw
+Weirdness )()()( =
+Relevance feature (
+Peñas et al., 2007) is based on the similar idea: ×+−=)()()(2log
+11)(
+Re
+2 wT
+F
+wDFwTFwlevancertt
+This weight is high for high frequent terms in the target corpus, unless they are also frequent in the reference corpus or appear in a very small number of documents in the target corpus.
+Next, we consider several extensions of TF-ID
+F measure. Contrastive Weight (C
+W) was proposed in (
+Basili et al., 2001) as a more accurate weight that reflects the specificity of terms with respect to the target domain. It is based on the heuristic that general words should spread similarly across different domain corpus:( ) ++×=)()(log)(log)(wTFwTFWWwTFwCWrtrtt
+Next, Domain Tendency (D
+T) and Domain Prevalence (D
+P), which are slight modifications of Weirdness and C
+W respectively, contribute to the weight, known as Discriminative Weight (D
+W) (
+Wong et al., 2007). A term that appears frequently in the target corpus will have a low overall D
+W if it is more specific in the reference corpus:),()()( wDTwDPwD
+W ×= where +++= 11)(
+1)(
+log)( 2 wTFwTFwD
+Trt( ) +++×+= 10)()(log10)(log)( 1010 wTFwTFWWwTFwD
+Prtrtt Combining multiple features for single-word term extraction One more extension of TF-ID
+F measure is KF-ID
+F (
+Kurz and Xu, 2002). This feature considers a simple term candidate as relevant if it appears more often than other candidates in the target domain, but occasionally in the reference domain. This weight is defined as follows:KF-ID
+F(w) +×= 12log)(wt DwD
+Fwhere |
+Dw|=2, if the word w exists in the reference collection, and |
+Dw|=1 otherwise.
+The last feature in the group is Loglikelihood that was originally designed for multi-word term extraction and then adapted by (
+Gelbukh et al., 2010) to single-word term extraction. Since only term candidates whose relative frequency is greater in the target corpus than in the reference one are taken into account: rrttWwTFWwT
+F )()(> , Loglikelihood is defined as follows:×+××=)()(log)()()(log)(2)( expexp wTFwTFwTFwTFwTFwTFwood
+Loglikelih ectedrrrectedtttwhere rtrttectedt WWwTFwTFWwT
+F++×=)()()(exp ; WWwTFwTFWwT
+F++×=)()()(exp2.3.4. Features based on the statistical and contextual information
+First of all, C-value and its modifications and improvements are included into the group. Originally, C-value was proposed to extract multi-word terms (
+Ananiadou, 1994), but we use its modified version adapted by (
+Nakagawa and Mori, 2002) for
+single-word term extraction:MC-value(w)w
+Pptt PpTFwT
+F w∑∈−=)()(where |
+Pw| is the set of all phrases in the text collection that contain the word w and |
+Pw| is its cardinality.
+The most widely known modification of C-value is N
+C-value (
+Frantzi and Ananiadou, 1997). This weight incorporates contextual information into C-value for the extraction of multi-word terms and counts how independently the given multi-word term is used in the target corpus. We adapt N
+C-value to single-word term extraction as follows:
+Nokel M. A. et al.
+
+C-value(w) ×=t
+W1 M
+C-value(w) ×cweight(w)
+where ∑∈+=w
+Cccweightwcweight 1)()( ;
+1)(
+cTFefreqWWcweightt
+Wetc cwhere Cw is the set of context words of the word w, Wc is the set of the term candidates that have c as a context word, ∑∈ c
+Weefreq )( is the sum of the frequencies of the term candidates that appear with the word c.
+We also consider another form of the original N
+C-value proposed by (
+Frantzi and Ananiadou, 1999) and modify it to single-word term extraction:MN
+C-value(w)+0.8 × M
+C-value(w)+0.2 × C
+F(w)where ∑∈=wCccfreqwC
+F )()( is the context factor for the word w, Cw is the set of context words of the word w, freq(c) is the frequency of the term candidate c as the context word of the word w.
+Next feature in the group is L
+R (
+Nakagawa and Mori, 2003) that is based on the intuition that some words are used as term units more frequently than others. It was originally proposed for multi-word term extraction, but we adapt it for single-word term extraction by simply replacing the term units in its definition by context words. We consider two versions of this score: Token-L
+R and Type-LR:Token-L
+R(w) ;)()( wrwl tokentoken ×=
+R(w) )()( wrwl typetype ×=where the left score ltoken(w) of the word w is defined as the sum of the frequencies of the context words appearing to the left of the word w, the left score ltype(w) is the cardinality of the set of such context words and the right scores rtoken(w) and rtype(w) are defined in the same manner.
+Since all variants of L
+R method reflect the numbers of occurrences of the context words, but do not reflect the terms themselves, we also choose FL
+R method intended to overcome this shortcoming (
+Nakagawa and Mori, 2003). Similar to L
+R we consider two variants of FL
+R score: namely, Type-FL
+R and Token-FLR:Token-FLR(w)=T
+Ft(w) × Token-L
+R(w); Type-FL
+R(w)= T
+Ft(w) × Type-LR(w)
+Additionally we consider several features reflecting the usage of the word in a set of phrases. The first one is Insideness (
+Dobrov and Loukachevitch, 2011). It checks whether the word is used in the same phrase and is intended to reveal truncated word sequences that are the parts of the real terms (note, that the similar phenomenon is modelled by previously described C-value feature). Insideness is defined as follows:
+Combining multiple features for single-word term extraction )()( maxwTFFw
+Insidenesst=where Fmax is the frequency of the most frequent phrase containing the word w.
+Another feature is Sum
+N proposed by (
+Loukachevitch and Logachev, 2010), where N is the number of the most frequent phrases containing the considered term candidate. The feature checks productivity of the word for the formation of domain word combinations. We also modify it for single-word term extraction by excluding term frequency from the denominator:NpTFwSumNNw
+Ppt∑∈=)()(where P
+Nw is the set of the N most frequent phrases containing w. We consider Sum3, Sum10 and Sum50 features.
+2.3.5. Features for the words that stand near the most frequent ones in texts
+At last, we hypothesize that the terms are more likely to co-occur with the most frequent ones and introduce the novel feature NearTerms
+Freq defined as the number of the word occurrences in the context window of the several predefined most frequent words. In fact, as such words we take the first ten elements at the top of the term candidate list ordered by TF-RID
+F because our experiments showed that it is the best single feature — cf. Table 1). Additionally we apply the original TF-ID
+F measure, calculated via the general text collection, to NearTerms
+Freq, thus obtaining the following feature:NearTermsFreq-ID
+Fref (w) ×=)(log)(wDFDwreqNearTerms
+Frr3. Experiments
+3.1. Experimental setup
+For experiments we used a target text corpus in the banking domain with 10 422 documents (nearly 15,5 million words) and word frequencies from the reference, more general collection. All described features were calculated for five thousand of the most frequent single-word term candidates extracted from the target collection.
+In order to obtain the best combination of the features, we used machine learning methods provided by the freely-available library Weka (http://www.cs.waikato.
+ac.nz/ml/weka/). We performed four-fold cross-validation, which means that every Nokel M. A. et al.
+the training set was three-quarters of the whole list while the testing set was the remaining part.
+Among various methods of evaluation we chose Average Precision (
+Manning and Schutze, 1999) because this measure allows us to evaluate the quality of the term extraction using a single numerical value. Average Precision of a set of all term candidates D with Dq ⊆ D as a set of approved ones among them is defined as follows:∑ ∑≤≤ ≤≤×=
+Dk kiikqrkrDDAv
+P1 1
+11)(
+where ri=1 if the i-th term ∈ Dq and ri=0 otherwise. The formula reflects the fact that the more terms are concentrated in the top of the list, the higher the measure is.
+3.2. Experimental results
+In order to find the best combination of the features we tested several machine learning methods. It proved that the maximal value of Average Precision is achieved by logistic regression method. So it was taken for further experiments.
+Table 1 shows Av
+P values for single features and their combination obtained with logistic regression (
+Ambiguity, Novelty, PO
+S and Specificity features are not presented in the table because they do not rank the term candidates and are used only in the combination with the other features).
+Combining multiple features for single-word term extraction Feature Average PrecisionT
+F 33,91 %D
+F 28,7 %TF-ID
+F 37,84 %TF-RID
+F 40,05 %D
+C 32,42 %TF-ID
+Freference 34,56 %T
+Fsubjects 29,66 %D
+Fsubjects 27,92 %TF-ID
+Fsubjects 30,56 %TF-RID
+Fsubjects 32,61 %D
+Csubjects 28,92 %TF-ID
+Freference subjects 29,61 %T
+Fcapital words 35,49 %D
+Fcapital words 33,42 %TF-ID
+Fcapital words 35,98 %TF-RID
+Fcapital words 37,97 %D
+Ccapital words 34,63 %TF-ID
+Freference capital words 35,51 %T
+Fnon-initial words 36,29 %D
+Fnon-initial words 36,12 %TF-ID
+Fnon-initial words 36,26 %TF-RID
+Fnon-initial words 35,85 %D
+Cnon-initial words 35,77 %TF-ID
+Freference non-initial words 32,83 %
+Feature Average Precision
+Weirdness 29,87 %
+Relevance 32,43 %C
+W 34,42 %D
+W 30,37 %KF-ID
+F 28,68 %
+Loglikelihood 34,48 %M
+C-value 33,86 %N
+C-value 35,1 %MN
+C-value 34,55 %Token-L
+R 35,93 %Type-L
+R 33,21 %Token-FL
+R 35,44 %Type-FL
+R 34,02 %
+Insideness 27,8 %
+Sum3 36,88 %
+Sum10 37,22 %
+Sum50 36,86 %NearTerms
+Freq 35,76 %NearTermsFreq-ID
+Fref 36,06 %
+Logistic Regression 53,95 %
+As we see, the best single feature is TF-RID
+F, while logistic regression by combining multiple features gives an increase of 35 % compared with the best single feature.
+In the Table 2 the first ten elements from the top of the extracted term candidates lists are presented. The columns correspond to various orderings of the lists: the ordering by Term Frequency, by TF-RID
+F feature, and by logistic regression (the real terms among them are given in italics).
+# Term Frequency TF-RID
+F Logistic Regression1 Банк (
+Bank) Банк (
+Bank) Банковский (
+Banking)
+2 Банковский (
+Banking) Кредитный (
+Credit) Компания (
+Company)
+3 Россия (
+Russia) Банковский (
+Banking) Рынок (
+Market)
+4 Год (
+Year) Риск (
+Risk) Риск (
+Risk)
+5 Система (
+System) Кредит (
+Credit) Пенсионный (
+Pensionary)
+Nokel M. A. et al.
+Term Frequency TF-RID
+F Logistic Regression6
+Организация (
+Organization) Рынок (
+Market) Аудиторский (
+Auditing)7 Рынок (
+Market) Система (
+System) Страна (
+Country)
+8 Кредитный (
+Credit) Налоговый (
+Taxing) Налоговый (
+Taxing)
+9 Банка (
+Jar) Страна (
+Country) Система (
+System)
+10 Российский (
+Russian) Банка (
+Jar) Бухгалтерский (
+Bookkeeping)
+3.3. Feature selection algorithm
+The resulting combination model is too complex in the number of applied features. Some of them may be redundant for machine learning method and have no use in the model, make its training harder. In order to exclude them we applied a stepwise greedy algorithm for selecting the most significant features.
+The algorithm starts with the empty set of features, and then at each step it adds the feature that maximizes the overall Average Precision. As a result, the combination of only eight features (namely, TF-ID
+F, TF-RID
+F, KF-ID
+F, D
+Fnon-initial words, T
+Fsubjects, TF-ID
+Freference subjects, Weirdness and N
+C-value) was found with 53,51 % of Average Precision. Therefore, the number of the combined features may be considerably reduced with decrease in precision less than 1 %.
+4. Conclusions
+In the paper we described multiple word features including linguistic, orthographic and statistical ones that were used in machine learning experiments for ordering the set of single-word term candidates extracted from the target text corpus. Several machine learning methods combining the features were tested, and logistic regression proved to be the best with significantly higher values of Average Precision than for any single feature. In addition, it was experimentally found that the number of the combined features can be reduced to eight features without sensible decrease of Average Precision.

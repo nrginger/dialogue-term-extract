@@ -1,0 +1,147 @@
+Multilingual corpora can be annotated with morphosyntactic tags by monolingual tools. However, each of the tools is typically bundled with a specifi c tagset. This variety of tagging schemes may be a problem for the user: Inter
+Corp, a parallel corpus, currently offers on-line concordances in 22 languages, 11 of them tagged with 11 different tagsets1. Fig. 1 illustrates the tagset variety using comparable examples of prepositional phrases in all of the 11 presently tagged languages2.
+We are aiming at a solution that would delegate the task of dealing with multiple tagsets to the system, allowing the user to interact with an abstract interlingual hierarchy of linguistic categories, a common “tagset” that is only used for mediating between languagespecifi c tagsets, not to tag real texts. In order to refl ect the differences between various tagsets, the common “tagset” takes three different perspectives of word class. Thus, the tag for the Czech relative pronoun který ‘which’ is decoded as a category with the properties of lexical pronoun, infl ectional adjective and syntactic noun, each with its appropriate morphological characteristics. * Work on this project was supported by grant no. MS
+M0021620823 of the Czech Ministry of Education, Youth and Sports.
+1 For more details about the project see the project site
+at http://korpus.cz/intercorp/. The corpus can be queried at korpus.cz/
+Park after registration at http://ucnk.ff.cuni.
+cz/english/dohody.php.
+2 For details about the tagging tools and tagsets see http://
+korpus.cz/english/intercorp-info.php. Here and below, Czech positional tags are truncated: R
+R-6 stands for R
+R-6(tag for a preposition selecting local case).
+Tags in all tagsets can be described as objects with properties and the methods of Formal Concept Analysis be used to construct the hierarchy automatically as a concept lattice and to (partially) resolve tag queries that do not quite match the tags used for the specifi c language, in a way similar to that employed by Janssen dealing with lexical gaps in a multilingual lexical database.
+This is certainly not the fi rst attempt to design an interlingual representation of linguistic categories in the context of multilingual corpora. We wish to mention at least MULTEXT
+East , whose tagging scheme became a de facto standard for infl ectional languages, and Interset, a truly interlingual tagset , designed primarily for translating tags from one tagset into another. However, neither quite satisfi es our requirements: they miss some categorial correspondences between languages and do not support the idea of arbitrary levels of specifi city (see fi g. 1).
+Word classes in three fl avours2. The traditional list of eight word classes is defi ned by a mix of morphological, syntactic and semantic criteria. For nouns or adjectives the three criteria agree. Nouns decline independently in typical nominal positions, referring to entities; attributive or predicative adjectives, representing properties, agree with nouns. On the other hand, numerals and pronouns are defi ned solely by semantic criteria, while their syntactic and morphological behaviour is rather like that of nouns (cardinals and personal pronouns) or adjectives (ordinals and possessive pronouns). For such cases, the option of abandoning the traditional list in favour of a crossГармонизация систем помет для многоязычных корпусов посредством решетки понятий
+Harmonizing tagsets for multilingual corpora via concept lattice* Rosen A. (alexandr.rosen@ff .cuni.cz)
+Institute of Theoretical and Computational Linguistics, Faculty of Arts, Charles University, Prague, Czech RepublicСравнение систем морфосинтаксических помет обнаруживает различные предположения, заслоняющие сходства и различия между языками. Чтобы преодолеть формальные и концептуальные несоответствия, мы строим абстрактную межъязыковую систему помет как иерархию категорий, используя анализ формальных понятий.
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010 Rosen A.
+classifi cation along the three dimensions seems attractive. Distinctions between the three aspects are borne out also by the tagsets. Our tagset for Czech has a preference for lexically-based classifi cation, the Polish tagset for infl ectional word classes, the German tagset distinguishes pronouns by their syntactic function.
+Fig. 2 shows a simple case — nouns and adjectives are nouns and adjectives, respectively, on all three criteria.3 The topmost node wcl stands for both nouns and the adjectives. Its daughters are labelled by the three aspects: lexical (for ‘semantic’), infl ectional (for ‘morphological’) and syntactic.4 The boxes around the labels suggest that the sets of objects denoted by the nodes have a non-empty intersection. In fact, all four sets involved are identical, which is a feature of cross-classifi cation. The other nodes stand for word classes in the three respective fl avours, distinguished in their labels by the initial letter. The six types of word classes share only two daughters, the objects to be classifi ed. Each of the two objects inherits the property of being a word class according to the three criteria.
+The hierarchy of categories or types is partially ordered by their specifi city. Each type denotes a set of objects — language-specifi c tags, identifi ed by their name and specifi c tagset. The topmost type denotes all tags in all tagsets. Immediate subtypes of a supertype denote 3 All hierarchies shown here are partial: they cover only
+a fraction of morphological categories and languages.
+4 We use lexical rather than semantic — lexical word classes
+have their properties specifi ed in the lexicon.
+subsets of that supertype. A tag in the denotation of the supertype must be in the denotation of at least one of the subtypes. A subtype can have more than one supertype. In this case, the subtype denotes a subset of the intersection of the sets denoted by its supertypes.
+Unlike regular nouns and adjectives, a Czech whform který ‘which’ in its use as a relative (rather than interrogative) pronoun belongs to three different word classes at the same time. In (1), který is at the same time a syntactic noun as the subject of the relative clause, a lexical pronoun with “dog” as its antecedent, and — due to its adjectival declension — an infl ectional adjective (see fi g. 2).
+(121) Psa, který nemá náhubek, do vlaku nepustí.
+dogaccwhichnomhasnegmuzzleacc into train let inneg,pl,3rd‘
+An unmuzzled dog won’t be allowed on the train.’
+To express this triple membership, the Czech tag P4 for relative pronouns5
+a subtype of the cross-classifying word classes, each representing a different dimension — see fi g. 3.
+The fragment can be extended by other objects as in fi g. 4: cardinal and ordinal numerals, personal, possessive and interrogative pronouns. Ordinals such as pátý ‘fi fth’ are treated as lexical numeral and adjective — both infl ectional and syntactic. Possessive 5 We ignore all but the fi rst two positions in the tag.
+en in the remotest exurbsI
+N D
+T JJ
+S NN
+Sde in den abgelegensten AußenbezirkenAPP
+R AR
+T ADJ
+A N
+Nnl in dit schitterende appartement600 370 103 000
+fr dans les plus lointaines banlieuesPR
+P DET:AR
+T AD
+V AD
+J NO
+Msp en las zonas más remotasPRE
+P AR
+T N
+C AD
+V AD
+Jit da queste lingue babelichePR
+E PR
+O:demo NO
+M AD
+Jru v samych otdaljonnych rajonach
+Sp-l P—pl Afp-plf Ncmplncs v těch nejodlehlejších zástavbáchR
+R–6 PDX
+P6 AAFP6----3
+A NNFP6
+Abg na tova prĳ atelsko dviženie
+R Pde-os-n Ansi Ncnsipl w tym wspaniałym apartamencieprep:loc:nwok adj:sg:loc:m3:pos adj:sg:loc:m3:pos subst:sg:loc:m3hu a szép katalán lánybaAR
+T AD
+J AD
+J NOUN(CAS(ILL)
+Figure 1. Diff erences in tagging: prepositional phrases
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010 систем помет для многоязычных корпусов посредством решетки понятий 653pronouns differ in being lexical pronouns. Personal pronouns are infl ectional and syntactic nouns, similarly as cardinal numerals. The interrogative homonym of který in its relative use can be used as a syntactic adjective or noun. The node intp inherits from snom, representing syntactic nouns or adjectives, while relp can only be a syntactic noun, due to its ancestor snoun.
+However, there is a single Czech tag covering both the relative and interrogative use of který (
+P4), which should be represented as ambiguous between relative pronoun and syntactic noun on the one hand and interrogative pronoun and syntactic adjective or noun on the other. The modifi ed hierarchy in fi g. 5 captures this ambiguity. The Czech tag P4 corresponds to a node labelled lprn  iadj  snom.
+Figure 5. A single node for interrogative and relative pronouns
+Figure 2. Nouns and adjectives are nouns and adjectives from all three aspects
+Figure 3. A hierarchy fragment for the Czech relative pronoun který ‘which’
+Figure 4. Distinguishing types of numerals and pronouns in a hierarchy
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010 Rosen A.
+The three views of word class allow for proper mapping between language-specifi c tagsets. The tag for adjective in the English, German, French, Italian and Polish tagsets covers also ordinal numerals. If all these tags are mapped as syntactic adjectives, they end up correctly in the same class as Czech, Spanish, Russian or Bulgarian adjectives, ordinal numerals and possessive pronouns. Their lexical word class is unknown, although it is not arbitrary. Fig. 6 shows a fragment of the hierarchy with a node representing both ordinal numerals and adjectives, labelled (lord  ladj)  iad j  sadj and corresponding to the German tag ADJ
+A.
+The German ordinal number zweite, tagged as adjective (similarly as hohes), is a subtype of infl ectional and syntactic adjective (iadj and sadj), and also a subtype of a general type covering lexical adjectives and ordinal numerals (ladj  lord).
+Partial hierarchies can be merged. The result of merging the above two hierarchies (fi gures 5 and 6) is shown in fi g. 7.
+Figure 6. A single node for ordinal numerals and adjectives
+Figure 7. Hierarchies in fi gures 5 and 6 merged
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010 систем помет для многоязычных корпусов посредством решетки понятий 655
+We have barely scratched the surface of the topic of cross-classifying word classes. Obvious candidates for this treatment could be derived words. However, the possibility of multiple derivation and the constraints of the language-specifi c tagsets may present a prohibitive obstacle to any signifi cant extension of the approach.
+Morphological categories3. Tags often encode more information than just word class. Word class of any fl avour may be required to co-occur with a set of other categories: personal and possessive pronouns with the lexical categories of person, number and gender, infl ectional adjectives with the infl ectional categories of gender, number and case. A possessive pronoun such as jejího is lexically 3rd person, singular and feminine, while infl ectionally it is masculine or neuter, singular, genitive or accusative (2).6
+Martina je moje sousedka. Martina is my neighbourfem,sg,nom. Jejího syna často potkávám v tramvaji.
+herlex: 3rd,fem,sg;infl : masc,sg,accsonmasc,sg,acc often meet1st,sg
+tram. (2) ‘ Martina is my neighbour. I often meet her son on the tram.’6 Czech personal and possessive pronouns share the same lexical
+categories and are distinguished by their infl ectional category.
+The set of categories appropriate to a word class may be defi ned as types in the hierarchy, which further cross-classify types corresponding to language-specifi c tags. Then the user can refer to all plural items by specifying them merely as pl.
+The tag for the Czech possessive pronoun jejího in fi g. 8 is a subtype of lexical pronoun (lprn) and infl ectional adjective (iadj).7 As a possessive pronoun, it is required by the hierarchy8 to be a subtype of lexical gender (lgend), number (lnum) and person (lpers), more precisely of their intermediate subtypes, specifying morphological categories. As an infl ectional adjective, it is required to be a subtype of infl ectional gender igend, case (icase) and number (inum). In isolation, the form jejího is ambiguous between (infl ectional) genitive and accusative and infl ectional masculine and neuter genders. As the tag suggests, the former ambiguity is assumed to be resolved (the digit “4” at the 5th position stands for accusative), unlike the latter ambiguity, which is retained (the character “
+Z” at the third position stands for all genders, except feminine). Therefore, the tag is a subtype of imasc  ineut, covering both imasc and ineut. 7 It is also a subtype of syntactic adjective. Types less relevant
+for the current discussion are omitted for brevity.
+8 More general co-occurrence restrictions could be specifi ed
+at a meta-level to ease the initial manual task of mapping tags to categories.
+Figure 8. Morphological categories used to tag a Czech possessive pronoun jejího, a category-based view
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010 Rosen A.
+The hierarchy in fi g. 8 leaves the lexical/infl ectional distinction implicit. In fi g. 9 this distictions is shown at the top level, as in all previous hierarchies. For clarity, general category labels (gend, case, etc.) are omitted.
+Building and using the common tagset4. The type hierarchies presented so far are similar to concept lattices of Formal Concept Analysis (FC
+A), a logical formalism equipped with methods for constructing and using the lattices . The task of FC
+A is to classify objects according to their properties (attributes). The classifi cation is based on the notion of concept, consisting of a set of objects as its extension and a set of attributes as its intension. The fi rst step of the analysis is to identify the objects and their attributes. This is done in a tabular data structure called formal context. Table 1 is an example of a formal context for our previous example of adjectives and numerals (fi g. 6). Attributes corresponding to the boxed labels in fi g. 6 are omitted: they would be specifi ed for all objects and would not make the resulting lattice more informative.
+and ordinal numeralsladj lnum iadj inoun sadj snounadj ● ● ●ord ● ● ●card ● ● ●
+Next, a set of formal concepts is built, each of the concepts consisting of a pair of the set of objects, and a set of attributes. Objects belonging to a concept belong also to its superconcept and the concepts are partially ordered by specifi city (roughly: the more attributes, the more specifi c). Figure 9. Morphological categories used to tag a Czech possessive pronoun jejího, a lexical/infl ectional view
+Figure 10. Concept lattice for adjectives and ordinal numerals
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010 систем помет для многоязычных корпусов посредством решетки понятий 6571 {adj,ord,card}, {}
+2 {ord,card}, {lnum}
+2 {adj,ord}, {iadj,sadj}
+3 {adj}, {ladj,iadj,sadj}
+3 {ord}, {lnum,iadj,sadj}
+3 {card}, {lnum,inoun,snoun}
+4 {}, {ladj,lnum,iadj,inoun,sadj,snoun}
+Finally, the concept lattice can be drawn (fi g. 10). Its geometry is signifi cantly simpler than the hierarchy constructed intuitively (as in fi g. 6), while the concept ambiguous between adjectives and cardinal numerals is still present. The last two steps can be done automatically.
+9
+The concept lattice can be used for reasoning about attributes, as in the following implications: ladj  sadj or snoun  lnum. Such statements can be used to assist the user in making queries including language-independent category labels (such as “adj”), or to match incompatible language-specifi c tags.
+The concept with the extension {ord} corresponds to cs:
+Nr, the Czech tag for ordinal numerals, while the concept with the extension {adj,ord} corresponds to de:ADJ
+A, the German tag covering adjectives and ordinal numerals. To look up its Czech equivalent we have to fi nd a Czech tag corresponding to the {adj,ord} concept. In the absence of such a tag, the more specifi c concepts are traversed and the disjuction of Czech tags corresponding to {adj} and {ord} is the result. Looking up a German equivalent of cs:
+Nr is similar to the scenario when the user asks for “ord” in a German text. It’s easy in a Czech text, because the appropriate tag cs:
+Nr is available. For German, there is no tag corresponding to “ord”. There are also no concepts more spe9 See http://www.fcahome.org.uk/fca.html.
+cifi c than {ord} that would correspond to German tags. The only option is to resort to a more general concept {adj,ord}, with a corresponding German tag. The extensions of the two concepts can be compared and the user warned that she would have to fi lter out concordances including categories corresponding to “adj”.
+Attributes specifi ed for an object in a formal context are interpreted in conjuction. Thus, specifying both snoun and sadj as attributes of an interrogative pronoun (intp) would mean that it is simultaneously syntactic noun and a syntactic adjective. To model disjunction of attributes we have to introduce a more general attribute covering the two options. The formal context and concepts for numerals and pronouns are shown below in tables 3 and 4 and the corresponding lattice in fi g. 11.
+This is not the fi rst application of FC
+A in the fi eld of linguistics, not even in a multilingual setting. Priss an overview of linguistic applications of FC
+A and Janssen concerned with multilingual lexical databases. His lattice, a structured lexical interlingua connecting words from different languages, is similar to the common abstract tagset. Given that the world of morphosyntactic tags is simpler than the world of words, this is a reassuring fi nding, reinforced by the continuing advances of FC
+A and its application to other very complex domains.
+and pronounslnum lprn inoun iadj snoun sadj snomcard ● ● ● ●ord ● ● ● ●persp ● ● ● ●possp ● ● ● ●relp ● ● ● ●intp ● ● ●1 {card,ord,persp,possp,relp,intp}, {snom}
+2 {card,ord}, {lnum,snom}
+2 {card,persp,relp}, {snoun,snom}
+2 {ord,possp,relp,intp}, {iadj,snom}
+2 {persp,possp,relp,intp}, {lprn,snom}
+3 {card,persp}, {inoun,snoun,snom}
+3 {ord,possp}, {iadj,sadj,snom}
+3 {persp,relp}, {lprn,snoun,snom}
+3 {possp,relp,intp}, {lprn,iadj,snom}
+4 {card}, {lnum,inoun,snoun,snom}
+4 {ord}, {lnum,iadj,sadj,snom}
+4 {persp}, {lprn,inoun,snoun,snom}
+4 {possp}, {lprn,iadj,sadj,snom}
+4 {relp}, {lprn,iadj,snoun,snom}
+5 {}, {lnum,lprn,inoun,iadj,snoun,sadj,snom}
+Dialog'2010.indb
+Dialog'2010.indb 11.05.2010 Rosen A.

@@ -1,0 +1,160 @@
+sentence incompleteness vs. Discourse incompleteness : pitch accents an
+D accent placement1
+Yanko T. E. (tanya_yanko@list.ru)
+Institute for Linguistics, Russian Academy of Sciences, Moscow, Russia
+The prosodic cues for discourse incompleteness may be either identical with the prosodic means expressing the topic or independent of marking the communicative constituents of a sentence: the topic or the focus. The autonomous prosodic marking of discourse incompleteness becomes possible in the context of tails. A tail is a fragment of a sentence placed after the accent-bearer of the focus. (
+Thus in the sentence Malo ja smyslju v muzhskoj krasote ‘
+Little I know about men’s attractiveness’ with malo ‘little’ as the accent-bearer of the focus the fragment ja smyslju v muzhskoj krasote is the tail). A tail may be either deaccented or it may be used to carry the rise of discourse incompleteness. Generating a tail is conditioned by activation of entities within a sentence, contrast, emphasis, and verification expressed either by lexemes or by prosody, or both. In Russian, a tail can also result from a specific word order transformation with the focus accentbearer being shifted to the left in front of the finite verb. The sentence-final verb, therefore, transforms into the tail to be specifically used as the bearer of discourse incompleteness pitch accent. (
+Thus in the sentence Ja pidzhak snjal… literally: ‘
+I my coat took off…’ with pidhzak ‘coat’ as the accentbearer of the focus the sentence-final verb snjal ‘took off’ is the tail). Sentences with tails are able, therefore, to display a full set of communicative meanings including topics, focus and discourse incompleteness expressed by separate accent-bearers carrying the respective pitch accents.
+Key words: prosody, pitch accents, incompleteness, discourse, word order, topic, focus, oral speech1 This work has been supported by the Program of fundamental research “
+Language and literature in the context of social dynamics”, 2012–2014, project “
+The computer model and
+electronic data base ,Meaning
+Spoken Speechʻ” and the Ministry of science and education of Russia, project 8009.
+Yanko T. E.
+prosodic markers of an uncompleted sentence and an uncompleted piece of narration are often identical. Sentence incompleteness and discourse continuation can be both expressed by a rise of the fundamental frequency placed on a word selected from segmental material of a single sentence2. In this case, there is no difference between a topic of a sentence whose focus is placed in the subsequent context and a sentence which is a component of an uncompleted narration: the applicable pitch accents and the due accent-bearers are identical. For instance, in the sentence My priehali v Moskvu toljko v 1990 godu ‘
+We came to Moscow only in 1990’ the segment my priehali v Moskvu ‘we came to Moscow’ with the rise on Moskvu is the topic, while in the story about a trip to Russia My priehali v Moskvu. Potom avtobus otvёz nas v Bekasovo. Vecherom byl banket ‘
+We came to Moscow. Then a bus took us to Bekasovo. The party was in the evening.’ My priehali v Moskvu is a non-final component of a connected text3. Topics, therefore, can have a syntactic structure of a sentence. Hence, whether a unit has a sentential structure or it is, for instance, a noun phrase cannot be decisive for distinguishing pieces of narration from topics.
+A question then arises as to whether there could be cues for discourse continuation distinct from sentence continuation markers. The aim of the present paper is to provide a description of a set of prosodic patterns that are characteristic solely of discourse incompleteness.
+The data for analysis are taken from oral corpora “
+Night dream stories” (see Kibrik, Podlesskaja (2009), http://spokencorpora.ru) “
+Stories about gifts and skiing” (see Podlesskaja (2012)), and the corpus of records based on T
+V and radio interviews, eyewitnesses accounts and examples of professional actor readings prepared by the author.
+The prosody is explicated here in terms of the fundamental frequency changes as it is proposed in D. Bolinger (1958) and E. A. Bryzgunova (see Russkaja grammatika 1982: 97–101) rather than in terms of target levels as in J. B. Pierrehumbert (1980).
+The instrumental study has been carried on by using the computer system of oral speech analysis Speech Analyzer.
+1. The rise of frequency as a generalized marker
+of incompleteness. The strategy of serial topics
+Major or minor rises4 of frequency within a sentence can mark either the topic (as opposed to the focus of a sentence) or a link between a non-final syntactic component and other components within a syntactic construction. For instance, in the sentence Prishla vesna (literally: ‘
+Came the spring’) the rise on the sentence-initial word prishla ‘came’ marks the onset of a syntactic construction, while in Vesna prishla 2 The principles of accent placement in communicative constituents of various lexical and syntactic structures are listed in Yanko (2008: 38–60).
+3 Details of identical expression of sentence and discourse incompleteness will be explicated
+by example (1) below.
+4 I do not focus here on various types of continuation rises in spoken Russian. The complete
+inventory is described in detail in Yanko (2008: 128–163).
+Sentence incompleteness vs. Discourse incompleteness tol’ko v mae (literally: ‘
+The spring came only in May’ the rise on vesna ‘spring’ is the marker of the topic. At the same time a rise can also express discourse incompleteness, i.e. the idea that the current step of narration is not final. To consider this point in details we need an example. The words carrying relevant pitch accents in examples below are underlined, the tonic syllables of the accent-bearers are capitalized.
+(1) Potom ja podoshla v druguju k
+Omnatu, vot u menja vybito stekl
+O, Later I entered into another room, here at me broken window, z
+Apaxa gaza ne oshchushch
+Aju. but smell gas. GE
+N not feel.1S
+G5
+Later I entered another room, I have got a broken window glass here, but as for the smell of gas, I do not feel any’
+In example (1) from a gas explosion report the segments1.1 Potom ja podoshla v druguju k
+Omnatu ‘
+Later I entered another room’ with the accent-bearer k
+Omnatu ‘room’, 1.2 vot u menja vybito stekl
+O ‘
+Here I have a broken window’ with the accentbearer stekl
+O ‘window glass’, and 1.3 z
+Apaxa gaza ‘smell of gas’ with the accent-bearer z
+Apaxa ‘smell’ have identical rises on the stressed syllables of the accent-bearers which are followed by frequency falls on the post-tonics (if any). These segments (1.1)–(1.3) can, therefore, be viewed as serial topics referring to the same focus ne oshchjushch
+Aju ‘
+I do not feel’. Indeed, in (1) there is no principal distinction between the prosody of the initial segments1.1 or 1.2 which really forward the narration ahead and the final topic zapaxa gaza.
+However, while the strategy of “serial topics” is one of the most common mechanisms of discourse linkage in many languages, it cannot help deciding whether a prosodic constituent is a topic or it serves as a discourse constituent of an uncompleted piece of discourse. In this case, the prosody cannot distinguish between a communicative unit of a sentence — namely its topic — and a valid discourse unit.
+5 Details of identical expression of sentence and discourse incompleteness will be explicated
+by example (1) below.
+Yanko T. E.
+Autonomous marking of topics and discourse links
+The strategy of serial topics is the most common but not the only mechanism of expressing discourse incompleteness. A variety of strategies employing separate cues for sentential and discourse incompleteness is used. These strategies are based on specific accent-placement. Consider example (2) from the corpus “
+Night dream stories”.
+(2) A k
+Oshka, ona obidelas’ i sprj
+Atalas’ ot nashej sob
+Achki... And cat she resented and hid from our doggy ‘
+And the cat, it got offended and hid from our doggy…’
+In example (2) the word sprj
+Atalas’ ‘hid’ carries a fall of frequency designating the focus, while the rise on the sentence-final word sob
+Achki ‘doggy.GE
+N’ is a separate marker of discourse incompleteness. It shows that the narration is to be continued. The non-final position of the focus accent-bearer the word sprj
+Aatalas’ ‘hid’ in sentence (2) is accounted for by the fact that the argument ot nashej sobachki ‘from our doggy’ refers to the activated6 knowledge of the hearer and is not, therefore, embodied in the focus: the dog appeared on the scene at the preceding stages of narration.
+Sentence (2), therefore, has a full set of communicative meanings that shape a sentence as a speech act and at the same time as a component of a connected discourse. These are: the meaning of a topic (expressed by the rise on the tonic syllable of the accent-bearer of the topic k
+Oshka ‘the cat’), the meaning of the focus (designated by the fall on the accent-bearer of the focus sprj
+Atalas’ ‘hid’), and the discourse incompleteness (the rise on the accent-bearer of incompleteness sob
+Achki ‘doggy.GE
+N’). The marker of discourse incompleteness is placed here after the marker of the focus. This order becomes feasible because the non-final placement of the focus accent-bearer leaves a sufficient segmental material free of any pitch-accents relevant for the topicfocus structure of the sentence.
+E. Vallduvi and E. Engdahl (1996) employ the term “tail” for a fragment of a sentence placed after the accent-bearer of the focus. Consider their example:6 The notion of activation is used here on the terminology of Dryer (1996).
+Sentence incompleteness vs. Discourse incompleteness (3) You shouldn’t have brought chocolates to the president. He HATE
+S chocolates.
+In example (3), hates is the focus, while the second occurrence of the word chocolates is the tail. Here, the tail is a fragment of a topic because it is borrowed from the first sentence and refers to the activated knowledge, yet it is placed sentence-finally because of the basic word order SV
+O characteristic of English. In (3), the tail chocolates does not carry any relevant pitch accents (as it is expected from a topic placed after the focus).
+In example (4) from the reading of “
+Drama na ohote” (‘
+The shooting party’ by A.
+P. Chekhov), the tail is not a topic, as in (3), but a fragment of the focus placed after the accent-bearer of the focus:(4) Ego bol’shoe muskulistoe litso ostalos’ navsegd
+A v moej pamjati ‘
+His big sinewy face left forever in my memory’
+In sentence (4), the accent-bearer of the focus is the word navsegd
+A ‘forever’, while the fragment v moej pamjati ‘in my memory’ is placed sentence-finally and does not carry any relevant pitch accents. V moej pamjati here is the tail. The presence of lexically conditioned focus — the quantifier navsegda ‘forever’ — results in the nonfinal position of the focus accent-bearer and, as a consequence, in forming a tail; about the focus function of the Russian quantifiers see Bulygina, Shmelev (1997: 200–207). The prepositional phrase v mojej pamjati is the sentence-final fragment of the focus.
+In examples (3) and (4) the tails are deaccented, while in (2) the tail ot nashej sobachki ‘from our doggy’ is used for marking the discourse link. So, a tail may consist either of a topic or of a fragment of the focus (remained after the accent-bearer of the focus). It may be either deaccented, as in (3) or (4), or it may carry the rise of discourse incompleteness as in sentence (2). Fig. 4 below exemplifies the difference between interpretations of an example from “
+Drama na ohote” read by two professional speakers: Aleksandr Balakirev (the upper panel) and Petr Korshunkov (the lower panel). In Balakirev’s reading the tail is deaccented: it does not carry any relevant pitch accents. The idea that the fragment of Chekhov’s text has not come to its logical end is only designated here by a frequency value of the final boundary tone which is slightly higher than the baseline of the speaker’s voice. Whereas Korshunkov explicitly shows that the text is to be continued by a prominent rise of frequency on the sentence-final word’.
+Yanko T. E.
+M
+Alo ja smyslju v muzhskoj krasot
+E Little I understand in men’s attractiveness ‘
+I know so little about men’s attractiveness’by two different readers
+In both readings, the sentence begins with a high fall on the focal word malo ‘little’. Malo is the accent-bearer of the focus in sentence (5).
+The fragment ja smyslju v muzhskoj krasote ‘
+I know about men’s attractiveness’ is, therefore, the tail. Balakirev does not use the tail to designate incompleteness, while Korshunkov prefers to demonstrate explicitely that the current event of narration is not logically final. The focus structure of sentence (5) strongly depends on the semantics of the “focal word” malo ‘little’; about the communicative functions of the Russian words of low quantity see Bulygina, Shmelev (1997: 205), about French peu see Ducrot (1973).
+The reading strategy with fewer rises of discourse incompleteness — either placed in the tails of sentences or appearing as topics — is a characteristic parameter of professional readers’ performance whose academic reading suggests that the listener makes a mental pause after each step of narration by using a “full stop” in order to reflect on the text. While in spontaneous speech or in its artistic imitating, the speaker — being afraid of losing the listener’s attention — demonstrates by using “comma” strategies at every non-final step of narration that the discourse is not over. In this respect, in Balakirev’s reading — as it is demonstrated by sentence (5) — and by other examples of his reading of “
+Drama na ohote”, a measured style of reading with regular pauses and full stops dominates as if the speaker does not care much about whether the hearer is listening to the story or not.
+A striking example of expressing a discourse link in the tail is sentence (6) from the corpus “
+Stories about gifts and skiing”.
+Sentence incompleteness vs. Discourse incompleteness (6) Pokat
+Alsja On ne Ochen’ ud
+Achno… Skied he not very successfully ‘
+His skiing was not a success’
+Sentence (6) is very short and has a syntactic structure of a simple sentence, nevertheless the two topics, the focus, and the discourse incompleteness have separate prosodic markers here. The verb pokat
+Alsja ‘skied’ (which carries a prominent rise on the stressed syllable) is the initial topic, the pronoun on ‘he’ is the second topic, the adverbial ne Ochen’ ‘not very’ is the accent-bearer of the focus. It carries a specific accent of an emphatic focus. The emphatic prosody correlates here with the semantics of the word ochen’ ‘very’; about the prosody of emphasis see Yanko (2008: 83). The sentence-final ud
+Achno ‘successfully’ is, thus, placed after the accent-bearer of the focus. It is, therefore, a tail, and it carries a specific type of a rise placed on the post-tonic syllable of the accent-bearer, while the tonic syllable carries a low level tone.
+A discourse link placed in the tail can, in its turn, have its own tail. Consider example (7) from “
+Night dreams stories”.
+(7) <
+Nas vseh razognali, skazali> nel’zj
+A grib
+Y rvat’.7 us.AC
+C all.AC
+C drove away told.they forbidden mushrooms.AC
+C to pluck ‘
+We all were driven away; they told us that picking mushrooms was forbidden’7 The angle brackets designate the required context.
+Yanko T. E.
+the fall of frequency on the tonic syllable of the word nel’zj
+A ‘forbidden’ marks the focus of the sentence. The infinitive phrase grib
+Y rvat’ ‘to pick mushrooms’ is, therefore, a tail. As a tail it is employed for designating a discourse link: the frequency tracing displays the rise on the accent-bearer of the discourse link the word griby ‘mushrooms’8. The sentence final infinitive rvat’ ‘to pluck, to pick’ is, therefore, an atonic tail within the enclosing tail griby rvat’ ‘mushrooms to pick’.
+3. A sentence-final finite verb as a marker of discourse linkage
+In examples above the sources of the tails were either the sentence-final position of the activated entities (as in example (2)), or the non-final position of the focal words navsegda ‘forever’ (example (4)), malo ‘little, few’ (example (5)), and nel’zja ‘forbidden’ (example (7)), or the presence of the emphatic word ochen’ ‘very’ (example (6)). There could be found other sources of tails, i.e. the conditions in which the focal pitch accent occupies the non-final position. For more comprehensive list of these contexts see Yanko (in press). The common parameters of the sentences viewed above are: 1) the sentences have sufficient segmental material of the tails to designate discourse linkage irrespective of designating the topic and the focus; 2) the finite verb which has arguments preserves its basic non-final position in a sentence. In this section, the cues for discourse incompleteness are analyzed which require the argument shift and, therefore, change the basic Russian word order.
+The Russian spontaneous speech developed a specific strategy of separate marking the discourse linkage by a rise of frequency placed on the sentence-final finite verb. The sentence-final verb in this case serves as a tail to carry a discourse link. Its final position is attained by shifting the argument to the left in front of the finite verb. The basic word order SV
+O is, therefore, substituted for SO
+V (or OS
+V). This change is accounted for by the fact that a verb with two (or more) non-activated arguments generally has one of its arguments as the accent-bearer of the focus. The verb itself, therefore, does not carry any pitch accents relevant for designating the focus of a sentence. As a consequence, the verb is a component of a sentence the most free (statistically) of fulfilling the function of the focus accent-bearer. Being shifted to the left the focus accent-bearer paves the way for the verb to serve as a tail. Consider example (8) from “
+Night dreams stories” where the sentence-final verb is used for discourse linkage.
+(8) Ja iz k
+Omnaty vyhozh
+U, <kogda vhozhu ona uzhe pustaja> I from room leave.PRES1S
+G when enter.PRES1S
+G it already ‘
+I leave the room, when I come back it (a bottle of wine) is already half-empty’8 I do not focus here on various types of continuation rises in spoken Russian. The complete inventory is described in detail in Yanko (2008: 128-163).
+Sentence incompleteness vs. Discourse incompleteness In sentence (8) the focus accent-bearer iz komnaty ‘from the room’ carries a fall, while the sentence-final verb vyhozh
+U ‘
+I am leaving’ carries a prominent rise of discourse incompleteness. The word order in sentence (8) is, therefore, SO
+V. The basic word order SV
+O for the syntactic structure of sentence (8) is displayed by sentence (8.1):(8.1) Ja vyhozhu iz k
+Omnaty I leave from room ‘
+I am leaving the room’
+Designating incompleteness by a rise on the sentence-final finite verb requires, therefore, a word order transformation. In spontaneous speech this strategy is highly frequent. Consider one more example (9) from the same corpus.
+(9) Kogda obr
+Atno uzhe bezh
+Ali… When back already ran ‘
+When we were already running back…’
+In sentence (9), the focus accent-bearer the word obr
+Atno ‘back’ carries a fall on the tonic syllable followed by a subsequent fall on the post-tonic syllable, while the sentence-final verb bezh
+Ali ‘were running’ carries a prominent rise on the tonic syllable followed by a fall on the post-tonic. The basic word order for sentence (9) is represented by sentence (9.1):
+Yanko T. E.
+Kogda uzhe bezhali obr
+Atno … when already ran back ‘
+When we were already running back…’
+The sentence-final position of a finite verb which carries a specific rise of frequency to designate the discourse linkage can only be interpreted as a result of a transformation because a verb with arguments even in Russian (with its unlimited scrambling) generally is not placed sentence-finally. I assume that this transformation is a specific mechanism of discourse linkage elaborated by the Russian spontaneous speech. In more formal styles of communication it is not employed.
+***
+The prosodic cues for discourse incompleteness may be either identical with the prosodic means expressing the topic or independent of marking the communicative constituents of a sentence: the topic or the focus. The autonomous prosodic marking of discourse linkage becomes possible in the context of tails. Generating a tail is conditioned by the basic topic-focus structure of a sentence, activation of entities within a sentence, contrast, emphasis, and verification expressed either by lexemes or by prosody, or both. In Russian, a tail can also result from a specific word order transformation with the focus of a sentence being shifted to the left in front of the finite verb. The sentence-final verb, therefore, transforms into the tail to be specifically used as a bearer of discourse incompleteness pitch accent.
+Sentence incompleteness vs. Discourse incompleteness

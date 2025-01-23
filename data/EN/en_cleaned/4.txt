@@ -1,0 +1,159 @@
+наречия, характеризующие агенса, шаблон поведения, номинации характеров, синонимы
+Kobozeva I. M., Lukashevich N. Iu.
+c
+Haracters tHroug
+H t
+He prism of adverbs
+Kobozeva I. M. (kobozeva@list.ru), N. Iu. (natalukashevich@mail.ru)
+Lomonosov Moscow State University Department of Psychology Department of Philology, Moscow, Russia
+The present paper deals with adverbs describing actions of a person from the character trait perspective — words like carelessly, tactfully, bravely, etc, derived from adjectives predicating to a person some character trait (careless, tactful, brave). The aim was to see what information such adverbs provide for defining patterns of behaviour that constitute the meaning of corresponding character trait adjectives. It is argued that the analysis of adverbs’ contexts helps to outline more precisely the range of situations relevant for manifestation оf a certain character trait, the range of actions which a person with the described character trait is inclined to perform, and their motivations. This is demonstrated by the analysis of contexts with sincerely, frankly and candidly from the British National Corpus.
+Key words: cognitive semantics, agent-oriented adverbs, behaviour pattern, character nominations, synonyms
+The present paper deals with adverbs like carelessly, tactfully, bravely, etc here referred to as character adverbs (Ch
+Advs) because they describe actions of a person as displaying a certain character trait. They are mostly derived from character adjectives (Ch
+Adjs) that predicate the corresponding character trait to a person.
+An important feature of this group of adjectives is that people attribute a character trait denoted by them to a person by generalizing from specific cases of the person’s behaviour. When an adverb is used, a specific action of a person is qualified as belonging to such a type of cases, which forms the basis for such generalizations.
+From the lexicographic point of view both adjectives and adverbs from this semantic field present a certain problem. Attempts to provide an adequate representation of the meaning of such words based only on traditional methods of semantic analysis often prove to be unsuccessful.
+For instance, dictionaries frequently introduce meanings of Ch
+Adjs by providing a list of synonyms or by making a reference to the meaning of another member of the same synonymic row. Such an approach to meaning representation allows to emphasize similarities between synonyms, leaving the differences unclear. One will find an example of this in the definitions provided in Longman Dictionary of Contemporary English (1995) for such adjectives as sincere, frank, candid, honest, open, and truthful:
+Human characters through the prism of adverbs Sincere someone who is sincere is honest and says what they really feel and think
+Frank honest and truthful in what you say
+Candid directly truthful even when the truth may be unpleasant or embarrassing
+Open honest and not wanting to hide any facts from the people
+Honest someone who is honest does not lie or steal
+Truthful someone who is truthful does not usually tell lies
+Adverbs are treated in a similar way, though some of them are not represented as separate lexical entries:
+Sincerely in a sincere way
+Frankly honestly and directly, especially in speech; to show that you are saying something direct and honest
+Candidly –
+Openly in a way that does not hide your feelings or opinions
+Honestly 1) in an honest way (“
+I don’t know”, she answered honestly.) 2) used to say that you really think that something is true, especially when it seems surprising (
+Does he honestly expect me to believe his story?)
+Truthfully –
+For adverbs the situation is even more complicated, as they are generally considered to have a meaning which can be produced by a standard derivation operation from the meaning of the producing adjective. (
+Because of that some of them are not represented separately, as it has been shown above, but rather mentioned as a derivative in the entry for the corresponding adjective.) However, as it has been noted ((
+Penkovskii 1988), (
+Filipenko 2003)), this is not always true, and the divergence of meaning often makes it necessary to have a separate lexical entry for an adverb in the dictionary even in cases when it follows regular word-formation patterns.
+The fact that adequate representation of meanings is problematic for words belonging to this semantic field can be explained by certain features of their semantics, such as a significant subjective part shaped by personal experience, an evaluative component in their meaning, etc (
+Lukashevich, Kobozeva 2011). Another important point is that to understand and use such words correctly people need to be able to compare and relate an individual instance of behaviour with an existing generalized scheme. Therefore an adequate representation of such word’s meaning should somehow reflect this.
+In psychology a trait of character is often regarded as a behavioural stereotype which is realized with high probability in a situation relevant for exhibiting this trait. Therefore setting a relevant situation and a stereotype of behaviour in such conditions seems the most appropriate way to represent the meaning of a word denoting a character trait (
+Lukashevich 2004). Such a representation tool named “behaviour pattern” («shablon povedeniia») was introduced in (
+Martem’ianov, Dorofeev 1969), (
+Martem’anov 1999) for the purposes of automatic language processing. A behaviour Kobozeva I. M., Lukashevich N. Iu.
+associated with a certain character trait is a generalized implicative scheme establishing a link between the initial relevant situation and the stereotyped behavioural response of a person with this trait of character. Providing such behaviour patterns with prototypical (‘best’) examples of real-life situations and specific behaviour in them would allow to account for the ability of a native speaker to make inferences quickly in real life (
+Lukashevich 2002, Lukashevich 2004).
+To obtain information about typical and real-life situations thorough and extensive analysis of the ways in which such words are used needs to be carried out. To be informative from this point of view, the text should contain a more or less clear description of the actions, or types of action performed by a person with a particular character trait, and of conditions which trigger them. Such details are not often explicitly present in the text where a Ch
+Adj characterizes a person. Because of that analyzing contexts which illustrate the use of Ch
+Adjs proves very timeand labourconsuming. It may even come to a standstill at a certain point, when synonymic characteristics are being studied. In this case analyzing contexts with adverbs, a class of words primarily used as predicate modifiers, may provide a look from a different perspective and possibly a way out of such an impasse. It is especially important that Ch
+Advs are used with verbs directly naming human actions and states that result in assigning the corresponding character trait to their subject.
+The aim of this research was to have a closer look at Ch
+Advs and see what information these adverbs could provide for defining the pattern of behaviour and its best examples.
+Many Ch
+Advs have a variety of uses. Their syntactic-semantic potential is illustrated by frankly in (1):(1) (a) Frankly, I don’t care.
+Many participants frankly admitted that they had very low expectations at the outset of the course.
+(c) May I speak frankly?(d) The result now looks frankly old-fashioned.
+(1a) exemplifies a parenthetical use of Ch
+Adv as a sentence adverb. It should be noted here that many adverbs (e. g. luckily, interestingly, unfortunately) may be used parenthetically in their sentential use. In this use Ch
+Advs belong to the class of speech-act speaker-oriented adverbs ( frankly, honestly, candidly, simply, seriously) ((
+Jackendoff 1972), (
+Bellert 1977), (
+Ernst 2002)). They are singled out on the basis of the fact that they express the attitude of the speaker and / or a metatextual comment to what is being said and thus function as discourse markers in such contexts (e. g. in (1a) below the speaker emphasizes that he is saying what he is really thinking, that it may be unpleasant for the hearer, etc.). In this meaning they should be analyzed as modifying the act of speaking which is implicit in the semantic structure of any sentence. It needs to be pointed out that parenthetical usage of Ch
+Advs Human characters through the prism of adverbs is treated in some dictionaries as a separate meaning in the adverb’s lexical entry. Although such “speaker-oriented” uses are obviously semantically connected to other uses of Ch
+Advs, they will not be taken into account in this paper.
+(1d) illustrates the use of an adverb as a modifier of a word denoting a property — an adjective or another adverb. In such cases the main meaning of Ch
+Adv may undergo a major change called rebranding in (
+Karpova, Rakhilina, Reznikova, and Ryzhova 2011), thus here frankly becomes functionally close to a degree adverb1, although its semantic ties with the main meaning ‘in a way that is typical of a frank person’ are not
+altogether broken. What is essential for us is that from (1d) one cannot deduce that he behaved as a frank person in the given case and that is why we ignore such uses of Ch
+Advs.
+All of Ch
+Advs seem to have uses like (1b) and/or (1c), pertaining to their main meaning. In such cases they fall into the group of agent-oriented adverbs in accordance with the classification provided in (
+Ernst 2002): cleverly, greedily, tactfully etc.
+Like most other adverbs, many agent-oriented adverbs have two interpretations, depending on whether the adverb modifies the predicate (as in (1c)) or the whole sentence (as in (1b)). These two interpretations referred to as “upper’ and “lower” may be represented in the spirit of (
+Ernst 2002) by the paraphrases (1b’) of (1b) and (1c’) of (1c):(1b’) The fact that many participants admitted that they had very low expectations at the outset of the course characterizes them as frank.
+(1c’) May I speak in a way that will demonstrate that I am frank?
+This scope difference was first mentioned in (
+Thomason, Stalnaker 1973) and later discussed in various other works (e. g., (
+Bellert 1977), (
+Ernst 2002)). It was thoroughly studied with regard to Russian adverbs in (
+Filipenko 2003), where a distinction was made between adverbs which can be used both as sentence modifiers and as predicate modifiers (as in (1b) and (1c)) and adverbs which do not show such flexibility and can only be predicate modifiers. The former group was named adverbials with floating scope, the latter — adverbials with fixed scope. Whether an adverb will allow various usage or not depends on its semantics. According to the analysis provided in (
+Filipenko, 2003) adverbials with floating scope characterize the situation “from the outside” (and do not characterize its semantic participants). That is why they can relate to various elements of the situation (the choice of which is governed by the communicative organization of the utterance) and can be used with verbs belonging to various semantic groups. As for adverbials with fixed scope, they characterize the situation as such, or represent one of its inner characteristics. They are linked with a specific semantic feature of the predicate, as they describe a participant (often optional) of the situation that the predicate denotes, and this participant is fixed for a particular adverbial. (
+For example, for energetically it is “the amount of energy” with which the action is performed.)1 Surprisingly, this meaning is mostly not mentioned in the dictionaries, with a rare exception
+of Merriam Webster Online where it is represented as ‘unmistakably evident’ in frank.
+Kobozeva I. M., Lukashevich N. Iu.
+for Ch
+Advs, they seem to be found in both of the above mentioned classes. This is definitely so for Russian, and the analyzed data for English prompt that this is the case for English as well. (
+Unlike candidly and frankly, contexts with sincerely seem to contain no evidence of sentential non-discourse marker use.).
+No matter whether Ch
+Advs have upper or lower interpretation, both types link either the whole situation described in the sentence or some of its parameters with the character trait they refer to. Therefore, they can provide valuable information on the features of the relevant situation related to a character trait. Moreover, while focusing on different aspects of such situation (some of which may be optional), they have a potential of giving a fuller and a more detailed picture of the situations involved than the corresponding adjectives.
+Thus for this research scope differences are not so important and do not set any limitations on the choice of contexts to be analyzed.
+In order to see how the study of adverb usage can help in defining typical situations relevant for particular traits of character three adverbs belonging to the so called Candidness frame (Frame
+Net) — sincerely, frankly and candidly — were analyzed. Altogether 141, 431 and 67 contexts from British National Corpus (BN
+C) were examined respectively. Such disproportion in numbers can be accounted for by the following points. First of all, BN
+C contains only 67 sentences with candidly. To make the data comparable, more or less similar numbers of sentences containing sincerely and frankly were to be singled out. For sincerely all sentences containing “
+Sincerely Yours” and similar clichéd expressions used in letters were eliminated as irrelevant for the present research. Initial analysis of data for frankly revealed that up to 70 % of sentences represent frankly and similar expressions (quite frankly, frankly speaking, etc) used as a discourse marker. Then in the remaining 30 % about half of sentences demonstrate a different meaning of frankly used as in (1d) above. This meaning is also irrelevant for the purposes of the present research.
+The verbs which were used in BN
+C contexts with sincerely, frankly and candidly can be roughly grouped as follows:sincerely frankly candidly91 89 61
+I Communicative acts: 28 73 581 ‘inform’ (say, reply, confess, etc) 7 53 31
+2
+‘describe smb or smth’(describe, write of smb etc) – 1 6'express an emotion / a wish' (express hope /dissatisfaction, apologize, thank, lament, ask, plead еtс) 15 – 14 ‘express or demonstrate an evaluation’: 3 2 2
+4a ‘positive’ (praise, be appreciated) 2 – –
+4b
+‘negative’ (blame, reproach oneself, look down on smb) 1 2 2
+Human characters through the prism of adverbs sincerely frankly candidly5
+‘accept and agree unwillingly that smth is true’ (admit, recognize) – 11 146
+non-verbal communication (meet smb’s gaze, smile, stare etc) – 4 2I
+I Mental attitudes, states and activities: 58 14 1
+Beliefs and intellectual activities (believe, hold a viewpoint, mean, doubt; recognize ‘realise’, see smth as ‘consider’, judge smb’s abilities bе committed to etc) 17 4 1
+Volitive and emotional states and attitudes (feel, like, respect, desire, hope, dread, be amazed / unhappy etc) 41 10 –III
+Social actions that are not or not only communicative (vote, behave, open one’s home ‘exercise hospitality’, hold one’s glass out etc) 5 2 2
+The table above shows that verb distribution shows great similarity for frankly and candidly, whereas sincerely is rather distinctly different from them.
+All the three characteristics are often displayed in communication activity, either verbal or non-verbal, but frankly and candidly are almost always linked to communication, while sincerely is much more often compatible with verbs denoting mental states and activities. It means that sincerity characterizes not only communicative behavior but also the way a person is committed to his beliefs, intentions and feelings.
+Our three Ch
+Advs co-occur with verbs denoting representative speech acts (see line I.1 above), but the fact that describing smth does not co-occur with sincerely made us look closer at the cases with other representatives, say, speak and tell. It turned out that in all the cases with sincerely the verbs were used either for referring to speaking in general, as in (2a) or introduced utterances with illocutionary force of expressing evaluation and / or emotional state or attitude, as in (2b,c):(2) (а) …they should speak sincerely, relevantly and clearly, while providing sufficient information…(b)… ‘
+That's marvellous,’ she said sincerely… (c) … ‘
+He's the luckiest devil in the world,’ he told her sincerely, taking her hands in his.
+Thus we can conclude that sincerity is a character trait associated with a situation of having a subjective attitude towards smb or smth (e. g. believe vs. know) and a situation of expressing such an attitude, especially volitional, emotional or evaluative.
+Our tentative definition of the character sincere is presented in (3):
+Kobozeva I. M., Lukashevich N. Iu.
+A person Х is called sincere if the following is the case:•	 whenever Х has a belief, intention, wish, emotion or feeling, Х is serious about it, that is Х’s state or attitude is genuine and conscious, not fake, imitated or shallow.
+•	 whenever Х eхpresses his belief, intention, wish, emotion or feeling, one can be sure that Х really has it.
+As for the evaluative aspect, sincere is a positive characteristic of a person or of a particular action described as demonstrating this quality. This can be explained by the fact that it is generally believed to be good not to lie about one’s feelings.
+With regard to frankly and candidly it can be said that they are both mostly realized in speech and both often used with verbs like admit meaning that a person either discloses or confirms unwillingly that something is true.
+What makes frankly different from candidly and likens it to sincerely is its ability to co-occur with verbs denoting mental attitudes, states and activities including both intellectual activities (e. g. see smth as smth ‘consider’) and emotional states (e. g. dread, be amazed). It should be noted that in the latter case (exemplified in (4) below) although frankly is modifying a form of a verb and not an adjective as in (1d) the meaning in (4a) and (4b) is closer to (1d), than to (1b) or (1c),cf.:(4) (a) Prince Philip was frankly disappointed in his first born and took no pains to hide his feelings.
+(b) She was frankly dreading any further confrontation with the other girl.
+In (4) frankly is used to characterize the emotional state of an experiencer as intense, not to classify it as typical of a frank person. This is not so with sincerely, as is can be seen from (5):(5) We instantly lost all respect for the team and were sincerely disappointed.
+Here the experiencer of the disappointment characterized himself and his companions as sincere, i. e. really experiencing the emotion and not just feigning it. And if we look at (6):(6) I must confess I was … highly delighted when er you invited me to speak to you here today and er I'm very and sincerely pleased that you did.
+see sincerely conjoined with an intensifier very, which demonstrates that it means something different from mere intensification.
+Thus the examples like (4) could be dismissed. Still it can be shown that there is a natural semantic link between a degree meaning of frankly and its main meaning, and this link is provided by one distinctive feature of a frank behaviour. From our analyses of data it can be concluded that among other things a frank person acts so as to make other people know something about himself or others that people normally hide. This is exemplified by (1b) where the agent can choose whether to say something or not and can also choose the appropriate way to do it. In (4) an uncontrolled Human characters through the prism of adverbs negative emotional state is described. When such a state is intense it usually manifests itself (even if the experiencer would prefer to hide it) and so the inner state becomes known to the observer as if the experiencer informed him about it (cf. the meaning ‘unmistakably evident’ of frankly mentioned in footnote 1).
+It is clear that for frankly and candidly the results above on their compatibility with semantic classes of verbs do not provide enough information for clarifying the nature of the corresponding character traits (which mirrors the situation with adjective contexts from BN
+C).
+A more detailed analysis of the actions described as frankly and candidly performed was carried out in order to find out in what ways the two corresponding characters differ from each other (if they do). We singled out common and distinctive features of the actions. As we expected from the start the majority of them turned out to be common for the two traits of character, among them:1) the speaker says something that the addressee does not know and that is not
+obvious;2) the information may be about the speaker (and / or his people), about the
+addressee (and / or his people), and about a third party;3) the information disclosed may be a fact, an opinion, an evaluation, a wish,
+an intention, a plan, an emotional state, a feeling;4) what the speaker says truly reflects what he thinks, wishes or feels;
+5) the information in the overwhelming majority of cases contains negative
+evaluation (in the form of assertion, presupposition or entailment);6) revealing the information may be against the interests of the speaker;
+7) the speech act itself (the fact of saying what is said) in the overwhelming
+majority of cases negatively affects the image (known as “face” in politeness theory) of the speaker, the addressee or the third party;8) the speaker may act as a private person or as an official representative
+of an organization;9) the communication may be interpersonal or public.
+Still definite preferences of usаgе can be observed: there is a tendency to prefer frankly in case when the negative information is about the speaker2 and / or people or things he is personally identified with, as e. g. a government official with a government policy, see typical eхamples in (7):(7) (а).… during the first interview Hepburn had denied any involvement, but when seen again 40 minutes later ‘frankly said that he was responsible for the assaults on both girls’.
+… It must be frankly recognized that there is at present no means of providing adequate protection for the people of this country against the consequences of an attack with nuclear weapons.
+2 Negative information about Х is an information that induces a negative evaluation of X.
+Kobozeva I. M., Lukashevich N. Iu.
+the only two eхamples оf a speaker confessing to a highly intimate and commonly reprehensible (or at least not to be announced) thoughts and wishes contain frankly as a modifier.
+On the contrary candidly prevails when the negative information is about others, as in (8):(8) a. As you yourself so candidly pointed out, she was only marrying me for my money… b. Renault's communications director Phil Horton candidly blames supply constraints because of strong French domestic demand, and, hitherto, a lack of diesel interest within Renault U. K.
+Thus we can hypothesize that at least prototypically frankness is associated with revealing personal information, negatively affecting the speaker’s face, while candidness is displayed mostly in speaking about the faults and drawbacks others.
+One more distinction between the two Ch
+Advs is hinted at with the word ‘direct’ in the dictionary entry of candid cited above3. Indeed, the difference lies in the manner of speaking. Among the BN
+C examples of the candidly performed speech acts we find more expressive evaluative expressions (e. g. half-fulfilled and half-frustrated, a third-rater; a manipulative little bastard; terrific etc), direct expressions of evaluative or emotional attitude (e. g. candidly dislike / express dissatisfaction /say ‘j'aime Eva’ etc), categorical formulations (e. g. Bob Dutton would never get a medal; everybody said that; Stephen's got more soccer skill than I ever had, еtс). For frankly the ‘direct’ (expressive, unequivocal, categorical) manner of speaking is irrelevant, as in (9):(9) Her employer commented frankly, but with great gentleness, on his observations of Muriel's way of handling-others, particularly when conflict arose.
+Evaluation connotations of frank and candid (in those instances where these words label human behaviour) may be different depending on the context. It logically follows from the fact that expressing your opinion or stating what you believe to be true may not always be good for all the participants of communication.
+We do not formulate definitions of frank and candid, because evidently more data is needed and specially designed experiments with native speakers should be carried out. However, though the present research results in only a hypothesis, this can also be regarded as an achievement, because it gives the basis for further analysis. (
+For example, such was the situation with Russian characteristics upornyi and nastoichivyi, when a hypothesis formulated on the basis of verb distribution analysis was successfully used to make up and conduct an experiment which helped to identify in which cases native speakers would tend to choose one characteristic over the other (
+Lukashevich 2004).)3 Strangely enough, this attribute, although absent in the explication of frank, appears in the
+explication of frankly, thus marring the difference between frankness and candidness.
+Human characters through the prism of adverbs It would be relevant to note here that information about the evaluative component of Ch
+Adjs’ and Ch
+Advs’ meaning may be of use in such spheres as sentiment analysis and opinion mining. With regard to the words discussed above, it can be concluded that sincerely as a rule indicates a positive assessment of a particular action. As for candidly and frankly, the evaluation they express is context-dependent and more ambiguous, but further research may reveal certain regularities there as well (e. g. when describing actions related to talks and negotiations, they are always used as a positive characteristic).
+It can be concluded that in general, compared to Ch
+Adjs, Ch
+Advs provide a clearer picture of the range of behavioral patterns, associated with the character trait under analysis. Such information is of particular importance when there are several synonymic character trait nominations closely linked. Although sometimes a mere analysis of verb distribution is also not enough, and a deeper semantic analysis of contexts is required, adverbs are capable of providing valuable information for defining behaviour patterns and real-life situations instantiating them.

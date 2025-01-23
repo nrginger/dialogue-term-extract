@@ -1,0 +1,239 @@
+1.1. The task of computational metaphor identification
+Metaphor occupies a prominent place in contemporary linguistic theory: it is recognized to be one of the most powerful cognitive tools with which humans conceptualize . Metaphor is truly ubiquitous in everyday discourse, forming a fundamental part of the language system; not surprisingly, metaphor identification and interpretation pose a serious challenge to a wide range of real-world NL
+P applications.
+Different features have been proposed to train machine learning algorithms to identify metaphor, such as lexical, morphological and syntactic, distributional semantic, and topic modelling features; features extracted from lexical thesauri and ontologies Badryzlova Yu. G.
+Net, Frame
+Net, Verb
+Net, Concept
+Net, etc.), and psycholinguistic features including concreteness and abstractness, imageability, affect, and force; for a comprehensive overview of systems for metaphor identification, see .
+Much of the computational metaphor identification work for Russian follows the top-down design, i.e. is aimed at identifying conceptual metaphors ; ; ; . The experiments for identification of linguistic metaphor in Russian include ; ; ; ; . The first four of these projects explore different sets of features for metaphor classification, including lexical and morphosyntactic co-occurrence, distributional semantic embeddings, and concreteness-abstractness indexes (the present paper is an extension of the preliminary concreteness-abstractness studies from ). The two latter of the aforementioned studies are based on crosslingual model transfer, when the model is trained on English data using English lexical resources, and then the classification features are translated into Russian and other languages by means of an electronic dictionary (for more detail, see Section 1.2).
+1.2. Concreteness
+Abstractness feature in metaphor
+identification: previous research
+Implementation of concreteness and abstractness in metaphor identification experiments builds on the groundwork of the theory of embodied and grounded cognition, and primary and conceptual metaphor ; . These theories claim that human thinking is intrinsically metaphoric, since the conceptual representations underlying knowledge are grounded in sensory and motor systems, and conceptual metaphor is the primary mechanism for transferring conventional mental imagery from sensorimotor domains to the domains of subjective experience.
+Since concreteness and abstractness represent two dialectically related facets of meaning, they will be discussed under the dual term ‘Сoncreteness
+Abstractness’.
+The established method to compute indexes of concreteness and abstractness of a word is to collect two sets of lexemes (‘seed lists’) consisting of abstract and concrete words (which together constitute the ‘paradigm’ of concreteness-abstractness)—and to measure the lexical similarity between each word in the lexicon and each of the paradigm words ; . In cases when researchers are unwilling to resort to the translational method, computation of concreteness and abstractness indexes becomes a nontrivial language-specific task requiring seed lists that are compiled purposefully for a given language.
+the Concreteness
+Abstractness indexes of a word by comparing its distributional semantic embedding to the vector representations of twenty abstract and twenty concrete words. The paradigm words are automatically selected from the MR
+C Psycholinguistic Database Machine Usable Dictionary , a collection of 4,295 English words rated with degrees of abstractness by human subjects in psycholinguistic experiments. We are replicating the Turney et al. experiments in this work, therefore more detail on their experimental dataset and the obtained results will be reported in Section 3.
+Exploring Semantic Concreteness and Abstractness for Metaphor Identification and Beyond also compute the Concreteness
+Abstractness indexes of English words by using a distributional semantic model and the MR
+C database: they train a logistic regression classifier on 1,225 most abstract and 1,225 most concrete words from MR
+C; the degree of Concreteness
+Abstractness of a word is the posterior probability produced by the classifier.
+This paper presents two Russian paradigms which are used to compute indexes of Concreteness and Abstractness for a large Russian vocabulary. We also introduce a similar English paradigm and compute Concreteness and Abstractness indexes for a large English vocabulary. Both the Russian and the English resources are made available to the community. We use the obtained indexes in machine learning experiments for linguistic metaphor identification on representative datasets in the two languages and compare the performance with previous research and the baselines. Besides, we look into the Concreteness
+Abstractness rankings to see how they align with the intuitions about the semantic domains of abstractness and concreteness. To the best of our knowledge, this is the first research of this kind on Russian data.
+2. Concreteness
+Abstractness indexes
+2.1. Russian Concreteness
+Abstractness paradigms
+We use two paradigms to compute the indexes of Russian words; each paradigm consists of a Concrete (
+Con) and an Abstract (
+Abs) seed list.
+The first paradigm is a subset of the psycholinguistic database collected at the Kazan Federal University , therefore it will be referred to as the Kazan Paradigm in this paper. The psycholinguistic database consists of 500 most frequent Russian nouns which have been ranked by human judges to indicate the perceived degree of concreteness of each noun. We took nouns with the highest and the lowest rankings to populate the Con and the Abs seed lists of the Kazan paradigm, respectively; both animate and inanimate nouns were included in the Con list.
+The second paradigm was selected from the Open Semantics of the Russian Language, the semantically annotated dataset of the Karta
+Slov database . Karta
+Slov contains about 71,000 words with human annotations assigning them to one of the semantic categories of the ontology. The Abs seed list was selected from the category ABSTRAC
+T; the nouns for the Con seed list were drawn from the class PHYSICA
+L ENTIT
+Y, namely, the subclasses INORGANI
+C, THIN
+G, and ORGANI
+C (with the exception of HUMA
+N and ANIMA
+L). The decision to discard the categories HUMA
+N and ANIMA
+L was prompted by the consideration that HUMA
+N lexemes mostly denote abstract social roles rather than concrete human beings (e.g. адвокат ‘lawyer’, доброволец ‘volunteer’, мачеха ‘stepmother’, etc.), and much of the ANIMA
+L lexicon is intrinsically metaphoric (e.g. ворона ‘crow’, орел ‘eagle’, лиса ‘fox’, осел ‘donkey’, корова ‘cow’, etc.). This second paradigm will be addressed to as the Moscow Paradigm throughout this paper.
+Badryzlova Yu. G. for the size of the paradigms, in the metaphor identification experiments described in Section 3, we experimented with Con
+Abs indexes computed with seed lists ranging from 360 to 40 words. No substantial difference in the quality of classification was observed in relation to the size of the paradigm. Thus, we decided to follow recommend 40 as the optimal size of a seed list, since they indicated a problematic amount of overfitting when increasing the number of words. Examples from the Kazan and the Moscow Paradigms are presented in Abs seed list (excerpt) Con seed list (excerpt)
+Moscow Paradigmдомашность ‘domesticity’ арфа ‘harp’мечтательность ‘reverie’ теплоход ‘motorship’автоматизм ‘automatism’ зеркальце ‘compact mirror’распутство ‘promiscuity ’ пельмени ‘dumplings’чрезвычайность ‘extraordinariness’ электрогитара ‘electric guitar’партийность ‘party affiliation’ гранатомет ‘grenade launcher’активация ‘activation’ линейка ‘ruler’буддизм ‘
+Buddhism ’ фуганок ‘jointer plane’правильность ‘correctness’ узелок ‘knot’минимализм ‘minimalism’ полупальто ‘short coat’
+Kazan Paradigmжизнь ‘life’ стол table'процесс ‘process’ самолет ‘aircraft’представление ‘representation / show’ мальчик ‘boy’способность ‘ability’ квартира ‘apartment’радость ‘joy’ врач ‘doctor’соответствие ‘correspondence’ девочка ‘girl’суть ‘essence’ телефон ‘phone’положение ‘situation / location’ палец ‘finger’желание ‘desire’ рубль ‘rouble’ответственность ‘responsibility’ стекло ‘glass’2.2. English Concreteness
+Abstractness paradigm
+To compile the English Paradigm, we used the MR
+C Psycholinguistic Database (similarly to the previous research presented in Section 1.2). Nouns from the top and from the end of the MR
+C concreteness rating were drawn to populate the paradigm. We use three English Concreteness seed lists: one consisting of animate (
+Anim), and another of inanimate (
+Inan) nouns, while the third is the composite concreteness (
+Con) list composed of animate and inanimate nouns in equal proportions. The English seed lists are presented in of animate nouns in the top of the concreteness ranking in the MR
+C database, where animal nouns rank higher than those denoting humans. This may be due to the consideration discussed above in Section 2.1, namely, that lexemes denoting humans mainly indicate abstract social roles rather than physical human beings.
+Exploring Semantic Concreteness and Abstractness for Metaphor Identification and Beyond
+Anim ape, adder, albatross, beetle, carp, cat, catfish, chicken, clown, cow, crab, deer, eagle, frog, goat, gorilla, grasshopper, hare, hen, horse, lion, mackerel, mussel, nightingale, otter, owl, ox, pig, puppy, rabbit, rat, sheep, shrimp, skunk, skylark, sparrow, stoat, stork, turtle, walrus
+Inan balloon, banana, barn, bed, bench, bluebell, bra, bridge, camera, car, carnation, casket, cauliflower, clarinet, collar, corkscrew, cucumber, daisy, egg, garlic, harpsichord, jacket, lamp, lantern, mattress, nightgown, olive, pants, pea, peach, pencil, piano, plum, potato, quilt, saxophone, ship, skyscraper, sofa, tulip
+Abs affirmation, animosity, demeanour, derivation, determination, detestation, devotion, enunciation, etiquette, fallacy, forethought, gratitude, harm, hatred, illiteracy, impatience, independence, indolence, inefficiency, insufficiency, integrity, intellect, interposition, justification, malice, mediocrity, obedience, oblivion, optimism, prestige, pretence, reputation, resentment, tendency, unanimity, uneasiness, unhappiness, unreality, value2.3. Computing the Concreteness
+Abstractness indexes
+We computed Con
+Abs indexes for a Russian vocabulary with a total of about 18,000 words, and for an English vocabulary of about 17,000 words.
+The Russian Con
+Abs indexes were computed using a pre-trained Continuous Skip
+Gram distributional semantic model on the Araneum corpus . The English indexes were computed with a Continuous Skip
+Gram model had been pre-trained on the Gigaword 5th Edition corpus .
+As shown in Equation 1, we measured semantic similarity (cosine distance, 𝑆𝑖𝑚) between the vectors of each word in the vocabulary and each word in a seed list, and took the mean of the ten nearest semantic neighbors (𝑁𝑁, Equations 2–3) in order to obtain the indexes.
+	 ∀	𝑣𝑖,	∀	𝑠𝑗	∃	𝐷𝑖	=	{𝑆𝑖𝑚(𝑣𝑖,	𝑠₁), 𝑆𝑖𝑚(𝑣𝑖,	𝑠₂), ..., 𝑆𝑖𝑚(𝑣𝑖,	𝑠𝑗),	...,	𝑆𝑖𝑚(𝑣𝑖,	𝑠𝑘)}, (1)where 𝑉 is the set of words in the vocabulary, 𝑆 is the set of words in the seed list, 𝑘 is the number of elements in 𝑆	 	 	 	 									𝑁𝑁 =	{𝑑′𝑖₁,	𝑑′𝑖₂,	...,	𝑑′𝑖₁₀}, (2)where 𝐷𝑖′ is a linearly ordered set of 𝐷𝑖 (in ascending order)	 	 	 	 													𝑖𝑛𝑑𝑒𝑥 =𝑀𝑒𝑎𝑛{𝑁𝑁} (3)
+Since we had two Con and two Abs seed lists in the Russian part of the experiment, and three Con and one Abs seed list in the English part, the following rankings were generated: Moscow Con, Moscow Abs, Kazan Con, and Kazan Abs for Russian; and English Anim, English Inan, English Con, and English Abs, for English1.
+1 The full English and Russian rankings computed with the described method, as well
+as the Rus
+Met corpus are available at https://github.com/yubadryzlova/
+ConcretenessAbstractness-in- Abstractness-in
+MetaphorIdentification.
+https://github.com/yubadryzlova/Concreteness-Abstractness-in-Metaphor-Identificationhttps://github.com/yubadryzlova/Concreteness-Abstractness-in-Metaphor-Identification
+Badryzlova Yu. G. Metaphor identification experiments
+We conduct two experiments with English data and two with Russian data.
+We begin by replicating the experiments with the Tro
+Fi (
+Trope Finder) Example Base in . Tro
+Fi is a collection of verbal metaphor: it is built around 50 polysemous target verbs (e.g. absorb, assault, die, drag, drown, smooth, step, stick, strike, touch, etc.). Each target verb has from 1 to 115 sentences which are annotated as either literal or non-literal. For example,
+see the sentences with the target verb besiege:• (
+Literal) In 1347, Mongols < besieging > the Black Sea port of Caffa began to sicken and die from the plague.
+• (
+Non-literal) … Powelson began to < besiege > me with letters asking for an invitation.
+In the first of the English experiments following Turney et al. we use a subset of 25 target verbs. Each group of sentences for a given target verb is treated as a separate learning problem, by learning and testing a separate model with ten-fold crossvalidation. The performance is measured as macro-averaged Accuracy and F1-score (this experiment will be referred to as Tro
+Fi-1 below).
+In our second English experiment after Turney et al., one model is trained on the entire subset of the 25 target verbs from Tro
+Fi-1 (1,965 sentences), which is then tested on the new unseen sentences (numbering 1,772) with the other 25 verbs (this experiment will be called Tro
+Fi-2 in the rest of this paper).
+The two Russian experiments are performed on Rus
+Met, the Russian corpus of metaphor-annotated sentences presented in . The corpus consists of 7,020 sentences; each of them contains one of the 20 polysemous target verbs (e.g. бомбардировать ‘to bombard’, нападать ‘to attack’, утюжить ‘to iron (about clothes)’, взрывать ‘to explode (smth)’, взвешивать ‘to weigh’, etc.) which are used either metaphorically or non-metaphorically. The number of sentences per target verb ranges from 225 to 693; each of these subsets is balanced by class. The following sentences demonstrate examples of the metaphoric and non-metaphoric classes with the target verb укалывать ‘to prick’:• (
+Metaphorical) Это поражение серьезно < укололо > меня. This defeat seriously piqued (lit. < ‘pricked’ >) me.
+• (
+Metaphorical) Самолюбие—это наполненный ветром воздушный шар, из которого вырывается буря, лишь < уколешь > его. ‘
+Vanity is a balloon filled with the wind; once you < prick > it, you release a storm’.
+• (
+Non-metaphorical) А маникюрша, помнится, как-то до крови < уколола > мне палец. ‘
+I recall that a manicurist has once < pricked > my finger so that it bled’.
+Here, we start by training and testing a separate model with ten-fold crossvalidation for each of the 20 subsets with individual target verbs; the overall performance is measured in terms of macro-averaged Accuracy and F1-score. Then, we split the dataset into two approximately equal parts: one containing the first ten target verbs (3,617 sentences in total), and the other containing the remaining ten target verbs (3,504 sentences). We train the classifier on the first subset and test it on the Exploring Semantic Concreteness and Abstractness for Metaphor Identification and Beyondsecond. These two experiments will be respectively referred to as Rus
+Met-1 and Rus
+Met-2 in the discussion below.
+In all the four experiments, the metaphor identification task was formulated as sentence-level binary classification. The Support Vector Machine (SV
+M) classifier with linear kernel was used to learn and test the models.
+For each sentence, we computed the mean of the scores of its constituent content words. The decision to use entire sentences rather than syntactic dependencies of the target verbs was motivated, firstly, by the design of the Turney et al. experiments replicated in Tro
+Fi-1 and Tro
+Fi-2 and, secondly, following the observations by accuracy of metaphor identification tends to grow with the increase of the window size, suggesting that discourse-level features consistently enhance performance of conventional, non-neural classifiers making them competitive with sophisticated neural models.
+In each of the experiments we compare the performance of the Con
+Abs model with the baseline lexical model in which the frequencies of lemmas are represented by the Δ
+P indexes of co-occurrence . The choice of the baseline was prompted by the findings of reported that simple lexical unigram baselines achieve surprisingly good results for some of the datasets
+Since in both of the pre-trained distributional semantic models which were used to compute the Con
+Abs indexes (see Section 2.3) the tokens are lemmatized, the Tro
+Fi and the Rus
+Met datasets were also PO
+S-tagged. Tro
+Fi was preprocessed with Stanford Log-linear Part-Of
+Speech Tagger , and Rus
+Met with the Ru-syntax parser .
+4. Results
+The results of the classification experiments are presented in Tables 3 and 4 (along with the lemma baselines).
+In the Tro
+Fi experiments, our Con
+Abs models either outperform the Turney et al. models, both in Accuracy and F1-score (sometimes by a sizeable margin, as in the case of Tro
+Fi-1), or they fall behind, yet by a slim margin.
+When comparing the Con
+Abs results with the lemma baseline, we see that in all the cases the Con
+Abs models either outstrip the baseline both in Accuracy and F1score (sometimes by a substantial margin, e.g. the Accuracy in both of the Tro
+Fi experiments), or they fall behind, but by a very narrow margin, as in Rus
+Met-1.
+The overall lower results of the Tro
+Fi experiments, as compared to Rus
+Met, are presumably due to the unbalanced setup of the former dataset.
+When comparing the performance of the models learned and tested separately for each target verb (Tro
+Fi-1 and Rus
+Met-1) with the models that were trained on one set of target verbs and tested on another set of new verbs (Tro
+Fi-2 and Rus
+Met-2), the former models, quite expectedly, produce higher results. This is not surprising considering that the second task is more challenging and ambitious, since the model has to capture semantic regularities that are common for all the verbs irrespective of the idiosyncratic patterns of their combinability.
+Badryzlova Yu. G. Con-Abs
+Acc F1 Acc F1Tro
+Fi-1, Turney et al. N
+A N
+A 0.73 0.64Tro
+Fi-1, this work 0.7 0.76 0.75 0.77Tro
+Fi-2, Turney et al. N
+A N
+A 0.68 0.68Tro
+Fi-2, this work 0.63 0.67 0.7 0.67lemma Con-Abs
+Acc F1 Acc F1Rus
+Met-1 0.83 0.83 0.82 0.82Rus
+Met-2 0.73 0.76 0.75 0.77
+Table 5 compares models based on different types of Con
+Abs indexes and their combinations in the Tro
+Fi-2 and the Rus
+Met-2 experiments. The uni-feature Con models outperform the Abs models twice (Mos
+Con and Eng
+Con vs. Mos
+Abs and Eng
+Abs, respectively); besides, the combination of two Con features (Mos
+Con and Kaz
+Con) outstrips the combination of the two Abs features (Mos
+Abs and Kaz
+Abs) by a safe margin—thus suggesting that indexes of Concreteness may serve as more reliable predictors of metaphoricity.
+Russian rankings Acc F1 English rankings Acc F1Mos
+Con 0.72 0.75 Anim 0.66 0.66Mos
+Abs 0.67 0.68 Inan 0.67 0.67Kaz
+Con 0.62 0.63 Con 0.68 0.68Kaz
+Abs 0.68 0.68 Abs 0.59 0.57Mos
+Con, Mos
+Abs 0.74 0.77 An, Inan 0.67 0.67Kaz
+Con, Kaz
+Abs 0.74 0.74 Con, Abs 0.7 0.67Mos
+Con, Kaz
+Con 0.72 0.75 An, Inan, Abs 0.69 0.67Mos
+Abs, Kaz
+Abs 0.69 0.69 An, Inan, Con, Abs 0.69 0.66Mos
+Con, Mos
+Abs, Kaz
+Con, Kaz
+Abs0.75 0.77
+The Mos
+Con model substantially outperforms Kaz
+Con, while both of the Russian Abs models perform on the par with each other, which may indicate that the two Abstractness rankings resemble each other. There is not much difference between Eng
+Anim and Eng
+Inan; besides, the combination of Eng
+Anim and Eng
+Inan fares Exploring Semantic Concreteness and Abstractness for Metaphor Identification and Beyondrelatively similarly to the composite Eng
+Con feature; this may suggest that both animate and inanimate nouns may be equally representative of the semantic category of concreteness. In the English experiments, the best result is achieved by combining only two features, Eng
+Con and En
+Abs, while with the Russian models the top performance is produced by combination of all the four types of indexes.
+5. Concreteness
+Abstractness indexes: a reliability test
+In order to put our Con
+Abs indexes to test, we took 451 known abstract nouns and 571 known concrete nouns from the Karta
+Slov thesaurus; we computed their Moscow Con
+Abs indexes as described in Section 2 and clustered them using k-means algorithm with N clusters = 2.
+The resulting clustering Accuracy was 0.99: indexes of known concrete and known abstract words form two distinct clusters with little overlap. The misclassified concrete nouns are афиша ‘poster’, бандероль ‘parcel’, бланк ‘form (document)’, and записка ‘note’; the misclassified abstract nouns are номинал ‘nominal value’ and присловье ‘proverb’.
+6. A closer look at Concreteness
+Abstractness indexes
+The overall encouraging results of the metaphor identification experiments and the reliability test motivate us to take a more in-depth look at the computationally generated indexes of Concreteness and Abstractness to see whether their behavior aligns with the intuitive expectations about the corresponding semantic categories.
+Badryzlova Yu. G. one could presume that Con and Abs indexes should stand in negative correlation to each other: the higher the Concreteness of a word, the lower its Abstractness should be, and vice versa. Yet, no statistical correlation between our Con and Abs rankings has been found. Obviously, the linguistic reality is not so straightforward, especially when taking into account the issue of polysemy, when different meanings of one word may vary in Concreteness and Abstractness. A glance at visualizations of the pairs of index rankings (
+Con vs. Abs) reveals interesting insights.
+Russian and the English vocabulary. The lexemes are ordered by the Con indexes (in descending order) which thus form a smooth sigmoid curve; the small dots are the Abs indexes which correspond to each of the Con indexes in the sigmoid.
+In plots A and C (depicting the Moscow and the English indexes), in the beginning of the sigmoid curve, where the Con indexes are the highest, all the Abs indexes are located below the curve, with the dots forming areas of high density. This distribution indicates that there is a well-defined group of concrete words characterized by very high concreteness and very low abstractness. At the opposite end of the curve, where the Con indexes are the lowest, all the Abs indexes are above the curve, although there is no such pronounced gap between them as in the beginning: we see that, although abstract vocabulary does form a semantically uniform group, it is not as numerous as the concrete vocabulary, and the Concreteness and Abstractness are not so distinctly contrasted in it. The long steep part of the curve shows that the Abs indexes are scattered both below and above it—yet, as the curve goes down, the number of the Abs dots above the curve increases. Thus, there is a broadly defined trend for Abstractness to grow with the decrease of the Concreteness, which conforms to the linguistic intuitions; this trend is profiled in Abs indexes located above and below the Con line in the English vocabulary.
+Table 5 demonstrates English and Russian examples of Con and Abs indexes from the beginning, the middle, and the end of the ranking. These examples are also intuitively feasible: the nouns from the top are concrete, the words in the middle are a semantic mix of the concrete and the abstract, and the words from the end of the ranking are highly abstract.
+Plot B in Figure 2, which depicts the Con
+Abs indexes computed using the Kazan paradigm, shows that the Abs indexes have much lower variance than in the Moscow and the English rankings. This may be a result of the fact that the lexemes in the Kazan paradigm are high-frequency words: thus, the mean frequency (ipm, according to ) of the Moscow paradigm is 17.8, while the mean frequency of the Kazan paradigm is 244.23. Words with high frequency tend to cooccur with a wide range of vocabulary, so their distributional semantic vectors may be less indicative of the concreteness and abstractness expected of a paradigm word. Still, comparison of the Mos
+Abs and the Kaz
+Abs rankings provides an interesting observation: there is a strong positive Pearson correlation (0.73) between them—which is not the case between Mos
+Con and Kaz
+Con (corr = 0.5). The presence of correlation between the rankings computed with two different Abs paradigms seems to confirm the intuition that the category of Abstractness is semantically more homogeneous than the category of Concreteness. The Anim and Inan indexes of the English ranking Exploring Semantic Concreteness and Abstractness for Metaphor Identification and Beyondalso show strong positive correlation (0.8), which may indicate that animate and inanimate nouns are equally representative of the semantic category of concreteness.
+AbsConAbs
+Con Abs
+Badryzlova Yu. G. below the Con line (
+English)from the top, middle, and end of the ranking
+Russian word Translation PO
+S Con Abs English word PO
+S Con Abs
+Topнаволочка ‘pillow-case’ noun 0.45 0.13 shrimp noun 0.71 0.17салфетка ‘napkin’ noun 0.44 0.11 crab noun 0.68 0.18плед ‘bed throw’ noun 0.43 0.13 tomato noun 0.68 0.2омлет ‘omelette’ noun 0.43 0.14 scallop noun 0.67 0.18одеяло ‘blanket’ noun 0.42 0.13 chicken noun 0.66 0.14сумочка ‘purse’ noun 0.41 0.13 mussel noun 0.66 0.18скатерть ‘tablecloth’ noun 0.41 0.13 lobster noun 0.66 0.17винтовка ‘rifle’ noun 0.41 0.13 oyster noun 0.65 0.18шарф ‘scarf’ noun 0.4 0.13 onion noun 0.65 0.19соус ‘sauce’ noun 0.4 0.15 potato noun 0.64 0.2
+Middleторрент ‘torrent’ noun 0.16 0.14 healey noun 0.2 0.17нагло ‘brazenly’ adv 0.16 0.19 swing verb 0.2 0.16бодро ‘cheerfully’ adv 0.16 0.15 carrier noun 0.2 0.15раж ‘ zeal’ noun 0.16 0.21 smash verb 0.2 0.11вальдорфский ‘waldorf’ adj 0.16 0.14 unload verb 0.2 0.14впереди ‘in front of’ adv 0.16 0.14 stanford noun 0.2 0.16продавать ‘sell’ verb 0.16 0.09 north adv 0.2 0.15потренироваться‘practice’ verb 0.16 0.12 perilous adj 0.2 0.21вековой ‘centennial’ adj 0.16 0.18 enumeration noun 0.2 0.29
+Exploring Semantic Concreteness and Abstractness for Metaphor Identification and Beyond
+Russian word Translation PO
+S Con Abs English word PO
+S Con Abs
+Endсогласоваться ‘correspond’ verb 0.07 0.19 vitro propn 0.2 0.12дифференциация ‘differentiation’ noun 0.07 0.27 open-ended adj 0.11 0.24вовлечение ‘involvement’ noun 0.07 0.26 inter-departmentaladj 0.11 0.18распространение ‘proliferation’ noun 0.07 0.2 rejection noun 0.11 0.36разделение ‘separation’ noun 0.07 0.27 discredit verb 0.11 0.31тотальный ‘total’ adj 0.07 0.25 hold verb 0.11 0.13пониматься ‘be regarded as’ verb 0.07 0.22 legitimate adj 0.11 0.28всесторонне ‘comprehensively’adv 0.07 0.16 unsuccessfullyadv 0.11 0.15выявлять ‘detect’ verb 0.07 0.14 long-awaited adj 0.11 0.19переподчинение ‘re-subordination’noun 0.07 0.23 abolition noun 0.11 0.257. Conclusions
+We have presented a method for computing indexes of semantic Abstractness and Concreteness of words in two languages—
+Russian and English, and applied them to the task of linguistic metaphor identification in these two languages.
+The results of the classification are either comparable with previous research or surpass it, the same holds for the baseline model. The efficiency of metaphor identification with Concreteness
+Abstractness indexes suggests that metaphoric and nonmetaphoric contexts are semantically different in terms of Concreteness and Abstractness, which conforms to the Conceptual Metaphor Theory. Models based on Concreteness indexes are more efficient than the models based on Abstractness, suggesting that Concreteness may be a more reliable predictor of metaphoricity.
+Analysis of the Concreteness
+Abstractness indexes reveals that there is a general trend for Abstractness indexes to increase as the corresponding Concreteness indexes decrease, which is in accordance with linguistic intuitions. There is a distinct group of highly concrete words in the lexicon which have very high Concreteness and very low Abstractness indexes; similarly, there is a group of distinctly abstract vocabulary, with low Concreteness and high Abstractness scores.
+Presence of statistical correlation between two Russian Abstractness ratings (and absence of correlation between the respective Concreteness ratings) may indicate that the category of Abstractness is more semantically homogeneous than the category of Concreteness. Statistical correlation between the English concrete Animate and Inanimate rankings suggests that both animate and non-animate nouns may be equally representative of the semantic category of Concreteness.
+Badryzlova Yu. G.

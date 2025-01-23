@@ -1,0 +1,47 @@
+Corpora with manual annotation are required for testing and development of text analysis tools. In the Open
+Corpora project we have already created a 1 million of words corpus1 of Russian texts with human-verified words, sentences and paragraphs boundaries . Morphology is the next level of annotation we are working on. We do this work in two steps: first of all each word gets all possible morphological hypothesis according to dictionary and later all wrong hypothesis are removed by human annotator. Handwork of linguists experts is expensive and we are trying to use native speakers with no linguistic knowledge as much as possible while maintaining high quality of annotation. It has been demonstrated that crowd-sourcing is a suitable method for obtaining linguistic data and “the quality is comparable to controlled laboratory experiments, and in some cases superior” . We have involved several thousands of volunteers into annotation works by providing them with simple annotation questions. In each question we are asking about one grammatical category of one word within a sentence context. We have collected more than 1.1 million of answers2. In order to annotate 1 million of words about 4 millions of questions are to be asked.
+2. Morphological annotation process
+As we have stated before we use morphological dictionary (taken from AO
+T project some modifications in the tag set and complex cases’ interpretations find all possible hypothesis for each word. No postprocessing or heuristics is applied to the set of hypothesis so we accept even very rare interpretations such as ИЗА (noun, feminine, plural, genitive case, personal name) for the word ИЗ. An example of our dictionary-based annotation is shown in 1 Statistics on corpus size is always up to date on page http://opencorpora.org/?page=genre_stats
+2 Statistics on contribution to corpus annotation is located on page http://opencorpora.org/?page=stats
+Bocharov V. V. et al.
+final goal is to have only one interpretation for each word for sentences with no syntactic or semantic ambiguity (as show in Figure 2). For ambiguous sentences several interpretations are allowed.
+In Open
+Corpora project the choice of the right morphological interpretation is done by hand by volunteers. In order to simplify this work we have splitted the annotation of each word into a set of simple annotation questions. Each question is asked about one grammatical category of one single word within a sentence context. In our example “Мама мыла раму” according to the set of hypothesis for the word МЫЛА following questions can be asked:•	 is МЫЛА a verb or a noun?•	 is МЫЛА singular or plural form of noun?•	 is МЫЛА in nominative or accusative case?
+This questions form a decision tree (
+Figure 3) where the next question is asked only in case it is meaningful after the previous answer. For the word МЫЛА in our example the correct answer for the first question is VER
+B and no other questions will be asked.
+Crowdsourcing morphological annotation Annotation questions are grouped by type (i.e. “VER
+B or NOU
+N”, “singular or plural”, …) and volunteers can choose the specific type of questions they want. Each question type has its own instruction where general guidelines and the explanation of tricky cases are provided. The purpose of guidelines is to refresh background knowledge of linguistic categories and to specify issues which need interpretation different from one given in the secondary or high school. We don’t expect volunteers to know grammar perfectly. Instead we always ask them (both in guidelines and on web pages) to skip questions they don’t understand instead of making doubtful contribution.
+3. Annotation quality estimation
+Each question is answered by several (three or four) people and then it goes to moderation for approval. Moderators have a good linguistic background and they are able to make a correct decision. It will be very time-consuming to review and approve all answers. At first we have decided to do manual approval only for answers where there is some disagreement between volunteers or comments added. This decision was based on following calculations: let’s assume that all volunteers make random mistakes in 10% of answers (this is high error rate to simple questions like “singular or plural?”). Thus the probability of the event “all three annotators are wrong” is 0.1³ = 0.001 i.e. one annotation mistake per 1,000 words (0.1%) will be automatically approved if moderators will review only examples with disagreement.
+In practice it turned out differently: an error rate for questions “is noun singular or plural?” is between 0.5% and 10% for most of volunteers and we have found 2% cases where all annotators were wrong. This means that our initial assumption of random error distribution isn’t true and the probability of an annotation error depends on the annotated word itself and on its context.
+In order to find features that cause annotation errors we have splitted contexts into a set of simple context features. A context feature consists of position (0 is a position of word being annotated, −1 is one word to the left, +1 — one word to the right) and a word at that position. For each feature we have calculated the number of annotation disagreement events in examples with this feature. Following table includes top features ordered by percentage of disagreement events for questions of type “is noun singular or plural?”. In the rightmost column we show the expected error probability assuming that in case of disagreement between three annotators two of them are wrong (i.e. the worst case).
+Context featurePosition
+Total samples
+Samples with disagreement
+Samples without disagreement
+Disagreement rate
+Expected error probabilityword = четыре−1 64 47 17 73.44% 48.96%word = две −1 136 89 47 65.44% 43.63%
+Bocharov V. V. et al.
+featurePosition
+Total samples
+Samples with disagreement
+Samples without disagreement
+Disagreement rate
+Expected error probabilityword=три −1 115 75 40 65.22% 43.48%word = два −1 93 60 33 64.52% 43.01%word = две −2 58 36 22 62.07% 41.38%word = одна4 13 8 5 61.54% 41.03%
+word = две 0 226 135 91 59.73% 39.82%word = копейки0 17 10 7 58.82% 39.22%
+word = четыре− 95 55 40 57.89% 38.60%
+This statistics reflect the norm of Russian grammar stating that the noun after the numeral ending in 1, 2, 3 or 4 must be in the singular. This is counterintuitive and most of people without linguistic knowledge make mistakes.
+With these results we have decided to include into manual approval list for moderators all examples with context features provoking errors. The final list of such features will influence the overall precision of the annotation. In order to illustrate this we have plotted all context features occurring in questions of “is noun singular or plural?” type in the 2d space (
+Figure 4). The estimated error probability is on X-axis and the total number of examples is on Y-axis (logarithmic scale).
+Crowdsourcing morphological annotation Each dot on the plot corresponds to one context feature. Lines represent quality goals: the blue one — one error per 10
+K questions of this type (i.e. words), the green line — one error per 20
+K of question. Examples with context features above the line are to be included into manual approval list in order to meet quality goal chosen.
+The feature with highest frequency is the pseudo-feature that is available in 100% of examples. The quality goal line that intersects with this feature denotes the highest possible annotation precision achievable with partial manual approval process. Better annotation requires all examples to be reviewed by people with expert knowledge in linguistics.
+4. Conclusion
+In this paper we have described our experience of crowd-sourcing morphological annotation in Open
+Corpora project: the way annotation process is organized, our preliminary results and quality estimations technique based on disagreement rate between several annotators.
+During the annotation process we collect not only annotation results but also the information about participants’ interaction with user interface including timestamps of clicks on buttons. These data allow deeper analysis of both annotation and text understanding process. All the data we have collected are provided in the Download section on http://opencorpora.org and are licensed under the terms of Creative Commons CC-B
+Y.

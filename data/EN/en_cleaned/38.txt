@@ -1,0 +1,298 @@
+The goal of text simplification (or T
+S, in short) is to reduce the linguistic complexity of the given textfragment to improve its readability and to make it easier to understand. Text complexity depends onthe presence of participial and adverbial constructions, complex grammatical structures, infrequent andambiguous words, and subordinate sentences. Thanks to its numerous applications, the T
+S problem hasreceived significant attention in Natural Language Processing (or NL
+P). For instance, it may simplifycommunication for non-native speakers and people with cognitive disorders such as aphasia or dyslexia.
+In addition, text simplification can improve language model performance on such NL
+P tasks as semanticrole labeling, summarization, information extraction, machine translation, etc.
+Computational Linguistics and Intellectual Technologies: Proceedings of the International Conference “
+Dialogue 2023”
+June 14–16, 2023
+Text simplification as a controlled text style transfer task
+One standard approach to solving this task is to fine-tune a pre-trained language model on a large textcorpus containing aligned complex and simplified sentences.
+In this paper, we step aside from this paradigm and consider T
+S as a text style transfer task, regardingthe “simplicity of the text” as a particular style. For this purpose, we use methods of controllable textgeneration. Namely, the Ge
+Di algorithm proposed in (
+Krause et al., 2020) and further developed in(
+Dale et al., 2021). Following their methodology we use a paraphrase model (the main model) guidedby another language model conditioned for the “simple” style (or Ge
+Di-classifier). The choice of suchan approach was motivated by its several advantages compared to standard fine-tuning of the pre-trainedlanguage model. First, it does not change the main language model. The trained Ge
+Di-classifier canbe used with different main models (for example, rewriter based on RuT5
+Large, rewriter based onRuT5-X
+L, summarizer based on RuT5
+Large, summarizer based on RuT5
+Large, etc.), which gives morefreedom for its usage. Thus, it simplifies the fine-tuning process as the classifier should only be trainedonce and then can be used in combination with various main models. Second, we can train severalGe
+Di-classifiers with different target styles (sentiment, simplification, toxicity, etc.) and use them withany of the main language models we have. Thus, we only need to fine-tune 𝑀𝑀 main models and 𝑁𝑁Ge
+Di-classifiers instead of fine-tuning 𝑁𝑁 *𝑀𝑀 models for each combination.
+In this work, we perform a series of experiments on the simplification dataset from theRuSimpleSent
+Eval-2021 Shared Task (
+Sakhovskiy et al., 2021). We compare the controllable text styletransfer approach with standard fine-tuning of autoregressive language models and show that Ge
+Di-basedapproach of controllable text style transfer achieves quality comparable with standard fine-tuning.
+The rest of the paper is structured as follows: first, in section 2 we overview the papers related to thefield of T
+S and a paraphrase task, which can be regarded as its generalization, as well as the methods forcontrollable style generation. Next, in section 3 we discuss the controllable text style transfer approachwe use. Then, section 4 describes the experimental setup. Section 5 presents evaluation results. Finally,section 6 concludes the paper.
+2 Related Work
+The task of text simplification is a popular generation task in NL
+P, useful in many applications: frompre-processing for machine translation to assistive technology for people with cognitive disorders. Thesystems of T
+S improve text readability and simplify text understanding while retaining its original information content as much as possible. The automation of this process is a complex problem which hasbeen explored from many points of view. Several good extensive surveys cover the datasets and most ofthe classical methods for T
+S problem (
+Shardlow, 2014), (Al
+Thanyyan and Azmi, 2021).
+The interest and the development of T
+S systems for the Russian language rapidly increased with theRuSimpleSent
+Eval Shared Task (
+Sakhovskiy et al., 2021), for which the authors presented the datasetand baselines. In addition, other Russian datasets exist for T
+S, among which are ruBT
+S (
+Galeev et al.,2021) and the aligned parallel T
+S dataset from language learner data (
+Dmitrieva et al., 2022).
+The T
+S task can be considered the sub-task of the paraphrase task due to the similarity of the taskdefinition and criteria of the generated text: the format should be changed while preserving the originaltext content. For the Russian language, several paraphrase models in the open source are commonlyused, for example, paraphrased library (
+Fenogenova, 2021), or models by David Dale 1. These modelswork on the sentence level. In addition, there exist a model from Sber 2 that rewrites extensive texts,which can contain many sentences.
+For the evaluation of paraphrase tasks, the standard natural language generation (NL
+G) metrics arecommonly used. There are surface-based metrics such as variations of BLE
+U, ROUG
+E, CHR
+F+; andBER
+T-base metrics such as LABS
+E (
+Feng et al., 2020) and Bert
+Score (
+Zhang et al., 2019). For instance,their combinations are presented in the GE
+M benchmark (
+Gehrmann et al., 2021). Besides, for the T
+Stask, special metrics such as SAR
+I (
+Xu et al., 2015), included in the EASS
+E 3 package and Lens (
+Maddela1https://huggingface.co/cointegrated/rut5-base-paraphraser
+2https://sbercloud.ru/ru/datahub/rugpt3family/demo-rewrite
+3https://github.com/feralvam/easse
+Tikhonova M., Fenogenova A.et al., 2022), were proposed.
+The controllable text style transfer approach has received considerable attention in recent years. Oneof the pioneers in this field was (
+Keskar et al., 2019), where authors use conditioned controlled codes forguided text generation.
+Ge
+Di (
+Krause et al., 2020) uses a small external language model classifier (or simply Ge
+Di-classifier)to guide the generation of the main language model, re-weighting next token probabilities and, thus,increasing the probabilities of words in the given style. ParaGe
+Di (
+Dale et al., 2021) adopts this ideato the paraphrasing task by applying the Ge
+Di approach in combination not with the standard languagemodel but with the paraphraser fine-tuned to rephrase the original text preserving its original meaning.
+In (
+Liu et al., 2021) the authors proposed D
+Experts. Their approach uses two extra language modelsconditioned towards and against the desired style (or topic), which are used to re-weight the probabilitiesof the next tokens predicted by the main language model.
+(
+Yang and Klein, 2021) explores the usage of text classifiers for controllable text generation withFUDG
+E. This idea is further developed in (
+Sitdikov et al., 2022), where authors proposed CAI
+Fsampling, which is a method for controllable text generation based on re-weighting logits with a freeform classifier.
+Thus, while most methods for controllable text style transfer concentrate on controllable text generation in a given style, we focus on the task of paraphrasing the original text in a given style, preservingthe meaning and applying the ideas from the ParaGe
+Di method for text simplification, regarding the simplicity of the text as a specific style. It should also be noted that while the work ParaGe
+Di uses GP
+T-2language models, we use RuT5
+Large based models. In other words, both components are derived fromthe same pre-trained language model version. Such an approach avoids problems with the difference inthe vocabulary in the process of fine-tuning.
+In addition, we perform our research for the Russian Language, which distinguishes our work fromthe papers mentioned above, which concentrate on English.
+3 Method
+Besides the standard approach of fine-tuning a pre-trained language model used as a baseline for thestyle-transfer experiments, we consider several versions of controlled text generation models based onthe Ge
+Di algorithm proposed in (
+Krause et al., 2020). In it a language model performs text generationguided by another language model conditioned for the specific topic or style or topic. More precisely,in our work, we adopt the extension of this method presented in (
+Dale et al., 2021), where the authorsenable the model not only to generate but to paraphrase the input text. Below, a brief description of themethod is given.
+3.1 Ge
+Di
+In the original Ge
+Di algorithm, the whole model consists of two parts. The first component is a generationautoregressive model. The second model is an autoregressive discrimination model, trained on sentenceslabeled with a specific style or topic, which we will further refer to as Ge
+Di-classifier. Thus, in theprocess of training Ge
+Di-classifier learns the word distributions conditioned on a particular label. Ateach generation step, the distribution of the next token predicted by the main language model 𝑃𝑃𝐿𝐿𝐿𝐿 isadjusted using the Bayes rule and an additional class-conditional language model 𝑃𝑃𝐷𝐷:𝑃𝑃 (𝑥𝑥𝑡𝑡|𝑥𝑥<𝑡𝑡, 𝑐𝑐) ∝ 𝑃𝑃𝐿𝐿𝐿𝐿 (𝑥𝑥𝑡𝑡|𝑥𝑥<𝑡𝑡)𝑃𝑃𝐷𝐷(𝑐𝑐|𝑥𝑥𝑡𝑡, 𝑥𝑥<𝑡𝑡)
+Here, 𝑥𝑥𝑡𝑡 is the current token, 𝑥𝑥<𝑡𝑡 is the prefix of the text, and 𝑐𝑐 is the desired style (e.g. simplicity orsentiment) — one of 𝐶𝐶 classes. The first term in the formula is predicted by the main language model𝑃𝑃𝐿𝐿𝐿𝐿 . The second term is calculated using Ge
+Di-classifier 𝑃𝑃𝐷𝐷𝐷𝐷 via the Bayes rule. As a result the tokenswhich are more likely to appear in a text of the chosen style receive a higher probability:𝑃𝑃𝐷𝐷(𝑐𝑐|𝑥𝑥𝑡𝑡, 𝑥𝑥<𝑡𝑡) ∝ 𝑃𝑃 (𝑐𝑐)𝑃𝑃𝐷𝐷𝐷𝐷(𝑥𝑥, 𝑥𝑥<𝑡𝑡|𝑐𝑐)
+Text simplification as a controlled text style transfer task
+In the original paper, Ge
+Di was successfully used for guided text generation with GP
+T-2 languagemodel making the generation of the less toxic texts.
+3.2 ParaGe
+Di
+In our work, we adopt the approach of ParaGe
+Di, where the authors enable Ge
+Di to preserve the meaningof the input text. For this, they replace the language model with a paraphraser. Thus, ParaGe
+Di modelsthe following probability:𝑃𝑃 (𝑦𝑦𝑡𝑡|𝑦𝑦<𝑡𝑡, 𝑥𝑥, 𝑥𝑥) ∝ 𝑃𝑃𝐿𝐿𝐿𝐿 (𝑦𝑦𝑡𝑡|𝑦𝑦<𝑡𝑡, 𝑥𝑥)𝑃𝑃 (𝑥𝑥|𝑦𝑦𝑡𝑡, 𝑦𝑦<𝑡𝑡, 𝑥𝑥) ≈ 𝑃𝑃𝐿𝐿𝐿𝐿 (𝑦𝑦𝑡𝑡|𝑦𝑦<𝑡𝑡, 𝑥𝑥)𝑃𝑃𝐷𝐷(𝑥𝑥|𝑦𝑦𝑡𝑡, 𝑦𝑦<𝑡𝑡)where 𝑥𝑥 is the original text, 𝑦𝑦 is the generated text of length 𝑇𝑇 , and 𝑥𝑥 is the desired style.
+The last transition in the equation above is an approximation which allows us to decouple the paraphraser from the Ge
+Di-classifier model. As a result, the paraphraser and the Ge
+Di-classifier can betrained independently in such a formulation.
+As for the training process, ParaGe
+Di loss ℒ𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝐷𝐷𝑃𝑃 consists of two components: the generativeloss ℒ𝑃𝑃 used in language model training and the discriminative loss ℒ𝐷𝐷 which further pushes differentclasses away from one another.
+ℒ𝑃𝑃 = − 1𝑁𝑁𝑁𝑁∑︁𝑃𝑃=1𝑇𝑇𝑃𝑃𝑇𝑇𝑖𝑖∑︁𝑡𝑡=1log𝑃𝑃 (𝑦𝑦(𝑃𝑃)𝑡𝑡 |𝑦𝑦(𝑃𝑃)<𝑡𝑡, 𝑥𝑥(𝑃𝑃))ℒ𝐷𝐷 = − 1𝑁𝑁𝑁𝑁∑︁𝑃𝑃=1log𝑃𝑃 (𝑥𝑥(𝑃𝑃)|𝑦𝑦(𝑃𝑃)1:𝑇𝑇𝑖𝑖)ℒ𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝑃𝐷𝐷𝑃𝑃 = 𝜆𝜆ℒ𝐷𝐷 + (1− 𝜆𝜆)ℒ𝑃𝑃where 𝜆𝜆 ∈ the weight of the discriminative loss.
+Besides, to improve the preservation of the original content and to increase the style transfer accuracy,the following heuristics are used:
+First, the conditional language model probability is raised to the power 𝑤𝑤 𝑤 1, which biases thediscriminator towards the correct class in the process of generation:𝑃𝑃 (𝑦𝑦𝑡𝑡|𝑦𝑦<𝑡𝑡, 𝑥𝑥, 𝑥𝑥) ∝ 𝑃𝑃𝐿𝐿𝐿𝐿 (𝑦𝑦𝑡𝑡|𝑦𝑦<𝑡𝑡, 𝑥𝑥)𝑃𝑃𝐶𝐶𝐶𝐶(𝑥𝑥|𝑦𝑦𝑡𝑡, 𝑦𝑦<𝑡𝑡)𝑤𝑤
+Second, probabilities are smoothed by adding a small 𝛼𝛼 𝑤 0 to all probabilities from the conditionallanguage model:𝑃𝑃𝛼𝛼(𝑥𝑥|𝑥𝑥𝑡𝑡, 𝑥𝑥<𝑡𝑡) =𝛼𝛼+ 𝑃𝑃 (𝑥𝑥)𝑃𝑃𝐶𝐶𝐶𝐶(𝑥𝑥, 𝑥𝑥<𝑡𝑡|𝑥𝑥)∑︀𝑐𝑐′∈𝐶𝐶 (𝛼𝛼+ 𝑃𝑃 (𝑥𝑥′)𝑃𝑃𝐶𝐶𝐶𝐶(𝑥𝑥, 𝑥𝑥<𝑡𝑡|𝑥𝑥′))
+Such a heuristic discourages the generation of tokens with low probability conditional on all classes.
+Third, for class-conditional corrections, asymmetric lower and upper bounds (𝑙𝑙 and 𝑢𝑢) are used :𝑃𝑃𝛼𝛼𝛼𝛼𝛼𝛼𝛼𝛼(𝑥𝑥|𝑥𝑥𝑡𝑡, 𝑥𝑥<𝑡𝑡) = max(𝑙𝑙,min(𝑢𝑢, 𝑃𝑃𝛼𝛼(𝑥𝑥|𝑥𝑥𝑡𝑡, 𝑥𝑥<𝑡𝑡))).
+This discourages the insertion of new tokens, as opposed to prohibiting existing tokens.
+4 Experiments
+4.1 Data
+We perform a series of experiments on the dataset RuSimpleSent
+Eval-2021 Shared Task (
+Sakhovskiy etal., 2021). This simplification dataset contains parallel pairs of sentences: complex – their correspondingsimplified versions. Below, a sample from the dataset is presented.
+Tikhonova M., Fenogenova A.
+Example from the dataset:
+Source sentence:“Климат Казани – умеренно континентальный , сильные морозы и палящая жара редкии не характерны для города”
+Simplified paraphrases:1. “В Казани редко бывают и сильные морозы, и жаркая летняя погода”
+2. “В Казани зимой не слишком холодно, а летом не слишком жарко”
+3. “В Казани зимой не очень холодно, а летней жары почти не бывает”
+The organizers of the RuSimpleSent
+Eval-2021 shared task constructed the dataset using automatictranslation and post-processing Wiki
+Large corpus (
+Zhang and Lapata, 2017). The resulting dataset wassplit into the train, dev and two test sets (public and private). And while the train set was not filteredor verified, the organizers validated the dev, public and private test sets via crowd-sourcing using Yandex.
+Toloka 4 and filtered them. In this work, we evaluate the results on official public and private testsets. We additionally filtered the train part, which contains inappropriate examples due to its originalautomatic construction. For its cleaning, we used the following procedure: exclude examples with lessthan two lemmas in the intersection between the lemmatized source and target sentences (lemmatization was done via pymorphy2 5 tagger (
+Korobov, 2015)); discard examples where the source sentenceis a sub-string of the target one and the length is bigger than of the source one. Besides training andvalidation, we also use extra dev set filtered by the organizer.
+4.2 Models
+We conduct experiments and compare the results of the following models:• Golden testset. We evaluate the golden references (first answer) from the fixed RuSimpleSent
+Eval2021 test sets (public/private);• Paraphraser. We use a paraphrase model 6 trained on 7000 examples from different sources ofvarious domains: 1) text level: literature domain, prose; back translation (with ru-en translationmodel 7) of the texts from different domains filtered with Bertscore Rouge
+L); 2) sentence level:
+Russian version of Tapaco corpus (
+Scherrer, 2020) and filtered Paraphraser
+Plus (
+Gudkov et al.,2020) corpus.
+• Fine-tuned paraphraser. We additionally fine-tune the paraphrase model on the train set to checkthe hypothesis of the capabilities combinations that the model learn (both paraphrasing and simplification);• Fine-tuned ruT5
+Large 8. We fine-tune the row ruT5
+Large model on the simplification train set.
+• ParaGe
+Di. We train Ge
+Di-classifier on the train part of the RuSimpleSent
+Eval-2021 set and usethe paraphrase model described above as the main model for ParaGe
+Di controllable approach.
+In our work, all models we use are derived from the pre-trained RuT5
+Large9 model, which is a T5model (
+Raffel et al., 2020) pre-trained for the Russian language. The fact that we derive both componentsfrom the same model allows us to avoid problems with the difference in the model vocabulary.
+As for the Ge
+Di-classifier model, we fine-tune RuT5
+Large on the RuSimpleSent
+Eval-2021 Shared
+Task train set. We use the Adam optimizer with the learning rate 1𝑒𝑒− 4, three epochs, and the weight ofthe discriminative loss 𝜆𝜆 = 0.3.
+We evaluate several style power coefficients (𝑤𝑤 = 5, 10, 15, 20). It should also be noted that we do notevaluate 𝑤𝑤 = 0 as, in this case, the influence of the Ge
+Di-calssifier is neglected, and the result is equalto the original paraphrase model, which is our baseline. To avoid randomness, we use the followinggeneration parameters:4https://toloka.ai/tolokers/
+5https://github.com/pymorphy2/pymorphy2
+6https://habr.com/ru/company/sberdevices/blog/667106/
+7https://huggingface.co/Helsinki-NL
+P/opus-mt-en-ru
+8https://huggingface.co/sberbank-ai/ru
+T5-large
+9https://huggingface.co/sberbank-ai/ruT5-large
+Text simplification as a controlled text style transfer task
+• 𝑑𝑑𝑑𝑑_𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠 = 𝐹𝐹𝑠𝑠𝑠𝑠𝑠𝑠𝑠𝑠,• 𝑛𝑛𝑛𝑛𝑠𝑠_𝑟𝑟𝑠𝑠𝑟𝑟𝑛𝑛𝑟𝑟𝑛𝑛𝑠𝑠𝑑𝑑_𝑠𝑠𝑠𝑠𝑠𝑠𝑛𝑛𝑠𝑠𝑛𝑛𝑠𝑠𝑠𝑠𝑠𝑠 = 1,• 𝑠𝑠𝑠𝑠𝑚𝑚_𝑠𝑠𝑠𝑠𝑛𝑛 = 128.
+4.3 Metrics
+We evaluate the model on public and private test sets of RuSimpleSent
+Eval-2021 Shared Task using thefollowing metrics:• BertScore(
+Zhang et al., 2019), which is computed between the original (complex) sentences andmodel predictions.
+• SAR
+I (
+Xu et al., 2016), which is commonly recognized as a metric for evaluating automatic textsimplification systems. The metric compares the model predictions against the references and theoriginal (complex) sentences.
+• BLE
+U score(
+Papineni et al., 2002), which in our case is computed between the reference answersand predictions• iBLE
+U (
+Sun and Zhou, 2012) which is computed as follows:𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖 = 𝑠𝑠 *𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖(𝑠𝑠𝑟𝑟𝑠𝑠𝑑𝑑𝑠𝑠𝑝 𝑟𝑟𝑠𝑠𝑝𝑝𝑠𝑠) + (1− 𝛼𝛼) *𝑖𝑖𝑖𝑖𝑖𝑖𝑖𝑖(𝑠𝑠𝑟𝑟𝑠𝑠𝑑𝑑𝑠𝑠𝑝 𝑠𝑠𝑑𝑑𝑛𝑛𝑟𝑟𝑠𝑠𝑠𝑠)𝑝where 𝛼𝛼 is the parameter responsible for the balance between adequacy and dissimilarity. In ourwork, we follow the methodology from the original paper and use 𝛼𝛼 = 0.9.
+• Diversity We report a degree of diversity measured using the mean number of distinct n-grams,normalized by the length of text (
+Li et al., 2015). We report dist-1, dist-2, and dist-3 scores fordistinct uni-, bi-, and trigrams, respectively.
+5 Results
+Results on public and private test sets are presented in Tables 1 and 2, respectively. The results reveal thatthe Ge
+Di-based approach with style power coefficients of 5 and 10 shows quality comparable with thestandard fine-tuning approach. Larger values of the style power coefficient lead to a decrease in qualityas the classifier influence becomes too strong, which negatively affects the generated output. Thus, theParaGe
+Di-based approach can be considered a good alternative to standard fine-tuning. In addition, aslong as it does not change the initial model and can be used with different main models, it gives morefreedom for its usage.
+Model Bert
+Score SAR
+I BLE
+U iBLE
+U 0.9 dist 1 dist 2 dist 3
+Golden testset 0.816874 66.106573 1.0 0.916141 0.971855 0.940157 0.882364
+Paraphraser 0.925663 41.004799 0.314653 0.342387 0.964854 0.923054 0.855773F
+T paraphraser 0.970198 41.594171 0.367276 0.412937 0.974326 0.932282 0.866955F
+T ruT5
+Large 0.969541 41.819602 0.369884 0.415395 0.974098 0.931853 0.866066ParaGe
+Di (sp 5) 0.914065 40.792974 0.310180 0.332548 0.965152 0.919561 0.848917ParaGe
+Di (sp 10) 0.888886 40.501325 0.295284 0.307751 0.969362 0.911230 0.831918ParaGe
+Di (sp 15) 0.826108 38.539389 0.256159 0.255457 0.882723 0.815006 0.731320ParaGe
+Di (sp 20) 0.659992 33.045052 0.081489 0.075360 0.401245 0.356622 0.307940different Style Power coefficients (sp in shortly). F
+T stands for fine-tuned. Detailed metrics descriptionsare given in subection 4.3.
+In addition, we compared our results with the top-3 solutions of the RuSimpleSent
+Eval-2021 competition (
+Sakhovskiy et al., 2021), which include qbic solution based on Multilingual Unsupervised Sentence
+Simplification (
+Martin et al., 2020) and fine-tuned GP
+T-based solutions by orzhan, ashatilov, and alenusch. To complete the picture, we also included mBAR
+T-based (
+Liu et al., 2020) baseline presented bythe organizers. Results are presented in Ru
+T5-based) surpass the baseline. Second, most of them, including the ParaGe
+Di method with reasonable style power coefficient of 5 and 10, outperform competition winners (mostly GP
+T-based) showing
+Tikhonova M., Fenogenova A.
+Model Bert
+Score SAR
+I BLE
+U iBLE
+U 0.9 dist 1 dist 2 dist 3
+Golden testset 0.816874 66.106573 1.0 0.967823 0.940655 0.883676 0.882364
+Paraphraser 0.92467 40.418701 0.301265 0.330843 0.961526 0.922913 0.857691F
+T paraphraser 0.968782 41.643578 0.358353 0.404432 0.968473 0.931082 0.866247F
+T ruT5
+Large 0.965881 41.517535 0.357556 0.402777 0.969426 0.929413 0.863115ParaGe
+Di (sp 5) 0.912825 40.859850 0.300608 0.324721 0.961111 0.918092 0.848473ParaGe
+Di (sp 10) 0.887088 40.240902 0.274954 0.289805 0.960448 0.907891 0.830453ParaGe
+Di (sp15) 0.824515 38.249361 0.255155 0.255730 0.873924 0.810920 0.730028ParaGe
+Di (sp 20) 0.668402 33.238699 0.098595 0.091794 0.432894 0.389271 0.339774coefficients (sp in shortly). F
+T stands for fine-tuned. Detailed metrics descriptions are given in subection 4.3.
+higher SAR
+I scores. Such results can be regarded as another proof of the quality of the ParaGe
+Di approach. In addition, such results indicates that Ru
+T5 is a better backbone for the text simplification taskthan the GP
+T-based models. We observe the same trends on the T
+S task in the GE
+M benchmark 10. The
+T5-small model shows the best performance on the analogous datasets for English, among which arewiki auto, asset turk, and test turk datasets (
+Xu et al., 2016)).
+Model SARI
+Golden testset 66.106F
+T ruT5
+Large 41.819F
+T paraphraser 41.594
+Paraphraser 41.004ParaGe
+Di (sp 5) 40.792ParaGe
+Di (sp 10) 40.501№1 orzhan 40.233№2 alenusch 38.870№3 ashatilov 38.843ParaGe
+Di (sp 15) 38.539ParaGe
+Di (sp 20) 33.045BASELIN
+E 30.152
+Model SARI
+Golden testset 66.106F
+T paraphraser 41.643F
+T ruT5
+Large 41.517
+Paraphraser 40.418ParaGe
+Di (sp 5) 40.859ParaGe
+Di (sp 10) 40.240№1 qbic 39.689№2 orzhan 39.279№3 ashatilov 38.491ParaGe
+Di (sp 15) 38.249ParaGe
+Di (sp 20) 33.238BASELIN
+E (left) and private (right) test sets respectively. Following the original competition approach, we compareresults using the SAR
+I metric. sp stands for style power. F
+T stands for fine-tuned. BASELIN
+E stands forthe mBAR
+T-based baseline from RuSimpleSent
+Eval-2021 competition.
+Analyzing model’s performance on the concrete examples, we explored the behavior of Fine-tunedparaphraser, which showed best performance on the private test set (see Table 4). It can be seen thatthe model preserves the original meaning of the sentence and does not change facts. However, it onlyslightly simplifies sentences replacing individual words rather than rewriting the whole sentence in amore simplistic style. Thus, there is still room for improvement.
+As for the limitations of the ParaGe
+Di method, with the growth of the style power coefficient, ParaGi
+Distarts to lose coherence and forget the original sentence’s meaning. While the generations with the stylepower coefficients 5 or 10 yields reasonable quality, sentences generated with the coefficient 20 often lack10https://gem-benchmark.com/results
+Text simplification as a controlled text style transfer task
+Original sentence PredictionДорожка следов у волка ровнее Дорожка следов у волка ровная,и образует почти ровную строчку, а у собак — извилистая линия.
+а у собак — извилистую линию.
+В том же году компания открыла офис В том же году компания открыла офисв Казани; главная страница портала, в Казани. Многие службы и поиск сталинекоторые службы и поиск стали доступны доступны как на русском,как на русском, так и на татарском языке. так и на татарском языке.
+В связи с появившейся необходимостью В связи с возникшей необходимостьюмедицинского обследования медицинского обследованияврачи приняли решение направить его врачи отправили егов одну из московских клиник. в одну из московских клиник.
+В рационе древних египтян присутствовали В рационе древних египтян были горох,горох, бобы и нут, огурцы, в больших бобы и огурцы, в большом количествевыращивался салат-латук. выращивался салат-латук.
+Атлантические течения, разогретые Атлантические течения приносятГольфстримом, приносят мягкие зимы; мягкие зимы, и иногда зимойиногда зимой и ранней весной и ранней весной здесь бывают снегопады,здесь бывают снегопады, хотя снег обычно лежит недолго.
+хотя снег обычно лежит недолго.
+meaning. In addition, as long as the ParaGe
+Di approach uses two language models, it works slower andrequires more computational resources during the inference stage compared to the fine-tuned languagemodels.
+6 Conclusion
+In this paper, we dealt with the text simplification problem regarding it as a special case of text styletransfer task. We adopted the ParaGe
+Di method, which uses the idea of controlled text style transfer.
+We used the combination of two RuT5
+Large models (paraphrase model and Ge
+Di-classifier) to solvethis task. In the experiments, that approach proved quite promising; the results are comparable to finetuning for the single style class. The ru
+T5-based simplification models surpassed the best results on theRuSimpleSent
+Eval-2021 shared task.
+As a part of future research, we plan to consider the reverse problem of making the text more complexand official. Thus, we plan to explore the capabilities of the models, which can work in both directions:simplifying the text or making it more complex and official.

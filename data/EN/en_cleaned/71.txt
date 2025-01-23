@@ -1,0 +1,430 @@
+The task of Lexical Semantic Change Detection (LSC
+D) is to determine how senses of a particular wordchanged between two time periods. The change of word senses in time is a rather complex phenomenon.
+Thus, several formal settings exist for this taskwith different annotation schemes and qualitymetrics, eachhaving its own pros and cons. We developed our system for the RuShift
+Eval competition , where themain goal was to rank the given test words similarly to the ranking by their gold COMPAR
+E scores .
+To obtain the gold COMPAR
+E scores during the construction of the dataset, the annotators were presentedseveral dozen sentence pairs, each representing two occurrences of the same word, one sampled froman old corpus and another from a new corpus. The annotators estimated the similarity of those wordoccurrences in meaning on a 1­4 scale, where larger values corresponded to higher degree of similarity.
+This is commonly known as the Word­in­
+Context (Wi
+C) task . To obtain gold COMPAR
+E score for aparticular word, the annotations of sentence pairs containing this word were averaged.
+We decided to follow the same word scoring procedure, but replaced human annotators with a Wi
+Cmodel to solve the task. Our system achieved the second­best result during the competition. After thecompetition, we managed to outperform the winner by improving the architecture and the training pro­cedure of our Wi
+C model.
+Our main contributions are the following.
+• An approach to the RuShift
+Eval LSC
+D task employing aWi
+Cmodel is proposed. Our system imple­menting this approach achieved the 2nd best result in the competition and outperformed the winnerafter the competition.
+• We proposed different architectures and training schemes of a Wi
+C model and compared their per­formance in the LSC
+D task.
+• A detailed error analysis is performed, showing which distinctions between word senses a Wi
+Cmodel annotates differently compared to human annotators and how it effects the final LSC
+D results.
+2 Related work
+RuShift
+Eval the first LSC
+D shared task for the Russian language. Its data annotation schemeand metrics follow those proposed as a part of Diachronic Usage Relatedness (DU
+Rel) dataset for Ger­man . In RuSem
+Shift dataset is introduced, which was proposed as the training and the devel­opment set for RuShift
+Eval. In our work, we employed the COMPAR
+E scores from that dataset, whichestimate the similarity in meaning between two time periods both for words and sentence pairs. We leftout other potentially useful information about the variability of meaning inside each time period. Analternative dataset annotation procedure and metrics were proposed in Sem
+Eval­2020 Task 1 , wherethe authors tried to account for the appearance or disappearance of relatively rare word senses, which theCOMPAR
+E metric is not sensitive to. They basically clustered word occurrences corresponding to theirsenses using human annotators instead of an automated clustering system. Based on this gold standardclustering, two subtasks were proposed. The first subtask required binary classification determining ifthe set of word senses has changed. The second subtask required ranking words according to the changein sense frequencies.
+In LSC
+Dmodels are compared for the Russian language. One of them is EL
+Mo , which isa recurrent neural network trained as a languagemodel on texts from the Russian
+National Corpus 1 (RN
+C)and used to build contextualized embeddings of target words. Then they compute the cosine similarity1https://ruscorpora.ru
+Arefyev N., Fedoseev M., Protasov V., Homskiy D., Davletov A., Panchenko A.or the Jensen­
+Shannon divergence to receive the semantic change score. The best quality among themodels considered by them according to the COMPAR
+E metric is 0.403 for the first part of RuSem
+Shiftand 0.541 for the second part. Since we have split the RuSem
+Shift dataset into training and developmentparts, our results are not directly comparable, though the experiments in Section 4 suggest that our systemsignificantly improves those results for RuSem
+Shift.
+Next we describe best LSC
+D methods proposed for the Sem
+Eval­2020 Task 1 .
+U
+G Student Intern team achieved the 1st place in subtask 2 (ranking). They use word2vec SGN
+Sword embeddings with the Orthogonal Procrustes alignment and compute Euclidean distance insteadof cosine distance to evaluate the semantic change. Unfortunately, this team did not publish a systemdescription paper.
+Jiaxin & Jinan team the 3rd place in subtask 1 (binary classification) and the 2nd placein subtask 2. They use Temporal Referencing solve the alignment problem. Instead of training twomodels and then aligning, they train one model, in which the postfix ”_new” is added to the target wordsfrom the examples of the new time period, and the postfix ”_old” is added to the words from the examplesof the old time period. To get a threshold for the classification task, they fit a Gamma distribution by thecosine distance (
+Gamma Quantile Threshold method). Word embeddings were extracted from fine­tunedBER
+T or SGN
+S.
+UW
+B team the 1st place in subtask 1 and the 4th place in subtask 2. They use Canon­ical Correlation Analysis (CC
+A) and modification of the Orthogonal Transformation from Vec
+Map forlinear transformation to move from the source space (first time period) to the target space (second timeperiod). For word embeddings, they also employ SGN
+S. After a linear transformation, they calculate thecosine similarity. They proposed different ways to find an optimal threshold based on averaging cosinesimilarities for each word.
+3 Semantic change detection method
+To estimate the COMPAR
+E score of a particular target word during the dataset construction, the pairs ofsentences were sampled from two time periods. For each pair of sentences, each annotator specified anumber from 1 to 4, where 1 stands for unrelated word meanings, and 4 stands for identical meanings.
+Those annotations were averaged across annotators first, and then across all sentence pairs containingthe target word. To approximate this process of computing word scores, our system employs a Word­in­
+Context model, which solves the same task as the annotators. The input data for this model consists of atarget word and two sentences in which the word appears. The model determines whether the target wordis used in the same sense or different senses.
+First, we have built and trained aWi
+Cmodel. Then for each test wordwe retrieved sentences containingthis word, and constructed pairs of sentences belonging to different time periods. The scores for sentencepairs were obtained from the Wi
+C model and aggregated into the final word scores.
+3.1 Construction of Wi
+C sentence pairs
+For each test word, we retrieved the examples from the diachronic subset of the RN
+C corpus2 (RN
+C).
+This corpus consists of three parts: Soviet, Pre­
+Soviet, Post­
+Soviet. Since the corpus contains only plaintexts, to find examples for a particular word in all forms we used Rulemma lemmatizer3.
+Next, we sampled 100 sentences (or all sentences, if there were fewer) from each time period and con­structed sentence pairs for each pair of periods. The examples were sampled from a uniform distribution.
+For each word, we removed 25% of the longest sentences, 25% of the shortest sentences, and all sen­tences where the target word was the first or the last word. This was done based on the intuition that foroptimal Wi
+C performance, the context shall be long enough, but not very long for faster processing, andthere shall exist some preceding and succeeding words for the target word, which often provide the mostinformative context. In appendix B additional experiments with removal of short and long examples aredescribed.
+2https://ruscorpora.ru/new/en/corpora­usage.html
+3https://github.com/Koziev/rulemmaDeep
+Mistake: Which Senses are Hard to Distinguish for a Wordin
+Context Model
+3.2 Scoring sentence pairs
+3.2.1 Wi
+C model architecture
+As a backbone for our Wi
+C model we employed the XLM­
+R masked language model , which waspre­trained on about 2T
+B of texts in 100 languages. This enables us using Wi
+C training data in differentlanguages, which improves the overall performance. To score each sentence pair we feed it to XLM­
+Rin the standard format:<s>sentence1</s>sentence2</s>
+After that we calculate the contextualized embeddings for the target word in each sentence by averagingthe outputs of the last transformer layer corresponding to all of its subwords (mean pooling). Additionallywe experimented with the first pooling when the output on the first subword is taken.
+Then we aggregate two target word embeddings from two sentences using one of the following options:1. concat: (x, y), the concatenation of two embeddings;
+2. comb_dmn: (x−y, x̄◦ȳ), the concatenation of the difference (d) of non­normalized and component­
+wise product (m) of normalized (n) embeddings;3. dist_l1: ∥x− y∥1, L1­distance between the embeddings, also known as the Manhattan distance;
+4. dist_l1ndotn: (∥x̄− ȳ∥1, ⟨x̄, ȳ⟩), the concatenation of L1­distance and the dot product (dot) of the
+normalized (n) embeddings. The second feature is essentially the cosine similarity.
+While the first two options produce high­dimensional vectors, the other two result in a vector with oneor two components only. The obtained vector is passed through a classification head, which has a denselayer of size hs and tanh activation, followed by a linear layer, or only a linear layer (denoted as hs = 0).
+For the first two aggregation options, we always used a hidden layer of the size hs = 1024 (the size of theembeddings in large XLM­
+R). For the distance­based inputs we found that a linear head outperformednon­linear one. We inserted batch normalization the first layer, which proved to be especiallyefficient for L1­distance inputs.
+Based on the intuition that the similarity between two­word occurrences does not depend on the or­der of sentences in a sentence pair, we employed training time and test time augmentation. For eachexample, we create an additional one by swapping two sentences. Thus, two scores were obtained foreach example. For training, we always use that augmentation since, from our preliminary experiments,it helps for some architectures and never hurts. For inference we either take the first score (i.e. disabletest time augmentation), or average them.
+3.2.2 Wi
+C training
+We also look at different ways to train the model using MCL­Wi
+C4 and RuSem
+Shift MCL­Wi
+C consists of an English training set (8000 examples), multilingual development sets with both sen­tences in one of the following languages: English, French, Russian, Arabic, Chinese (1000 ex. each), andtest sets with cross­lingual (one sentence in English, the second in another language) and multilingualparts (1000 ex. each). RuSem
+Shift consists of two pairs of periods: there are pairs of sentences frompre­
+Soviet and Soviet periods in the first part, and Soviet and post­
+Soviet in the second part. We havesplit each part into a train and a development subsets, ensuring there is no intersection between the targetwords in those subsets (lexical split).
+The weights of the pre­trained XLM­
+R large model were used for initialization, and then we trainmodel on the following datasets or their combinations.
+1. MCL­Wi
+C training set consists of the original MCL­Wi
+C training set in English, 70% of each non­
+English development set (2800 ex.) and all trial sets (72 ex.). The development set is the rest 30%of non­
+English development sets (1200 ex.) and the full English development set (1000 ex.).
+2. MCL­Wi
+C en­en training set is the original MCL­Wi
+C training set. It is used to estimate the per­
+formance of a model trained only on English Wi
+C data.
+3. MCL­Wi
+C ru­ru means that we train only on data in Russian, including 70% of the development
+set and the whole test and trial sets (1708 ex. in total).
+4https://github.com/SapienzaNL
+P/mcl­wic
+Arefyev N., Fedoseev M., Protasov V., Homskiy D., Davletov A., Panchenko A.4. RuSem
+Shift training set is combined from both training sets from our split, 3898 examples in total.
+The development set consists of two parts ­ one for pre­
+Soviet and Soviet periods, another for Sovietand post­
+Soviet periods.
+The training process consists of one or two steps. Each step employs its own training set and loss function.
+All training schemes are enumerated in as C
+E andMS
+E accordingly.
+To employ all training data we have in Russian simultaneously, we have developed a new loss functionMS
+E+, which can handle both binary targets fromMCL­Wi
+C and real­valued targets from RuSem
+Shift.
+For the real­valued targets, it is equivalent toMS
+E loss, while for binary targets, it penalizes the predic­tions using MS
+E loss only when they are outside (1,2) interval for negative examples or outside (3,4)interval for positive. Since the labels are binary, we only know whether the meaning is similar or dif­ferent, but do not know the exact degree of similarity, thus any prediction from the appropriate intervalsis suitable. Another option is binarizing RuSem
+Shift and using C
+E loss. Examples with scores not lessthan 3 were treated as positive. For negative examples we set the threshold of 2 during the competitionand 3 in the following experiments.
+Train#1 Loss#1 Train#2 Loss#2MCL­Wi
+C C
+E ­ ­MCL­Wi
+C en­en C
+E ­ ­MCL­Wi
+C ru­ru C
+E ­ ­RuSem
+Shift MS
+E ­ ­MCL­Wi
+C C
+E MCL­Wi
+C ru­ru CEMCL­Wi
+C C
+E RuSem
+Shift MS
+E or CEMCL­Wi
+C C
+E RuSem
+Shift + MCL­Wi
+C ru­ru MS
+E+ or CE
+Loss#1, and then optionally on Train#2 with Loss#2.
+3.3 Scoring words
+Mean. The simplest method to compute the final score for a particular word and a pair of periods is tocalculate the mean of scores for all corresponding sentence pairs. across all pairs of sentences containingthe target word for a pair of periods.
+Isotonic regression (Iso
+Reg). Depending on the loss function, the predicted scores for sentence pairsmay not be in the same range or distribution as the human scores. This may result in incorrect wordraking after simple averaging. We try to make sentence pair scores more similar to human scores byfitting isotonic regression . We feed the predicted score for a sentence pair to the isotonic regressionand get the modified score, which is then averaged across sentence pairs. Isotonic regression is trainedon sentence pairs from the training subset of RuSem
+Shift (3989 training examples).
+Linear regression (Lin
+Reg). Instead of using simple averaging of scores for sentence pairs, we canuse a trainable function to predict word scores. Input features are the mean and quartiles of scores for allsentence pairs of a particular word and pair of periods. We trained this model on words from the trainingsubset of RuSem
+Shift (69 training words). The features can be calculated both on sentence pairs fromRuSem
+Shift, or sampled sentence pairs (Lin
+Reg_s).
+4 Experiments and results
+To evaluate our Wi
+C model and select its hyperparameters, we employed two types of metrics. Spear­man correlation between model scores and gold scores for sentence pairs from RuSem
+Shift (sent
+Spear)shows how well the model solves Wi
+C task. Spearman correlation between the final word scores andthe gold values of the COMPAR
+E metric (word
+Spear) estimates the final performance on LSC
+D task.Deep
+Mistake: Which Senses are Hard to Distinguish for a Wordin
+Context Model
+Both metrics are calculated on each of two development sets (dev1 for pre­
+Soviet – Soviet, dev2 for So­viet – post­
+Soviet) and three test sets (p12 for pre­
+Soviet – Soviet, p23 for Soviet – post­
+Soviet, p13 forpre­
+Soviet – post­
+Soviet). For majority of experiments we show averaged dev and a test metrics. In theexperiments with Wi
+C model architecture and training, for evaluation we employed the same sentencepairs that were annotated by humans, otherwise we could not calculate sent
+Spear. However, for the finalresults in Table 2 and word scoring experiments in Section 4.3, 100 sampled pairs for each word andpair of periods were used instead. Additionally, when training on MCL­Wi
+C we employ accuracy on the
+English dev set (en­acc), or an average accuracy over non­
+English dev sets (nen­acc) for early stopping.
+Method/
+Team Avg p12 p23 p13
+Best results of other teamsGloss
+Reader (1st best result) 0.802 0.781 0.803 0.822vanyatko (3rd best result) 0.720 0.678 0.746 0.737
+Our submissions: team Deep
+Mistake (2nd best result)first+concat on MCLen−accC
+E →RSSdev2−sentSpearMS
+E (
+M1), Lin
+Reg 0.791 0.798 0.773 0.803
+M1, Mean 0.789 0.794 0.773 0.799
+M1, Iso
+Reg 0.789 0.793 0.775 0.798p12, p13: M2; p23: first+concat on MCLnen−accC
+E →RSS+ruMCLdev1−sentSpearC
+E , Iso
+Reg 0.785 0.773 0.802 0.780mean+dist_l1ndotn­hs300 on MCLnen−accC
+E → RSS+ruMCLdev1−sentSpearMS
+E+ (
+M2), Mean 0.780 0.773 0.786 0.780Lin
+Reg on M1 + M2 + M3 0.780 0.756 0.772 0.811p12, p13: mean+dist_l1 on MCLnen−accC
+E →RSSdev2−sentSpearMS
+E (
+M3), Meanp23: first+concat on MCLnen−accC
+E →RSS+ruMCLdev2−sentSpearC
+E , Mean 0.779 0.749 0.801 0.788p12, p13: M2; p23: max+concat on MCLnen−accC
+E →RSSdev2−sentSpearMS
+E , Mean 0.778 0.779 0.775 0.779p12, p13: M3, Lin
+Reg*p23: mean+comb_dmn on MCLen−accC
+E →RSSdev2−sentSpearMS
+E , Lin
+Reg 0.757 0.750 0.732 0.788
+Our best models with ablation analysismean+dist_l1ndotn­hs0 on MCLnen−accC
+E →RSSdev2−sentSpearMS
+E , Mean 0.823 0.825 0.821 0.823mean+dist_l1ndotn­hs0 on MCLnen−accC
+E →RSS+ruMCLdev2−sentSpearMS
+E+ , Mean 0.803 0.800 0.798 0.811mean+dist_l1ndotn­hs0 on MCLnen−accC
+E , Mean 0.776 0.777 0.778 0.772mean+concat on MCLnen−accC
+E →RSSdev2−sentSpearMS
+E , Mean 0.768 0.760 0.759 0.784mean+concat on MCLnen−accC
+E →RSS+ruMCLdev2−sentSpearMS
+E+ , Mean 0.791 0.790 0.786 0.797denotes Lin
+Reg on two features only ­ the mean and the median. M1, M2, M3 abbreviate duplicatedWi
+C model specifications. Lin
+Reg on M1+M2+
+M3 denotes Lin
+Reg on features from all those models.
+concat: (x, y), comb_dmn: (x− y, x̄ ◦ ȳ), dist_l1: ∥x− y∥1, dist_l1ndotn: (∥x̄− ȳ∥1, ⟨x̄, ȳ⟩)4.1 Submissions and post­competition improvements
+During the evaluation phase, we made 10 submissions. Their results with the best results of other teamsare shown in of the two target word embeddings were used. Then the training scheme is specified with subscript andsuperscript specifying loss function and early stopping metric. The word scoring method is appendedafter the comma when it differs from the default mean over sentence pairs. In some submissions, fordifferent pairs of time periods we used predictions of different models.
+After the competition, we analyzed various aggregation methods of the target word embeddings andtraining options and managed to achieve better results than the winning submission for all pairs of timeperiods. The best model uses dist_l1ndotn without hidden layer (hs0) and is trained on MCL­Wi
+C first,then on RuSem
+Shift with MS
+E loss. From ablations we notice that the average quality is reduced by5 points when only the first training step is left. For dist_l1ndotn is better to train on RuSem
+Shift with
+MS
+E loss than on RuSemShift+ruMCL­Wi
+C withMS
+E+ loss, but for concat vice versa.
+In appendix A we additionally compare the performance of our best model with human performance.
+Arefyev N., Fedoseev M., Protasov V., Homskiy D., Davletov A., Panchenko A.4.2 Wi
+C architecture and training scheme
+Embeddings aggregation. To compare different methods of aggregation of target word embeddings,we trained several Wi
+C models on MCL­Wi
+C, and then optionally fine­tuned them on RuSem
+Shift withMS
+E loss. For early stopping we employed nen­acc on the first dataset and dev2­sent
+Spear on the second.
+We used mean pooling for subwords and also Mean aggregation of scores for sentence pairs.
+0.4 0.5 0.6 0.7 0.8
+MCL-WiCMCL-WiC->RuSem
+Shifttrain>finetunedataset = dev_avg | metric = word
+Spear0.40 0.45 0.50 0.55 0.60 0.65
+dataset = dev_avg | metric = sent
+Spear0.4 0.5 0.6 0.7 0.8
+valueMCL-WiCMCL-WiC->RuSem
+Shifttrain>finetunedataset = test_avg | metric = word
+Spear0.40 0.45 0.50 0.55 0.60 0.65
+valuedataset = test_avg | metric = sent
+Speartarget_embdist_l1ndotn-hs=300dist_l1ndotn-hs=0dist_l1-hs=300dist_l1-hs=0concatcomb_dmn(right) on dev (up) and test (down).
+dist_l1ndotn either with dense layer size hs = 300 or without dense layer. Generally, training onRuSem
+Shift after training on MCL­Wi
+C improves performance a bit or at least does not hurt. And for thetwo­step training, the basic one­dimensional dist_l1 works better than high dimensional concatenationor comb_dmn. Moreover, concatenation always works better than comb_dmn for two­step training, butwhen training only on MCL­Wi
+C comb_dmn gives higher test­word
+Spear.
+Wi
+C model training. the mean subword pooling, the concatenation of target word embeddings and dev2­sent
+Spear for earlystopping. Training schemes are specified in the following format.
+• In the case of one­step training: ”training dataset” (loss function of the training).
+• In the case of two­step training: ”training dataset #1” ­> ”training dataset #2” (loss function of thesecond training). The loss function of the first step is C
+E by default.
+Evidently, two­step training procedure employing both the large multilingual MCL­Wi
+C dataset andthe task­specific RuSem
+Shift dataset significantly boosts the performance compared to single­step train­ing on any of the datasets alone. Using the combination of RuSem
+Shift and the part of MCL­Wi
+C in
+Russian with the proposed MS
+E+ loss for the second training step generally gives the best overall per­formance, except for the dev­word
+Spear, which is a little better for another scheme presumably due tothe metric variance. Using RuSem
+Shift on the second training step shows much better performance thanemploying the Russian part of MCL­Wi
+C for the same purpose. For the single­step training schemes, weobserve a large difference between dev and test performance for model trained on only English or Russianparts of MCL­Wi
+C. The model trained on RuSem
+Shift with MS
+E loss ranks sentences much worse thanthe one trained on MCL­Wi
+C, but their results of the final word ranking are comparable. Surprisingly,Deep
+Mistake: Which Senses are Hard to Distinguish for a Wordin
+Context Model0.4 0.5 0.6 0.7 0.8
+MCL-WiC->rusemshift(CE)MCL-WiC->rusemshift(MSE)MCL-WiC->rusemshift-ruMCL-WiC(CE)MCL-WiC->rusemshift-ruMCL-WiC(MSE+)MCL-WiC->MCL-WiC_ru-ru(CE)rusemshift(MSE)MCL-WiC(CE)MCL-WiC_train-en-en(CE)MCL-WiC_ru-ru(C
+E)train>finetunedataset = dev_avg | metric = word
+Spear0.40 0.45 0.50 0.55 0.60
+dataset = dev_avg | metric = sent
+Spear0.4 0.5 0.6 0.7 0.8
+valueMCL-WiC->rusemshift(CE)MCL-WiC->rusemshift(MSE)MCL-WiC->rusemshift-ruMCL-WiC(CE)MCL-WiC->rusemshift-ruMCL-WiC(MSE+)MCL-WiC->MCL-WiC_ru-ru(CE)rusemshift(MSE)MCL-WiC(CE)MCL-WiC_train-en-en(CE)MCL-WiC_ru-ru(C
+E)train>finetunedataset = test_avg | metric = word
+Spear0.40 0.45 0.50 0.55 0.60
+valuedataset = test_avg | metric = sent
+Spearconcatenation.
+one can train the model on the English part of MCL­Wi
+C only and still obtain a relatively good LSC
+Dresults comparable to the 3rd best team in the competition. This shows strong zero­shot cross­lingualtransfer capabilities of the underlying XLM­
+R model. Training on the Russian part of MCL­Wi
+C alonegives mixed results presumably due to much smaller size of this part.
+4.3 Wi
+C scores aggregation for word scoring
+The quality does not depend on the method of word scoring as much, as on the Wi
+C model architectureor training scheme, but the linear regression gives consistently the best or nearly the best results.
+Finally, we estimated how the quality of the final word ranking depends on the number of sentence pairssampled for each word. We sampled each number of sentence pairs 30 times and calculated the mean andthe standard deviation of the target word
+Spear metric. expected, the target metric improves rapidly with the number of sampled sentences, and also its standarddeviation decreases. Even for 80 samples std is 0.8 point, suggesting that different sampled pairs result in2­3 point difference in the target metrics. This figure also suggests that if only several dozen of sentence
+pairs were annotated for each word during the construction of a LSC
+D dataset, the difference betweenmethods of 5­10 points may be due to chance. The green dashed line shows the results when we run oursystem on the same sentence pairs that were annotated by humans. Unsurprisingly, this results in better
+Arefyev N., Fedoseev M., Protasov V., Homskiy D., Davletov A., Panchenko A.estimate of the gold word scores. However, the difference becomes small as the number of sampled pairsapproaches one hundred.
+Iso
+Reg Lin
+Reg Mean Lin
+Reg_smethod0.76
+0.78
+0.80
+0.82
+0.84
+word
+Speartest = p12Iso
+Reg Lin
+Reg Mean Lin
+Reg_smethodtest = p23Iso
+Reg Lin
+Reg Mean Lin
+Reg_smethodtest = p13dist_l1ndotn­hs0 on MCLnen−accC
+E →RSS+ruMCLdev2−sentSpearMS
+E+5 10 20 40 80
+n sampled pairs0.60
+0.65
+0.70
+0.75
+0.80
+wordSpearWi
+C on gold sentence pairstest = p125 10 20 40 80
+n sampled pairsWi
+C on gold sentence pairstest = p235 10 20 40 80
+n sampled pairsWi
+C on gold sentence pairstest = p13mean+dist_l1ndotn­hs0 on MCLnen−accC
+E →RSS+ruMCLdev2−sentSpearMS
+E+5 Error analysis
+This section is devoted to getting some insights into the types of errors, their relative frequenciesand reasons. We used the test set consisting of 99 unique target words and sentence pairs forthem with human annotations, which was provided by the organizers after the competition. We em­ployed the Wi
+C model with first subword pooling and concatenation of target embeddings trained onMCLnen−accC
+E →RSS+ruMCLdev1−sentSpearC
+E with mean word scoring. This model achieved one of thebest results among our submissions.
+We define ∆
+Rank as the difference between the rank of a word predicted by our model and the goldrank. Words with a high |∆
+Rank| value are considered serious errors, we decided to focus on the wordswith |∆
+Rank| ≥ 25. This resulted in 24 words from p12, 18 words from p23, and 13 words from p13.
+Many of those words are incorrectly ranked in several pairs of time periods, thus, there are 27 uniquewords that we analyzed in total. They are shown in Figure 5.
+5.1 Classification of Wi
+C model mistakes
+To understand the reasons of incorrect ranking of words under consideration, for each of them we haveselected 5­7 annotated sentence pairs with the highest difference between gold annotations and the pre­dicted Wi
+C scores (the difference was 1.5 at least). We obtained 171 pairs of sentences in total, andannotated them according to the error types described below.Deep
+Mistake: Which Senses are Hard to Distinguish for a Wordin
+Context Modelepochs.
+Table 3 shows the results of error analysis and examples. More examples can be found in appendix C.
+We identified four typical reasons (error types) of the high disagreement between Wi
+C model predictionsand human annotations.
+1. Model can not find the difference. The model incorrectly classifies two word occurrences as having
+the same meaning.
+2. Model sees wrong difference. The model incorrectly classifies two word occurrences as having
+different meanings.
+3. Model seems to be right. These are pairs of sentences, that in our opinion were correctly classified
+by the model, but incorrectly annotated by one or more annotators.
+4. Ambiguity. From the context we could not understand whether two word occurrences have the same
+meaning.
+The most frequent error type (39% of all analyzed examples) is Model can not find the difference.
+This strongly effects the final ranking of words like тачка (car / cart), увольнение (dismissal / vaca­tion), дядька (servant tutor / uncle / mister) that obtained or lost the first sense, which the model cannotdistinguish from others.
+Error types Model seems to be right and Model sees wrong difference have almost equal frequency(23.2% and 22.8%). In the sentences of the first type, the target word usually has two senses that are sim­
+Arefyev N., Fedoseev M., Protasov V., Homskiy D., Davletov A., Panchenko A.
+Type Gold Model Pair of sentences
+Model can notfind thedifference.
+39%
+1 1 1 4 Пазульский был приговорен в Одессе к 12 годам, 100 плетям и трем годам
+прикования к тачке.
+Они с Верой выпорхнули из дверей тачки и поплыли в невесомости спортивногозала.
+Model seems tobe right.
+23.2%
+1 3 3 1 ”Если гомеопаты не обходятся без прививок, то чего же нам стесняться!” – так
+утешают себя маньяки прививок ...
+Только преследований маньяка мне в таком состоянии не хватало
+Model seeswrongdifference.
+22.8%
+4 4 4 1 На руках она с усилием тащила Федьку, прижав его поперек живота, чем он
+нисколько не смущался.
+Боли в животе не то стали слабее, не то он к ним привык
+Ambiguity.
+15%
+1 4 3 4 Призыв 1902 года в 1924 году дал Красной армии 4.700 партийцев; при
+увольнении же этого возраста в 1926 году в запас Красная армия дала стране19.439 партийцев.
+Увольнение производится в порядке очередности.
+ilar to some degree. Often there is disagreement between annotators in such cases. Since there were onlythree annotators, even one incorrect annotation significantly effected the resulting mean human score fora sentence pair. For instance, Table 3 contains sentences for the word маньяк (maniac), which has a dir­ect meaning (a mentally ill man) and a figurative meaning (a person obsessed with a passionate attractionto something). The model correctly distinguished these senses, but two out of three annotators decidedthat those senses are very similar. For sentence pairs of the type Ambiguity there is large disagreementbetween annotators, hence, the aggregated gold annotation is almost random. For instance, in Table 3 theword увольнение (dismissal / vacation) in the second sentence can express any of its meanings.
+This error analysis suggests that about 60% of the analyzed sentences are actually incorrect predictions,while the rest are hard cases where human annotators disagree with each other. Such cases can be easilyfound by high deviation between annotations, and it may be beneficial involving additional annotators toresolve disagreement or to filter unclear examples.
+Another technical issue we found were incorrectly tagged examples in the test set. The organizers ofthe competition published the test set with annotated sentences. It consists of three files, each of themcontains approximately 3000 pairs of sentences containing some target word highlighted by special tags<b><i>, </i></b>. However, in a significant proportion of sentences (
+Table 4) the target word was nottagged, which was a problem for our Wi
+C model. Finally, we fixed the largest part of incorrect examples,the rest consisted of sentences with abbreviated target words, for example: апостол → ап., век → в.
+Our fixes are merged into the published version of the dataset, hopefully, making the dataset better.
+Test set Total examples Bad examples Fixed examplesp12 2965 236 214p23 2967 221 191p13 2969 249 2076 Conclusion
+We have proposed an approach to Semantic Change Detection employing a Word­in­
+Context model andfound that it has strong performance achieving the 2nd best result among other competing approaches,which can be further improved to outperform the 1st best result by improvingWi
+C architecture and train­ing procedure. Regarding the architecture, we have found that a simple linear head on top of concatenated
+L1 distance and dot product between contextualized XLM­
+R embeddings provides better performancethan more common alternatives like embedding concatenation and non­linear classification heads. ForDeep
+Mistake: Which Senses are Hard to Distinguish for a Wordin
+Context Modelthe training procedure, using training on a large multilingual Wi
+C dataset first and fine­tuning on a task­specific RuSem
+Shift data later results in the best overall performance.
+We performed a detailed error analysis of sentences, where disagreement betweenmodel and annotatorswas the highest. To understand why the model fails, we annotated 171 pairs of sentences and revealedfour different types of low model results. Such mistakes included examples when the model correctlydistinguished the difference or similarity of senses, when annotators were wrong, and vice versa.

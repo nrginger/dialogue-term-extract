@@ -1,0 +1,177 @@
+The current paper continues the work on the semantic sketches which were first presented at the Dialogue­2020 conference.
+The idea of the semantic sketch was introduced in . The semantic sketch is a special representationof a word’s compatibility where all semantic links of the word are grouped according to their semanticrelations with the core they depend on. All possible semantic dependencies are statistically ranged: first,the frequency of the collocation between the parent and the child is taken into account; second, the fre­quency of the semantic role for the given core (for instance, the frequency of the Agent, Locative, Object,or Time).
+The most frequent collocations form the semantic sketch of the word. In , the authors focused onthe creation of the semantic sketches and on testing the semantic mark­up used for the sketches. Namely,DO
+I: 10.28995/2075-7182-2021-20-560-570they measured the correctness of the predicate’s choice in a set of sentences and the choice of the propersemantic roles for the predicates’ dependencies.
+In the present work, the focus has been made on building the pilot corpus of the semantic sketchesthemselves, the Sem
+Sketches corpus. The corpus is aimed at achieving several purposes:1. to evaluate how representative the sketches are,
+2. to elaborate some tools for processing the sketches,
+3. to specify what kind of tasks the semantic sketches can help to solve, as our further plan is to integrate
+the sketches into the General Internet­
+Corpus of Russian (GIC
+R, , ),4. to analyze what kind of mistakes we happen to face while creating the sketches.
+The idea to represent a word’s meaning in the form of the semantic sketch is closely related to the mainidea of distributional semantics according to which the meaning of the word can be represented throughits lexical co­occurrence. The famous formula for the idea given in “
+You shall know a wordby the company it keeps”.
+Over the past few years, vector representations have become a traditional method of representing theword’s semantics. The static embeddings such as word2vec Fast
+Text well as the dynamicembeddings that followed, such as EL
+Mo , ULM
+Fit , and BER
+T , have completely changed theNL
+P field. However, quality evaluations of the vector representations pose a challenge, as their seriousdrawback is that one can neither assess nor interpret them directly.
+Whereas the vector is a numeric meaning representation, appropriate for computers, the semanticsketch can be considered its human­interpretable counterpart.
+As an experiment on processing the sketches automatically, we have introduced the SemSketches
+Shared Task. One of its goals is to connect these two methods of semantic representation.
+The Shared Task suggested the following problem. Participants were given the corpus of the semanticsketches with the core predicates unknown, that is, the semantic roles of the dependencies and the word­fillers of the roles were given, but not the predicates they were attached to. We have presented a set ofsuch anonymous sketches and a list of contexts containing the predicates. The task was to create a toolthat assigns the sketch to the corresponding contexts.
+Formost sketches, the task did not seem difficult for a human, as some of the examples will demonstratebelow, but it turned out to be rather complicated for the computer, as the results of the competition showed.
+The corpus and the Shared Task results are available at the Sem
+Sketches github1.
+2 What is a semantic sketch
+There is no need to underline the importance of using text corpora for various purposes nowadays. Thesize of the corpora is growing quickly. On the one hand, it gives the users more opportunities and allowsone to receive more representative data. On the other hand, with a bigger corpus, more sophisticated toolsare demanded to process the results of the search queries.
+One of the methods to describe the word’s compatibility is to present it in the form of a syntactic sketch. The syntactic sketch is a lexicographical profile of a word, where word dependencies are classifiedby their grammatical roles and ranged by the statistics of their compatibility with the core. The syntacticsketches were first introduced in the Sketch Engine project2 and over the past years have become widelyused in lexicography, language teaching, multilingual corpora creation, various translation resources, andin a number of other areas.
+The evident advantage of the syntactic sketch is its vividness: it shows simultaneously all of the mostfrequent syntactic dependencies of a word and arranges them in a table according to the roles. At thesame time, the syntactic sketches have one strong limitation: the grammatical information they are basedon does not allow one to take lexical homonymy into account, which complicates the interpretation ofthe obtained results.
+In order to solve this problem, an attempt was made to create the semantic sketches , where therepresentation of a word’s compatibility is supplemented with semantic relations between words (each1https://github.com/dialogue-evaluation/Sem
+Sketches
+2www.sketchengine.eu
+Ponomareva M., Petrova M., Detkova J., Serikov O., Yarova M.relation is marked not only with a syntactic, but with a semantic role as well) and semantic classes ofwords (which mark the specific semantic meaning of a word in a context).
+Therefore, the semantic sketch is understood as a generalized lexicographic portrait of a word, whichincludes the most frequent semantic dependencies of the verb. In other words, it is a way of representingthe compatibility of words, where the description of each word includes a set of its most frequent semanticdependencies classified according to their semantic roles. For each role a number of relevant “fillers”(words and phrases) are given, and the fillers are ranked according to the frequency of their compatibilitywith the core. Each sketch illustrates a word with a certain meaning.
+The semantic sketches are built with the help of the Compreno parser . Unlike other parsers, the
+Compreno suggests full semantic mark­up, namely, it deals not only with the actant semantic dependen­cies of the predicates, but with the adjuncts, modifiers, and other dependencies as well . It makes thesketches an important tool for dealing with the semantic role labeling (SR
+L) problem which has attractedmany researchers recently.
+Despite high interest in the problem (, , , , , , ), until the current moment noresearch among the SR
+L papers has been presented (or, at least, we have not seen any), where all semanticroles are taken into account. Most works focus on the actant dependencies only, such as Agent, Object,or Experiencer. In the meantime, for many predicates, circumstantial dependencies are enough frequentand significant to get into the predicate’s sketch together with its actants, and, moreover, in some cases,help to identify the core even better than the actants do.
+The sketches are illustrated in the two examples below, the first one — for the verb«страдать:SUFFERING_AND_TORMEN
+T» ‘to suffer’ (
+Figure 1) and the second one — for the verb«готовить:TO_PREPARE_FOOD_SUBSTANC
+E» ‘to prepare food, to cook’ (
+Figure 2):elements of the sketch are given with their rough translations.
+The participants of the Shared Task got the same representations, but did not get the titles of thesketches. However, as the pictures above demonstrate, it does not seem difficult for a human to guess theproper predicates for the sketches, which allows us to regard the sketches as representative illustrationsfor the verb’s compatibility.Sem
+Sketches2021: experimenting with the machine processing of the pilot semantic sketches corpusto cook’). Here the elements of the sketch are given with their rough translations.
+3 The Sem
+Sketches Shared Task
+To explore the semantic sketches as far as their quality and representativeness are concerned, we havecreated the pilot corpus of Russian semantic sketches and made it the basis for the Sem
+Sketches Shared
+Task. The problem was formulated as follows: given a set of anonymized sketches and a set of contextsfor different predicates, one should match each predicate in its context to a relevant sketch.
+The second part of the competition data is the set of the contexts given for different predicates. In thecase of ambiguous predicates, the WS
+D problem can be stated.
+3.1 Data preparation
+Sketches
+The sketches were built on the texts from the Magazine Hall of the GIC
+R.
+Although the parser gives us the full semantic mark­up, we have implemented some restrictions forthe present research. As in , the authors have taken only verbal cores and their subtrees: all verbs aremarked with semantic classes (denoting their meanings) and the semantic roles for their direct depend­encies.
+We did not mark the dependencies of the non­vebal cores, the dependencies of the ellipted verbs andthe ellipted groups themselves, as well as the syntactically moved groups. In addition, we have intro­duced some additional restrictions for the purpose of the current competition, namely, we have excludedpronouns and personal nouns, as they complicate the work with the anonymized sketches.
+For the current corpus, we have chosen only verbs which have at least two meanings, as it makes thetask of defining proper sketches more interesting, on the one hand, and, on the other hand, contributes tosolving the WS
+D problem. It means that each verb chosen entered at least two semantic classes.
+Ponomareva M., Petrova M., Detkova J., Serikov O., Yarova M.
+The number of such verbs for the Russian language turned out to be more than ten thousand. Then wechose a subset of the list through selecting the verbs by the following principles.
+At the beginning, we have ranged the sample so that the verbs with the most frequent meanings camefirst: for instance, the verb рубить meaning TO_HAC
+K (рубить дерево — ‘to hack a tree’) is suf­ficiently frequent, while the same verb meaning TO_KNOW_ABOU
+T (рубить в математике — ‘tounderstand mathematics well’) is rather marginal and has thus been positioned at the end of our list. Thefrequency of different meanings has been obtained with the help of the Compreno parser.
+Next, we have collected the verbs’ sketches taking into account the number of the relations the verbhas in the corpus. Namely, we have collected all the semantic dependencies for each meaning of eachverb in our marked­up corpus, and if the number of the dependent nodes exceeded the threshold of 2000,the predicate in the certain value was selected for inclusion in the final set. During this procedure, alldependencies were taken into account — both different and repeated, in order not to lose any frequentpredicates with limited lexical compatibility. At the same time, the threshold was rather high to preservethe quality of the sketches.
+At last, the final number of sketches in the pilot corpus became 915. Due to the exclusion of raremeanings, some verbs kept only one meaning in the sample, that is, the terminal verb list contained bothpolysemantic verbs with several meanings in the sample and polysemantic verbs which entered in oursample only in one (the most frequent) meaning.
+The next step was to analyze the correctness of the sketches, namely, to check whether the semanticdependencies and the fillers of the dependencies that got into the sketch really refer to the verb in thegiven meaning. The errors check was performed for a subsample of the corpus which formed the manual
+Dev data (see below).
+Most errors refer to situations where the more frequent homonym influences the less frequent one. Forinstance, the verb писать meaning ‘to paint’ ( писать портрет с кого­л. — ‘to paint smb.’s picture’) is less frequent than писать meaning ‘to write’ ( писать письмо — ‘to write a letter’), so the sketchfor the писать — ‘to paint’ contains some incorrect examples in the Object dependency — such as ‘towrite letters’.
+The reason is that when building the semantic structures for the sentences the sketch is based on, thestructure with the incorrect but more frequent homonym gets a higher evaluation due to the high statisticsof the more frequent verb.
+Another error can be illustrated with the sketch «готовить:TO_PREPARE_MEDICINE_OR_FOO
+D» ‘to cook’. It contains combinations like готовить резервную копию — ‘to pre­pare a reserve copy’. Here the problem is that the compatibility of ‘copy’ with the verbs depends noton the ‘copy’ itself but on the semantics of the noun following it, that is, ‘the copy of the cake’ is alsopossible.
+As an instance of the sketch with the incorrect semantic dependency, let us take the sketch«выходить:идти:TO_WAL
+K» ‘go out’ on the Figure 3. The sketch contains the Agent_
+Metaphoric slotwhich must be definitely referred to another meaning, and the Purpose_
+Goal slot contains the incorrectfiller на связь (выйти на связь means ‘to get in touch’, and here another homonym of the verb выйтиis supposed to be):
+The main reasons for the mistakes in the sketches are the incorrect influence of the statistics, certaininaccuracies of the semantic models in the parser, and the impossibility of distinguishing between thehomonyms due to the closeness of their meanings or lack of distinguishing context in the sentences.
+Contexts
+Every meaning from the chosen set is illustrated with contexts. A context is a sentence with one targetpredicate highlighted. No additional mark­up is presented. Each meaning corresponds to several dozensof contexts with the target words having this meaning. The contexts were collected from news, fiction,publicistic texts, being close by genre to those presented in
+Magazine Hall. It is important that the contextsdo not overlap with the corpus which the sketches were built on. The excerpt from the contexts is givenin 5
+Sem
+Sketches2021: experimenting with the machine processing of the pilot semantic sketches corpusof the sketch are given with their rough translations.
+I
+D dev.sent.rus.116target наполнилисьstart 46end 57context Когда доктор вошел, она вспыхнула, и глаза ее наполнились слезами‘
+When the doctor came in, she flushed, and her eyes filled with tears’ is defined by the offsets.
+Datasets
+The task was meant to be solved in a few­shot or unsupervised learning manner. During the Shared Task,we provided the participants with two sets of data. In the first phase, the Trial data was published. Itcomprises three parts: a set of sketches, a set of contexts, and mapping between these two sets. Theparticipants could use the data to get familiar with the formats, to test their hypotheses and to fine­tunetheir systems. During the second phase, we provided the participants with the main set of the sketchesand corresponding contexts, which will be referred to as Dev data.
+In contrast to trial data, where the mapping had been given, for Dev data the participants were askedto find the relations between the sketches and the contexts themselves.
+For the third phase, we manually selected 100 sketches and evaluated the corresponding contexts. Thisdata formed the gold standard set for the task, which we will refer to as Manual Dev data. Table 2 showsthe size of the obtained datasets.
+During the second phase, the participants were able to commit their answers to the Coda
+Lab3 to knowthe results on the Dev data and to choose the best decision. During the third phase, the performance ofthe best variants was finally evaluated on the Manual Dev data.
+After the announcement of the results, we published the answers (the mapping between the sketchesand the contexts) on the Sem
+Sketches github.
+3https://competitions.codalab.org/competitions/29992
+Ponomareva M., Petrova M., Detkova J., Serikov O., Yarova M.split number of sketches number of contexts
+Trial 20 2000
+Dev 895 44750
+Manual Dev 100 43473.2 Evaluation metric
+The submitted systems were evaluated using the accuracy metric. For the Shared Task, accuracy wascalculated as the number of matched pairs between the participants’ answers and test markup divided bythe total number of contexts.
+The evaluation script is publicly available on the Sem
+Sketches github.
+3.3 Baseline
+The participants were provided with a weak baseline solution. The solution was based on the maskedlanguage modeling (ML
+M) mechanism of the RuBER
+T
+For a given context cont, sketch was chosen according to the computed sketch scores based on ML
+Mcandidates. ML
+M candidates (MLM
+Ncont) were calculated as follows:1. syntactic analysis using the UD
+Pipe () has been performed to find the direct dependents of the
+target predicate;2. for each of the direct dependents, top­
+N mask replacements Rep
+Ndep were stored;
+3. stored replacements were intersected, i.e. MLM
+N
+cont =⋂{Rep
+Ndep ∀dep ∈ cont};4. sketch Score was computed as the number of tokens present in the intersection of the sketch repres­
+entation and the stored ML
+M candidates.
+Score (sketch, cont) =∣∣∣ML
+M1000cont ∩ Tokenssketch∣∣∣
+The intersection was performed over lemmas thus treating на заре and заря as intersecting entries.
+The weak baseline system has shown 0,0094 accuracy on the Dev data set thus overperforming therandom baseline.
+3.4 Submitted systems
+Three teams participated in the Shared Task: paleksandrova, good501, smpl. All teams suggested thesolutions based on different approaches, and each solution managed to overcome the baseline. However,the final scores of each team turned out to be rather modest. To compare the results achieved, see Table3 where the score of each team and the baseline score are presented.
+Team Dev Score Manual Dev Scorepaleksandrova 0.309 0.277good501 0.104 0.127smpl 0.182 0.121baseline 0.0094 0.0035
+Let us now shortly characterize each decision and analyze what core problems they faced.
+The team smpl used the brute­force approach. L
+M score has been used to rank sketches and choosethe best one for each context. To estimate how well the predicate pred fits into the given sketch sketch,Sem
+Sketches2021: experimenting with the machine processing of the pilot semantic sketches corpusthe L
+M scorewas used. L
+M score is the average probability of pred to replace in templatesentence « cell». Template sentences were generated for each cell present in sketch.
+The team Good501 used the approach based on the sentences’ similarity objective, which is a popularobjective when training language models. Target predicate was highlighted in the sentence using specialtags. Sketch tables were flattened into pseudo­sentences. For the given sentence, the most similar sketchwas chosen by using the Sentence­BER
+T siamese similarity mechanism.
+The team paleksandrova the ML
+M approach, which consisted of first restoring the coveredpredicate for each of the given sketches, and then picking the relevant sketch for the target sentence.
+The covered predicates were restored by generating templates (e.g. « в школу» — ‘to school’) using the sketch content cells. The most frequent predicate of all the ML
+M hypotheses forthe sketch’s templates was treated as the re­covered predicate. The first sketch whose predicate matchedthe sentence predicate was used as the system answer. When no sketch was found by exact matching,the sketch whose restored predicate was word2vec­closest the sentence predicate was used as theanswer.
+3.5 The analysis of the submitted systems
+During the Shared Task, we formulated the experimental problem leaving enough room for differentapproaches. Although the performance of the submitted systems may be improved significantly, theproposed ideas were encouragingly diverse and thought provoking. The common feature of all threesystems is using the pretrained Language Models.
+The team 501good which adopted the approach from Sentence Transformers introduced the only sys­tem that included training. The model was trained on the Trial data (20 sketches).
+The systems of smpl and paleksandrova defined their unsupervised strategies for mapping thesketches and the contexts. While the smpl team estimated how well each target predicate fits to eachsketch using the score from the Masked Language Model, the paleksandrova team suggested an ori­ginal approach imitating the way humans guess the core of the anonymous sketch.
+It is worth mentioning that the approaches of paleksandrova and smpl by design cannot disambig­uate the polysemous predicate, as they take only the target verb into account but not its context.
+The team smpl approach could be thought of as scoring how well the sketch could account as thesentence predicate core. L
+M is trained on sentence­level objective, therefore, the successful applicationof the similarity approach demands more sophisticated preprocessing of the input sequence, for example,taking the predicate contexts into account. Such modification could improve the results.
+The team paleksandrova approach seems to be the most promising one. But the accuracy turned outto be rather low for the following reason. The sketch accumulates several verb forms, namely, it includesall tense, aspect and voice forms. For instance, the verbs строить ‘build’ <
+Imperfective, Non
+Reflex­ive>, построить ‘build’ <
+Perfective, Non
+Reflexive>, строиться ‘build’ <
+Imperfective, Reflexive>,построиться ‘build’ <
+Perfective, Reflexive> refer to one sketch. As far as paleksandrova approachis concerned, the team regarded such verbs as different candidates for a sketch. At the same time, theychose only one top candidate for each sketch. Therefore, only one grammatical form of the necessary setcould be referred to the right sketch.
+4 Discussion
+In the current paper, we demonstrated the pilot corpus of the semantic sketches, gave a brief analysis ofthe problems we faced during the corpus creation, and described the results of the Sem
+Sketches Shared
+Task aimed at applying the machine processing tools to the corpus.
+The sketches are based on the parser with full semantic mark­up, which defines their value and unique­ness: first, the sketches allow one to analyze not only the actant dependencies, but a full semantic modelof a word; second, they differentiate between the various meanings of the verbs.
+Ponomareva M., Petrova M., Detkova J., Serikov O., Yarova M.
+As far as the opportunities for theoretical investigations are concerned, the sketches can help in dealingwith all problems bound with the semantic compatibility of words. Especially, the SR
+L and the WS
+Dproblems must be mentioned here.
+As noted above, most researchers focus mainly only on the actant roles, while other dependenciesdo not usually get much attention. The semantic sketches suggest interesting data in this respect. Thesketches include most frequent collocations, that is, the most natural, most typical contexts of a word.
+Among the dependencies the sketches include, modifiers and adjuncts are quite frequent. For some verbs,they seem to be even more specific than the actants and give more help in identifying the predicate.
+For instance, the Locative is a typical circumstantial adjunct, but it is an obligatory slot for the verbswith the position meaning such as быть ‘be’, находиться ‘be situated’. The Locative slot helps todifferentiate between the ‘be’ with the position meaning and other be­homonyms, while the semantic rolecorresponding syntactically to the Subject of ‘be’ does not really contribute to differentiating between thebe­homonyms.
+It seems that the meaning of the adjuncts and the modifiers is sometimes underevaluated, therefore, aninteresting task is to evaluate the correlation between the actant and circumstantial dependencies in thesketches.
+As for the applied tasks, one of the promising directions in using the semantic sketches is their im­plementation for probing tasks for the pretrained language models. The interpretation of the linguisticknowledge encoded in the pretrained models has attracted much attention recently (, , ). Webelieve that the semantic sketches can serve as a basis for both probing tasks and linguistically­motivatedfine­tune tasks for such models.
+To summarize, the ideas from the proposed approaches can be used to embed effectively semanticsketches, making them not only a tool for manual lexicographical work but a semantic representationvalid for automatic methods of Natural Language Processing.
+5 Further plans
+Our next plan is to add the sketches into the GIC
+R, which brings two problems to consider.
+The first one deals with the errors evaluation: in the current work, we did not check all the sketches inthe pilot corpus manually — only the manual Dev data. Therefore, we did not evaluate the total numberof the mistakes in the whole corpus. This task is still to be done, including work on both, that is, sketchesthat seem to be unsuitable (checking the manual Dev data shows that such cases are rare) and sketchescontaining single mistakes in either the semantic dependencies or their fillers.
+The second question is about the processing tools the sketches should be provided with. The Sem
+S­ketches Shared Task demonstrated that machine tools can be successfully applied to the sketches pro­cessing (in spite of the fact that the precision of the solutions suggested by the applicants was not reallyhigh). What the tools should look like, depends significantly on the tasks the sketches will be used tosolve.
+At the same time, we have recently started work on the English sketches, so our further plans includeadding other languages to the sketch model, starting with the English sketches.
